@@ -1,21 +1,21 @@
 {
   "version": "1.1.0",
-  "sourceHash": "9f1b6d0f4c89d50be25afcbb4a14c20d1a7533b8ee01e847c50bd47176a9bccf",
+  "sourceHash": "4f94e0ef56b7bc971e7dd939d815e3f523f6a1033750550a419e9c90a8e338f9",
   "files": [
     {
       "key": "alle",
       "file": "lernzettel-alle.pdf",
-      "bytes": 1421082
+      "bytes": 1575016
     },
     {
       "key": "Netzwerke",
       "file": "lernzettel-netzwerke.pdf",
-      "bytes": 264930
+      "bytes": 304299
     },
     {
       "key": "Hardware",
       "file": "lernzettel-hardware.pdf",
-      "bytes": 239838
+      "bytes": 267534
     },
     {
       "key": "IT-Sicherheit",
@@ -30,12 +30,12 @@
     {
       "key": "Projektmanagement",
       "file": "lernzettel-projekt.pdf",
-      "bytes": 231154
+      "bytes": 298435
     },
     {
       "key": "Programmierung",
       "file": "lernzettel-programmierung.pdf",
-      "bytes": 261034
+      "bytes": 293975
     },
     {
       "key": "Recht",
@@ -50,7 +50,7 @@
     {
       "key": "abkuerzungen",
       "file": "abkuerzungen.pdf",
-      "bytes": 562015
+      "bytes": 588721
     }
   ]
 }

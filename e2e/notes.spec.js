@@ -132,6 +132,8 @@ test('Lernzettel as PDF: download links with size, print view renders', async ({
   await page.goto('./print.html?bereich=Netzwerke');
   await expect(page.locator('body')).toHaveAttribute('data-ready', '1');
   await expect(page.locator('.cover h1')).toHaveText('Lernzettel Netzwerke');
-  await expect(page.locator('article.note-page')).toHaveCount(7);
+  const netNotes = await page.evaluate(async () => (await (await fetch('./data/notes/netzwerke.json')).json()).length);
+  expect(netNotes).toBe(8); // seit 2.0 mit „Client in eine Domäne einbinden“
+  await expect(page.locator('article.note-page')).toHaveCount(netNotes);
   expect(problems).toEqual([]);
 });

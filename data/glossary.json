@@ -18,6 +18,12 @@
     "area": "Hardware"
   },
   {
+    "abbr": "AD",
+    "full": "Active Directory",
+    "explanation": "Verzeichnisdienst von Microsoft für Benutzer, Gruppen, Computer und Richtlinien einer Domäne",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "AES",
     "full": "Advanced Encryption Standard",
     "explanation": "Symmetrisches Verschlüsselungsverfahren",
@@ -89,6 +95,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "ARIA",
+    "full": "Accessible Rich Internet Applications",
+    "explanation": "Zusätzliche HTML-Attribute, die Hilfsmitteln Rolle und Zustand von Elementen mitteilen",
+    "area": "Programmierung"
+  },
+  {
     "abbr": "ARP",
     "full": "Address Resolution Protocol",
     "explanation": "Ermittelt zu einer IPv4-Adresse die MAC-Adresse",
@@ -155,6 +167,12 @@
     "area": "WiSo"
   },
   {
+    "abbr": "BFSG",
+    "full": "Barrierefreiheitsstärkungsgesetz",
+    "explanation": "Seit 28.06.2025 Pflicht zur Barrierefreiheit für viele Produkte und Dienstleistungen für Verbraucher",
+    "area": "Recht"
+  },
+  {
     "abbr": "BGA",
     "full": "Betriebs- und Geschäftsausstattung",
     "explanation": "Anlagevermögen wie Büromöbel, PCs",
@@ -171,6 +189,12 @@
     "full": "Basic Input/Output System",
     "explanation": "Alte PC-Firmware, abgelöst durch UEFI",
     "area": "Hardware"
+  },
+  {
+    "abbr": "BITV",
+    "full": "Barrierefreie-Informationstechnik-Verordnung",
+    "explanation": "Barrierefreiheit von Webseiten und Apps öffentlicher Stellen (aktuell BITV 2.0)",
+    "area": "Recht"
   },
   {
     "abbr": "BP",
@@ -271,6 +295,12 @@
     "abbr": "DAD",
     "full": "Duplicate Address Detection",
     "explanation": "IPv6: prüft, ob eine Adresse im Netz schon benutzt wird",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "DC",
+    "full": "Domain Controller (Domänencontroller)",
+    "explanation": "Server, der das Verzeichnis einer Domäne speichert und Anmeldungen prüft",
     "area": "Netzwerke"
   },
   {
@@ -516,6 +546,12 @@
     "area": "Recht"
   },
   {
+    "abbr": "GPO",
+    "full": "Group Policy Object (Gruppenrichtlinie)",
+    "explanation": "Zentral verwaltete Einstellungen für Benutzer und Computer einer Domäne",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "GPT",
     "full": "GUID Partition Table",
     "explanation": "Partitionstabelle für UEFI, Nachfolger von MBR",
@@ -556,6 +592,12 @@
     "full": "Handelsregister",
     "explanation": "Öffentliches Verzeichnis der Kaufleute (Abteilung A und B)",
     "area": "Wirtschaft"
+  },
+  {
+    "abbr": "HTML",
+    "full": "Hypertext Markup Language",
+    "explanation": "Auszeichnungssprache für den Aufbau von Webseiten",
+    "area": "Programmierung"
   },
   {
     "abbr": "HTTP",
@@ -756,6 +798,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "LDAP",
+    "full": "Lightweight Directory Access Protocol",
+    "explanation": "Protokoll zum Abfragen und Ändern von Verzeichniseinträgen, Port 389 (verschlüsselt 636)",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "LED",
     "full": "Light Emitting Diode",
     "explanation": "Leuchtdiode, z. B. Link-LED am Netzwerkanschluss",
@@ -945,6 +993,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "OU",
+    "full": "Organizational Unit (Organisationseinheit)",
+    "explanation": "Container im Verzeichnis, z. B. je Abteilung; Gruppenrichtlinien werden daran gebunden",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "OUI",
     "full": "Organizationally Unique Identifier",
     "explanation": "Herstellerkennung in den ersten 3 Byte der MAC-Adresse",
@@ -1020,6 +1074,12 @@
     "full": "Pointer Record",
     "explanation": "DNS-Eintrag für die Rückwärtsauflösung (IP → Name)",
     "area": "Netzwerke"
+  },
+  {
+    "abbr": "PUE",
+    "full": "Power Usage Effectiveness",
+    "explanation": "Effizienz eines Rechenzentrums: Gesamtenergie ÷ Energie der IT-Geräte, ideal nahe 1,0",
+    "area": "Hardware"
   },
   {
     "abbr": "RADIUS",
@@ -1205,6 +1265,12 @@
     "area": "Hardware"
   },
   {
+    "abbr": "SRV",
+    "full": "Service Record (SRV-Eintrag)",
+    "explanation": "DNS-Eintrag, der angibt, welcher Server einen Dienst anbietet – z. B. den Domänencontroller",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "SSD",
     "full": "Solid State Drive",
     "explanation": "Flash-Speicher ohne bewegliche Teile",
@@ -1357,6 +1423,12 @@
     "area": "Wirtschaft"
   },
   {
+    "abbr": "UStG",
+    "full": "Umsatzsteuergesetz",
+    "explanation": "§ 14 regelt die Pflichtangaben einer Rechnung",
+    "area": "Wirtschaft"
+  },
+  {
     "abbr": "USV",
     "full": "Unterbrechungsfreie Stromversorgung",
     "explanation": "Überbrückt Stromausfälle mit Akkus",
@@ -1419,6 +1491,18 @@
     "abbr": "VWL",
     "full": "Volkswirtschaftslehre",
     "area": "Wirtschaft"
+  },
+  {
+    "abbr": "W3C",
+    "full": "World Wide Web Consortium",
+    "explanation": "Gremium, das Webstandards wie HTML und die WCAG herausgibt",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "WCAG",
+    "full": "Web Content Accessibility Guidelines",
+    "explanation": "Richtlinien für barrierefreie Webinhalte: wahrnehmbar, bedienbar, verständlich, robust",
+    "area": "Programmierung"
   },
   {
     "abbr": "WEP",

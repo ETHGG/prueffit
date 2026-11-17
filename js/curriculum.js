@@ -24,20 +24,20 @@ export const AP1_TITLE = 'Einrichten eines IT-gestützten Arbeitsplatzes';
 /** AP1 catalog from 2025, seven areas (titles in own words). Topic ids from data/topics.json. */
 export const AP1_SECTIONS = Object.freeze([
   { id: 'ap1-projekte', title: 'Projekte planen und steuern',
-    topics: ['projekt.grundlagen', 'projekt.planung', 'projekt.vorgehen', 'projekt.service', 'projekt.prozesse', 'wirtschaft.abschreibung'] },
+    topics: ['projekt.grundlagen', 'projekt.planung', 'projekt.vorgehen', 'projekt.service', 'projekt.prozesse', 'projekt.kommunikation', 'wirtschaft.abschreibung'] },
   { id: 'ap1-kunden', title: 'Kunden beraten und Angebote erstellen',
     topics: ['wirtschaft.grundlagen', 'wirtschaft.unternehmen', 'wirtschaft.vertrieb', 'wirtschaft.marketing', 'wirtschaft.nutzwert', 'wirtschaft.kalkulation', 'wirtschaft.rechnen'] },
   { id: 'ap1-produkte', title: 'IT-Produkte und -Systeme auswählen',
-    topics: ['hardware.komponenten', 'hardware.einheiten', 'hardware.betriebssysteme', 'hardware.virtualisierung', 'hardware.energie', 'hardware.betrieb', 'projekt.digitalisierung', 'recht.arbeitsschutz'] },
+    topics: ['hardware.komponenten', 'hardware.einheiten', 'hardware.betriebssysteme', 'hardware.virtualisierung', 'hardware.energie', 'hardware.betrieb', 'hardware.nachhaltigkeit', 'projekt.digitalisierung', 'recht.arbeitsschutz'] },
   { id: 'ap1-entwicklung', title: 'Installieren, vernetzen und programmieren',
-    topics: ['netzwerke.osi', 'netzwerke.medien', 'netzwerke.subnetting', 'netzwerke.ipv6', 'netzwerke.dienste', 'netzwerke.routing', 'netzwerke.vlan',
-      'programmierung.zahlensysteme', 'programmierung.grundlagen', 'programmierung.algorithmen', 'programmierung.modellierung', 'programmierung.datenbanken', 'programmierung.datenformate', 'recht.lizenzen'] },
+    topics: ['netzwerke.osi', 'netzwerke.medien', 'netzwerke.subnetting', 'netzwerke.ipv6', 'netzwerke.dienste', 'netzwerke.routing', 'netzwerke.vlan', 'netzwerke.verzeichnisdienst',
+      'programmierung.zahlensysteme', 'programmierung.grundlagen', 'programmierung.algorithmen', 'programmierung.modellierung', 'programmierung.datenbanken', 'programmierung.datenformate', 'programmierung.barrierefreiheit', 'recht.lizenzen'] },
   { id: 'ap1-qualitaet', title: 'Qualität sichern',
     topics: ['programmierung.testen', 'projekt.risiko'] },
   { id: 'ap1-sicherheit', title: 'IT-Sicherheit und Datenschutz',
     topics: ['sicherheit.schutzziele', 'sicherheit.kryptografie', 'sicherheit.angriffe', 'sicherheit.backup', 'sicherheit.management', 'sicherheit.netzsicherheit', 'sicherheit.mail', 'recht.datenschutz'] },
   { id: 'ap1-vertraege', title: 'Verträge schließen und Leistungen erbringen',
-    topics: ['recht.vertragsrecht', 'wirtschaft.finanzierung'] },
+    topics: ['recht.vertragsrecht', 'wirtschaft.finanzierung', 'projekt.abnahme'] },
 ]);
 
 const WISO = Object.freeze({
@@ -65,7 +65,7 @@ export const AP2_PARTS = Object.freeze({
   ],
   fisi: [
     { id: 'ga1', title: 'Konzeption und Administration von IT-Systemen', minutes: 90, points: 50,
-      topics: [...ALL_HARDWARE, 'sicherheit.schutzziele', 'sicherheit.backup', 'sicherheit.angriffe', 'sicherheit.management', ...ALL_PROGRAMMING, ...ALL_PROJECT, ...LAW] },
+      topics: [...ALL_HARDWARE, 'netzwerke.verzeichnisdienst', 'sicherheit.schutzziele', 'sicherheit.backup', 'sicherheit.angriffe', 'sicherheit.management', ...ALL_PROGRAMMING, ...ALL_PROJECT, ...LAW] },
     { id: 'ga2', title: 'Analyse und Entwicklung von Netzwerken', minutes: 90, points: 50,
       topics: [...ALL_NETWORK, 'sicherheit.netzsicherheit', 'sicherheit.mail', 'sicherheit.kryptografie'] },
     WISO,
@@ -80,7 +80,7 @@ export const AP2_PARTS = Object.freeze({
   ],
   fidv: [
     { id: 'ga1', title: 'Diagnose und Störungsbeseitigung in vernetzten Systemen', minutes: 90, points: 50,
-      topics: [...ALL_NETWORK, 'hardware.betrieb', 'hardware.komponenten', 'sicherheit.angriffe', 'sicherheit.schutzziele'] },
+      topics: [...ALL_NETWORK, 'netzwerke.verzeichnisdienst', 'hardware.betrieb', 'hardware.komponenten', 'sicherheit.angriffe', 'sicherheit.schutzziele'] },
     { id: 'ga2', title: 'Betrieb und Erweiterung von vernetzten Systemen', minutes: 90, points: 50,
       topics: ['netzwerke.dienste', 'netzwerke.vlan', 'netzwerke.routing', 'netzwerke.ipv6', 'netzwerke.medien', 'sicherheit.netzsicherheit', 'sicherheit.management',
         'sicherheit.kryptografie', 'hardware.virtualisierung', 'hardware.energie', 'programmierung.datenformate', 'projekt.service', 'projekt.planung'] },

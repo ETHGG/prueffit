@@ -12,5 +12,8 @@
   {"id": "fc-0065", "exam": ["AP1", "AP2"], "jobs": ["fisi", "fidv", "itse", "kits"], "topic": "hardware.energie", "front": "USV-Überbrückungszeit", "back": "t = Energie / Leistung. Energie (Wh) = Spannung (V) × Kapazität (Ah) × Anzahl Akkus. Beispiel: 432 Wh / 400 W = 1,08 h ≈ 64 min."},
   {"id": "fc-0066", "exam": ["AP1", "AP2"], "jobs": ["fisi", "fidv", "itse", "kits"], "topic": "hardware.betrieb", "front": "MDM (Mobile Device Management)", "back": "Zentrale Verwaltung mobiler Geräte: Richtlinien, App-Verteilung, Verschlüsselung erzwingen, Fernsperre und Remote Wipe, Container für BYOD."},
   {"id": "fc-0067", "exam": ["AP1", "AP2"], "jobs": ["fisi", "fidv", "itse", "kits"], "topic": "hardware.betrieb", "front": "Badewannenkurve", "back": "Frühausfälle (Burn-in-Test) → Zufallsausfälle (geringe Rate) → Verschleißausfälle (planmäßig tauschen)."},
-  {"id": "fc-0068", "exam": ["AP1", "AP2"], "jobs": ["fisi", "fidv", "itse", "kits"], "topic": "hardware.komponenten", "front": "Secure Boot", "back": "UEFI-Funktion: lädt nur signierte Bootloader/Treiber und schützt so vor Bootkits."}
+  {"id": "fc-0068", "exam": ["AP1", "AP2"], "jobs": ["fisi", "fidv", "itse", "kits"], "topic": "hardware.komponenten", "front": "Secure Boot", "back": "UEFI-Funktion: lädt nur signierte Bootloader/Treiber und schützt so vor Bootkits."},
+  {"id": "fc-0144", "exam": ["AP1"], "topic": "hardware.nachhaltigkeit", "front": "Formel Energiekosten", "back": "kWh = kW × h; Kosten = kWh × Preis je kWh. Beispiel 60 W, 8 h, 220 Tage = 105,6 kWh."},
+  {"id": "fc-0145", "exam": ["AP1"], "topic": "hardware.nachhaltigkeit", "front": "PUE", "back": "Power Usage Effectiveness = Gesamtenergie Rechenzentrum ÷ Energie der IT-Geräte. Ideal nahe 1,0."},
+  {"id": "fc-0146", "exam": ["AP1"], "topic": "hardware.nachhaltigkeit", "front": "Größte Umweltwirkung bei Notebooks und Smartphones", "back": "Die Herstellung → Geräte möglichst lange nutzen, reparieren, refurbished kaufen."}
 ]

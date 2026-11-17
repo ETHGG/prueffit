@@ -4,14 +4,14 @@
 **Roadmap:** Alle Phasen 0.1 bis 1.1 sind erledigt. **In Arbeit: 2.0 – Inhalte für alle IT-Berufe und berufsspezifische App** (Auftrag in 6 Phasen, Start 17.11.2026 19:11).
 
 ## Weiter bei:
-**Phase 4, Schritt 1:** Neue AP1-Themen nach Prüfungskatalog 2025 anlegen (Barrierefreiheit, Client in Domäne/Verzeichnisdienst, Präsentation/technische Texte, Rollout/Abnahme/Nachhaltigkeit, KI-Auswahl) mit Lernzetteln, Fragen, Karten und Glossar-Einträgen; Zuordnung in `js/curriculum.js` (AP1_SECTIONS) ergänzen.
+**Phase 5, Schritt 1:** Neue Bereiche `daten` (FIDPA), `vernetzung` (FIDV), `elektro` (ITSE) und Thema `wirtschaft.geschaeftsmodelle` (KDM) anlegen – je ≥ 25 Fragen (≥ 5 AP2), ≥ 8 Karten, Lernzettel, Glossar; dann Handlungssituationen für alle 7 Berufe.
 
 | Phase | Status |
 |---|---|
 | 1 Recherche, `docs/QUELLEN.md` | erledigt |
 | 2 Datenmodell und Zuordnung (`js/curriculum.js`, alle Inhalte zugeordnet) | erledigt |
 | 3 Migration (Schema 6) und berufsspezifische UI (`js/jobCatalog.js`, `js/ui/jobSetup.js`) | erledigt |
-| 4 Neue AP1-Inhalte (Katalog 2025) | offen |
+| 4 Neue AP1-Inhalte (Katalog 2025): 5 Themen, 38 Fragen, 16 Karten | erledigt |
 | 5 Neue AP2-Inhalte je Beruf | offen |
 | 6 Abschluss (PDFs, Version 2.0.0, Doku, Push) | offen |
 
