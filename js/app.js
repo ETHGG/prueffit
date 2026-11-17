@@ -34,7 +34,20 @@ function getStorageBackend() {
   }
 }
 
+/** sessionStorage for the running quiz (survives reloads, not closing the tab), or null. */
+function getSessionBackend() {
+  try {
+    const s = window.sessionStorage;
+    s.setItem('prueffit.probe', '1');
+    s.removeItem('prueffit.probe');
+    return s;
+  } catch {
+    return null;
+  }
+}
+
 const storage = getStorageBackend();
+const sessionStore = getSessionBackend();
 const loaded = loadState(storage);
 let progress = loaded.state;
 let catalog = { topics: [], questions: [], errors: [] };
@@ -79,6 +92,7 @@ const ctx = {
   get catalog() { return catalog; },
   get progress() { return progress; },
   storageStatus: storage ? loaded.status : 'unavailable',
+  sessionStore,
   /** Replace progress with fn(progress) and persist it. */
   updateProgress(fn) {
     progress = fn(progress);

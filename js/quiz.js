@@ -58,3 +58,46 @@ export function summarizeQuiz(quiz) {
     percent: maxPoints > 0 ? Math.round((points / maxPoints) * 100) : 0,
   };
 }
+
+// ---- Persistence of a running quiz (sessionStorage) ----
+
+export const QUIZ_SESSION_VERSION = 1;
+
+/** Minimal JSON-safe snapshot: question ids, current index and the given responses. */
+export function serializeQuiz(quiz) {
+  return {
+    v: QUIZ_SESSION_VERSION,
+    ids: quiz.questions.map((q) => q.id),
+    index: quiz.index,
+    responses: quiz.results.map((r) => r.response),
+  };
+}
+
+/**
+ * Rebuilds a quiz from a snapshot and the current question catalogue.
+ * Responses are graded again, so stored data cannot fake points.
+ * Returns null if the snapshot is broken, outdated or refers to unknown questions.
+ */
+export function restoreQuiz(data, questions) {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return null;
+  const { v, ids, index, responses } = data;
+  if (v !== QUIZ_SESSION_VERSION || !Array.isArray(ids) || ids.length === 0 || !Array.isArray(responses)) return null;
+  if (new Set(ids).size !== ids.length) return null;
+  if (!Number.isInteger(index) || index < 0 || index > ids.length) return null;
+  // Either all questions before `index` are answered, or additionally the current one.
+  if (responses.length !== index && responses.length !== index + 1) return null;
+  if (responses.length > ids.length) return null;
+
+  const byId = new Map(questions.map((q) => [q.id, q]));
+  const selected = ids.map((id) => byId.get(id));
+  if (selected.some((q) => !q)) return null;
+
+  let quiz = createQuiz(selected);
+  for (let i = 0; i < responses.length; i++) {
+    quiz = { ...quiz, index: i };
+    const { quiz: next, result } = submitAnswer(quiz, responses[i]);
+    if (!result.valid) return null;
+    quiz = next;
+  }
+  return { ...quiz, index };
+}

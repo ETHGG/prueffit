@@ -6,6 +6,9 @@ import {
   nextQuestion,
   isFinished,
   summarizeQuiz,
+  serializeQuiz,
+  restoreQuiz,
+  QUIZ_SESSION_VERSION,
 } from '../js/quiz.js';
 import { shuffle, createSeededRandom } from '../js/questions.js';
 
@@ -91,5 +94,70 @@ describe('shuffle', () => {
   });
   it('keeps equal values (no id deduplication)', () => {
     expect(shuffle([1, 1, 1])).toEqual([1, 1, 1]);
+  });
+});
+
+describe('serializeQuiz / restoreQuiz (sessionStorage)', () => {
+  const catalog = [...qs, { id: 'o1', type: 'order', answer: ['a', 'b', 'c'], points: 2 }];
+
+  function played() {
+    let quiz = createQuiz([qs[0], qs[1], catalog[3]]);
+    quiz = nextQuestion(submitAnswer(quiz, 0).quiz);
+    quiz = submitAnswer(quiz, [0]).quiz; // answered, not yet advanced
+    return quiz;
+  }
+
+  it('stores only ids, index and responses (JSON-safe)', () => {
+    const data = serializeQuiz(played());
+    expect(data).toEqual({
+      v: QUIZ_SESSION_VERSION,
+      ids: ['s1', 'm1', 'o1'],
+      index: 1,
+      responses: [0, [0]],
+    });
+    expect(JSON.parse(JSON.stringify(data))).toEqual(data);
+  });
+
+  it('restores an equivalent quiz from the catalogue', () => {
+    const quiz = played();
+    const restored = restoreQuiz(JSON.parse(JSON.stringify(serializeQuiz(quiz))), catalog);
+    expect(restored.index).toBe(1);
+    expect(restored.questions.map((q) => q.id)).toEqual(['s1', 'm1', 'o1']);
+    expect(restored.results).toEqual(quiz.results);
+    expect(summarizeQuiz(restored)).toEqual(summarizeQuiz(quiz));
+  });
+
+  it('restores a finished quiz', () => {
+    let quiz = createQuiz([qs[0]]);
+    quiz = nextQuestion(submitAnswer(quiz, 1).quiz);
+    const restored = restoreQuiz(serializeQuiz(quiz), catalog);
+    expect(isFinished(restored)).toBe(true);
+    expect(summarizeQuiz(restored).answered).toBe(1);
+  });
+
+  it('re-grades stored responses instead of trusting stored points', () => {
+    const data = { v: QUIZ_SESSION_VERSION, ids: ['s1'], index: 0, responses: [1], points: [99] };
+    expect(restoreQuiz(data, catalog).results[0]).toEqual({
+      questionId: 's1', response: 1, valid: true, correct: false, points: 0, maxPoints: 2,
+    });
+  });
+
+  it('returns null for broken or outdated data', () => {
+    const ok = serializeQuiz(played());
+    const broken = [
+      null, undefined, 42, 'x', [],
+      { ...ok, v: 999 },
+      { ...ok, ids: [] },
+      { ...ok, ids: ['s1', 'gibts-nicht', 'o1'] },
+      { ...ok, ids: ['s1', 's1', 'o1'] },
+      { ...ok, index: -1 },
+      { ...ok, index: 5 },
+      { ...ok, index: 1.5 },
+      { ...ok, responses: 'x' },
+      { ...ok, responses: [0, [0], ['a', 'b', 'c'], 1] },
+      { ...ok, index: 0, responses: [0, [0]] },
+      { ...ok, responses: [7, [0]] },
+    ];
+    for (const data of broken) expect(restoreQuiz(data, catalog), JSON.stringify(data)).toBeNull();
   });
 });

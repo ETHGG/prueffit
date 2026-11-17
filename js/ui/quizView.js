@@ -2,7 +2,10 @@
 
 import { EXAMS, QUIZ_SIZES, DEFAULT_QUIZ_SIZE, SUPPORTED_QUIZ_TYPES } from '../config.js';
 import { filterQuestions, pickRandom, shuffle } from '../questions.js';
-import { createQuiz, currentQuestion, submitAnswer, nextQuestion, isFinished, isAnswered, summarizeQuiz } from '../quiz.js';
+import {
+  createQuiz, currentQuestion, submitAnswer, nextQuestion, isFinished, isAnswered, summarizeQuiz,
+  serializeQuiz, restoreQuiz,
+} from '../quiz.js';
 import { recordAnswer } from '../storage.js';
 import { keywordHits } from '../grading.js';
 import { h, formatNumber, formatPercent, DIFFICULTY_LABELS } from './dom.js';
@@ -12,6 +15,36 @@ const setup = { exam: 'alle', topics: null, difficulties: [1, 2, 3], size: DEFAU
 let session = null;
 
 const ALL_EXAMS = 'alle';
+const SESSION_KEY = 'prueffit.quizSession';
+
+/** Saves the running quiz (or removes it) so a reload or app switch does not lose it. */
+function persistSession(store) {
+  if (!store) return;
+  try {
+    if (session) store.setItem(SESSION_KEY, JSON.stringify({ quiz: serializeQuiz(session.quiz), ui: session.ui ?? {} }));
+    else store.removeItem(SESSION_KEY);
+  } catch {
+    // Storage full or blocked: the quiz still works, it is just not restorable.
+  }
+}
+
+/** Restores a quiz from sessionStorage; broken data is discarded. */
+function restoreSession(store, questions) {
+  if (!store) return null;
+  try {
+    const raw = JSON.parse(store.getItem(SESSION_KEY) ?? 'null');
+    const quiz = restoreQuiz(raw?.quiz, questions);
+    if (!quiz) {
+      store.removeItem(SESSION_KEY);
+      return null;
+    }
+    const ui = raw.ui && typeof raw.ui === 'object' && !Array.isArray(raw.ui) ? raw.ui : {};
+    return { quiz, ui };
+  } catch {
+    store.removeItem(SESSION_KEY);
+    return null;
+  }
+}
 
 function criteria() {
   return {
@@ -32,6 +65,7 @@ export function render(root, ctx) {
     return;
   }
   if (!setup.topics) setup.topics = new Set(topics.map((t) => t.id));
+  if (!session) session = restoreSession(ctx.sessionStore, questions);
 
   const topicById = new Map(topics.map((t) => [t.id, t]));
   const draw = ({ keepScroll = false } = {}) => {
@@ -40,6 +74,7 @@ export function render(root, ctx) {
     if (!session) drawSetup(root, ctx, draw);
     else if (isFinished(session.quiz)) drawSummary(root, ctx, draw, topicById);
     else drawQuestion(root, ctx, draw, topicById);
+    persistSession(ctx.sessionStore);
     window.scrollTo(0, keepScroll ? y : 0);
   };
   draw();
@@ -177,9 +212,23 @@ const SELF_OPTIONS = [
 ];
 
 /** Per-question UI state (shuffled lists, text drafts) lives in the session so it survives re-rendering. */
+function isValidUi(q, ui) {
+  if (!ui || typeof ui !== 'object') return false;
+  if (q.type === 'order') {
+    return Array.isArray(ui.order) && ui.order.length === q.answer.length
+      && [...ui.order].sort().every((v, i) => v === [...q.answer].sort()[i]);
+  }
+  if (q.type === 'match') {
+    const rights = new Set(Object.values(q.answer));
+    return Array.isArray(ui.rights) && ui.rights.length === rights.size && ui.rights.every((r) => rights.has(r));
+  }
+  if (q.type === 'text') return typeof ui.draft === 'string' && typeof ui.revealed === 'boolean';
+  return true;
+}
+
 function uiFor(q) {
   session.ui ??= {};
-  if (!session.ui[q.id]) {
+  if (!isValidUi(q, session.ui[q.id])) {
     const ui = {};
     if (q.type === 'order') {
       // Start with a shuffled order that is not already correct.
@@ -342,12 +391,12 @@ function orderInput(q, answered, result, redraw) {
       })));
 }
 
-function textInput(q, answered, result, submitSelf) {
+function textInput(q, answered, result, submitSelf, onChange) {
   const ui = uiFor(q);
   const area = h('textarea', {
     id: 'answer-text', rows: 4, disabled: ui.revealed || answered,
     placeholder: 'Stichpunkte genügen',
-    onInput: (e) => { ui.draft = e.target.value; },
+    onInput: (e) => { ui.draft = e.target.value; onChange(); },
   });
   area.value = answered ? (result.response.text ?? '') : ui.draft;
 
@@ -405,7 +454,7 @@ function drawQuestion(root, ctx, draw, topicById) {
     case 'number': input = numberInput(q, answered, result); break;
     case 'match': input = matchInput(q, answered, result); break;
     case 'order': input = orderInput(q, answered, result, draw); break;
-    case 'text': input = textInput(q, answered, result, (self) => commit({ text: uiFor(q).draft, self })); break;
+    case 'text': input = textInput(q, answered, result, (self) => commit({ text: uiFor(q).draft, self }), () => persistSession(ctx.sessionStore)); break;
     default: input = choiceInput(q, answered, result);
   }
 
