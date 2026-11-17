@@ -4,9 +4,10 @@
 import { EXAMS, JOBS, ALL_JOBS } from '../config.js';
 import { filterQuestions, issueUrl } from '../questions.js';
 import {
-  EXAM_QUESTION_TYPES, examParts, previewExam, createExam, startPart, remainingMs, isTimeUp, setResponse,
-  submitPart, tick, evaluateExam, restoreExam,
+  examParts, previewExam, createExam, startPart, remainingMs, isTimeUp, setResponse,
+  submitPart, tick, evaluateExam, restoreExam, isExamQuestion, pendingAssessment, assessResponse,
 } from '../exam.js';
+import { rubricPoints } from '../grading.js';
 import { recordExamResult } from '../storage.js';
 import { createUi, renderInput, formatResponse, correctAnswerText, isEmptyResponse } from './questionInputs.js';
 import { scenarioBox } from './scenario.js';
@@ -59,7 +60,8 @@ export function render(root, ctx) {
   const update = (next) => {
     exam = next;
     // Record the result exactly once, at the moment the exam is finished.
-    if (exam?.finished && !exam.recorded) {
+    // Open tasks are assessed by the learner first (rubric), then the result is recorded.
+    if (exam?.finished && !exam.recorded && !pendingAssessment(exam, questions).length) {
       const ev = evaluateExam(exam, questions);
       ctx.updateProgress((p) => recordExamResult(p, ev));
       exam = { ...exam, recorded: true };
@@ -85,6 +87,7 @@ export function render(root, ctx) {
     timerEl = null;
     checkTime();
     if (!exam) drawStart();
+    else if (exam.finished && pendingAssessment(exam, questions).length) drawAssessment();
     else if (exam.finished) drawResult();
     else if (!exam.parts[exam.part].startedAt) drawBetweenParts();
     else drawRunning();
@@ -95,7 +98,7 @@ export function render(root, ctx) {
   function drawStart() {
     const job = ctx.progress.settings.job ?? ALL_JOBS; // always set since 2.0 (job setup)
     const jobInfo = JOBS.find((j) => j.id === job);
-    const pool = filterQuestions(questions, { job, types: EXAM_QUESTION_TYPES });
+    const pool = filterQuestions(questions, { job }).filter(isExamQuestion);
     const blueprint = examParts(chosenExam, job);
     if (chosenExam === 'AP1' || !blueprint.some((p) => p.id === chosenScope)) chosenScope = 'alle';
     const partIds = chosenScope === 'alle' ? undefined : [chosenScope];
@@ -137,7 +140,7 @@ export function render(root, ctx) {
             : null,
           h('li', {}, 'Rückmeldung und Note gibt es erst nach der Abgabe – wie in der echten Prüfung, bei der AP2 auch für jeden Teil einzeln.'),
           h('li', {}, 'Die Zeit läuft weiter, auch wenn du die App schließt. Bei Zeitablauf wird automatisch abgegeben.'),
-          h('li', {}, 'Freitextfragen kommen nicht vor, weil sie sich nur selbst bewerten lassen.'),
+          h('li', {}, 'Offene Aufgaben (Freitext) beantwortest du in Stichpunkten. Nach der Abgabe bewertest du sie selbst mit dem Bewertungsraster – so wie die Prüfer mit dem Lösungshinweis.'),
           h('li', {}, `Beruf: ${jobInfo ? jobInfo.name : 'alle IT-Berufe'} · ${total} Fragen aus ${chosenExam === 'AP1' ? 'der AP1' : 'deinen AP2-Prüfungsbereichen'}.`)),
         h('button', {
           type: 'button', class: 'button block', disabled: total === 0,
@@ -216,7 +219,17 @@ export function render(root, ctx) {
       draw();
     };
 
-    form.append(renderInput(q, { response: exam.responses[q.id], locked: false, reveal: false, ui, redraw: draw, onChange: store }));
+    if (q.type === 'text') {
+      // Open task: free text only; the marking scheme is shown after the hand-in.
+      const area = h('textarea', {
+        id: 'exam-text', rows: 6, placeholder: 'Stichpunkte genügen',
+        onInput: (e) => store(e.target.value.trim() ? { text: e.target.value } : undefined),
+      });
+      area.value = exam.responses[q.id]?.text ?? '';
+      form.append(h('label', { for: 'exam-text', class: 'field-label', text: 'Deine Antwort' }), area);
+    } else {
+      form.append(renderInput(q, { response: exam.responses[q.id], locked: false, reveal: false, ui, redraw: draw, onChange: store }));
+    }
 
     timerEl = h('span', { class: 'exam-timer', role: 'timer', 'aria-label': 'Restzeit', text: formatClock(remainingMs(exam)) });
     append(root, 
@@ -272,6 +285,58 @@ export function render(root, ctx) {
           type: 'button', class: 'button block',
           onClick: () => { update(startPart(exam)); pos = 0; draw(); },
         }, `${next.title} starten`)),
+    );
+  }
+
+  // ------------------------------------------------------------ assessment of open tasks
+  function drawAssessment() {
+    const ids = pendingAssessment(exam, questions);
+    const ticked = new Map(ids.map((id) => [id, uiState.get(`assess:${id}`) ?? []]));
+    const finish = () => {
+      let next = exam;
+      for (const id of ids) next = assessResponse(next, id, ticked.get(id));
+      uiState.clear();
+      update(next);
+      draw();
+      root.querySelector('h1')?.focus({ preventScroll: true });
+    };
+    append(root,
+      h('h1', { tabindex: '-1', text: 'Offene Aufgaben bewerten' }),
+      h('p', { class: 'muted' }, `Vergleiche ${ids.length === 1 ? 'deine Antwort' : `deine ${ids.length} Antworten`} mit der Musterlösung und hake ab, was du genannt hast. Sei streng – in der Prüfung zählt nur, was dasteht. Danach siehst du deine Note.`),
+      ids.map((id, n) => {
+        const q = byId.get(id);
+        const rubric = q.answer.rubric;
+        const total = rubric.reduce((sum, r) => sum + r.points, 0);
+        const done = ticked.get(id);
+        const sumEl = h('p', { class: 'rubric-sum', 'aria-live': 'polite' });
+        const updateSum = () => { sumEl.textContent = `${formatNumber(rubricPoints(q, done))} von ${formatNumber(total)} Punkten`; };
+        updateSum();
+        return h('article', { class: 'card assessment' },
+          h('h2', { class: 'small-heading', text: `Aufgabe ${n + 1} von ${ids.length}` }),
+          h('p', { class: 'question-text', text: q.question }),
+          h('p', {}, h('strong', { text: 'Deine Antwort: ' })),
+          h('p', { class: 'own-answer', text: exam.responses[id].text }),
+          h('section', { class: 'sample' },
+            h('h3', { text: 'Musterlösung' }),
+            h('p', { text: q.answer.sample })),
+          h('fieldset', { class: 'rubric' },
+            h('legend', { text: 'Was enthält deine Antwort? (Bewertungsraster)' }),
+            h('div', { class: 'check-list' },
+              rubric.map((r, i) => h('label', { class: 'check' },
+                h('input', {
+                  type: 'checkbox', checked: done.includes(i),
+                  onChange: (e) => {
+                    const next = e.target.checked ? [...new Set([...done, i])].sort((a, b) => a - b) : done.filter((x) => x !== i);
+                    done.length = 0; done.push(...next);
+                    uiState.set(`assess:${id}`, [...next]);
+                    updateSum();
+                  },
+                }),
+                h('span', { class: 'grow', text: r.criterion }),
+                h('span', { class: 'count-badge', text: `${formatNumber(r.points)} P.` })))),
+            sumEl));
+      }),
+      h('button', { type: 'button', class: 'button block', onClick: finish }, 'Bewertung abschließen und Note anzeigen'),
     );
   }
 

@@ -254,6 +254,7 @@ Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.custom` (impo
 
 ### 6.3 Prüfungssimulation
 - AP1: 90 Minuten. AP2: zwei Prüfungsbereiche mit je 90 Minuten (Namen je Beruf, siehe `AP2_BLUEPRINTS` in `js/exam.js`) und WiSo mit 60 Minuten (bis zu 30 Fragen); jeder Teil wird einzeln benotet. Timer läuft weiter, wenn die App kurz verlassen wird (Startzeit speichern, nicht runterzählen).
+- Offene Aufgaben (`text` mit `rubric`, seit 2.2) kommen in allen Teilen außer WiSo vor; nach der letzten Abgabe bewertet der Lernende sie mit dem Raster, erst danach wird das Ergebnis gespeichert.
 - AP2-Prüfungsbereiche beginnen mit einer Handlungssituation, wenn eine zu Beruf und Bereich passt (siehe 5.3c).
 - Bei Zeitablauf automatisch abgeben.
 - **IHK-Notenschlüssel (Prozent der Punkte):**
@@ -346,6 +347,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **1.1** | Lernzettel als PDF zum Herunterladen (je Bereich, komplett, Abkürzungsverzeichnis), Druckansicht | erledigt |
 | **2.0** | Alle 7 IT-Berufe, Beruf einmalig festlegen (Schema 6), nur eigene Inhalte nach AP1/AP2 und Prüfungsbereich, AP1-Katalog 2025, neue AP2-Bereiche (FIDPA, FIDV, ITSE, KDM), Handlungssituationen für alle Berufe, PDFs je Beruf, `docs/QUELLEN.md` | erledigt |
 | **2.1** | Abgleich mit Ausbildungsverordnungen (`docs/ABGLEICH.md`), KITS/FISI ausgebaut (Skripte, Speicher, Lizenzmodelle, Kennzahlen …), zweite Handlungssituationen, Bewertungsraster für Freitext, „Dein Plan für heute“, AP2-Termin KITS/KDM dienstags | erledigt |
+| **2.2** | Offene Aufgaben (Freitext mit Bewertungsraster) in der Prüfungssimulation, Selbstbewertung nach der Abgabe; Feinschliff der Oberfläche | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

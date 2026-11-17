@@ -123,6 +123,7 @@ export function formatResponse(q, response) {
       return pairs.length ? pairs.join(' · ') : '–';
     }
     case 'order': return response.join(' → ');
+    case 'text': return response.text?.trim() ? response.text : '–';
     default: return '–';
   }
 }

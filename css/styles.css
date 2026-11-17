@@ -656,4 +656,9 @@ body.setup-mode .tabbar { display: none; }
 .rubric-sum { font-weight: 700; margin: .5rem 0; }
 .plan-list { margin: .25rem 0 .5rem; padding-left: 1.25rem; }
 .plan-list li { margin: .35rem 0; }
-.plan-list a { display: inline-block; min-height: 44px; line-height: 1.4; padding: .55rem 0; }
+.plan-list a { display: block; min-height: 44px; line-height: 1.4; padding: .55rem 0; }
+.plan-list li::marker { font-weight: 700; color: var(--primary); }
+
+/* Open tasks in the exam simulation (since 2.2) */
+#exam-text { width: 100%; }
+.own-answer { white-space: pre-wrap; padding: .6rem .75rem; border-left: 3px solid var(--primary); background: var(--surface-2, transparent); }

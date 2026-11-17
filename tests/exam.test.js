@@ -23,6 +23,9 @@ import {
   validateScenario,
   scenariosForPart,
   scenarioQuestionIds,
+  isExamQuestion,
+  pendingAssessment,
+  assessResponse,
 } from '../js/exam.js';
 import { createSeededRandom } from '../js/questions.js';
 
@@ -384,5 +387,54 @@ describe('Handlungssituationen (scenarios)', () => {
     const exam = createExam({ exam: 'AP2', job: 'fisi', partIds: ['ga2'], pool, scenarios: [scenario], now: t0 });
     expect(restoreExam(JSON.parse(JSON.stringify(exam)), pool).parts[0].scenario).toBe('sz-test');
     expect(restoreExam({ ...exam, parts: [{ ...exam.parts[0], scenario: 7 }] }, pool)).toBeNull();
+  });
+});
+
+describe('open tasks with a marking scheme (since 2.2)', () => {
+  const rubric = [{ criterion: 'A', points: 2 }, { criterion: 'B', points: 2 }];
+  const open = (id, extra = {}) => ({
+    id, exam: ['AP1', 'AP2'], topic: 'a.t', difficulty: 2, type: 'text', points: 4,
+    answer: { keywords: ['x'], sample: 'S', rubric }, ...extra,
+  });
+
+  it('only text questions with a rubric are usable in the simulation', () => {
+    expect(isExamQuestion(open('o1'))).toBe(true);
+    expect(isExamQuestion(open('o2', { answer: { keywords: ['x'], sample: 'S' } }))).toBe(false);
+    expect(isExamQuestion({ type: 'single' })).toBe(true);
+    expect(isExamQuestion(null)).toBe(false);
+  });
+
+  it('createExam draws open tasks, but never into the WiSo part', () => {
+    const opens = Array.from({ length: 40 }, (_, i) => open(`o${i}`, { topic: i % 2 ? 'wiso.t' : 'a.t' }));
+    const exam = createExam({ exam: 'AP2', pool: [...pool, ...opens], random: createSeededRandom(5) });
+    const all = exam.parts.flatMap((p) => p.ids);
+    expect(all.some((id) => id.startsWith('o'))).toBe(true);
+    const wiso = exam.parts.find((p) => p.id === 'wiso');
+    if (wiso) expect(wiso.ids.some((id) => id.startsWith('o'))).toBe(false);
+    const noRubric = createExam({ exam: 'AP1', pool: [...pool, ...opens.map((q) => ({ ...q, answer: { keywords: ['x'], sample: 'S' } }))], random: createSeededRandom(5) });
+    expect(noRubric.parts[0].ids.some((id) => id.startsWith('o'))).toBe(false);
+  });
+
+  it('answered open tasks must be assessed before the result counts; criteria are graded', () => {
+    const qs = [open('o1'), open('o2'), pool[0]];
+    let state = { v: EXAM_STATE_VERSION, exam: 'AP1', job: null, parts: [{ id: 'ap1', title: 'AP1', minutes: 90, ids: ['o1', 'o2', 'q0'], startedAt: t0.toISOString(), submittedAt: null }], part: 0, responses: {}, finished: false, finishedAt: null };
+    state = setResponse(state, 'o1', { text: 'meine Antwort' });
+    state = setResponse(state, 'q0', 0);
+    expect(pendingAssessment(state, qs)).toEqual([]); // not finished yet
+    expect(assessResponse(state, 'o1', [0])).toBe(state);
+    state = submitPart(state, plus(10 * MIN));
+    expect(pendingAssessment(state, qs)).toEqual(['o1']); // o2 unanswered: 0 points, nothing to assess
+    expect(assessResponse(state, 'o1', [1.5])).toBe(state);
+    expect(assessResponse(state, 'o2', [0])).toBe(state);
+    state = assessResponse(state, 'o1', [1, 0, 1]);
+    expect(state.responses.o1).toEqual({ text: 'meine Antwort', criteria: [0, 1] });
+    expect(pendingAssessment(state, qs)).toEqual([]);
+    const ev = evaluateExam(state, qs);
+    expect(ev.results.find((r) => r.questionId === 'o1')).toMatchObject({ points: 4, correct: true });
+    expect(ev.points).toBe(4 + pool[0].points);
+    const partly = evaluateExam(assessResponse({ ...state, responses: { ...state.responses, o1: { text: 'x' } } }, 'o1', [1]), qs);
+    expect(partly.results.find((r) => r.questionId === 'o1')).toMatchObject({ points: 2, correct: false });
+    // A recorded exam can no longer be changed.
+    expect(assessResponse({ ...state, recorded: true }, 'o1', [])).toEqual({ ...state, recorded: true });
   });
 });

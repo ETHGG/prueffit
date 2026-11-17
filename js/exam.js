@@ -9,8 +9,21 @@ import { AP2_PARTS, jobById, itemExamsForJob } from './curriculum.js';
 export const EXAM_STATE_VERSION = 2;
 const SUPPORTED_STATE_VERSIONS = [1, 2];
 
-/** Question types that can be graded automatically (self-assessed `text` is excluded). */
+/** Question types that can be graded automatically. */
 export const EXAM_QUESTION_TYPES = ['single', 'multi', 'number', 'match', 'order'];
+
+/** Parts without open tasks (WiSo is multiple choice in the real exam). */
+const CLOSED_PARTS = ['wiso'];
+
+/**
+ * Questions usable in the simulation: all automatically gradable types plus open
+ * `text` tasks with a marking scheme (rubric), which the learner assesses after the hand-in
+ * like the examiners do with the IHK solution notes (since 2.2).
+ */
+export function isExamQuestion(q) {
+  if (EXAM_QUESTION_TYPES.includes(q?.type)) return true;
+  return q?.type === 'text' && Array.isArray(q.answer?.rubric) && q.answer.rubric.length > 0;
+}
 
 /**
  * Exam blueprints modelled on the IHK exams (AO 2020, see docs/ABSCHLUSSBERICHT.md).
@@ -165,7 +178,7 @@ export function createExam({
   if (!blueprint.length) throw new RangeError('No exam parts selected');
   // Only questions that count for this exam in this apprenticeship (never another job's AP2 content).
   const counts = jobById(job) ? (q) => itemExamsForJob(q, job).includes(exam) : (q) => q.exam.includes(exam);
-  let remaining = pool.filter((q) => counts(q) && EXAM_QUESTION_TYPES.includes(q.type));
+  let remaining = pool.filter((q) => counts(q) && isExamQuestion(q));
   const inScenario = scenarioQuestionIds(scenarios);
   const parts = [];
   for (const p of blueprint) {
@@ -177,7 +190,10 @@ export function createExam({
     const openingPoints = opening.reduce((sum, q) => sum + q.points, 0);
     const target = p.count ? { count: p.count - opening.length } : { points: p.points - openingPoints };
     const fill = (target.count ?? target.points) > 0
-      ? selectExamQuestions(remaining.filter((q) => !inScenario.has(q.id) && questionFitsPart(q, p)), target, random, areaOf)
+      ? selectExamQuestions(
+        remaining.filter((q) => !inScenario.has(q.id) && questionFitsPart(q, p) && !(q.type === 'text' && CLOSED_PARTS.includes(p.id))),
+        target, random, areaOf,
+      )
       : [];
     const picked = [...opening, ...fill];
     if (!picked.length) continue;
@@ -266,6 +282,29 @@ export function submitPart(state, now = new Date(), { timeUp = false } = {}) {
 export function tick(state, now = new Date()) {
   if (!isTimeUp(state, now)) return state;
   return submitPart(state, new Date(deadline(currentPart(state))), { timeUp: true });
+}
+
+const hasCriteria = (response) => Array.isArray(response?.criteria);
+
+/**
+ * Ids of answered open tasks of a finished exam that still need the learner's
+ * assessment (ticked rubric criteria). The result is recorded only afterwards.
+ */
+export function pendingAssessment(state, questions) {
+  if (!state?.finished) return [];
+  const byId = new Map(questions.map((q) => [q.id, q]));
+  return state.parts.flatMap((p) => p.ids).filter((id) => {
+    const q = byId.get(id);
+    return q?.type === 'text' && Object.hasOwn(state.responses, id) && !hasCriteria(state.responses[id]);
+  });
+}
+
+/** Stores the ticked rubric criteria of an open task after the exam was finished. */
+export function assessResponse(state, questionId, criteria) {
+  if (!state?.finished || state.recorded || !Object.hasOwn(state.responses, questionId)) return state;
+  if (!Array.isArray(criteria) || !criteria.every((i) => Number.isInteger(i) && i >= 0)) return state;
+  const unique = [...new Set(criteria)].sort((a, b) => a - b);
+  return { ...state, responses: { ...state.responses, [questionId]: { ...state.responses[questionId], criteria: unique } } };
 }
 
 /** Grades the finished (or aborted) exam. */

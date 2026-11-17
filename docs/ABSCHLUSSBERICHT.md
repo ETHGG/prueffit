@@ -1,3 +1,12 @@
+# Abschlussbericht Version 2.2.0
+
+**Datum:** 17.11.2026 · **Runde 2** der nächtlichen Prüf- und Verbesserungsrunden (23:40–00:00 Uhr)
+
+- Oberflächen-Durchgang aller Ansichten (iPhone SE dunkel/KITS, Desktop hell/FISI) per Screenshot: keine Konsolenfehler; „Dein Plan für heute“ war nicht bündig → behoben.
+- Offene Aufgaben in der Prüfungssimulation: Die echte AP2 besteht überwiegend aus offenen Aufgaben. Freitextaufgaben mit Bewertungsraster werden jetzt gezogen (nicht in WiSo); Selbstbewertung nach der letzten Abgabe, Note erst danach (`isExamQuestion`, `pendingAssessment`, `assessResponse` in `js/exam.js`, Unit- und e2e-Tests).
+- Annahme: Unbeantwortete offene Aufgaben zählen 0 Punkte und müssen nicht bewertet werden. Eigene importierte Freitextfragen ohne Raster bleiben aus der Simulation draußen.
+- Offen: Bisher nur 20 Freitextaufgaben mit Raster – nächste Runde baut sie für KITS und FISI aus.
+
 # Abschlussbericht Version 2.1.0
 
 **Datum:** 17.11.2026 · **Dauer:** 21:01–21:27 Uhr (Schätzung: 3–3½ Stunden; die gemessene Dauer lag weit darunter)

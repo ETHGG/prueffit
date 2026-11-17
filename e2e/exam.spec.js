@@ -1,8 +1,9 @@
 import { test, expect } from 'playwright/test';
-import { watchProblems, expectNoHorizontalOverflow, useJob, gotoApp } from './helpers.js';
+import { watchProblems, expectNoHorizontalOverflow, useJob, gotoApp, finishAssessment } from './helpers.js';
 
 async function answerExamQuestion(page) {
-  if (await page.locator('#answer-input').count()) await page.fill('#answer-input', '1');
+  if (await page.locator('#exam-text').count()) await page.fill('#exam-text', 'Testantwort');
+  else if (await page.locator('#answer-input').count()) await page.fill('#answer-input', '1');
   else if (await page.locator('select[data-left]').count()) {
     for (const sel of await page.locator('select[data-left]').all()) await sel.selectOption({ index: 1 });
   } else if (await page.locator('.order-list').count()) {
@@ -34,6 +35,7 @@ test('AP1: timer, navigation, answers survive a reload, hand-in and grade', asyn
   await page.getByRole('button', { name: 'AP1 abgeben' }).first().click();
   await expect(page.locator('#confirm-text')).toContainText('noch unbeantwortet');
   await page.getByRole('button', { name: 'Abgeben', exact: true }).click();
+  await finishAssessment(page);
 
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ergebnis AP1');
   await expect(page.locator('.grade-big')).toHaveText(/^[1-6]$/);
@@ -63,6 +65,7 @@ test('time runs while the app is closed and the exam is handed in automatically'
   });
   await page.reload();
   await expect(page.locator('.toast').first()).toContainText('Zeit abgelaufen');
+  await finishAssessment(page);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ergebnis AP1');
   await expect(page.getByText('wegen Zeitablaufs automatisch abgegeben')).toBeVisible();
   const exam = await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.exam')));
@@ -73,6 +76,7 @@ test('time runs while the app is closed and the exam is handed in automatically'
 async function handIn(page, title) {
   await page.getByRole('button', { name: `${title} abgeben` }).last().click();
   await page.getByRole('button', { name: 'Abgeben', exact: true }).click();
+  await finishAssessment(page);
 }
 
 test('AP2: three parts like the real exam, each further part starts only on request, grade per part (KITS)', async ({ page }) => {
@@ -151,6 +155,7 @@ test('statistics: "Heute üben" links into the quiz and charts render', async ({
   await answerExamQuestion(page);
   await page.getByRole('button', { name: 'AP1 abgeben' }).last().click();
   await page.getByRole('button', { name: 'Abgeben', exact: true }).click();
+  await finishAssessment(page);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ergebnis AP1');
   await page.goto('./#/statistik');
   await expect(page.locator('#chart-areas')).toBeVisible();
@@ -176,4 +181,49 @@ test('an untouched order question stays unanswered when navigating away (regress
   const responses = await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.exam')).responses);
   expect(responses).toEqual({});
   await expect(page.locator('#answered-count')).toHaveText('0 von 2 beantwortet');
+});
+
+test('open tasks: answered in free text, assessed with the marking scheme after the hand-in, then graded', async ({ page }) => {
+  const problems = watchProblems(page);
+  await page.goto('./#/pruefung');
+  await expect(page.locator('.facts')).toContainText('Bewertungsraster');
+  await page.getByRole('button', { name: 'AP1 starten' }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(/^Frage 1 von \d+$/);
+  // Put a known open task (AP1, all jobs, with rubric) at position 1.
+  await page.evaluate(() => {
+    const exam = JSON.parse(localStorage.getItem('prueffit.exam'));
+    const ids = exam.parts[0].ids.filter((id) => id !== 'net-0015');
+    exam.parts[0].ids = ['net-0015', ...ids];
+    exam.responses = {};
+    localStorage.setItem('prueffit.exam', JSON.stringify(exam));
+  });
+  await page.reload();
+  await expect(page.locator('#exam-text')).toBeVisible();
+  await expect(page.locator('.rubric')).toHaveCount(0); // no marking scheme while the exam runs
+  await page.fill('#exam-text', 'Schicht 3 Vermittlung, Router');
+  await expect(page.locator('[data-nav="0"]')).toHaveClass(/is-answered/);
+  await page.reload();
+  await expect(page.locator('#exam-text')).toHaveValue('Schicht 3 Vermittlung, Router');
+
+  await page.getByRole('button', { name: 'AP1 abgeben' }).last().click();
+  await page.getByRole('button', { name: 'Abgeben', exact: true }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Offene Aufgaben bewerten');
+  await expect(page.locator('.own-answer')).toHaveText('Schicht 3 Vermittlung, Router');
+  // Not recorded before the assessment, also not after a reload.
+  await page.reload();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Offene Aufgaben bewerten');
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.v1')).exams?.length ?? 0)).toBe(0);
+  await page.locator('.rubric input[type="checkbox"]').first().check();
+  await expect(page.locator('.rubric-sum')).toHaveText(/^\d+(,\d+)? von 4 Punkten$/);
+  await expectNoHorizontalOverflow(page);
+  await page.getByRole('button', { name: 'Bewertung abschließen und Note anzeigen' }).click();
+
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ergebnis AP1');
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.v1')));
+  expect(stored.exams).toHaveLength(1);
+  expect(stored.answers['net-0015']).toMatchObject({ attempts: 1 });
+  const exam = await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.exam')));
+  expect(exam.responses['net-0015'].criteria).toEqual([0]);
+  await expect(page.locator('.result-list li').first()).toContainText(/\d+(,\d+)?\/4 P\./);
+  expect(problems).toEqual([]);
 });

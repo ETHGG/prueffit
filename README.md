@@ -4,7 +4,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 
 **Live:** https://ethgg.github.io/prueffit/
 
-## Funktionen (Version 2.1)
+## Funktionen (Version 2.2)
 
 - **Dein Beruf, deine Inhalte:** Beim ersten Start legst du einmal deinen Beruf fest. Danach zeigt PrüfFit überall nur, was in deiner AP1 und AP2 vorkommt – gegliedert nach AP1 (Prüfungskatalog ab 2025) und den AP2-Prüfungsbereichen deines Berufs. Der Beruf lässt sich später nicht ändern.
 
@@ -24,7 +24,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 - **Abkürzungsverzeichnis:** 277 Abkürzungen aus den Lernzetteln (je Beruf die, die in deinen Lernzetteln vorkommen) ausgeschrieben und erklärt, durchsuchbar und von A bis Z; jeder Lernzettel zeigt seine Abkürzungen.
 - **Lernzettel:** Zu jedem der 75 Themen ein kompakter Lernzettel mit Tabellen, Formeln und Merksätzen. Volltextsuche (unabhängig von Groß-/Kleinschreibung und Umlauten) mit hervorgehobenen Treffern, Filter nach Prüfungsbereich, Sprung direkt ins Quiz zum Thema.
 - **Start mit Lernplan:** Nach der Berufswahl fragt PrüfFit nach der nächsten Prüfung und schlägt den nächsten bundeseinheitlichen IHK-Termin vor (gilt auch für Sachsen-Anhalt). Die Startseite zeigt dann einen Countdown und wie viele offene Fragen pro Tag zu schaffen sind.
-- **Prüfungssimulation:** AP1 (90 Minuten) oder AP2 wie die echte Prüfung: zwei Prüfungsbereiche à 90 Minuten mit den offiziellen Namen des gewählten Berufs und Wirtschafts- und Sozialkunde (60 Minuten, 30 Fragen); einzelne Teile lassen sich auch allein üben. Mit Timer, der auch bei geschlossener App weiterläuft, automatischer Abgabe, Note nach IHK-Schlüssel Note pro Teil und Auswertung jeder Frage.
+- **Prüfungssimulation:** AP1 (90 Minuten) oder AP2 wie die echte Prüfung: zwei Prüfungsbereiche à 90 Minuten mit den offiziellen Namen des gewählten Berufs und Wirtschafts- und Sozialkunde (60 Minuten, 30 Fragen); einzelne Teile lassen sich auch allein üben. Offene Aufgaben (Freitext) bewertest du nach der Abgabe selbst mit dem Bewertungsraster. Mit Timer, der auch bei geschlossener App weiterläuft, automatischer Abgabe, Note nach IHK-Schlüssel Note pro Teil und Auswertung jeder Frage.
 - **Statistik:** Trefferquote und Versuche pro Thema mit Ampel (grün ab 80 %, gelb ab 50 %, rot darunter, grau unter 5 Versuchen), Themen nach Prüfungsbereich, Diagramme pro Fachbereich und für den Verlauf der Prüfungsergebnisse.
 - **Heute üben:** Die schwächsten Themen (oder noch ungeübte) werden vorgeschlagen und lassen sich direkt im Quiz üben.
 - **Inhalte:** 703 eigene Fragen, 201 Karteikarten, 76 Lernzettel in 76 Themen und 11 Bereichen: Netzwerke, Hardware, IT-Sicherheit, Wirtschaft, Projektmanagement, Programmierung, Recht, WiSo, Daten und Prozesse, Digitale Vernetzung, Elektrotechnik. Je Beruf sind es rund 410–490 Fragen (am meisten für KITS und FISI, abgeglichen mit den Ausbildungsverordnungen, siehe `docs/ABGLEICH.md`); jeder AP2-Prüfungsbereich beginnt mit einer Handlungssituation.

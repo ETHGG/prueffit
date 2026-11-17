@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.0] – 2026-11-17
+
+### Hinzugefügt
+- **Offene Aufgaben in der Prüfungssimulation:** Freitextaufgaben mit Bewertungsraster kommen jetzt auch in AP1 und den AP2-Prüfungsbereichen vor (nicht in WiSo, die ist wie in der echten Prüfung gebunden). Während der Prüfung schreibst du nur Stichpunkte; nach der letzten Abgabe bewertest du deine Antworten mit Musterlösung und Bewertungsraster, erst dann wird die Note berechnet und gespeichert.
+
+### Behoben
+- Startseite: Die Schritte von „Dein Plan für heute“ stehen bündig neben ihrer Nummer und sind ganz antippbar (mind. 44 px hoch).
+
 ## [2.1.1] – 2026-11-17
 
 ### Hinzugefügt

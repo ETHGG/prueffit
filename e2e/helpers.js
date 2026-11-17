@@ -100,3 +100,12 @@ export async function useJob(page, job) {
   await page.reload();
   await expect(page.locator('html[data-ready="1"]')).toBeAttached();
 }
+
+/** After the last hand-in: answered open tasks are assessed first (since 2.2); tick nothing and finish. */
+export async function finishAssessment(page) {
+  const h1 = page.getByRole('heading', { level: 1 });
+  await expect(h1).not.toHaveText(/^Frage \d+ von/);
+  if ((await h1.textContent()).trim() === 'Offene Aufgaben bewerten') {
+    await page.getByRole('button', { name: 'Bewertung abschließen und Note anzeigen' }).click();
+  }
+}
