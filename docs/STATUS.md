@@ -1,9 +1,14 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 1.0.0 (17.11.2026)
-**Roadmap:** Alle Phasen 0.1 bis 1.0 sind erledigt. Weitere Ideen werden als neue Phasen ergänzt.
+**Aktuelle Version:** 1.1.0 (17.11.2026)
+**Roadmap:** Alle Phasen 0.1 bis 1.1 sind erledigt. Weitere Ideen werden als neue Phasen ergänzt.
 
 ## Erledigt
+
+### 1.1
+- [x] 10 PDFs (alle Lernzettel, 8 Bereiche, Abkürzungsverzeichnis) in `pdf/`, erzeugt aus `print.html`
+- [x] Download-Links mit Größe in der Lernzettel-Ansicht, pro Lernzettel und im Abkürzungsverzeichnis
+- [x] Datentest erkennt veraltete PDFs; 464 Unit-Tests, 39 Browsertests × 4 Profile
 
 ### 1.0
 - [x] Quiz-Modus „Meine Fehler“ (`lastCorrect`, `mistakeIds`)

@@ -1,0 +1,83 @@
+/* PrüfFit – Druckansicht der Lernzettel (print.html, Vorlage der PDFs in pdf/) */
+
+@page { size: A4; margin: 16mm 15mm 18mm; }
+
+:root {
+  --ink: #12201f;
+  --muted: #55615f;
+  --line: #d5dedc;
+  --accent: #0f766e;
+  --tint: #e8f3f1;
+  --mark: #fff3bf;
+}
+
+* { box-sizing: border-box; }
+
+html { color-scheme: light; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: #fff;
+  font: 10.5pt/1.45 Inter, "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, "DejaVu Sans", sans-serif;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  hyphens: auto;
+}
+
+main { max-width: 180mm; margin: 0 auto; padding: 8mm 0; }
+@media print { main { padding: 0; max-width: none; } }
+
+h1, h2, h3, h4 { line-height: 1.2; break-after: avoid; }
+a { color: var(--accent); text-decoration: none; }
+
+/* Deckblatt */
+.cover { min-height: 230mm; display: flex; flex-direction: column; justify-content: center; break-after: page; }
+.cover-brand { color: var(--accent); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 10pt; margin: 0 0 6mm; }
+.cover h1 { font-size: 30pt; margin: 0 0 4mm; }
+.cover-sub { font-size: 14pt; color: var(--muted); margin: 0 0 10mm; }
+.cover-facts { list-style: none; padding: 0; margin: 0 0 auto; font-size: 11pt; }
+.cover-facts li { padding: 1.5mm 0; border-top: 1px solid var(--line); }
+.cover-facts li:last-child { border-bottom: 1px solid var(--line); }
+.cover-note { font-size: 9pt; color: var(--muted); margin: 0; }
+
+/* Inhaltsverzeichnis */
+.toc { break-after: page; }
+.toc h2 { font-size: 18pt; margin: 0 0 4mm; }
+.toc h3 { font-size: 11pt; color: var(--accent); margin: 5mm 0 1mm; }
+.toc ol { margin: 0; padding-left: 7mm; columns: 2; column-gap: 10mm; }
+.toc li { padding: .6mm 0; break-inside: avoid; }
+.toc a { color: inherit; }
+
+/* Ein Lernzettel pro Seite (lange gehen über mehrere Seiten) */
+.note-page { break-before: page; }
+.note-page:first-of-type { break-before: auto; }
+.note-meta { margin: 0 0 1mm; color: var(--accent); font-size: 8.5pt; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; }
+.note-page > h2 { font-size: 17pt; margin: 0 0 4mm; padding-bottom: 2mm; border-bottom: 2px solid var(--accent); }
+.note h2 { font-size: 12.5pt; margin: 5mm 0 2mm; color: var(--accent); }
+.note h3 { font-size: 11pt; margin: 4mm 0 1.5mm; }
+.note p { margin: 0 0 2mm; }
+.note ul, .note ol { margin: 0 0 2.5mm; padding-left: 6mm; }
+.note li { margin: .6mm 0; }
+.note code { font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace; font-size: 9pt; background: #f1f4f3; padding: 0 1mm; border-radius: 1mm; }
+.note pre { font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace; font-size: 8.5pt; line-height: 1.4; background: #f1f4f3; border: 1px solid var(--line); border-radius: 2mm; padding: 2.5mm 3mm; white-space: pre-wrap; break-inside: avoid; }
+.note pre code { background: none; padding: 0; }
+.note .table-scroll { overflow: visible; margin: 0 0 3mm; }
+.note table, .gloss-table { width: 100%; border-collapse: collapse; font-size: 9.5pt; break-inside: auto; }
+.note th, .note td, .gloss-table th, .gloss-table td { border: 1px solid var(--line); padding: 1.3mm 2mm; text-align: left; vertical-align: top; }
+.note th, .gloss-table th { background: var(--tint); font-weight: 700; }
+.note tr, .gloss-table tr { break-inside: avoid; }
+.note .note-tip { margin: 3mm 0; padding: 2.5mm 3.5mm; background: var(--tint); border-left: 3px solid var(--accent); border-radius: 1mm; break-inside: avoid; }
+.note .note-tip p:last-child { margin-bottom: 0; }
+mark { background: none; color: inherit; }
+.note-refs { margin-top: 4mm; font-size: 8.5pt; color: var(--muted); }
+
+/* Abkürzungsverzeichnis */
+.gloss-section { break-inside: auto; }
+.gloss-section + .gloss-section { margin-top: 5mm; }
+.gloss-section h2 { font-size: 15pt; color: var(--accent); margin: 0 0 2mm; }
+.gloss-table thead { display: table-header-group; }
+.gloss-abbr { font-weight: 800; white-space: nowrap; width: 24mm; }
+.gloss-abbr .alias { display: block; font-weight: 400; color: var(--muted); font-size: 8pt; white-space: normal; }
+.gloss-area { color: var(--muted); font-size: 8.5pt; width: 26mm; }
+.expl { color: var(--ink); }

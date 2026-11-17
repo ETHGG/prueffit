@@ -1,0 +1,56 @@
+{
+  "version": "1.1.0",
+  "sourceHash": "d6d1fc9894374127077742072ddacf46c0da1325dd7b197a41f51f85ceec6d07",
+  "files": [
+    {
+      "key": "alle",
+      "file": "lernzettel-alle.pdf",
+      "bytes": 1421276
+    },
+    {
+      "key": "Netzwerke",
+      "file": "lernzettel-netzwerke.pdf",
+      "bytes": 264930
+    },
+    {
+      "key": "Hardware",
+      "file": "lernzettel-hardware.pdf",
+      "bytes": 239858
+    },
+    {
+      "key": "IT-Sicherheit",
+      "file": "lernzettel-sicherheit.pdf",
+      "bytes": 224375
+    },
+    {
+      "key": "Wirtschaft",
+      "file": "lernzettel-wirtschaft.pdf",
+      "bytes": 336338
+    },
+    {
+      "key": "Projektmanagement",
+      "file": "lernzettel-projekt.pdf",
+      "bytes": 231154
+    },
+    {
+      "key": "Programmierung",
+      "file": "lernzettel-programmierung.pdf",
+      "bytes": 261034
+    },
+    {
+      "key": "Recht",
+      "file": "lernzettel-recht.pdf",
+      "bytes": 179162
+    },
+    {
+      "key": "WiSo",
+      "file": "lernzettel-wiso.pdf",
+      "bytes": 300130
+    },
+    {
+      "key": "abkuerzungen",
+      "file": "abkuerzungen.pdf",
+      "bytes": 562015
+    }
+  ]
+}

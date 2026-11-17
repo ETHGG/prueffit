@@ -15,9 +15,9 @@ test('Lernzettel: list by area, search with highlights, detail and back to the h
   await wiso.locator('summary').click();
   await expect(wiso.locator('.note-link').first()).toBeVisible();
   await page.getByRole('button', { name: 'Alle öffnen' }).click();
-  await expect(page.locator('details.fold:not([open])')).toHaveCount(0);
+  await expect(page.locator('.note-results details.fold:not([open])')).toHaveCount(0);
   await page.getByRole('button', { name: 'Alle schließen' }).click();
-  await expect(page.locator('details.fold[open]')).toHaveCount(0);
+  await expect(page.locator('.note-results details.fold[open]')).toHaveCount(0);
   await expectNoHorizontalOverflow(page);
 
   // Search ignores case and umlauts and highlights hits.
@@ -97,5 +97,31 @@ test('Abkürzungsverzeichnis: list A–Z, search, exact hit in the note search, 
   const abbr = page.locator('details.fold', { hasText: 'Abkürzungen in diesem Lernzettel' });
   await abbr.locator('summary').click();
   await expect(abbr.locator('.gloss-item', { hasText: 'Simple Mail Transfer Protocol' })).toBeVisible();
+  expect(problems).toEqual([]);
+});
+
+test('Lernzettel as PDF: download links with size, print view renders', async ({ page }) => {
+  const problems = watchProblems(page);
+  await page.goto('./#/lernzettel');
+  const card = page.locator('details.fold[data-fold="pdf"]');
+  await card.locator('summary').click();
+  await expect(card.locator('.pdf-link')).toHaveCount(10);
+  await expect(card.locator('.pdf-link').first()).toContainText(/Alle Lernzettel\s*PDF · [\d,]+ (KB|MB)/);
+  const download = page.waitForEvent('download');
+  await card.locator('.pdf-link', { hasText: 'Netzwerke' }).click();
+  const file = await download;
+  expect(file.suggestedFilename()).toBe('lernzettel-netzwerke.pdf');
+  const head = (await import('node:fs')).readFileSync(await file.path()).subarray(0, 5).toString();
+  expect(head).toBe('%PDF-');
+
+  await page.goto('./#/lernzettel/note-dienste');
+  await expect(page.locator('.note-pdf .pdf-link')).toHaveAttribute('href', './pdf/lernzettel-netzwerke.pdf');
+  await page.goto('./#/lernzettel/abkuerzungen');
+  await expect(page.locator('.pdf-link')).toHaveAttribute('href', './pdf/abkuerzungen.pdf');
+
+  await page.goto('./print.html?bereich=Netzwerke');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', '1');
+  await expect(page.locator('.cover h1')).toHaveText('Lernzettel Netzwerke');
+  await expect(page.locator('article.note-page')).toHaveCount(7);
   expect(problems).toEqual([]);
 });

@@ -6,11 +6,47 @@ import { AREAS } from '../config.js';
 import { parseMarkdown, parseInline, searchNotes, highlightParts } from '../notes.js';
 import { h, append } from './dom.js';
 import { fold, foldControls } from './fold.js';
+import { pdfList, pdfFileName, formatFileSize, PDF_DIR, PDF_GLOSSARY } from '../pdfs.js';
 import {
   GENERAL_AREA, searchGlossary, abbreviationsIn, lookupAbbreviation, initialOf, matchGlossary,
 } from '../glossary.js';
 
 export const GLOSSARY_ID = 'abkuerzungen';
+
+// ---------------------------------------------------------------- PDF-Downloads
+
+let pdfManifest = null; // { files: [{ file, bytes }] } once loaded
+
+/** Link that downloads one PDF; the size is filled in when pdf/manifest.json is available. */
+function pdfLink(key, label, { className = 'pdf-link' } = {}) {
+  const file = pdfFileName(key);
+  const size = h('span', { class: 'pdf-size muted small' });
+  const fill = () => {
+    const bytes = pdfManifest?.files?.find((f) => f.file === file)?.bytes;
+    size.textContent = bytes ? `PDF · ${formatFileSize(bytes)}` : 'PDF';
+  };
+  fill();
+  if (!pdfManifest) {
+    fetch(`${PDF_DIR}manifest.json`).then((r) => (r.ok ? r.json() : null)).then((m) => { if (m) { pdfManifest = m; fill(); } }).catch(() => {});
+  }
+  return h('a', { class: className, href: `${PDF_DIR}${file}`, download: file, type: 'application/pdf' },
+    h('span', { class: 'pdf-icon', 'aria-hidden': 'true', text: '⬇' }),
+    h('span', { class: 'pdf-label', text: label }),
+    size);
+}
+
+/** Collapsible card with all PDFs (Lernzettel list). */
+function pdfCard() {
+  const list = pdfList();
+  return fold('notes-pdf', 'pdf', {
+    summary: [
+      h('span', { class: 'fold-title', text: 'Als PDF herunterladen' }),
+      h('span', { class: 'fold-meta', text: 'Zum Ausdrucken oder für Goodnotes, je Bereich oder komplett' }),
+    ],
+  },
+  h('ul', { class: 'pdf-list' }, list.map((p) => h('li', {}, pdfLink(p.key, p.label)))),
+  h('p', { class: 'muted small' }, 'Die PDFs werden mit jeder neuen Version der App aktualisiert. Einmal geladen, sind sie auch offline verfügbar.'));
+}
 
 const ALL = '';
 
@@ -210,6 +246,7 @@ export function render(root, ctx) {
           h('span', { class: 'muted small', text: `${glossary.length} Abkürzungen ausgeschrieben, z. B. DHCP, KRITIS, GuV` }))
         : null),
     abbrHit,
+    pdfCard(),
     list);
   drawResults();
   return null;
@@ -248,6 +285,7 @@ function renderDetail(root, ctx, note, topicsById, route) {
     h('div', { class: 'button-row' },
       questions ? h('a', { class: 'button', href: `#/quiz?thema=${encodeURIComponent(note.topic)}` }, `${questions} Fragen üben`) : null,
       cards ? h('a', { class: 'button secondary', href: '#/karten' }, `${cards} Karteikarten`) : null),
+    topic ? h('p', { class: 'note-pdf' }, pdfLink(topic.area, `Alle Lernzettel ${topic.area}`, { className: 'pdf-link inline' })) : null,
     related.length
       ? h('section', { class: 'card', 'aria-labelledby': 'note-related' },
         h('h2', { id: 'note-related', text: `Mehr aus ${topic?.area}` }),
@@ -358,6 +396,7 @@ function renderGlossary(root, ctx, route) {
       h('label', { class: 'field' }, h('span', { text: 'Suchen' }), input),
       h('label', { class: 'field' }, h('span', { text: 'Bereich' }), areaSelect),
       count),
+    h('p', {}, pdfLink(PDF_GLOSSARY, 'Abkürzungsverzeichnis', { className: 'pdf-link inline' })),
     letters,
     list);
   draw();

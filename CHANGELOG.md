@@ -2,6 +2,19 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [1.1.0] – 2026-11-17
+
+### Hinzugefügt
+- **Lernzettel als PDF zum Herunterladen** (A4, mit Deckblatt, Inhaltsverzeichnis mit Links, Seitenzahlen; ein Lernzettel pro Seite):
+  - alle 59 Lernzettel in einer Datei (64 Seiten), je Bereich eine Datei und das Abkürzungsverzeichnis
+  - In „Lernzettel“ gibt es dafür den Bereich „Als PDF herunterladen“ mit Dateigröße; jeder Lernzettel verlinkt das PDF seines Bereichs, das Abkürzungsverzeichnis sein eigenes.
+  - Einmal geladene PDFs sind auch offline verfügbar.
+- Druckansicht `print.html` (daraus entstehen die PDFs; lässt sich auch direkt drucken).
+- `npm run pdfs` erzeugt die PDFs; ein Datentest meldet veraltete PDFs.
+
+### Geändert
+- Service Worker: Nur Aufrufe der App selbst werden mit der App-Hülle beantwortet; PDFs und die Druckansicht werden als eigene Dateien geladen.
+
 ## [1.0.0] – 2026-11-17
 
 ### Hinzugefügt

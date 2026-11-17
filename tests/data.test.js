@@ -308,3 +308,18 @@ describe('data/scenarios.json (AP2-Handlungssituationen)', () => {
     expect(problems).toEqual([]);
   });
 });
+
+describe('pdf/ (Lernzettel als PDF)', () => {
+  it('has every PDF from pdfList() and a manifest that matches the current notes (else: npm run pdfs)', async () => {
+    const { existsSync } = await import('node:fs');
+    const { pdfList } = await import('../js/pdfs.js');
+    const { pdfSourceHash } = await import('../scripts/pdf-hash.mjs');
+    const root = fileURLToPath(new URL('../', import.meta.url));
+    const manifest = JSON.parse(readFileSync(`${root}pdf/manifest.json`, 'utf8'));
+    for (const pdf of pdfList()) {
+      expect(existsSync(`${root}pdf/${pdf.file}`), pdf.file).toBe(true);
+      expect(manifest.files.find((f) => f.file === pdf.file)?.bytes).toBe(statSync(`${root}pdf/${pdf.file}`).size);
+    }
+    expect(manifest.sourceHash, 'PDFs sind veraltet – bitte „npm run pdfs“ ausführen').toBe(await pdfSourceHash(root));
+  });
+});

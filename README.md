@@ -18,6 +18,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 - **Meine Fehler:** Quiz nur mit den Fragen, die du zuletzt falsch beantwortet hast.
 - **AP2 mit Handlungssituationen:** Jeder Prüfungsbereich beginnt wie in der echten Prüfung mit einer Ausgangslage und zusammenhängenden Teilaufgaben.
 - **Sicherung:** Die App erinnert daran, den Fortschritt ab und zu als Datei zu sichern.
+- **Lernzettel als PDF:** alle Lernzettel, jeder Bereich und das Abkürzungsverzeichnis zum Herunterladen, Ausdrucken oder für Goodnotes.
 - **Abkürzungsverzeichnis:** 243 Abkürzungen aus den Lernzetteln ausgeschrieben und erklärt, durchsuchbar und von A bis Z; jeder Lernzettel zeigt seine Abkürzungen.
 - **Lernzettel:** Zu jedem der 59 Themen ein kompakter Lernzettel mit Tabellen, Formeln und Merksätzen. Volltextsuche (unabhängig von Groß-/Kleinschreibung und Umlauten) mit hervorgehobenen Treffern, Filter nach Bereich, Sprung direkt ins Quiz zum Thema.
 - **Start mit Lernplan:** Beim ersten Start fragt PrüfFit nach Beruf und nächster Prüfung und schlägt den nächsten bundeseinheitlichen IHK-Termin vor (gilt auch für Sachsen-Anhalt). Die Startseite zeigt dann einen Countdown und wie viele offene Fragen pro Tag zu schaffen sind.

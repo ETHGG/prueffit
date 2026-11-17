@@ -1,4 +1,34 @@
-# Abschlussbericht Version 1.0.0
+# Abschlussbericht Version 1.1.0
+
+**Datum:** 17.11.2026 · **Live:** https://ethgg.github.io/prueffit/
+
+Auftrag: Die Lernzettel als PDF in der App zum Herunterladen anbieten.
+
+## Was umgesetzt wurde
+
+| Bereich | Umsetzung |
+|---|---|
+| Druckansicht | `print.html` + `js/ui/printView.js` + `css/print.css`: Deckblatt, Inhaltsverzeichnis mit Links, ein Lernzettel pro Seite, Tabellen und Merksätze im Druckstil; Abkürzungsverzeichnis als Tabelle A–Z |
+| PDFs | `scripts/build-pdfs.mjs` (`npm run pdfs`) rendert die Druckansicht mit Chromium (Playwright, schon Dev-Abhängigkeit) zu 10 PDFs in `pdf/`, mit Seitenzahlen, PDF-Lesezeichen und Tags (Barrierefreiheit) |
+| App | Lernzettel: aufklappbarer Bereich „Als PDF herunterladen“ (10 Dateien mit Größe); jeder Lernzettel verlinkt das PDF seines Bereichs; Abkürzungsverzeichnis verlinkt sein PDF |
+| Offline | PDFs werden beim ersten Herunterladen im Service-Worker-Cache gespeichert (nicht vorab, um die Installation klein zu halten) |
+| Qualität | `pdf/manifest.json` enthält eine Prüfsumme der Quellen; `data.test.js` schlägt fehl, wenn PDFs nach Änderungen an Lernzetteln, Abkürzungen, Druckansicht oder Version nicht neu erzeugt wurden |
+
+Größen: alle Lernzettel 1,4 MB (64 Seiten), je Bereich 0,2–0,3 MB, Abkürzungsverzeichnis 0,6 MB.
+
+## Annahmen
+
+- Die PDFs werden beim Entwickeln erzeugt und eingecheckt (GitHub Pages hat keinen Build-Schritt).
+- Keine neue Laufzeit-Abhängigkeit; Playwright war bereits Dev-Abhängigkeit für die Browsertests.
+- Abkürzungen sind im PDF nicht antippbar (Papier); dafür gibt es das Abkürzungsverzeichnis als eigenes PDF.
+
+## Offene Punkte
+
+- Release-Einträge auf GitHub für 0.8 bis 1.1 (Browser war nicht verbunden).
+
+---
+
+# Abschlussbericht Version 1.0.0 (vorherige Phase)
 
 **Datum:** 17.11.2026 · **Live:** https://ethgg.github.io/prueffit/
 

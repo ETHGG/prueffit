@@ -1,7 +1,7 @@
 // PrüfFit service worker: precaches all app files for offline use.
 // Bump CACHE_NAME with every release (keep in sync with package.json and js/config.js).
 
-const CACHE_NAME = 'prueffit-v1.0.0';
+const CACHE_NAME = 'prueffit-v1.1.0';
 const CACHE_PREFIX = 'prueffit-';
 
 // All paths relative to the service worker scope (works under /prueffit/ on GitHub Pages).
@@ -18,6 +18,7 @@ const ASSETS = [
   './js/questions.js',
   './js/notes.js',
   './js/glossary.js',
+  './js/pdfs.js',
   './js/quiz.js',
   './js/schedule.js',
   './js/stats.js',
@@ -37,6 +38,9 @@ const ASSETS = [
   './js/ui/fold.js',
   './js/ui/backup.js',
   './js/ui/scenario.js',
+  './js/ui/printView.js',
+  './print.html',
+  './css/print.css',
   './js/ui/suggestions.js',
   './js/ui/welcome.js',
   './data/topics.json',
@@ -99,8 +103,10 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Navigations (also "#/quiz" etc.) are answered with the cached app shell.
-  if (request.mode === 'navigate') {
+  // Navigations to the app (also "#/quiz" etc.) are answered with the cached app shell.
+  // Other documents (print.html, PDF downloads in pdf/) are handled below like any other file.
+  const isAppShell = url.pathname.endsWith('/') || url.pathname.endsWith('/index.html');
+  if (request.mode === 'navigate' && isAppShell) {
     event.respondWith(
       caches.match('./index.html', { cacheName: CACHE_NAME })
         .then((cached) => cached ?? fetch(request)),

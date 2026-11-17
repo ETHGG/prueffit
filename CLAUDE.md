@@ -57,6 +57,7 @@ Diese Datei ist die zentrale Arbeitsanweisung für Claude Code. Lies sie **vor j
 ```
 prueffit/
 ├── index.html
+├── print.html                # Druckansicht der Lernzettel (Vorlage der PDFs)
 ├── manifest.webmanifest
 ├── sw.js                     # Service Worker
 ├── .nojekyll
@@ -67,7 +68,12 @@ prueffit/
 ├── CHANGELOG.md
 ├── README.md
 ├── css/
-│   └── styles.css
+│   ├── styles.css
+│   └── print.css             # Layout der PDFs (A4)
+├── pdf/                      # Lernzettel als PDF + manifest.json (erzeugt, mit eingecheckt)
+├── scripts/
+│   ├── build-pdfs.mjs        # npm run pdfs: PDFs aus print.html erzeugen (Playwright)
+│   └── pdf-hash.mjs          # Prüfsumme der PDF-Quellen
 ├── icons/                    # PWA-Icons 192/512, apple-touch-icon 180
 ├── vendor/
 │   └── chart.umd.min.js
@@ -101,12 +107,14 @@ prueffit/
 │   ├── schedule.js           # Prüfungstermine, Countdown, Lernplan
 │   ├── notes.js              # Lernzettel: Markdown-Teilumfang, Suche
 │   ├── glossary.js           # Abkürzungsverzeichnis: Suche, Fundstellen in Lernzetteln
+│   ├── pdfs.js               # Liste und Dateinamen der Lernzettel-PDFs
 │   └── ui/
 │       ├── home.js
 │       ├── quizView.js
 │       ├── fold.js           # aufklappbare Bereiche (details)
 │       ├── backup.js         # Erinnerung an die Datensicherung
 │       ├── scenario.js       # Box „Ausgangssituation“
+│       ├── printView.js      # rendert print.html
 │       ├── notesView.js
 │       ├── cardsView.js
 │       ├── statsView.js
@@ -273,7 +281,10 @@ npm install          # Dev-Abhängigkeiten (Vitest, jsdom)
 npm test             # Alle Tests einmal ausführen
 npm run test:watch   # Tests im Watch-Modus
 npx serve .          # Lokaler Testserver (oder: python -m http.server 8080)
+npm run pdfs         # Lernzettel-PDFs in pdf/ neu erzeugen
 ```
+
+**PDFs aktuell halten:** Nach jeder Änderung an `data/notes/`, `data/topics.json`, `data/glossary.json`, der Druckansicht oder der Version `npm run pdfs` ausführen und `pdf/` mit committen. `data.test.js` vergleicht die Prüfsumme in `pdf/manifest.json` mit den Quellen und schlägt sonst fehl.
 
 Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.gitignore`.
 
@@ -292,6 +303,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type`, ein Lernzettel pro Thema |
 | `notes.test.js` | Markdown-Teilumfang, Suche (Umlaute, UND-Verknüpfung, Ranking), Hervorhebung |
 | `glossary.test.js` | Fundstellen (ganze Wörter, längste zuerst, Aliase), Suche, Gruppierung A–Z, Abkürzungs-Karteikarten |
+| `pdfs.test.js` | Dateinamen, Reihenfolge der Lernzettel, Dateigrößen-Anzeige (Aktualität der PDFs prüft `data.test.js`) |
 
 **Regel:** Jede neue Funktion in einem Logik-Modul bekommt mindestens einen Test. Bugs werden zuerst mit einem fehlschlagenden Test reproduziert, dann behoben.
 
@@ -311,6 +323,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **0.8** | UI für den Mehrinhalt: aufklappbare Bereiche (Quiz, Statistik, Lernzettel), Karten-Durchgänge, Lernzettel-Suche auf der Startseite | erledigt |
 | **0.9** | Abkürzungsverzeichnis (242 Abkürzungen) mit Suche, A–Z-Sprungleiste und Abkürzungen je Lernzettel | erledigt |
 | **1.0** | „Meine Fehler“, Abkürzungen als Karteikarten und antippbar, AP2-Handlungssituationen, Fragen ausgebaut (473), unabhängige Fachprüfung, Erinnerung an die Datensicherung (Schema 5) | erledigt |
+| **1.1** | Lernzettel als PDF zum Herunterladen (je Bereich, komplett, Abkürzungsverzeichnis), Druckansicht | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 
