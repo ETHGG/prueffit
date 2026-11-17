@@ -322,7 +322,7 @@ describe('restoreExam', () => {
   });
   it('still accepts a running exam stored by version 0.4 (state version 1)', () => {
     const exam = createExam({ exam: 'AP2', pool, now: t0 });
-    const old = { ...exam, v: 1, parts: exam.parts.map(({ id, ...p }) => p) };
+    const old = { ...exam, v: 1, parts: exam.parts.map((p) => { const copy = { ...p }; delete copy.id; return copy; }) };
     delete old.job;
     expect(restoreExam(JSON.parse(JSON.stringify(old)), pool)).toEqual(old);
   });
