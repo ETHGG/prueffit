@@ -171,6 +171,11 @@ describe('loadCatalog', () => {
   const files = {
     './data/topics.json': topics,
     './data/questions/netzwerke.json': [base, { ...base, id: 'net-0002', topic: 'gibts.nicht' }],
+    './data/flashcards/netzwerke.json': [
+      { id: 'fc-1', topic: 'netzwerke.subnetting', front: 'a', back: 'b' },
+      { id: 'fc-1', topic: 'netzwerke.subnetting', front: 'c', back: 'd' },
+      { id: 'fc-2', topic: 'nope', front: 'a', back: 'b' },
+    ],
   };
   const fakeFetch = async (url) => {
     if (!(url in files)) return { ok: false, status: 404, json: async () => { throw new Error('404'); } };
@@ -184,6 +189,13 @@ describe('loadCatalog', () => {
     expect(res.errors.join()).toMatch(/net-0002/);
   });
 
+  it('loads valid flashcards and skips duplicates and invalid ones', async () => {
+    const res = await loadCatalog(fakeFetch, { areas: ['netzwerke'] });
+    expect(res.flashcards.map((c) => c.id)).toEqual(['fc-1']);
+    expect(res.errors.join()).toMatch(/fc-2/);
+    expect(res.errors.join()).toMatch(/fc-1: ID ist nicht eindeutig/);
+  });
+
   it('reports missing files instead of throwing', async () => {
     const res = await loadCatalog(fakeFetch, { areas: ['netzwerke', 'recht'] });
     expect(res.questions).toHaveLength(1);
@@ -194,6 +206,7 @@ describe('loadCatalog', () => {
     const res = await loadCatalog(async () => { throw new TypeError('offline'); }, { areas: ['netzwerke'] });
     expect(res.topics).toEqual([]);
     expect(res.questions).toEqual([]);
+    expect(res.flashcards).toEqual([]);
     expect(res.errors.length).toBeGreaterThan(0);
   });
 });

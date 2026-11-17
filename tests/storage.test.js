@@ -5,6 +5,7 @@ import {
   loadState,
   saveState,
   recordAnswer,
+  recordCardReview,
   resetProgress,
 } from '../js/storage.js';
 import { STORAGE_KEY, SCHEMA_VERSION, CORRUPT_BACKUP_KEY } from '../js/config.js';
@@ -166,6 +167,22 @@ describe('recordAnswer', () => {
     expect(s0.answers).toEqual({});
     expect(s1.answers['net-0001']).toEqual({ attempts: 1, correct: 1, lastAt: '2026-11-17T09:30:00.000Z' });
     expect(s2.answers['net-0001']).toEqual({ attempts: 2, correct: 1, lastAt: '2026-11-17T09:30:00.000Z' });
+  });
+});
+
+describe('recordCardReview', () => {
+  it('moves a card through the Leitner boxes without mutating the input', () => {
+    const s0 = createDefaultState();
+    const s1 = recordCardReview(s0, 'fc-0001', true, '2026-11-17');
+    const s2 = recordCardReview(s1, 'fc-0001', false, '2026-11-19');
+    expect(s0.cards).toEqual({});
+    expect(s1.cards['fc-0001']).toEqual({ box: 2, nextDue: '2026-11-19' });
+    expect(s2.cards['fc-0001']).toEqual({ box: 1, nextDue: '2026-11-20' });
+  });
+  it('keeps card progress through save and load', () => {
+    const store = memoryStorage();
+    saveState(store, recordCardReview(createDefaultState(), 'fc-0002', true, '2026-12-31'));
+    expect(loadState(store).state.cards['fc-0002']).toEqual({ box: 2, nextDue: '2027-01-02' });
   });
 });
 

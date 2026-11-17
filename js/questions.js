@@ -212,8 +212,8 @@ async function fetchJson(fetchFn, url) {
 }
 
 /**
- * Loads topics and all question files. Never throws; problems are listed in `errors`.
- * Invalid questions are skipped.
+ * Loads topics, all question files and all flashcard files. Never throws;
+ * problems are listed in `errors`. Invalid questions and cards are skipped.
  */
 export async function loadCatalog(fetchFn, { base = DATA_BASE, areas = AREAS.map((a) => a.id) } = {}) {
   const errors = [];
@@ -227,7 +227,7 @@ export async function loadCatalog(fetchFn, { base = DATA_BASE, areas = AREAS.map
     }
   } catch (e) {
     errors.push(`topics.json: ${e.message}`);
-    return { topics: [], questions: [], errors };
+    return { topics: [], questions: [], flashcards: [], errors };
   }
 
   const topicIds = new Set(topics.map((t) => t.id));
@@ -258,5 +258,27 @@ export async function loadCatalog(fetchFn, { base = DATA_BASE, areas = AREAS.map
     }
   });
 
-  return { topics, questions, errors };
+  const flashcards = [];
+  const cardResults = await Promise.allSettled(
+    areas.map((area) => fetchJson(fetchFn, `${base}flashcards/${area}.json`)),
+  );
+  const seenCards = new Set();
+  cardResults.forEach((r, i) => {
+    if (r.status === 'rejected' || !Array.isArray(r.value)) {
+      errors.push(`flashcards/${areas[i]}.json: ${r.status === 'rejected' ? (r.reason?.message ?? r.reason) : 'kein Array'}`);
+      return;
+    }
+    for (const card of r.value) {
+      const cErrors = validateFlashcard(card, topicIds);
+      if (!cErrors.length && seenCards.has(card.id)) cErrors.push('ID ist nicht eindeutig');
+      if (cErrors.length) {
+        errors.push(`${card?.id ?? '?'}: ${cErrors.join('; ')}`);
+        continue;
+      }
+      seenCards.add(card.id);
+      flashcards.push(card);
+    }
+  });
+
+  return { topics, questions, flashcards, errors };
 }

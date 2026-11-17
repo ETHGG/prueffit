@@ -8,6 +8,7 @@ import {
   CORRUPT_BACKUP_KEY,
   DEFAULT_SETTINGS,
 } from './config.js';
+import { reviewCard } from './leitner.js';
 
 const THEMES = ['auto', 'light', 'dark'];
 
@@ -182,6 +183,14 @@ export function recordAnswer(state, questionId, isCorrect, now = new Date()) {
         lastAt: now.toISOString(),
       },
     },
+  };
+}
+
+/** Returns a new state with the Leitner review of `cardId` recorded (CLAUDE.md 6.1). */
+export function recordCardReview(state, cardId, known, today) {
+  return {
+    ...state,
+    cards: { ...state.cards, [cardId]: reviewCard(state.cards[cardId], known, today) },
   };
 }
 
