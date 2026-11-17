@@ -4,6 +4,10 @@ import {
   gradeForPercent,
   gradeExam,
   EXAM_TYPES,
+  AP2_BLUEPRINTS,
+  examParts,
+  questionFitsPart,
+  previewExam,
   EXAM_QUESTION_TYPES,
   selectExamQuestions,
   createExam,
@@ -96,9 +100,35 @@ const plus = (ms) => new Date(t0.getTime() + ms);
 const MIN = 60_000;
 
 describe('exam configuration', () => {
-  it('AP1: one part of 90 minutes; AP2: two parts of 90 minutes', () => {
+  it('AP1: one part of 90 minutes; AP2: two parts of 90 minutes plus WiSo with 60 minutes', () => {
     expect(EXAM_TYPES.AP1.parts.map((p) => p.minutes)).toEqual([90]);
-    expect(EXAM_TYPES.AP2.parts.map((p) => p.minutes)).toEqual([90, 90]);
+    expect(EXAM_TYPES.AP2.parts.map((p) => p.minutes)).toEqual([90, 90, 60]);
+    expect(EXAM_TYPES.AP2.parts[2]).toMatchObject({ id: 'wiso', count: 30 });
+  });
+  it('has an AP2 blueprint for every apprenticeship with the official part names', () => {
+    expect(Object.keys(AP2_BLUEPRINTS).sort()).toEqual(['alle', 'fiae', 'fisi', 'itsm']);
+    for (const parts of Object.values(AP2_BLUEPRINTS)) {
+      expect(parts.map((p) => p.id)).toEqual(['ga1', 'ga2', 'wiso']);
+      expect(parts.map((p) => p.minutes)).toEqual([90, 90, 60]);
+    }
+    expect(examParts('AP2', 'fisi').map((p) => p.title)).toEqual([
+      'Konzeption und Administration von IT-Systemen', 'Analyse und Entwicklung von Netzwerken', 'Wirtschafts- und Sozialkunde']);
+    expect(examParts('AP2', 'itsm')[1].title).toBe('Kaufmännische Unterstützungsprozesse');
+    expect(examParts('AP2', 'fiae')[1].title).toBe('Entwicklung und Umsetzung von Algorithmen');
+    expect(examParts('AP2', 'alle')).toBe(EXAM_TYPES.AP2.parts);
+    expect(examParts('AP2', 'unbekannt')).toBe(EXAM_TYPES.AP2.parts);
+    expect(examParts('AP1', 'fisi')).toBe(EXAM_TYPES.AP1.parts);
+    expect(() => examParts('AP3')).toThrow();
+  });
+  it('matches parts by area or exact topic and honours exclusions', () => {
+    const part = { topics: ['netzwerke', 'sicherheit.mail'] };
+    expect(questionFitsPart({ topic: 'netzwerke.vlan' }, part)).toBe(true);
+    expect(questionFitsPart({ topic: 'sicherheit.mail' }, part)).toBe(true);
+    expect(questionFitsPart({ topic: 'sicherheit.backup' }, part)).toBe(false);
+    expect(questionFitsPart({ topic: 'netzwerkeX.a' }, part)).toBe(false);
+    expect(questionFitsPart({ topic: 'wiso.umwelt' }, { exclude: ['wiso'] })).toBe(false);
+    expect(questionFitsPart({ topic: 'recht.datenschutz' }, { exclude: ['wiso'] })).toBe(true);
+    expect(questionFitsPart({ topic: 'recht.datenschutz' }, {})).toBe(true);
   });
   it('excludes self-assessed text questions', () => {
     expect(EXAM_QUESTION_TYPES).not.toContain('text');
@@ -114,6 +144,10 @@ describe('selectExamQuestions', () => {
     expect(points - picked[picked.length - 1].points).toBeLessThan(50); // stops as soon as reached
     expect(new Set(picked.map((q) => q.id)).size).toBe(picked.length);
     expect(new Set(picked.map((q) => q.topic)).size).toBe(3);
+  });
+  it('can stop after a number of questions instead of points', () => {
+    expect(selectExamQuestions(pool, { count: 7 }, createSeededRandom(1))).toHaveLength(7);
+    expect(selectExamQuestions(pool.slice(0, 4), { count: 30 }, createSeededRandom(1))).toHaveLength(4);
   });
   it('returns everything if the pool is too small', () => {
     expect(selectExamQuestions(pool.slice(0, 3), 100, createSeededRandom(1))).toHaveLength(3);
@@ -138,6 +172,48 @@ describe('createExam / timer', () => {
     const byId = new Map(pool.map((q) => [q.id, q]));
     expect(ids.every((id) => byId.get(id).exam.includes('AP2'))).toBe(true);
     expect(exam.parts[1].startedAt).toBeNull();
+  });
+
+  it('leaves out parts without matching questions (no WiSo questions in this pool)', () => {
+    const exam = createExam({ exam: 'AP2', pool, now: t0, random: createSeededRandom(3) });
+    expect(exam.parts.map((p) => p.id)).toEqual(['ga1', 'ga2']);
+    expect(exam.job).toBeNull();
+  });
+
+  it('builds the WiSo part from WiSo questions only, with up to 30 questions and 60 minutes', () => {
+    const wiso = Array.from({ length: 40 }, (_, i) => ({ ...pool[1], id: `w${i}`, topic: 'wiso.ausbildung', exam: ['AP2'] }));
+    const exam = createExam({ exam: 'AP2', job: 'fisi', pool: [...pool, ...wiso], now: t0, random: createSeededRandom(4) });
+    const wisoPart = exam.parts.find((p) => p.id === 'wiso');
+    expect(wisoPart).toMatchObject({ title: 'Wirtschafts- und Sozialkunde', minutes: 60 });
+    expect(wisoPart.ids).toHaveLength(30);
+    expect(wisoPart.ids.every((id) => id.startsWith('w'))).toBe(true);
+    expect(exam.parts.filter((p) => p.id !== 'wiso').flatMap((p) => p.ids).some((id) => id.startsWith('w'))).toBe(false);
+    expect(exam.job).toBe('fisi');
+  });
+
+  it('follows the topics of the apprenticeship blueprint', () => {
+    const mk = (topic, n) => Array.from({ length: n }, (_, i) => ({ ...pool[1], id: `${topic}-${i}`, topic, exam: ['AP2'] }));
+    const all = [...mk('netzwerke.vlan', 30), ...mk('hardware.raid', 30), ...mk('wirtschaft.kalkulation', 30)];
+    const exam = createExam({ exam: 'AP2', job: 'fisi', pool: all, now: t0, random: createSeededRandom(5) });
+    const [ga1, ga2] = exam.parts;
+    expect(ga1.ids.every((id) => id.startsWith('hardware'))).toBe(true);
+    expect(ga2.ids.every((id) => id.startsWith('netzwerke'))).toBe(true);
+    expect(exam.parts.flatMap((p) => p.ids).some((id) => id.startsWith('wirtschaft'))).toBe(false);
+  });
+
+  it('can run single parts only (e.g. WiSo practice)', () => {
+    const wiso = Array.from({ length: 10 }, (_, i) => ({ ...pool[1], id: `w${i}`, topic: 'wiso.ausbildung', exam: ['AP2'] }));
+    const exam = createExam({ exam: 'AP2', job: 'itsm', partIds: ['wiso'], pool: [...pool, ...wiso], now: t0 });
+    expect(exam.parts.map((p) => p.id)).toEqual(['wiso']);
+    expect(exam.parts[0].startedAt).toBe(t0.toISOString());
+    expect(() => createExam({ exam: 'AP2', partIds: ['gibt-es-nicht'], pool, now: t0 })).toThrow();
+  });
+
+  it('previews the number of questions per part without side effects', () => {
+    const preview = previewExam({ exam: 'AP2', pool });
+    expect(preview.map((p) => p.id)).toEqual(['ga1', 'ga2']);
+    expect(preview.every((p) => p.questions > 0)).toBe(true);
+    expect(previewExam({ exam: 'AP3', pool })).toEqual([]);
   });
 
   it('counts down from the stored start time (keeps running while the app is closed)', () => {
@@ -214,6 +290,24 @@ describe('evaluateExam', () => {
       date: plus(10 * MIN).toISOString(), exam: 'AP1', points: ev.points, max, percent: ev.percent, grade: ev.grade,
     });
   });
+
+  it('grades every AP2 part separately and stores job and part results', () => {
+    // this pool has no topics of the FIAE blueprint at all
+    expect(() => createExam({ exam: 'AP2', job: 'fiae', pool, now: t0 })).toThrow();
+    let exam = createExam({ exam: 'AP2', pool, now: t0, random: createSeededRandom(6) });
+    for (const id of exam.parts[0].ids) exam = setResponse(exam, id, 0); // all correct
+    exam = submitPart(exam, plus(MIN));
+    exam = startPart(exam, plus(2 * MIN));
+    exam = submitPart(exam, plus(3 * MIN)); // part 2 empty
+    const ev = evaluateExam(exam, pool);
+    expect(ev.parts[0]).toMatchObject({ id: 'ga1', percent: 100, grade: 1 });
+    expect(ev.parts[1]).toMatchObject({ id: 'ga2', percent: 0, grade: 6 });
+    expect(ev.record.parts).toEqual([
+      { title: 'Ganzheitliche Aufgabe 1', percent: 100, grade: 1 },
+      { title: 'Ganzheitliche Aufgabe 2', percent: 0, grade: 6 },
+    ]);
+    expect(ev.record.job).toBeUndefined();
+  });
 });
 
 describe('restoreExam', () => {
@@ -225,5 +319,11 @@ describe('restoreExam', () => {
       { ...exam, part: 5 }, { ...exam, parts: [{ ...exam.parts[0], startedAt: 'gestern' }, exam.parts[1]] }]) {
       expect(restoreExam(bad, pool)).toBeNull();
     }
+  });
+  it('still accepts a running exam stored by version 0.4 (state version 1)', () => {
+    const exam = createExam({ exam: 'AP2', pool, now: t0 });
+    const old = { ...exam, v: 1, parts: exam.parts.map(({ id, ...p }) => p) };
+    delete old.job;
+    expect(restoreExam(JSON.parse(JSON.stringify(old)), pool)).toEqual(old);
   });
 });

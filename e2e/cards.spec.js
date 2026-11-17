@@ -4,7 +4,7 @@ import { watchProblems, expectNoHorizontalOverflow } from './helpers.js';
 test('flashcards: learn, flip, known / not known, boxes update', async ({ page }) => {
   const problems = watchProblems(page);
   await page.goto('./#/karten');
-  const total = await page.evaluate(async () => (await Promise.all(['netzwerke', 'hardware', 'sicherheit', 'wirtschaft', 'projekt', 'programmierung', 'recht']
+  const total = await page.evaluate(async () => (await Promise.all(['netzwerke', 'hardware', 'sicherheit', 'wirtschaft', 'projekt', 'programmierung', 'recht', 'wiso']
     .map((a) => fetch(`./data/flashcards/${a}.json`).then((r) => r.json())))).flat().length);
   await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: ${total}`);
 

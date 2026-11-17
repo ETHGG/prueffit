@@ -3,7 +3,7 @@
 import { BOX_INTERVALS, todayInBerlin, dueCards, boxCounts, nextDueDay } from '../leitner.js';
 import { recordCardReview } from '../storage.js';
 import { issueUrl } from '../questions.js';
-import { h, formatDay } from './dom.js';
+import { h, formatDay, append } from './dom.js';
 
 const INTERVAL_LABELS = { 1: 'täglich', 2: 'alle 2 Tage', 3: 'alle 4 Tage', 4: 'jede Woche', 5: 'alle 2 Wochen' };
 const ALL = 'alle';
@@ -15,7 +15,7 @@ let session = null; // { cards, index, flipped, known, unknown }
 export function render(root, ctx) {
   const { flashcards, topics } = ctx.catalog;
   if (!flashcards?.length) {
-    root.append(
+    append(root, 
       h('h1', { text: 'Karteikarten' }),
       h('div', { class: 'card' }, h('p', { text: 'Es sind keine Karteikarten verfügbar. Bitte prüfe deine Internetverbindung und lade die App neu.' })),
     );
@@ -57,7 +57,7 @@ function drawOverview(root, ctx, draw, topicById) {
   h('option', { value: ALL, selected: area === ALL }, 'Alle Bereiche'),
   areas.map((a) => h('option', { value: a, selected: area === a }, a)));
 
-  root.append(
+  append(root, 
     h('h1', { text: 'Karteikarten' }),
     h('section', { class: 'card', 'aria-labelledby': 'cards-due' },
       h('div', { class: 'field' },
@@ -126,7 +126,7 @@ function drawCard(root, ctx, draw, topicById) {
     draw();
   };
 
-  root.append(
+  append(root, 
     h('div', { class: 'row' },
       h('h1', { class: 'grow', tabindex: '-1', text: `Karte ${session.index + 1} von ${total}` }),
       h('button', { type: 'button', class: 'link-button', onClick: stop }, 'Beenden')),
@@ -163,7 +163,7 @@ function drawDone(root, ctx, draw, topicById) {
   const remaining = dueCards(cardsInArea(ctx, topicById), ctx.progress.cards, today).length;
   const reviewed = session.known + session.unknown;
 
-  root.append(
+  append(root, 
     h('h1', { tabindex: '-1', text: remaining ? 'Pause' : 'Geschafft!' }),
     h('section', { class: 'card center' },
       h('div', { class: 'score-big', text: String(reviewed) }),

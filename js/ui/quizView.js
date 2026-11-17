@@ -11,7 +11,7 @@ import { keywordHits } from '../grading.js';
 import {
   createUi, isValidUi, readResponse, isIncomplete, missingInputMessage, correctAnswerText, renderInput,
 } from './questionInputs.js';
-import { h, formatNumber, formatPercent, DIFFICULTY_LABELS } from './dom.js';
+import { h, formatNumber, formatPercent, DIFFICULTY_LABELS, append } from './dom.js';
 
 // Kept in memory while the app is open, so switching tabs does not lose a running quiz.
 const setup = { exam: 'alle', topics: null, difficulties: [1, 2, 3], size: DEFAULT_QUIZ_SIZE, job: ALL_JOBS };
@@ -62,7 +62,7 @@ function criteria() {
 export function render(root, ctx) {
   const { questions, topics } = ctx.catalog;
   if (!questions.length) {
-    root.append(
+    append(root, 
       h('h1', { text: 'Quiz' }),
       h('div', { class: 'card' }, h('p', { text: 'Es sind keine Fragen verfügbar. Bitte prüfe deine Internetverbindung und lade die App neu.' })),
     );
@@ -222,7 +222,7 @@ function drawSetup(root, ctx, draw) {
   h('div', { class: 'sticky-actions' }, availableEl, startBtn));
 
   const job = JOBS.find((j) => j.id === setup.job);
-  root.append(
+  append(root, 
     h('h1', { text: 'Quiz' }),
     h('p', { class: 'muted' }, 'Stell dir dein Quiz zusammen. Die Fragen werden zufällig gezogen.'),
     h('p', { class: 'small job-line' },
@@ -367,7 +367,7 @@ function drawQuestion(root, ctx, draw, topicById) {
   };
 
   const done = quiz.index + (answered ? 1 : 0);
-  root.append(
+  append(root, 
     h('div', { class: 'row' },
       h('h1', { class: 'grow', text: `Frage ${quiz.index + 1} von ${total}` }),
       h('button', { type: 'button', class: 'link-button', onClick: abort }, 'Quiz abbrechen')),
@@ -415,7 +415,7 @@ function drawSummary(root, ctx, draw, topicById) {
           `${topicById.get(q.topic)?.name ?? q.topic} · ${formatNumber(r?.points ?? 0)}/${formatNumber(q.points)} Punkte`)));
   });
 
-  root.append(
+  append(root, 
     h('h1', { text: 'Auswertung' }),
     h('section', { class: 'card center' },
       h('div', { class: 'score-big' }, formatPercent(s.percent / 100)),

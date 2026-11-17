@@ -70,23 +70,63 @@ test('time runs while the app is closed and the exam is handed in automatically'
   expect(Date.parse(exam.parts[0].submittedAt) - Date.parse(exam.parts[0].startedAt)).toBe(90 * 60_000);
 });
 
-test('AP2: two parts, part 2 starts only on request', async ({ page }) => {
+async function handIn(page, title) {
+  await page.getByRole('button', { name: `${title} abgeben` }).last().click();
+  await page.getByRole('button', { name: 'Abgeben', exact: true }).click();
+}
+
+test('AP2: three parts like the real exam, each further part starts only on request, grade per part', async ({ page }) => {
+  const problems = watchProblems(page);
   await page.goto('./#/pruefung');
   await page.locator('label', { hasText: /^AP2$/ }).click();
+  await expect(page.locator('.exam-parts li')).toHaveCount(3);
+  await expect(page.locator('.exam-parts')).toContainText('Wirtschafts- und Sozialkunde · 60 Minuten · 30 Fragen');
   await page.getByRole('button', { name: 'AP2 starten' }).click();
-  await expect(page.locator('.exam-title')).toHaveText('AP2 · Teil 1');
+  await expect(page.locator('.exam-title')).toHaveText('AP2 · Ganzheitliche Aufgabe 1');
   await answerExamQuestion(page);
-  await page.getByRole('button', { name: 'Teil 1 abgeben' }).last().click();
-  await page.getByRole('button', { name: 'Abgeben', exact: true }).click();
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Teil 1 abgegeben');
+  await handIn(page, 'Ganzheitliche Aufgabe 1');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ganzheitliche Aufgabe 1 abgegeben');
   await page.reload();
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Teil 1 abgegeben');
-  await page.getByRole('button', { name: 'Teil 2 starten' }).click();
-  await expect(page.locator('.exam-title')).toHaveText('AP2 · Teil 2');
-  await page.getByRole('button', { name: 'Teil 2 abgeben' }).last().click();
-  await page.getByRole('button', { name: 'Abgeben', exact: true }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ganzheitliche Aufgabe 1 abgegeben');
+  await page.getByRole('button', { name: 'Ganzheitliche Aufgabe 2 starten' }).click();
+  await expect(page.locator('.exam-title')).toHaveText('AP2 · Ganzheitliche Aufgabe 2');
+  await handIn(page, 'Ganzheitliche Aufgabe 2');
+  await page.getByRole('button', { name: 'Wirtschafts- und Sozialkunde starten' }).click();
+  await expect(page.locator('.exam-title')).toHaveText('AP2 · Wirtschafts- und Sozialkunde');
+  await expect(page.getByRole('timer')).toHaveText(/^(60:00|59:5\d)$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Frage 1 von 30');
+  await expect(page.locator('.question-meta .tag').first()).toContainText('WiSo');
+  await handIn(page, 'Wirtschafts- und Sozialkunde');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ergebnis AP2');
-  await expect(page.getByText(/Teil 1: .* · Teil 2: /)).toBeVisible();
+  await expect(page.locator('.part-results .stat-item')).toHaveCount(3);
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.v1')));
+  expect(stored.exams[0].parts.map((p) => p.title)).toEqual(['Ganzheitliche Aufgabe 1', 'Ganzheitliche Aufgabe 2', 'Wirtschafts- und Sozialkunde']);
+  await expectNoHorizontalOverflow(page);
+  expect(problems).toEqual([]);
+});
+
+test('AP2 for FISI uses the official exam areas and can run WiSo alone', async ({ page }) => {
+  const problems = watchProblems(page);
+  await page.goto('./#/einstellungen');
+  await page.getByLabel('Dein Beruf').selectOption('fisi');
+  await expect(page.locator('.toast').first()).toContainText('Beruf gespeichert');
+  await page.goto('./#/pruefung');
+  await page.locator('label', { hasText: /^AP2$/ }).click();
+  await expect(page.locator('.exam-parts')).toContainText('Konzeption und Administration von IT-Systemen');
+  await expect(page.locator('.exam-parts')).toContainText('Analyse und Entwicklung von Netzwerken');
+  await page.locator('#exam-scope').selectOption('wiso');
+  await expect(page.locator('.exam-parts li')).toHaveCount(1);
+  await page.getByRole('button', { name: 'AP2 starten' }).click();
+  await expect(page.locator('.exam-title')).toHaveText('AP2 · Wirtschafts- und Sozialkunde');
+  await answerExamQuestion(page);
+  await handIn(page, 'Wirtschafts- und Sozialkunde');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ergebnis AP2 · Wirtschafts- und Sozialkunde');
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.v1')));
+  expect(stored.exams[0]).toMatchObject({ exam: 'AP2', job: 'fisi' });
+  await page.getByRole('button', { name: 'Neue Prüfung' }).click();
+  await expect(page.locator('.stat-item').first()).toContainText('AP2 FISI');
+  await expectNoHorizontalOverflow(page);
+  expect(problems).toEqual([]);
 });
 
 test('statistics: "Heute üben" links into the quiz and charts render', async ({ page }) => {

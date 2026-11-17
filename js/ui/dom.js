@@ -27,6 +27,14 @@ export function h(tag, attrs = {}, ...children) {
 const percentFormat = new Intl.NumberFormat('de-DE', { style: 'percent', maximumFractionDigits: 0 });
 const numberFormat = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 2 });
 
+/** Like parent.append(), but skips null/undefined/false (native append would print "null"). */
+export function append(parent, ...children) {
+  for (const child of children.flat()) {
+    if (child === null || child === undefined || child === false) continue;
+    parent.append(child);
+  }
+}
+
 /** 0.756 -> "76 %"; null -> "–" */
 export function formatPercent(rate) {
   return rate === null || rate === undefined ? '–' : percentFormat.format(rate);

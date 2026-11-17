@@ -1,6 +1,6 @@
 // Settings and app information.
 
-import { h } from './dom.js';
+import { h, append } from './dom.js';
 import { JOBS, ALL_JOBS } from '../config.js';
 import { updateSettings } from '../storage.js';
 import {
@@ -122,7 +122,7 @@ export function render(root, ctx) {
   h('option', { value: ALL_JOBS, selected: ctx.progress.settings.job === ALL_JOBS }, 'Alle IT-Berufe'),
   JOBS.map((j) => h('option', { value: j.id, selected: ctx.progress.settings.job === j.id }, `${j.name} (${j.short})`)));
 
-  root.append(
+  append(root, 
     h('h1', { text: 'Einstellungen' }),
     h('section', { class: 'card', 'aria-labelledby': 'settings-job-title' },
       h('h2', { id: 'settings-job-title', text: 'Ausbildungsberuf' }),

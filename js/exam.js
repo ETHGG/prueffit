@@ -5,16 +5,71 @@
 import { gradeAnswer } from './grading.js';
 import { shuffle } from './questions.js';
 
-export const EXAM_STATE_VERSION = 1;
+export const EXAM_STATE_VERSION = 2;
+const SUPPORTED_STATE_VERSIONS = [1, 2];
 
 /** Question types that can be graded automatically (self-assessed `text` is excluded). */
 export const EXAM_QUESTION_TYPES = ['single', 'multi', 'number', 'match', 'order'];
 
-/** AP1: one part of 90 minutes. AP2: two parts of 90 minutes each. `points` = target points per part. */
-export const EXAM_TYPES = Object.freeze({
-  AP1: { parts: [{ title: 'AP1', minutes: 90, points: 100 }] },
-  AP2: { parts: [{ title: 'Teil 1', minutes: 90, points: 50 }, { title: 'Teil 2', minutes: 90, points: 50 }] },
+/**
+ * Exam blueprints modelled on the IHK exams (AO 2020, see docs/ABSCHLUSSBERICHT.md).
+ * A part either targets `points` or a number of questions (`count`).
+ * `topics` / `exclude` list area ids ("netzwerke") or topic ids ("sicherheit.mail").
+ */
+const WISO_PART = Object.freeze({ id: 'wiso', title: 'Wirtschafts- und Sozialkunde', minutes: 60, count: 30, topics: ['wiso'] });
+const NOT_WISO = ['wiso'];
+
+export const AP2_BLUEPRINTS = Object.freeze({
+  alle: [
+    { id: 'ga1', title: 'Ganzheitliche Aufgabe 1', minutes: 90, points: 50, exclude: NOT_WISO },
+    { id: 'ga2', title: 'Ganzheitliche Aufgabe 2', minutes: 90, points: 50, exclude: NOT_WISO },
+    WISO_PART,
+  ],
+  fisi: [
+    { id: 'ga1', title: 'Konzeption und Administration von IT-Systemen', minutes: 90, points: 50,
+      topics: ['hardware', 'sicherheit.schutzziele', 'sicherheit.backup', 'sicherheit.angriffe', 'sicherheit.management', 'programmierung', 'projekt', 'recht'] },
+    { id: 'ga2', title: 'Analyse und Entwicklung von Netzwerken', minutes: 90, points: 50,
+      topics: ['netzwerke', 'sicherheit.netzsicherheit', 'sicherheit.mail', 'sicherheit.kryptografie'] },
+    WISO_PART,
+  ],
+  fiae: [
+    { id: 'ga1', title: 'Planen eines Softwareproduktes', minutes: 90, points: 50,
+      topics: ['programmierung.modellierung', 'programmierung.testen', 'programmierung.datenbanken', 'projekt', 'recht', 'sicherheit', 'wirtschaft'] },
+    { id: 'ga2', title: 'Entwicklung und Umsetzung von Algorithmen', minutes: 90, points: 50,
+      topics: ['programmierung'] },
+    WISO_PART,
+  ],
+  itsm: [
+    { id: 'ga1', title: 'Einführen einer IT-Systemlösung', minutes: 90, points: 50,
+      topics: ['hardware', 'netzwerke', 'sicherheit', 'programmierung.datenbanken', 'programmierung.datenformate', 'projekt.digitalisierung', 'recht.datenschutz', 'recht.lizenzen'] },
+    { id: 'ga2', title: 'Kaufmännische Unterstützungsprozesse', minutes: 90, points: 50,
+      topics: ['wirtschaft', 'recht', 'projekt'] },
+    WISO_PART,
+  ],
 });
+
+/** Default blueprints (AP2 for all apprenticeships). */
+export const EXAM_TYPES = Object.freeze({
+  AP1: { parts: [{ id: 'ap1', title: 'Einrichten eines IT-gestützten Arbeitsplatzes', minutes: 90, points: 100, exclude: NOT_WISO }] },
+  AP2: { parts: AP2_BLUEPRINTS.alle },
+});
+
+/** Blueprint parts for an exam and apprenticeship (`job` = fisi/fiae/itsm/alle). */
+export function examParts(exam, job) {
+  if (!EXAM_TYPES[exam]) throw new RangeError(`Unknown exam: ${exam}`);
+  if (exam === 'AP2' && job && AP2_BLUEPRINTS[job]) return AP2_BLUEPRINTS[job];
+  return EXAM_TYPES[exam].parts;
+}
+
+const matchesSpec = (topic, spec) => topic === spec || topic.startsWith(`${spec}.`);
+
+/** True if a question belongs to a blueprint part (topic/area filter). */
+export function questionFitsPart(q, part) {
+  const topic = String(q.topic);
+  if (part.topics && !part.topics.some((s) => matchesSpec(topic, s))) return false;
+  if (part.exclude && part.exclude.some((s) => matchesSpec(topic, s))) return false;
+  return true;
+}
 
 /** IHK grading key (percent of points, already rounded). */
 export const GRADE_SCALE = Object.freeze([
@@ -57,10 +112,13 @@ export function gradeExam(points, max) {
 const defaultAreaOf = (q) => String(q.topic).split('.')[0];
 
 /**
- * Picks questions until `targetPoints` is reached, taking them round-robin from
+ * Picks questions until the target is reached, taking them round-robin from
  * the areas so every area is represented. No duplicates.
+ * `target`: number of points, or `{ points }` / `{ count }`.
  */
-export function selectExamQuestions(pool, targetPoints, random = Math.random, areaOf = defaultAreaOf) {
+export function selectExamQuestions(pool, target, random = Math.random, areaOf = defaultAreaOf) {
+  const { points: targetPoints = Infinity, count: targetCount = Infinity } = typeof target === 'number' ? { points: target } : target;
+  const done = (picked, points) => points >= targetPoints || picked.length >= targetCount;
   const groups = new Map();
   for (const q of shuffle(pool, random)) {
     const key = areaOf(q);
@@ -70,9 +128,9 @@ export function selectExamQuestions(pool, targetPoints, random = Math.random, ar
   const queues = shuffle([...groups.values()], random);
   const picked = [];
   let points = 0;
-  while (points < targetPoints && queues.some((qs) => qs.length)) {
+  while (!done(picked, points) && queues.some((qs) => qs.length)) {
     for (const qs of queues) {
-      if (points >= targetPoints) break;
+      if (done(picked, points)) break;
       const q = qs.shift();
       if (!q) continue;
       picked.push(q);
@@ -84,34 +142,52 @@ export function selectExamQuestions(pool, targetPoints, random = Math.random, ar
 
 /**
  * Creates a new exam. `pool` should already be filtered by apprenticeship;
- * this function filters by exam (AP1/AP2) and gradable types.
+ * this function filters by exam (AP1/AP2), gradable types and the topics of each part.
+ * `job` selects the AP2 blueprint, `partIds` limits the exam to some parts (e.g. only WiSo).
+ * Parts without matching questions are left out.
  */
-export function createExam({ exam, pool, now = new Date(), random = Math.random, areaOf = defaultAreaOf }) {
-  const config = EXAM_TYPES[exam];
-  if (!config) throw new RangeError(`Unknown exam: ${exam}`);
+export function createExam({ exam, job, partIds, pool, now = new Date(), random = Math.random, areaOf = defaultAreaOf }) {
+  const blueprint = examParts(exam, job).filter((p) => !partIds || partIds.includes(p.id));
+  if (!blueprint.length) throw new RangeError('No exam parts selected');
   let remaining = pool.filter((q) => q.exam.includes(exam) && EXAM_QUESTION_TYPES.includes(q.type));
-  const parts = config.parts.map((p, i) => {
-    const picked = selectExamQuestions(remaining, p.points, random, areaOf);
+  const parts = [];
+  for (const p of blueprint) {
+    const target = p.count ? { count: p.count } : { points: p.points };
+    const picked = selectExamQuestions(remaining.filter((q) => questionFitsPart(q, p)), target, random, areaOf);
+    if (!picked.length) continue;
     const ids = new Set(picked.map((q) => q.id));
     remaining = remaining.filter((q) => !ids.has(q.id));
-    return {
+    parts.push({
+      id: p.id,
       title: p.title,
       minutes: p.minutes,
       ids: picked.map((q) => q.id),
-      startedAt: i === 0 ? now.toISOString() : null,
+      startedAt: parts.length === 0 ? now.toISOString() : null,
       submittedAt: null,
       timeUp: false,
-    };
-  });
+    });
+  }
+  if (!parts.length) throw new RangeError('No matching questions for this exam');
   return {
     v: EXAM_STATE_VERSION,
     exam,
+    job: job ?? null,
     parts,
     part: 0,
     responses: {},
     finished: false,
     finishedAt: null,
   };
+}
+
+/** Number of questions each part of a blueprint would get from `pool` (for the start screen). */
+export function previewExam({ exam, job, partIds, pool }) {
+  try {
+    const state = createExam({ exam, job, partIds, pool, random: () => 0.5 });
+    return state.parts.map((p) => ({ id: p.id, title: p.title, minutes: p.minutes, questions: p.ids.length }));
+  } catch {
+    return [];
+  }
 }
 
 const currentPart = (state) => state.parts[state.part];
@@ -187,16 +263,20 @@ export function evaluateExam(state, questions) {
   const max = results.reduce((s, r) => s + r.maxPoints, 0);
   const { percent, grade, label } = gradeExam(points, max);
   const date = state.finishedAt ?? state.parts.map((p) => p.submittedAt).filter(Boolean).pop() ?? null;
+  const parts = partSums.map((sum, i) => ({ ...sum, ...gradeExam(sum.points, sum.max), id: state.parts[i].id ?? null, title: state.parts[i].title }));
+  const record = { date, exam: state.exam, points, max, percent, grade };
+  if (state.job) record.job = state.job;
+  if (state.parts.length > 1) record.parts = parts.map((p) => ({ title: p.title, percent: p.percent, grade: p.grade }));
   return {
     results,
-    parts: partSums,
+    parts,
     points,
     max,
     percent,
     grade,
     label,
     answered: results.filter((r) => r.answered).length,
-    record: { date, exam: state.exam, points, max, percent, grade },
+    record,
   };
 }
 
@@ -205,16 +285,15 @@ const isIsoOrNull = (v) => v === null || (typeof v === 'string' && !Number.isNaN
 /** Validates a stored exam state against the question catalogue. Returns null if unusable. */
 export function restoreExam(data, questions) {
   if (!data || typeof data !== 'object' || Array.isArray(data)) return null;
-  const config = EXAM_TYPES[data.exam];
-  if (data.v !== EXAM_STATE_VERSION || !config) return null;
-  if (!Array.isArray(data.parts) || data.parts.length !== config.parts.length) return null;
+  if (!SUPPORTED_STATE_VERSIONS.includes(data.v) || !EXAM_TYPES[data.exam]) return null;
+  if (!Array.isArray(data.parts) || data.parts.length < 1 || data.parts.length > 4) return null;
   if (!Number.isInteger(data.part) || data.part < 0 || data.part >= data.parts.length) return null;
   if (!data.responses || typeof data.responses !== 'object' || Array.isArray(data.responses)) return null;
   if (typeof data.finished !== 'boolean' || !isIsoOrNull(data.finishedAt)) return null;
   const known = new Set(questions.map((q) => q.id));
   for (const p of data.parts) {
     if (!p || !Array.isArray(p.ids) || !p.ids.every((id) => known.has(id))) return null;
-    if (!isIsoOrNull(p.startedAt) || !isIsoOrNull(p.submittedAt) || !(p.minutes > 0)) return null;
+    if (!isIsoOrNull(p.startedAt) || !isIsoOrNull(p.submittedAt) || !(p.minutes > 0) || typeof p.title !== 'string') return null;
   }
   return structuredClone(data);
 }

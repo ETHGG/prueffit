@@ -2,7 +2,7 @@
 
 import { overallStats, currentStreak, dailyProgress } from '../stats.js';
 import { todayInBerlin, dueCards } from '../leitner.js';
-import { h, formatPercent, formatNumber, trafficDot } from './dom.js';
+import { h, formatPercent, formatNumber, trafficDot, append } from './dom.js';
 import { suggestionsCard } from './suggestions.js';
 
 function greeting(date = new Date()) {
@@ -22,7 +22,7 @@ export function render(root, ctx) {
   const goal = dailyProgress(ctx.progress.daily, today, ctx.progress.settings.dailyGoal);
   const streak = currentStreak(ctx.progress.streak, today);
 
-  root.append(
+  append(root, 
     h('h1', { text: greeting() }),
     h('p', { class: 'muted' }, 'Bereit für die nächste Lerneinheit? PrüfFit hilft dir bei der Vorbereitung auf AP1 und AP2.'),
     h('section', { class: 'card today', 'aria-labelledby': 'home-today' },

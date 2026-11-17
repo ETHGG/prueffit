@@ -1,7 +1,7 @@
 // Statistics: "Heute üben", charts (Chart.js, loaded lazily), hit rate per topic with traffic light.
 
 import { topicStats, overallStats, areaStats } from '../stats.js';
-import { h, formatPercent, formatNumber, trafficDot, LIGHT_LABELS } from './dom.js';
+import { h, formatPercent, formatNumber, trafficDot, LIGHT_LABELS, append } from './dom.js';
 import { suggestionsCard } from './suggestions.js';
 import { loadChartJs, themeColors, reducedMotion } from './charts.js';
 
@@ -27,7 +27,7 @@ export function render(root, ctx) {
     'aria-label': `Prüfungsergebnisse: ${exams.map((e) => `${e.exam} ${Math.round((e.points / e.max) * 100)} %, Note ${e.grade}`).join('; ')}`,
   });
 
-  root.append(
+  append(root, 
     h('h1', { text: 'Statistik' }),
     suggestionsCard(ctx),
     h('section', { class: 'card', 'aria-labelledby': 'stats-total' },

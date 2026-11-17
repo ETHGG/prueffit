@@ -87,3 +87,12 @@ test('statistics list every topic per area (regression: arrays rendered as "[obj
     await expect(page.locator('main')).not.toContainText('[object');
   }
 });
+
+test('no view prints "null", "undefined" or "[object …]" (regression)', async ({ page }) => {
+  for (const route of ['start', 'quiz', 'karten', 'statistik', 'pruefung', 'einstellungen']) {
+    await page.goto(`./#/${route}`);
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    const text = await page.locator('main').innerText();
+    expect(text, route).not.toMatch(/\bnull\b|\bundefined\b|\[object /);
+  }
+});
