@@ -4,15 +4,21 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 
 **Live:** https://ethgg.github.io/prueffit/
 
-## Funktionen (Version 0.1)
+## Funktionen (Version 0.2)
 
-- **Quiz-Modus:** Fragen nach Prüfung (AP1/AP2), Themen und Schwierigkeit filtern, 5, 10 oder 20 Fragen. Nach jeder Antwort gibt es sofort Feedback mit Erklärung und vollständigem Lösungsweg, am Ende eine Auswertung mit Punkten. Falsch beantwortete Fragen lassen sich direkt wiederholen.
-- **Fragetypen:** Einfachauswahl, Mehrfachauswahl (Teilpunkte: richtige minus falsche Kreuze) und Zahleneingabe mit Toleranz (Komma oder Punkt).
+- **Quiz-Modus:** Fragen nach Prüfung (AP1/AP2), Themen und Schwierigkeit filtern, 5, 10 oder 20 Fragen. Nach jeder Antwort gibt es sofort Feedback mit Erklärung und Lösungsweg, am Ende eine Auswertung mit Punkten und „Fehler wiederholen“. Eine laufende Runde übersteht Neuladen und App-Wechsel.
+- **Sechs Fragetypen:**
+  - Einfach- und Mehrfachauswahl (Teilpunkte)
+  - Zahleneingabe mit Toleranz
+  - Freitext mit Musterlösung und Selbstbewertung
+  - Zuordnung (Teilpunkte pro Paar)
+  - Reihenfolge
+- **Karteikarten mit Leitner-System:** 5 Fächer (Wiederholung nach 1, 2, 4, 7 und 14 Tagen), fällige Karten lernen, umdrehen, „Gewusst“ oder „Nicht gewusst“, Übersicht der Fächer.
 - **Statistik:** Trefferquote und Versuche pro Thema mit Ampel (grün ab 80 %, gelb ab 50 %, rot darunter, grau unter 5 Versuchen).
-- **Inhalte:** 81 eigene Fragen und 35 Karteikarten in 7 Bereichen: Netzwerke, Hardware, IT-Sicherheit, Wirtschaft, Projektmanagement, Programmierung und Recht.
+- **Inhalte:** 102 eigene Fragen und 35 Karteikarten in 7 Bereichen: Netzwerke, Hardware, IT-Sicherheit, Wirtschaft, Projektmanagement, Programmierung und Recht.
 - **PWA:** installierbar, funktioniert nach dem ersten Aufruf komplett offline, Dark Mode nach Systemeinstellung, für das iPhone optimiert.
 
-Geplant sind Karteikarten mit Leitner-System (0.2), die Prüfungssimulation mit IHK-Note (0.3) sowie Import/Export und weitere Funktionen (0.4). Details stehen in [`CLAUDE.md`](CLAUDE.md) und [`docs/STATUS.md`](docs/STATUS.md).
+Geplant sind die Prüfungssimulation mit IHK-Note, „Heute üben“ und Diagramme (0.3) sowie Import/Export, Dark-Mode-Schalter, Lernserie und Tagesziel (0.4). Details stehen in [`CLAUDE.md`](CLAUDE.md) und [`docs/STATUS.md`](docs/STATUS.md).
 
 ## Auf dem iPhone installieren
 
@@ -44,7 +50,7 @@ npm test             # alle Tests einmal ausführen
 npm run test:watch   # Watch-Modus
 ```
 
-Die Tests prüfen die Logik-Module (Bewertung, Statistik, Speicher inkl. Migration, Filter und Zufallsauswahl, Quiz-Ablauf), **jede** JSON-Datei in `data/` (Pflichtfelder, eindeutige IDs, gültige Themen, Antwort passend zum Fragetyp) und die PWA-Konfiguration (Service-Worker-Dateiliste, relative Pfade, Versionen). Bei jedem Push laufen sie automatisch über GitHub Actions.
+Die Tests prüfen die Logik-Module (Bewertung aller Fragetypen, Leitner-System inkl. Datums- und Zeitzonenfällen, Statistik, Speicher inkl. Migration, Filter und Zufallsauswahl, Quiz-Ablauf und dessen Sicherung), **jede** JSON-Datei in `data/` (Pflichtfelder, eindeutige IDs, gültige Themen, Antwort passend zum Fragetyp) und die PWA-Konfiguration (Service-Worker-Dateiliste, relative Pfade, Versionen). Bei jedem Push laufen sie automatisch über GitHub Actions, zusätzlich in einer zweiten Zeitzone.
 
 ## Projektstruktur
 
@@ -62,7 +68,7 @@ docs/                                     Status und Abschlussbericht
 
 ## Eigene Fragen ergänzen
 
-Fragen liegen pro Bereich in `data/questions/<bereich>.json`. Das Format ist in [`CLAUDE.md`](CLAUDE.md), Abschnitt 5, beschrieben. Nach jeder Änderung `npm test` ausführen: `data.test.js` meldet fehlende Felder, doppelte IDs oder unpassende Antworten.
+Fragen liegen pro Bereich in `data/questions/<bereich>.json`, Karteikarten in `data/flashcards/<bereich>.json`. Das Format ist in [`CLAUDE.md`](CLAUDE.md), Abschnitt 5, beschrieben. Nach jeder Änderung `npm test` ausführen: `data.test.js` meldet fehlende Felder, doppelte IDs oder unpassende Antworten.
 
 ## Hinweise
 
