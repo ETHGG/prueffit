@@ -1,0 +1,54 @@
+import { test, expect } from 'playwright/test';
+import { watchProblems, openQuizWith, expectNoHorizontalOverflow } from './helpers.js';
+
+test('text question: sample solution, keywords and self-assessment', async ({ page }) => {
+  const problems = watchProblems(page);
+  await openQuizWith(page, ['net-0015']);
+  await page.fill('textarea', 'Ein Switch nutzt MAC-Adressen, der Router IP-Adressen und verbindet Netze.');
+  await page.getByRole('button', { name: 'Musterlösung anzeigen' }).click();
+  await expect(page.getByText(/Schlüsselbegriffe in deiner Antwort: 3 von 5/)).toBeVisible();
+  await page.getByRole('button', { name: /Teilweise/ }).click();
+  await expect(page.locator('#feedback-title')).toHaveText('Selbstbewertung: teilweise');
+  await expect(page.locator('.feedback')).toContainText('2 von 4 Punkten');
+  await expectNoHorizontalOverflow(page);
+  expect(problems).toEqual([]);
+});
+
+test('match question: partial points per pair', async ({ page }) => {
+  await openQuizWith(page, ['net-0013']);
+  await page.getByLabel('Hub').selectOption('Schicht 1 – Bitübertragung');
+  await page.getByLabel('Switch').selectOption('Schicht 2 – Sicherung');
+  await page.getByLabel('Router').selectOption('Schicht 4 – Transport');
+  await page.getByLabel('TCP').selectOption('Schicht 3 – Vermittlung');
+  await page.getByRole('button', { name: 'Antwort prüfen' }).click();
+  await expect(page.locator('#feedback-title')).toHaveText('Teilweise richtig');
+  await expect(page.locator('.feedback')).toContainText('2 von 4 Punkten');
+  await expectNoHorizontalOverflow(page);
+});
+
+test('order question: arrows reorder, keyboard focus stays, exact order scores', async ({ page }) => {
+  await openQuizWith(page, ['net-0014']);
+  const target = ['DHCPDISCOVER', 'DHCPOFFER', 'DHCPREQUEST', 'DHCPACK'];
+  // Bubble the list into the right order using only the arrow buttons.
+  for (let pass = 0; pass < 4; pass++) {
+    for (let i = 0; i < 3; i++) {
+      const items = await page.locator('.order-item .grow').allTextContents();
+      if (target.indexOf(items[i]) > target.indexOf(items[i + 1])) {
+        await page.getByRole('button', { name: `„${items[i]}“ nach unten` }).click();
+        await expect(page.locator(':focus')).toHaveAttribute('aria-label', new RegExp(items[i]));
+      }
+    }
+  }
+  await expect(page.locator('.order-item .grow')).toHaveText(target);
+  await page.getByRole('button', { name: 'Antwort prüfen' }).click();
+  await expect(page.locator('#feedback-title')).toHaveText('Richtig!');
+});
+
+test('a long unbreakable option does not widen the page (iPhone SE regression)', async ({ page }) => {
+  await openQuizWith(page, ['re-0005']);
+  await expectNoHorizontalOverflow(page);
+  await page.locator('.option').nth(1).click();
+  await page.getByRole('button', { name: 'Antwort prüfen' }).click();
+  await page.locator('#next-button').click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Auswertung');
+});

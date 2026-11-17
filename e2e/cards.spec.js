@@ -1,0 +1,27 @@
+import { test, expect } from 'playwright/test';
+import { watchProblems, expectNoHorizontalOverflow } from './helpers.js';
+
+test('flashcards: learn, flip, known / not known, boxes update', async ({ page }) => {
+  const problems = watchProblems(page);
+  await page.goto('./#/karten');
+  const total = await page.evaluate(async () => (await Promise.all(['netzwerke', 'hardware', 'sicherheit', 'wirtschaft', 'projekt', 'programmierung', 'recht']
+    .map((a) => fetch(`./data/flashcards/${a}.json`).then((r) => r.json())))).flat().length);
+  await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: ${total}`);
+
+  await page.getByRole('button', { name: /Lernen starten/ }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(`Karte 1 von ${total}`);
+  await page.getByRole('button', { name: 'Umdrehen' }).click();
+  await page.getByRole('button', { name: 'Gewusst', exact: true }).click();
+  await page.getByRole('button', { name: 'Umdrehen' }).click();
+  await page.getByRole('button', { name: 'Nicht gewusst' }).click();
+  await page.getByRole('button', { name: 'Beenden' }).click();
+  await expect(page.locator('.card.center')).toContainText('1 gewusst · 1 nicht gewusst');
+
+  const cards = await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.v1')).cards);
+  const entries = Object.values(cards);
+  expect(entries.map((e) => e.box).sort()).toEqual([1, 2]);
+  await page.getByRole('button', { name: 'Zur Übersicht' }).click();
+  await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: ${total - 2}`);
+  await expectNoHorizontalOverflow(page);
+  expect(problems).toEqual([]);
+});

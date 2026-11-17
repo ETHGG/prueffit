@@ -1,7 +1,7 @@
 // Checks PWA configuration consistency: service worker cache list, versions, relative paths.
 import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { APP_VERSION } from '../js/config.js';
 
