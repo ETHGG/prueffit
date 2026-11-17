@@ -1,11 +1,11 @@
 {
   "version": "1.1.0",
-  "sourceHash": "4f94e0ef56b7bc971e7dd939d815e3f523f6a1033750550a419e9c90a8e338f9",
+  "sourceHash": "ee47e8faf7f081ce4208f8ce1c84fd325d1b5a41a6393206801467f4f25e81a6",
   "files": [
     {
       "key": "alle",
       "file": "lernzettel-alle.pdf",
-      "bytes": 1575016
+      "bytes": 1828955
     },
     {
       "key": "Netzwerke",
@@ -25,7 +25,7 @@
     {
       "key": "Wirtschaft",
       "file": "lernzettel-wirtschaft.pdf",
-      "bytes": 336231
+      "bytes": 363296
     },
     {
       "key": "Projektmanagement",
@@ -48,9 +48,24 @@
       "bytes": 300130
     },
     {
+      "key": "Daten und Prozesse",
+      "file": "lernzettel-daten.pdf",
+      "bytes": 172170
+    },
+    {
+      "key": "Digitale Vernetzung",
+      "file": "lernzettel-vernetzung.pdf",
+      "bytes": 155473
+    },
+    {
+      "key": "Elektrotechnik",
+      "file": "lernzettel-elektro.pdf",
+      "bytes": 158249
+    },
+    {
       "key": "abkuerzungen",
       "file": "abkuerzungen.pdf",
-      "bytes": 588721
+      "bytes": 617789
     }
   ]
 }

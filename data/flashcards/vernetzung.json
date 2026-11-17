@@ -1,0 +1,10 @@
+[
+  {"id": "fc-0156", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.diagnose", "front": "Verfügbarkeit aus MTBF und MTTR", "back": "Verfügbarkeit = MTBF ÷ (MTBF + MTTR). 2.000 h ÷ 2.004 h = 99,80 %."},
+  {"id": "fc-0157", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.diagnose", "front": "CRC-Fehler am Switchport", "back": "Beschädigte Frames → Kabel, Stecker, Leitungslänge oder elektromagnetische Störungen prüfen."},
+  {"id": "fc-0158", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.diagnose", "front": "Syslog", "back": "Zentrale Sammlung von Protokollmeldungen, UDP 514; Uhrzeiten per NTP abgleichen."},
+  {"id": "fc-0159", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.sensorik", "front": "4–20 mA umrechnen", "back": "Wert = (I − 4 mA) ÷ 16 mA × Messbereich + Messanfang. 0 mA = Drahtbruch."},
+  {"id": "fc-0160", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.sensorik", "front": "Auflösung eines A/D-Wandlers", "back": "n Bit → 2ⁿ Stufen; Stufe = Bereich ÷ 2ⁿ (12 Bit, 10 V → 2,44 mV)."},
+  {"id": "fc-0161", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "MQTT-QoS 0 / 1 / 2", "back": "0: höchstens einmal · 1: mindestens einmal · 2: genau einmal. Port 1883, mit TLS 8883."},
+  {"id": "fc-0162", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "OT-Sicherheit Grundregeln", "back": "Zonen/Segmentierung, kein direkter Internetzugang, Fernwartung über VPN, Standardkennwörter ändern."},
+  {"id": "fc-0163", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "Automatisierungspyramide", "back": "Unternehmen – Betriebsleitung – Prozessleitung – Steuerung (SPS) – Feld (Sensoren/Aktoren)."}
+]

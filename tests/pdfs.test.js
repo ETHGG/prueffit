@@ -8,12 +8,12 @@ describe('pdfFileName / pdfList', () => {
     expect(pdfFileName(PDF_GLOSSARY)).toBe('abkuerzungen.pdf');
     expect(pdfFileName('Mathe')).toBeNull();
   });
-  it('lists all notes first, then 8 areas, then the glossary', () => {
+  it('lists all notes first, then 11 areas (3 new in 2.0), then the glossary', () => {
     const list = pdfList();
-    expect(list).toHaveLength(10);
+    expect(list).toHaveLength(13);
     expect(list[0].key).toBe(PDF_ALL);
     expect(list.at(-1).file).toBe('abkuerzungen.pdf');
-    expect(new Set(list.map((p) => p.file)).size).toBe(10);
+    expect(new Set(list.map((p) => p.file)).size).toBe(13);
   });
 });
 

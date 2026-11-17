@@ -4,7 +4,7 @@
 **Roadmap:** Alle Phasen 0.1 bis 1.1 sind erledigt. **In Arbeit: 2.0 – Inhalte für alle IT-Berufe und berufsspezifische App** (Auftrag in 6 Phasen, Start 17.11.2026 19:11).
 
 ## Weiter bei:
-**Phase 5, Schritt 1:** Neue Bereiche `daten` (FIDPA), `vernetzung` (FIDV), `elektro` (ITSE) und Thema `wirtschaft.geschaeftsmodelle` (KDM) anlegen – je ≥ 25 Fragen (≥ 5 AP2), ≥ 8 Karten, Lernzettel, Glossar; dann Handlungssituationen für alle 7 Berufe.
+**Phase 6, Schritt 1:** PDFs je Beruf (`lernzettel-ap1.pdf`, `lernzettel-ap2-<beruf>.pdf`, `abkuerzungen-<beruf>.pdf`) und Anzeige nur der eigenen PDFs; danach Version 2.0.0 (package.json nur die zwei oberen `version`-Einträge, js/config.js, sw.js), CHANGELOG, STATUS, README, CLAUDE.md, Push, CI prüfen, Abschlussbericht.
 
 | Phase | Status |
 |---|---|
@@ -12,7 +12,7 @@
 | 2 Datenmodell und Zuordnung (`js/curriculum.js`, alle Inhalte zugeordnet) | erledigt |
 | 3 Migration (Schema 6) und berufsspezifische UI (`js/jobCatalog.js`, `js/ui/jobSetup.js`) | erledigt |
 | 4 Neue AP1-Inhalte (Katalog 2025): 5 Themen, 38 Fragen, 16 Karten | erledigt |
-| 5 Neue AP2-Inhalte je Beruf | offen |
+| 5 Neue AP2-Inhalte je Beruf: 3 Bereiche, 11 Themen, 88 Fragen, 29 Karten, 8 Handlungssituationen | erledigt |
 | 6 Abschluss (PDFs, Version 2.0.0, Doku, Push) | offen |
 
 ## Erledigt

@@ -1,0 +1,10 @@
+[
+  {"id": "fc-0164", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.grundlagen", "front": "Ohmsches Gesetz und Leistung", "back": "U = R × I · P = U × I (× cos φ) · W = P × t."},
+  {"id": "fc-0165", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.grundlagen", "front": "Reihen- und Parallelschaltung", "back": "Reihe: R = R1 + R2 … · Parallel: 1/R = 1/R1 + 1/R2 …"},
+  {"id": "fc-0166", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.schutz", "front": "Fünf Sicherheitsregeln", "back": "Freischalten – gegen Wiedereinschalten sichern – Spannungsfreiheit feststellen – erden und kurzschließen – benachbarte Teile abdecken."},
+  {"id": "fc-0167", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.schutz", "front": "Schutzklassen I / II / III", "back": "I: Schutzleiter · II: doppelte Isolierung · III: Schutzkleinspannung."},
+  {"id": "fc-0168", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.schutz", "front": "RCD 30 mA", "back": "Fehlerstrom-Schutzschalter: Personenschutz, schaltet bei Fehlerstrom über ca. 30 mA ab."},
+  {"id": "fc-0169", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.installation", "front": "Spannungsfall Wechselstrom", "back": "ΔU = 2 × l × I × cos φ ÷ (κ × A), Kupfer κ = 56; Richtwert max. 3 %."},
+  {"id": "fc-0170", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.installation", "front": "PoE-Standards", "back": "802.3af 15,4 W · 802.3at 30 W · 802.3bt 60/90 W (am Switchport)."},
+  {"id": "fc-0171", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.installation", "front": "NYM-J 3 × 1,5", "back": "Mantelleitung, J = mit Schutzleiter, 3 Adern à 1,5 mm²."}
+]

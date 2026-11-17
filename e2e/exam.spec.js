@@ -96,7 +96,8 @@ test('AP2: three parts like the real exam, each further part starts only on requ
   await expect(page.locator('.exam-title')).toHaveText('AP2 · Wirtschafts- und Sozialkunde');
   await expect(page.getByRole('timer')).toHaveText(/^(60:00|59:5\d)$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Frage 1 von 30');
-  await expect(page.locator('.question-meta .tag').first()).toContainText('WiSo');
+  // The WiSo part of the job blueprints contains the WiSo topics and „Ausbildung und Arbeitsrecht“.
+  await expect(page.locator('.question-meta .tag').first()).toContainText(/WiSo|Ausbildung und Arbeitsrecht/);
   await handIn(page, 'Wirtschafts- und Sozialkunde');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ergebnis AP2');
   await expect(page.locator('.part-results .stat-item')).toHaveCount(3);

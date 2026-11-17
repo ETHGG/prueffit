@@ -274,6 +274,12 @@
     "area": "Hardware"
   },
   {
+    "abbr": "CRC",
+    "full": "Cyclic Redundancy Check",
+    "explanation": "Prüfsumme zur Erkennung von Übertragungsfehlern",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "CRL",
     "full": "Certificate Revocation List",
     "explanation": "Sperrliste widerrufener Zertifikate",
@@ -335,6 +341,12 @@
     "full": "Dynamic Host Configuration Protocol for IPv6",
     "explanation": "DHCP für IPv6",
     "area": "Netzwerke"
+  },
+  {
+    "abbr": "DIN",
+    "full": "Deutsches Institut für Normung",
+    "explanation": "Gibt deutsche Normen heraus, z. B. DIN VDE 0701-0702 für Geräteprüfungen",
+    "area": "Allgemein"
   },
   {
     "abbr": "DKIM",
@@ -409,6 +421,12 @@
     "area": "WiSo"
   },
   {
+    "abbr": "ELT",
+    "full": "Extract, Load, Transform",
+    "explanation": "Erst roh laden, dann im Zielsystem umwandeln",
+    "area": "Daten und Prozesse"
+  },
+  {
     "abbr": "EMV",
     "full": "Elektromagnetische Verträglichkeit",
     "explanation": "Störfestigkeit gegen elektromagnetische Felder (LWL ist unempfindlich)",
@@ -437,6 +455,12 @@
     "full": "VMware ESXi",
     "explanation": "Hypervisor Typ 1 von VMware, läuft direkt auf der Hardware",
     "area": "Hardware"
+  },
+  {
+    "abbr": "ETL",
+    "full": "Extract, Transform, Load",
+    "explanation": "Daten aus Quellen lesen, umwandeln und in ein Zielsystem laden",
+    "area": "Daten und Prozesse"
   },
   {
     "abbr": "EU",
@@ -879,6 +903,24 @@
     "area": "Hardware"
   },
   {
+    "abbr": "MTBF",
+    "full": "Mean Time Between Failures",
+    "explanation": "Mittlere Betriebszeit zwischen zwei Ausfällen",
+    "area": "Digitale Vernetzung"
+  },
+  {
+    "abbr": "MTTR",
+    "full": "Mean Time To Repair",
+    "explanation": "Mittlere Dauer bis zur Wiederherstellung nach einem Ausfall",
+    "area": "Digitale Vernetzung"
+  },
+  {
+    "abbr": "MVP",
+    "full": "Minimum Viable Product",
+    "explanation": "Kleinste nutzbare Produktversion zum Lernen mit echten Kunden",
+    "area": "Wirtschaft"
+  },
+  {
     "abbr": "MX",
     "full": "Mail Exchange Record",
     "explanation": "DNS-Eintrag für den zuständigen Mailserver",
@@ -957,6 +999,12 @@
     "area": "Hardware"
   },
   {
+    "abbr": "NYM",
+    "full": "Kunststoff-Mantelleitung (Normtyp)",
+    "explanation": "Leitung für feste Verlegung; NYM-J mit grün-gelbem Schutzleiter",
+    "area": "Elektrotechnik"
+  },
+  {
     "abbr": "OCSP",
     "full": "Online Certificate Status Protocol",
     "explanation": "Online-Abfrage, ob ein Zertifikat gesperrt ist",
@@ -981,6 +1029,12 @@
     "area": "Projektmanagement"
   },
   {
+    "abbr": "OPC UA",
+    "full": "Open Platform Communications Unified Architecture",
+    "explanation": "Herstellerunabhängiger Standard für den sicheren Austausch von Maschinendaten",
+    "area": "Digitale Vernetzung"
+  },
+  {
     "abbr": "OS",
     "full": "Operating System",
     "explanation": "Betriebssystem",
@@ -991,6 +1045,12 @@
     "full": "Open Systems Interconnection",
     "explanation": "Referenzmodell mit 7 Schichten",
     "area": "Netzwerke"
+  },
+  {
+    "abbr": "OT",
+    "full": "Operational Technology (Betriebstechnik)",
+    "explanation": "Steuerungen, Maschinen und Sensoren in Produktion und Gebäuden",
+    "area": "Digitale Vernetzung"
   },
   {
     "abbr": "OU",
@@ -1058,6 +1118,12 @@
     "area": "Hardware"
   },
   {
+    "abbr": "PoE",
+    "full": "Power over Ethernet",
+    "explanation": "Stromversorgung über das Netzwerkkabel (802.3af/at/bt)",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "POP3S",
     "full": "Post Office Protocol 3 Secure",
     "explanation": "Verschlüsselter Mailabruf, Mails werden meist heruntergeladen (Port 995)",
@@ -1082,6 +1148,12 @@
     "area": "Hardware"
   },
   {
+    "abbr": "QoS",
+    "full": "Quality of Service",
+    "explanation": "Dienstgüte; bei MQTT Zustellgarantie 0, 1 oder 2",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "RADIUS",
     "full": "Remote Authentication Dial-In User Service",
     "explanation": "Zentraler Anmeldeserver, z. B. für WLAN mit 802.1X",
@@ -1098,6 +1170,12 @@
     "full": "Random Access Memory",
     "explanation": "Flüchtiger Arbeitsspeicher",
     "area": "Hardware"
+  },
+  {
+    "abbr": "RCD",
+    "full": "Residual Current Device (Fehlerstrom-Schutzschalter)",
+    "explanation": "Schaltet bei Fehlerströmen ab, 30 mA für Personenschutz",
+    "area": "Elektrotechnik"
   },
   {
     "abbr": "RDP",
@@ -1251,6 +1329,12 @@
     "full": "Sender Policy Framework",
     "explanation": "DNS-Eintrag mit den Servern, die für eine Domain Mails senden dürfen",
     "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "SPS",
+    "full": "Speicherprogrammierbare Steuerung",
+    "explanation": "Industriesteuerung, liest Sensoren und schaltet Aktoren nach einem Programm",
+    "area": "Digitale Vernetzung"
   },
   {
     "abbr": "SQL",
@@ -1442,6 +1526,12 @@
     "aliases": [
       "UTF"
     ]
+  },
+  {
+    "abbr": "VDE",
+    "full": "Verband der Elektrotechnik Elektronik Informationstechnik",
+    "explanation": "Gibt die Normen für elektrische Anlagen heraus (z. B. DIN VDE 0100)",
+    "area": "Elektrotechnik"
   },
   {
     "abbr": "VFD",

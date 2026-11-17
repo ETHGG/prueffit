@@ -229,7 +229,7 @@ const NOT_ABBREVIATIONS = new Set([
   'IN', 'INSERT', 'INTO', 'IS', 'JOIN', 'LIKE', 'MAX', 'MIN', 'NULL', 'ON', 'ORDER', 'REVOKE', 'SELECT', 'SET', 'SUM',
   'TABLE', 'UPDATE', 'VALUES', 'WHERE',
   'BIS', 'DANN', 'FÜR', 'NICHT', 'ODER', 'SOLANGE', 'SONST', 'UND', 'VON', 'WENN', 'WAS', 'WER', 'WIE', 'WOMIT',
-  'B7', 'E3', 'II', 'PLUS', 'YTP',
+  'B7', 'B16', 'E3', 'II', 'III', 'PLUS', 'YTP',
   'DisplayPort', 'OpenVPN', 'TrueHD', 'VirtualBox', 'VMware', 'WireGuard',
 ]);
 
@@ -281,7 +281,7 @@ describe('data/scenarios.json (AP2-Handlungssituationen)', () => {
   });
 
   it('covers both AP2 parts for every apprenticeship', () => {
-    for (const job of ['fisi', 'fiae', 'kits']) {
+    for (const job of ['fiae', 'fisi', 'fidpa', 'fidv', 'itse', 'kits', 'kdm']) { // seit 2.0 alle sieben Berufe
       for (const part of ['ga1', 'ga2']) {
         expect(scenarios.some((sc) => sc.part === part && sc.jobs?.includes(job)), `${job} ${part}`).toBe(true);
       }

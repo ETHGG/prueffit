@@ -22,6 +22,10 @@ export const AREAS = [
   { id: 'programmierung', name: 'Programmierung' },
   { id: 'recht', name: 'Recht' },
   { id: 'wiso', name: 'WiSo' },
+  // Since 2.0: AP2 content of FIDPA, FIDV and ITSE.
+  { id: 'daten', name: 'Daten und Prozesse' },
+  { id: 'vernetzung', name: 'Digitale Vernetzung' },
+  { id: 'elektro', name: 'Elektrotechnik' },
 ];
 export const EXAMS = ['AP1', 'AP2'];
 // Apprenticeships covered (CLAUDE.md 1). AP1 is identical for all, AP2 differs.

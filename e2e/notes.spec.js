@@ -115,7 +115,7 @@ test('Lernzettel as PDF: download links with size, print view renders', async ({
   await page.goto('./#/lernzettel');
   const card = page.locator('details.fold[data-fold="pdf"]');
   await card.locator('summary').click();
-  await expect(card.locator('.pdf-link')).toHaveCount(10);
+  await expect(card.locator('.pdf-link')).toHaveCount(13); // 11 Bereiche + alle + Abkürzungen
   await expect(card.locator('.pdf-link').first()).toContainText(/Alle Lernzettel\s*PDF · [\d,]+ (KB|MB)/);
   const download = page.waitForEvent('download');
   await card.locator('.pdf-link', { hasText: 'Netzwerke' }).click();

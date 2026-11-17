@@ -1,0 +1,11 @@
+[
+  {"id": "fc-0147", "exam": ["AP2"], "jobs": ["fidpa", "kdm"], "topic": "daten.prozessanalyse", "front": "Durchlaufzeit", "back": "Bearbeitungszeit + Liegezeit + Transportzeit. Größter Hebel ist meist die Liegezeit."},
+  {"id": "fc-0148", "exam": ["AP2"], "jobs": ["fidpa", "kdm"], "topic": "daten.prozessanalyse", "front": "BPMN: exklusives vs. paralleles Gateway", "back": "Raute mit X: genau ein Weg. Raute mit +: alle Wege gleichzeitig."},
+  {"id": "fc-0149", "exam": ["AP2"], "jobs": ["fidpa", "kdm"], "topic": "daten.prozessanalyse", "front": "Medienbruch", "back": "Information wechselt das Medium (Papier → Tabelle → System) und muss erneut erfasst werden – Zeitverlust und Fehlerquelle."},
+  {"id": "fc-0150", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "daten.analyse", "front": "Median vs. Mittelwert", "back": "Median = mittlerer Wert der sortierten Reihe, robust gegen Ausreißer. Mittelwert = Summe ÷ Anzahl, empfindlich gegen Ausreißer."},
+  {"id": "fc-0151", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "daten.analyse", "front": "Korrelation vs. Kausalität", "back": "Gemeinsames Auftreten beweist keine Ursache – oft steckt eine dritte Größe dahinter."},
+  {"id": "fc-0152", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "daten.qualitaet", "front": "Sechs Dimensionen der Datenqualität", "back": "Vollständigkeit, Korrektheit, Gültigkeit, Konsistenz, Eindeutigkeit, Aktualität."},
+  {"id": "fc-0153", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "daten.qualitaet", "front": "Vollständigkeit berechnen", "back": "gefüllte Werte ÷ alle Datensätze × 100 %, z. B. 2.220 ÷ 2.400 = 92,5 %."},
+  {"id": "fc-0154", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "daten.integration", "front": "ETL", "back": "Extract – Transform – Load: lesen, bereinigen/umwandeln, ins Zielsystem laden."},
+  {"id": "fc-0155", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "daten.integration", "front": "Sternschema", "back": "Faktentabelle mit Kennzahlen in der Mitte, Dimensionstabellen (Zeit, Kunde, Produkt) außen."}
+]

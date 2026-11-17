@@ -33,6 +33,7 @@
   {"id": "wirtschaft.vertrieb", "area": "Wirtschaft", "name": "Beratung, Angebot und Vertrieb", "exams": ["AP1", "AP2"]},
   {"id": "wirtschaft.finanzierung", "area": "Wirtschaft", "name": "Beschaffung, Finanzierung und Leasing", "exams": ["AP1", "AP2"]},
   {"id": "wirtschaft.marketing", "area": "Wirtschaft", "name": "Marketing und Kundenbeziehung", "exams": ["AP1", "AP2"]},
+  {"id": "wirtschaft.geschaeftsmodelle", "area": "Wirtschaft", "name": "Digitale Geschäftsmodelle", "exams": ["AP2"]},
   {"id": "projekt.grundlagen", "area": "Projektmanagement", "name": "Projektgrundlagen", "exams": ["AP1", "AP2"]},
   {"id": "projekt.planung", "area": "Projektmanagement", "name": "Planung und Netzplan", "exams": ["AP1", "AP2"]},
   {"id": "projekt.vorgehen", "area": "Projektmanagement", "name": "Vorgehensmodelle", "exams": ["AP1", "AP2"]},
@@ -62,5 +63,15 @@
   {"id": "wiso.sozialversicherung", "area": "WiSo", "name": "Sozialversicherung und Entgelt", "exams": ["AP2"]},
   {"id": "wiso.unternehmen", "area": "WiSo", "name": "Rechtsformen und Organisation", "exams": ["AP2"]},
   {"id": "wiso.volkswirtschaft", "area": "WiSo", "name": "Markt, Konjunktur und Wirtschaftsordnung", "exams": ["AP2"]},
-  {"id": "wiso.umwelt", "area": "WiSo", "name": "Arbeitssicherheit und Umweltschutz", "exams": ["AP2"]}
+  {"id": "wiso.umwelt", "area": "WiSo", "name": "Arbeitssicherheit und Umweltschutz", "exams": ["AP2"]},
+  {"id": "daten.prozessanalyse", "area": "Daten und Prozesse", "name": "Prozessanalyse und BPMN", "exams": ["AP2"]},
+  {"id": "daten.analyse", "area": "Daten und Prozesse", "name": "Statistik und Datenanalyse", "exams": ["AP2"]},
+  {"id": "daten.qualitaet", "area": "Daten und Prozesse", "name": "Datenqualität und Bereinigung", "exams": ["AP2"]},
+  {"id": "daten.integration", "area": "Daten und Prozesse", "name": "Datenintegration und Data Warehouse", "exams": ["AP2"]},
+  {"id": "vernetzung.diagnose", "area": "Digitale Vernetzung", "name": "Diagnose und Verfügbarkeit", "exams": ["AP2"]},
+  {"id": "vernetzung.sensorik", "area": "Digitale Vernetzung", "name": "Sensoren, Aktoren und Signale", "exams": ["AP2"]},
+  {"id": "vernetzung.ot", "area": "Digitale Vernetzung", "name": "Industrielle Netze, IoT und MQTT", "exams": ["AP2"]},
+  {"id": "elektro.grundlagen", "area": "Elektrotechnik", "name": "Elektrotechnische Grundlagen", "exams": ["AP2"]},
+  {"id": "elektro.schutz", "area": "Elektrotechnik", "name": "Schutzmaßnahmen und Prüfung", "exams": ["AP2"]},
+  {"id": "elektro.installation", "area": "Elektrotechnik", "name": "Leitungen, Spannungsfall und PoE", "exams": ["AP2"]}
 ]
