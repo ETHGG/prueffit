@@ -39,8 +39,9 @@ Diese Datei ist die zentrale Arbeitsanweisung für Claude Code. Lies sie **vor j
    3. in `docs/STATUS.md` unter „Weiter bei:“ genau Phase und Schritt eintragen,
    4. Nutzer per Push-Benachrichtigung **und** Nachricht informieren („pausiert, weiter ab …“),
    5. eine geplante Aufgabe zur Fortsetzung anlegen; beim Fortsetzen erneut benachrichtigen („geht weiter bei …“) und genau dort weitermachen.
-8. **Bei Unklarheiten**: Annahme treffen, im Abschlussbericht dokumentieren, weitermachen.
-9. **Sprache**: UI-Texte und Doku auf **Deutsch**, Code (Variablen, Funktionen, Kommentare) auf **Englisch**.
+8. **Zeitschätzung (Wunsch des Nutzers, gilt für jede Session):** Vor größeren Aufträgen die Teilaufgaben mit ungefährer Dauer und die geschätzte Gesamtzeit nennen; nach jeder Teilaufgabe die tatsächliche Dauer (per `date` gemessen) und die verbleibende Schätzung melden.
+9. **Bei Unklarheiten**: Annahme treffen, im Abschlussbericht dokumentieren, weitermachen.
+10. **Sprache**: UI-Texte und Doku auf **Deutsch**, Code (Variablen, Funktionen, Kommentare) auf **Englisch**.
 
 ---
 
