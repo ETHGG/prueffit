@@ -8,7 +8,16 @@ test('Lernzettel: list by area, search with highlights, detail and back to the h
   await expect(page.locator('#notes-count')).toHaveText(/^\d+ Lernzettel$/);
   const total = Number((await page.locator('#notes-count').textContent()).match(/\d+/)[0]);
   expect(total).toBeGreaterThanOrEqual(59);
-  await expect(page.getByRole('heading', { level: 2, name: 'WiSo' })).toBeVisible();
+  // Areas are collapsed; opening one shows its notes, "Alle öffnen" opens every area.
+  const wiso = page.locator('details.fold[data-fold="WiSo"]');
+  await expect(wiso.locator('summary')).toContainText('8 Lernzettel');
+  await expect(wiso.locator('.note-link').first()).toBeHidden();
+  await wiso.locator('summary').click();
+  await expect(wiso.locator('.note-link').first()).toBeVisible();
+  await page.getByRole('button', { name: 'Alle öffnen' }).click();
+  await expect(page.locator('details.fold:not([open])')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Alle schließen' }).click();
+  await expect(page.locator('details.fold[open]')).toHaveCount(0);
   await expectNoHorizontalOverflow(page);
 
   // Search ignores case and umlauts and highlights hits.
@@ -24,6 +33,7 @@ test('Lernzettel: list by area, search with highlights, detail and back to the h
   await page.locator('#notes-search').fill('');
   await page.locator('#notes-area').selectOption('Wirtschaft');
   await expect(page.locator('.note-link')).toHaveCount(11);
+  await expect(page.locator('.note-link').first()).toBeVisible(); // a single area is shown open
   await page.locator('#notes-area').selectOption('');
 
   // Detail with highlighted term, then back to the hits.

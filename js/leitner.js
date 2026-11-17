@@ -81,6 +81,20 @@ export function dueCards(cards, progressCards, today) {
   return [...reviews.map((r) => r.card), ...fresh];
 }
 
+/** Card counts offered for one learning session; `null` = all due cards. */
+export const SESSION_SIZES = Object.freeze([10, 20, 50, null]);
+export const DEFAULT_SESSION_SIZE = 20;
+
+/**
+ * Cards for one learning session: the first `size` due cards (reviews come first, see dueCards),
+ * so a large backlog of new cards does not have to be learned in one go.
+ * `size` null/undefined/invalid -> all cards.
+ */
+export function sessionCards(due, size) {
+  if (!Number.isInteger(size) || size <= 0) return [...due];
+  return due.slice(0, size);
+}
+
 /** Number of cards per box (new cards count as box 1; `new` lists them separately). */
 export function boxCounts(cards, progressCards) {
   const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, new: 0 };

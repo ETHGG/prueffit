@@ -96,3 +96,29 @@ test('no view prints "null", "undefined" or "[object …]" (regression)', async 
     expect(text, route).not.toMatch(/\bnull\b|\bundefined\b|\[object /);
   }
 });
+
+test('quiz topics are grouped in collapsible areas with counts', async ({ page }) => {
+  const problems = watchProblems(page);
+  await page.goto('./#/quiz');
+  const topicCount = await page.evaluate(async () => (await (await fetch('./data/topics.json')).json()).length);
+  await expect(page.locator('.topic-head')).toContainText(`Alle ${topicCount} Themen ausgewählt`);
+  const net = page.locator('details.fold[data-fold="Netzwerke"]');
+  await expect(net).not.toHaveAttribute('open', '');
+  await expect(net.locator('summary')).toContainText(/7\/7 Themen · \d+ Fragen/);
+  await net.locator('summary').click();
+  await net.getByRole('button', { name: 'Keine Themen aus Netzwerke auswählen' }).click();
+  await expect(net.locator('summary')).toContainText('0/7 Themen · 0 Fragen');
+  await expect(page.locator('.topic-head')).toContainText(`${topicCount - 7} von ${topicCount} Themen ausgewählt`);
+  await page.getByRole('button', { name: 'Alle Themen abwählen' }).click();
+  await expect(page.getByRole('button', { name: 'Quiz starten' })).toBeDisabled();
+  await expectNoHorizontalOverflow(page);
+  expect(problems).toEqual([]);
+});
+
+test('start page search opens the Lernzettel hits', async ({ page }) => {
+  await page.goto('./');
+  await page.locator('#home-notes-search').fill('vlan');
+  await page.getByRole('button', { name: 'Suchen' }).click();
+  await expect(page).toHaveURL(/#\/lernzettel\?q=vlan$/);
+  await expect(page.locator('#notes-count')).toHaveText(/Treffer für „vlan“/);
+});

@@ -1,9 +1,16 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 0.7.0 (17.11.2026)
-**Roadmap:** Alle Phasen 0.1 bis 0.7 sind erledigt. Weitere Ideen werden als neue Phasen ergänzt.
+**Aktuelle Version:** 0.8.0 (17.11.2026)
+**Roadmap:** Alle Phasen 0.1 bis 0.8 sind erledigt. Weitere Ideen werden als neue Phasen ergänzt.
 
 ## Erledigt
+
+### 0.8
+- [x] UI an den Mehrinhalt angepasst: aufklappbare Bereiche in Quiz, Statistik und Lernzetteln, Fragenzahl als Plakette
+- [x] Karteikarten in Durchgängen (10/20/50/Alle), „Weiter lernen“
+- [x] Startseite: Lernzettel-Suche und Inhaltsübersicht; „Heute üben“ mit Lernzettel-Link
+- [x] Lernzettel als 8 Goodnotes-Dokumente
+- [x] 420 Unit-Tests, 34 Browsertests × 4 Profile
 
 ### 0.7
 - [x] Lernzettel für alle 59 Themen, Suche mit Hervorhebung, Bereichsfilter, Links Quiz ↔ Lernzettel

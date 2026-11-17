@@ -2,6 +2,21 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [0.8.0] – 2026-11-17
+
+### Geändert
+- **Oberfläche für mehr Inhalt (59 Themen, 401 Fragen, 130 Karten, 59 Lernzettel):**
+  - **Quiz:** Themen sind nach Bereich **auf- und zuklappbar**. Jeder Bereich zeigt „ausgewählt/gesamt“ und die Zahl der Fragen; die Fragenzahl pro Thema steht als Plakette und bricht nicht mehr um. Neu: „Alle“/„Keine“ für alle Themen und eine Anzeige, wie viele Themen gewählt sind. Die Seite ist auf dem iPhone rund 70 % kürzer.
+  - **Statistik:** Bereiche sind aufklappbar und zeigen zugeklappt Trefferquote, Ampel, geübte Themen und rote Themen. Pro Thema gibt es Links „Üben“ und „Lernzettel“. Dazu „Alle öffnen/schließen“.
+  - **Lernzettel:** Liste nach Bereichen aufklappbar mit Anzahl; bei gewähltem Bereich ist er gleich offen.
+  - **Karteikarten:** Karten pro Durchgang wählbar (10, 20, 50, Alle; Standard 20), damit 130 neue Karten nicht auf einmal kommen; danach „Weiter lernen“.
+  - **Startseite:** neues Feld „Nachschlagen“ (sucht direkt in den Lernzetteln) mit Übersicht über alle Inhalte. „Heute üben“ verlinkt den passenden Lernzettel und ist übersichtlicher.
+  - Kennzahl-Kacheln trennen lange Wörter sauber; auf großen Bildschirmen ist die Seite etwas breiter.
+- Lernzettel zusätzlich als 8 Goodnotes-Dokumente (eines pro Bereich) bereitgestellt.
+
+### Hinzugefügt
+- `sessionCards` und `SESSION_SIZES` in `js/leitner.js` mit Unit-Tests; gemeinsames Klapp-Element `js/ui/fold.js`; 2 neue Browsertests.
+
 ## [0.7.0] – 2026-11-17
 
 ### Hinzugefügt

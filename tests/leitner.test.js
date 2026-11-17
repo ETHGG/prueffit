@@ -6,6 +6,8 @@ import {
   reviewCard,
   isDue,
   dueCards,
+  sessionCards,
+  DEFAULT_SESSION_SIZE,
   boxCounts,
   nextDueDay,
 } from '../js/leitner.js';
@@ -155,5 +157,24 @@ describe('nextDueDay', () => {
   });
   it('returns null when nothing is scheduled in the future', () => {
     expect(nextDueDay(cards.slice(0, 2), progress, '2026-11-17')).toBeNull();
+  });
+});
+
+describe('sessionCards', () => {
+  const due = Array.from({ length: 30 }, (_, i) => ({ id: `c${i}` }));
+  it('takes the first n due cards (reviews first, order kept)', () => {
+    expect(sessionCards(due, 20).map((c) => c.id)).toEqual(due.slice(0, 20).map((c) => c.id));
+    expect(sessionCards(due, DEFAULT_SESSION_SIZE)).toHaveLength(20);
+  });
+  it('returns all cards for null, invalid sizes or when fewer are due', () => {
+    expect(sessionCards(due, null)).toHaveLength(30);
+    expect(sessionCards(due, 0)).toHaveLength(30);
+    expect(sessionCards(due, 'x')).toHaveLength(30);
+    expect(sessionCards(due.slice(0, 3), 10)).toHaveLength(3);
+  });
+  it('does not modify the input', () => {
+    const copy = sessionCards(due, null);
+    copy.pop();
+    expect(due).toHaveLength(30);
   });
 });

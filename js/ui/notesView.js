@@ -4,6 +4,7 @@
 import { AREAS } from '../config.js';
 import { parseMarkdown, parseInline, searchNotes, highlightParts } from '../notes.js';
 import { h, append } from './dom.js';
+import { fold, foldControls } from './fold.js';
 
 const ALL = '';
 
@@ -119,9 +120,17 @@ export function render(root, ctx) {
       items: results.filter((r) => topicsById.get(r.note.topic)?.area === a.name)
         .sort((x, y) => x.note.title.localeCompare(y.note.title, 'de')),
     })).filter((g) => g.items.length);
-    list.replaceChildren(...groups.map((g) => h('section', { class: 'card', 'aria-label': g.area },
-      h('h2', { text: g.area }),
-      h('ul', { class: 'note-list' }, g.items.map(item)))));
+    list.replaceChildren();
+    append(list,
+      groups.length > 1 ? foldControls('notes', () => list) : null,
+      groups.map((g) => fold('notes', g.area, {
+        open: groups.length === 1,
+        remember: groups.length > 1,
+        summary: [
+          h('span', { class: 'fold-title', text: g.area }),
+          h('span', { class: 'fold-meta', text: `${g.items.length} Lernzettel` }),
+        ],
+      }, h('ul', { class: 'note-list' }, g.items.map(item)))));
   };
 
   const syncHash = () => history.replaceState(null, '', listHash(query.trim(), area));

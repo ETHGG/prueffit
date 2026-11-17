@@ -1,6 +1,8 @@
 // Flashcards with the Leitner system: overview of the 5 boxes, learning due cards.
 
-import { BOX_INTERVALS, todayInBerlin, dueCards, boxCounts, nextDueDay } from '../leitner.js';
+import {
+  BOX_INTERVALS, todayInBerlin, dueCards, boxCounts, nextDueDay, sessionCards, SESSION_SIZES, DEFAULT_SESSION_SIZE,
+} from '../leitner.js';
 import { recordCardReview } from '../storage.js';
 import { issueUrl } from '../questions.js';
 import { h, formatDay, append } from './dom.js';
@@ -10,6 +12,7 @@ const ALL = 'alle';
 
 // In memory while the app is open.
 let area = ALL;
+let size = DEFAULT_SESSION_SIZE;
 let session = null; // { cards, index, flipped, known, unknown }
 
 export function render(root, ctx) {
@@ -48,6 +51,8 @@ function drawOverview(root, ctx, draw, topicById) {
   const max = Math.max(1, ...[1, 2, 3, 4, 5].map((b) => counts[b]));
   const next = nextDueDay(cards, progressCards, today);
   const newDue = due.filter((c) => !progressCards[c.id]).length;
+  const planned = sessionCards(due, size).length;
+  const effectiveSize = size !== null && size < due.length ? size : null;
   const areas = [...new Set(ctx.catalog.topics.map((t) => t.area))];
 
   const select = h('select', {
@@ -71,13 +76,25 @@ function drawOverview(root, ctx, draw, topicById) {
         : h('p', { class: 'muted' }, next
           ? `Alles erledigt! Die nächsten Karten sind ${formatDay(next, today)} fällig.`
           : 'Alles erledigt!'),
+      due.length > SESSION_SIZES[0]
+        ? h('fieldset', { class: 'spaced' },
+          h('legend', { text: 'Karten pro Durchgang' }),
+          h('div', { class: 'segmented' },
+            SESSION_SIZES.filter((n) => n === null || n < due.length).map((n) => h('label', {},
+              h('input', {
+                type: 'radio', name: 'card-size', value: n ?? 'alle', checked: n === effectiveSize,
+                onChange: () => { size = n; draw(); },
+              }),
+              h('span', { text: n === null ? 'Alle' : String(n) })))))
+        : null,
       h('button', {
-        type: 'button', class: 'button block', disabled: due.length === 0,
+        type: 'button', class: 'button block spaced', disabled: due.length === 0,
         onClick: () => {
-          session = { cards: dueCards(cardsInArea(ctx, topicById), ctx.progress.cards, todayInBerlin()), index: 0, flipped: false, known: 0, unknown: 0 };
+          const all = dueCards(cardsInArea(ctx, topicById), ctx.progress.cards, todayInBerlin());
+          session = { cards: sessionCards(all, size), index: 0, flipped: false, known: 0, unknown: 0 };
           draw();
         },
-      }, due.length ? `Lernen starten (${due.length} ${due.length === 1 ? 'Karte' : 'Karten'})` : 'Lernen starten')),
+      }, due.length ? `Lernen starten (${planned} ${planned === 1 ? 'Karte' : 'Karten'})` : 'Lernen starten')),
 
     h('section', { class: 'card', 'aria-labelledby': 'cards-boxes' },
       h('h2', { id: 'cards-boxes', text: 'Deine 5 Fächer' }),
@@ -171,7 +188,17 @@ function drawDone(root, ctx, draw, topicById) {
       remaining
         ? h('p', {}, `Heute noch fällig: ${remaining}`)
         : h('p', {}, next ? `Die nächsten Karten sind ${formatDay(next, today)} fällig.` : 'Für heute ist alles erledigt.')),
-    h('button', { type: 'button', class: 'button block', onClick: () => { session = null; draw(); } }, 'Zur Übersicht'),
+    remaining
+      ? h('button', {
+        type: 'button', class: 'button block',
+        onClick: () => {
+          const due = dueCards(cardsInArea(ctx, topicById), ctx.progress.cards, todayInBerlin());
+          session = { cards: sessionCards(due, size), index: 0, flipped: false, known: 0, unknown: 0 };
+          draw();
+        },
+      }, `Weiter lernen (${Math.min(remaining, size ?? remaining)} ${Math.min(remaining, size ?? remaining) === 1 ? 'Karte' : 'Karten'})`)
+      : null,
+    h('button', { type: 'button', class: `button block${remaining ? ' secondary spaced' : ''}`, onClick: () => { session = null; draw(); } }, 'Zur Übersicht'),
   );
 }
 

@@ -1,4 +1,40 @@
-# Abschlussbericht Version 0.7.0
+# Abschlussbericht Version 0.8.0
+
+**Datum:** 17.11.2026 · **Live:** https://ethgg.github.io/prueffit/
+
+Auftrag: Lernzettel nach Goodnotes übertragen und die komplette UI an den Mehrinhalt anpassen.
+
+## Was umgesetzt wurde
+
+| Bereich | Vorher | Nachher |
+|---|---|---|
+| Quiz – Themenauswahl | 59 Checkboxen untereinander, Zähler „( 6 )“ umgebrochen; Seite auf dem iPhone ca. 5.300 px hoch | Bereiche aufklappbar mit „x/y Themen · n Fragen“, Zähler als Plakette, „Alle/Keine“ global; ca. 1.400 px |
+| Statistik | 59 Themen in 8 Karten, ca. 6.700 px | Bereiche aufklappbar mit Quote, Ampel, „geübt“ und Zahl roter Themen; Links „Üben“/„Lernzettel“ pro Thema; ca. 1.900 px |
+| Lernzettel | alle 59 Zettel ausgeklappt, ca. 6.200 px | Bereiche aufklappbar mit Anzahl, „Alle öffnen/schließen“; ca. 1.200 px |
+| Karteikarten | ein Durchgang mit allen fälligen (130) Karten | Durchgänge mit 10/20/50/Alle (Standard 20), „Weiter lernen“ |
+| Startseite | – | „Nachschlagen“ (Lernzettel-Suche), Übersicht 59 Lernzettel · 401 Fragen · 130 Karten; „Heute üben“ mit Lernzettel-Link |
+| Goodnotes | – | 8 Dokumente „PrüfFit Lernzettel – <Bereich>“ mit allen 59 Lernzetteln |
+
+Der Auf-/Zuklapp-Zustand bleibt erhalten, solange die App offen ist (kein neuer Speicherschlüssel, keine Migration nötig).
+
+## Tests
+
+- 420 Unit-Tests grün (neu: `sessionCards`), 34 Browsertests (neu: Quiz-Bereiche, Suche von der Startseite; angepasst: Karten-Durchgänge, Lernzettel-Bereiche).
+- Ansichten auf iPhone SE, iPhone 13 (dunkel) und Desktop per Screenshot geprüft, kein horizontales Scrollen.
+
+## Annahmen
+
+- Bereiche starten zugeklappt; in der Quiz-Auswahl ist ein Bereich offen, wenn dort nur ein Teil der Themen gewählt ist (z. B. nach „Üben“ aus der Statistik).
+- Die Karten-Durchgangsgröße wird nicht dauerhaft gespeichert (Standard 20 bei jedem Start).
+- Goodnotes: Das Connector-Werkzeug erzeugt die Dokumente als Vorschau im Chat; gespeichert werden sie dort von dir.
+
+## Offene Punkte
+
+- Keine.
+
+---
+
+# Abschlussbericht Version 0.7.0 (vorherige Phase)
 
 **Datum:** 17.11.2026 · **Live:** https://ethgg.github.io/prueffit/
 

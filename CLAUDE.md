@@ -101,6 +101,7 @@ prueffit/
 │   └── ui/
 │       ├── home.js
 │       ├── quizView.js
+│       ├── fold.js           # aufklappbare Bereiche (details)
 │       ├── notesView.js
 │       ├── cardsView.js
 │       ├── statsView.js
@@ -287,6 +288,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **0.5** | Inhalte an IHK-Prüfungen 2021–2025 angepasst (Bereich WiSo, 325 Fragen, 110 Karten), AP2-Simulation mit Prüfungsbereichen je Beruf und WiSo | erledigt |
 | **0.6** | Willkommensfragen (Beruf, nächste Prüfung), Prüfungstermine (bundeseinheitlich, auch Sachsen-Anhalt), Countdown und Lernplan auf der Startseite | erledigt |
 | **0.7** | Lernzettel für alle 59 Themen mit Suche, eigene Unterrichtsnotizen ausgewertet (7 neue Themen, 76 Fragen, 20 Karten) | erledigt |
+| **0.8** | UI für den Mehrinhalt: aufklappbare Bereiche (Quiz, Statistik, Lernzettel), Karten-Durchgänge, Lernzettel-Suche auf der Startseite | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

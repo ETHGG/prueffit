@@ -12,6 +12,7 @@ import {
   createUi, isValidUi, readResponse, isIncomplete, missingInputMessage, correctAnswerText, renderInput,
 } from './questionInputs.js';
 import { h, formatNumber, formatPercent, DIFFICULTY_LABELS, append } from './dom.js';
+import { fold } from './fold.js';
 
 // Kept in memory while the app is open, so switching tabs does not lose a running quiz.
 const setup = { exam: 'alle', topics: null, difficulties: [1, 2, 3], size: DEFAULT_QUIZ_SIZE, job: ALL_JOBS };
@@ -107,6 +108,8 @@ export function render(root, ctx) {
 function drawSetup(root, ctx, draw) {
   const { questions, topics } = ctx.catalog;
   const countEls = new Map();
+  const areaMetaEls = new Map();
+  const topicTotalEl = h('span', { class: 'muted small', 'aria-live': 'polite' });
   const availableEl = h('p', { class: 'hint', 'aria-live': 'polite' });
   const startBtn = h('button', { class: 'button block', type: 'submit' }, 'Quiz starten');
 
@@ -115,7 +118,17 @@ function drawSetup(root, ctx, draw) {
     const base = filterQuestions(questions, { exam: setup.exam, difficulties: setup.difficulties, types: SUPPORTED_QUIZ_TYPES, job: setup.job });
     const perTopic = new Map();
     for (const q of base) perTopic.set(q.topic, (perTopic.get(q.topic) ?? 0) + 1);
-    for (const [id, el] of countEls) el.textContent = `(${perTopic.get(id) ?? 0})`;
+    for (const [id, el] of countEls) el.textContent = String(perTopic.get(id) ?? 0);
+    for (const [area, el] of areaMetaEls) {
+      const ids = topics.filter((t) => t.area === area).map((t) => t.id);
+      const chosen = ids.filter((id) => setup.topics.has(id));
+      const n = chosen.reduce((sum, id) => sum + (perTopic.get(id) ?? 0), 0);
+      el.textContent = `${chosen.length}/${ids.length} Themen · ${n} ${n === 1 ? 'Frage' : 'Fragen'}`;
+      el.closest('.fold')?.classList.toggle('is-empty', chosen.length === 0);
+    }
+    topicTotalEl.textContent = setup.topics.size === topics.length
+      ? `Alle ${topics.length} Themen ausgewählt`
+      : `${setup.topics.size} von ${topics.length} Themen ausgewählt`;
 
     // Empty selections would mean "all" in filterQuestions, so they are handled here.
     if (setup.topics.size === 0 || setup.difficulties.length === 0) {
@@ -146,24 +159,33 @@ function drawSetup(root, ctx, draw) {
 
   const areas = [...new Set(topics.map((t) => t.area))];
   const topicCheckboxes = new Map();
+  const setTopics = (list, checked) => {
+    for (const t of list) {
+      if (checked) setup.topics.add(t.id); else setup.topics.delete(t.id);
+      topicCheckboxes.get(t.id).checked = checked;
+    }
+    refresh();
+  };
   const topicField = h('fieldset', {},
     h('legend', { text: 'Themen' }),
+    h('div', { class: 'topic-head' },
+      topicTotalEl,
+      h('span', {},
+        h('button', { type: 'button', class: 'link-button', 'aria-label': 'Alle Themen auswählen', onClick: () => setTopics(topics, true) }, 'Alle'),
+        h('button', { type: 'button', class: 'link-button', 'aria-label': 'Alle Themen abwählen', onClick: () => setTopics(topics, false) }, 'Keine'))),
     areas.map((area) => {
       const areaTopics = topics.filter((t) => t.area === area);
-      const setAll = (checked) => {
-        for (const t of areaTopics) {
-          if (checked) setup.topics.add(t.id); else setup.topics.delete(t.id);
-          topicCheckboxes.get(t.id).checked = checked;
-        }
-        refresh();
-      };
-      return h('div', { class: 'area-group' },
-        h('h3', {},
-          h('span', { text: area }),
-          h('span', {},
-            h('button', { type: 'button', class: 'link-button', 'aria-label': `Alle Themen aus ${area} auswählen`, onClick: () => setAll(true) }, 'Alle'),
-            h('button', { type: 'button', class: 'link-button', 'aria-label': `Keine Themen aus ${area} auswählen`, onClick: () => setAll(false) }, 'Keine'))),
-        h('div', { class: 'check-list' },
+      const meta = h('span', { class: 'fold-meta' });
+      areaMetaEls.set(area, meta);
+      return fold('quiz', area, {
+        class: 'area-fold',
+        open: areaTopics.some((t) => !setup.topics.has(t.id)) && areaTopics.some((t) => setup.topics.has(t.id)),
+        summary: [h('span', { class: 'fold-title', text: area }), meta],
+      },
+      h('div', { class: 'area-actions' },
+        h('button', { type: 'button', class: 'link-button', 'aria-label': `Alle Themen aus ${area} auswählen`, onClick: () => setTopics(areaTopics, true) }, 'Alle'),
+        h('button', { type: 'button', class: 'link-button', 'aria-label': `Keine Themen aus ${area} auswählen`, onClick: () => setTopics(areaTopics, false) }, 'Keine')),
+      h('div', { class: 'check-list' },
           areaTopics.map((t) => {
             const box = h('input', {
               type: 'checkbox', name: 'topic', value: t.id, checked: setup.topics.has(t.id),
@@ -173,9 +195,10 @@ function drawSetup(root, ctx, draw) {
               },
             });
             topicCheckboxes.set(t.id, box);
-            const count = h('span', { class: 'muted small' });
+            const count = h('span', {});
             countEls.set(t.id, count);
-            return h('label', { class: 'check' }, box, h('span', { class: 'grow', text: t.name }), count);
+            return h('label', { class: 'check' }, box, h('span', { class: 'grow', text: t.name }),
+              h('span', { class: 'count-badge' }, count, h('span', { class: 'visually-hidden', text: ' Fragen' })));
           })));
     }));
 

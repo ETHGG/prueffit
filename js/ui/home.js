@@ -74,10 +74,36 @@ export function render(root, ctx) {
         : null),
 
     suggestionsCard(ctx),
+    notesSearchCard(ctx),
     h('div', { class: 'button-row' },
       h('a', { class: 'button', href: '#/quiz' }, 'Quiz starten'),
       h('a', { class: 'button secondary', href: '#/pruefung' }, 'Prüfung simulieren')),
     h('p', { class: 'muted small spaced center' },
       h('a', { href: '#/statistik' }, 'Statistik ansehen')),
   );
+}
+
+/** Search box that opens the Lernzettel list with the query, plus the size of the catalog. */
+function notesSearchCard(ctx) {
+  const { notes = [], questions, flashcards = [], topics } = ctx.catalog;
+  if (!notes.length) return null;
+  const input = h('input', {
+    type: 'search', id: 'home-notes-search', autocomplete: 'off', enterkeyhint: 'search',
+    placeholder: 'z. B. VLAN, Bilanz', 'aria-label': 'Lernzettel durchsuchen',
+  });
+  return h('section', { class: 'card', 'aria-labelledby': 'home-notes' },
+    h('h2', { id: 'home-notes', text: 'Nachschlagen' }),
+    h('form', {
+      class: 'search-row', role: 'search',
+      onSubmit: (e) => {
+        e.preventDefault();
+        const q = input.value.trim();
+        location.hash = q ? `#/lernzettel?q=${encodeURIComponent(q)}` : '#/lernzettel';
+      },
+    }, input, h('button', { type: 'submit', class: 'button' }, 'Suchen')),
+    h('p', { class: 'muted small spaced' },
+      h('a', { href: '#/lernzettel' }, `${notes.length} Lernzettel`), ' · ',
+      h('a', { href: '#/quiz' }, `${formatNumber(questions.length)} Fragen`), ' · ',
+      h('a', { href: '#/karten' }, `${formatNumber(flashcards.length)} Karteikarten`),
+      ` in ${topics.length} Themen`));
 }
