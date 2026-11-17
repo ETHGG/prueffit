@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.5] – 2026-11-18
+
+### Hinzugefügt
+- **Zweite Handlungssituation für jeden AP2-Prüfungsbereich von FIDPA, FIDV, ITSE und KDM** (8 Situationen, 32 Fragen): Zählerablesung der Stadtwerke, Artikelstamm einer Online-Apotheke, Temperaturfühler im Kühlhaus, Fernwartung im Wasserwerk, Hotel-WLAN mit PoE-Budget, Laborplatz mit Spannungsfall, Theorie-App einer Fahrschule, Rechnungen und Verträge einer Digitalagentur. Damit haben alle sieben Berufe je Prüfungsbereich zwei Situationen; die Simulation wählt zufällig.
+- Jetzt 793 Fragen und 28 Handlungssituationen.
+
 ## [2.2.4] – 2026-11-18
 
 ### Behoben
