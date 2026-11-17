@@ -19,6 +19,8 @@ const ASSETS = [
   './js/notes.js',
   './js/glossary.js',
   './js/curriculum.js',
+  './js/jobCatalog.js',
+  './js/ui/jobSetup.js',
   './js/pdfs.js',
   './js/quiz.js',
   './js/schedule.js',

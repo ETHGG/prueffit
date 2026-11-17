@@ -1,16 +1,20 @@
 import { test, expect } from 'playwright/test';
-import { watchProblems, expectNoHorizontalOverflow, openQuizWith, answerCurrent } from './helpers.js';
+import { watchProblems, expectNoHorizontalOverflow, openQuizWith, answerCurrent, jobScope } from './helpers.js';
 
-test('Lernzettel: list by area, search with highlights, detail and back to the hits', async ({ page }) => {
+test('Lernzettel: list by AP1 area / AP2 exam part of the job, search with highlights, detail and back to the hits', async ({ page }) => {
   const problems = watchProblems(page);
   await page.goto('./#/lernzettel');
   await expect(page.getByRole('heading', { level: 1, name: 'Lernzettel' })).toBeVisible();
-  await expect(page.locator('#notes-count')).toHaveText(/^\d+ Lernzettel$/);
-  const total = Number((await page.locator('#notes-count').textContent()).match(/\d+/)[0]);
-  expect(total).toBeGreaterThanOrEqual(59);
-  // Areas are collapsed; opening one shows its notes, "Alle öffnen" opens every area.
-  const wiso = page.locator('details.fold[data-fold="WiSo"]');
-  await expect(wiso.locator('summary')).toContainText('8 Lernzettel');
+  const scope = await jobScope(page);
+  // Only the notes of the job (FISI), one per topic.
+  await expect(page.locator('#notes-count')).toHaveText(`${scope.notes} Lernzettel`);
+  expect(scope.notes).toBe(scope.topics);
+  expect(scope.topics).toBeLessThan(scope.fullTopics);
+  await expect(page.locator('.note-results .exam-group-title')).toHaveText([/AP1/, /AP2.*FISI/]);
+  // Parts are collapsed; opening one shows its notes, "Alle öffnen" opens every part.
+  const wisoTopics = scope.sections.find((sec) => sec.id === 'wiso').topics.length;
+  const wiso = page.locator('details.fold[data-fold="AP2:wiso"]');
+  await expect(wiso.locator('summary')).toContainText(`${wisoTopics} Lernzettel`);
   await expect(wiso.locator('.note-link').first()).toBeHidden();
   await wiso.locator('summary').click();
   await expect(wiso.locator('.note-link').first()).toBeVisible();
@@ -28,24 +32,27 @@ test('Lernzettel: list by area, search with highlights, detail and back to the h
   await expect(page.locator('#notes-count')).toHaveText(/^[1-9]\d* Treffer für „kundigungsschutz“$/);
   await expect(page.locator('.note-results mark').first()).toHaveText(/Kündigungsschutz/i);
   expect(page.url()).toContain('q=kundigungsschutz');
+  // Notes of other jobs are not found (Buchführung is AP2 of the commercial jobs only).
+  await page.locator('#notes-search').fill('buchungssatz');
+  await expect(page.locator('#notes-count')).toHaveText(/^0 Treffer/);
 
-  // Area filter narrows the list.
+  // The exam-part filter narrows the list.
   await page.locator('#notes-search').fill('');
-  await page.locator('#notes-area').selectOption('Wirtschaft');
-  await expect(page.locator('.note-link')).toHaveCount(11);
-  await expect(page.locator('.note-link').first()).toBeVisible(); // a single area is shown open
+  await page.locator('#notes-area').selectOption('AP2:wiso');
+  await expect(page.locator('.note-link')).toHaveCount(wisoTopics);
+  await expect(page.locator('.note-link').first()).toBeVisible(); // a single part is shown open
   await page.locator('#notes-area').selectOption('');
 
   // Detail with highlighted term, then back to the hits.
-  await page.locator('#notes-search').fill('buchungssatz');
-  await page.locator('.note-link').first().click();
-  await expect(page.getByRole('heading', { level: 1, name: 'Inventur, Inventar, Bilanz und Buchungssätze' })).toBeVisible();
+  await page.locator('#notes-search').fill('subnetzmaske');
+  await page.locator('.note-link', { hasText: 'IPv4-Adressen und Subnetting' }).click();
+  await expect(page.getByRole('heading', { level: 1, name: 'IPv4-Adressen und Subnetting' })).toBeVisible();
   await expect(page.locator('article.note mark').first()).toBeVisible();
   await expect(page.locator('article.note table').first()).toBeVisible();
-  await expect(page.getByRole('link', { name: /Fragen üben/ })).toHaveAttribute('href', '#/quiz?thema=wirtschaft.buchfuehrung');
+  await expect(page.getByRole('link', { name: /Fragen üben/ })).toHaveAttribute('href', '#/quiz?thema=netzwerke.subnetting');
   await expectNoHorizontalOverflow(page);
   await page.getByRole('link', { name: '← Zurück zu den Treffern' }).click();
-  await expect(page.locator('#notes-search')).toHaveValue('buchungssatz');
+  await expect(page.locator('#notes-search')).toHaveValue('subnetzmaske');
   expect(problems).toEqual([]);
 });
 
@@ -69,7 +76,10 @@ test('deep link by topic opens the note; quiz feedback links to the note', async
 test('Abkürzungsverzeichnis: list A–Z, search, exact hit in the note search, abbreviations of a note', async ({ page }) => {
   const problems = watchProblems(page);
   await page.goto('./#/lernzettel');
-  const total = await page.evaluate(async () => (await (await fetch('./data/glossary.json')).json()).length);
+  // Only abbreviations that occur in the job's notes.
+  const scope = await jobScope(page);
+  const total = scope.glossary;
+  expect(total).toBeLessThan(scope.fullGlossary);
   await page.getByRole('link', { name: /Abkürzungsverzeichnis/ }).click();
   await expect(page.getByRole('heading', { level: 1, name: 'Abkürzungen' })).toBeVisible();
   await expect(page.locator('#glossary-count')).toHaveText(`${total} Abkürzungen`);

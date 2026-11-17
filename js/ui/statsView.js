@@ -5,6 +5,8 @@ import { h, formatPercent, formatNumber, trafficDot, LIGHT_LABELS, append } from
 import { suggestionsCard, mistakesButton } from './suggestions.js';
 import { fold, foldControls } from './fold.js';
 import { loadChartJs, themeColors, reducedMotion } from './charts.js';
+import { AREAS, EXAMS } from '../config.js';
+import { catalogSections, examHeading } from '../jobCatalog.js';
 
 const dateFormat = new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', timeZone: 'Europe/Berlin' });
 
@@ -17,8 +19,36 @@ export function render(root, ctx) {
   const exams = ctx.progress.exams.filter((e) => Number.isFinite(e.points) && e.max > 0).slice(-12);
   const questionCount = new Map();
   for (const q of questions) questionCount.set(q.topic, (questionCount.get(q.topic) ?? 0) + 1);
-  const areas = [...new Set(list.map((t) => t.area))];
-  const areaById = new Map(areaList.map((a) => [a.area, a]));
+  // Grouped by AP1 catalog area / AP2 exam part of the job (2.0).
+  const sections = catalogSections(ctx.catalog, AREAS);
+  const sectionFold = (sec) => {
+    const items = list.filter((t) => sec.topics.includes(t.id));
+    const [a] = areaStats(items.map((t) => ({ ...t, area: sec.title })));
+    const practiced = items.filter((t) => t.attempts > 0).length;
+    const weak = items.filter((t) => t.light === 'red').length;
+    return fold('stats', sec.exam ? `${sec.exam}-${sec.id}` : sec.id, {
+      summary: [
+        trafficDot(a.light),
+        h('span', { class: 'fold-title', text: sec.title }),
+        h('span', { class: 'fold-rate', text: formatPercent(a.rate) }),
+        h('span', { class: 'fold-meta' },
+          `${practiced} von ${items.length} Themen geübt`,
+          weak ? ` · ${weak} ${weak === 1 ? 'Thema' : 'Themen'} rot` : ''),
+      ],
+    },
+    h('ul', { class: 'stat-list' },
+      items.map((t) => h('li', { class: 'stat-item' },
+        trafficDot(t.light),
+        h('span', { class: 'stat-name', text: t.name }),
+        h('span', { class: 'stat-rate', text: formatPercent(t.rate) }),
+        h('span', { class: 'stat-detail' },
+          t.attempts === 0
+            ? `Noch nicht geübt · ${questionCount.get(t.id) ?? 0} Fragen`
+            : `${t.correct} von ${t.attempts} ${t.attempts === 1 ? 'Versuch' : 'Versuchen'} richtig · ${questionCount.get(t.id) ?? 0} Fragen`,
+          ' · ',
+          h('a', { href: `#/quiz?thema=${encodeURIComponent(t.id)}` }, 'Üben'),
+          noteByTopic.has(t.id) ? [' · ', h('a', { href: `#/lernzettel/${encodeURIComponent(noteByTopic.get(t.id))}` }, 'Lernzettel')] : null)))));
+  };
   const noteByTopic = new Map((ctx.catalog.notes ?? []).map((n) => [n.topic, n.id]));
 
   const areaCanvas = h('canvas', {
@@ -63,36 +93,13 @@ export function render(root, ctx) {
     h('div', { class: 'legend card', 'aria-label': 'Legende der Ampel' },
       ['green', 'yellow', 'red', 'grey'].map((l) => h('span', {}, h('span', { class: `light light-${l}`, 'aria-hidden': 'true' }), LIGHT_LABELS[l]))),
     h('div', { class: 'section-head' },
-      h('h2', { id: 'stats-topics', text: 'Themen nach Bereich' }),
+      h('h2', { id: 'stats-topics', text: 'Themen nach Prüfungsbereich' }),
       foldControls('stats', () => root)),
-    ...areas.map((area) => {
-      const items = list.filter((t) => t.area === area);
-      const a = areaById.get(area);
-      const practiced = items.filter((t) => t.attempts > 0).length;
-      const weak = items.filter((t) => t.light === 'red').length;
-      return fold('stats', area, {
-        summary: [
-          trafficDot(a.light),
-          h('span', { class: 'fold-title', text: area }),
-          h('span', { class: 'fold-rate', text: formatPercent(a.rate) }),
-          h('span', { class: 'fold-meta' },
-            `${practiced} von ${items.length} Themen geübt`,
-            weak ? ` · ${weak} ${weak === 1 ? 'Thema' : 'Themen'} rot` : ''),
-        ],
-      },
-      h('ul', { class: 'stat-list' },
-        items.map((t) => h('li', { class: 'stat-item' },
-          trafficDot(t.light),
-          h('span', { class: 'stat-name', text: t.name }),
-          h('span', { class: 'stat-rate', text: formatPercent(t.rate) }),
-          h('span', { class: 'stat-detail' },
-            t.attempts === 0
-              ? `Noch nicht geübt · ${questionCount.get(t.id) ?? 0} Fragen`
-              : `${t.correct} von ${t.attempts} ${t.attempts === 1 ? 'Versuch' : 'Versuchen'} richtig · ${questionCount.get(t.id) ?? 0} Fragen`,
-            ' · ',
-            h('a', { href: `#/quiz?thema=${encodeURIComponent(t.id)}` }, 'Üben'),
-            noteByTopic.has(t.id) ? [' · ', h('a', { href: `#/lernzettel/${encodeURIComponent(noteByTopic.get(t.id))}` }, 'Lernzettel')] : null)))));
-    }),
+    ...(sections.some((sec) => sec.exam)
+      ? EXAMS.map((exam) => h('div', { class: 'exam-group' },
+        h('h3', { class: 'exam-group-title' }, h('span', { class: 'badge', text: exam }), ' ', examHeading(exam, ctx.catalog.job)),
+        sections.filter((sec) => sec.exam === exam).map(sectionFold)))
+      : sections.map(sectionFold)),
     h('p', { class: 'muted small center' }, 'Als richtig zählt eine Antwort mit voller Punktzahl. Die Ampel erscheint ab 5 Versuchen pro Thema.'),
   );
 

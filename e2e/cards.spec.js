@@ -1,11 +1,13 @@
 import { test, expect } from 'playwright/test';
-import { watchProblems, expectNoHorizontalOverflow } from './helpers.js';
+import { watchProblems, expectNoHorizontalOverflow, jobScope } from './helpers.js';
 
 test('flashcards: learn, flip, known / not known, boxes update', async ({ page }) => {
   const problems = watchProblems(page);
   await page.goto('./#/karten');
-  const total = await page.evaluate(async () => (await Promise.all(['netzwerke', 'hardware', 'sicherheit', 'wirtschaft', 'projekt', 'programmierung', 'recht', 'wiso']
-    .map((a) => fetch(`./data/flashcards/${a}.json`).then((r) => r.json())))).flat().length);
+  // Only the flashcards of the job (FISI) count.
+  const scope = await jobScope(page);
+  const total = scope.flashcards;
+  expect(total).toBeLessThan(scope.fullFlashcards);
   await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: ${total}`);
 
   // Big backlog: one session holds 20 cards by default, "Alle" takes every due card.

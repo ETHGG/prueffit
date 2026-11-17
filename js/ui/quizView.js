@@ -1,6 +1,8 @@
 // Quiz screen: setup -> one question per screen with instant feedback -> summary.
 
-import { EXAMS, QUIZ_SIZES, DEFAULT_QUIZ_SIZE, SUPPORTED_QUIZ_TYPES, JOBS, ALL_JOBS } from '../config.js';
+import { EXAMS, QUIZ_SIZES, DEFAULT_QUIZ_SIZE, SUPPORTED_QUIZ_TYPES, AREAS } from '../config.js';
+import { jobById } from '../curriculum.js';
+import { sectionKey, inSelection, catalogSections, examHeading } from '../jobCatalog.js';
 import { filterQuestions, pickRandom, shuffle, issueUrl } from '../questions.js';
 import {
   createQuiz, currentQuestion, submitAnswer, nextQuestion, isFinished, isAnswered, summarizeQuiz,
@@ -17,7 +19,8 @@ import { fold } from './fold.js';
 import { scenarioBox, scenarioByQuestion } from './scenario.js';
 
 // Kept in memory while the app is open, so switching tabs does not lose a running quiz.
-const setup = { exam: 'alle', topics: null, difficulties: [1, 2, 3], size: DEFAULT_QUIZ_SIZE, job: ALL_JOBS, mode: 'alle' };
+// `keys`: selected topics per section (AP1 catalog area or AP2 exam part), see sectionKey().
+const setup = { exam: 'alle', keys: null, sections: [], difficulties: [1, 2, 3], size: DEFAULT_QUIZ_SIZE, job: null, mode: 'alle' };
 const MODE_ALL = 'alle';
 const MODE_MISTAKES = 'fehler';
 let session = null;
@@ -55,8 +58,9 @@ function restoreSession(store, questions) {
 }
 
 /** Questions matching the setup; in mode "Meine Fehler" only those answered wrong last time. */
-function matchingQuestions(questions, answers, crit = criteria()) {
-  const pool = filterQuestions(questions, crit);
+function matchingQuestions(questions, answers, crit = criteria(), keys = setup.keys) {
+  const exam = crit.exam && crit.exam !== ALL_EXAMS ? crit.exam : null;
+  const pool = filterQuestions(questions, crit).filter((q) => !keys || inSelection(q, keys, setup.sections, exam));
   if (setup.mode !== MODE_MISTAKES) return pool;
   const wrong = new Set(mistakeIds(pool, answers));
   return pool.filter((q) => wrong.has(q.id));
@@ -65,12 +69,13 @@ function matchingQuestions(questions, answers, crit = criteria()) {
 function criteria() {
   return {
     exam: setup.exam,
-    topics: [...setup.topics],
     difficulties: setup.difficulties,
     types: SUPPORTED_QUIZ_TYPES,
     job: setup.job,
   };
 }
+
+const allKeys = (sections = setup.sections) => new Set(sections.flatMap((sec) => sec.topics.map((t) => sectionKey(sec.id, t))));
 
 export function render(root, ctx) {
   const { questions, topics } = ctx.catalog;
@@ -81,8 +86,12 @@ export function render(root, ctx) {
     );
     return;
   }
-  if (!setup.topics) setup.topics = new Set(topics.map((t) => t.id));
-  setup.job = ctx.progress.settings.job ?? ALL_JOBS;
+  const job = ctx.progress.settings.job;
+  if (setup.job !== job || !setup.keys) {
+    setup.job = job;
+    setup.sections = catalogSections(ctx.catalog, AREAS);
+    setup.keys = allKeys();
+  }
   if (!session) session = restoreSession(ctx.sessionStore, questions);
 
   // Deep link from "Heute üben": #/quiz?thema=<topic id> preselects that topic.
@@ -94,7 +103,7 @@ export function render(root, ctx) {
     history.replaceState(null, '', '#/quiz');
     if (!session) {
       setup.mode = MODE_MISTAKES;
-      setup.topics = new Set(topics.map((t) => t.id));
+      setup.keys = allKeys();
       setup.exam = ALL_EXAMS;
       setup.difficulties = [1, 2, 3];
     } else {
@@ -105,7 +114,7 @@ export function render(root, ctx) {
     history.replaceState(null, '', '#/quiz');
     const topic = topics.find((t) => t.id === requested);
     if (topic && !session) {
-      setup.topics = new Set([topic.id]);
+      setup.keys = new Set(setup.sections.filter((sec) => sec.topics.includes(topic.id)).map((sec) => sectionKey(sec.id, topic.id)));
       setup.exam = ALL_EXAMS;
       setup.difficulties = [1, 2, 3];
       notice = `Thema „${topic.name}“ ist ausgewählt.`;
@@ -132,32 +141,52 @@ export function render(root, ctx) {
 
 function drawSetup(root, ctx, draw) {
   const { questions, topics } = ctx.catalog;
+  const topicById = new Map(topics.map((t) => [t.id, t]));
+  const { sections } = setup;
   const countEls = new Map();
-  const areaMetaEls = new Map();
+  const sectionMetaEls = new Map();
+  const groupEls = new Map();
   const topicTotalEl = h('span', { class: 'muted small', 'aria-live': 'polite' });
   const availableEl = h('p', { class: 'hint', 'aria-live': 'polite' });
   const startBtn = h('button', { class: 'button block', type: 'submit' }, 'Quiz starten');
+  const visible = () => sections.filter((sec) => setup.exam === ALL_EXAMS || !sec.exam || sec.exam === setup.exam);
+  const keysOf = (list) => list.flatMap((sec) => sec.topics.map((t) => sectionKey(sec.id, t)));
 
   const refresh = () => {
-    // Counts per topic respect the exam and difficulty filters.
-    const base = matchingQuestions(questions, ctx.progress.answers, { exam: setup.exam, difficulties: setup.difficulties, types: SUPPORTED_QUIZ_TYPES, job: setup.job });
-    const perTopic = new Map();
-    for (const q of base) perTopic.set(q.topic, (perTopic.get(q.topic) ?? 0) + 1);
-    for (const [id, el] of countEls) el.textContent = String(perTopic.get(id) ?? 0);
-    for (const [area, el] of areaMetaEls) {
-      const ids = topics.filter((t) => t.area === area).map((t) => t.id);
-      const chosen = ids.filter((id) => setup.topics.has(id));
-      const n = chosen.reduce((sum, id) => sum + (perTopic.get(id) ?? 0), 0);
-      el.textContent = `${chosen.length}/${ids.length} Themen · ${n} ${n === 1 ? 'Frage' : 'Fragen'}`;
+    // Counts per section topic respect the exam, difficulty and mode filters.
+    const base = matchingQuestions(questions, ctx.progress.answers,
+      { exam: setup.exam, difficulties: setup.difficulties, types: SUPPORTED_QUIZ_TYPES }, null);
+    const perKey = new Map();
+    for (const q of base) {
+      for (const sec of sections) {
+        if (sec.topics.includes(q.topic) && (!sec.exam || q.exam.includes(sec.exam))) {
+          const key = sectionKey(sec.id, q.topic);
+          perKey.set(key, (perKey.get(key) ?? 0) + 1);
+        }
+      }
+    }
+    for (const [key, el] of countEls) el.textContent = String(perKey.get(key) ?? 0);
+    for (const sec of sections) {
+      const keys = keysOf([sec]);
+      const chosen = keys.filter((k) => setup.keys.has(k));
+      const n = chosen.reduce((sum, k) => sum + (perKey.get(k) ?? 0), 0);
+      const el = sectionMetaEls.get(sec.id);
+      el.textContent = `${chosen.length}/${keys.length} Themen · ${n} ${n === 1 ? 'Frage' : 'Fragen'}`;
       el.closest('.fold')?.classList.toggle('is-empty', chosen.length === 0);
     }
-    topicTotalEl.textContent = setup.topics.size === topics.length
-      ? `Alle ${topics.length} Themen ausgewählt`
-      : `${setup.topics.size} von ${topics.length} Themen ausgewählt`;
+    for (const [exam, el] of groupEls) el.hidden = setup.exam !== ALL_EXAMS && exam !== setup.exam;
+    // A topic can be part of an AP1 area and an AP2 part: the total counts distinct topics.
+    const shown = visible();
+    const shownTopics = new Set(shown.flatMap((sec) => sec.topics));
+    const chosenTopics = new Set(shown.flatMap((sec) => sec.topics.filter((t) => setup.keys.has(sectionKey(sec.id, t)))));
+    const shownChosen = chosenTopics.size;
+    topicTotalEl.textContent = keysOf(shown).every((k) => setup.keys.has(k))
+      ? `Alle ${shownTopics.size} Themen ausgewählt`
+      : `${shownChosen} von ${shownTopics.size} Themen ausgewählt`;
 
-    // Empty selections would mean "all" in filterQuestions, so they are handled here.
-    if (setup.topics.size === 0 || setup.difficulties.length === 0) {
-      availableEl.textContent = setup.topics.size === 0
+    // Empty selections are handled here, the quiz needs at least one topic and difficulty.
+    if (shownChosen === 0 || setup.difficulties.length === 0) {
+      availableEl.textContent = shownChosen === 0
         ? 'Bitte wähle mindestens ein Thema aus.'
         : 'Bitte wähle mindestens eine Schwierigkeit aus.';
       startBtn.disabled = true;
@@ -171,7 +200,7 @@ function drawSetup(root, ctx, draw) {
     startBtn.disabled = available === 0;
   };
 
-  const mistakeCount = mistakeIds(filterQuestions(questions, { types: SUPPORTED_QUIZ_TYPES, job: setup.job }), ctx.progress.answers).length;
+  const mistakeCount = mistakeIds(filterQuestions(questions, { types: SUPPORTED_QUIZ_TYPES }), ctx.progress.answers).length;
   const modeField = h('fieldset', {},
     h('legend', { text: 'Fragen' }),
     h('div', { class: 'segmented' },
@@ -194,50 +223,62 @@ function drawSetup(root, ctx, draw) {
         h('span', { text: exam === ALL_EXAMS ? 'Alle' : exam }),
       ))));
 
-  const areas = [...new Set(topics.map((t) => t.area))];
   const topicCheckboxes = new Map();
-  const setTopics = (list, checked) => {
-    for (const t of list) {
-      if (checked) setup.topics.add(t.id); else setup.topics.delete(t.id);
-      topicCheckboxes.get(t.id).checked = checked;
+  const setKeys = (keys, checked) => {
+    for (const key of keys) {
+      if (checked) setup.keys.add(key); else setup.keys.delete(key);
+      topicCheckboxes.get(key).checked = checked;
     }
     refresh();
   };
+  const sectionFold = (sec) => {
+    const keys = keysOf([sec]);
+    const meta = h('span', { class: 'fold-meta' });
+    sectionMetaEls.set(sec.id, meta);
+    return fold('quiz', sec.exam ? `${sec.exam}-${sec.id}` : sec.id, {
+      class: 'area-fold',
+      open: keys.some((k) => !setup.keys.has(k)) && keys.some((k) => setup.keys.has(k)),
+      summary: [h('span', { class: 'fold-title', text: sec.title }), meta],
+    },
+    h('div', { class: 'area-actions' },
+      h('button', { type: 'button', class: 'link-button', 'aria-label': `Alle Themen aus ${sec.title} auswählen`, onClick: () => setKeys(keys, true) }, 'Alle'),
+      h('button', { type: 'button', class: 'link-button', 'aria-label': `Keine Themen aus ${sec.title} auswählen`, onClick: () => setKeys(keys, false) }, 'Keine')),
+    h('div', { class: 'check-list' },
+      sec.topics.map((topic) => {
+        const key = sectionKey(sec.id, topic);
+        const box = h('input', {
+          type: 'checkbox', name: 'topic', value: key, checked: setup.keys.has(key),
+          onChange: (e) => {
+            if (e.target.checked) setup.keys.add(key); else setup.keys.delete(key);
+            refresh();
+          },
+        });
+        topicCheckboxes.set(key, box);
+        const count = h('span', {});
+        countEls.set(key, count);
+        return h('label', { class: 'check' }, box, h('span', { class: 'grow', text: topicById.get(topic)?.name ?? topic }),
+          h('span', { class: 'count-badge' }, count, h('span', { class: 'visually-hidden', text: ' Fragen' })));
+      })));
+  };
+  const job = jobById(setup.job);
+  const groups = job
+    ? EXAMS.map((exam) => {
+      const el = h('div', { class: 'exam-group' },
+        h('h3', { class: 'exam-group-title' }, h('span', { class: 'badge', text: exam }), ' ',
+          examHeading(exam, job.id)),
+        sections.filter((sec) => sec.exam === exam).map(sectionFold));
+      groupEls.set(exam, el);
+      return el;
+    })
+    : sections.map(sectionFold);
   const topicField = h('fieldset', {},
     h('legend', { text: 'Themen' }),
     h('div', { class: 'topic-head' },
       topicTotalEl,
       h('span', {},
-        h('button', { type: 'button', class: 'link-button', 'aria-label': 'Alle Themen auswählen', onClick: () => setTopics(topics, true) }, 'Alle'),
-        h('button', { type: 'button', class: 'link-button', 'aria-label': 'Alle Themen abwählen', onClick: () => setTopics(topics, false) }, 'Keine'))),
-    areas.map((area) => {
-      const areaTopics = topics.filter((t) => t.area === area);
-      const meta = h('span', { class: 'fold-meta' });
-      areaMetaEls.set(area, meta);
-      return fold('quiz', area, {
-        class: 'area-fold',
-        open: areaTopics.some((t) => !setup.topics.has(t.id)) && areaTopics.some((t) => setup.topics.has(t.id)),
-        summary: [h('span', { class: 'fold-title', text: area }), meta],
-      },
-      h('div', { class: 'area-actions' },
-        h('button', { type: 'button', class: 'link-button', 'aria-label': `Alle Themen aus ${area} auswählen`, onClick: () => setTopics(areaTopics, true) }, 'Alle'),
-        h('button', { type: 'button', class: 'link-button', 'aria-label': `Keine Themen aus ${area} auswählen`, onClick: () => setTopics(areaTopics, false) }, 'Keine')),
-      h('div', { class: 'check-list' },
-          areaTopics.map((t) => {
-            const box = h('input', {
-              type: 'checkbox', name: 'topic', value: t.id, checked: setup.topics.has(t.id),
-              onChange: (e) => {
-                if (e.target.checked) setup.topics.add(t.id); else setup.topics.delete(t.id);
-                refresh();
-              },
-            });
-            topicCheckboxes.set(t.id, box);
-            const count = h('span', {});
-            countEls.set(t.id, count);
-            return h('label', { class: 'check' }, box, h('span', { class: 'grow', text: t.name }),
-              h('span', { class: 'count-badge' }, count, h('span', { class: 'visually-hidden', text: ' Fragen' })));
-          })));
-    }));
+        h('button', { type: 'button', class: 'link-button', 'aria-label': 'Alle Themen auswählen', onClick: () => setKeys(keysOf(visible()), true) }, 'Alle'),
+        h('button', { type: 'button', class: 'link-button', 'aria-label': 'Alle Themen abwählen', onClick: () => setKeys(keysOf(visible()), false) }, 'Keine'))),
+    groups);
 
   const difficultyField = h('fieldset', {},
     h('legend', { text: 'Schwierigkeit' }),
@@ -268,7 +309,7 @@ function drawSetup(root, ctx, draw) {
     class: 'card',
     onSubmit: (e) => {
       e.preventDefault();
-      if (setup.difficulties.length === 0 || setup.topics.size === 0) return;
+      if (setup.difficulties.length === 0 || setup.keys.size === 0) return;
       const pool = matchingQuestions(questions, ctx.progress.answers);
       const picked = pickRandom(pool, setup.size);
       if (!picked.length) {
@@ -281,13 +322,10 @@ function drawSetup(root, ctx, draw) {
   }, modeField, examField, sizeField, difficultyField, topicField,
   h('div', { class: 'sticky-actions' }, availableEl, startBtn));
 
-  const job = JOBS.find((j) => j.id === setup.job);
-  append(root, 
+  append(root,
     h('h1', { text: 'Quiz' }),
     h('p', { class: 'muted' }, 'Stell dir dein Quiz zusammen. Die Fragen werden zufällig gezogen.'),
-    h('p', { class: 'small job-line' },
-      job ? `Beruf: ${job.name} (AP2-Fragen für andere Berufe sind ausgeblendet). ` : 'Beruf: alle IT-Berufe. ',
-      h('a', { href: '#/einstellungen' }, 'Ändern')),
+    job ? h('p', { class: 'small job-line', text: `Beruf: ${job.name} – nur Fragen aus deiner AP1 und AP2.` }) : null,
     form);
   refresh();
 }

@@ -7,11 +7,14 @@ import { recordCardReview } from '../storage.js';
 import { issueUrl } from '../questions.js';
 import { h, formatDay, append } from './dom.js';
 import { glossaryCards } from '../glossary.js';
+import { AREAS, EXAMS } from '../config.js';
+import { catalogSections, itemsInSection } from '../jobCatalog.js';
 
 const INTERVAL_LABELS = { 1: 'täglich', 2: 'alle 2 Tage', 3: 'alle 4 Tage', 4: 'jede Woche', 5: 'alle 2 Wochen' };
 const ALL = 'alle';
 const DECK_ABBR = 'abkuerzungen';
-let abbrCards = null; // built once from the glossary
+let abbrCards = null; // built from the (job-scoped) glossary
+let abbrSource = null;
 
 // In memory while the app is open.
 let area = ALL;
@@ -38,13 +41,21 @@ export function render(root, ctx) {
   draw();
 }
 
+const deckValue = (sec) => (sec.exam ? `${sec.exam}:${sec.id}` : sec.title);
+
 function cardsInArea(ctx, topicById) {
   const { flashcards } = ctx.catalog;
   if (area === DECK_ABBR) {
-    abbrCards ??= glossaryCards(ctx.catalog.glossary ?? []);
+    if (abbrSource !== ctx.catalog.glossary) {
+      abbrSource = ctx.catalog.glossary;
+      abbrCards = glossaryCards(abbrSource ?? []);
+    }
     return abbrCards;
   }
-  return area === ALL ? flashcards : flashcards.filter((c) => topicById.get(c.topic)?.area === area);
+  if (area === ALL) return flashcards;
+  // Deck = AP1 catalog area or AP2 exam part (2.0), value "<exam>:<id>"; without a job: subject area.
+  const sec = catalogSections(ctx.catalog, AREAS).find((x) => deckValue(x) === area);
+  return sec ? itemsInSection(flashcards, sec) : flashcards.filter((c) => topicById.get(c.topic)?.area === area);
 }
 
 // ---------------------------------------------------------------- overview
@@ -60,15 +71,20 @@ function drawOverview(root, ctx, draw, topicById) {
   const newDue = due.filter((c) => !progressCards[c.id]).length;
   const planned = sessionCards(due, size).length;
   const effectiveSize = size !== null && size < due.length ? size : null;
-  const areas = [...new Set(ctx.catalog.topics.map((t) => t.area))];
+  const sections = catalogSections(ctx.catalog, AREAS)
+    .filter((sec) => itemsInSection(ctx.catalog.flashcards, sec).length);
+  if (area !== ALL && area !== DECK_ABBR && !sections.some((sec) => deckValue(sec) === area)) area = ALL;
+  const deckOption = (sec) => h('option', { value: deckValue(sec), selected: area === deckValue(sec) },
+    `${sec.title} (${itemsInSection(ctx.catalog.flashcards, sec).length})`);
 
   const select = h('select', {
     id: 'card-area',
     onChange: (e) => { area = e.target.value; draw(); },
   },
-  h('optgroup', { label: 'Fachkarten' },
-    h('option', { value: ALL, selected: area === ALL }, 'Alle Bereiche'),
-    areas.map((a) => h('option', { value: a, selected: area === a }, a))),
+  h('option', { value: ALL, selected: area === ALL }, `Alle Fachkarten (${ctx.catalog.flashcards.length})`),
+  sections.some((sec) => sec.exam)
+    ? EXAMS.map((exam) => h('optgroup', { label: exam }, sections.filter((sec) => sec.exam === exam).map(deckOption)))
+    : h('optgroup', { label: 'Fachkarten' }, sections.map(deckOption)),
   (ctx.catalog.glossary ?? []).length
     ? h('optgroup', { label: 'Extra' },
       h('option', { value: DECK_ABBR, selected: area === DECK_ABBR }, `Abkürzungen (${ctx.catalog.glossary.length})`))

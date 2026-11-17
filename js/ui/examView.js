@@ -93,7 +93,7 @@ export function render(root, ctx) {
 
   // ------------------------------------------------------------ start
   function drawStart() {
-    const job = ctx.progress.settings.job ?? ALL_JOBS;
+    const job = ctx.progress.settings.job ?? ALL_JOBS; // always set since 2.0 (job setup)
     const jobInfo = JOBS.find((j) => j.id === job);
     const pool = filterQuestions(questions, { job, types: EXAM_QUESTION_TYPES });
     const blueprint = examParts(chosenExam, job);
@@ -138,9 +138,7 @@ export function render(root, ctx) {
           h('li', {}, 'Rückmeldung und Note gibt es erst nach der Abgabe – wie in der echten Prüfung, bei der AP2 auch für jeden Teil einzeln.'),
           h('li', {}, 'Die Zeit läuft weiter, auch wenn du die App schließt. Bei Zeitablauf wird automatisch abgegeben.'),
           h('li', {}, 'Freitextfragen kommen nicht vor, weil sie sich nur selbst bewerten lassen.'),
-          h('li', {}, `Beruf: ${jobInfo ? jobInfo.name : 'alle IT-Berufe'} · ${total} Fragen. `,
-            chosenExam === 'AP2' && !jobInfo ? 'Mit gewähltem Beruf bekommst du die passenden Prüfungsbereiche. ' : null,
-            h('a', { href: '#/einstellungen' }, 'Ändern'))),
+          h('li', {}, `Beruf: ${jobInfo ? jobInfo.name : 'alle IT-Berufe'} · ${total} Fragen aus ${chosenExam === 'AP1' ? 'der AP1' : 'deinen AP2-Prüfungsbereichen'}.`)),
         h('button', {
           type: 'button', class: 'button block', disabled: total === 0,
           onClick: () => {

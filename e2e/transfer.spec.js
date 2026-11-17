@@ -29,7 +29,8 @@ test('export and re-import progress (with backup and theme)', async ({ page }, i
     backup: JSON.parse(localStorage.getItem('prueffit.backup.import')),
   }));
   expect(stored.now.answers).toEqual({ 'net-0001': { attempts: 7, correct: 7, lastAt: null } });
-  expect(stored.now.settings).toMatchObject({ theme: 'dark', dailyGoal: 30, job: 'alle' });
+  // The imported settings apply, but never change the fixed job (2.0).
+  expect(stored.now.settings).toMatchObject({ theme: 'dark', dailyGoal: 30, job: 'fisi', jobConfirmed: true });
   expect(stored.backup.answers['net-0010'].attempts).toBe(1);
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 

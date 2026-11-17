@@ -1,14 +1,14 @@
 import { test, expect } from 'playwright/test';
-import { watchProblems, expectNoHorizontalOverflow } from './helpers.js';
+import { watchProblems, expectNoHorizontalOverflow, jobScope } from './helpers.js';
 
-/** Stores a progress state (schema 5) before the app starts. */
+/** Stores a progress state (schema 6, FISI confirmed) before the app starts. */
 async function seed(page, { answers = {}, settings = {} } = {}) {
   await page.addInitScript(([a, s]) => {
     if (sessionStorage.getItem('seeded')) return;
     sessionStorage.setItem('seeded', '1');
     localStorage.setItem('prueffit.v1', JSON.stringify({
-      schemaVersion: 5, answers: a, cards: {}, exams: [], streak: { current: 0, lastDay: null }, daily: {},
-      settings: { theme: 'auto', dailyGoal: 20, job: 'alle', onboarded: true, examTarget: null, backup: { lastAt: null, snoozeUntil: null }, ...s },
+      schemaVersion: 6, answers: a, cards: {}, exams: [], streak: { current: 0, lastDay: null }, daily: {},
+      settings: { theme: 'auto', dailyGoal: 20, job: 'fisi', jobConfirmed: true, onboarded: true, examTarget: null, backup: { lastAt: null, snoozeUntil: null }, ...s },
     }));
   }, [answers, settings]);
 }
@@ -35,7 +35,8 @@ test('Meine Fehler: only questions answered wrong last time, reachable from the 
 test('Abkürzungen as flashcards and tappable in the Lernzettel', async ({ page }) => {
   const problems = watchProblems(page);
   await page.goto('./#/karten');
-  const total = await page.evaluate(async () => (await (await fetch('./data/glossary.json')).json()).length);
+  // Abbreviation cards: those of the job's notes.
+  const total = (await jobScope(page)).glossary;
   await page.locator('#card-area').selectOption('abkuerzungen');
   await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: ${total}`);
   await page.getByRole('button', { name: /Lernen starten/ }).click();

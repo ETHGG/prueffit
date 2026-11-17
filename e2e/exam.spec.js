@@ -1,5 +1,5 @@
 import { test, expect } from 'playwright/test';
-import { watchProblems, expectNoHorizontalOverflow } from './helpers.js';
+import { watchProblems, expectNoHorizontalOverflow, useJob } from './helpers.js';
 
 async function answerExamQuestion(page) {
   if (await page.locator('#answer-input').count()) await page.fill('#answer-input', '1');
@@ -75,22 +75,23 @@ async function handIn(page, title) {
   await page.getByRole('button', { name: 'Abgeben', exact: true }).click();
 }
 
-test('AP2: three parts like the real exam, each further part starts only on request, grade per part', async ({ page }) => {
+test('AP2: three parts like the real exam, each further part starts only on request, grade per part (KITS)', async ({ page }) => {
   const problems = watchProblems(page);
+  await useJob(page, 'kits');
   await page.goto('./#/pruefung');
   await page.locator('label', { hasText: /^AP2$/ }).click();
   await expect(page.locator('.exam-parts li')).toHaveCount(3);
   await expect(page.locator('.exam-parts')).toContainText('Wirtschafts- und Sozialkunde · 60 Minuten · 30 Fragen');
   await page.getByRole('button', { name: 'AP2 starten' }).click();
-  await expect(page.locator('.exam-title')).toHaveText('AP2 · Ganzheitliche Aufgabe 1');
+  await expect(page.locator('.exam-title')).toHaveText('AP2 · Einführen einer IT-Systemlösung');
   await answerExamQuestion(page);
-  await handIn(page, 'Ganzheitliche Aufgabe 1');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ganzheitliche Aufgabe 1 abgegeben');
+  await handIn(page, 'Einführen einer IT-Systemlösung');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Einführen einer IT-Systemlösung abgegeben');
   await page.reload();
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ganzheitliche Aufgabe 1 abgegeben');
-  await page.getByRole('button', { name: 'Ganzheitliche Aufgabe 2 starten' }).click();
-  await expect(page.locator('.exam-title')).toHaveText('AP2 · Ganzheitliche Aufgabe 2');
-  await handIn(page, 'Ganzheitliche Aufgabe 2');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Einführen einer IT-Systemlösung abgegeben');
+  await page.getByRole('button', { name: 'Kaufmännische Unterstützungsprozesse starten' }).click();
+  await expect(page.locator('.exam-title')).toHaveText('AP2 · Kaufmännische Unterstützungsprozesse');
+  await handIn(page, 'Kaufmännische Unterstützungsprozesse');
   await page.getByRole('button', { name: 'Wirtschafts- und Sozialkunde starten' }).click();
   await expect(page.locator('.exam-title')).toHaveText('AP2 · Wirtschafts- und Sozialkunde');
   await expect(page.getByRole('timer')).toHaveText(/^(60:00|59:5\d)$/);
@@ -100,16 +101,14 @@ test('AP2: three parts like the real exam, each further part starts only on requ
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ergebnis AP2');
   await expect(page.locator('.part-results .stat-item')).toHaveCount(3);
   const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.v1')));
-  expect(stored.exams[0].parts.map((p) => p.title)).toEqual(['Ganzheitliche Aufgabe 1', 'Ganzheitliche Aufgabe 2', 'Wirtschafts- und Sozialkunde']);
+  expect(stored.exams[0].parts.map((p) => p.title)).toEqual(['Einführen einer IT-Systemlösung', 'Kaufmännische Unterstützungsprozesse', 'Wirtschafts- und Sozialkunde']);
   await expectNoHorizontalOverflow(page);
   expect(problems).toEqual([]);
 });
 
 test('AP2 for FISI uses the official exam areas and can run WiSo alone', async ({ page }) => {
   const problems = watchProblems(page);
-  await page.goto('./#/einstellungen');
-  await page.getByLabel('Dein Beruf').selectOption('fisi');
-  await expect(page.locator('.toast').first()).toContainText('Beruf gespeichert');
+  // FISI is the job of the test user (playwright.config.js).
   await page.goto('./#/pruefung');
   await page.locator('label', { hasText: /^AP2$/ }).click();
   await expect(page.locator('.exam-parts')).toContainText('Konzeption und Administration von IT-Systemen');
@@ -137,8 +136,13 @@ test('statistics: "Heute üben" links into the quiz and charts render', async ({
   const name = (await first.locator('.stat-name').textContent()).trim();
   await first.getByRole('link', { name: /üben/ }).click();
   await expect(page.locator('.toast').first()).toContainText(`Thema „${name}“ ist ausgewählt.`);
-  await expect(page.getByRole('checkbox', { name })).toBeChecked();
-  expect(await page.locator('input[name="topic"]:checked').count()).toBe(1);
+  // The topic is selected in every AP1 area / AP2 exam part it belongs to, nothing else.
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const boxes = page.getByRole('checkbox', { name: new RegExp(`^${escaped} \\d+`) });
+  const n = await boxes.count();
+  expect(n).toBeGreaterThan(0);
+  for (let i = 0; i < n; i += 1) await expect(boxes.nth(i)).toBeChecked();
+  expect(await page.locator('input[name="topic"]:checked').count()).toBe(n);
 
   // An exam result produces both charts.
   await page.goto('./#/pruefung');

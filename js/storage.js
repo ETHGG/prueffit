@@ -8,14 +8,18 @@ import {
   CORRUPT_BACKUP_KEY,
   DEFAULT_SETTINGS,
   JOBS,
-  ALL_JOBS,
   EXAMS,
 } from './config.js';
 import { reviewCard, todayInBerlin } from './leitner.js';
 import { updateStreak, pruneDaily } from './stats.js';
 
 const THEMES = ['auto', 'light', 'dark'];
-const JOB_IDS = [ALL_JOBS, ...JOBS.map((j) => j.id)];
+const JOB_IDS = JOBS.map((j) => j.id);
+/** Job id of older data: „itsm“ (until 1.1) is „kits“ since 2.0; „alle“ and unknown ids mean none. */
+const normalizeJob = (job) => {
+  const id = job === 'itsm' ? 'kits' : job;
+  return JOB_IDS.includes(id) ? id : null;
+};
 
 /**
  * Migrations keyed by the schema version they upgrade FROM.
@@ -26,7 +30,7 @@ export const MIGRATIONS = {
   // 1 -> 2 (v0.2.1): new setting `job` (apprenticeship for AP2 content).
   1: (data) => ({
     ...data,
-    settings: { ...(isPlainObject(data.settings) ? data.settings : {}), job: ALL_JOBS },
+    settings: { ...(isPlainObject(data.settings) ? data.settings : {}), job: 'alle' },
   }),
   // 2 -> 3 (v0.4.0): activity per day for the daily goal.
   2: (data) => ({ ...data, daily: {} }),
@@ -40,6 +44,12 @@ export const MIGRATIONS = {
     ...data,
     settings: { ...(isPlainObject(data.settings) ? data.settings : {}), backup: { lastAt: null, snoozeUntil: null } },
   }),
+  // 5 -> 6 (v2.0.0): seven apprenticeships, the job is confirmed once and then fixed.
+  // A known job is kept as preselection, „alle“ becomes null; progress stays untouched.
+  5: (data) => {
+    const settings = isPlainObject(data.settings) ? data.settings : {};
+    return { ...data, settings: { ...settings, job: normalizeJob(settings.job), jobConfirmed: false } };
+  },
 };
 
 export function createDefaultState() {
@@ -111,9 +121,8 @@ export function normalizeState(raw, version = SCHEMA_VERSION) {
     const { theme, dailyGoal } = raw.settings;
     if (THEMES.includes(theme)) state.settings.theme = theme;
     if (Number.isInteger(dailyGoal) && dailyGoal > 0 && dailyGoal <= 500) state.settings.dailyGoal = dailyGoal;
-    // „itsm“ (bis 1.1) heißt seit 2.0 „kits“ (Kaufmann/-frau für IT-System-Management).
-    const job = raw.settings.job === 'itsm' ? 'kits' : raw.settings.job;
-    if (JOB_IDS.includes(job)) state.settings.job = job;
+    state.settings.job = normalizeJob(raw.settings.job);
+    state.settings.jobConfirmed = raw.settings.jobConfirmed === true && state.settings.job !== null;
     if (typeof raw.settings.onboarded === 'boolean') state.settings.onboarded = raw.settings.onboarded;
     const target = raw.settings.examTarget;
     if (isPlainObject(target) && EXAMS.includes(target.exam) && isDay(target.day)) {
@@ -254,8 +263,19 @@ export function recordExamResult(state, evaluation, now = new Date()) {
 
 /** Returns a new state with changed settings; invalid values are ignored. */
 export function updateSettings(state, patch) {
+  // The apprenticeship is fixed once confirmed (2.0): later patches cannot change it.
+  if (state.settings?.jobConfirmed && ('job' in patch || 'jobConfirmed' in patch)) {
+    const { job, jobConfirmed, ...rest } = patch;
+    patch = rest;
+  }
   const merged = normalizeState({ ...state, settings: { ...state.settings, ...patch } }, state.schemaVersion);
   return { ...state, settings: merged.settings };
+}
+
+/** Sets the apprenticeship once (setup). Unknown ids or an already confirmed job change nothing. */
+export function confirmJob(state, job) {
+  if (state.settings.jobConfirmed || !JOB_IDS.includes(job)) return state;
+  return updateSettings(state, { job, jobConfirmed: true });
 }
 
 /** Returns a new state with the Leitner review of `cardId` recorded (CLAUDE.md 6.1). */

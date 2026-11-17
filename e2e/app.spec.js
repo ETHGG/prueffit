@@ -1,5 +1,5 @@
 import { test, expect } from 'playwright/test';
-import { watchProblems, answerCurrent, openQuizWith, expectNoHorizontalOverflow } from './helpers.js';
+import { watchProblems, answerCurrent, openQuizWith, expectNoHorizontalOverflow, jobScope } from './helpers.js';
 
 const ROUTES = ['start', 'quiz', 'karten', 'statistik', 'pruefung', 'einstellungen'];
 
@@ -76,11 +76,14 @@ test('broken saved progress is backed up and the app still starts', async ({ pag
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 });
 
-test('statistics list every topic per area (regression: arrays rendered as "[object HTMLElement]")', async ({ page }) => {
+test('statistics list every topic of the job per exam area (regression: arrays rendered as "[object HTMLElement]")', async ({ page }) => {
   await page.goto('./#/statistik');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Statistik');
-  const topicCount = await page.evaluate(async () => (await (await fetch('./data/topics.json')).json()).length);
-  await expect(page.locator('.stat-list .stat-item')).toHaveCount(topicCount);
+  const scope = await jobScope(page);
+  // Each AP1 area and AP2 exam part lists its topics (a topic can be in both AP1 and AP2).
+  await expect(page.locator('.stat-list .stat-item')).toHaveCount(scope.sectionTopics);
+  await expect(page.locator('.exam-group-title')).toHaveText([/AP1/, /AP2.*FISI/]);
+  expect(scope.topics).toBeLessThan(scope.fullTopics);
   await expect(page.locator('main')).not.toContainText('[object');
   for (const route of ['start', 'quiz', 'lernzettel', 'karten', 'pruefung', 'einstellungen']) {
     await page.goto(`./#/${route}`);
@@ -97,18 +100,25 @@ test('no view prints "null", "undefined" or "[object …]" (regression)', async 
   }
 });
 
-test('quiz topics are grouped in collapsible areas with counts', async ({ page }) => {
+test('quiz topics are grouped by AP1 area and AP2 exam part of the job, with counts', async ({ page }) => {
   const problems = watchProblems(page);
   await page.goto('./#/quiz');
-  const topicCount = await page.evaluate(async () => (await (await fetch('./data/topics.json')).json()).length);
-  await expect(page.locator('.topic-head')).toContainText(`Alle ${topicCount} Themen ausgewählt`);
-  const net = page.locator('details.fold[data-fold="Netzwerke"]');
-  await expect(net).not.toHaveAttribute('open', '');
-  await expect(net.locator('summary')).toContainText(/7\/7 Themen · \d+ Fragen/);
-  await net.locator('summary').click();
-  await net.getByRole('button', { name: 'Keine Themen aus Netzwerke auswählen' }).click();
-  await expect(net.locator('summary')).toContainText('0/7 Themen · 0 Fragen');
-  await expect(page.locator('.topic-head')).toContainText(`${topicCount - 7} von ${topicCount} Themen ausgewählt`);
+  const scope = await jobScope(page);
+  await expect(page.locator('.topic-head')).toContainText(`Alle ${scope.topics} Themen ausgewählt`);
+  await expect(page.locator('.exam-group-title')).toHaveText([/AP1.*Einrichten eines IT-gestützten Arbeitsplatzes/, /AP2.*Prüfungsbereiche FISI/]);
+  const ga2 = scope.sections.find((s) => s.exam === 'AP2' && s.id === 'ga2');
+  expect(ga2.title).toBe('Analyse und Entwicklung von Netzwerken');
+  const n = ga2.topics.length;
+  const part = page.locator('details.fold[data-fold="AP2-ga2"]');
+  await expect(part).not.toHaveAttribute('open', '');
+  await expect(part.locator('summary')).toContainText(new RegExp(`${n}/${n} Themen · \\d+ Fragen`));
+  await part.locator('summary').click();
+  await part.getByRole('button', { name: `Keine Themen aus ${ga2.title} auswählen` }).click();
+  await expect(part.locator('summary')).toContainText(`0/${n} Themen · 0 Fragen`);
+  // Only AP2: the AP1 areas disappear, the deselected exam part stays empty.
+  await page.locator('label', { hasText: /^AP2$/ }).click();
+  await expect(page.locator('.exam-group').first()).toBeHidden();
+  await expect(page.locator('.topic-head')).toContainText(/von \d+ Themen ausgewählt/);
   await page.getByRole('button', { name: 'Alle Themen abwählen' }).click();
   await expect(page.getByRole('button', { name: 'Quiz starten' })).toBeDisabled();
   await expectNoHorizontalOverflow(page);

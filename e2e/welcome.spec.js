@@ -3,13 +3,20 @@ import { watchProblems, expectNoHorizontalOverflow } from './helpers.js';
 
 const settings = (page) => page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.v1')).settings);
 
-test('first start asks for job and next exam, then shows a countdown', async ({ page }) => {
+test('first start asks for the job once, then for the next exam, then shows a countdown', async ({ page }) => {
   const problems = watchProblems(page);
   await page.clock.setFixedTime(new Date('2026-11-17T10:00:00+01:00'));
   await page.goto('./#/start');
-  await expect(page.getByRole('heading', { name: 'Willkommen bei PrüfFit 👋' })).toBeVisible();
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  await expect(page.getByRole('heading', { level: 1, name: 'Willkommen bei PrüfFit 👋' })).toBeVisible();
   await expectNoHorizontalOverflow(page);
-  await page.getByRole('radio', { name: 'Fachinformatiker/-in Systemintegration' }).check();
+  await page.getByRole('radio', { name: /Fachinformatiker\/-in Systemintegration/ }).check();
+  await page.getByRole('button', { name: 'Beruf festlegen' }).click();
+  await page.getByRole('button', { name: 'Festlegen', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Deine nächste Prüfung' })).toBeVisible();
+  // The welcome card no longer asks for the job.
+  await expect(page.locator('input[name="welcome-job"]')).toHaveCount(0);
   await page.locator('label', { hasText: 'AP2 (Teil 2)' }).click();
   // The next AP2 date after 17.11.2026 is preselected; Sachsen-Anhalt uses the nationwide dates.
   await expect(page.locator('#welcome-day')).toHaveValue('2026-11-25');
@@ -21,7 +28,7 @@ test('first start asks for job and next exam, then shows a countdown', async ({ 
   await expect(page.locator('.countdown-days')).toHaveText('8');
   await expect(page.locator('.countdown-line')).toContainText('Tage bis Mi., 25.11.2026');
   await expect(page.locator('.countdown')).toContainText(/Noch \d+ AP2-Fragen nie richtig beantwortet/);
-  expect(await settings(page)).toMatchObject({ job: 'fisi', onboarded: true, examTarget: { exam: 'AP2', day: '2026-11-25' } });
+  expect(await settings(page)).toMatchObject({ job: 'fisi', jobConfirmed: true, onboarded: true, examTarget: { exam: 'AP2', day: '2026-11-25' } });
 
   // A suggested daily goal can be taken over.
   const goalButton = page.getByRole('button', { name: /^Tagesziel auf \d+ setzen$/ });
@@ -32,11 +39,11 @@ test('first start asks for job and next exam, then shows a countdown', async ({ 
   // After a reload the welcome questions do not come back.
   await page.reload();
   await expect(page.locator('.countdown-days')).toHaveText('8');
-  await expect(page.getByRole('heading', { name: /Willkommen/ })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: /Willkommen|nächste Prüfung/ })).toHaveCount(0);
 
   // "Ändern" opens the form again, "Abbrechen" keeps everything.
   await page.getByRole('button', { name: 'Ändern' }).click();
-  await expect(page.getByRole('heading', { name: 'Prüfung und Beruf' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Nächste Prüfung' })).toBeVisible();
   await expect(page.locator('#welcome-day')).toHaveValue('2026-11-25');
   await page.getByRole('button', { name: 'Abbrechen' }).click();
   await expect(page.locator('.countdown-days')).toHaveText('8');
@@ -47,10 +54,11 @@ test('first start asks for job and next exam, then shows a countdown', async ({ 
 test('"Später" skips the questions; settings can set the exam date', async ({ page }) => {
   await page.clock.setFixedTime(new Date('2026-11-17T10:00:00+01:00'));
   await page.goto('./#/start');
+  await expect(page.getByRole('heading', { name: 'Deine nächste Prüfung' })).toBeVisible();
   await page.getByRole('button', { name: 'Später' }).click();
-  await expect(page.getByRole('heading', { name: /Willkommen/ })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Deine nächste Prüfung' })).toHaveCount(0);
   await expect(page.locator('.countdown')).toHaveCount(0);
-  expect(await settings(page)).toMatchObject({ onboarded: true, examTarget: null, job: 'alle' });
+  expect(await settings(page)).toMatchObject({ onboarded: true, examTarget: null, job: 'fisi', jobConfirmed: true });
 
   await page.goto('./#/einstellungen');
   await page.locator('label', { hasText: 'AP1 (Teil 1)' }).click();
@@ -73,12 +81,16 @@ test('after the exam date the start page asks for the next exam', async ({ page 
     localStorage.setItem('prueffit.v1', JSON.stringify(state));
   });
   await page.reload();
+  // Old data (schema 4, „itsm“): the job is confirmed once, KITS is preselected.
+  await expect(page.getByRole('heading', { level: 1, name: 'Neu in PrüfFit 2.0' })).toBeVisible();
+  await expect(page.getByRole('radio', { name: /IT-System-Management/ })).toBeChecked();
+  await page.getByRole('button', { name: 'Beruf festlegen' }).click();
+  await page.getByRole('button', { name: 'Festlegen', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Wie geht es weiter?' })).toBeVisible();
   await expect(page.getByText('Deine AP1 (Herbst 2026) ist vorbei.')).toBeVisible();
   // After AP1 the AP2 is suggested.
   await expect(page.locator('input[name="welcome-exam"][value="AP2"]')).toBeChecked();
   await expect(page.locator('#welcome-day')).toHaveValue('2027-04-28');
-  await expect(page.getByRole('radio', { name: 'IT-System-Management' })).toBeChecked();
   await page.getByRole('button', { name: 'Speichern' }).click();
   await expect(page.getByRole('heading', { name: 'Deine AP2 · Sommer 2027' })).toBeVisible();
 });

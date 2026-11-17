@@ -5,6 +5,7 @@ import { loadState, saveState, resetProgress } from './storage.js';
 import { dailyProgress } from './stats.js';
 import { todayInBerlin } from './leitner.js';
 import { loadCatalog } from './questions.js';
+import { catalogForJob } from './jobCatalog.js';
 import { CUSTOM_KEY, normalizeCustom } from './transfer.js';
 import * as home from './ui/home.js';
 import * as quizView from './ui/quizView.js';
@@ -13,6 +14,7 @@ import * as notesView from './ui/notesView.js';
 import * as statsView from './ui/statsView.js';
 import * as examView from './ui/examView.js';
 import * as settingsView from './ui/settingsView.js';
+import * as jobSetup from './ui/jobSetup.js';
 import { h } from './ui/dom.js';
 
 const ROUTES = {
@@ -56,7 +58,16 @@ const sessionStore = getSessionBackend();
 const loaded = loadState(storage);
 let progress = loaded.state;
 let baseCatalog = { topics: [], questions: [], flashcards: [], errors: [] };
-let catalog = baseCatalog;
+let fullCatalog = baseCatalog;
+// Job-scoped catalog (2.0): every view only sees the content of the chosen apprenticeship.
+let scoped = { job: undefined, source: null, catalog: baseCatalog };
+function jobCatalog() {
+  const { job } = progress.settings;
+  if (scoped.job !== job || scoped.source !== fullCatalog) {
+    scoped = { job, source: fullCatalog, catalog: catalogForJob(fullCatalog, job) };
+  }
+  return scoped.catalog;
+}
 let custom = { v: 1, questions: [], flashcards: [] };
 
 /** Validation context for imported content: known topics and ids of built-in content. */
@@ -71,7 +82,7 @@ function customContext() {
 }
 
 function rebuildCatalog() {
-  catalog = {
+  fullCatalog = {
     ...baseCatalog,
     questions: [...baseCatalog.questions, ...custom.questions],
     flashcards: [...baseCatalog.flashcards, ...custom.flashcards],
@@ -139,7 +150,7 @@ function applyTheme(theme) {
 
 const ctx = {
   version: APP_VERSION,
-  get catalog() { return catalog; },
+  get catalog() { return jobCatalog(); },
   get progress() { return progress; },
   storageStatus: storage ? loaded.status : 'unavailable',
   sessionStore,
@@ -177,6 +188,10 @@ const ctx = {
     } catch {
       // backup is best effort
     }
+    // The apprenticeship is fixed (2.0): an imported backup never changes it.
+    if (progress.settings.jobConfirmed) {
+      next = { ...next, settings: { ...next.settings, job: progress.settings.job, jobConfirmed: true } };
+    }
     progress = next;
     if (storage) saveState(storage, progress);
     applyTheme(progress.settings.theme);
@@ -199,6 +214,11 @@ function currentRoute() {
 }
 
 function render() {
+  if (jobSetup.needsJobSetup(ctx)) {
+    renderJobSetup();
+    return;
+  }
+  document.body.classList.remove('setup-mode');
   const name = currentRoute();
   const { view, title } = ROUTES[name];
   if (typeof cleanup === 'function') cleanup();
@@ -212,6 +232,23 @@ function render() {
 
   viewEl.replaceChildren();
   cleanup = view.render(viewEl, ctx) ?? null;
+  window.scrollTo(0, 0);
+}
+
+/** One-time job choice instead of any view; the tab bar is hidden meanwhile. */
+function renderJobSetup() {
+  if (typeof cleanup === 'function') cleanup();
+  cleanup = null;
+  document.title = 'Beruf festlegen – PrüfFit';
+  document.body.classList.add('setup-mode');
+  viewEl.replaceChildren();
+  jobSetup.render(viewEl, ctx, {
+    onDone: () => {
+      history.replaceState(null, '', `#/${DEFAULT_ROUTE}`);
+      render();
+      focusView();
+    },
+  });
   window.scrollTo(0, 0);
 }
 
@@ -257,9 +294,9 @@ async function start() {
   baseCatalog = await loadCatalog((url) => fetch(url, { cache: 'no-cache' }));
   loadCustom();
 
-  if (catalog.errors.length) {
-    console.warn('PrüfFit: Probleme beim Laden der Fragen', catalog.errors);
-    toast(catalog.questions.length
+  if (fullCatalog.errors.length) {
+    console.warn('PrüfFit: Probleme beim Laden der Fragen', fullCatalog.errors);
+    toast(fullCatalog.questions.length
       ? 'Einige Fragen konnten nicht geladen werden.'
       : 'Die Fragen konnten nicht geladen werden. Bitte später erneut versuchen.', { type: 'error', duration: 6000 });
   }

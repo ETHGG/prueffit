@@ -1,11 +1,11 @@
 {
   "version": "1.1.0",
-  "sourceHash": "6484f13830e742550f2980ee6d38131947d13568ca1dead4c2f2379cf6739353",
+  "sourceHash": "9f1b6d0f4c89d50be25afcbb4a14c20d1a7533b8ee01e847c50bd47176a9bccf",
   "files": [
     {
       "key": "alle",
       "file": "lernzettel-alle.pdf",
-      "bytes": 1421283
+      "bytes": 1421082
     },
     {
       "key": "Netzwerke",
@@ -25,7 +25,7 @@
     {
       "key": "Wirtschaft",
       "file": "lernzettel-wirtschaft.pdf",
-      "bytes": 336338
+      "bytes": 336231
     },
     {
       "key": "Projektmanagement",
@@ -40,7 +40,7 @@
     {
       "key": "Recht",
       "file": "lernzettel-recht.pdf",
-      "bytes": 179187
+      "bytes": 179087
     },
     {
       "key": "WiSo",

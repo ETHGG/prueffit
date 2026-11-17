@@ -51,7 +51,9 @@ describe('progress import', () => {
     expect(res.state.schemaVersion).toBe(SCHEMA_VERSION);
     expect(res.state.answers.x).toEqual({ attempts: 2, correct: 1, lastAt: null });
     expect(res.state.settings.theme).toBe('dark');
-    expect(res.state.settings.job).toBe('alle');
+    // Version 1 had no job; since schema 6 that is „no job yet“ (null), never „alle“.
+    expect(res.state.settings.job).toBeNull();
+    expect(res.state.settings.jobConfirmed).toBe(false);
   });
   it('also accepts a bare progress object', () => {
     const res = parseProgressImport(JSON.stringify(createDefaultState()));

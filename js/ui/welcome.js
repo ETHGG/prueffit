@@ -1,6 +1,7 @@
-// Welcome questions (job, next exam and its date) and the exam countdown on the start page.
+// Welcome question (next exam and its date; the job is chosen once in ui/jobSetup.js) and the exam countdown on the start page.
 
-import { JOBS, ALL_JOBS, EXAMS } from '../config.js';
+import { EXAMS } from '../config.js';
+import { jobById } from '../curriculum.js';
 import { updateSettings } from '../storage.js';
 import { filterQuestions } from '../questions.js';
 import { todayInBerlin } from '../leitner.js';
@@ -65,10 +66,10 @@ export function editExamTarget() {
 }
 
 function initialDraft(ctx, today) {
-  const { job, examTarget } = ctx.progress.settings;
-  if (examTarget && examTarget.day >= today) return { job, exam: examTarget.exam, day: examTarget.day };
+  const { examTarget } = ctx.progress.settings;
+  if (examTarget && examTarget.day >= today) return { exam: examTarget.exam, day: examTarget.day };
   // After a past AP1 the next exam is usually the AP2.
-  return { job, exam: examTarget?.exam === 'AP1' ? 'AP2' : 'AP1', day: null };
+  return { exam: examTarget?.exam === 'AP1' ? 'AP2' : 'AP1', day: null };
 }
 
 /** True if the start page should show the welcome questions. */
@@ -88,7 +89,7 @@ export function welcomeCard(ctx, { rerender }) {
 
   const finish = (save) => {
     if (save) {
-      ctx.updateProgress((p) => updateSettings(p, { job: draft.job, examTarget: targetFromDraft(draft), onboarded: true }));
+      ctx.updateProgress((p) => updateSettings(p, { examTarget: targetFromDraft(draft), onboarded: true }));
       ctx.toast(draft.day ? 'Gespeichert. Viel Erfolg beim Lernen!' : 'Gespeichert. Den Termin kannst du jederzeit nachtragen.');
     } else {
       ctx.updateProgress((p) => updateSettings(p, { onboarded: true, ...(past ? { examTarget: null } : {}) }));
@@ -98,20 +99,15 @@ export function welcomeCard(ctx, { rerender }) {
     rerender({ focus: 'h1' });
   };
 
-  const title = !onboarded ? 'Willkommen bei PrüfFit 👋' : past ? 'Wie geht es weiter?' : 'Prüfung und Beruf';
+  const job = jobById(ctx.progress.settings.job);
+  const title = !onboarded ? 'Deine nächste Prüfung' : past ? 'Wie geht es weiter?' : 'Nächste Prüfung';
   const intro = !onboarded
-    ? 'Zwei kurze Fragen, dann passen Fragen, Prüfungssimulation und Lernplan zu dir. Du kannst alles später in den Einstellungen ändern.'
+    ? `Beruf: ${job?.short ?? '–'}. Noch eine kurze Frage, dann passt der Lernplan zu dir. Den Termin kannst du später ändern.`
     : past ? `Deine ${examTarget.exam} (${sessionLabel(examTarget.exam, examTarget.day)}) ist vorbei. Welche Prüfung kommt als Nächstes?` : null;
 
   return h('section', { class: 'card welcome', 'aria-labelledby': 'welcome-title' },
     h('h2', { id: 'welcome-title', tabindex: '-1', text: title }),
     intro ? h('p', { text: intro }) : null,
-    h('fieldset', {},
-      h('legend', { text: 'Welchen Beruf lernst du?' }),
-      h('div', { class: 'choice-list' },
-        [...JOBS.map((j) => [j.id, j.name]), [ALL_JOBS, 'Anderer IT-Beruf / keine Angabe']].map(([id, name]) => h('label', { class: 'choice' },
-          h('input', { type: 'radio', name: 'welcome-job', value: id, checked: draft.job === id, onChange: () => { draft.job = id; } }),
-          h('span', { text: name }))))),
     examTargetFields(draft, { idPrefix: 'welcome', today, onChange: redraw }),
     h('div', { class: 'button-row' },
       h('button', { type: 'button', class: 'button', onClick: () => finish(true) }, 'Speichern'),

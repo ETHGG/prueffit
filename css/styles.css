@@ -641,3 +641,13 @@ details.fold.card[open] { padding-bottom: 1rem; }
 .pdf-size { white-space: nowrap; }
 .pdf-link.inline { display: inline-grid; grid-template-columns: auto auto auto; padding: .2rem 0; }
 .note-pdf { margin: .5rem 0 1rem; }
+
+/* One-time job choice (2.0): no navigation until the apprenticeship is set. */
+body.setup-mode .tabbar { display: none; }
+.job-setup .choice strong { margin-right: 0.15rem; }
+.plain-list { margin: 0.25rem 0 0; padding-left: 1.1rem; }
+.plain-list li { margin: 0.15rem 0; }
+.job-fixed { margin: 0; }
+.exam-group + .exam-group { margin-top: 1rem; }
+.exam-group-title { display: flex; align-items: center; gap: 0.4rem; font-size: 0.95rem; margin: 0.75rem 0 0.4rem; }
+.badge { display: inline-block; padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; background: color-mix(in srgb, var(--primary) 15%, transparent); color: var(--primary); }

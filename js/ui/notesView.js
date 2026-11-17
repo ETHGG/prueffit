@@ -1,8 +1,9 @@
 // Study notes ("Lernzettel"): searchable list and detail view.
-// Routes: #/lernzettel, #/lernzettel?q=raid&bereich=Hardware, #/lernzettel/<note id>,
+// Routes: #/lernzettel, #/lernzettel?q=raid&bereich=AP2:ga1 (or a subject area), #/lernzettel/<note id>,
 //         #/lernzettel/abkuerzungen?q=dhcp&bereich=Netzwerke (Abkürzungsverzeichnis)
 
-import { AREAS } from '../config.js';
+import { AREAS, EXAMS } from '../config.js';
+import { catalogSections, examHeading } from '../jobCatalog.js';
 import { parseMarkdown, parseInline, searchNotes, highlightParts } from '../notes.js';
 import { h, append } from './dom.js';
 import { fold, foldControls } from './fold.js';
@@ -165,9 +166,23 @@ export function render(root, ctx) {
     type: 'search', id: 'notes-search', value: query, autocomplete: 'off', enterkeyhint: 'search',
     placeholder: 'z. B. RAID, Kündigung', 'aria-describedby': 'notes-count',
   });
+  // Filter: AP1 catalog area or AP2 exam part of the job (2.0); older links may still name a subject area.
+  const sections = catalogSections(ctx.catalog, AREAS);
+  const sectionValue = (sec) => (sec.exam ? `${sec.exam}:${sec.id}` : sec.title);
+  const sectionOption = (sec) => h('option', { value: sectionValue(sec), selected: area === sectionValue(sec), text: sec.title });
   const areaSelect = h('select', { id: 'notes-area' },
-    h('option', { value: ALL, selected: area === ALL, text: 'Alle Bereiche' }),
-    AREAS.map((a) => h('option', { value: a.name, selected: area === a.name, text: a.name })));
+    h('option', { value: ALL, selected: area === ALL, text: 'Alle Prüfungsbereiche' }),
+    sections.some((sec) => sec.exam)
+      ? EXAMS.map((exam) => h('optgroup', { label: exam }, sections.filter((sec) => sec.exam === exam).map(sectionOption)))
+      : sections.map(sectionOption),
+    area && !sections.some((sec) => sectionValue(sec) === area) && AREAS.some((a) => a.name === area)
+      ? h('option', { value: area, selected: true, text: area })
+      : null);
+  const inFilter = (n) => {
+    if (!area) return true;
+    const sec = sections.find((x) => sectionValue(x) === area);
+    return sec ? sec.topics.includes(n.topic) : topicsById.get(n.topic)?.area === area;
+  };
   const count = h('p', { id: 'notes-count', class: 'muted small', 'aria-live': 'polite' });
   const list = h('div', { class: 'note-results' });
   const glossary = ctx.catalog.glossary ?? [];
@@ -187,7 +202,7 @@ export function render(root, ctx) {
 
   const drawResults = () => {
     drawAbbrHit();
-    const pool = area ? notes.filter((n) => topicsById.get(n.topic)?.area === area) : notes;
+    const pool = notes.filter(inFilter);
     const results = searchNotes(pool, query, topicsById);
     count.textContent = query
       ? `${results.length} ${results.length === 1 ? 'Treffer' : 'Treffer'} für „${query.trim()}“`
@@ -210,23 +225,33 @@ export function render(root, ctx) {
       list.replaceChildren(h('ul', { class: 'note-list card' }, results.map(item)));
       return;
     }
-    // Without a search: grouped by area in the usual order, sorted by title.
-    const groups = AREAS.map((a) => ({
-      area: a.name,
-      items: results.filter((r) => topicsById.get(r.note.topic)?.area === a.name)
+    // Without a search: grouped by AP1 catalog area / AP2 exam part, sorted by title.
+    const groups = sections.map((sec) => ({
+      sec,
+      items: results.filter((r) => sec.topics.includes(r.note.topic))
         .sort((x, y) => x.note.title.localeCompare(y.note.title, 'de')),
     })).filter((g) => g.items.length);
+    const groupFold = (g) => fold('notes', sectionValue(g.sec), {
+      open: groups.length === 1,
+      remember: groups.length > 1,
+      summary: [
+        h('span', { class: 'fold-title', text: g.sec.title }),
+        h('span', { class: 'fold-meta', text: `${g.items.length} Lernzettel` }),
+      ],
+    }, h('ul', { class: 'note-list' }, g.items.map(item)));
     list.replaceChildren();
     append(list,
       groups.length > 1 ? foldControls('notes', () => list) : null,
-      groups.map((g) => fold('notes', g.area, {
-        open: groups.length === 1,
-        remember: groups.length > 1,
-        summary: [
-          h('span', { class: 'fold-title', text: g.area }),
-          h('span', { class: 'fold-meta', text: `${g.items.length} Lernzettel` }),
-        ],
-      }, h('ul', { class: 'note-list' }, g.items.map(item)))));
+      groups.some((g) => g.sec.exam)
+        ? EXAMS.map((exam) => {
+          const own = groups.filter((g) => g.sec.exam === exam);
+          return own.length
+            ? h('div', { class: 'exam-group' },
+              h('h2', { class: 'exam-group-title' }, h('span', { class: 'badge', text: exam }), ' ', examHeading(exam, ctx.catalog.job)),
+              own.map(groupFold))
+            : null;
+        })
+        : groups.map(groupFold));
   };
 
   const syncHash = () => history.replaceState(null, '', listHash(query.trim(), area));
@@ -235,10 +260,10 @@ export function render(root, ctx) {
 
   append(root,
     h('h1', { text: 'Lernzettel' }),
-    h('p', { class: 'muted' }, `Kurz und knapp das Wichtigste zu allen ${notes.length} Themen – zum Nachlesen vor dem Üben.`),
+    h('p', { class: 'muted' }, `Kurz und knapp das Wichtigste zu allen ${notes.length} Themen deiner Prüfungen – zum Nachlesen vor dem Üben.`),
     h('div', { class: 'card notes-filter', role: 'search' },
       h('label', { class: 'field' }, h('span', { text: 'Suchen' }), input),
-      h('label', { class: 'field' }, h('span', { text: 'Bereich' }), areaSelect),
+      h('label', { class: 'field' }, h('span', { text: 'Prüfungsbereich' }), areaSelect),
       count,
       glossary.length
         ? h('a', { class: 'gloss-link', href: glossaryHash('', '') },
@@ -394,7 +419,7 @@ function renderGlossary(root, ctx, route) {
     h('p', { class: 'muted' }, `Alle ${glossary.length} Abkürzungen aus den Lernzetteln, ausgeschrieben und kurz erklärt.`),
     h('div', { class: 'card notes-filter', role: 'search' },
       h('label', { class: 'field' }, h('span', { text: 'Suchen' }), input),
-      h('label', { class: 'field' }, h('span', { text: 'Bereich' }), areaSelect),
+      h('label', { class: 'field' }, h('span', { text: 'Prüfungsbereich' }), areaSelect),
       count),
     h('p', {}, pdfLink(PDF_GLOSSARY, 'Abkürzungsverzeichnis', { className: 'pdf-link inline' })),
     letters,

@@ -1,7 +1,7 @@
 // Settings and app information.
 
 import { h, append } from './dom.js';
-import { JOBS, ALL_JOBS } from '../config.js';
+import { jobById, AP1_TITLE, AP2_PARTS } from '../curriculum.js';
 import { updateSettings } from '../storage.js';
 import {
   parseProgressImport, buildCustomExport, parseCustomImport, mergeCustom, exportFileName,
@@ -116,15 +116,7 @@ export function render(root, ctx) {
     render(root, ctx);
   };
 
-  const jobSelect = h('select', {
-    id: 'settings-job',
-    onChange: (e) => {
-      ctx.updateProgress((p) => updateSettings(p, { job: e.target.value }));
-      ctx.toast('Beruf gespeichert.');
-    },
-  },
-  h('option', { value: ALL_JOBS, selected: ctx.progress.settings.job === ALL_JOBS }, 'Alle IT-Berufe'),
-  JOBS.map((j) => h('option', { value: j.id, selected: ctx.progress.settings.job === j.id }, `${j.name} (${j.short})`)));
+  const job = jobById(ctx.progress.settings.job);
 
   const today = todayInBerlin();
   const target = ctx.progress.settings.examTarget;
@@ -143,10 +135,13 @@ export function render(root, ctx) {
     h('h1', { text: 'Einstellungen' }),
     h('section', { class: 'card', 'aria-labelledby': 'settings-job-title' },
       h('h2', { id: 'settings-job-title', text: 'Ausbildungsberuf' }),
-      h('div', { class: 'field' },
-        h('label', { for: 'settings-job', text: 'Dein Beruf' }),
-        jobSelect),
-      h('p', { class: 'muted small spaced' }, 'Die AP1 ist für alle IT-Berufe gleich. Für die AP2 zeigt PrüfFit zusätzlich nur die Fragen, die zu deinem Beruf passen.')),
+      h('p', { id: 'settings-job', class: 'job-fixed' }, h('strong', { text: job ? `${job.name} (${job.short})` : '–' })),
+      job
+        ? h('ul', { class: 'small plain-list' },
+          h('li', { text: `AP1: ${AP1_TITLE}` }),
+          AP2_PARTS[job.id].map((p) => h('li', { text: `AP2: ${p.title}` })))
+        : null,
+      h('p', { class: 'muted small spaced' }, 'Der Beruf wurde beim Einrichten festgelegt und kann nicht geändert werden. PrüfFit zeigt nur Inhalte, die in deinen Prüfungen vorkommen.')),
     h('section', { class: 'card', 'aria-labelledby': 'settings-exam-title' },
       h('h2', { id: 'settings-exam-title', text: 'Prüfungstermin' }),
       h('p', { id: 'settings-exam-current' }, target

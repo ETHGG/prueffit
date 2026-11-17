@@ -40,3 +40,47 @@ export async function expectNoHorizontalOverflow(page) {
   const overflow = await page.evaluate(() => Math.max(document.documentElement.scrollWidth, innerWidth) - screen.width);
   expect(overflow, 'horizontal overflow in px').toBeLessThanOrEqual(0);
 }
+
+/** Job used by the tests (seeded in playwright.config.js). */
+export const TEST_JOB = 'fisi';
+
+/**
+ * What the app should show for a job, computed in the page from the app's own modules:
+ * job-scoped catalog, AP1/AP2 sections and the count of section topics.
+ */
+export async function jobScope(page, job = TEST_JOB) {
+  return page.evaluate(async (j) => {
+    const { loadCatalog } = await import('./js/questions.js');
+    const { catalogForJob, catalogSections } = await import('./js/jobCatalog.js');
+    const { AREAS } = await import('./js/config.js');
+    const full = await loadCatalog((url) => fetch(url));
+    const c = catalogForJob(full, j);
+    const sections = catalogSections(c, AREAS);
+    return {
+      fullTopics: full.topics.length,
+      fullQuestions: full.questions.length,
+      fullFlashcards: full.flashcards.length,
+      fullGlossary: full.glossary.length,
+      topics: c.topics.length,
+      topicIds: c.topics.map((t) => t.id),
+      questions: c.questions.length,
+      questionIds: c.questions.map((q) => q.id),
+      flashcards: c.flashcards.length,
+      notes: c.notes.length,
+      glossary: c.glossary.length,
+      sections,
+      sectionTopics: sections.reduce((n, s) => n + s.topics.length, 0),
+    };
+  }, job);
+}
+
+/** Switches the test user to another (confirmed) job, keeping the rest of the progress. */
+export async function useJob(page, job) {
+  await page.goto('./#/start');
+  await page.evaluate((j) => {
+    const state = JSON.parse(localStorage.getItem('prueffit.v1') ?? '{}');
+    state.settings = { ...(state.settings ?? {}), job: j, jobConfirmed: true };
+    localStorage.setItem('prueffit.v1', JSON.stringify(state));
+  }, job);
+  await page.reload();
+}

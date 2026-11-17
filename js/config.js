@@ -7,7 +7,7 @@ export const ISSUE_LABEL = 'inhalt';
 
 // localStorage
 export const STORAGE_KEY = 'prueffit.v1';
-export const SCHEMA_VERSION = 5;
+export const SCHEMA_VERSION = 6;
 export const BACKUP_PREFIX = 'prueffit.backup.';
 export const CORRUPT_BACKUP_KEY = 'prueffit.backup.corrupt';
 
@@ -27,6 +27,7 @@ export const EXAMS = ['AP1', 'AP2'];
 // Apprenticeships covered (CLAUDE.md 1). AP1 is identical for all, AP2 differs.
 // The seven apprenticeships and their exam parts live in js/curriculum.js.
 export { JOBS } from './curriculum.js';
+// Former setting value "all apprenticeships" (until 1.1); logic modules still accept it as "no job".
 export const ALL_JOBS = 'alle';
 export const QUESTION_TYPES = ['single', 'multi', 'number', 'text', 'match', 'order'];
 // Types the quiz can present in this version.
@@ -41,9 +42,11 @@ export const MIN_ATTEMPTS_FOR_RATING = 5;
 export const THRESHOLD_GREEN = 0.8;
 export const THRESHOLD_YELLOW = 0.5;
 
-// onboarded: the welcome questions (job, next exam) were answered or skipped.
+// job: apprenticeship id (js/curriculum.js) or null; jobConfirmed: chosen once in the setup,
+// afterwards it cannot be changed (2.0).
+// onboarded: the welcome question (next exam) was answered or skipped.
 // examTarget: { exam: 'AP1'|'AP2', day: 'YYYY-MM-DD' } or null.
 export const DEFAULT_SETTINGS = Object.freeze({
-  theme: 'auto', dailyGoal: 20, job: 'alle', onboarded: false, examTarget: null,
+  theme: 'auto', dailyGoal: 20, job: null, jobConfirmed: false, onboarded: false, examTarget: null,
   backup: Object.freeze({ lastAt: null, snoozeUntil: null }),
 });
