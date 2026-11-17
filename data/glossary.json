@@ -1710,6 +1710,12 @@
     ]
   },
   {
+    "abbr": "WSUS",
+    "full": "Windows Server Update Services",
+    "explanation": "Windows-Serverrolle, mit der die IT Updates zentral testen, freigeben und an Clients verteilen kann",
+    "area": "Hardware"
+  },
+  {
     "abbr": "XML",
     "full": "Extensible Markup Language",
     "explanation": "Auszeichnungssprache mit Tags, z. B. für E-Rechnungen",

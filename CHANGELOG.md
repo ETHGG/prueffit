@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.8] – 2026-11-18
+
+### Hinzugefügt
+- **24 AP2-Fragen zu den bisher dünnsten Themen von KITS und FISI** (je Thema vorher nur 2–3 AP2-Fragen): Serverhardware (ECC, redundante Netzteile, Hot-Swap, NVMe), Linux-Rechte und chmod, zentrale Updates, 32-Bit-Grenze, OSI-Geräte und Dateneinheiten, IPv6-Kurzschreibweise und /48-Aufteilung, Zins-, Währungs- und Prozentrechnung, ökonomisches Prinzip, Güterarten, Schleifen und Datentypen für Geld, Gruppenrichtlinien-Reihenfolge, Kerberos-Zeitabweichung, Regressionstest, Grenzwertanalyse, TB vs. TiB.
+- Lernzettel ergänzt (Serverausstattung, Updates zentral verwalten, Reihenfolge der Gruppenrichtlinien, Geldbeträge speichern), Abkürzung WSUS. PDFs neu erzeugt.
+
+### Geprüft
+- Alle Inhaltstexte maschinell auf typische Tippfehler (doppelte Wörter und Leerzeichen, fehlende Leerzeichen, unpaarige Klammern und Anführungszeichen) durchsucht: keine echten Fehler. Quiz per Tastatur bedienbar (Sprunglink, Optionen, Prüfen, Navigation).
+
 ## [2.2.7] – 2026-11-18
 
 ### Hinzugefügt
