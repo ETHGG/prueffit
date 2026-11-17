@@ -7,6 +7,9 @@ import {
   buildProgressExport, parseProgressImport, buildCustomExport, parseCustomImport, mergeCustom, exportFileName,
 } from '../transfer.js';
 import { downloadJson, readTextFile } from './files.js';
+import { examTargetFields, formatExamDay } from './welcome.js';
+import { todayInBerlin } from '../leitner.js';
+import { sessionLabel } from '../schedule.js';
 
 const GOALS = [5, 10, 20, 30, 50, 100];
 const MAX_SHOWN_ERRORS = 20;
@@ -122,7 +125,20 @@ export function render(root, ctx) {
   h('option', { value: ALL_JOBS, selected: ctx.progress.settings.job === ALL_JOBS }, 'Alle IT-Berufe'),
   JOBS.map((j) => h('option', { value: j.id, selected: ctx.progress.settings.job === j.id }, `${j.name} (${j.short})`)));
 
-  append(root, 
+  const today = todayInBerlin();
+  const target = ctx.progress.settings.examTarget;
+  const examDraft = target && target.day >= today ? { ...target } : { exam: target?.exam ?? 'AP1', day: null };
+  const examBox = h('div', {});
+  const drawExamFields = () => examBox.replaceChildren(...examTargetFields(examDraft, { idPrefix: 'settings', today, onChange: drawExamFields }));
+  drawExamFields();
+  const saveExam = () => {
+    const examTarget = examDraft.day ? { exam: examDraft.exam, day: examDraft.day } : null;
+    ctx.updateProgress((p) => updateSettings(p, { examTarget, onboarded: true }));
+    ctx.toast(examTarget ? `Prüfungstermin gespeichert: ${examTarget.exam} am ${formatExamDay(examTarget.day)}.` : 'Prüfungstermin entfernt.');
+    rerender();
+  };
+
+  append(root,
     h('h1', { text: 'Einstellungen' }),
     h('section', { class: 'card', 'aria-labelledby': 'settings-job-title' },
       h('h2', { id: 'settings-job-title', text: 'Ausbildungsberuf' }),
@@ -130,6 +146,13 @@ export function render(root, ctx) {
         h('label', { for: 'settings-job', text: 'Dein Beruf' }),
         jobSelect),
       h('p', { class: 'muted small spaced' }, 'Die AP1 ist für alle IT-Berufe gleich. Für die AP2 zeigt PrüfFit zusätzlich nur die Fragen, die zu deinem Beruf passen.')),
+    h('section', { class: 'card', 'aria-labelledby': 'settings-exam-title' },
+      h('h2', { id: 'settings-exam-title', text: 'Prüfungstermin' }),
+      h('p', { id: 'settings-exam-current' }, target
+        ? `Aktuell: ${target.exam} · ${sessionLabel(target.exam, target.day)} (${formatExamDay(target.day)})`
+        : 'Noch kein Termin gewählt. Mit Termin zeigt die Startseite einen Countdown und einen Lernplan.'),
+      examBox,
+      h('button', { type: 'button', class: 'button', onClick: saveExam }, 'Termin speichern')),
     h('section', { class: 'card', 'aria-labelledby': 'settings-data' },
       h('h2', { id: 'settings-data', text: 'Daten' }),
       h('p', { text: STORAGE_TEXT[ctx.storageStatus] ?? STORAGE_TEXT.ok }),

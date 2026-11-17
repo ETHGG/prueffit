@@ -94,6 +94,7 @@ prueffit/
 │   ├── leitner.js            # Karteikarten-Logik
 │   ├── stats.js              # Statistik-Berechnung
 │   ├── exam.js               # Prüfungssimulation + IHK-Notenschlüssel
+│   ├── schedule.js           # Prüfungstermine, Countdown, Lernplan
 │   └── ui/
 │       ├── home.js
 │       ├── quizView.js
@@ -167,16 +168,16 @@ prueffit/
 ### 5.4 Fortschritt (localStorage, Key `prueffit.v1`)
 ```json
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "answers": { "net-0001": { "attempts": 3, "correct": 2, "lastAt": "2026-11-17T10:00:00Z" } },
   "cards": { "fc-0001": { "box": 3, "nextDue": "2026-11-20" } },
   "exams": [ { "date": "...", "exam": "AP1", "points": 78, "max": 100, "grade": 3 } ],
   "streak": { "current": 4, "lastDay": "2026-11-17" },
   "daily": { "2026-11-17": 12 },
-  "settings": { "theme": "auto", "dailyGoal": 20, "job": "alle" }
+  "settings": { "theme": "auto", "dailyGoal": 20, "job": "alle", "onboarded": true, "examTarget": { "exam": "AP2", "day": "2027-04-28" } }
 }
 ```
-Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`); 2 → 3 (v0.4.0) ergänzt `daily` (erledigte Aufgaben pro Tag, Europe/Berlin, die letzten 90 Tage).
+Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`); 2 → 3 (v0.4.0) ergänzt `daily` (erledigte Aufgaben pro Tag, Europe/Berlin, die letzten 90 Tage); 3 → 4 (v0.6.0) ergänzt `settings.onboarded` (Willkommensfragen beantwortet) und `settings.examTarget` (nächste Prüfung und Termin oder `null`).
 Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.custom` (importierte eigene Fragen/Karten), `sessionStorage` `prueffit.quizSession` (laufende Quiz-Runde).
 
 ---
@@ -212,7 +213,12 @@ Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.custom` (impo
 
 Prozent wird **kaufmännisch auf ganze Zahlen gerundet**, bevor die Note bestimmt wird.
 
-### 6.4 Speicher-Migration
+### 6.4 Prüfungstermine
+- Die schriftlichen Prüfungen der IT-Berufe sind bundeseinheitlich (gilt auch für Sachsen-Anhalt). Bekannte Termine stehen in `KNOWN_EXAM_DATES` (`js/schedule.js`) und werden jährlich nachgepflegt.
+- Danach wird geschätzt: AP1 letzter Mittwoch im Februar/September, AP2 letzter Mittwoch im April/November (Kennzeichnung „geschätzt“).
+- Lernplan: offene Fragen (nie richtig beantwortet) / (Tage bis zur Prüfung − 1), aufgerundet.
+
+### 6.5 Speicher-Migration
 - Beim Start `schemaVersion` prüfen. Ist sie älter, Migrationsfunktionen nacheinander ausführen.
 - Vor jeder Migration Backup unter `prueffit.backup.<version>` ablegen.
 - Defekte oder fehlende Daten → mit Standardwerten starten, **niemals abstürzen**.
@@ -268,6 +274,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **0.3** | Prüfungssimulation mit Timer und IHK-Note, Ampel + „Heute üben“, Diagramme | erledigt |
 | **0.4** | Import/Export (JSON) von Fortschritt und eigenen Fragen, Dark Mode, Lernserie, Tagesziel | erledigt |
 | **0.5** | Inhalte an IHK-Prüfungen 2021–2025 angepasst (Bereich WiSo, 325 Fragen, 110 Karten), AP2-Simulation mit Prüfungsbereichen je Beruf und WiSo | erledigt |
+| **0.6** | Willkommensfragen (Beruf, nächste Prüfung), Prüfungstermine (bundeseinheitlich, auch Sachsen-Anhalt), Countdown und Lernplan auf der Startseite | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

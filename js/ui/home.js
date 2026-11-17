@@ -4,6 +4,7 @@ import { overallStats, currentStreak, dailyProgress } from '../stats.js';
 import { todayInBerlin, dueCards } from '../leitner.js';
 import { h, formatPercent, formatNumber, trafficDot, append } from './dom.js';
 import { suggestionsCard } from './suggestions.js';
+import { needsWelcome, welcomeCard, countdownCard } from './welcome.js';
 
 function greeting(date = new Date()) {
   const hour = date.getHours();
@@ -22,9 +23,21 @@ export function render(root, ctx) {
   const goal = dailyProgress(ctx.progress.daily, today, ctx.progress.settings.dailyGoal);
   const streak = currentStreak(ctx.progress.streak, today);
 
-  append(root, 
-    h('h1', { text: greeting() }),
-    h('p', { class: 'muted' }, 'Bereit für die nächste Lerneinheit? PrüfFit hilft dir bei der Vorbereitung auf AP1 und AP2.'),
+  const rerender = ({ keepScroll = false, focus } = {}) => {
+    const y = window.scrollY;
+    root.replaceChildren();
+    render(root, ctx);
+    if (keepScroll) window.scrollTo(0, y);
+    if (focus) root.querySelector(focus)?.focus({ preventScroll: keepScroll });
+  };
+  const welcome = needsWelcome(ctx, today);
+
+  append(root,
+    h('h1', { tabindex: '-1', text: greeting() }),
+    welcome
+      ? welcomeCard(ctx, { rerender })
+      : h('p', { class: 'muted' }, 'Bereit für die nächste Lerneinheit? PrüfFit hilft dir bei der Vorbereitung auf AP1 und AP2.'),
+    welcome ? null : countdownCard(ctx, { rerender }),
     h('section', { class: 'card today', 'aria-labelledby': 'home-today' },
       h('h2', { id: 'home-today', text: 'Heute' }),
       h('div', { class: 'goal-row' },

@@ -1,9 +1,15 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 0.5.0 (17.11.2026)
-**Roadmap:** Alle Phasen 0.1 bis 0.5 sind erledigt. Weitere Ideen werden als neue Phasen ergänzt.
+**Aktuelle Version:** 0.6.0 (17.11.2026)
+**Roadmap:** Alle Phasen 0.1 bis 0.6 sind erledigt. Weitere Ideen werden als neue Phasen ergänzt.
 
 ## Erledigt
+
+### 0.6
+- [x] Willkommensfragen (Beruf, nächste Prüfung, Termin) auf der Startseite
+- [x] Bundeseinheitliche Prüfungstermine bis Sommer 2028, danach Schätzung; gilt auch für Sachsen-Anhalt
+- [x] Countdown, Lernplan und Tagesziel-Vorschlag; Termin in den Einstellungen änderbar
+- [x] Schema 4 mit Migration; 391 Unit-Tests, 30 Browsertests × 4 Profile
 
 ### 0.5
 - [x] Prüfungen 2021–2025 (AP1, AP2 FISI/ITSM, WiSo) ausgewertet, nur als Vorlage
@@ -35,6 +41,7 @@
 ## Offen
 
 - Keine offenen Roadmap-Punkte. Nächste Schritte: weitere Ideen des Nutzers.
+- Prüfungstermine ab Herbst 2028 sind geschätzt; `KNOWN_EXAM_DATES` jährlich mit den Veröffentlichungen der IHK nachpflegen.
 - Für FIAE gibt es in den bereitgestellten Unterlagen keine Prüfung nach AO 2020; die FIAE-Bereiche beruhen auf der Prüfungsordnung, FIAE-Inhalte sind dünner als FISI/ITSM.
 
 ## Bekannte Probleme / Hinweise

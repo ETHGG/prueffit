@@ -2,6 +2,19 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [0.6.0] – 2026-11-17
+
+### Hinzugefügt
+- **Willkommensfragen beim Start:** Beim ersten Öffnen fragt die Startseite nach dem Beruf (FISI, FIAE, ITSM oder anderer) und nach der nächsten Prüfung (AP1 oder AP2). Der nächste passende Termin ist anhand des heutigen Datums schon vorausgewählt. Mit „Später“ lässt sich das überspringen.
+- **Prüfungstermine:** Bekannte bundeseinheitliche Termine der schriftlichen IHK-Prüfungen der IT-Berufe bis Sommer 2028; sie gelten auch in Sachsen-Anhalt (IHK Halle-Dessau, IHK Magdeburg). Spätere Termine werden nach dem üblichen Muster geschätzt und so gekennzeichnet.
+- **Countdown und Lernplan** auf der Startseite: Tage bis zur Prüfung, Zahl der noch nie richtig beantworteten Fragen und wie viele davon pro Tag nötig sind. Das vorgeschlagene Tagesziel lässt sich mit einem Tipp übernehmen.
+- Ist der Termin vorbei, fragt die Startseite nach der nächsten Prüfung (nach der AP1 ist die AP2 vorausgewählt).
+- Einstellungen: neuer Abschnitt „Prüfungstermin“.
+- Neues Logikmodul `js/schedule.js` mit Unit-Tests; 3 neue Browsertests.
+
+### Geändert
+- Speicherformat Schema 4 (`settings.onboarded`, `settings.examTarget`) mit Migration und Sicherung. Bestehende Nutzer sehen die Willkommensfragen einmal; ihr Fortschritt bleibt erhalten.
+
 ## [0.5.0] – 2026-11-17
 
 ### Hinzugefügt

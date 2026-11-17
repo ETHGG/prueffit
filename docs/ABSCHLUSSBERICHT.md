@@ -1,3 +1,44 @@
+# Abschlussbericht Version 0.6.0
+
+**Datum:** 17.11.2026 · **Live:** https://ethgg.github.io/prueffit/
+
+Auftrag: Beim Start den Beruf abfragen und anhand des aktuellen Datums ein ungefähres Lernende ermitteln, also den Termin, an dem die Prüfungen in Sachsen-Anhalt normalerweise stattfinden.
+
+## Was umgesetzt wurde
+
+| Bereich | Umsetzung |
+|---|---|
+| Logik | `js/schedule.js`: bekannte Termine, Schätzung (letzter Mittwoch im Februar/September bzw. April/November), Saisonnamen („Winter 2026/27“), Tage bis zur Prüfung, Lernplan. Rein, ohne DOM, mit Tests. |
+| Speicher | Schema 4: `settings.onboarded`, `settings.examTarget`; Migration 3 → 4 mit Sicherung `prueffit.backup.3`. |
+| UI | Willkommenskarte auf der Startseite (kein blockierender Dialog, damit die App sofort nutzbar bleibt), Countdown-Karte mit Tagesziel-Vorschlag, Abschnitt „Prüfungstermin“ in den Einstellungen. |
+
+## Prüfungstermine (schriftlich, IT-Berufe)
+
+| Prüfung | Termine |
+|---|---|
+| AP1 (Teil 1) | 24.02.2027 (Frühjahr), 29.09.2027 (Herbst), 22.03.2028 (Frühjahr 2028) |
+| AP2 (Teil 2) | 25.11.2026 (Winter 2026/27), 28.04.2027 (Sommer), 24.11.2027 (Winter 2027/28), 26.04.2028 (Sommer 2028) |
+
+Quellen: Veröffentlichungen der IHKs zu den bundeseinheitlichen Terminen der AkA (u. a. IHK Köln, Berlin, Pfalz) und die Seite „Prüfungstermine“ der IHK Halle-Dessau. Diese verweist für die Termine auf die bundesweiten Aufgabenstellen; ihre Anmeldeschlüsse: 1. Februar (Sommer), 15. Mai (Herbst), 31. Juli (Winter), 15. November (Frühjahr).
+
+## Annahmen
+
+1. **Sachsen-Anhalt:** Die schriftlichen Prüfungen der IT-Berufe sind bundeseinheitlich; IHK Halle-Dessau und IHK Magdeburg nutzen dieselben Tage. Mündliche Prüfungen und Projektpräsentationen legt die IHK individuell fest. Die App weist darauf hin, dass die Einladung verbindlich ist.
+2. **Wochentag:** Für die IT-Berufe gilt jeweils der Mittwoch der Prüfungswoche; einzelne Quellen nennen für ITSM im Sommer 2027 den Dienstag (27.04.). Die App zeigt deshalb „ungefähr“ an.
+3. **Lernplan:** Offene Fragen = Fragen der gewählten Prüfung, die noch nie richtig beantwortet wurden (passend zum Beruf). Sie werden auf die Tage bis zum Vortag der Prüfung verteilt; der letzte Tag bleibt zum Wiederholen.
+4. **Bestehende Nutzer** sehen die Willkommensfragen nach dem Update einmal (vorbelegt mit ihrem Beruf).
+
+## Tests
+
+- Unit: 391/391 (neu: `schedule.test.js`, Migration 3 → 4, Validierung des Termins).
+- Browser: 30 Tests × 4 Profile; lokal 83 grün, 4 bewusst übersprungen. Neu: Ersteinrichtung mit festem Datum 17.11.2026 (8 Tage bis zur AP2 am 25.11.2026), „Später“ und Termin in den Einstellungen, Termin vorbei.
+
+## Offene Punkte
+
+- Termine ab Herbst 2028 jährlich nachtragen.
+
+---
+
 # Abschlussbericht Version 0.5.0
 
 **Datum:** 17.11.2026 · **Repository:** https://github.com/ETHGG/prueffit · **Live:** https://ethgg.github.io/prueffit/

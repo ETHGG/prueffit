@@ -1,7 +1,7 @@
 // PrüfFit service worker: precaches all app files for offline use.
 // Bump CACHE_NAME with every release (keep in sync with package.json and js/config.js).
 
-const CACHE_NAME = 'prueffit-v0.5.0';
+const CACHE_NAME = 'prueffit-v0.6.0';
 const CACHE_PREFIX = 'prueffit-';
 
 // All paths relative to the service worker scope (works under /prueffit/ on GitHub Pages).
@@ -17,6 +17,7 @@ const ASSETS = [
   './js/leitner.js',
   './js/questions.js',
   './js/quiz.js',
+  './js/schedule.js',
   './js/stats.js',
   './js/storage.js',
   './js/transfer.js',
@@ -31,6 +32,7 @@ const ASSETS = [
   './js/ui/settingsView.js',
   './js/ui/statsView.js',
   './js/ui/suggestions.js',
+  './js/ui/welcome.js',
   './data/topics.json',
   './data/questions/hardware.json',
   './data/questions/netzwerke.json',

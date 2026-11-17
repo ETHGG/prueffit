@@ -1,13 +1,13 @@
 // Central configuration. Keep APP_VERSION in sync with package.json and sw.js.
 
-export const APP_VERSION = '0.5.0';
+export const APP_VERSION = '0.6.0';
 export const APP_NAME = 'PrüfFit';
 export const REPO_URL = 'https://github.com/ETHGG/prueffit';
 export const ISSUE_LABEL = 'inhalt';
 
 // localStorage
 export const STORAGE_KEY = 'prueffit.v1';
-export const SCHEMA_VERSION = 3;
+export const SCHEMA_VERSION = 4;
 export const BACKUP_PREFIX = 'prueffit.backup.';
 export const CORRUPT_BACKUP_KEY = 'prueffit.backup.corrupt';
 
@@ -44,4 +44,6 @@ export const MIN_ATTEMPTS_FOR_RATING = 5;
 export const THRESHOLD_GREEN = 0.8;
 export const THRESHOLD_YELLOW = 0.5;
 
-export const DEFAULT_SETTINGS = Object.freeze({ theme: 'auto', dailyGoal: 20, job: 'alle' });
+// onboarded: the welcome questions (job, next exam) were answered or skipped.
+// examTarget: { exam: 'AP1'|'AP2', day: 'YYYY-MM-DD' } or null.
+export const DEFAULT_SETTINGS = Object.freeze({ theme: 'auto', dailyGoal: 20, job: 'alle', onboarded: false, examTarget: null });

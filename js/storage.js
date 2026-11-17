@@ -9,6 +9,7 @@ import {
   DEFAULT_SETTINGS,
   JOBS,
   ALL_JOBS,
+  EXAMS,
 } from './config.js';
 import { reviewCard, todayInBerlin } from './leitner.js';
 import { updateStreak, pruneDaily } from './stats.js';
@@ -29,6 +30,11 @@ export const MIGRATIONS = {
   }),
   // 2 -> 3 (v0.4.0): activity per day for the daily goal.
   2: (data) => ({ ...data, daily: {} }),
+  // 3 -> 4 (v0.6.0): welcome questions and the chosen exam date.
+  3: (data) => ({
+    ...data,
+    settings: { ...(isPlainObject(data.settings) ? data.settings : {}), onboarded: false, examTarget: null },
+  }),
 };
 
 export function createDefaultState() {
@@ -100,6 +106,11 @@ export function normalizeState(raw, version = SCHEMA_VERSION) {
     if (THEMES.includes(theme)) state.settings.theme = theme;
     if (Number.isInteger(dailyGoal) && dailyGoal > 0 && dailyGoal <= 500) state.settings.dailyGoal = dailyGoal;
     if (JOB_IDS.includes(raw.settings.job)) state.settings.job = raw.settings.job;
+    if (typeof raw.settings.onboarded === 'boolean') state.settings.onboarded = raw.settings.onboarded;
+    const target = raw.settings.examTarget;
+    if (isPlainObject(target) && EXAMS.includes(target.exam) && isDay(target.day)) {
+      state.settings.examTarget = { exam: target.exam, day: target.day };
+    }
   }
 
   return state;
