@@ -256,6 +256,12 @@
     "area": "IT-Sicherheit"
   },
   {
+    "abbr": "CAC",
+    "full": "Customer Acquisition Cost",
+    "explanation": "Kundengewinnungskosten: Marketing- und Vertriebskosten je gewonnenem Kunden",
+    "area": "Wirtschaft"
+  },
+  {
     "abbr": "CAL",
     "full": "Client Access License",
     "explanation": "Zugriffslizenz pro Benutzer oder pro Gerät",
@@ -266,6 +272,12 @@
     "full": "Confidentiality, Integrity, Availability",
     "explanation": "Die drei Schutzziele: Vertraulichkeit, Integrität, Verfügbarkeit",
     "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "CLV",
+    "full": "Customer Lifetime Value",
+    "explanation": "Kundenwert: Deckungsbeitrag, den ein Kunde über die gesamte Kundenbeziehung bringt",
+    "area": "Wirtschaft"
   },
   {
     "abbr": "CNAME",

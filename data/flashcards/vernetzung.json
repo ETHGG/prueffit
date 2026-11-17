@@ -8,5 +8,7 @@
   {"id": "fc-0162", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "OT-Sicherheit Grundregeln", "back": "Zonen/Segmentierung, kein direkter Internetzugang, Fernwartung über VPN, Standardkennwörter ändern."},
   {"id": "fc-0163", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "Automatisierungspyramide", "back": "Unternehmen – Betriebsleitung – Prozessleitung – Steuerung (SPS) – Feld (Sensoren/Aktoren)."},
   {"id": "fc-0196", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.diagnose", "front": "Port Mirroring", "back": "Switch kopiert den Verkehr eines Ports auf einen Analyseport – mitschneiden ohne Betriebsstörung."},
-  {"id": "fc-0197", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "PROFINET", "back": "Industrial Ethernet mit Echtzeit (feste Zykluszeiten) für Steuerdaten."}
+  {"id": "fc-0197", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "PROFINET", "back": "Industrial Ethernet mit Echtzeit (feste Zykluszeiten) für Steuerdaten."},
+  {"id": "fc-0211", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.sensorik", "front": "4–20 mA: Live Zero", "back": "Messanfang bei 4 mA statt 0 mA. Fällt der Strom deutlich unter 4 mA (z. B. 0 mA), liegt ein Drahtbruch oder Versorgungsausfall vor."},
+  {"id": "fc-0212", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "Zonen und Conduits (IEC 62443)", "back": "Zonen = Anlagenteile mit gleichem Schutzbedarf. Conduits = kontrollierte Übergänge zwischen Zonen, z. B. über Firewalls."}
 ]

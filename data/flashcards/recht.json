@@ -18,5 +18,6 @@
   {"id": "fc-0184", "exam": ["AP2"], "jobs": ["kits"], "topic": "recht.lizenzen", "front": "OEM-Lizenz", "back": "An das ausgelieferte Gerät gebunden, in der Regel nicht übertragbar."},
   {"id": "fc-0191", "exam": ["AP2"], "jobs": ["kits"], "topic": "recht.vertragsrecht", "front": "Rügepflicht (§ 377 HGB)", "back": "Beim Handelskauf: Ware unverzüglich prüfen, Mängel unverzüglich rügen – sonst gilt sie als genehmigt."},
   {"id": "fc-0192", "exam": ["AP2"], "jobs": ["kits"], "topic": "recht.vertragsrecht", "front": "Rangfolge der Rechte bei Mängeln", "back": "1. Nacherfüllung (Nachbesserung/Ersatz) · 2. Rücktritt oder Minderung · ggf. Schadensersatz."},
-  {"id": "fc-0209", "exam": ["AP2"], "jobs": ["kits", "kdm"], "topic": "recht.vertragsrecht", "front": "Verzugszinsen und Pauschale (§ 288 BGB)", "back": "Verbraucher: 5 Prozentpunkte über Basiszinssatz. Zwischen Unternehmen: 9 Prozentpunkte über Basiszinssatz plus 40 € Pauschale."}
+  {"id": "fc-0209", "exam": ["AP2"], "jobs": ["kits", "kdm"], "topic": "recht.vertragsrecht", "front": "Verzugszinsen und Pauschale (§ 288 BGB)", "back": "Verbraucher: 5 Prozentpunkte über Basiszinssatz. Zwischen Unternehmen: 9 Prozentpunkte über Basiszinssatz plus 40 € Pauschale."},
+  {"id": "fc-0216", "exam": ["AP2"], "jobs": ["kits", "kdm", "fiae", "itse"], "topic": "recht.vertragsrecht", "front": "Dienstvertrag vs. Werkvertrag", "back": "Dienstvertrag: Tätigkeit geschuldet (z. B. Betreuung nach Stunden). Werkvertrag: Erfolg geschuldet (z. B. fertige Software), mit Abnahme."}
 ]

@@ -8,5 +8,6 @@
   {"id": "fc-0153", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "daten.qualitaet", "front": "Vollständigkeit berechnen", "back": "gefüllte Werte ÷ alle Datensätze × 100 %, z. B. 2.220 ÷ 2.400 = 92,5 %."},
   {"id": "fc-0154", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "daten.integration", "front": "ETL", "back": "Extract – Transform – Load: lesen, bereinigen/umwandeln, ins Zielsystem laden."},
   {"id": "fc-0155", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "daten.integration", "front": "Sternschema", "back": "Faktentabelle mit Kennzahlen in der Mitte, Dimensionstabellen (Zeit, Kunde, Produkt) außen."},
-  {"id": "fc-0193", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "daten.prozessanalyse", "front": "Flussgrad", "back": "Bearbeitungszeit ÷ Durchlaufzeit × 100 %. Niedrig = viel Liegezeit."}
+  {"id": "fc-0193", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "daten.prozessanalyse", "front": "Flussgrad", "back": "Bearbeitungszeit ÷ Durchlaufzeit × 100 %. Niedrig = viel Liegezeit."},
+  {"id": "fc-0213", "exam": ["AP2"], "jobs": ["fidpa", "kdm"], "topic": "daten.prozessanalyse", "front": "Medienbruch", "back": "Daten wechseln das Medium und werden von Hand übertragen (Papier → System). Folgen: Zeitverlust und Übertragungsfehler."}
 ]

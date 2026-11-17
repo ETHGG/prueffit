@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.6] – 2026-11-18
+
+### Hinzugefügt
+- Lernzettel ergänzt um die Inhalte der neuen Handlungssituationen: 4–20 mA umrechnen und „Live Zero“, Zonen und Übergänge nach IEC 62443, Schwachstellen im Ist-Prozess (Medienbruch), Kennzahlen digitaler Geschäftsmodelle (CAC, CLV, Churn, Konversion), PoE-Klassen und PoE-Budget, doppelte IP-Adressen erkennen, Dienst- vs. Werkvertrag. PDFs neu erzeugt.
+- 6 Karteikarten (jetzt 216), Abkürzungen CAC und CLV (jetzt 282).
+
 ## [2.2.5] – 2026-11-18
 
 ### Hinzugefügt

@@ -33,5 +33,6 @@
   {"id": "fc-0189", "exam": ["AP2"], "jobs": ["kits"], "topic": "wirtschaft.buchfuehrung", "front": "Eigenkapitalquote / Umsatzrentabilität", "back": "EK ÷ Gesamtkapital × 100 % · Gewinn ÷ Umsatz × 100 %."},
   {"id": "fc-0190", "exam": ["AP2"], "jobs": ["kits"], "topic": "wirtschaft.marketing", "front": "Marketingmix (4 P)", "back": "Produkt-, Preis-, Distributions- und Kommunikationspolitik."},
   {"id": "fc-0200", "exam": ["AP2"], "jobs": ["kdm"], "topic": "wirtschaft.geschaeftsmodelle", "front": "Erlösmodelle", "back": "Abo, Freemium, Pay-per-Use, Provision, Werbung, Lizenz."},
-  {"id": "fc-0201", "exam": ["AP2"], "jobs": ["kdm"], "topic": "wirtschaft.geschaeftsmodelle", "front": "Fake-Door-Test", "back": "Angebot zeigen, bevor es existiert, und Interesse messen – billiger Test vor dem MVP."}
+  {"id": "fc-0201", "exam": ["AP2"], "jobs": ["kdm"], "topic": "wirtschaft.geschaeftsmodelle", "front": "Fake-Door-Test", "back": "Angebot zeigen, bevor es existiert, und Interesse messen – billiger Test vor dem MVP."},
+  {"id": "fc-0214", "exam": ["AP2"], "jobs": ["kdm"], "topic": "wirtschaft.geschaeftsmodelle", "front": "Kundengewinnungskosten (CAC)", "back": "Marketing- und Vertriebskosten ÷ gewonnene Kunden. Beispiel: 6.300 € ÷ 840 Kunden = 7,50 € je Kunde."}
 ]
