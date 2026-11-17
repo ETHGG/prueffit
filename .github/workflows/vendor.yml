@@ -20,7 +20,7 @@ jobs:
           cp package-lock.json out/
           cp node_modules/chart.js/dist/chart.umd.js out/vendor/chart.umd.min.js
           cp node_modules/chart.js/LICENSE.md out/vendor/chart.js-LICENSE.md
-          node -p "'chart.js ' + require('chart.js/package.json').version" > out/vendor/VERSION.txt
+          node -p "'chart.js ' + JSON.parse(require('fs').readFileSync('node_modules/chart.js/package.json','utf8')).version" > out/vendor/VERSION.txt
       - uses: actions/upload-artifact@v4
         with:
           name: vendor
