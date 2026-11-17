@@ -1,0 +1,7 @@
+[
+  { "id": "fc-0021", "topic": "projekt.grundlagen", "front": "Lastenheft vs. Pflichtenheft", "back": "Lastenheft: vom Auftraggeber, „Was und wofür?“. Pflichtenheft: vom Auftragnehmer, „Wie und womit?“." },
+  { "id": "fc-0022", "topic": "projekt.grundlagen", "front": "Magisches Dreieck", "back": "Zeit, Kosten und Qualität bzw. Leistung hängen voneinander ab. Ändert man eine Größe, wirkt sich das auf die anderen aus." },
+  { "id": "fc-0023", "topic": "projekt.planung", "front": "Gesamtpuffer (GP)", "back": "GP = SAZ − FAZ (oder SEZ − FEZ). Vorgänge mit GP = 0 liegen auf dem kritischen Pfad." },
+  { "id": "fc-0024", "topic": "projekt.vorgehen", "front": "Scrum-Rollen", "back": "Product Owner (Backlog, Wert), Scrum Master (Prozess, Hindernisse), Developers (Umsetzung im Sprint)." },
+  { "id": "fc-0025", "topic": "projekt.grundlagen", "front": "SMART", "back": "Spezifisch, Messbar, Attraktiv bzw. Akzeptiert, Realistisch, Terminiert." }
+]

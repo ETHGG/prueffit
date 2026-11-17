@@ -1,0 +1,7 @@
+[
+  { "id": "fc-0006", "topic": "hardware.raid", "front": "RAID 5", "back": "Striping mit verteilter Parität, mind. 3 Platten, 1 Platte darf ausfallen. Nettokapazität: (n − 1) × Plattengröße." },
+  { "id": "fc-0007", "topic": "hardware.raid", "front": "RAID 1", "back": "Spiegelung: Daten liegen identisch auf zwei Platten. 50 % Nettokapazität, eine Platte darf ausfallen." },
+  { "id": "fc-0008", "topic": "hardware.einheiten", "front": "GB vs. GiB", "back": "1 GB = 10^9 Byte (Dezimalpräfix, Hersteller). 1 GiB = 2^30 Byte = 1.073.741.824 Byte (Binärpräfix)." },
+  { "id": "fc-0009", "topic": "hardware.einheiten", "front": "Übertragungszeit berechnen", "back": "Zeit = Datenmenge in Bit ÷ Datenrate in Bit/s. Byte → Bit: × 8. Auf gleiche Präfixe achten (Mbit/s ≠ MB/s)." },
+  { "id": "fc-0010", "topic": "hardware.energie", "front": "Scheinleistung einer USV", "back": "S (VA) = P (W) ÷ cos φ. Beispiel: 400 W bei cos φ 0,8 → 500 VA." }
+]

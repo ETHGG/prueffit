@@ -1,0 +1,7 @@
+[
+  { "id": "fc-0026", "topic": "programmierung.zahlensysteme", "front": "Dezimal → Binär", "back": "Fortlaufend durch 2 teilen und die Reste von unten nach oben lesen. Oder Zweierpotenzen (128, 64, 32 …) subtrahieren." },
+  { "id": "fc-0027", "topic": "programmierung.zahlensysteme", "front": "Hexadezimal", "back": "Basis 16, Ziffern 0–9 und A–F (A = 10 … F = 15). Eine Hex-Ziffer entspricht genau 4 Bit." },
+  { "id": "fc-0028", "topic": "programmierung.datenbanken", "front": "WHERE vs. HAVING", "back": "WHERE filtert Zeilen vor der Gruppierung, HAVING filtert Gruppen nach GROUP BY (z. B. HAVING COUNT(*) > 5)." },
+  { "id": "fc-0029", "topic": "programmierung.datenbanken", "front": "1. Normalform", "back": "Alle Attribute enthalten nur atomare Werte – keine Listen oder Wiederholungsgruppen in einem Feld." },
+  { "id": "fc-0030", "topic": "programmierung.grundlagen", "front": "Kopf- vs. fußgesteuerte Schleife", "back": "Kopfgesteuert (while): Bedingung wird vor dem Durchlauf geprüft, eventuell 0 Durchläufe. Fußgesteuert (do-while): mindestens 1 Durchlauf." }
+]

@@ -1,0 +1,35 @@
+[
+  { "id": "netzwerke.subnetting", "area": "Netzwerke", "name": "IPv4 und Subnetting", "exams": ["AP1", "AP2"] },
+  { "id": "netzwerke.ipv6", "area": "Netzwerke", "name": "IPv6", "exams": ["AP1", "AP2"] },
+  { "id": "netzwerke.osi", "area": "Netzwerke", "name": "OSI- und TCP/IP-Modell", "exams": ["AP1", "AP2"] },
+  { "id": "netzwerke.dienste", "area": "Netzwerke", "name": "Protokolle und Dienste", "exams": ["AP1", "AP2"] },
+
+  { "id": "hardware.einheiten", "area": "Hardware", "name": "Einheiten und Übertragung", "exams": ["AP1", "AP2"] },
+  { "id": "hardware.raid", "area": "Hardware", "name": "RAID und Speicher", "exams": ["AP1", "AP2"] },
+  { "id": "hardware.komponenten", "area": "Hardware", "name": "PC-Komponenten und Schnittstellen", "exams": ["AP1"] },
+  { "id": "hardware.energie", "area": "Hardware", "name": "Energie und USV", "exams": ["AP1", "AP2"] },
+
+  { "id": "sicherheit.schutzziele", "area": "IT-Sicherheit", "name": "Schutzziele und Schutzbedarf", "exams": ["AP1", "AP2"] },
+  { "id": "sicherheit.kryptografie", "area": "IT-Sicherheit", "name": "Verschlüsselung und Signaturen", "exams": ["AP1", "AP2"] },
+  { "id": "sicherheit.backup", "area": "IT-Sicherheit", "name": "Datensicherung", "exams": ["AP1", "AP2"] },
+  { "id": "sicherheit.angriffe", "area": "IT-Sicherheit", "name": "Angriffe und Schutzmaßnahmen", "exams": ["AP1", "AP2"] },
+
+  { "id": "wirtschaft.kalkulation", "area": "Wirtschaft", "name": "Kalkulation und Kosten", "exams": ["AP1", "AP2"] },
+  { "id": "wirtschaft.nutzwert", "area": "Wirtschaft", "name": "Angebotsvergleich und Nutzwertanalyse", "exams": ["AP1"] },
+  { "id": "wirtschaft.abschreibung", "area": "Wirtschaft", "name": "Abschreibung und Wirtschaftlichkeit", "exams": ["AP1", "AP2"] },
+  { "id": "wirtschaft.unternehmen", "area": "Wirtschaft", "name": "Unternehmen und Markt", "exams": ["AP1"] },
+
+  { "id": "projekt.grundlagen", "area": "Projektmanagement", "name": "Projektgrundlagen", "exams": ["AP1", "AP2"] },
+  { "id": "projekt.planung", "area": "Projektmanagement", "name": "Planung und Netzplan", "exams": ["AP1", "AP2"] },
+  { "id": "projekt.vorgehen", "area": "Projektmanagement", "name": "Vorgehensmodelle", "exams": ["AP1", "AP2"] },
+
+  { "id": "programmierung.zahlensysteme", "area": "Programmierung", "name": "Zahlensysteme und Logik", "exams": ["AP1", "AP2"] },
+  { "id": "programmierung.grundlagen", "area": "Programmierung", "name": "Kontrollstrukturen und Datentypen", "exams": ["AP1", "AP2"] },
+  { "id": "programmierung.datenbanken", "area": "Programmierung", "name": "Datenbanken und SQL", "exams": ["AP1", "AP2"] },
+  { "id": "programmierung.modellierung", "area": "Programmierung", "name": "UML und Modellierung", "exams": ["AP2"] },
+
+  { "id": "recht.vertragsrecht", "area": "Recht", "name": "Vertragsrecht", "exams": ["AP1"] },
+  { "id": "recht.datenschutz", "area": "Recht", "name": "Datenschutz", "exams": ["AP1", "AP2"] },
+  { "id": "recht.arbeitsrecht", "area": "Recht", "name": "Ausbildung und Arbeitsrecht", "exams": ["AP1"] },
+  { "id": "recht.lizenzen", "area": "Recht", "name": "Software-Lizenzen und Urheberrecht", "exams": ["AP1", "AP2"] }
+]

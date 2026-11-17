@@ -1,0 +1,7 @@
+[
+  { "id": "fc-0031", "topic": "recht.vertragsrecht", "front": "Kaufvertrag – Pflichten (§ 433 BGB)", "back": "Verkäufer: übergeben, Eigentum verschaffen, mangelfrei liefern. Käufer: Kaufpreis zahlen, Sache abnehmen." },
+  { "id": "fc-0032", "topic": "recht.vertragsrecht", "front": "Werkvertrag vs. Dienstvertrag", "back": "Werkvertrag: Erfolg geschuldet (z. B. fertige Software, Abnahme). Dienstvertrag: nur die Tätigkeit geschuldet (z. B. Support nach Stunden)." },
+  { "id": "fc-0033", "topic": "recht.datenschutz", "front": "Grundsätze nach Art. 5 DSGVO", "back": "Rechtmäßigkeit/Transparenz, Zweckbindung, Datenminimierung, Richtigkeit, Speicherbegrenzung, Integrität und Vertraulichkeit, Rechenschaftspflicht." },
+  { "id": "fc-0034", "topic": "recht.arbeitsrecht", "front": "Probezeit in der Ausbildung", "back": "Mindestens 1, höchstens 4 Monate (§ 20 BBiG). Kündigung in dieser Zeit jederzeit ohne Frist möglich." },
+  { "id": "fc-0035", "topic": "recht.lizenzen", "front": "Copyleft (z. B. GPL)", "back": "Abgeleitete Werke dürfen nur unter derselben Lizenz weitergegeben werden; der Quellcode muss zugänglich sein." }
+]
