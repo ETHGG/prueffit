@@ -33,8 +33,14 @@ Diese Datei ist die zentrale Arbeitsanweisung für Claude Code. Lies sie **vor j
    - `CHANGELOG.md` ergänzen
    - `docs/STATUS.md` aktualisieren (erledigt / offen / bekannte Probleme)
    - Versionsnummer in `package.json`, `js/config.js` und Service-Worker-Cache-Namen erhöhen
-7. **Bei Unklarheiten**: Annahme treffen, im Abschlussbericht dokumentieren, weitermachen.
-8. **Sprache**: UI-Texte und Doku auf **Deutsch**, Code (Variablen, Funktionen, Kommentare) auf **Englisch**.
+7. **Kontingent knapp (Wunsch des Nutzers, gilt für jede Session):** Rechtzeitig pausieren, bevor das Kontingent aufgebraucht ist:
+   1. laufenden Schritt sauber abschließen oder zurückrollen,
+   2. `npm test`, commit, push,
+   3. in `docs/STATUS.md` unter „Weiter bei:“ genau Phase und Schritt eintragen,
+   4. Nutzer per Push-Benachrichtigung **und** Nachricht informieren („pausiert, weiter ab …“),
+   5. eine geplante Aufgabe zur Fortsetzung anlegen; beim Fortsetzen erneut benachrichtigen („geht weiter bei …“) und genau dort weitermachen.
+8. **Bei Unklarheiten**: Annahme treffen, im Abschlussbericht dokumentieren, weitermachen.
+9. **Sprache**: UI-Texte und Doku auf **Deutsch**, Code (Variablen, Funktionen, Kommentare) auf **Englisch**.
 
 ---
 
