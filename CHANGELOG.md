@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.2] – 2026-11-18
+
+### Hinzugefügt
+- **20 offene Aufgaben mit Bewertungsraster für die übrigen Berufe:** FIAE (Black-/White-Box-Test, Aggregation/Komposition, binäre Suche, Transaktionen/ACID, Wasserfall vs. Scrum, SQL-Injection), FIDPA (Dimensionen der Datenqualität, ETL, Ist-Prozess-Erhebung, Korrelation vs. Kausalität), FIDV (Fehlersuche nach OSI, IT vs. OT, DMZ, SLAAC), ITSE (RCD vs. Leitungsschutzschalter, fünf Sicherheitsregeln, Startprobleme nach Update, Gebäudevernetzung per LWL), KDM (Business Model Canvas, Freemium).
+- Passende offene Aufgaben aus 2.2.1 gelten jetzt auch für weitere Berufe, deren AP2 das Thema enthält (z. B. SLA-Zeiten, 3-2-1-Regel, Darlehensvergleich für KDM). Jetzt 57 Freitextaufgaben, 761 Fragen.
+
 ## [2.2.1] – 2026-11-18
 
 ### Hinzugefügt
