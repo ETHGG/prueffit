@@ -1,5 +1,5 @@
 // Grading of single answers. Pure functions, no DOM access.
-// Version 0.1 grades the types `single`, `multi` and `number`.
+// Supports all six question types of CLAUDE.md 5.2.
 
 const round2 = (x) => Math.round(x * 100) / 100;
 const EPSILON = 1e-9;
@@ -65,7 +65,66 @@ function gradeNumber(q, response, max) {
   return result(true, correct, correct ? max : 0, max);
 }
 
-const GRADERS = { single: gradeSingle, multi: gradeMulti, number: gradeNumber };
+const SELF_SCORES = [0, 0.5, 1];
+
+/** text: the learner compares with the sample solution and rates 0 / half / full. */
+function gradeText(q, response, max) {
+  const self = response?.self;
+  if (!SELF_SCORES.includes(self)) return result(false, false, 0, max);
+  return result(true, self === 1, round2(max * self), max);
+}
+
+const isPlainObject = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
+
+/** match: points per correct pair; missing pairs count as wrong. */
+function gradeMatch(q, response, max) {
+  if (!isPlainObject(response)) return result(false, false, 0, max);
+  const pairs = Object.entries(q.answer);
+  const rights = new Set(pairs.map(([, r]) => r));
+  for (const [left, right] of Object.entries(response)) {
+    if (!Object.hasOwn(q.answer, left) || typeof right !== 'string' || !rights.has(right)) {
+      return result(false, false, 0, max);
+    }
+  }
+  const hits = pairs.filter(([left, right]) => response[left] === right).length;
+  const correct = hits === pairs.length;
+  return result(true, correct, correct ? max : round2(max * (hits / pairs.length)), max);
+}
+
+/** order: full points only for exactly the right order. */
+function gradeOrder(q, response, max) {
+  const expected = q.answer;
+  if (!Array.isArray(response) || response.length !== expected.length) return result(false, false, 0, max);
+  const sortedA = [...response].sort();
+  const sortedB = [...expected].sort();
+  if (!sortedA.every((v, i) => v === sortedB[i])) return result(false, false, 0, max);
+  const correct = response.every((v, i) => v === expected[i]);
+  return result(true, correct, correct ? max : 0, max);
+}
+
+const GRADERS = {
+  single: gradeSingle,
+  multi: gradeMulti,
+  number: gradeNumber,
+  text: gradeText,
+  match: gradeMatch,
+  order: gradeOrder,
+};
+
+function normalizeForSearch(value) {
+  return String(value ?? '')
+    .toLowerCase()
+    .normalize('NFC')
+    .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss');
+}
+
+/** Keywords (from the sample solution) that occur in the learner's text. Helps self-assessment. */
+export function keywordHits(text, keywords) {
+  if (!Array.isArray(keywords)) return [];
+  const haystack = normalizeForSearch(text);
+  if (!haystack) return [];
+  return keywords.filter((k) => haystack.includes(normalizeForSearch(k)));
+}
 
 /**
  * Grades a response to a question.

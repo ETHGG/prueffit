@@ -23,7 +23,7 @@ export const AREAS = [
 export const EXAMS = ['AP1', 'AP2'];
 export const QUESTION_TYPES = ['single', 'multi', 'number', 'text', 'match', 'order'];
 // Types the quiz can present in this version.
-export const SUPPORTED_QUIZ_TYPES = ['single', 'multi', 'number'];
+export const SUPPORTED_QUIZ_TYPES = ['single', 'multi', 'number', 'text', 'match', 'order'];
 
 // Quiz
 export const QUIZ_SIZES = [5, 10, 20];

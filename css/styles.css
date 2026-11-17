@@ -74,7 +74,12 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+  /* Keep scrolled-to elements clear of the sticky header and the fixed tab bar. */
+  scroll-padding-top: calc(64px + var(--safe-top));
+  scroll-padding-bottom: calc(var(--tabbar-h) + var(--safe-bottom) + 12px);
+}
 
 body {
   margin: 0;
@@ -82,6 +87,8 @@ body {
   background: var(--bg);
   color: var(--text);
   font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Long words (e-mail addresses, URLs, IDs) must never widen the page on small phones. */
+  overflow-wrap: anywhere;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -165,7 +172,7 @@ h1[tabindex="-1"]:focus, h3[tabindex="-1"]:focus, .view:focus { outline: none; }
 .small { font-size: .875rem; }
 .stack > * + * { margin-top: .75rem; }
 .row { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
-.grow { flex: 1 1 auto; }
+.grow { flex: 1 1 auto; min-width: 0; }
 
 .kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; }
 .kpi { background: var(--surface-2); border-radius: 10px; padding: .75rem; }
@@ -256,6 +263,55 @@ legend { font-weight: 700; margin-bottom: .5rem; padding: 0; }
 .number-input .unit { font-weight: 600; color: var(--muted); }
 
 .hint { color: var(--muted); font-size: .875rem; }
+
+/* Question types text / match / order */
+.field-label { display: block; font-weight: 700; margin: 1rem 0 .35rem; }
+textarea {
+  width: 100%; min-height: 110px; padding: .6rem .75rem; resize: vertical;
+  font: inherit; color: var(--text); background: var(--surface);
+  border: 2px solid var(--border); border-radius: 12px;
+}
+textarea:focus, select:focus { border-color: var(--primary); outline: none; }
+textarea:disabled { opacity: .8; }
+.sample { margin: 1rem 0; padding: 1rem; border-radius: 12px; background: var(--surface-2); }
+.sample h3 { outline: none; }
+.keywords { list-style: none; padding: 0; margin: .25rem 0 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+.keywords li { padding: .15rem .6rem; border-radius: 999px; font-size: .85rem; border: 1px solid var(--border); }
+.keywords li.hit { border-color: var(--ok); color: var(--ok); font-weight: 600; }
+.self-rating legend { margin-bottom: .5rem; }
+.self-rating .button { flex-direction: column; gap: 0; }
+.button-hint { display: block; font-size: .75rem; font-weight: 500; opacity: .85; }
+
+.match-list { display: grid; gap: .6rem; margin: 1rem 0; }
+.match-row {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: .4rem; align-items: center;
+  padding: .6rem; border: 2px solid var(--border); border-radius: 12px;
+}
+@media (min-width: 640px) {
+  .match-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+}
+.match-row select { width: 100%; }
+.match-left { font-weight: 600; overflow-wrap: anywhere; }
+.match-row .mark { grid-column: 1 / -1; font-size: .85rem; font-weight: 700; }
+.match-row.is-correct { border-color: var(--ok); background: var(--ok-bg); }
+.match-row.is-correct .mark { color: var(--ok); }
+.match-row.is-wrong { border-color: var(--bad); background: var(--bad-bg); }
+.match-row.is-wrong .mark { color: var(--bad); }
+
+.order-list { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: .5rem; }
+.order-item {
+  display: flex; align-items: center; gap: .5rem; min-height: 52px; padding: .25rem .25rem .25rem .75rem;
+  border: 2px solid var(--border); border-radius: 12px; background: var(--surface);
+}
+.order-pos { font-weight: 800; color: var(--muted); width: 1.6rem; flex: none; }
+.order-buttons { display: flex; flex: none; }
+.order-buttons .icon-button { color: var(--primary); font-size: 1rem; }
+.order-buttons .icon-button:disabled { opacity: .25; }
+.order-item .mark { font-weight: 700; padding-right: .5rem; flex: none; }
+.order-item.is-correct { border-color: var(--ok); background: var(--ok-bg); }
+.order-item.is-correct .mark { color: var(--ok); }
+.order-item.is-wrong { border-color: var(--bad); background: var(--bad-bg); }
+.order-item.is-wrong .mark { color: var(--bad); }
 .sticky-actions {
   position: sticky; bottom: calc(var(--tabbar-h) + var(--safe-bottom) + .5rem);
   margin: 0 -1rem -1rem; padding: .75rem 1rem 1rem;

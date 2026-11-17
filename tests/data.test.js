@@ -125,6 +125,18 @@ describe('data/questions', () => {
         expect(questions.filter((q) => q.source !== 'eigene').map((q) => q.id)).toEqual([]);
       });
 
+      it('has at least 2 questions of the types text, match or order', () => {
+        expect(questions.filter((q) => ['text', 'match', 'order'].includes(q.type)).length).toBeGreaterThanOrEqual(2);
+      });
+
+      it('text/match/order questions are meaningful (enough keywords, pairs, items)', () => {
+        const weak = questions.filter((q) =>
+          (q.type === 'text' && (q.answer.keywords.length < 2 || q.answer.sample.length < 40))
+          || (q.type === 'match' && (Object.keys(q.answer).length < 3 || new Set(Object.values(q.answer)).size < 2))
+          || (q.type === 'order' && q.answer.length < 3)).map((q) => q.id);
+        expect(weak).toEqual([]);
+      });
+
       it('has no duplicate question texts', () => {
         const texts = questions.map((q) => q.question.trim());
         expect(texts.length).toBe(new Set(texts).size);

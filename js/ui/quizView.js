@@ -4,6 +4,7 @@ import { EXAMS, QUIZ_SIZES, DEFAULT_QUIZ_SIZE, SUPPORTED_QUIZ_TYPES } from '../c
 import { filterQuestions, pickRandom, shuffle } from '../questions.js';
 import { createQuiz, currentQuestion, submitAnswer, nextQuestion, isFinished, isAnswered, summarizeQuiz } from '../quiz.js';
 import { recordAnswer } from '../storage.js';
+import { keywordHits } from '../grading.js';
 import { h, formatNumber, formatPercent, DIFFICULTY_LABELS } from './dom.js';
 
 // Kept in memory while the app is open, so switching tabs does not lose a running quiz.
@@ -33,12 +34,13 @@ export function render(root, ctx) {
   if (!setup.topics) setup.topics = new Set(topics.map((t) => t.id));
 
   const topicById = new Map(topics.map((t) => [t.id, t]));
-  const draw = () => {
+  const draw = ({ keepScroll = false } = {}) => {
+    const y = window.scrollY;
     root.replaceChildren();
     if (!session) drawSetup(root, ctx, draw);
     else if (isFinished(session.quiz)) drawSummary(root, ctx, draw, topicById);
     else drawQuestion(root, ctx, draw, topicById);
-    window.scrollTo(0, 0);
+    window.scrollTo(0, keepScroll ? y : 0);
   };
   draw();
 }
@@ -168,29 +170,85 @@ function drawSetup(root, ctx, draw) {
 
 // ---------------------------------------------------------------- question
 
-function readResponse(form, question) {
-  if (question.type === 'single') {
-    const checked = form.querySelector('input[name="answer"]:checked');
-    return checked ? Number(checked.value) : undefined;
+const SELF_OPTIONS = [
+  { value: 0, label: 'Nicht gewusst', hint: '0 Punkte' },
+  { value: 0.5, label: 'Teilweise', hint: 'halbe Punkte' },
+  { value: 1, label: 'Vollständig', hint: 'volle Punkte' },
+];
+
+/** Per-question UI state (shuffled lists, text drafts) lives in the session so it survives re-rendering. */
+function uiFor(q) {
+  session.ui ??= {};
+  if (!session.ui[q.id]) {
+    const ui = {};
+    if (q.type === 'order') {
+      // Start with a shuffled order that is not already correct.
+      let list = shuffle(q.answer);
+      for (let i = 0; i < 5 && list.every((v, k) => v === q.answer[k]); i++) list = shuffle(q.answer);
+      if (list.every((v, k) => v === q.answer[k])) list = [...q.answer].reverse();
+      ui.order = list;
+    }
+    if (q.type === 'match') ui.rights = shuffle([...new Set(Object.values(q.answer))]);
+    if (q.type === 'text') { ui.draft = ''; ui.revealed = false; }
+    session.ui[q.id] = ui;
   }
-  if (question.type === 'multi') {
-    return [...form.querySelectorAll('input[name="answer"]:checked')].map((el) => Number(el.value));
-  }
-  return form.querySelector('input[name="answer"]').value;
+  return session.ui[q.id];
 }
 
-function missingInputMessage(question, response) {
-  if (question.type === 'single' && response === undefined) return 'Bitte wähle eine Antwort aus.';
-  if (question.type === 'multi' && response.length === 0) return 'Bitte wähle mindestens eine Antwort aus.';
-  if (question.type === 'number') return 'Bitte gib eine Zahl ein, z. B. 62 oder 3,75.';
-  return 'Diese Antwort ist ungültig.';
+function readResponse(form, question) {
+  switch (question.type) {
+    case 'single': {
+      const checked = form.querySelector('input[name="answer"]:checked');
+      return checked ? Number(checked.value) : undefined;
+    }
+    case 'multi':
+      return [...form.querySelectorAll('input[name="answer"]:checked')].map((el) => Number(el.value));
+    case 'number':
+      return form.querySelector('input[name="answer"]').value;
+    case 'match': {
+      const response = {};
+      for (const sel of form.querySelectorAll('select[data-left]')) {
+        if (sel.value) response[sel.dataset.left] = sel.value;
+      }
+      return response;
+    }
+    case 'order':
+      return [...uiFor(question).order];
+    default:
+      return undefined;
+  }
+}
+
+function isIncomplete(question, response) {
+  if (response === undefined) return true;
+  if (question.type === 'multi') return response.length === 0;
+  if (question.type === 'match') return Object.keys(response).length < Object.keys(question.answer).length;
+  return false;
+}
+
+function missingInputMessage(question) {
+  switch (question.type) {
+    case 'single': return 'Bitte wähle eine Antwort aus.';
+    case 'multi': return 'Bitte wähle mindestens eine Antwort aus.';
+    case 'number': return 'Bitte gib eine Zahl ein, z. B. 62 oder 3,75.';
+    case 'match': return 'Bitte ordne jedem Begriff einen Eintrag zu.';
+    default: return 'Diese Antwort ist ungültig.';
+  }
 }
 
 function correctAnswerText(q) {
-  if (q.type === 'single') return q.options[q.answer];
-  if (q.type === 'multi') return q.answer.map((i) => q.options[i]).join(' · ');
-  const { value, tolerance = 0, unit = '' } = q.answer;
-  return `${formatNumber(value)}${tolerance ? ` (± ${formatNumber(tolerance)})` : ''}${unit ? ` ${unit}` : ''}`;
+  switch (q.type) {
+    case 'single': return q.options[q.answer];
+    case 'multi': return q.answer.map((i) => q.options[i]).join(' · ');
+    case 'number': {
+      const { value, tolerance = 0, unit = '' } = q.answer;
+      return `${formatNumber(value)}${tolerance ? ` (± ${formatNumber(tolerance)})` : ''}${unit ? ` ${unit}` : ''}`;
+    }
+    case 'match': return Object.entries(q.answer).map(([l, r]) => `${l} → ${r}`).join(' · ');
+    case 'order': return q.answer.join(' → ');
+    case 'text': return q.answer.sample;
+    default: return '';
+  }
 }
 
 function optionState(q, index, response) {
@@ -202,6 +260,126 @@ function optionState(q, index, response) {
   return { cls: '', mark: '' };
 }
 
+function choiceInput(q, answered, result) {
+  const multi = q.type === 'multi';
+  return h('fieldset', {},
+    h('legend', { class: multi ? 'hint' : 'visually-hidden', text: multi ? 'Mehrere Antworten möglich' : 'Antwort auswählen' }),
+    h('div', { class: 'options' },
+      q.options.map((text, i) => {
+        const state = answered ? optionState(q, i, result.response) : { cls: '', mark: '' };
+        const chosen = answered && (multi ? result.response.includes(i) : result.response === i);
+        return h('label', { class: `option ${state.cls}`, 'aria-disabled': answered ? 'true' : null },
+          h('input', { type: multi ? 'checkbox' : 'radio', name: 'answer', value: i, disabled: answered, checked: chosen }),
+          h('span', { class: 'grow', text }),
+          state.mark ? h('span', { class: 'mark', text: state.mark }) : null);
+      })));
+}
+
+function numberInput(q, answered, result) {
+  const field = h('input', {
+    id: 'answer-input', name: 'answer', type: 'text', inputmode: 'decimal', autocomplete: 'off',
+    enterkeyhint: 'done', 'aria-describedby': 'number-hint', disabled: answered,
+    value: answered ? String(result.response) : null,
+  });
+  return h('div', {},
+    h('label', { for: 'answer-input', class: 'visually-hidden', text: 'Deine Antwort' }),
+    h('div', { class: 'number-input' }, field, q.answer.unit ? h('span', { class: 'unit', text: q.answer.unit }) : null),
+    h('p', { class: 'hint', id: 'number-hint', text: 'Dezimalzahlen mit Komma oder Punkt, ohne Einheit.' }));
+}
+
+function matchInput(q, answered, result) {
+  const ui = uiFor(q);
+  return h('fieldset', {},
+    h('legend', { class: 'hint', text: 'Ordne jedem Begriff links den passenden Eintrag zu.' }),
+    h('div', { class: 'match-list' },
+      Object.keys(q.answer).map((left, i) => {
+        const id = `match-${i}`;
+        const chosen = answered ? result.response[left] : undefined;
+        const ok = answered && chosen === q.answer[left];
+        return h('div', { class: `match-row${answered ? (ok ? ' is-correct' : ' is-wrong') : ''}` },
+          h('label', { for: id, class: 'match-left', text: left }),
+          h('select', { id, 'data-left': left, disabled: answered },
+            h('option', { value: '', text: '– auswählen –' }),
+            ui.rights.map((r) => h('option', { value: r, selected: chosen === r, text: r }))),
+          answered
+            ? h('span', { class: 'mark', text: ok ? '✓ richtig' : `✗ richtig: ${q.answer[left]}` })
+            : null);
+      })));
+}
+
+function orderInput(q, answered, result, redraw) {
+  const ui = uiFor(q);
+  const list = answered ? result.response : ui.order;
+  const move = (from, to) => {
+    const next = [...ui.order];
+    [next[from], next[to]] = [next[to], next[from]];
+    ui.order = next;
+    redraw({ keepScroll: true });
+    // Keep keyboard focus on the moved item (same direction button if still enabled).
+    const row = document.querySelector(`[data-order-item="${to}"]`);
+    const same = row?.querySelector(`[data-dir="${to < from ? 'up' : 'down'}"]:not([disabled])`);
+    (same ?? row?.querySelector('button:not([disabled])'))?.focus();
+  };
+  return h('fieldset', {},
+    h('legend', { class: 'hint', text: 'Bringe die Einträge mit den Pfeilen in die richtige Reihenfolge (oben = zuerst).' }),
+    h('ol', { class: 'order-list' },
+      list.map((item, i) => {
+        const ok = answered && item === q.answer[i];
+        return h('li', { class: `order-item${answered ? (ok ? ' is-correct' : ' is-wrong') : ''}`, 'data-order-item': i },
+          h('span', { class: 'order-pos', 'aria-hidden': 'true', text: `${i + 1}.` }),
+          h('span', { class: 'grow', text: item }),
+          answered
+            ? h('span', { class: 'mark', text: ok ? '✓' : `✗ Platz ${q.answer.indexOf(item) + 1}` })
+            : h('span', { class: 'order-buttons' },
+              h('button', {
+                type: 'button', class: 'icon-button', 'data-dir': 'up', disabled: i === 0,
+                'aria-label': `„${item}“ nach oben`, onClick: () => move(i, i - 1),
+              }, '▲'),
+              h('button', {
+                type: 'button', class: 'icon-button', 'data-dir': 'down', disabled: i === list.length - 1,
+                'aria-label': `„${item}“ nach unten`, onClick: () => move(i, i + 1),
+              }, '▼')));
+      })));
+}
+
+function textInput(q, answered, result, submitSelf) {
+  const ui = uiFor(q);
+  const area = h('textarea', {
+    id: 'answer-text', rows: 4, disabled: ui.revealed || answered,
+    placeholder: 'Stichpunkte genügen',
+    onInput: (e) => { ui.draft = e.target.value; },
+  });
+  area.value = answered ? (result.response.text ?? '') : ui.draft;
+
+  const parts = [
+    h('label', { for: 'answer-text', class: 'field-label', text: 'Deine Antwort' }),
+    area,
+  ];
+  if (ui.revealed || answered) {
+    const text = answered ? result.response.text : ui.draft;
+    const hits = keywordHits(text, q.answer.keywords);
+    parts.push(h('section', { class: 'sample', 'aria-labelledby': 'sample-title' },
+      h('h3', { id: 'sample-title', tabindex: '-1', text: 'Musterlösung' }),
+      h('p', { text: q.answer.sample }),
+      h('p', { class: 'small muted' }, `Schlüsselbegriffe in deiner Antwort: ${hits.length} von ${q.answer.keywords.length}`),
+      h('ul', { class: 'keywords' },
+        q.answer.keywords.map((k) => h('li', { class: hits.includes(k) ? 'hit' : 'miss' },
+          h('span', { 'aria-hidden': 'true', text: hits.includes(k) ? '✓ ' : '○ ' }),
+          k,
+          h('span', { class: 'visually-hidden', text: hits.includes(k) ? ' (gefunden)' : ' (fehlt)' }))))));
+    if (!answered) {
+      parts.push(h('fieldset', { class: 'self-rating' },
+        h('legend', { text: 'Wie gut war deine Antwort?' }),
+        h('div', { class: 'button-row' },
+          SELF_OPTIONS.map((o) => h('button', {
+            type: 'button', class: `button${o.value === 1 ? '' : ' secondary'}`,
+            onClick: () => submitSelf(o.value),
+          }, h('span', {}, o.label, h('span', { class: 'button-hint', text: o.hint })))))));
+    }
+  }
+  return h('div', {}, ...parts);
+}
+
 function drawQuestion(root, ctx, draw, topicById) {
   const { quiz } = session;
   const q = currentQuestion(quiz);
@@ -209,70 +387,64 @@ function drawQuestion(root, ctx, draw, topicById) {
   const result = answered ? quiz.results[quiz.index] : null;
   const total = quiz.questions.length;
   const topic = topicById.get(q.topic);
-
   const errorEl = h('p', { class: 'form-error', role: 'alert' });
-  let input;
 
-  if (q.type === 'number') {
-    const field = h('input', {
-      id: 'answer-input', name: 'answer', type: 'text', inputmode: 'decimal', autocomplete: 'off',
-      enterkeyhint: 'done', 'aria-describedby': 'number-hint', disabled: answered,
-      value: answered ? String(result.response) : null,
-    });
-    input = h('div', {},
-      h('label', { for: 'answer-input', class: 'visually-hidden', text: 'Deine Antwort' }),
-      h('div', { class: 'number-input' }, field, q.answer.unit ? h('span', { class: 'unit', text: q.answer.unit }) : null),
-      h('p', { class: 'hint', id: 'number-hint', text: 'Dezimalzahlen mit Komma oder Punkt, ohne Einheit.' }));
-  } else {
-    const multi = q.type === 'multi';
-    input = h('fieldset', {},
-      h('legend', { class: multi ? 'hint' : 'visually-hidden', text: multi ? 'Mehrere Antworten möglich' : 'Antwort auswählen' }),
-      h('div', { class: 'options' },
-        q.options.map((text, i) => {
-          const state = answered ? optionState(q, i, result.response) : { cls: '', mark: '' };
-          const chosen = answered && (multi ? result.response.includes(i) : result.response === i);
-          return h('label', { class: `option ${state.cls}`, 'aria-disabled': answered ? 'true' : null },
-            h('input', { type: multi ? 'checkbox' : 'radio', name: 'answer', value: i, disabled: answered, checked: chosen }),
-            h('span', { class: 'grow', text }),
-            state.mark ? h('span', { class: 'mark', text: state.mark }) : null);
-        })));
+  const commit = (response) => {
+    const r = submitAnswer(session.quiz, response);
+    if (!r.result.valid || isIncomplete(q, response)) {
+      errorEl.textContent = missingInputMessage(q);
+      return;
+    }
+    session.quiz = r.quiz;
+    ctx.updateProgress((p) => recordAnswer(p, q.id, r.result.correct));
+    draw({ keepScroll: true });
+  };
+
+  let input;
+  switch (q.type) {
+    case 'number': input = numberInput(q, answered, result); break;
+    case 'match': input = matchInput(q, answered, result); break;
+    case 'order': input = orderInput(q, answered, result, draw); break;
+    case 'text': input = textInput(q, answered, result, (self) => commit({ text: uiFor(q).draft, self })); break;
+    default: input = choiceInput(q, answered, result);
   }
 
   let feedback = null;
   if (answered) {
     const kind = result.correct ? 'ok' : result.points > 0 ? 'partial' : 'bad';
-    const title = { ok: 'Richtig!', partial: 'Teilweise richtig', bad: 'Leider falsch' }[kind];
+    const title = q.type === 'text'
+      ? { ok: 'Selbstbewertung: vollständig', partial: 'Selbstbewertung: teilweise', bad: 'Selbstbewertung: nicht gewusst' }[kind]
+      : { ok: 'Richtig!', partial: 'Teilweise richtig', bad: 'Leider falsch' }[kind];
     feedback = h('section', { class: `feedback ${kind}`, 'aria-labelledby': 'feedback-title' },
       h('h3', { id: 'feedback-title', tabindex: '-1', text: title }),
       h('p', { class: 'small' }, `${formatNumber(result.points)} von ${formatNumber(result.maxPoints)} ${result.maxPoints === 1 ? 'Punkt' : 'Punkten'}`),
-      !result.correct ? h('p', {}, h('strong', { text: 'Richtige Antwort: ' }), correctAnswerText(q)) : null,
+      !result.correct && q.type !== 'text' ? h('p', {}, h('strong', { text: 'Richtige Antwort: ' }), correctAnswerText(q)) : null,
       h('p', {}, h('strong', { text: 'Erklärung: ' }), q.explanation));
   }
 
   const isLast = quiz.index === total - 1;
-  const action = answered
-    ? h('button', { class: 'button block', type: 'button', id: 'next-button', onClick: () => { session.quiz = nextQuestion(session.quiz); draw(); } },
-      isLast ? 'Zur Auswertung' : 'Nächste Frage')
-    : h('button', { class: 'button block', type: 'submit' }, 'Antwort prüfen');
+  let action = null;
+  if (answered) {
+    action = h('button', { class: 'button block', type: 'button', id: 'next-button', onClick: () => { session.quiz = nextQuestion(session.quiz); draw(); } },
+      isLast ? 'Zur Auswertung' : 'Nächste Frage');
+  } else if (q.type === 'text') {
+    action = uiFor(q).revealed ? null : h('button', { class: 'button block', type: 'submit' }, 'Musterlösung anzeigen');
+  } else {
+    action = h('button', { class: 'button block', type: 'submit' }, 'Antwort prüfen');
+  }
 
   const form = h('form', {
     novalidate: true,
     onSubmit: (e) => {
       e.preventDefault();
       if (isAnswered(session.quiz)) return;
-      const response = readResponse(form, q);
-      const r = submitAnswer(session.quiz, response);
-      const empty = (q.type === 'multi' && response.length === 0) || response === undefined;
-      if (!r.result.valid || empty) {
-        errorEl.textContent = missingInputMessage(q, response);
+      if (q.type === 'text') {
+        uiFor(q).revealed = true;
+        draw({ keepScroll: true });
+        root.querySelector('#sample-title')?.focus({ preventScroll: true });
         return;
       }
-      session.quiz = r.quiz;
-      ctx.updateProgress((p) => recordAnswer(p, q.id, r.result.correct));
-      draw();
-      const fb = root.querySelector('#feedback-title');
-      fb?.focus({ preventScroll: true });
-      fb?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      commit(readResponse(form, q));
     },
   }, input, errorEl, feedback, action);
 
@@ -307,7 +479,14 @@ function drawQuestion(root, ctx, draw, topicById) {
       form),
   );
 
-  if (answered) root.querySelector('#next-button')?.focus({ preventScroll: true });
+  if (answered) {
+    // After draw() has restored the scroll position: bring the "next" button into view.
+    queueMicrotask(() => {
+      const next = root.querySelector('#next-button');
+      next?.scrollIntoView({ block: 'nearest' });
+      next?.focus({ preventScroll: true });
+    });
+  }
 }
 
 // ---------------------------------------------------------------- summary
