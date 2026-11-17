@@ -60,3 +60,37 @@ export function overallStats(answers, questions = null) {
   }
   return summarize(correct, attempts);
 }
+
+/**
+ * „Heute üben“ (CLAUDE.md 6.2): the topics with the lowest hit rate among topics with
+ * at least 5 attempts; filled up with untried topics (catalogue order) if there are fewer.
+ * Ties: more attempts first (more reliable).
+ * @param list result of topicStats()
+ * @param {{ count?: number, available?: Set<string> }} options  available = topic ids with questions
+ * @returns {Array<object & { reason: 'weak'|'new' }>}
+ */
+export function practiceSuggestions(list, { count = 3, available = null } = {}) {
+  const usable = available ? list.filter((t) => available.has(t.id)) : list;
+  const weak = usable
+    .filter((t) => t.attempts >= MIN_ATTEMPTS_FOR_RATING)
+    .sort((a, b) => a.correct / a.attempts - b.correct / b.attempts || b.attempts - a.attempts)
+    .slice(0, count)
+    .map((t) => ({ ...t, reason: 'weak' }));
+  const fresh = usable
+    .filter((t) => t.attempts === 0)
+    .slice(0, count - weak.length)
+    .map((t) => ({ ...t, reason: 'new' }));
+  return [...weak, ...fresh];
+}
+
+/** Statistics per area (sum over its topics), in order of first appearance. */
+export function areaStats(list) {
+  const sums = new Map();
+  for (const t of list) {
+    const s = sums.get(t.area) ?? { attempts: 0, correct: 0 };
+    s.attempts += t.attempts;
+    s.correct += t.correct;
+    sums.set(t.area, s);
+  }
+  return [...sums].map(([area, { attempts, correct }]) => ({ area, ...summarize(correct, attempts) }));
+}

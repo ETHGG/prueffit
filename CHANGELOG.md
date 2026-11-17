@@ -2,6 +2,26 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [0.3.0] – 2026-11-17
+
+### Hinzugefügt
+- **Prüfungssimulation** (`js/exam.js`, Ansicht „Prüfung“):
+  - AP1 mit 90 Minuten und etwa 100 Punkten; AP2 mit zwei Teilen zu je 90 Minuten und je etwa 50 Punkten. Teil 2 startet erst, wenn man ihn bewusst beginnt.
+  - Fragen werden gleichmäßig über die Bereiche gezogen und berücksichtigen den gewählten Beruf.
+  - Freie Navigation zwischen den Fragen mit Übersicht beantworteter Fragen.
+  - Der Timer rechnet über die gespeicherte Startzeit und läuft weiter, wenn die App geschlossen wird. Bei Zeitablauf wird automatisch abgegeben, und zwar zum Ablaufzeitpunkt.
+  - Rückmeldung erst am Ende: Note nach IHK-Schlüssel (Prozent vorher kaufmännisch gerundet), Punkte pro Teil und Auswertung jeder Frage mit eigener Antwort, richtiger Antwort, Erklärung und „Fehler melden“.
+  - Das Ergebnis wird in `exams` gespeichert, beantwortete Fragen zählen in der Statistik mit.
+- **„Heute üben“** auf Start- und Statistikseite: die 3 schwächsten Themen (ab 5 Versuchen), sonst noch nicht geübte Themen. „Üben“ öffnet das Quiz mit vorausgewähltem Thema.
+- **Diagramme** in der Statistik (Chart.js lokal, wird erst bei Bedarf geladen): Trefferquote pro Bereich in Ampelfarben und Verlauf der Prüfungsergebnisse mit 50-%-Linie. Beide passen sich hell/dunkel an und haben eine Textalternative.
+- Startseite: Button „Prüfung simulieren“.
+- Gemeinsames Modul `js/ui/questionInputs.js` für die Eingaben in Quiz und Prüfung.
+- Tests: `exam.test.js` (33 Tests: alle Notengrenzen, Rundung inklusive Gleitkomma-Fällen, Zeitablauf, Teile, Wiederherstellung), „Heute üben“, Bereichsstatistik und Speichern von Prüfungen; 5 neue Browsertests.
+
+### Behoben
+- Die Statistik zeigte statt der Themenlisten pro Bereich „[object HTMLElement]“. Der Fehler bestand seit 0.1; ein neuer Regressionstest prüft jetzt alle Ansichten.
+- Einheiten bei Zahleneingaben (z. B. „Stück“) wurden mitten im Wort umbrochen.
+
 ## [0.2.1] – 2026-11-17
 
 ### Hinzugefügt
@@ -18,7 +38,7 @@ Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](h
   - Algorithmen und Pseudocode
   - Softwaretest
   - Arbeitsschutz und Ergonomie
-- **Browsertests im Repo** (`npm run test:e2e`, Playwright): 12 Tests in vier Profilen (Desktop, iPhone SE, iPhone 13 dunkel und iPhone 13 mit WebKit/Safari-Engine), automatisch in der CI.
+- **Browsertests im Repo** (`npm run test:e2e`, Playwright): 14 Tests in vier Profilen (Desktop, iPhone SE, iPhone 13 dunkel und iPhone 13 mit WebKit/Safari-Engine), automatisch in der CI.
 - **ESLint** (`npm run lint`) mit eigener CI-Prüfung.
 
 ### Geändert

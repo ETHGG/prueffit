@@ -4,7 +4,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 
 **Live:** https://ethgg.github.io/prueffit/
 
-## Funktionen (Version 0.2.1)
+## Funktionen (Version 0.3)
 
 - **Quiz-Modus:** Fragen nach Prüfung (AP1/AP2), Themen und Schwierigkeit filtern, 5, 10 oder 20 Fragen. Nach jeder Antwort gibt es sofort Feedback mit Erklärung und Lösungsweg, am Ende eine Auswertung mit Punkten und „Fehler wiederholen“. Eine laufende Runde übersteht Neuladen und App-Wechsel.
 - **Sechs Fragetypen:**
@@ -14,13 +14,15 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
   - Zuordnung (Teilpunkte pro Paar)
   - Reihenfolge
 - **Karteikarten mit Leitner-System:** 5 Fächer (Wiederholung nach 1, 2, 4, 7 und 14 Tagen), fällige Karten lernen, umdrehen, „Gewusst“ oder „Nicht gewusst“, Übersicht der Fächer.
-- **Statistik:** Trefferquote und Versuche pro Thema mit Ampel (grün ab 80 %, gelb ab 50 %, rot darunter, grau unter 5 Versuchen).
+- **Prüfungssimulation:** AP1 (90 Minuten) oder AP2 (zwei Teile à 90 Minuten) mit Timer, der auch bei geschlossener App weiterläuft, automatischer Abgabe, Note nach IHK-Schlüssel und Auswertung jeder Frage.
+- **Statistik:** Trefferquote und Versuche pro Thema mit Ampel (grün ab 80 %, gelb ab 50 %, rot darunter, grau unter 5 Versuchen), Diagramme pro Bereich und für den Verlauf der Prüfungsergebnisse.
+- **Heute üben:** Die schwächsten Themen (oder noch ungeübte) werden vorgeschlagen und lassen sich direkt im Quiz üben.
 - **Inhalte:** 175 eigene Fragen (25 pro Bereich, davon 91 für die AP2) und 56 Karteikarten in 7 Bereichen: Netzwerke, Hardware, IT-Sicherheit, Wirtschaft, Projektmanagement, Programmierung und Recht.
 - **Ausbildungsberuf wählbar:** Fachinformatik Systemintegration, Fachinformatik Anwendungsentwicklung oder IT-System-Management. AP2-Fragen anderer Berufe werden dann ausgeblendet.
 - **Fehler melden:** Unter jeder Erklärung führt ein Link zu einem vorausgefüllten GitHub-Issue.
 - **PWA:** installierbar, funktioniert nach dem ersten Aufruf komplett offline, Dark Mode nach Systemeinstellung, für das iPhone optimiert.
 
-Geplant sind die Prüfungssimulation mit IHK-Note, „Heute üben“ und Diagramme (0.3) sowie Import/Export, Dark-Mode-Schalter, Lernserie und Tagesziel (0.4). Details stehen in [`CLAUDE.md`](CLAUDE.md) und [`docs/STATUS.md`](docs/STATUS.md).
+Geplant sind Import/Export, ein Dark-Mode-Schalter, Lernserie und Tagesziel (0.4). Details stehen in [`CLAUDE.md`](CLAUDE.md) und [`docs/STATUS.md`](docs/STATUS.md).
 
 ## Auf dem iPhone installieren
 

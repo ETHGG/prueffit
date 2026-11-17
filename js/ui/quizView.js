@@ -8,6 +8,9 @@ import {
 } from '../quiz.js';
 import { recordAnswer } from '../storage.js';
 import { keywordHits } from '../grading.js';
+import {
+  createUi, isValidUi, readResponse, isIncomplete, missingInputMessage, correctAnswerText, renderInput,
+} from './questionInputs.js';
 import { h, formatNumber, formatPercent, DIFFICULTY_LABELS } from './dom.js';
 
 // Kept in memory while the app is open, so switching tabs does not lose a running quiz.
@@ -69,6 +72,22 @@ export function render(root, ctx) {
   setup.job = ctx.progress.settings.job ?? ALL_JOBS;
   if (!session) session = restoreSession(ctx.sessionStore, questions);
 
+  // Deep link from "Heute üben": #/quiz?thema=<topic id> preselects that topic.
+  const requested = new URLSearchParams(location.hash.split('?')[1] ?? '').get('thema');
+  let notice = null;
+  if (requested) {
+    history.replaceState(null, '', '#/quiz');
+    const topic = topics.find((t) => t.id === requested);
+    if (topic && !session) {
+      setup.topics = new Set([topic.id]);
+      setup.exam = ALL_EXAMS;
+      setup.difficulties = [1, 2, 3];
+      notice = `Thema „${topic.name}“ ist ausgewählt.`;
+    } else if (topic && session) {
+      notice = 'Es läuft noch ein Quiz. Beende es, um das vorgeschlagene Thema zu üben.';
+    }
+  }
+
   const topicById = new Map(topics.map((t) => [t.id, t]));
   const draw = ({ keepScroll = false } = {}) => {
     const y = window.scrollY;
@@ -80,6 +99,7 @@ export function render(root, ctx) {
     window.scrollTo(0, keepScroll ? y : 0);
   };
   draw();
+  if (notice) ctx.toast(notice);
 }
 
 // ---------------------------------------------------------------- setup
@@ -221,183 +241,10 @@ const SELF_OPTIONS = [
 ];
 
 /** Per-question UI state (shuffled lists, text drafts) lives in the session so it survives re-rendering. */
-function isValidUi(q, ui) {
-  if (!ui || typeof ui !== 'object') return false;
-  if (q.type === 'order') {
-    return Array.isArray(ui.order) && ui.order.length === q.answer.length
-      && [...ui.order].sort().every((v, i) => v === [...q.answer].sort()[i]);
-  }
-  if (q.type === 'match') {
-    const rights = new Set(Object.values(q.answer));
-    return Array.isArray(ui.rights) && ui.rights.length === rights.size && ui.rights.every((r) => rights.has(r));
-  }
-  if (q.type === 'text') return typeof ui.draft === 'string' && typeof ui.revealed === 'boolean';
-  return true;
-}
-
 function uiFor(q) {
   session.ui ??= {};
-  if (!isValidUi(q, session.ui[q.id])) {
-    const ui = {};
-    if (q.type === 'order') {
-      // Start with a shuffled order that is not already correct.
-      let list = shuffle(q.answer);
-      for (let i = 0; i < 5 && list.every((v, k) => v === q.answer[k]); i++) list = shuffle(q.answer);
-      if (list.every((v, k) => v === q.answer[k])) list = [...q.answer].reverse();
-      ui.order = list;
-    }
-    if (q.type === 'match') ui.rights = shuffle([...new Set(Object.values(q.answer))]);
-    if (q.type === 'text') { ui.draft = ''; ui.revealed = false; }
-    session.ui[q.id] = ui;
-  }
+  if (!isValidUi(q, session.ui[q.id])) session.ui[q.id] = createUi(q);
   return session.ui[q.id];
-}
-
-function readResponse(form, question) {
-  switch (question.type) {
-    case 'single': {
-      const checked = form.querySelector('input[name="answer"]:checked');
-      return checked ? Number(checked.value) : undefined;
-    }
-    case 'multi':
-      return [...form.querySelectorAll('input[name="answer"]:checked')].map((el) => Number(el.value));
-    case 'number':
-      return form.querySelector('input[name="answer"]').value;
-    case 'match': {
-      const response = {};
-      for (const sel of form.querySelectorAll('select[data-left]')) {
-        if (sel.value) response[sel.dataset.left] = sel.value;
-      }
-      return response;
-    }
-    case 'order':
-      return [...uiFor(question).order];
-    default:
-      return undefined;
-  }
-}
-
-function isIncomplete(question, response) {
-  if (response === undefined) return true;
-  if (question.type === 'multi') return response.length === 0;
-  if (question.type === 'match') return Object.keys(response).length < Object.keys(question.answer).length;
-  return false;
-}
-
-function missingInputMessage(question) {
-  switch (question.type) {
-    case 'single': return 'Bitte wähle eine Antwort aus.';
-    case 'multi': return 'Bitte wähle mindestens eine Antwort aus.';
-    case 'number': return 'Bitte gib eine Zahl ein, z. B. 62 oder 3,75.';
-    case 'match': return 'Bitte ordne jedem Begriff einen Eintrag zu.';
-    default: return 'Diese Antwort ist ungültig.';
-  }
-}
-
-function correctAnswerText(q) {
-  switch (q.type) {
-    case 'single': return q.options[q.answer];
-    case 'multi': return q.answer.map((i) => q.options[i]).join(' · ');
-    case 'number': {
-      const { value, tolerance = 0, unit = '' } = q.answer;
-      return `${formatNumber(value)}${tolerance ? ` (± ${formatNumber(tolerance)})` : ''}${unit ? ` ${unit}` : ''}`;
-    }
-    case 'match': return Object.entries(q.answer).map(([l, r]) => `${l} → ${r}`).join(' · ');
-    case 'order': return q.answer.join(' → ');
-    case 'text': return q.answer.sample;
-    default: return '';
-  }
-}
-
-function optionState(q, index, response) {
-  const isRight = q.type === 'single' ? q.answer === index : q.answer.includes(index);
-  const chosen = q.type === 'single' ? response === index : response.includes(index);
-  if (isRight && chosen) return { cls: 'is-correct', mark: '✓ richtig' };
-  if (!isRight && chosen) return { cls: 'is-wrong', mark: '✗ falsch' };
-  if (isRight) return { cls: q.type === 'single' ? 'is-correct' : 'is-missed', mark: q.type === 'single' ? '✓ richtig' : '○ fehlte' };
-  return { cls: '', mark: '' };
-}
-
-function choiceInput(q, answered, result) {
-  const multi = q.type === 'multi';
-  return h('fieldset', {},
-    h('legend', { class: multi ? 'hint' : 'visually-hidden', text: multi ? 'Mehrere Antworten möglich' : 'Antwort auswählen' }),
-    h('div', { class: 'options' },
-      q.options.map((text, i) => {
-        const state = answered ? optionState(q, i, result.response) : { cls: '', mark: '' };
-        const chosen = answered && (multi ? result.response.includes(i) : result.response === i);
-        return h('label', { class: `option ${state.cls}`, 'aria-disabled': answered ? 'true' : null },
-          h('input', { type: multi ? 'checkbox' : 'radio', name: 'answer', value: i, disabled: answered, checked: chosen }),
-          h('span', { class: 'grow', text }),
-          state.mark ? h('span', { class: 'mark', text: state.mark }) : null);
-      })));
-}
-
-function numberInput(q, answered, result) {
-  const field = h('input', {
-    id: 'answer-input', name: 'answer', type: 'text', inputmode: 'decimal', autocomplete: 'off',
-    enterkeyhint: 'done', 'aria-describedby': 'number-hint', disabled: answered,
-    value: answered ? String(result.response) : null,
-  });
-  return h('div', {},
-    h('label', { for: 'answer-input', class: 'visually-hidden', text: 'Deine Antwort' }),
-    h('div', { class: 'number-input' }, field, q.answer.unit ? h('span', { class: 'unit', text: q.answer.unit }) : null),
-    h('p', { class: 'hint', id: 'number-hint', text: 'Dezimalzahlen mit Komma oder Punkt, ohne Einheit.' }));
-}
-
-function matchInput(q, answered, result) {
-  const ui = uiFor(q);
-  return h('fieldset', {},
-    h('legend', { class: 'hint', text: 'Ordne jedem Begriff links den passenden Eintrag zu.' }),
-    h('div', { class: 'match-list' },
-      Object.keys(q.answer).map((left, i) => {
-        const id = `match-${i}`;
-        const chosen = answered ? result.response[left] : undefined;
-        const ok = answered && chosen === q.answer[left];
-        return h('div', { class: `match-row${answered ? (ok ? ' is-correct' : ' is-wrong') : ''}` },
-          h('label', { for: id, class: 'match-left', text: left }),
-          h('select', { id, 'data-left': left, disabled: answered },
-            h('option', { value: '', text: '– auswählen –' }),
-            ui.rights.map((r) => h('option', { value: r, selected: chosen === r, text: r }))),
-          answered
-            ? h('span', { class: 'mark', text: ok ? '✓ richtig' : `✗ richtig: ${q.answer[left]}` })
-            : null);
-      })));
-}
-
-function orderInput(q, answered, result, redraw) {
-  const ui = uiFor(q);
-  const list = answered ? result.response : ui.order;
-  const move = (from, to) => {
-    const next = [...ui.order];
-    [next[from], next[to]] = [next[to], next[from]];
-    ui.order = next;
-    redraw({ keepScroll: true });
-    // Keep keyboard focus on the moved item (same direction button if still enabled).
-    const row = document.querySelector(`[data-order-item="${to}"]`);
-    const same = row?.querySelector(`[data-dir="${to < from ? 'up' : 'down'}"]:not([disabled])`);
-    (same ?? row?.querySelector('button:not([disabled])'))?.focus();
-  };
-  return h('fieldset', {},
-    h('legend', { class: 'hint', text: 'Bringe die Einträge mit den Pfeilen in die richtige Reihenfolge (oben = zuerst).' }),
-    h('ol', { class: 'order-list' },
-      list.map((item, i) => {
-        const ok = answered && item === q.answer[i];
-        return h('li', { class: `order-item${answered ? (ok ? ' is-correct' : ' is-wrong') : ''}`, 'data-order-item': i },
-          h('span', { class: 'order-pos', 'aria-hidden': 'true', text: `${i + 1}.` }),
-          h('span', { class: 'grow', text: item }),
-          answered
-            ? h('span', { class: 'mark', text: ok ? '✓' : `✗ Platz ${q.answer.indexOf(item) + 1}` })
-            : h('span', { class: 'order-buttons' },
-              h('button', {
-                type: 'button', class: 'icon-button', 'data-dir': 'up', disabled: i === 0,
-                'aria-label': `„${item}“ nach oben`, onClick: () => move(i, i - 1),
-              }, '▲'),
-              h('button', {
-                type: 'button', class: 'icon-button', 'data-dir': 'down', disabled: i === list.length - 1,
-                'aria-label': `„${item}“ nach unten`, onClick: () => move(i, i + 1),
-              }, '▼')));
-      })));
 }
 
 function textInput(q, answered, result, submitSelf, onChange) {
@@ -463,14 +310,9 @@ function drawQuestion(root, ctx, draw, topicById) {
     draw({ keepScroll: true });
   };
 
-  let input;
-  switch (q.type) {
-    case 'number': input = numberInput(q, answered, result); break;
-    case 'match': input = matchInput(q, answered, result); break;
-    case 'order': input = orderInput(q, answered, result, draw); break;
-    case 'text': input = textInput(q, answered, result, (self) => commit({ text: uiFor(q).draft, self }), () => persistSession(ctx.sessionStore)); break;
-    default: input = choiceInput(q, answered, result);
-  }
+  const input = q.type === 'text'
+    ? textInput(q, answered, result, (self) => commit({ text: uiFor(q).draft, self }), () => persistSession(ctx.sessionStore))
+    : renderInput(q, { response: result?.response, locked: answered, reveal: answered, ui: uiFor(q), redraw: draw });
 
   let feedback = null;
   if (answered) {
@@ -508,7 +350,7 @@ function drawQuestion(root, ctx, draw, topicById) {
         root.querySelector('#sample-title')?.focus({ preventScroll: true });
         return;
       }
-      commit(readResponse(form, q));
+      commit(readResponse(form, q, uiFor(q)));
     },
   }, input, errorEl, feedback, action);
 

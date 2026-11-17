@@ -1,16 +1,21 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 0.2.1 (17.11.2026)
-**Nächste Phase:** 0.3 – Prüfungssimulation mit Timer und IHK-Note, Ampel + „Heute üben“, Diagramme
+**Aktuelle Version:** 0.3.0 (17.11.2026)
+**Nächste Phase:** 0.4 – Import/Export (JSON) von Fortschritt und eigenen Fragen, Dark-Mode-Schalter, Lernserie, Tagesziel
 
 ## Erledigt
 
-### 0.2.1 (Zwischenversion)
-- [x] Berufsauswahl (FISI / FIAE / ITSM) mit Feld `jobs` für AP2-Fragen, Speichermigration 1 → 2 mit Backup
-- [x] „Fehler melden“-Link mit vorausgefülltem GitHub-Issue (Label `inhalt`, Issue-Vorlage)
-- [x] 175 Fragen (25 pro Bereich, davon 91 AP2) und 56 Karteikarten, 9 neue Themen
-- [x] Browsertests (Playwright) und ESLint im Repo und in der CI; WebKit (Safari-Engine) in der CI
-- [x] Auf einem echten iPhone geprüft (Rückmeldung des Nutzers zu 0.2.0: alles in Ordnung)
+### 0.3
+- [x] `js/exam.js` testgetrieben: IHK-Notenschlüssel an allen Grenzen, kaufmännische Rundung, Timer über die gespeicherte Startzeit, automatische Abgabe beim Zeitablauf
+- [x] Prüfungssimulation AP1 (90 min) und AP2 (2 × 90 min) mit Navigation, Fragenübersicht, Abgabe, Auswertung pro Frage und Note
+- [x] Laufende Prüfung in `localStorage` (`prueffit.exam`): übersteht Schließen der App, Zeit läuft weiter
+- [x] „Heute üben“ (Start und Statistik) mit Direktstart ins Quiz
+- [x] Diagramme mit Chart.js: Trefferquote pro Bereich, Verlauf der Prüfungsergebnisse
+- [x] Ampel (seit 0.1) jetzt auch in den Diagrammen
+- [x] 324 Unit-Tests, 19 Browsertests × 4 Profile
+
+### 0.2.1
+- [x] Berufsauswahl mit Speichermigration 1 → 2, „Fehler melden“, 175 Fragen, Playwright und ESLint in der CI
 
 ### 0.2
 - [x] Karteikarten mit Leitner-System, Fragetypen `text`, `match`, `order`, Sicherung der Quiz-Runde
@@ -22,11 +27,11 @@
 
 | Version | Inhalt |
 |---|---|
-| 0.3 | Prüfungssimulation mit Timer und IHK-Note (`js/exam.js` ist leer, `tests/exam.test.js` fehlt noch), „Heute üben“, Diagramme mit Chart.js |
-| 0.4 | Import/Export (JSON), manueller Dark-Mode-Schalter, Lernserie, Tagesziel |
+| 0.4 | Import/Export (JSON) von Fortschritt und eigenen Fragen, manueller Dark-Mode-Schalter (CSS über `data-theme` ist vorbereitet, `settings.theme` existiert), Lernserie (`streak` existiert im Speicherformat), Tagesziel (`settings.dailyGoal` existiert) |
 
 ## Bekannte Probleme / Hinweise
 
 - Keine bekannten Fehler.
-- Die Inhalte hat noch keine Fachperson geprüft. Fehler bitte über „Fehler in dieser Frage melden“ in der App einreichen.
-- Den Branch `vendor-update` legt der Workflow „Abhängigkeiten bereitstellen“ bei jedem Lauf neu an; er dient nur als Übergabe und kann gelöscht werden.
+- Läuft die Prüfungszeit ab, während die App geschlossen ist, wird das Ergebnis beim nächsten Öffnen der Ansicht „Prüfung“ abgegeben und gespeichert, nicht schon beim App-Start.
+- Freitextfragen kommen in der Prüfungssimulation nicht vor (Selbstbewertung passt nicht zu „Rückmeldung erst am Ende“).
+- Die Inhalte hat noch keine Fachperson geprüft (bitte „Fehler melden“ nutzen).

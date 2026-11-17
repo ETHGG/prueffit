@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { hitRate, trafficLight, topicStats, overallStats } from '../js/stats.js';
+import { hitRate, trafficLight, topicStats, overallStats, practiceSuggestions, areaStats } from '../js/stats.js';
 
 describe('hitRate', () => {
   it('is correct / attempts', () => {
@@ -93,5 +93,53 @@ describe('overallStats', () => {
   it('can be limited to known questions', () => {
     const s = overallStats({ q1: { attempts: 2, correct: 1 }, gone: { attempts: 5, correct: 5 } }, questions);
     expect(s.attempts).toBe(2);
+  });
+});
+
+describe('practiceSuggestions („Heute üben“)', () => {
+  const t = (id, attempts, correct) => ({ id, area: 'A', name: id, attempts, correct, rate: attempts ? correct / attempts : null });
+
+  it('suggests the 3 topics with the lowest rate (only topics with >= 5 attempts)', () => {
+    const list = [t('a', 10, 9), t('b', 5, 1), t('c', 8, 4), t('d', 4, 0), t('e', 6, 3), t('f', 20, 2)];
+    expect(practiceSuggestions(list).map((x) => [x.id, x.reason])).toEqual([['f', 'weak'], ['b', 'weak'], ['c', 'weak']]);
+  });
+
+  it('prefers more attempts when rates are equal', () => {
+    const list = [t('a', 5, 2), t('b', 10, 4), t('c', 6, 6)];
+    expect(practiceSuggestions(list).map((x) => x.id).slice(0, 2)).toEqual(['b', 'a']);
+  });
+
+  it('suggests untried topics when no topic has 5 attempts', () => {
+    const list = [t('a', 3, 1), t('b', 0, 0), t('c', 0, 0), t('d', 0, 0), t('e', 0, 0)];
+    expect(practiceSuggestions(list).map((x) => [x.id, x.reason])).toEqual([['b', 'new'], ['c', 'new'], ['d', 'new']]);
+  });
+
+  it('fills up with untried topics if fewer than 3 are rated', () => {
+    const list = [t('a', 5, 1), t('b', 0, 0), t('c', 2, 2)];
+    expect(practiceSuggestions(list).map((x) => [x.id, x.reason])).toEqual([['a', 'weak'], ['b', 'new']]);
+  });
+
+  it('only suggests topics that have questions (if a filter is given)', () => {
+    const list = [t('a', 0, 0), t('b', 0, 0)];
+    expect(practiceSuggestions(list, { available: new Set(['b']) }).map((x) => x.id)).toEqual(['b']);
+  });
+
+  it('respects a custom count', () => {
+    const list = [t('a', 5, 0), t('b', 5, 1), t('c', 5, 2)];
+    expect(practiceSuggestions(list, { count: 1 }).map((x) => x.id)).toEqual(['a']);
+  });
+});
+
+describe('areaStats', () => {
+  it('sums topic statistics per area in catalogue order', () => {
+    const list = [
+      { id: 'x', area: 'Netzwerke', attempts: 4, correct: 2 },
+      { id: 'y', area: 'Recht', attempts: 0, correct: 0 },
+      { id: 'z', area: 'Netzwerke', attempts: 6, correct: 6 },
+    ];
+    expect(areaStats(list)).toEqual([
+      { area: 'Netzwerke', attempts: 10, correct: 8, rate: 0.8, light: 'green' },
+      { area: 'Recht', attempts: 0, correct: 0, rate: null, light: 'grey' },
+    ]);
   });
 });

@@ -196,6 +196,18 @@ export function recordAnswer(state, questionId, isCorrect, now = new Date()) {
   };
 }
 
+/**
+ * Stores a finished exam (CLAUDE.md 5.4 `exams`) and counts every answered question
+ * as an attempt in the statistics. `evaluation` comes from exam.evaluateExam().
+ */
+export function recordExamResult(state, evaluation, now = new Date()) {
+  let next = { ...state, exams: [...state.exams, { ...evaluation.record }] };
+  for (const r of evaluation.results) {
+    if (r.answered) next = recordAnswer(next, r.questionId, r.correct, now);
+  }
+  return next;
+}
+
 /** Returns a new state with changed settings; invalid values are ignored. */
 export function updateSettings(state, patch) {
   const merged = normalizeState({ ...state, settings: { ...state.settings, ...patch } }, state.schemaVersion);

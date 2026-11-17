@@ -262,7 +262,7 @@ legend { font-weight: 700; margin-bottom: .5rem; padding: 0; }
   border: 2px solid var(--border); border-radius: 12px;
 }
 .number-input input:focus { border-color: var(--primary); outline: none; }
-.number-input .unit { font-weight: 600; color: var(--muted); }
+.number-input .unit { font-weight: 600; color: var(--muted); flex: none; overflow-wrap: normal; white-space: nowrap; }
 
 .hint { color: var(--muted); font-size: .875rem; }
 
@@ -381,6 +381,56 @@ details.card summary { cursor: pointer; font-weight: 700; min-height: 44px; disp
 .light-grey { background: transparent; border-color: var(--light-grey); }
 .legend { display: flex; gap: 1rem; flex-wrap: wrap; font-size: .8rem; color: var(--muted); }
 .legend span { display: inline-flex; align-items: center; gap: .35rem; }
+
+/* Exam simulation */
+.facts { margin: .5rem 0 1rem; padding-left: 1.2rem; }
+.facts li { margin-bottom: .35rem; }
+.facts a { display: inline-flex; align-items: center; min-height: 44px; }
+.exam-bar {
+  position: sticky; top: calc(53px + var(--safe-top)); z-index: 5;
+  display: flex; align-items: center; gap: .75rem;
+  margin: -1rem calc(-1 * max(1rem, env(safe-area-inset-left))) 1rem;
+  padding: .5rem max(1rem, env(safe-area-inset-left));
+  background: var(--surface); border-bottom: 1px solid var(--border);
+}
+.exam-title { font-weight: 700; }
+.exam-timer {
+  font-variant-numeric: tabular-nums; font-weight: 800; font-size: 1.35rem;
+  padding: .25rem .6rem; border-radius: 8px; background: var(--surface-2);
+}
+.exam-timer.is-low { color: #fff; background: var(--bad); }
+.exam-question-no { font-size: 1.15rem; outline: none; }
+.question-text:focus { outline: none; }
+.small-heading { font-size: .95rem; }
+.exam-nav { list-style: none; padding: 0; margin: .5rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); gap: .4rem; }
+.exam-nav-btn {
+  width: 100%; min-height: 44px; border-radius: 10px; font: inherit; font-weight: 700; cursor: pointer;
+  background: var(--surface); color: var(--text); border: 2px solid var(--border);
+}
+.exam-nav-btn.is-answered { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.exam-nav-btn.is-current { outline: 3px solid var(--focus); outline-offset: 1px; }
+.grade-big { font-size: 4rem; font-weight: 900; line-height: 1; }
+.grade-label { font-weight: 700; font-size: 1.2rem; }
+.grade-badge {
+  display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%;
+  font-weight: 800; color: #fff; background: var(--light-grey);
+}
+.grade-1, .grade-2 { --grade-color: var(--light-green); }
+.grade-3, .grade-4 { --grade-color: #ca8a04; }
+.grade-5, .grade-6 { --grade-color: var(--light-red); }
+.grade-badge.grade-1, .grade-badge.grade-2, .grade-badge.grade-3, .grade-badge.grade-4, .grade-badge.grade-5, .grade-badge.grade-6 { background: var(--grade-color); }
+.grade-big { color: var(--grade-color, var(--text)); }
+details.review summary { cursor: pointer; min-height: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; }
+details.review[open] summary { margin-bottom: .5rem; }
+.review-points { white-space: nowrap; }
+
+/* Practice suggestions and charts */
+.suggestions { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; }
+.suggestion { display: flex; align-items: center; gap: .75rem; padding: .5rem 0; border-top: 1px solid var(--border); }
+.suggestion:first-child { border-top: 0; }
+.suggestion .button { min-height: 44px; padding: .4rem .9rem; flex: none; }
+.chart-box { position: relative; height: 240px; }
+.chart-box canvas { width: 100% !important; }
 
 /* Placeholder views */
 .placeholder { text-align: center; padding: 2rem 1rem; }

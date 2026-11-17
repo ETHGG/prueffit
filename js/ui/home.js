@@ -3,6 +3,7 @@
 import { overallStats } from '../stats.js';
 import { todayInBerlin, dueCards } from '../leitner.js';
 import { h, formatPercent, formatNumber, trafficDot } from './dom.js';
+import { suggestionsCard } from './suggestions.js';
 
 function greeting(date = new Date()) {
   const hour = date.getHours();
@@ -40,7 +41,10 @@ export function render(root, ctx) {
         ? h('p', { class: 'muted small spaced' }, 'Noch keine Antworten – starte dein erstes Quiz!')
         : null),
 
-    h('a', { class: 'button block', href: '#/quiz' }, 'Quiz starten'),
+    suggestionsCard(ctx),
+    h('div', { class: 'button-row' },
+      h('a', { class: 'button', href: '#/quiz' }, 'Quiz starten'),
+      h('a', { class: 'button secondary', href: '#/pruefung' }, 'Prüfung simulieren')),
     h('p', { class: 'muted small spaced center' },
       h('a', { href: '#/statistik' }, 'Statistik ansehen')),
   );

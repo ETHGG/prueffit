@@ -93,6 +93,7 @@ const ctx = {
   get progress() { return progress; },
   storageStatus: storage ? loaded.status : 'unavailable',
   sessionStore,
+  localStore: storage,
   /** Replace progress with fn(progress) and persist it. */
   updateProgress(fn) {
     progress = fn(progress);

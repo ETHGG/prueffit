@@ -8,6 +8,7 @@ import {
   recordCardReview,
   resetProgress,
   updateSettings,
+  recordExamResult,
   MIGRATIONS,
 } from '../js/storage.js';
 import { STORAGE_KEY, SCHEMA_VERSION, CORRUPT_BACKUP_KEY } from '../js/config.js';
@@ -231,6 +232,32 @@ describe('recordCardReview', () => {
     const store = memoryStorage();
     saveState(store, recordCardReview(createDefaultState(), 'fc-0002', true, '2026-12-31'));
     expect(loadState(store).state.cards['fc-0002']).toEqual({ box: 2, nextDue: '2027-01-02' });
+  });
+});
+
+describe('recordExamResult', () => {
+  it('stores the exam record and counts answered questions as attempts', () => {
+    const evaluation = {
+      record: { date: '2026-11-17T10:30:00.000Z', exam: 'AP1', points: 5, max: 7, percent: 71, grade: 3 },
+      results: [
+        { questionId: 'a', answered: true, correct: true },
+        { questionId: 'b', answered: true, correct: false },
+        { questionId: 'c', answered: false, correct: false },
+      ],
+    };
+    const s0 = createDefaultState();
+    const s1 = recordExamResult(s0, evaluation, new Date('2026-11-17T10:30:00Z'));
+    expect(s1.exams).toEqual([evaluation.record]);
+    expect(s1.answers.a).toEqual({ attempts: 1, correct: 1, lastAt: '2026-11-17T10:30:00.000Z' });
+    expect(s1.answers.b.correct).toBe(0);
+    expect(s1.answers.c).toBeUndefined();
+    expect(s0.exams).toEqual([]);
+  });
+  it('keeps the exam history through save and load', () => {
+    const store = memoryStorage();
+    const s = recordExamResult(createDefaultState(), { record: { date: 'x', exam: 'AP2', points: 1, max: 2, percent: 50, grade: 4 }, results: [] });
+    saveState(store, s);
+    expect(loadState(store).state.exams).toHaveLength(1);
   });
 });
 

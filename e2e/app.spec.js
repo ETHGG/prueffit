@@ -75,3 +75,15 @@ test('broken saved progress is backed up and the app still starts', async ({ pag
   expect(await page.evaluate(() => localStorage.getItem('prueffit.backup.corrupt'))).toBe('{kaputt');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 });
+
+test('statistics list every topic per area (regression: arrays rendered as "[object HTMLElement]")', async ({ page }) => {
+  await page.goto('./#/statistik');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Statistik');
+  const topicCount = await page.evaluate(async () => (await (await fetch('./data/topics.json')).json()).length);
+  await expect(page.locator('.stat-list .stat-item')).toHaveCount(topicCount);
+  await expect(page.locator('main')).not.toContainText('[object');
+  for (const route of ['start', 'quiz', 'karten', 'pruefung', 'einstellungen']) {
+    await page.goto(`./#/${route}`);
+    await expect(page.locator('main')).not.toContainText('[object');
+  }
+});

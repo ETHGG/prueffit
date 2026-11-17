@@ -1,3 +1,58 @@
+# Abschlussbericht Version 0.3.0
+
+**Datum:** 17.11.2026 · **Repository:** https://github.com/ETHGG/prueffit · **Live:** https://ethgg.github.io/prueffit/
+
+## Was umgesetzt wurde
+
+| Bereich | Umsetzung |
+|---|---|
+| `js/exam.js` | IHK-Notenschlüssel, kaufmännische Rundung, Fragenauswahl über alle Bereiche bis zur Zielpunktzahl, Prüfungsablauf (Teile, Antworten, Abgabe, Zeitablauf), Auswertung, Wiederherstellung |
+| Prüfungsansicht | Start (AP1/AP2, Hinweise, bisherige Ergebnisse), laufende Prüfung (Timer, Navigation, Fragenübersicht, Abgabe mit Rückfrage, Abbrechen), Pause zwischen den AP2-Teilen, Ergebnis mit Note und Auswertung pro Frage |
+| „Heute üben“ | `practiceSuggestions()` in `stats.js`, Karte auf Start- und Statistikseite, Direktstart ins Quiz (`#/quiz?thema=…`) |
+| Diagramme | `areaStats()` in `stats.js`; Chart.js wird nur in der Statistik und erst bei Bedarf aus `vendor/` geladen; Balken pro Bereich in Ampelfarben, Linie der Prüfungsergebnisse |
+| Umbau | Eingabeelemente aus dem Quiz in `js/ui/questionInputs.js` ausgelagert und für Quiz und Prüfung gemeinsam genutzt |
+
+### Kernregeln aus CLAUDE.md 6.3
+
+- **Rundung vor der Note:** `roundPercent()` rechnet `points × 100 ÷ max` und rundet kaufmännisch; ein kleines Epsilon verhindert, dass Gleitkommawerte wie 66,4999… falsch abgerundet werden. Getestet mit 133/200, 59,85/90 und einem absichtlich „krummen“ Fall.
+- **Timer:** Gespeichert wird nur die Startzeit pro Teil (`localStorage`, `prueffit.exam`). Die Restzeit wird immer aus „Start + 90 min − jetzt“ berechnet. Ist die Zeit abgelaufen (auch bei geschlossener App), wird mit dem Ablaufzeitpunkt als Abgabezeit abgegeben.
+- **Notengrenzen:** Alle Paare 29/30, 49/50, 66/67, 80/81 und 91/92 sind getestet, jeweils zusätzlich mit x,5 (wird aufgerundet) und x,49.
+
+## Testergebnis
+
+- **Vitest:** 324 von 324 Tests grün, davon 33 in `exam.test.js`, 8 neue in `stats.test.js` („Heute üben“, Bereichsstatistik) und 2 neue in `storage.test.js` (Prüfungen speichern).
+- **Playwright:** 19 Tests × 4 Profile (Desktop, iPhone SE, iPhone 13 dunkel, iPhone 13 WebKit). Lokal liefen die drei Chromium-Profile zweimal hintereinander durch: 114/114. WebKit läuft in der CI.
+  - Neu: AP1-Ablauf mit Neuladen, Zeitablauf bei geschlossener App, AP2 mit Pause zwischen den Teilen, „Heute üben“ mit Diagrammen, Regressionstest für alle Ansichten.
+- **Bei den Tests gefundene und behobene Fehler:**
+  1. Die Statistik zeigte seit 0.1 statt der Themenlisten pro Bereich „[object HTMLElement]“. Ursache: Ein Array wurde direkt an die DOM-Methode `append()` übergeben. Der 0.1-Test prüfte nur die Kennzahlen oben auf der Seite. Der Fehler ist mit einem zunächst roten Test reproduziert und dann behoben; der neue Test prüft alle Ansichten auf diesen Fehler.
+  2. Einheiten wie „Stück“ wurden bei der Zahleneingabe mitten im Wort umbrochen.
+  3. Das Prüfungsergebnis wurde zunächst erst beim Anzeigen der Ergebnisseite gespeichert. Jetzt wird es im Moment der Abgabe gespeichert, genau einmal.
+
+## Annahmen und Entscheidungen
+
+1. **Umfang:** AP1 mit etwa 100 Punkten in 90 Minuten, AP2 mit zwei Teilen zu je etwa 50 Punkten. Die Fragen werden reihum aus den Bereichen gezogen, bis die Zielpunktzahl erreicht ist (meist etwas darüber). Die echte AP2 hat je nach Beruf andere Teile und dazu WiSo; die Simulation bildet nur die Vorgabe „90 Minuten pro Teil“ aus CLAUDE.md ab.
+2. **Pause zwischen AP2-Teilen:** Teil 2 startet erst auf Knopfdruck, wie in der echten Prüfung mit Pause dazwischen. Läuft Teil 1 bei geschlossener App ab, wartet Teil 2, statt sofort weiterzulaufen.
+3. **Keine Freitextfragen in der Prüfung**, weil sie nur selbst bewertet werden können und das nicht zu „Rückmeldung erst am Ende“ passt.
+4. **Statistik:** Jede beantwortete Prüfungsfrage zählt als Versuch. Unbeantwortete Fragen zählen nicht, weil sie nichts über das Wissen aussagen.
+5. **„Heute üben“:** Gibt es weniger als 3 Themen mit mindestens 5 Versuchen, wird mit ungeübten Themen aufgefüllt („sonst ungeübte Themen“). Bei gleicher Quote steht das Thema mit mehr Versuchen vorne. Berücksichtigt werden nur Themen mit Fragen für den gewählten Beruf.
+6. **Abbrechen:** Eine abgebrochene Prüfung wird verworfen und nicht gewertet.
+7. **Laufende Prüfung in `localStorage`** (nicht `sessionStorage` wie das Quiz), weil die Zeit laut Vorgabe auch bei geschlossener App weiterlaufen muss. Sie gehört nicht zum Fortschritt `prueffit.v1`, daher ist keine Schema-Migration nötig.
+8. **Keine neuen Abhängigkeiten.** Chart.js lag seit 0.1 lokal in `vendor/`.
+
+## Offene Punkte
+
+- Die laufende Prüfung auf einem echten iPhone testen, insbesondere App schließen, nach einigen Minuten wieder öffnen und die Restzeit prüfen.
+- Läuft die Zeit bei geschlossener App ab, wird das Ergebnis erst beim Öffnen der Ansicht „Prüfung“ gespeichert.
+- Fachliche Prüfung der Inhalte durch eine Fachperson.
+
+## Empfehlung für 0.4
+
+1. Lernserie und Tagesziel als reine Funktionen in `stats.js` (Datum Europe/Berlin über `todayInBerlin()` aus `leitner.js`, Unterbrechung über Mitternacht und die Zeitumstellung testen). Dafür nötig: ein Tageszähler im Fortschritt, also Schema 3 mit Migration.
+2. Dark-Mode-Schalter: Das CSS (`data-theme`) und `settings.theme` sind schon vorhanden; nur Schalter und Anwendung beim Start fehlen.
+3. Export und Import von Fortschritt (JSON-Datei) mit Validierung über `normalizeState()` und einem Backup vor dem Import. Eigene Fragen über die bestehende Validierung `validateQuestion()`.
+
+---
+
 # Abschlussbericht Version 0.2.1 (Nachtrag zu 0.2.0)
 
 Zwischenversion vor 0.3 mit den Empfehlungen aus dem 0.2-Abschluss.
@@ -9,7 +64,7 @@ Zwischenversion vor 0.3 mit den Empfehlungen aus dem 0.2-Abschluss.
 | C | Berufsauswahl (FISI/FIAE/ITSM), Feld `jobs`, Speichermigration 1 → 2 mit Backup | `4953c21` |
 | D | 73 neue Fragen (175 insgesamt, 25 pro Bereich), 9 neue Themen, 21 neue Karteikarten (56) | dieser Release |
 
-**Tests:** Vitest 282/282, Browsertests 12 Tests × 4 Profile. Alle 50 Rechenaufgaben wurden per Skript nachgerechnet; die binäre Suche (1.000 Elemente, höchstens 10 Vergleiche) zusätzlich simuliert.
+**Tests:** Vitest 282/282, Browsertests 14 Tests × 4 Profile. Alle 50 Rechenaufgaben wurden per Skript nachgerechnet; die binäre Suche (1.000 Elemente, höchstens 10 Vergleiche) zusätzlich simuliert.
 
 **Bei den Tests gefunden und behoben:** Die Berufsauswahl mit langen Einträgen machte die Einstellungsseite auf dem iPhone zu breit. Alle Auswahllisten sind jetzt auf die Bildschirmbreite begrenzt.
 
