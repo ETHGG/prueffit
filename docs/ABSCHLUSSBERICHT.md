@@ -1,6 +1,6 @@
 # Abschlussbericht Version 2.1.0
 
-**Datum:** 17.11.2026 · **Dauer:** 21:01–21:30 Uhr (Schätzung: 3–3½ Stunden; die gemessene Dauer lag weit darunter)
+**Datum:** 17.11.2026 · **Dauer:** 21:01–21:27 Uhr (Schätzung: 3–3½ Stunden; die gemessene Dauer lag weit darunter)
 
 Auftrag: Vertrauenswürdige Quellen auswerten, mit den vorhandenen Fragen vergleichen, Fragen und Prüfungsumfang erweitern, Lernzettel und PDFs anpassen; Schwerpunkt KITS und FISI; dazu die vorgeschlagenen Punkte (Bewertungsraster, Tagesplan, Gegenprüfung).
 
@@ -11,7 +11,7 @@ Auftrag: Vertrauenswürdige Quellen auswerten, mit den vorhandenen Fragen vergle
 | B | KITS/FISI: 57 Fragen, 17 Karten, neues Thema Skripte, 7 Lernzettel ergänzt, 4 Handlungssituationen | 21:03–21:14 |
 | C | FIDPA/FIDV/ITSE/KDM: 36 Fragen, 9 Karten | 21:14–21:16 |
 | D | Bewertungsraster (20 Freitextaufgaben), „Dein Plan für heute“ | 21:16–21:24 |
-| E | Gegenprüfung: VDE-Prüfnormen (DIN EN 50699/50678 statt DIN VDE 0701-0702), AP2-Termine KITS/KDM dienstags; Version 2.1.0, PDFs, Doku | 21:24–21:30 |
+| E | Gegenprüfung: VDE-Prüfnormen (DIN EN 50699/50678 statt DIN VDE 0701-0702), AP2-Termine KITS/KDM dienstags; Version 2.1.0, PDFs, Doku | 21:24–21:27 |
 
 ## Inhalte je Beruf (2.1.0)
 | Beruf | Fragen gesamt | davon AP1 | davon AP2 | Karten | Situationen |

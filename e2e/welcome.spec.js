@@ -90,7 +90,8 @@ test('after the exam date the start page asks for the next exam', async ({ page 
   await expect(page.getByText('Deine AP1 (Herbst 2026) ist vorbei.')).toBeVisible();
   // After AP1 the AP2 is suggested.
   await expect(page.locator('input[name="welcome-exam"][value="AP2"]')).toBeChecked();
-  await expect(page.locator('#welcome-day')).toHaveValue('2027-04-28');
+  // KITS writes the AP2 on Tuesday, one day before the Fachinformatiker (since 2.1).
+  await expect(page.locator('#welcome-day')).toHaveValue('2027-04-27');
   await page.getByRole('button', { name: 'Speichern' }).click();
   await expect(page.getByRole('heading', { name: 'Deine AP2 · Sommer 2027' })).toBeVisible();
 });
