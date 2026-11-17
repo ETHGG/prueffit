@@ -1,6 +1,7 @@
 // Start screen: greeting, overall hit rate, quick start.
 
 import { overallStats } from '../stats.js';
+import { todayInBerlin, dueCards } from '../leitner.js';
 import { h, formatPercent, formatNumber, trafficDot } from './dom.js';
 
 function greeting(date = new Date()) {
@@ -11,7 +12,8 @@ function greeting(date = new Date()) {
 }
 
 export function render(root, ctx) {
-  const { questions, topics } = ctx.catalog;
+  const { questions, flashcards = [] } = ctx.catalog;
+  const cardsDue = dueCards(flashcards, ctx.progress.cards, todayInBerlin()).length;
   const stats = overallStats(ctx.progress.answers, questions);
   const answeredQuestions = questions.filter((q) => ctx.progress.answers[q.id]).length;
 
@@ -31,9 +33,9 @@ export function render(root, ctx) {
         h('div', { class: 'kpi' },
           h('div', { class: 'kpi-value' }, `${answeredQuestions}/${questions.length}`),
           h('div', { class: 'kpi-label' }, 'Fragen bearbeitet')),
-        h('div', { class: 'kpi' },
-          h('div', { class: 'kpi-value' }, formatNumber(topics.length)),
-          h('div', { class: 'kpi-label' }, 'Themen'))),
+        h('a', { class: 'kpi kpi-link', href: '#/karten' },
+          h('div', { class: 'kpi-value' }, formatNumber(cardsDue)),
+          h('div', { class: 'kpi-label' }, cardsDue === 1 ? 'Karte fällig' : 'Karten fällig'))),
       stats.attempts === 0
         ? h('p', { class: 'muted small spaced' }, 'Noch keine Antworten – starte dein erstes Quiz!')
         : null),

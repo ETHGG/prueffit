@@ -37,6 +37,19 @@ export function formatNumber(value) {
   return numberFormat.format(value);
 }
 
+/**
+ * '2026-11-19' -> 'am 19.11.2026' ('heute'/'morgen' relative to `today`).
+ * Pure string arithmetic on YYYY-MM-DD, no time zone involved.
+ */
+export function formatDay(day, today) {
+  if (day === today) return 'heute';
+  const [y, m, d] = day.split('-');
+  const t = new Date(Date.UTC(...today.split('-').map((v, i) => Number(v) - (i === 1 ? 1 : 0))));
+  t.setUTCDate(t.getUTCDate() + 1);
+  if (t.toISOString().slice(0, 10) === day) return 'morgen';
+  return `am ${d}.${m}.${y}`;
+}
+
 export const LIGHT_LABELS = {
   green: 'sicher (ab 80 %)',
   yellow: 'teilweise (50–79 %)',

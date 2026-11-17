@@ -169,6 +169,8 @@ h1[tabindex="-1"]:focus, h3[tabindex="-1"]:focus, .view:focus { outline: none; }
 
 .kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; }
 .kpi { background: var(--surface-2); border-radius: 10px; padding: .75rem; }
+.kpi-link { color: inherit; text-decoration: none; display: block; }
+.kpi-link:hover { outline: 2px solid var(--border); }
 .kpi-value { font-size: 1.6rem; font-weight: 700; line-height: 1.1; }
 .kpi-label { font-size: .8rem; color: var(--muted); }
 .kpi-label.row { flex-wrap: nowrap; gap: .35rem; }
@@ -280,6 +282,28 @@ legend { font-weight: 700; margin-bottom: .5rem; padding: 0; }
 .result-icon.partial { color: var(--partial); }
 
 .score-big { font-size: 2.5rem; font-weight: 800; line-height: 1; }
+
+/* Flashcards */
+.field { display: grid; gap: .35rem; }
+.field label { font-weight: 700; }
+select {
+  min-height: 48px; padding: .5rem .75rem; font: inherit; color: var(--text);
+  background: var(--surface); border: 2px solid var(--border); border-radius: 12px;
+}
+.boxes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: .5rem; text-align: center; }
+.box-bar { height: 72px; background: var(--surface-2); border-radius: 8px; display: flex; align-items: flex-end; overflow: hidden; }
+.box-bar > div { width: 100%; background: var(--primary); min-height: 3px; transition: height .2s; }
+.box-count { font-size: 1.25rem; font-weight: 800; margin-top: .25rem; }
+.box-label { font-size: .8rem; font-weight: 700; }
+.box-interval { font-size: .7rem; color: var(--muted); line-height: 1.2; }
+details.card summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
+.flashcard { min-height: 240px; display: flex; flex-direction: column; }
+.flashcard-front, .flashcard-back { flex: 1; display: grid; place-items: center; text-align: center; padding: 1rem .5rem; }
+.flashcard-front p { font-size: 1.35rem; font-weight: 700; margin: 0; overflow-wrap: anywhere; }
+.flashcard.is-flipped .flashcard-front p { font-size: 1.05rem; color: var(--muted); }
+.flashcard-back { border-top: 2px dashed var(--border); outline: none; animation: reveal .25s ease-out; }
+.flashcard-back p { font-size: 1.1rem; margin: 0; overflow-wrap: anywhere; }
+@keyframes reveal { from { opacity: 0; transform: rotateX(-25deg); } }
 
 /* Statistics */
 .stat-list { list-style: none; margin: 0; padding: 0; }
