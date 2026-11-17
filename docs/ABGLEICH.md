@@ -50,3 +50,5 @@ Nicht verwendet wurden Original-Prüfungsaufgaben oder -Lösungen (urheberrechtl
 | Betrieb und Verfügbarkeit überwachen | mittel (LACP/VRRP 0) | Link Aggregation, VRRP, Monitoring, SIEM |
 
 Das Ergebnis der Umsetzung steht im CHANGELOG (Version 2.1.0).
+
+Nachträglich (2.2.7) geschlossen: Beschaffungsprozess, Lieferungsverzug, Rahmenvertrag, Make or Buy (KITS); SFP/SFP+, QoS, Layer-3-Switch (FISI).

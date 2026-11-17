@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.7] – 2026-11-18
+
+### Hinzugefügt
+- **Letzte Lücken aus `docs/ABGLEICH.md` geschlossen:** KITS – Beschaffungsprozess, Bezugskalkulation, Lieferungsverzug und Fixhandelskauf, Rahmenvertrag, Make or Buy (offene Aufgabe); FISI – SFP/SFP+, QoS für VoIP mit Bandbreitenrechnung, Layer-3-Switch. 10 Fragen, Lernzettel ergänzt (Lieferungsverzug, Beschaffung organisieren, QoS, steckbare Module), Abkürzungen DSCP, SFP, QSFP, DAC. PDFs neu erzeugt.
+
+### Geprüft
+- Startseite, Statistik, Quiz, Karten und Prüfung mit sehr großem Fortschritt (alle Fragen beantwortet, 300 Prüfungen, 90 Tage Verlauf): jede Ansicht lädt in unter 0,4 s, keine Fehler, Diagramme korrekt.
+
 ## [2.2.6] – 2026-11-18
 
 ### Hinzugefügt

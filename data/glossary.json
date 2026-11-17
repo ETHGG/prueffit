@@ -322,6 +322,12 @@
     "area": "Programmierung"
   },
   {
+    "abbr": "DAC",
+    "full": "Direct Attach Cable",
+    "explanation": "Fertiges Kupferkabel mit SFP-Steckern an beiden Enden für kurze Verbindungen im Rack",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "DAD",
     "full": "Duplicate Address Detection",
     "explanation": "IPv6: prüft, ob eine Adresse im Netz schon benutzt wird",
@@ -419,6 +425,12 @@
     "full": "Dynamic Random Access Memory",
     "explanation": "Arbeitsspeicher, braucht ständigen Refresh",
     "area": "Hardware"
+  },
+  {
+    "abbr": "DSCP",
+    "full": "Differentiated Services Code Point",
+    "explanation": "Markierung im IP-Kopf, mit der Pakete für QoS einer Prioritätsklasse zugeordnet werden",
+    "area": "Netzwerke"
   },
   {
     "abbr": "DSGVO",
@@ -1202,6 +1214,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "QSFP",
+    "full": "Quad Small Form-factor Pluggable",
+    "explanation": "Steckbares Transceivermodul für 40 oder 100 Gbit/s",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "RADIUS",
     "full": "Remote Authentication Dial-In User Service",
     "explanation": "Zentraler Anmeldeserver, z. B. für WLAN mit 802.1X",
@@ -1308,6 +1326,15 @@
     "full": "Spätester Endzeitpunkt",
     "explanation": "Netzplan: spätestes Ende ohne Verzögerung des Projekts",
     "area": "Projektmanagement"
+  },
+  {
+    "abbr": "SFP",
+    "full": "Small Form-factor Pluggable",
+    "explanation": "Steckbares Transceivermodul für Switches (SFP 1 Gbit/s, SFP+ 10 Gbit/s), z. B. für Glasfaser",
+    "area": "Netzwerke",
+    "aliases": [
+      "SFP+"
+    ]
   },
   {
     "abbr": "SHA",
