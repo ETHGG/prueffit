@@ -20,5 +20,7 @@
   {"id": "fc-0137", "exam": ["AP1"], "topic": "programmierung.barrierefreiheit", "front": "BFSG", "back": "Barrierefreiheitsstärkungsgesetz: seit 28.06.2025 Barrierefreiheit für viele Verbraucher-Produkte und -Dienste (z. B. Online-Shops); Ausnahme Kleinstunternehmen bei Dienstleistungen."},
   {"id": "fc-0176", "exam": ["AP2"], "jobs": ["fisi"], "topic": "programmierung.skripte", "front": "cron-Felder", "back": "Minute – Stunde – Tag – Monat – Wochentag – Befehl. `0 23 * * 0` = sonntags 23:00 Uhr."},
   {"id": "fc-0177", "exam": ["AP2"], "jobs": ["fisi"], "topic": "programmierung.skripte", "front": "PowerShell-Pipeline", "back": "Gibt Objekte weiter: `Get-Service | Where-Object Status -eq 'Stopped'`. Befehle heißen Verb-Nomen."},
-  {"id": "fc-0178", "exam": ["AP2"], "jobs": ["fisi"], "topic": "programmierung.skripte", "front": "Bash: $1, $?, Shebang", "back": "$1 = erster Parameter, $? = Exit-Code des letzten Befehls (0 = ok), #!/bin/bash = Interpreter."}
+  {"id": "fc-0178", "exam": ["AP2"], "jobs": ["fisi"], "topic": "programmierung.skripte", "front": "Bash: $1, $?, Shebang", "back": "$1 = erster Parameter, $? = Exit-Code des letzten Befehls (0 = ok), #!/bin/bash = Interpreter."},
+  {"id": "fc-0194", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "programmierung.datenbanken", "front": "WHERE vs. HAVING", "back": "WHERE filtert Zeilen vor der Gruppierung, HAVING filtert Gruppen (z. B. COUNT(*) > 3)."},
+  {"id": "fc-0195", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "programmierung.datenbanken", "front": "NULL bei Aggregaten", "back": "COUNT(spalte), SUM, AVG ignorieren NULL – Durchschnitte können verfälscht sein."}
 ]

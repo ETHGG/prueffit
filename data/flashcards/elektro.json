@@ -6,5 +6,7 @@
   {"id": "fc-0168", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.schutz", "front": "RCD 30 mA", "back": "Fehlerstrom-Schutzschalter: Personenschutz, schaltet bei Fehlerstrom über ca. 30 mA ab."},
   {"id": "fc-0169", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.installation", "front": "Spannungsfall Wechselstrom", "back": "ΔU = 2 × l × I × cos φ ÷ (κ × A), Kupfer κ = 56; Richtwert max. 3 %."},
   {"id": "fc-0170", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.installation", "front": "PoE-Standards", "back": "802.3af 15,4 W · 802.3at 30 W · 802.3bt 60/90 W (am Switchport)."},
-  {"id": "fc-0171", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.installation", "front": "NYM-J 3 × 1,5", "back": "Mantelleitung, J = mit Schutzleiter, 3 Adern à 1,5 mm²."}
+  {"id": "fc-0171", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.installation", "front": "NYM-J 3 × 1,5", "back": "Mantelleitung, J = mit Schutzleiter, 3 Adern à 1,5 mm²."},
+  {"id": "fc-0198", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.grundlagen", "front": "Drehstromleistung", "back": "P = √3 × U × I × cos φ (U = 400 V zwischen Außenleitern)."},
+  {"id": "fc-0199", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.schutz", "front": "Spannungsfreiheit feststellen", "back": "Zweipoliger Spannungsprüfer, allpolig, vorher an bekannter Quelle testen."}
 ]

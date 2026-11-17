@@ -6,5 +6,7 @@
   {"id": "fc-0160", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.sensorik", "front": "Auflösung eines A/D-Wandlers", "back": "n Bit → 2ⁿ Stufen; Stufe = Bereich ÷ 2ⁿ (12 Bit, 10 V → 2,44 mV)."},
   {"id": "fc-0161", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "MQTT-QoS 0 / 1 / 2", "back": "0: höchstens einmal · 1: mindestens einmal · 2: genau einmal. Port 1883, mit TLS 8883."},
   {"id": "fc-0162", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "OT-Sicherheit Grundregeln", "back": "Zonen/Segmentierung, kein direkter Internetzugang, Fernwartung über VPN, Standardkennwörter ändern."},
-  {"id": "fc-0163", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "Automatisierungspyramide", "back": "Unternehmen – Betriebsleitung – Prozessleitung – Steuerung (SPS) – Feld (Sensoren/Aktoren)."}
+  {"id": "fc-0163", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "Automatisierungspyramide", "back": "Unternehmen – Betriebsleitung – Prozessleitung – Steuerung (SPS) – Feld (Sensoren/Aktoren)."},
+  {"id": "fc-0196", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.diagnose", "front": "Port Mirroring", "back": "Switch kopiert den Verkehr eines Ports auf einen Analyseport – mitschneiden ohne Betriebsstörung."},
+  {"id": "fc-0197", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "PROFINET", "back": "Industrial Ethernet mit Echtzeit (feste Zykluszeiten) für Steuerdaten."}
 ]
