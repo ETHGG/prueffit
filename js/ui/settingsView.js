@@ -122,7 +122,7 @@ export function render(root, ctx) {
   const target = ctx.progress.settings.examTarget;
   const examDraft = target && target.day >= today ? { ...target } : { exam: target?.exam ?? 'AP1', day: null };
   const examBox = h('div', {});
-  const drawExamFields = () => examBox.replaceChildren(...examTargetFields(examDraft, { idPrefix: 'settings', today, onChange: drawExamFields }));
+  const drawExamFields = () => examBox.replaceChildren(...examTargetFields(examDraft, { idPrefix: 'settings', today, onChange: drawExamFields, job: ctx.progress.settings.job }));
   drawExamFields();
   const saveExam = () => {
     const examTarget = examDraft.day ? { exam: examDraft.exam, day: examDraft.day } : null;

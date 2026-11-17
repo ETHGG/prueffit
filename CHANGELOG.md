@@ -2,6 +2,22 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.1.0] – 2026-11-17
+
+### Hinzugefügt
+- **Abgleich mit den Ausbildungsverordnungen** (ITSManKflAusbV §§ 12–13, FIAusbV §§ 21–22, IHK-Leitfäden), Ergebnis in `docs/ABGLEICH.md`. Schwerpunkt KITS und FISI.
+- **FISI:** neues Thema „Skripte zur Systemverwaltung“ (PowerShell, Bash, cron) mit Lernzettel; Speicherlösungen (NAS/SAN/iSCSI, Snapshots, Deduplizierung, Thin Provisioning), 802.1X/RADIUS, Zero Trust, IDS/IPS, LACP/VRRP/STP mit Verfügbarkeitsrechnung, DNSSEC, Container, Patchmanagement.
+- **KITS:** Lizenzmodelle mit Kostenvergleich, Angebotsvergleich (Nutzwert, Gesamtkosten) jetzt auch AP2, Deckungsbeitrag, Gewinnschwelle, Zuschlagskalkulation, Bilanzkennzahlen, Ratendarlehen, Leasing, Marketingmix, Mängelrüge (§ 377 HGB), Mahnverfahren, SLA-Rechnung, ABC-Analyse, CRM und Datenschutz.
+- **Je eine zweite Handlungssituation** für alle AP2-Prüfungsbereiche von KITS und FISI; die Simulation wählt zufällig.
+- **Weitere AP2-Inhalte** für FIDPA (SQL, Historisierung, Flussgrad), FIDV (PROFINET, Zonenmodell, Port-Mirroring), ITSE (Drehstrom, Spannungsfall, USV-Laufzeit) und KDM (Erlösmodelle, Fake-Door-Test, Datenschutz-Folgenabschätzung).
+- **Bewertungsraster für Freitextaufgaben:** Kriterien mit Punkten abhaken wie in den IHK-Lösungshinweisen (alle 20 Freitextaufgaben).
+- **„Dein Plan für heute“** auf der Startseite: konkrete Schritte (fällige Karten, Fehler, schwächstes Thema), die zusammen das Tagesziel ergeben.
+
+### Geändert
+- Prüfungstermine: Die AP2 von KITS und KDM liegt einen Tag vor der der Fachinformatiker (dienstags, z. B. 27.04.2027).
+- Elektrotechnik: Geräteprüfung nach DIN EN 50699 (VDE 0702) bzw. DIN EN 50678 (VDE 0701) statt der seit 2023 ersetzten DIN VDE 0701-0702.
+- Inhalt jetzt: 76 Themen, 703 Fragen, 201 Karteikarten, 76 Lernzettel, 277 Abkürzungen, 18 Handlungssituationen.
+
 ## [2.0.0] – 2026-11-17
 
 ### Hinzugefügt

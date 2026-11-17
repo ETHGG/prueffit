@@ -1,20 +1,28 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.0.0 (17.11.2026)
+**Aktuelle Version:** 2.1.0 (17.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
-**2.1, Phase E:** Gegenprüfung der neuen Inhalte (Rechnungen, Fakten), Prüfungstermine prüfen, PDFs, Version 2.1.0 (package.json nur obere zwei `version`, js/config.js, sw.js), CHANGELOG, README, ABSCHLUSSBERICHT, GitHub-Releases im Browser. Danach (Gegenprüfung, PDFs, Version 2.1.0, Releases). Ab dann bis 18.11.2026 11:30 Uhr: App wiederholt prüfen und verbessern.
+**Prüf- und Verbesserungsrunden bis 18.11.2026 11:30 Uhr** (Auftrag des Nutzers): je Runde App prüfen (Tests, Browser-Durchlauf, Inhalte stichprobenartig gegenlesen, Lücken laut `docs/ABGLEICH.md`), verbessern, testen, committen, pushen, kurz melden. Nächste Runde: Runde 1.
 
 | Phase 2.1 | Status |
 |---|---|
 | A Quellen und Abgleich (`docs/ABGLEICH.md`) | erledigt |
-| B KITS und FISI ausbauen | erledigt |
-| C FIDPA, FIDV, ITSE, KDM ausbauen (36 Fragen, 9 Karten) | erledigt |
-| D Bewertungsraster (20 Freitextaufgaben), „Dein Plan für heute“ | erledigt |
-| E Gegenprüfung, PDFs, Version 2.1.0, Releases | offen |
+| B KITS und FISI ausbauen (57 Fragen, 4 Situationen) | erledigt |
+| C FIDPA, FIDV, ITSE, KDM ausbauen (36 Fragen) | erledigt |
+| D Bewertungsraster, „Dein Plan für heute“ | erledigt |
+| E Gegenprüfung (VDE-Norm, Prüfungstermine KITS/KDM), PDFs, Version 2.1.0 | erledigt |
 
 ## Erledigt
+
+### 2.1
+- [x] Abgleich mit ITSManKflAusbV §§ 12–13 und FIAusbV §§ 21–22, Lückenliste `docs/ABGLEICH.md`
+- [x] 100 neue Fragen (703), 26 Karten (201), Thema „Skripte zur Systemverwaltung“, 4 neue Handlungssituationen (18)
+- [x] Bewertungsraster für alle 20 Freitextaufgaben, „Dein Plan für heute“
+- [x] AP2-Termine KITS/KDM dienstags, VDE-Prüfnormen aktualisiert
+- [x] 597 Unit-Tests, 46 Browsertests
+
 
 ### 2.0
 - [x] 7 IT-Berufe mit offiziellen AP2-Prüfungsbereichen, AP1-Katalog ab 2025 (`js/curriculum.js`), Quellen in `docs/QUELLEN.md`
@@ -95,7 +103,7 @@
 
 - Keine offenen Roadmap-Punkte. Nächste Schritte: weitere Ideen des Nutzers.
 - Die neuen Inhalte für FIDPA, FIDV, ITSE und KDM (je 25 Fragen bzw. 9 für KDM) sind schmaler als die für FISI/FIAE/KITS; weiter ausbauen, sobald Prüfungen nach neuer Ordnung vorliegen.
-- GitHub-Releases 0.8–2.0 fehlen (Anlegen per API war in dieser Umgebung gesperrt); bei Bedarf im Browser unter „Releases“ anlegen.
+- GitHub-Releases 0.8–2.1 fehlen (Anlegen per API war in dieser Umgebung gesperrt; nicht über Umwege anlegen). Bei Bedarf legt der Nutzer sie unter „Releases“ selbst an.
 - Wer beim Festlegen den falschen Beruf wählt, kann ihn nicht mehr ändern (so gewünscht); Ausweg nur über Browserdaten löschen bzw. App neu installieren (vorher Fortschritt exportieren).
 - Lernzettel und neue Inhalte sind noch nicht fachlich gegengelesen; Hinweise über „Fehler melden“.
 - Prüfungstermine ab Herbst 2028 sind geschätzt; `KNOWN_EXAM_DATES` jährlich mit den Veröffentlichungen der IHK nachpflegen.

@@ -24,8 +24,8 @@ export const DATE_HINT = 'Die schriftlichen IHK-Prüfungen der IT-Berufe finden 
  * Fields for "which exam and when". `draft` = { exam, day } is mutated on change,
  * `onChange` is called afterwards (e.g. to redraw the date list).
  */
-export function examTargetFields(draft, { idPrefix, today, onChange }) {
-  const dates = upcomingExamDates(draft.exam, today, 4);
+export function examTargetFields(draft, { idPrefix, today, onChange, job = null }) {
+  const dates = upcomingExamDates(draft.exam, today, 4, job);
   if (draft.day !== NOT_YET && !dates.some((d) => d.day === draft.day)) draft.day = dates[0].day;
   return [
     h('fieldset', { class: 'spaced' },
@@ -108,7 +108,7 @@ export function welcomeCard(ctx, { rerender }) {
   return h('section', { class: 'card welcome', 'aria-labelledby': 'welcome-title' },
     h('h2', { id: 'welcome-title', tabindex: '-1', text: title }),
     intro ? h('p', { text: intro }) : null,
-    examTargetFields(draft, { idPrefix: 'welcome', today, onChange: redraw }),
+    examTargetFields(draft, { idPrefix: 'welcome', today, onChange: redraw, job: ctx.progress.settings.job }),
     h('div', { class: 'button-row' },
       h('button', { type: 'button', class: 'button', onClick: () => finish(true) }, 'Speichern'),
       h('button', { type: 'button', class: 'link-button', onClick: () => finish(false) }, onboarded ? 'Abbrechen' : 'Später')),

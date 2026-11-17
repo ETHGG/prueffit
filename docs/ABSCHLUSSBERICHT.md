@@ -1,3 +1,40 @@
+# Abschlussbericht Version 2.1.0
+
+**Datum:** 17.11.2026 · **Dauer:** 21:01–21:30 Uhr (Schätzung: 3–3½ Stunden; die gemessene Dauer lag weit darunter)
+
+Auftrag: Vertrauenswürdige Quellen auswerten, mit den vorhandenen Fragen vergleichen, Fragen und Prüfungsumfang erweitern, Lernzettel und PDFs anpassen; Schwerpunkt KITS und FISI; dazu die vorgeschlagenen Punkte (Bewertungsraster, Tagesplan, Gegenprüfung).
+
+## Umsetzung
+| Phase | Inhalt | Zeit |
+|---|---|---|
+| A | Abgleich mit ITSManKflAusbV und FIAusbV (gesetze-im-internet.de), IHK-Leitfäden; `docs/ABGLEICH.md` | 21:01–21:03 |
+| B | KITS/FISI: 57 Fragen, 17 Karten, neues Thema Skripte, 7 Lernzettel ergänzt, 4 Handlungssituationen | 21:03–21:14 |
+| C | FIDPA/FIDV/ITSE/KDM: 36 Fragen, 9 Karten | 21:14–21:16 |
+| D | Bewertungsraster (20 Freitextaufgaben), „Dein Plan für heute“ | 21:16–21:24 |
+| E | Gegenprüfung: VDE-Prüfnormen (DIN EN 50699/50678 statt DIN VDE 0701-0702), AP2-Termine KITS/KDM dienstags; Version 2.1.0, PDFs, Doku | 21:24–21:30 |
+
+## Inhalte je Beruf (2.1.0)
+| Beruf | Fragen gesamt | davon AP1 | davon AP2 | Karten | Situationen |
+|---|---|---|---|---|---|
+| FIAE | 416 | 294 | 205 | 137 | 2 |
+| FISI | 474 | 294 | 301 | 147 | 4 |
+| FIDPA | 421 | 294 | 183 | 151 | 2 |
+| FIDV | 411 | 294 | 182 | 143 | 2 |
+| ITSE | 409 | 294 | 162 | 147 | 2 |
+| KITS | 494 | 294 | 325 | 158 | 4 |
+| KDM | 412 | 294 | 185 | 150 | 2 |
+
+## Annahmen
+- Original-Prüfungsaufgaben und -lösungen, die im Netz kursieren, wurden bewusst nicht verwendet (Urheberrecht).
+- „Angebotsvergleich“ und „Kalkulation“ gehören laut § 12 ITSManKflAusbV auch zum Bereich „Einführen einer IT-Systemlösung“; die Themen sind deshalb in beiden KITS-Bereichen (eine Frage wird pro Simulation nur einmal gezogen).
+- AP2-Termine: KITS/KDM schreiben laut IHK-Terminen dienstags, Fachinformatiker und ITSE mittwochs.
+
+## Offene Punkte
+- FIAE ist der einzige Beruf ohne Ausbau in 2.1; in den Verbesserungsrunden nachziehen.
+- GitHub-Releases fehlen (API gesperrt).
+
+---
+
 # Abschlussbericht Version 2.0.0
 
 **Datum:** 17.11.2026 · **Live:** https://ethgg.github.io/prueffit/ · **Dauer:** 19:11 bis ca. 20:35 Uhr (rund 1 h 25 min)

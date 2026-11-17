@@ -11,6 +11,10 @@ export const KNOWN_EXAM_DATES = Object.freeze({
   AP2: ['2026-04-29', '2026-11-25', '2027-04-28', '2027-11-24', '2028-04-26'],
 });
 
+// The commercial IT apprenticeships (KITS, KDM) write their AP2 one day earlier (Tuesday) than the
+// Fachinformatiker and ITSE (Wednesday), e.g. summer 2027: 27.04. vs. 28.04. (IHK Berlin, AkA).
+export const AP2_DAY_BEFORE_JOBS = Object.freeze(['kits', 'kdm']);
+
 // Usual pattern: last Wednesday of these months (1-based).
 const USUAL_MONTHS = Object.freeze({ AP1: [2, 9], AP2: [4, 11] });
 const MS_PER_DAY = 86_400_000;
@@ -42,11 +46,23 @@ export function sessionLabel(exam, day) {
   return month <= 6 ? `Sommer ${year}` : `Winter ${year}/${pad((year + 1) % 100)}`;
 }
 
+/** Shifts a YYYY-MM-DD day by n calendar days. */
+export function addDays(day, n) {
+  const d = new Date(toUtc(day) + n * MS_PER_DAY);
+  return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
+}
+
 /**
  * Upcoming exam dates (today included). Published dates first; when they run out,
  * the usual pattern is continued and the entries are marked `estimated: true`.
+ * With `job` the AP2 dates of KITS/KDM are moved to the day before (Tuesday).
  */
-export function upcomingExamDates(exam, today, count = 4) {
+export function upcomingExamDates(exam, today, count = 4, job = null) {
+  const shift = exam === 'AP2' && AP2_DAY_BEFORE_JOBS.includes(job) ? -1 : 0;
+  if (shift) {
+    return upcomingExamDates(exam, addDays(today, -shift), count)
+      .map((e) => ({ ...e, day: addDays(e.day, shift) }));
+  }
   if (!KNOWN_EXAM_DATES[exam]) throw new RangeError(`Unknown exam: ${exam}`);
   if (!isDay(today)) throw new RangeError(`Invalid day: ${today}`);
   const known = KNOWN_EXAM_DATES[exam];

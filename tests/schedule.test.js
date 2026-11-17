@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
-  KNOWN_EXAM_DATES, daysBetween, lastWednesday, sessionLabel, upcomingExamDates, nextExamDate, studyPlan, openQuestions,
+  KNOWN_EXAM_DATES, AP2_DAY_BEFORE_JOBS, addDays, daysBetween, lastWednesday, sessionLabel, upcomingExamDates, nextExamDate, studyPlan, openQuestions,
   backupReminder,
 } from '../js/schedule.js';
 
@@ -99,5 +99,25 @@ describe('backupReminder', () => {
   it('copes with missing or broken data', () => {
     expect(backupReminder(undefined, today, 30).due).toBe(true);
     expect(backupReminder({ lastAt: 'gestern' }, today, 30)).toEqual({ due: true, daysSince: null });
+  });
+});
+
+describe('AP2 one day earlier for KITS and KDM (2.1)', () => {
+  it('moves the AP2 dates of the commercial IT jobs to Tuesday', () => {
+    expect(AP2_DAY_BEFORE_JOBS).toEqual(['kits', 'kdm']);
+    expect(upcomingExamDates('AP2', '2026-11-17', 3, 'kits').map((e) => e.day)).toEqual(['2026-11-24', '2027-04-27', '2027-11-23']);
+    expect(upcomingExamDates('AP2', '2026-11-17', 2, 'kdm').map((e) => e.label)).toEqual(['Winter 2026/27', 'Sommer 2027']);
+  });
+  it('keeps Wednesday for the other jobs and for AP1', () => {
+    expect(upcomingExamDates('AP2', '2026-11-17', 1, 'fisi')[0].day).toBe('2026-11-25');
+    expect(upcomingExamDates('AP1', '2026-11-17', 1, 'kits')[0].day).toBe('2027-02-24');
+  });
+  it('the exam day itself still counts as upcoming', () => {
+    expect(upcomingExamDates('AP2', '2026-11-24', 1, 'kits')[0].day).toBe('2026-11-24');
+    expect(upcomingExamDates('AP2', '2026-11-25', 1, 'kits')[0].day).toBe('2027-04-27');
+  });
+  it('addDays crosses month and year boundaries', () => {
+    expect(addDays('2026-12-31', 1)).toBe('2027-01-01');
+    expect(addDays('2027-03-01', -1)).toBe('2027-02-28');
   });
 });

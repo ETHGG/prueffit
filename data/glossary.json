@@ -351,7 +351,7 @@
   {
     "abbr": "DIN",
     "full": "Deutsches Institut für Normung",
-    "explanation": "Gibt deutsche Normen heraus, z. B. DIN VDE 0701-0702 für Geräteprüfungen",
+    "explanation": "Gibt deutsche Normen heraus, z. B. DIN EN 50699 (VDE 0702) für Wiederholungsprüfungen von Geräten",
     "area": "Allgemein"
   },
   {
@@ -437,6 +437,12 @@
     "full": "Elektromagnetische Verträglichkeit",
     "explanation": "Störfestigkeit gegen elektromagnetische Felder (LWL ist unempfindlich)",
     "area": "Netzwerke"
+  },
+  {
+    "abbr": "EN",
+    "full": "Europäische Norm",
+    "explanation": "In Deutschland als DIN EN übernommen, z. B. DIN EN 50699 (VDE 0702)",
+    "area": "Allgemein"
   },
   {
     "abbr": "EPK",

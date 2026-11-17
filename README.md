@@ -4,7 +4,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 
 **Live:** https://ethgg.github.io/prueffit/
 
-## Funktionen (Version 2.0)
+## Funktionen (Version 2.1)
 
 - **Dein Beruf, deine Inhalte:** Beim ersten Start legst du einmal deinen Beruf fest. Danach zeigt PrüfFit überall nur, was in deiner AP1 und AP2 vorkommt – gegliedert nach AP1 (Prüfungskatalog ab 2025) und den AP2-Prüfungsbereichen deines Berufs. Der Beruf lässt sich später nicht ändern.
 
@@ -21,20 +21,22 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 - **AP2 mit Handlungssituationen:** Jeder Prüfungsbereich beginnt wie in der echten Prüfung mit einer Ausgangslage und zusammenhängenden Teilaufgaben.
 - **Sicherung:** Die App erinnert daran, den Fortschritt ab und zu als Datei zu sichern.
 - **Lernzettel als PDF:** AP1-Lernzettel, AP2-Lernzettel deines Berufs und dein Abkürzungsverzeichnis zum Herunterladen, Ausdrucken oder für Goodnotes.
-- **Abkürzungsverzeichnis:** 272 Abkürzungen aus den Lernzetteln (je Beruf die, die in deinen Lernzetteln vorkommen) ausgeschrieben und erklärt, durchsuchbar und von A bis Z; jeder Lernzettel zeigt seine Abkürzungen.
+- **Abkürzungsverzeichnis:** 277 Abkürzungen aus den Lernzetteln (je Beruf die, die in deinen Lernzetteln vorkommen) ausgeschrieben und erklärt, durchsuchbar und von A bis Z; jeder Lernzettel zeigt seine Abkürzungen.
 - **Lernzettel:** Zu jedem der 75 Themen ein kompakter Lernzettel mit Tabellen, Formeln und Merksätzen. Volltextsuche (unabhängig von Groß-/Kleinschreibung und Umlauten) mit hervorgehobenen Treffern, Filter nach Prüfungsbereich, Sprung direkt ins Quiz zum Thema.
 - **Start mit Lernplan:** Nach der Berufswahl fragt PrüfFit nach der nächsten Prüfung und schlägt den nächsten bundeseinheitlichen IHK-Termin vor (gilt auch für Sachsen-Anhalt). Die Startseite zeigt dann einen Countdown und wie viele offene Fragen pro Tag zu schaffen sind.
 - **Prüfungssimulation:** AP1 (90 Minuten) oder AP2 wie die echte Prüfung: zwei Prüfungsbereiche à 90 Minuten mit den offiziellen Namen des gewählten Berufs und Wirtschafts- und Sozialkunde (60 Minuten, 30 Fragen); einzelne Teile lassen sich auch allein üben. Mit Timer, der auch bei geschlossener App weiterläuft, automatischer Abgabe, Note nach IHK-Schlüssel Note pro Teil und Auswertung jeder Frage.
 - **Statistik:** Trefferquote und Versuche pro Thema mit Ampel (grün ab 80 %, gelb ab 50 %, rot darunter, grau unter 5 Versuchen), Themen nach Prüfungsbereich, Diagramme pro Fachbereich und für den Verlauf der Prüfungsergebnisse.
 - **Heute üben:** Die schwächsten Themen (oder noch ungeübte) werden vorgeschlagen und lassen sich direkt im Quiz üben.
-- **Inhalte:** 603 eigene Fragen, 175 Karteikarten, 75 Lernzettel in 75 Themen und 11 Bereichen: Netzwerke, Hardware, IT-Sicherheit, Wirtschaft, Projektmanagement, Programmierung, Recht, WiSo, Daten und Prozesse, Digitale Vernetzung, Elektrotechnik. Je Beruf sind es rund 400–450 Fragen; jeder AP2-Prüfungsbereich beginnt mit einer Handlungssituation. Themen, Schwierigkeit und Aufgabenstil orientieren sich an den IHK-Prüfungen 2021–2025; alle Aufgaben sind in eigenen Worten und mit eigenen Zahlen formuliert.
+- **Inhalte:** 703 eigene Fragen, 201 Karteikarten, 76 Lernzettel in 76 Themen und 11 Bereichen: Netzwerke, Hardware, IT-Sicherheit, Wirtschaft, Projektmanagement, Programmierung, Recht, WiSo, Daten und Prozesse, Digitale Vernetzung, Elektrotechnik. Je Beruf sind es rund 410–490 Fragen (am meisten für KITS und FISI, abgeglichen mit den Ausbildungsverordnungen, siehe `docs/ABGLEICH.md`); jeder AP2-Prüfungsbereich beginnt mit einer Handlungssituation.
+- **Freitext mit Bewertungsraster:** Musterlösung plus Kriterien mit Punkten zum Abhaken, wie in den IHK-Lösungshinweisen.
+- **Dein Plan für heute:** konkrete Schritte für das Tagesziel – fällige Karten, Fehler, schwächstes Thema. Themen, Schwierigkeit und Aufgabenstil orientieren sich an den IHK-Prüfungen 2021–2025; alle Aufgaben sind in eigenen Worten und mit eigenen Zahlen formuliert.
 - **Fehler melden:** Unter jeder Erklärung führt ein Link zu einem vorausgefüllten GitHub-Issue.
 - **Lernserie und Tagesziel:** Tage in Folge mit mindestens einer Aufgabe; Tagesziel frei wählbar.
 - **Sichern und übertragen:** Fortschritt als Datei exportieren und auf einem anderen Gerät importieren; eigene Fragen und Karteikarten importieren.
 - **Darstellung:** hell, dunkel oder wie das System.
 - **PWA:** installierbar, funktioniert nach dem ersten Aufruf komplett offline, für das iPhone optimiert.
 
-Alle Phasen der Roadmap (0.1 bis 2.0) sind umgesetzt. Quellen und Lizenzhinweise: [`docs/QUELLEN.md`](docs/QUELLEN.md). Details stehen in [`CLAUDE.md`](CLAUDE.md) und [`docs/STATUS.md`](docs/STATUS.md).
+Alle Phasen der Roadmap (0.1 bis 2.1) sind umgesetzt. Quellen und Lizenzhinweise: [`docs/QUELLEN.md`](docs/QUELLEN.md). Details stehen in [`CLAUDE.md`](CLAUDE.md) und [`docs/STATUS.md`](docs/STATUS.md).
 
 ## Auf dem iPhone installieren
 
