@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.1] – 2026-11-18
+
+### Hinzugefügt
+- **17 offene Aufgaben mit Bewertungsraster** für die AP2 von KITS und FISI (teils für beide): Virtualisierung, Monitoring, 3-2-1-Regel, RPO/RTO, hybride Verschlüsselung bei HTTPS, Lizenzvergleich, Zahlungsverzug (§§ 286, 288 BGB), SLA-Reaktions- und Lösungszeit, Nutzwertanalyse, Annuitäten- vs. Ratendarlehen, Marketingmix, fixe/variable Kosten, Cron-Aufräumskript, AGDLP, Gäste-VLAN, statisches/dynamisches Routing, APIPA. Jetzt 37 Freitextaufgaben, 741 Fragen.
+
+### Behoben
+- Browser-Test zur Schema-Migration hing vom Ausführungsdatum ab (Lernserie); das Datum ist jetzt fest vorgegeben.
+
 ## [2.2.0] – 2026-11-17
 
 ### Hinzugefügt

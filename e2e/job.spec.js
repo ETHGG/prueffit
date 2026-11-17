@@ -35,6 +35,8 @@ test('job setup: shown before every view, no tab bar, cancel keeps it, the choic
 });
 
 test('existing users keep their progress and confirm the job once (schema 5 -> 6)', async ({ page }) => {
+  // The seeded streak ends on 16.11.; fix "today" so it is still current (test must not depend on the run date).
+  await page.clock.setFixedTime(new Date('2026-11-17T10:00:00+01:00'));
   await gotoApp(page);
   await page.evaluate(() => {
     localStorage.clear();

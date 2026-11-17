@@ -4,7 +4,7 @@
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
-**Prüf- und Verbesserungsrunden bis 18.11.2026 11:30 Uhr** (Auftrag des Nutzers): je Runde App prüfen (Tests, Browser-Durchlauf, Inhalte stichprobenartig gegenlesen, Lücken laut `docs/ABGLEICH.md`), verbessern, testen, committen, pushen, kurz melden. Erledigt: Runde 1 (FIAE ausgebaut, 2.1.1), Runde 2 (Oberflächen-Durchgang, offene Aufgaben in der Prüfungssimulation, 2.2.0). Nächste Runde: Runde 3 – mehr offene Aufgaben mit Bewertungsraster für KITS und FISI (je Prüfungsbereich), danach fachliche Stichproben-Gegenprüfung.
+**Prüf- und Verbesserungsrunden bis 18.11.2026 11:30 Uhr** (Auftrag des Nutzers): je Runde App prüfen (Tests, Browser-Durchlauf, Inhalte stichprobenartig gegenlesen, Lücken laut `docs/ABGLEICH.md`), verbessern, testen, committen, pushen, kurz melden. Erledigt: Runde 1 (FIAE ausgebaut, 2.1.1), Runde 2 (Oberflächen-Durchgang, offene Aufgaben in der Prüfungssimulation, 2.2.0). Runde 3 (17 offene Aufgaben KITS/FISI, 2.2.1). Nächste Runde: Runde 4 – fachliche Stichproben-Gegenprüfung (Rechenaufgaben nachrechnen, Rechtsangaben prüfen), danach offene Aufgaben für FIAE/FIDPA/FIDV/ITSE/KDM.
 
 | Phase 2.1 | Status |
 |---|---|
