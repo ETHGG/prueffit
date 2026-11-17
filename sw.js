@@ -44,6 +44,7 @@ const ASSETS = [
   './icons/apple-touch-icon.png',
   './icons/icon-192.png',
   './icons/icon-512.png',
+  './vendor/chart.umd.min.js',
 ];
 
 self.addEventListener('install', (event) => {
