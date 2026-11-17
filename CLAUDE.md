@@ -258,7 +258,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 
 | Version | Inhalt | Status |
 |---|---|---|
-| **0.1** | Grundgerüst, PWA, Fragen-JSON + Validierung, Quiz-Modus (`single`, `multi`, `number`), einfache Statistik | offen |
+| **0.1** | Grundgerüst, PWA, Fragen-JSON + Validierung, Quiz-Modus (`single`, `multi`, `number`), einfache Statistik | erledigt |
 | **0.2** | Karteikarten mit Leitner-System, Fragetypen `text`, `match`, `order` | offen |
 | **0.3** | Prüfungssimulation mit Timer und IHK-Note, Ampel + „Heute üben“, Diagramme | offen |
 | **0.4** | Import/Export (JSON) von Fortschritt und eigenen Fragen, Dark Mode, Lernserie, Tagesziel | offen |
