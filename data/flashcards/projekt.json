@@ -6,5 +6,11 @@
   {"id": "fc-0025", "topic": "projekt.grundlagen", "front": "SMART", "back": "Spezifisch, Messbar, Attraktiv bzw. Akzeptiert, Realistisch, Terminiert."},
   {"id": "fc-0048", "topic": "projekt.risiko", "front": "Risikowert", "back": "Eintrittswahrscheinlichkeit × Schadenshöhe. Strategien: vermeiden, vermindern, übertragen, akzeptieren."},
   {"id": "fc-0049", "topic": "projekt.risiko", "front": "PDCA-Zyklus", "back": "Plan – Do – Check – Act: planen, umsetzen, prüfen, verbessern. Grundlage der kontinuierlichen Verbesserung."},
-  {"id": "fc-0050", "topic": "projekt.grundlagen", "front": "Projektphasen nach DIN 69901", "back": "Initialisierung → Definition → Planung → Steuerung → Abschluss."}
+  {"id": "fc-0050", "topic": "projekt.grundlagen", "front": "Projektphasen nach DIN 69901", "back": "Initialisierung → Definition → Planung → Steuerung → Abschluss."},
+  {"id": "fc-0081", "topic": "projekt.planung", "front": "Gesamtpuffer im Netzplan", "back": "GP = SAZ − FAZ (bzw. SEZ − FEZ). Vorgänge mit GP = 0 liegen auf dem kritischen Pfad."},
+  {"id": "fc-0082", "topic": "projekt.service", "front": "Incident vs. Problem (ITIL)", "back": "Incident: einzelne Störung, schnell beheben (ggf. Workaround). Problem: Ursache eines oder mehrerer Incidents, dauerhaft beseitigen."},
+  {"id": "fc-0083", "topic": "projekt.service", "front": "SLA", "back": "Service Level Agreement: messbare Vereinbarung über Verfügbarkeit, Servicezeiten, Reaktions- und Lösungszeiten, Eskalation und Vertragsstrafen."},
+  {"id": "fc-0084", "topic": "projekt.digitalisierung", "front": "ERP", "back": "Enterprise Resource Planning: integrierte Software mit gemeinsamer Datenbasis; Module z. B. Finanzen, Materialwirtschaft, Vertrieb, Personal, Produktion."},
+  {"id": "fc-0085", "topic": "projekt.digitalisierung", "front": "XRechnung vs. ZUGFeRD", "back": "XRechnung: reine XML-Datei. ZUGFeRD: PDF mit eingebettetem XML (hybrid, für Mensch und Maschine lesbar)."},
+  {"id": "fc-0086", "topic": "projekt.grundlagen", "front": "Vier-Ohren-Modell", "back": "Sachinhalt, Selbstoffenbarung, Beziehung, Appell (Schulz von Thun)."}
 ]

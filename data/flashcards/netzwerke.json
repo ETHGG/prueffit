@@ -6,5 +6,11 @@
   {"id": "fc-0005", "topic": "netzwerke.ipv6", "front": "Regeln zum Kürzen von IPv6-Adressen", "back": "Führende Nullen je Block weglassen; eine einzige Folge von Null-Blöcken durch :: ersetzen (nur einmal pro Adresse)."},
   {"id": "fc-0036", "topic": "netzwerke.vlan", "front": "VLAN", "back": "Logische Aufteilung eines physischen Netzes in getrennte Broadcast-Domänen. Verkehr zwischen VLANs braucht einen Router oder Layer-3-Switch."},
   {"id": "fc-0037", "topic": "netzwerke.vlan", "front": "Access-Port vs. Trunk-Port", "back": "Access-Port: gehört genau einem VLAN, Frames ungetaggt. Trunk-Port: überträgt mehrere VLANs, Frames mit 802.1Q-Tag (12-Bit-VLAN-ID)."},
-  {"id": "fc-0038", "topic": "netzwerke.vlan", "front": "Sichere WLAN-Verschlüsselung", "back": "WPA3 (aktuell) oder WPA2 mit AES/CCMP und starkem Passwort. WEP und WPA/TKIP gelten als unsicher."}
+  {"id": "fc-0038", "topic": "netzwerke.vlan", "front": "Sichere WLAN-Verschlüsselung", "back": "WPA3 (aktuell) oder WPA2 mit AES/CCMP und starkem Passwort. WEP und WPA/TKIP gelten als unsicher."},
+  {"id": "fc-0057", "topic": "netzwerke.routing", "front": "APIPA-Adresse 169.254.x.x", "back": "Link-Local-Adresse, die sich ein Client selbst gibt, wenn kein DHCP-Server antwortet. Hinweis auf DHCP-, Kabel- oder VLAN-Problem."},
+  {"id": "fc-0058", "topic": "netzwerke.routing", "front": "NAT / PAT", "back": "Router ersetzt private Quelladresse (und ggf. Port) durch seine öffentliche Adresse und merkt sich die Zuordnung. Portweiterleitung (DNAT) macht interne Server von außen erreichbar."},
+  {"id": "fc-0059", "topic": "netzwerke.routing", "front": "Ping per IP geht, per Name nicht", "back": "Netz und Gateway funktionieren – Fehler bei der Namensauflösung: DNS-Server falsch, nicht erreichbar oder Port 53 gesperrt. Prüfen mit nslookup."},
+  {"id": "fc-0060", "topic": "netzwerke.vlan", "front": "Spanning Tree (STP)", "back": "Verhindert Schleifen bei redundanten Switch-Verbindungen, indem es Ports blockiert. Fällt der aktive Weg aus, wird der blockierte Port aktiviert."},
+  {"id": "fc-0061", "topic": "netzwerke.subnetting", "front": "IPv4-Multicast-Bereich", "back": "224.0.0.0 bis 239.255.255.255 (224.0.0.0/4), erstes Oktett binär 1110."},
+  {"id": "fc-0062", "topic": "netzwerke.ipv6", "front": "SLAAC", "back": "Stateless Address Autoconfiguration: Präfix kommt per Router Advertisement, Client bildet Interface-ID selbst und prüft per DAD. DHCPv6 zusätzlich für DNS-Optionen und zentrale Kontrolle."}
 ]

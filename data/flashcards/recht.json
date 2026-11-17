@@ -6,5 +6,11 @@
   {"id": "fc-0035", "topic": "recht.lizenzen", "front": "Copyleft (z. B. GPL)", "back": "Abgeleitete Werke dürfen nur unter derselben Lizenz weitergegeben werden; der Quellcode muss zugänglich sein."},
   {"id": "fc-0054", "topic": "recht.vertragsrecht", "front": "Geschäftsfähigkeit", "back": "Unter 7: geschäftsunfähig. 7–17: beschränkt geschäftsfähig (Verträge schwebend unwirksam ohne Zustimmung, Ausnahme Taschengeld). Ab 18: voll geschäftsfähig."},
   {"id": "fc-0055", "topic": "recht.vertragsrecht", "front": "Rechte bei Mängeln (Kauf)", "back": "Vorrangig Nacherfüllung: Nachbesserung oder Ersatzlieferung. Erst danach Rücktritt, Minderung oder Schadensersatz."},
-  {"id": "fc-0056", "topic": "recht.vertragsrecht", "front": "Gerichtliches Mahnverfahren", "back": "Antrag auf Mahnbescheid → Zustellung → (kein Widerspruch in 2 Wochen) Vollstreckungsbescheid → Zwangsvollstreckung."}
+  {"id": "fc-0056", "topic": "recht.vertragsrecht", "front": "Gerichtliches Mahnverfahren", "back": "Antrag auf Mahnbescheid → Zustellung → (kein Widerspruch in 2 Wochen) Vollstreckungsbescheid → Zwangsvollstreckung."},
+  {"id": "fc-0093", "topic": "recht.vertragsrecht", "front": "Gewährleistung vs. Garantie", "back": "Gewährleistung: gesetzlich, Verkäufer haftet für Mängel bei Übergabe (neu: 2 Jahre). Garantie: freiwillig, Bedingungen legt der Garantiegeber fest."},
+  {"id": "fc-0094", "topic": "recht.vertragsrecht", "front": "Regelmäßige Verjährung", "back": "3 Jahre, Beginn mit Schluss des Jahres der Entstehung (§§ 195, 199 BGB). Forderung aus Mai 2026 → verjährt mit Ablauf 31.12.2029."},
+  {"id": "fc-0095", "topic": "recht.vertragsrecht", "front": "Kaufvertragsstörungen", "back": "Lieferungsverzug, mangelhafte Lieferung (Schlechtleistung), Zahlungsverzug, Annahmeverzug."},
+  {"id": "fc-0096", "topic": "recht.datenschutz", "front": "Pseudonymisierung vs. Anonymisierung", "back": "Pseudonym: mit Zusatzwissen wieder zuordenbar → weiter personenbezogen. Anonym: Bezug dauerhaft nicht herstellbar → DSGVO gilt nicht."},
+  {"id": "fc-0097", "topic": "recht.datenschutz", "front": "Auftragsverarbeitung (AVV)", "back": "Dienstleister verarbeitet personenbezogene Daten im Auftrag und nach Weisung (z. B. Cloud, Fernwartung) → Vertrag nach Art. 28 DSGVO."},
+  {"id": "fc-0098", "topic": "recht.lizenzen", "front": "Benutzer-CAL vs. Geräte-CAL", "back": "Benutzer-CAL: eine Person, beliebig viele Geräte (Außendienst). Geräte-CAL: ein Gerät, beliebig viele Personen (Schichtbetrieb)."}
 ]

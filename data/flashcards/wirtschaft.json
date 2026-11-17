@@ -6,5 +6,11 @@
   {"id": "fc-0020", "topic": "wirtschaft.abschreibung", "front": "Amortisationszeit", "back": "Investitionssumme ÷ jährlicher Rückfluss (Einsparung bzw. Gewinn minus zusätzliche Kosten)."},
   {"id": "fc-0045", "topic": "wirtschaft.kalkulation", "front": "Jahreszins bei Skontoverzicht (Überschlag)", "back": "Skontosatz × 360 ÷ (Zahlungsziel − Skontofrist). Beispiel 2/10, netto 30: 2 × 360 ÷ 20 = 36 %."},
   {"id": "fc-0046", "topic": "wirtschaft.abschreibung", "front": "Leasing vs. Kauf", "back": "Kauf: Eigentum, Bilanzierung und Abschreibung, hohe Einmalzahlung. Leasing: Leasinggeber bleibt Eigentümer, Raten als Aufwand, schont Liquidität, meist teurer."},
-  {"id": "fc-0047", "topic": "wirtschaft.unternehmen", "front": "Minimal- und Maximalprinzip", "back": "Minimalprinzip: festes Ziel mit möglichst wenig Mitteln. Maximalprinzip: feste Mittel, möglichst großes Ergebnis."}
+  {"id": "fc-0047", "topic": "wirtschaft.unternehmen", "front": "Minimal- und Maximalprinzip", "back": "Minimalprinzip: festes Ziel mit möglichst wenig Mitteln. Maximalprinzip: feste Mittel, möglichst großes Ergebnis."},
+  {"id": "fc-0075", "topic": "wirtschaft.finanzierung", "front": "Leasing: Eigentum und Besitz", "back": "Leasinggeber = Eigentümer, Leasingnehmer = Besitzer. Nach Ablauf: Rückgabe, Verlängerung oder Kauf (Kaufoption)."},
+  {"id": "fc-0076", "topic": "wirtschaft.finanzierung", "front": "Ratenkredit vs. Annuitätenkredit", "back": "Ratenkredit: gleiche Tilgung, sinkende Zinsen, sinkende Rate. Annuität: gleiche Rate, Zinsanteil sinkt, Tilgungsanteil steigt."},
+  {"id": "fc-0077", "topic": "wirtschaft.kalkulation", "front": "Preisuntergrenzen", "back": "Kurzfristig: variable Stückkosten (Fixkosten nicht gedeckt). Langfristig: variable + fixe Stückkosten = Selbstkosten je Stück (Gewinn 0)."},
+  {"id": "fc-0078", "topic": "wirtschaft.kalkulation", "front": "Umsatzrendite", "back": "Gewinn / Umsatz × 100. Beispiel: 22.500 € / 250.000 € = 9 %."},
+  {"id": "fc-0079", "topic": "wirtschaft.marketing", "front": "BCG-Matrix", "back": "Question Marks (Wachstum hoch, Anteil gering), Stars (beides hoch), Cash Cows (Wachstum gering, Anteil hoch), Poor Dogs (beides gering)."},
+  {"id": "fc-0080", "topic": "wirtschaft.marketing", "front": "Cross- vs. Up-Selling", "back": "Cross-Selling: ergänzende Produkte dazu (Maus zum Notebook). Up-Selling: höherwertige Variante statt Basismodell."}
 ]

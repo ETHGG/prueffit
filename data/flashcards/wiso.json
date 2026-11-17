@@ -1,0 +1,14 @@
+[
+  {"id": "fc-0099", "topic": "wiso.ausbildung", "front": "Probezeit in der Ausbildung", "back": "1 bis 4 Monate (§ 20 BBiG); Kündigung jederzeit ohne Frist und Grund."},
+  {"id": "fc-0100", "topic": "wiso.ausbildung", "front": "Urlaub nach JArbSchG", "back": "Alter zu Beginn des Kalenderjahres: unter 16 → 30 Werktage, unter 17 → 27, unter 18 → 25."},
+  {"id": "fc-0101", "topic": "wiso.ausbildung", "front": "Ende der Ausbildung", "back": "Mit Bekanntgabe des Prüfungsergebnisses. Weiterarbeit ohne Vereinbarung → unbefristetes Arbeitsverhältnis (§ 24 BBiG)."},
+  {"id": "fc-0102", "topic": "wiso.arbeitsvertrag", "front": "Gesetzliche Kündigungsfristen (§ 622 BGB)", "back": "Grundfrist 4 Wochen zum 15. oder Monatsende. Bei Kündigung durch den Arbeitgeber länger: ab 2 J. 1 Monat, 5 J. 2, 8 J. 3, 10 J. 4, 12 J. 5, 15 J. 6, 20 J. 7 Monate zum Monatsende."},
+  {"id": "fc-0103", "topic": "wiso.arbeitsvertrag", "front": "AGG-Merkmale", "back": "Ethnische Herkunft, Geschlecht, Religion/Weltanschauung, Behinderung, Alter, sexuelle Identität."},
+  {"id": "fc-0104", "topic": "wiso.mitbestimmung", "front": "Betriebsrat: Wahl", "back": "Ab 5 ständigen wahlberechtigten AN. Wählen ab 16, wählbar ab 18 und 6 Monaten Betriebszugehörigkeit. Amtszeit 4 Jahre."},
+  {"id": "fc-0105", "topic": "wiso.mitbestimmung", "front": "JAV", "back": "Ab 5 AN unter 18 oder Azubis unter 25. Wählbar: unter 25 Jahre. Amtszeit 2 Jahre. Handelt über den Betriebsrat."},
+  {"id": "fc-0106", "topic": "wiso.mitbestimmung", "front": "Rangfolge der Rechtsquellen", "back": "Grundgesetz/EU-Recht → Gesetz → Verordnung → Tarifvertrag → Betriebsvereinbarung → Arbeitsvertrag (Günstigkeitsprinzip)."},
+  {"id": "fc-0107", "topic": "wiso.sozialversicherung", "front": "Fünf Zweige der Sozialversicherung", "back": "Kranken-, Pflege-, Renten-, Arbeitslosen- und Unfallversicherung (Unfall zahlt der Arbeitgeber allein, Träger Berufsgenossenschaft)."},
+  {"id": "fc-0108", "topic": "wiso.unternehmen", "front": "GmbH", "back": "Stammkapital mind. 25.000 € (Hälfte bei Gründung), notarieller Vertrag, entsteht mit HR-Eintragung, Gewinn nach Geschäftsanteilen."},
+  {"id": "fc-0109", "topic": "wiso.volkswirtschaft", "front": "Magisches Viereck", "back": "Preisniveaustabilität, hoher Beschäftigungsstand, außenwirtschaftliches Gleichgewicht, stetiges angemessenes Wachstum (StabG 1967)."},
+  {"id": "fc-0110", "topic": "wiso.volkswirtschaft", "front": "Wirtschaftssektoren", "back": "Primär: Urproduktion. Sekundär: Verarbeitung (Industrie, Handwerk, Bau). Tertiär: Dienstleistung."}
+]

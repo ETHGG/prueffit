@@ -6,5 +6,11 @@
   {"id": "fc-0030", "topic": "programmierung.grundlagen", "front": "Kopf- vs. fußgesteuerte Schleife", "back": "Kopfgesteuert (while): Bedingung wird vor dem Durchlauf geprüft, eventuell 0 Durchläufe. Fußgesteuert (do-while): mindestens 1 Durchlauf."},
   {"id": "fc-0051", "topic": "programmierung.algorithmen", "front": "Binäre Suche", "back": "Nur in sortierten Daten: mittleres Element prüfen und den Suchbereich halbieren. Laufzeit O(log n), bei 1.000 Elementen höchstens 10 Vergleiche."},
   {"id": "fc-0052", "topic": "programmierung.testen", "front": "Black-Box- vs. White-Box-Test", "back": "Black-Box: Testfälle aus der Spezifikation, Code unbekannt. White-Box: Testfälle aus der Codestruktur (z. B. jede Verzweigung)."},
-  {"id": "fc-0053", "topic": "programmierung.testen", "front": "Teststufen", "back": "Unit-Test → Integrationstest → Systemtest → Abnahmetest."}
+  {"id": "fc-0053", "topic": "programmierung.testen", "front": "Teststufen", "back": "Unit-Test → Integrationstest → Systemtest → Abnahmetest."},
+  {"id": "fc-0087", "topic": "programmierung.datenformate", "front": "Speicherbedarf berechnen", "back": "Anzahl × Byte pro Element; dann /1024 für KiB, /1024² für MiB, /1024³ für GiB. Komprimierung um 30 % → × 0,7."},
+  {"id": "fc-0088", "topic": "programmierung.datenformate", "front": "CSV, XML, JSON", "back": "CSV: einfache Tabelle mit Trennzeichen. XML: Tags, verschachtelt, Schema-Prüfung. JSON: Schlüssel-Wert-Paare und Arrays, kompakter als XML."},
+  {"id": "fc-0089", "topic": "programmierung.grundlagen", "front": "Wertebereiche Ganzzahlen", "back": "byte (8 Bit): −128 … 127 · short (16 Bit): −32.768 … 32.767 · int (32 Bit): −2.147.483.648 … 2.147.483.647."},
+  {"id": "fc-0090", "topic": "programmierung.testen", "front": "Syntax-, Laufzeit-, Semantikfehler", "back": "Syntax: Regeln der Sprache verletzt (Compiler meldet). Laufzeit: Absturz bei Ausführung (Index, Division durch 0). Semantik: läuft, aber falsches Ergebnis."},
+  {"id": "fc-0091", "topic": "programmierung.modellierung", "front": "«include» vs. «extend»", "back": "include: wird immer mit ausgeführt. extend: optionale Erweiterung unter Bedingung (Pfeil zeigt zum Basisfall)."},
+  {"id": "fc-0092", "topic": "programmierung.algorithmen", "front": "Schreibtischtest", "back": "Algorithmus Zeile für Zeile von Hand ausführen und alle Variablenwerte in einer Tabelle mitschreiben – findet Logikfehler ohne Rechner."}
 ]

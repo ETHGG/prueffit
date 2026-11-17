@@ -21,6 +21,7 @@ export const AREAS = [
   { id: 'projekt', name: 'Projektmanagement' },
   { id: 'programmierung', name: 'Programmierung' },
   { id: 'recht', name: 'Recht' },
+  { id: 'wiso', name: 'WiSo' },
 ];
 export const EXAMS = ['AP1', 'AP2'];
 // Apprenticeships covered (CLAUDE.md 1). AP1 is identical for all, AP2 differs.
