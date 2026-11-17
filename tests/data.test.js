@@ -227,7 +227,7 @@ describe('data/notes (Lernzettel)', () => {
 const NOT_ABBREVIATIONS = new Set([
   'ALTER', 'AND', 'AS', 'ASC', 'AVG', 'BETWEEN', 'BY', 'COUNT', 'CREATE', 'DELETE', 'FROM', 'GRANT', 'GROUP', 'HAVING',
   'IN', 'INSERT', 'INTO', 'IS', 'JOIN', 'LIKE', 'MAX', 'MIN', 'NULL', 'ON', 'ORDER', 'REVOKE', 'SELECT', 'SET', 'SUM',
-  'TABLE', 'UPDATE', 'VALUES', 'WHERE',
+  'TABLE', 'UPDATE', 'VALUES', 'WHERE', 'COMMIT', 'ROLLBACK',
   'BIS', 'DANN', 'FÜR', 'NICHT', 'ODER', 'SOLANGE', 'SONST', 'UND', 'VON', 'WENN', 'WAS', 'WER', 'WIE', 'WOMIT',
   'B7', 'B16', 'E3', 'II', 'III', 'PLUS', 'YTP',
   'DisplayPort', 'OpenVPN', 'PowerShell', 'ADUser', 'ForEach', 'ChildItem', 'LastWriteTime', 'AddDays', 'WhatIf', 'TrueHD', 'VirtualBox', 'VMware', 'WireGuard',

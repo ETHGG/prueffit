@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.3] – 2026-11-18
+
+### Hinzugefügt
+- Lernzettel ergänzt um die Inhalte der neuen offenen Aufgaben: Berechtigungen nach AGDLP (Verzeichnisdienste), Transaktionen und ACID (Datenbanken), Zahlungsverzug mit Verzugszinsen und 40-€-Pauschale (Vertragsrecht), Reaktions- und Lösungszeit im SLA (IT-Service). PDFs neu erzeugt.
+- 4 Karteikarten dazu, Abkürzungen AGDLP und ACID (jetzt 210 Karten, 280 Abkürzungen, 77 Lernzettel).
+
 ## [2.2.2] – 2026-11-18
 
 ### Hinzugefügt

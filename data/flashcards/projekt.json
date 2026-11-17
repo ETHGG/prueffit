@@ -20,5 +20,6 @@
   {"id": "fc-0140", "exam": ["AP1"], "topic": "projekt.kommunikation", "front": "Ergebnis- vs. Verlaufsprotokoll", "back": "Ergebnisprotokoll: nur Beschlüsse und Aufgaben (wer, was, bis wann). Verlaufsprotokoll: zusätzlich der Ablauf der Diskussion."},
   {"id": "fc-0141", "exam": ["AP1"], "topic": "projekt.abnahme", "front": "Folgen der Abnahme (§ 640 BGB)", "back": "Vergütung fällig, Gefahrübergang, Beginn der Verjährung der Mängelansprüche, Beweislast für Mängel beim Auftraggeber."},
   {"id": "fc-0142", "exam": ["AP1"], "topic": "projekt.abnahme", "front": "Parallelbetrieb", "back": "Altes und neues System laufen gleichzeitig. ➕ sicherer Rückfall ➖ doppelter Aufwand."},
-  {"id": "fc-0143", "exam": ["AP1"], "topic": "projekt.abnahme", "front": "Inhalt eines Abnahmeprotokolls", "back": "Datum, Beteiligte, Gegenstand, geprüfte Punkte, Mängel mit Frist, Vorbehalt oder Abnahme, Unterschriften."}
+  {"id": "fc-0143", "exam": ["AP1"], "topic": "projekt.abnahme", "front": "Inhalt eines Abnahmeprotokolls", "back": "Datum, Beteiligte, Gegenstand, geprüfte Punkte, Mängel mit Frist, Vorbehalt oder Abnahme, Unterschriften."},
+  {"id": "fc-0210", "exam": ["AP2"], "jobs": ["kits", "fisi", "kdm", "fiae", "fidpa", "fidv", "itse"], "topic": "projekt.service", "front": "Reaktionszeit vs. Lösungszeit (SLA)", "back": "Reaktionszeit: bis die Bearbeitung beginnt. Lösungszeit: bis die Störung behoben ist (oder ein Workaround läuft). Beide je Priorität und innerhalb der Servicezeiten."}
 ]

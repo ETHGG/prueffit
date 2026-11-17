@@ -18,6 +18,12 @@
     "area": "Hardware"
   },
   {
+    "abbr": "ACID",
+    "full": "Atomicity, Consistency, Isolation, Durability",
+    "explanation": "Eigenschaften von Datenbank-Transaktionen: ganz oder gar nicht, konsistent, isoliert, dauerhaft",
+    "area": "Programmierung"
+  },
+  {
     "abbr": "AD",
     "full": "Active Directory",
     "explanation": "Verzeichnisdienst von Microsoft für Benutzer, Gruppen, Computer und Richtlinien einer Domäne",
@@ -46,6 +52,12 @@
     "full": "Allgemeine Geschäftsbedingungen",
     "explanation": "Vorformulierte Vertragsbedingungen",
     "area": "Recht"
+  },
+  {
+    "abbr": "AGDLP",
+    "full": "Accounts, Global groups, Domain Local groups, Permissions",
+    "explanation": "Prinzip der Rechtevergabe im Active Directory: Benutzer in globale Gruppen, diese in domänenlokale Gruppen, nur diese erhalten Berechtigungen",
+    "area": "Netzwerke"
   },
   {
     "abbr": "AGG",
