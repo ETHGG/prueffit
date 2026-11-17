@@ -63,6 +63,15 @@ const ANSWER_VALIDATORS = {
     const a = q.answer;
     if (!isPlainObject(a) || !Array.isArray(a.keywords) || !a.keywords.every(isNonEmptyString) || !isNonEmptyString(a.sample)) {
       errors.push('answer: erwartet { keywords: [Text], sample: Text }');
+      return;
+    }
+    if (a.rubric !== undefined) {
+      const ok = Array.isArray(a.rubric) && a.rubric.length >= 1
+        && a.rubric.every((r) => isPlainObject(r) && isNonEmptyString(r.criterion) && Number.isFinite(r.points) && r.points > 0);
+      if (!ok) errors.push('answer.rubric: erwartet [{ criterion: Text, points: Zahl > 0 }]');
+      else if (Math.abs(a.rubric.reduce((s, r) => s + r.points, 0) - q.points) > 1e-9) {
+        errors.push('answer.rubric: Punkte der Kriterien müssen zusammen points ergeben');
+      }
     }
   },
   match(q, errors) {

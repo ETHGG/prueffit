@@ -187,7 +187,7 @@ prueffit/
 | `single` | Index (Zahl) | richtig/falsch |
 | `multi` | Array von Indizes | Teilpunkte: richtige minus falsche, min. 0 |
 | `number` | `{ "value": 62, "tolerance": 0, "unit": "Hosts" }` | innerhalb Toleranz = richtig |
-| `text` | `{ "keywords": ["..."], "sample": "Musterlösung" }` | Selbstbewertung: 0 / halb / voll |
+| `text` | `{ "keywords": ["..."], "sample": "Musterlösung", "rubric": [{ "criterion": "…", "points": 2 }] }` | mit `rubric` (seit 2.1, Summe = `points`): Kriterien abhaken wie im IHK-Bewertungsraster; ohne: Selbstbewertung 0 / halb / voll |
 | `match` | Objekt `{ "linkesElement": "rechtesElement" }` | Teilpunkte pro richtiger Zuordnung |
 | `order` | Array in richtiger Reihenfolge | richtig/falsch |
 

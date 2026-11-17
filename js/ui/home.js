@@ -3,7 +3,7 @@
 import { overallStats, currentStreak, dailyProgress } from '../stats.js';
 import { todayInBerlin, dueCards } from '../leitner.js';
 import { h, formatPercent, formatNumber, trafficDot, append } from './dom.js';
-import { suggestionsCard, mistakesButton } from './suggestions.js';
+import { suggestionsCard, mistakesButton, dailyPlanCard } from './suggestions.js';
 import { backupCard } from './backup.js';
 import { needsWelcome, welcomeCard, countdownCard } from './welcome.js';
 
@@ -40,6 +40,7 @@ export function render(root, ctx) {
       : h('p', { class: 'muted' }, 'Bereit für die nächste Lerneinheit? PrüfFit hilft dir bei der Vorbereitung auf AP1 und AP2.'),
     welcome ? null : countdownCard(ctx, { rerender }),
     welcome ? null : backupCard(ctx, { rerender }),
+    welcome ? null : dailyPlanCard(ctx),
     h('section', { class: 'card today', 'aria-labelledby': 'home-today' },
       h('h2', { id: 'home-today', text: 'Heute' }),
       h('div', { class: 'goal-row' },

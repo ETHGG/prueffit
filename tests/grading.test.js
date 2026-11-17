@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { gradeAnswer, parseNumberInput, keywordHits, GRADABLE_TYPES } from '../js/grading.js';
+import { gradeAnswer, parseNumberInput, keywordHits, GRADABLE_TYPES, rubricPoints } from '../js/grading.js';
 
 const single = { id: 's', type: 'single', options: ['a', 'b', 'c', 'd'], answer: 1, points: 2 };
 const multi = { id: 'm', type: 'multi', options: ['a', 'b', 'c', 'd', 'e'], answer: [0, 2, 3], points: 3 };
@@ -216,5 +216,34 @@ describe('unsupported or broken questions', () => {
   });
   it('does not throw for a missing question', () => {
     expect(gradeAnswer(null, 1)).toEqual({ valid: false, correct: false, points: 0, maxPoints: 0 });
+  });
+});
+
+describe('text with rubric (Bewertungsraster, 2.1)', () => {
+  const q = {
+    type: 'text', points: 6,
+    answer: {
+      keywords: ['DNS', 'Uhrzeit'], sample: 'DNS auf DC, Uhrzeit, Konto',
+      rubric: [{ criterion: 'DNS-Server = DC', points: 2 }, { criterion: 'Uhrzeit abgleichen', points: 2 }, { criterion: 'berechtigtes Konto', points: 2 }],
+    },
+  };
+  it('adds the points of the ticked criteria', () => {
+    expect(gradeAnswer(q, { text: 'x', criteria: [0, 2] })).toEqual({ valid: true, correct: false, points: 4, maxPoints: 6 });
+    expect(gradeAnswer(q, { text: 'x', criteria: [] })).toMatchObject({ valid: true, points: 0, correct: false });
+  });
+  it('all criteria met = correct with full points', () => {
+    expect(gradeAnswer(q, { text: 'x', criteria: [0, 1, 2] })).toEqual({ valid: true, correct: true, points: 6, maxPoints: 6 });
+  });
+  it('rejects unknown or duplicate criteria', () => {
+    expect(gradeAnswer(q, { criteria: [3] }).valid).toBe(false);
+    expect(gradeAnswer(q, { criteria: [1, 1] }).valid).toBe(false);
+    expect(gradeAnswer(q, { criteria: [0.5] }).valid).toBe(false);
+  });
+  it('still accepts the 0 / half / full self-rating', () => {
+    expect(gradeAnswer(q, { text: 'x', self: 0.5 })).toMatchObject({ valid: true, points: 3 });
+  });
+  it('rubricPoints sums ticked points', () => {
+    expect(rubricPoints(q, [1, 2])).toBe(4);
+    expect(rubricPoints({ answer: {} }, [0])).toBe(0);
   });
 });

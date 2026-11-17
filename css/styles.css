@@ -651,3 +651,9 @@ body.setup-mode .tabbar { display: none; }
 .exam-group + .exam-group { margin-top: 1rem; }
 .exam-group-title { display: flex; align-items: center; gap: 0.4rem; font-size: 0.95rem; margin: 0.75rem 0 0.4rem; }
 .badge { display: inline-block; padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; background: color-mix(in srgb, var(--primary) 15%, transparent); color: var(--primary); }
+.rubric { margin-top: .75rem; }
+.rubric .count-badge { white-space: nowrap; }
+.rubric-sum { font-weight: 700; margin: .5rem 0; }
+.plan-list { margin: .25rem 0 .5rem; padding-left: 1.25rem; }
+.plan-list li { margin: .35rem 0; }
+.plan-list a { display: inline-block; min-height: 44px; line-height: 1.4; padding: .55rem 0; }

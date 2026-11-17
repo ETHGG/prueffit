@@ -132,3 +132,23 @@ test('start page search opens the Lernzettel hits', async ({ page }) => {
   await expect(page).toHaveURL(/#\/lernzettel\?q=vlan$/);
   await expect(page.locator('#notes-count')).toHaveText(/Treffer für „vlan“/);
 });
+
+test('start page: "Dein Plan für heute" fills the daily goal with concrete steps (2.1)', async ({ page }) => {
+  const problems = watchProblems(page);
+  await gotoApp(page);
+  await page.evaluate(() => {
+    const s = JSON.parse(localStorage.getItem('prueffit.v1'));
+    s.settings.onboarded = true; // the plan replaces nothing while the welcome question is open
+    localStorage.setItem('prueffit.v1', JSON.stringify(s));
+  });
+  await page.reload();
+  const plan = page.locator('.day-plan');
+  await expect(plan.getByRole('heading', { name: 'Dein Plan für heute' })).toBeVisible();
+  // Fresh user, goal 20: half of it due flashcards, the rest the first topic to practise.
+  await expect(plan.locator('li')).toHaveCount(2);
+  await expect(plan.locator('li').nth(0)).toHaveText('10 fällige Karteikarten wiederholen');
+  await expect(plan.locator('li').nth(1)).toContainText(/^10 Fragen zu „.+“ \(noch nicht geübt\)$/);
+  await plan.locator('li').nth(1).getByRole('link').click();
+  await expect(page.locator('.toast').first()).toContainText('ist ausgewählt');
+  expect(problems).toEqual([]);
+});

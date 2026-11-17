@@ -7,11 +7,34 @@ test('text question: sample solution, keywords and self-assessment', async ({ pa
   await page.fill('textarea', 'Ein Switch nutzt MAC-Adressen, der Router IP-Adressen und verbindet Netze.');
   await page.getByRole('button', { name: 'Musterlösung anzeigen' }).click();
   await expect(page.getByText(/Schlüsselbegriffe in deiner Antwort: 3 von 5/)).toBeVisible();
+  // Since 2.1: marking scheme (Bewertungsraster) with points per criterion.
+  const rubric = page.locator('.rubric');
+  await expect(rubric.locator('input[type="checkbox"]')).toHaveCount(2);
+  await expect(rubric).toContainText('0 von 4 Punkten');
+  await rubric.getByRole('checkbox', { name: /Switch: Schicht 2/ }).check();
+  await expect(rubric).toContainText('2 von 4 Punkten');
+  await expectNoHorizontalOverflow(page);
+  await page.getByRole('button', { name: 'Bewertung übernehmen' }).click();
+  await expect(page.locator('#feedback-title')).toHaveText('Bewertung: teilweise erfüllt');
+  await expect(page.locator('.feedback')).toContainText('2 von 4 Punkten');
+  await expect(rubric.locator('input[type="checkbox"]').first()).toBeDisabled();
+  expect(problems).toEqual([]);
+});
+
+test('text question without marking scheme: self-assessment 0 / half / full', async ({ page }) => {
+  // A custom (imported) text question without rubric keeps the three-step self-rating.
+  await page.goto('./#/start');
+  await page.evaluate(() => {
+    localStorage.setItem('prueffit.custom', JSON.stringify({ v: 1, flashcards: [], questions: [{
+      id: 'my-0001', exam: ['AP1'], topic: 'netzwerke.osi', difficulty: 1, type: 'text', question: 'Nenne die Schicht von IP.',
+      answer: { keywords: ['Vermittlung'], sample: 'Schicht 3, Vermittlungsschicht' }, points: 2, explanation: 'IP arbeitet auf Schicht 3.' }] }));
+  });
+  await openQuizWith(page, ['my-0001']);
+  await page.fill('textarea', 'Schicht 3');
+  await page.getByRole('button', { name: 'Musterlösung anzeigen' }).click();
   await page.getByRole('button', { name: /Teilweise/ }).click();
   await expect(page.locator('#feedback-title')).toHaveText('Selbstbewertung: teilweise');
-  await expect(page.locator('.feedback')).toContainText('2 von 4 Punkten');
-  await expectNoHorizontalOverflow(page);
-  expect(problems).toEqual([]);
+  await expect(page.locator('.feedback')).toContainText('1 von 2 Punkten');
 });
 
 test('match question: partial points per pair', async ({ page }) => {

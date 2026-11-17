@@ -93,6 +93,19 @@ describe('validateQuestion', () => {
   });
 });
 
+describe('validateQuestion: rubric for text questions (2.1)', () => {
+  const base = { id: 'r-1', exam: ['AP2'], topic: 't', difficulty: 2, type: 'text', question: 'Q?', points: 4, explanation: 'E',
+    answer: { keywords: ['a'], sample: 'S' } };
+  it('accepts a rubric whose points add up to the question points', () => {
+    expect(validateQuestion({ ...base, answer: { ...base.answer, rubric: [{ criterion: 'A', points: 1.5 }, { criterion: 'B', points: 2.5 }] } }, new Set(['t']))).toEqual([]);
+  });
+  it('rejects wrong sums and malformed criteria', () => {
+    expect(validateQuestion({ ...base, answer: { ...base.answer, rubric: [{ criterion: 'A', points: 3 }] } }).join()).toMatch(/zusammen points/);
+    expect(validateQuestion({ ...base, answer: { ...base.answer, rubric: [{ criterion: '', points: 4 }] } }).join()).toMatch(/rubric/);
+    expect(validateQuestion({ ...base, answer: { ...base.answer, rubric: [] } }).join()).toMatch(/rubric/);
+  });
+});
+
 describe('validateQuestionSet', () => {
   it('finds duplicate ids', () => {
     const errors = validateQuestionSet([base, { ...base }], topicIds);

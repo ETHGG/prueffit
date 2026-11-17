@@ -45,7 +45,10 @@ export function isValidUi(q, ui) {
     const rights = new Set(Object.values(q.answer));
     return Array.isArray(ui.rights) && ui.rights.length === rights.size && ui.rights.every((r) => rights.has(r));
   }
-  if (q.type === 'text') return typeof ui.draft === 'string' && typeof ui.revealed === 'boolean';
+  if (q.type === 'text') {
+    return typeof ui.draft === 'string' && typeof ui.revealed === 'boolean'
+      && (ui.criteria === undefined || (Array.isArray(ui.criteria) && ui.criteria.every(Number.isInteger)));
+  }
   return true;
 }
 

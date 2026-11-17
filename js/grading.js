@@ -67,11 +67,30 @@ function gradeNumber(q, response, max) {
 
 const SELF_SCORES = [0, 0.5, 1];
 
-/** text: the learner compares with the sample solution and rates 0 / half / full. */
+/**
+ * text: the learner compares with the sample solution. Without a rubric they rate 0 / half / full
+ * (`response.self`). With a rubric (`answer.rubric = [{ criterion, points }]`, like the IHK
+ * marking scheme) they tick the criteria they met (`response.criteria` = indices).
+ */
 function gradeText(q, response, max) {
+  const rubric = Array.isArray(q.answer?.rubric) ? q.answer.rubric : null;
+  if (rubric && Array.isArray(response?.criteria)) {
+    const met = response.criteria;
+    if (!met.every((i) => Number.isInteger(i) && i >= 0 && i < rubric.length) || new Set(met).size !== met.length) {
+      return result(false, false, 0, max);
+    }
+    const points = Math.min(max, met.reduce((sum, i) => sum + rubric[i].points, 0));
+    return result(true, met.length === rubric.length, round2(points), max);
+  }
   const self = response?.self;
   if (!SELF_SCORES.includes(self)) return result(false, false, 0, max);
   return result(true, self === 1, round2(max * self), max);
+}
+
+/** Points of the ticked rubric criteria (0 without rubric). */
+export function rubricPoints(q, criteria) {
+  const rubric = Array.isArray(q.answer?.rubric) ? q.answer.rubric : [];
+  return round2((criteria ?? []).reduce((sum, i) => sum + (rubric[i]?.points ?? 0), 0));
 }
 
 const isPlainObject = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);

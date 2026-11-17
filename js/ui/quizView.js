@@ -10,7 +10,7 @@ import {
 } from '../quiz.js';
 import { recordAnswer } from '../storage.js';
 import { mistakeIds } from '../stats.js';
-import { keywordHits } from '../grading.js';
+import { keywordHits, rubricPoints } from '../grading.js';
 import {
   createUi, isValidUi, readResponse, isIncomplete, missingInputMessage, correctAnswerText, renderInput,
 } from './questionInputs.js';
@@ -370,7 +370,34 @@ function textInput(q, answered, result, submitSelf, onChange) {
           h('span', { 'aria-hidden': 'true', text: hits.includes(k) ? '✓ ' : '○ ' }),
           k,
           h('span', { class: 'visually-hidden', text: hits.includes(k) ? ' (gefunden)' : ' (fehlt)' }))))));
-    if (!answered) {
+    const rubric = Array.isArray(q.answer.rubric) ? q.answer.rubric : null;
+    if (rubric) {
+      // Marking scheme like in the IHK solution notes: tick what your answer contains.
+      ui.criteria ??= [];
+      const total = rubric.reduce((sum, r) => sum + r.points, 0);
+      const done = answered ? (result.response.criteria ?? []) : ui.criteria;
+      const sumEl = h('p', { class: 'rubric-sum', 'aria-live': 'polite' });
+      const updateSum = () => { sumEl.textContent = `${formatNumber(rubricPoints(q, done))} von ${formatNumber(total)} Punkten`; };
+      updateSum();
+      parts.push(h('fieldset', { class: 'rubric' },
+        h('legend', { text: answered ? 'Bewertung' : 'Was enthält deine Antwort? (Bewertungsraster)' }),
+        h('div', { class: 'check-list' },
+          rubric.map((r, i) => h('label', { class: 'check' },
+            h('input', {
+              type: 'checkbox', checked: done.includes(i), disabled: answered,
+              onChange: (e) => {
+                if (e.target.checked) ui.criteria = [...new Set([...ui.criteria, i])].sort((a, b) => a - b);
+                else ui.criteria = ui.criteria.filter((x) => x !== i);
+                done.length = 0; done.push(...ui.criteria);
+                updateSum();
+                onChange();
+              },
+            }),
+            h('span', { class: 'grow', text: r.criterion }),
+            h('span', { class: 'count-badge', text: `${formatNumber(r.points)} P.` })))),
+        sumEl,
+        answered ? null : h('button', { type: 'button', class: 'button', onClick: () => submitSelf({ criteria: [...ui.criteria] }) }, 'Bewertung übernehmen')));
+    } else if (!answered) {
       parts.push(h('fieldset', { class: 'self-rating' },
         h('legend', { text: 'Wie gut war deine Antwort?' }),
         h('div', { class: 'button-row' },
@@ -418,13 +445,15 @@ function drawQuestion(root, ctx, draw, topicById) {
   };
 
   const input = q.type === 'text'
-    ? textInput(q, answered, result, (self) => commit({ text: uiFor(q).draft, self }), () => persistSession(ctx.sessionStore))
+    ? textInput(q, answered, result, (rating) => commit(typeof rating === 'object' ? { text: uiFor(q).draft, ...rating } : { text: uiFor(q).draft, self: rating }), () => persistSession(ctx.sessionStore))
     : renderInput(q, { response: result?.response, locked: answered, reveal: answered, ui: uiFor(q), redraw: draw });
 
   let feedback = null;
   if (answered) {
     const kind = result.correct ? 'ok' : result.points > 0 ? 'partial' : 'bad';
-    const title = q.type === 'text'
+    const title = q.type === 'text' && Array.isArray(result.response?.criteria)
+      ? { ok: 'Bewertung: alle Kriterien erfüllt', partial: 'Bewertung: teilweise erfüllt', bad: 'Bewertung: kein Kriterium erfüllt' }[kind]
+      : q.type === 'text'
       ? { ok: 'Selbstbewertung: vollständig', partial: 'Selbstbewertung: teilweise', bad: 'Selbstbewertung: nicht gewusst' }[kind]
       : { ok: 'Richtig!', partial: 'Teilweise richtig', bad: 'Leider falsch' }[kind];
     feedback = h('section', { class: `feedback ${kind}`, 'aria-labelledby': 'feedback-title' },

@@ -1,8 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   hitRate, trafficLight, topicStats, overallStats, practiceSuggestions, areaStats,
-  updateStreak, currentStreak, dailyProgress, pruneDaily, isMistake, mistakeIds,
-} from '../js/stats.js';
+  updateStreak, currentStreak, dailyProgress, pruneDaily, isMistake, mistakeIds, dailyPlan } from '../js/stats.js';
 
 describe('hitRate', () => {
   it('is correct / attempts', () => {
@@ -220,5 +219,28 @@ describe('isMistake / mistakeIds', () => {
       x: { attempts: 1, correct: 0, lastCorrect: false },
     };
     expect(mistakeIds(questions, answers)).toEqual(['c', 'a']);
+  });
+});
+
+describe('dailyPlan (2.1)', () => {
+  const focus = { id: 'netzwerke.subnetting', name: 'Subnetting', reason: 'weak' };
+  it('starts with due cards (at most half the goal), then mistakes, the focus topic and new questions', () => {
+    const plan = dailyPlan({ goal: 20, done: 0, dueCards: 30, mistakes: 3, focus, openQuestions: 100 });
+    expect(plan).toEqual([
+      { kind: 'cards', count: 10 },
+      { kind: 'mistakes', count: 3 },
+      { kind: 'topic', count: 7, topic: focus },
+    ]);
+  });
+  it('only fills what is left of the daily goal', () => {
+    expect(dailyPlan({ goal: 20, done: 15, dueCards: 2, mistakes: 0, focus, openQuestions: 50 }))
+      .toEqual([{ kind: 'cards', count: 2 }, { kind: 'topic', count: 3, topic: focus }]);
+  });
+  it('is done when the goal is reached or nothing is left', () => {
+    expect(dailyPlan({ goal: 20, done: 25 })).toEqual([{ kind: 'done', count: 0 }]);
+    expect(dailyPlan({ goal: 20, done: 0 })).toEqual([{ kind: 'done', count: 0 }]);
+  });
+  it('uses new questions when there is no focus topic', () => {
+    expect(dailyPlan({ goal: 10, openQuestions: 4 })).toEqual([{ kind: 'new', count: 4 }]);
   });
 });

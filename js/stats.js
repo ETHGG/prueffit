@@ -148,3 +148,24 @@ export function mistakeIds(questions, answers) {
     .sort((a, b) => String(answers[b.id].lastAt ?? '').localeCompare(String(answers[a.id].lastAt ?? '')))
     .map((q) => q.id);
 }
+
+/**
+ * Concrete plan for today (2.1): up to four steps that together roughly fill the daily goal.
+ * Order: due flashcards, mistakes, the weakest (or a new) topic, then open new questions.
+ * @param {{ goal: number, done: number, dueCards: number, mistakes: number, focus: { id, name, reason }|null, openQuestions: number }} input
+ * @returns {{ kind: 'cards'|'mistakes'|'topic'|'new'|'done', count: number, topic?: object }[]}
+ */
+export function dailyPlan({ goal, done = 0, dueCards = 0, mistakes = 0, focus = null, openQuestions = 0 }) {
+  let left = Math.max(0, goal - done);
+  if (left === 0) return [{ kind: 'done', count: 0 }];
+  const steps = [];
+  const take = (kind, wanted, extra = {}) => {
+    const count = Math.min(wanted, left);
+    if (count > 0) { steps.push({ kind, count, ...extra }); left -= count; }
+  };
+  take('cards', Math.min(dueCards, Math.ceil(goal / 2)));
+  take('mistakes', Math.min(mistakes, 5));
+  if (focus) take('topic', 10, { topic: focus });
+  take('new', openQuestions);
+  return steps.length ? steps : [{ kind: 'done', count: 0 }];
+}

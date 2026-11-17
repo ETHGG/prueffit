@@ -33,7 +33,13 @@ export async function answerCurrent(page) {
   if (await page.locator('textarea').count()) {
     await page.fill('textarea', 'Testantwort');
     await page.getByRole('button', { name: 'Musterlösung anzeigen' }).click();
-    await page.getByRole('button', { name: /Teilweise/ }).click();
+    // Since 2.1 text questions may come with a marking scheme instead of the 0/half/full rating.
+    if (await page.locator('.rubric').count()) {
+      await page.locator('.rubric input[type="checkbox"]').first().check();
+      await page.getByRole('button', { name: 'Bewertung übernehmen' }).click();
+    } else {
+      await page.getByRole('button', { name: /Teilweise/ }).click();
+    }
   } else {
     if (await page.locator('#answer-input').count()) await page.fill('#answer-input', '1');
     else if (await page.locator('select[data-left]').count()) {

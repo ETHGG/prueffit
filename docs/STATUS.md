@@ -4,14 +4,14 @@
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
-**2.1, Phase D:** Bewertungsraster für offene Aufgaben (Typ text mit `rubric`), Tagesplan auf der Startseite. Danach Phase E (Gegenprüfung, PDFs, Version 2.1.0, Releases). Ab dann bis 18.11.2026 11:30 Uhr: App wiederholt prüfen und verbessern.
+**2.1, Phase E:** Gegenprüfung der neuen Inhalte (Rechnungen, Fakten), Prüfungstermine prüfen, PDFs, Version 2.1.0 (package.json nur obere zwei `version`, js/config.js, sw.js), CHANGELOG, README, ABSCHLUSSBERICHT, GitHub-Releases im Browser. Danach (Gegenprüfung, PDFs, Version 2.1.0, Releases). Ab dann bis 18.11.2026 11:30 Uhr: App wiederholt prüfen und verbessern.
 
 | Phase 2.1 | Status |
 |---|---|
 | A Quellen und Abgleich (`docs/ABGLEICH.md`) | erledigt |
 | B KITS und FISI ausbauen | erledigt |
 | C FIDPA, FIDV, ITSE, KDM ausbauen (36 Fragen, 9 Karten) | erledigt |
-| D Bewertungsraster, Tagesplan | offen |
+| D Bewertungsraster (20 Freitextaufgaben), „Dein Plan für heute“ | erledigt |
 | E Gegenprüfung, PDFs, Version 2.1.0, Releases | offen |
 
 ## Erledigt
