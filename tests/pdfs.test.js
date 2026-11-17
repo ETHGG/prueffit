@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { pdfFileName, pdfList, notesForPdf, formatFileSize, PDF_ALL, PDF_GLOSSARY } from '../js/pdfs.js';
+import {
+  pdfFileName, pdfList, notesForPdf, formatFileSize, pdfSections, glossaryForPdf, pdfKeyForTopic, pdfJob, pdfTitle,
+  ap2PdfKey, glossaryPdfKey, PDF_ALL, PDF_AP1, PDF_GLOSSARY,
+} from '../js/pdfs.js';
+import { JOB_IDS, AP1_SECTIONS, AP2_PARTS } from '../js/curriculum.js';
 
 describe('pdfFileName / pdfList', () => {
   it('maps areas, all notes and the glossary to file names', () => {
@@ -8,12 +12,66 @@ describe('pdfFileName / pdfList', () => {
     expect(pdfFileName(PDF_GLOSSARY)).toBe('abkuerzungen.pdf');
     expect(pdfFileName('Mathe')).toBeNull();
   });
-  it('lists all notes first, then 11 areas (3 new in 2.0), then the glossary', () => {
+  it('maps the 2.0 keys per job to file names', () => {
+    expect(pdfFileName(PDF_AP1)).toBe('lernzettel-ap1.pdf');
+    expect(pdfFileName(ap2PdfKey('fidv'))).toBe('lernzettel-ap2-fidv.pdf');
+    expect(pdfFileName(glossaryPdfKey('kdm'))).toBe('abkuerzungen-kdm.pdf');
+    expect(pdfFileName('ap2-itsm')).toBeNull();
+    expect(pdfFileName('abkuerzungen-alle')).toBeNull();
+    expect(pdfJob('ap2-itse')).toBe('itse');
+    expect(pdfJob(PDF_AP1)).toBeNull();
+    expect(pdfTitle(ap2PdfKey('fisi'))).toBe('AP2 FISI – Fachinformatiker/-in Systemintegration');
+  });
+  it('lists the AP1 PDF, then AP2 and abbreviations of every job (15 files)', () => {
     const list = pdfList();
-    expect(list).toHaveLength(13);
-    expect(list[0].key).toBe(PDF_ALL);
-    expect(list.at(-1).file).toBe('abkuerzungen.pdf');
-    expect(new Set(list.map((p) => p.file)).size).toBe(13);
+    expect(list).toHaveLength(1 + 2 * JOB_IDS.length);
+    expect(list[0].key).toBe(PDF_AP1);
+    expect(list.slice(1, 8).map((p) => p.file)).toEqual(JOB_IDS.map((j) => `lernzettel-ap2-${j}.pdf`));
+    expect(list.slice(8).map((p) => p.file)).toEqual(JOB_IDS.map((j) => `abkuerzungen-${j}.pdf`));
+    expect(new Set(list.map((p) => p.file)).size).toBe(15);
+  });
+  it('offers a job only its own three PDFs', () => {
+    for (const job of JOB_IDS) {
+      expect(pdfList(job).map((p) => p.file)).toEqual(['lernzettel-ap1.pdf', `lernzettel-ap2-${job}.pdf`, `abkuerzungen-${job}.pdf`]);
+    }
+  });
+});
+
+describe('pdfSections (2.0)', () => {
+  const catalog = {
+    topics: [
+      { id: 'netzwerke.subnetting', area: 'Netzwerke', name: 'Subnetting', exams: ['AP1', 'AP2'] },
+      { id: 'hardware.raid', area: 'Hardware', name: 'RAID', exams: ['AP2'] },
+      { id: 'elektro.schutz', area: 'Elektrotechnik', name: 'Schutz', exams: ['AP2'] },
+    ],
+    notes: [
+      { id: 'n-sub', topic: 'netzwerke.subnetting', title: 'Subnetting', content: '' },
+      { id: 'n-raid', topic: 'hardware.raid', title: 'RAID', content: '' },
+      { id: 'n-el', topic: 'elektro.schutz', title: 'Schutz', content: 'RCD' },
+    ],
+    glossary: [{ abbr: 'RCD', full: 'Residual Current Device', area: 'Elektrotechnik' }, { abbr: 'VLAN', full: 'Virtual LAN', area: 'Netzwerke' }],
+  };
+  it('AP1: groups by the AP1 catalog areas, only AP1 topics', () => {
+    const sections = pdfSections(catalog, PDF_AP1);
+    expect(sections.map((s) => s.title)).toEqual([AP1_SECTIONS.find((s) => s.topics.includes('netzwerke.subnetting')).title]);
+    expect(notesForPdf(catalog, PDF_AP1).map((n) => n.id)).toEqual(['n-sub']);
+  });
+  it('AP2: groups by the exam parts of the job, nothing of other jobs', () => {
+    expect(notesForPdf(catalog, ap2PdfKey('itse')).map((n) => n.id)).toContain('n-el');
+    const elPart = pdfSections(catalog, ap2PdfKey('itse')).find((s) => s.notes.some((n) => n.id === 'n-el'));
+    expect(elPart.title).toBe(AP2_PARTS.itse[1].title);
+    expect(notesForPdf(catalog, ap2PdfKey('fiae')).map((n) => n.id)).toEqual([]);
+    expect(notesForPdf(catalog, ap2PdfKey('fisi')).map((n) => n.id).sort()).toEqual(['n-raid', 'n-sub']);
+  });
+  it('glossary of a job: only abbreviations of its notes', () => {
+    expect(glossaryForPdf(catalog, glossaryPdfKey('itse')).map((e) => e.abbr)).toEqual(['RCD']);
+    expect(glossaryForPdf(catalog, glossaryPdfKey('fiae'))).toEqual([]);
+    expect(glossaryForPdf(catalog, PDF_GLOSSARY)).toHaveLength(2);
+  });
+  it('a note links to the AP2 PDF of the job if its topic is part of the AP2, else to the AP1 PDF', () => {
+    expect(pdfKeyForTopic({ exams: ['AP1', 'AP2'] }, 'fisi')).toBe('ap2-fisi');
+    expect(pdfKeyForTopic({ exams: ['AP1'] }, 'fisi')).toBe(PDF_AP1);
+    expect(pdfKeyForTopic({ exams: ['AP2'] }, 'kdm')).toBe('ap2-kdm');
   });
 });
 

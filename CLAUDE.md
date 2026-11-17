@@ -6,7 +6,9 @@ Diese Datei ist die zentrale Arbeitsanweisung für Claude Code. Lies sie **vor j
 
 ## 1. Projektüberblick
 
-**PrüfFit** ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abschlussprüfungen **AP1 und AP2** der IT-Berufe (FiSi, FiAe, IT-Systemmanagement).
+**PrüfFit** ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abschlussprüfungen **AP1 und AP2** aller sieben IT-Berufe: FIAE, FISI, FIDPA, FIDV, ITSE, KITS, KDM (IDs `fiae`, `fisi`, `fidpa`, `fidv`, `itse`, `kits`, `kdm`; Namen und Prüfungsbereiche in `js/curriculum.js`).
+
+**Seit 2.0:** Der Beruf wird beim ersten Start einmal festgelegt (danach kein Wechsel). Die ganze App zeigt nur Inhalte dieses Berufs, gegliedert nach AP1 und den AP2-Prüfungsbereichen (`js/jobCatalog.js`).
 
 **Kernfunktionen:**
 1. **Quiz-Modus**: Fragen nach Thema/Prüfung/Schwierigkeit, sofortiges Feedback mit Erklärung
@@ -70,7 +72,7 @@ prueffit/
 ├── css/
 │   ├── styles.css
 │   └── print.css             # Layout der PDFs (A4)
-├── pdf/                      # Lernzettel als PDF + manifest.json (erzeugt, mit eingecheckt)
+├── pdf/                      # PDFs je Beruf: lernzettel-ap1, lernzettel-ap2-<beruf>, abkuerzungen-<beruf> + manifest.json
 ├── scripts/
 │   ├── build-pdfs.mjs        # npm run pdfs: PDFs aus print.html erzeugen (Playwright)
 │   └── pdf-hash.mjs          # Prüfsumme der PDF-Quellen
@@ -89,7 +91,10 @@ prueffit/
 │   │   ├── projekt.json
 │   │   ├── programmierung.json
 │   │   ├── recht.json
-│   │   └── wiso.json
+│   │   ├── wiso.json
+│   │   ├── daten.json        # seit 2.0 (FIDPA), ebenso in flashcards/ und notes/
+│   │   ├── vernetzung.json   # seit 2.0 (FIDV)
+│   │   └── elektro.json      # seit 2.0 (ITSE)
 │   ├── flashcards/
 │   │   └── *.json
 │   └── notes/                # Lernzettel, eine Datei pro Bereich
@@ -97,6 +102,8 @@ prueffit/
 ├── js/
 │   ├── app.js                # Einstieg, Routing (Hash-Router)
 │   ├── config.js             # Version, Konstanten
+│   ├── curriculum.js         # 7 Berufe, AP1-Katalog 2025, AP2-Prüfungsbereiche je Beruf
+│   ├── jobCatalog.js         # Katalog auf den Beruf beschränken, Gliederung AP1/AP2
 │   ├── storage.js            # localStorage-Zugriff + Migrationen
 │   ├── questions.js          # Laden, Filtern, Validieren
 │   ├── quiz.js               # Quiz-Ablauf
@@ -110,6 +117,8 @@ prueffit/
 │   ├── pdfs.js               # Liste und Dateinamen der Lernzettel-PDFs
 │   └── ui/
 │       ├── home.js
+│       ├── jobSetup.js       # einmalige Berufswahl (vor allen Ansichten)
+│       ├── welcome.js        # nächste Prüfung, Countdown
 │       ├── quizView.js
 │       ├── fold.js           # aufklappbare Bereiche (details)
 │       ├── backup.js         # Erinnerung an die Datensicherung
@@ -175,7 +184,8 @@ prueffit/
 | `order` | Array in richtiger Reihenfolge | richtig/falsch |
 
 **Pflichtfelder:** `id`, `exam`, `topic`, `difficulty` (1–3), `type`, `question`, `answer`, `points`, `explanation`.
-**Optional:** `source`, `jobs` (nur bei AP2-Fragen: Array aus `fisi`, `fiae`, `itsm`; ohne `jobs` gilt die Frage für alle Berufe).
+**Optional:** `source`, `jobs` (nur bei AP2-Inhalten: Array aus `fiae`, `fisi`, `fidpa`, `fidv`, `itse`, `kits`, `kdm`; jeder genannte Beruf muss das Thema in seiner AP2 haben).
+**Zuordnung (seit 2.0):** AP1 gilt für alle Berufe, aber nur für Themen des AP1-Katalogs 2025 (`AP1_SECTIONS`). AP2 ist berufsspezifisch (`AP2_PARTS`), WiSo gilt für alle. Inhalte, die seit 2025 nicht mehr in der AP1 sind (SQL, RAID, PAP, Struktogramm …), stehen nur noch in der AP2 passender Berufe. `data.test.js` prüft die Zuordnung.
 `id` muss **global eindeutig** sein, `topic` muss in `topics.json` existieren.
 
 ### 5.3 Karteikarte
@@ -204,16 +214,16 @@ Eine Situation eröffnet einen AP2-Prüfungsbereich: Erst kommen ihre Fragen in 
 ### 5.4 Fortschritt (localStorage, Key `prueffit.v1`)
 ```json
 {
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "answers": { "net-0001": { "attempts": 3, "correct": 2, "lastAt": "2026-11-17T10:00:00Z", "lastCorrect": false } },
   "cards": { "fc-0001": { "box": 3, "nextDue": "2026-11-20" } },
   "exams": [ { "date": "...", "exam": "AP1", "points": 78, "max": 100, "grade": 3 } ],
   "streak": { "current": 4, "lastDay": "2026-11-17" },
   "daily": { "2026-11-17": 12 },
-  "settings": { "theme": "auto", "dailyGoal": 20, "job": "alle", "onboarded": true, "examTarget": { "exam": "AP2", "day": "2027-04-28" }, "backup": { "lastAt": "2026-11-10", "snoozeUntil": null } }
+  "settings": { "theme": "auto", "dailyGoal": 20, "job": "fisi", "jobConfirmed": true, "onboarded": true, "examTarget": { "exam": "AP2", "day": "2027-04-28" }, "backup": { "lastAt": "2026-11-10", "snoozeUntil": null } }
 }
 ```
-Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`); 2 → 3 (v0.4.0) ergänzt `daily` (erledigte Aufgaben pro Tag, Europe/Berlin, die letzten 90 Tage); 3 → 4 (v0.6.0) ergänzt `settings.onboarded` (Willkommensfragen beantwortet) und `settings.examTarget` (nächste Prüfung und Termin oder `null`); 4 → 5 (v1.0.0) ergänzt `settings.backup` (letzte Sicherung, „Später“ bis). Antworten haben seit 1.0 zusätzlich `lastCorrect` (letzte Antwort richtig?) für „Meine Fehler“; ältere Einträge ohne dieses Feld gelten als Fehler, solange nicht alle Versuche richtig waren.
+Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`); 2 → 3 (v0.4.0) ergänzt `daily` (erledigte Aufgaben pro Tag, Europe/Berlin, die letzten 90 Tage); 3 → 4 (v0.6.0) ergänzt `settings.onboarded` (Willkommensfragen beantwortet) und `settings.examTarget` (nächste Prüfung und Termin oder `null`); 4 → 5 (v1.0.0) ergänzt `settings.backup` (letzte Sicherung, „Später“ bis); 5 → 6 (v2.0.0): `settings.job` ist eine Berufs-ID oder `null` (`itsm` → `kits`, `alle` → `null`), neu `settings.jobConfirmed` (nach der Migration `false`, damit jeder seinen Beruf einmal bestätigt). Ein bestätigter Beruf kann nicht mehr geändert werden (`updateSettings`, Import). Antworten haben seit 1.0 zusätzlich `lastCorrect` (letzte Antwort richtig?) für „Meine Fehler“; ältere Einträge ohne dieses Feld gelten als Fehler, solange nicht alle Versuche richtig waren.
 Karteikarten aus dem Abkürzungsverzeichnis haben die IDs `ab-<abkürzung>` und liegen ebenfalls unter `cards`.
 Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.custom` (importierte eigene Fragen/Karten), `sessionStorage` `prueffit.quizSession` (laufende Quiz-Runde).
 
@@ -266,7 +276,8 @@ Prozent wird **kaufmännisch auf ganze Zahlen gerundet**, bevor die Note bestimm
 ## 7. UI-Richtlinien
 
 - **Mobile first** (iPhone, ab 375 px Breite). Touch-Ziele mind. 44 × 44 px.
-- Navigation unten als Tab-Leiste: **Start · Quiz · Lernzettel · Karten · Statistik · Prüfung** (seit 0.7 sechs Einträge).
+- Navigation unten als Tab-Leiste: **Start · Quiz · Lernzettel · Karten · Statistik · Prüfung** (seit 0.7 sechs Einträge). Während der einmaligen Berufswahl ist sie ausgeblendet.
+- Gliederung (seit 2.0): erst AP1/AP2, dann Prüfungsbereich (`catalogSections`).
 - Dark Mode über `prefers-color-scheme` + manueller Schalter.
 - Safe-Area beachten (`env(safe-area-inset-bottom)`).
 - Barrierefreiheit: semantisches HTML, `aria-label` bei Icon-Buttons, ausreichender Kontrast.
@@ -300,7 +311,8 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `exam.test.js` | Notenschlüssel an allen Grenzen (29/30, 49/50, 66/67, 80/81, 91/92), Rundung, Zeitablauf |
 | `storage.test.js` | leerer Speicher, defektes JSON, Migration, Backup wird angelegt |
 | `questions.test.js` | Filtern nach Prüfung/Thema/Schwierigkeit, Zufallsauswahl ohne Duplikate |
-| `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type`, ein Lernzettel pro Thema |
+| `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type`, ein Lernzettel pro Thema, Zuordnung AP1/AP2 und Berufe, Handlungssituationen für alle 7 Berufe |
+| `curriculum.test.js` / `jobCatalog.test.js` | Berufe und Prüfungsbereiche, Zuordnung der Themen, keine Inhalte fremder Berufe |
 | `notes.test.js` | Markdown-Teilumfang, Suche (Umlaute, UND-Verknüpfung, Ranking), Hervorhebung |
 | `glossary.test.js` | Fundstellen (ganze Wörter, längste zuerst, Aliase), Suche, Gruppierung A–Z, Abkürzungs-Karteikarten |
 | `pdfs.test.js` | Dateinamen, Reihenfolge der Lernzettel, Dateigrößen-Anzeige (Aktualität der PDFs prüft `data.test.js`) |
@@ -324,6 +336,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **0.9** | Abkürzungsverzeichnis (242 Abkürzungen) mit Suche, A–Z-Sprungleiste und Abkürzungen je Lernzettel | erledigt |
 | **1.0** | „Meine Fehler“, Abkürzungen als Karteikarten und antippbar, AP2-Handlungssituationen, Fragen ausgebaut (473), unabhängige Fachprüfung, Erinnerung an die Datensicherung (Schema 5) | erledigt |
 | **1.1** | Lernzettel als PDF zum Herunterladen (je Bereich, komplett, Abkürzungsverzeichnis), Druckansicht | erledigt |
+| **2.0** | Alle 7 IT-Berufe, Beruf einmalig festlegen (Schema 6), nur eigene Inhalte nach AP1/AP2 und Prüfungsbereich, AP1-Katalog 2025, neue AP2-Bereiche (FIDPA, FIDV, ITSE, KDM), Handlungssituationen für alle Berufe, PDFs je Beruf, `docs/QUELLEN.md` | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

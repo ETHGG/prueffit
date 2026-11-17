@@ -110,25 +110,42 @@ test('Abkürzungsverzeichnis: list A–Z, search, exact hit in the note search, 
   expect(problems).toEqual([]);
 });
 
-test('Lernzettel as PDF: download links with size, print view renders', async ({ page }) => {
+test('Lernzettel as PDF: only the PDFs of the own job (AP1, AP2, abbreviations), print view renders', async ({ page }) => {
   const problems = watchProblems(page);
   await page.goto('./#/lernzettel');
   const card = page.locator('details.fold[data-fold="pdf"]');
   await card.locator('summary').click();
-  await expect(card.locator('.pdf-link')).toHaveCount(13); // 11 Bereiche + alle + Abkürzungen
-  await expect(card.locator('.pdf-link').first()).toContainText(/Alle Lernzettel\s*PDF · [\d,]+ (KB|MB)/);
+  await expect(card.locator('.pdf-link')).toHaveCount(3);
+  await expect(card.locator('.pdf-link').nth(0)).toContainText(/AP1 – alle Lernzettel\s*PDF · [\d,]+ (KB|MB)/);
+  await expect(card.locator('.pdf-link').nth(1)).toContainText('AP2 FISI');
+  await expect(card.locator('.pdf-link').nth(2)).toContainText('Abkürzungen FISI');
   const download = page.waitForEvent('download');
-  await card.locator('.pdf-link', { hasText: 'Netzwerke' }).click();
+  await card.locator('.pdf-link', { hasText: 'AP2 FISI' }).click();
   const file = await download;
-  expect(file.suggestedFilename()).toBe('lernzettel-netzwerke.pdf');
+  expect(file.suggestedFilename()).toBe('lernzettel-ap2-fisi.pdf');
   const head = (await import('node:fs')).readFileSync(await file.path()).subarray(0, 5).toString();
   expect(head).toBe('%PDF-');
 
+  // A note links to the AP2 PDF if its topic is part of the job's AP2, otherwise to the AP1 PDF.
   await page.goto('./#/lernzettel/note-dienste');
-  await expect(page.locator('.note-pdf .pdf-link')).toHaveAttribute('href', './pdf/lernzettel-netzwerke.pdf');
+  await expect(page.locator('.note-pdf .pdf-link')).toHaveAttribute('href', './pdf/lernzettel-ap2-fisi.pdf');
+  await page.goto('./#/lernzettel/note-barrierefreiheit');
+  await expect(page.locator('.note-pdf .pdf-link')).toHaveAttribute('href', './pdf/lernzettel-ap1.pdf');
   await page.goto('./#/lernzettel/abkuerzungen');
-  await expect(page.locator('.pdf-link')).toHaveAttribute('href', './pdf/abkuerzungen.pdf');
+  await expect(page.locator('.pdf-link')).toHaveAttribute('href', './pdf/abkuerzungen-fisi.pdf');
 
+  await page.goto('./print.html?pdf=ap2-fisi');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', '1');
+  await expect(page.locator('.cover h1')).toHaveText('AP2 FISI – Fachinformatiker/-in Systemintegration');
+  const expected = await page.evaluate(async () => {
+    const { loadCatalog } = await import('./js/questions.js');
+    const { notesForPdf } = await import('./js/pdfs.js');
+    return notesForPdf(await loadCatalog((u) => fetch(u)), 'ap2-fisi').length;
+  });
+  expect(expected).toBeGreaterThan(20);
+  await expect(page.locator('article.note-page')).toHaveCount(expected);
+  await expect(page.locator('.toc h3')).toHaveText(['Konzeption und Administration von IT-Systemen', 'Analyse und Entwicklung von Netzwerken', 'Wirtschafts- und Sozialkunde']);
+  // Older links with ?bereich= still work.
   await page.goto('./print.html?bereich=Netzwerke');
   await expect(page.locator('body')).toHaveAttribute('data-ready', '1');
   await expect(page.locator('.cover h1')).toHaveText('Lernzettel Netzwerke');

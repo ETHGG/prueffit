@@ -1,71 +1,81 @@
 {
-  "version": "1.1.0",
-  "sourceHash": "ee47e8faf7f081ce4208f8ce1c84fd325d1b5a41a6393206801467f4f25e81a6",
+  "version": "2.0.0",
+  "sourceHash": "50a7e91fe60300f29ee1583e08882920e58113198c9a0f92c9f019e97d83c8ce",
   "files": [
     {
-      "key": "alle",
-      "file": "lernzettel-alle.pdf",
-      "bytes": 1828955
+      "key": "ap1",
+      "file": "lernzettel-ap1.pdf",
+      "bytes": 1282679
     },
     {
-      "key": "Netzwerke",
-      "file": "lernzettel-netzwerke.pdf",
-      "bytes": 304299
+      "key": "ap2-fiae",
+      "file": "lernzettel-ap2-fiae.pdf",
+      "bytes": 845002
     },
     {
-      "key": "Hardware",
-      "file": "lernzettel-hardware.pdf",
-      "bytes": 267534
+      "key": "ap2-fisi",
+      "file": "lernzettel-ap2-fisi.pdf",
+      "bytes": 1200576
     },
     {
-      "key": "IT-Sicherheit",
-      "file": "lernzettel-sicherheit.pdf",
-      "bytes": 224375
+      "key": "ap2-fidpa",
+      "file": "lernzettel-ap2-fidpa.pdf",
+      "bytes": 810250
     },
     {
-      "key": "Wirtschaft",
-      "file": "lernzettel-wirtschaft.pdf",
-      "bytes": 363296
+      "key": "ap2-fidv",
+      "file": "lernzettel-ap2-fidv.pdf",
+      "bytes": 847016
     },
     {
-      "key": "Projektmanagement",
-      "file": "lernzettel-projekt.pdf",
-      "bytes": 298435
+      "key": "ap2-itse",
+      "file": "lernzettel-ap2-itse.pdf",
+      "bytes": 791161
     },
     {
-      "key": "Programmierung",
-      "file": "lernzettel-programmierung.pdf",
-      "bytes": 293975
+      "key": "ap2-kits",
+      "file": "lernzettel-ap2-kits.pdf",
+      "bytes": 1246627
     },
     {
-      "key": "Recht",
-      "file": "lernzettel-recht.pdf",
-      "bytes": 179087
+      "key": "ap2-kdm",
+      "file": "lernzettel-ap2-kdm.pdf",
+      "bytes": 862038
     },
     {
-      "key": "WiSo",
-      "file": "lernzettel-wiso.pdf",
-      "bytes": 300130
+      "key": "abkuerzungen-fiae",
+      "file": "abkuerzungen-fiae.pdf",
+      "bytes": 570104
     },
     {
-      "key": "Daten und Prozesse",
-      "file": "lernzettel-daten.pdf",
-      "bytes": 172170
+      "key": "abkuerzungen-fisi",
+      "file": "abkuerzungen-fisi.pdf",
+      "bytes": 580189
     },
     {
-      "key": "Digitale Vernetzung",
-      "file": "lernzettel-vernetzung.pdf",
-      "bytes": 155473
+      "key": "abkuerzungen-fidpa",
+      "file": "abkuerzungen-fidpa.pdf",
+      "bytes": 579181
     },
     {
-      "key": "Elektrotechnik",
-      "file": "lernzettel-elektro.pdf",
-      "bytes": 158249
+      "key": "abkuerzungen-fidv",
+      "file": "abkuerzungen-fidv.pdf",
+      "bytes": 584923
     },
     {
-      "key": "abkuerzungen",
-      "file": "abkuerzungen.pdf",
-      "bytes": 617789
+      "key": "abkuerzungen-itse",
+      "file": "abkuerzungen-itse.pdf",
+      "bytes": 589651
+    },
+    {
+      "key": "abkuerzungen-kits",
+      "file": "abkuerzungen-kits.pdf",
+      "bytes": 587500
+    },
+    {
+      "key": "abkuerzungen-kdm",
+      "file": "abkuerzungen-kdm.pdf",
+      "bytes": 579322
     }
   ]
 }

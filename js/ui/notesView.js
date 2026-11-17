@@ -7,7 +7,10 @@ import { catalogSections, examHeading } from '../jobCatalog.js';
 import { parseMarkdown, parseInline, searchNotes, highlightParts } from '../notes.js';
 import { h, append } from './dom.js';
 import { fold, foldControls } from './fold.js';
-import { pdfList, pdfFileName, formatFileSize, PDF_DIR, PDF_GLOSSARY } from '../pdfs.js';
+import {
+  pdfList, pdfFileName, formatFileSize, pdfKeyForTopic, glossaryPdfKey, PDF_DIR, PDF_GLOSSARY,
+} from '../pdfs.js';
+import { jobById } from '../curriculum.js';
 import {
   GENERAL_AREA, searchGlossary, abbreviationsIn, lookupAbbreviation, initialOf, matchGlossary,
 } from '../glossary.js';
@@ -36,13 +39,13 @@ function pdfLink(key, label, { className = 'pdf-link' } = {}) {
     size);
 }
 
-/** Collapsible card with all PDFs (Lernzettel list). */
-function pdfCard() {
-  const list = pdfList();
+/** Collapsible card with the job's PDFs: AP1, AP2 and abbreviations (Lernzettel list). */
+function pdfCard(job) {
+  const list = pdfList(job);
   return fold('notes-pdf', 'pdf', {
     summary: [
       h('span', { class: 'fold-title', text: 'Als PDF herunterladen' }),
-      h('span', { class: 'fold-meta', text: 'Zum Ausdrucken oder für Goodnotes, je Bereich oder komplett' }),
+      h('span', { class: 'fold-meta', text: 'Zum Ausdrucken oder für Goodnotes: AP1, AP2 und Abkürzungen' }),
     ],
   },
   h('ul', { class: 'pdf-list' }, list.map((p) => h('li', {}, pdfLink(p.key, p.label)))),
@@ -271,7 +274,7 @@ export function render(root, ctx) {
           h('span', { class: 'muted small', text: `${glossary.length} Abkürzungen ausgeschrieben, z. B. DHCP, KRITIS, GuV` }))
         : null),
     abbrHit,
-    pdfCard(),
+    pdfCard(ctx.catalog.job),
     list);
   drawResults();
   return null;
@@ -310,7 +313,11 @@ function renderDetail(root, ctx, note, topicsById, route) {
     h('div', { class: 'button-row' },
       questions ? h('a', { class: 'button', href: `#/quiz?thema=${encodeURIComponent(note.topic)}` }, `${questions} Fragen üben`) : null,
       cards ? h('a', { class: 'button secondary', href: '#/karten' }, `${cards} Karteikarten`) : null),
-    topic ? h('p', { class: 'note-pdf' }, pdfLink(topic.area, `Alle Lernzettel ${topic.area}`, { className: 'pdf-link inline' })) : null,
+    topic ? (() => {
+      const key = pdfKeyForTopic(topic, ctx.catalog.job);
+      const label = pdfList(ctx.catalog.job).find((p) => p.key === key)?.label ?? 'Alle Lernzettel';
+      return h('p', { class: 'note-pdf' }, pdfLink(key, label, { className: 'pdf-link inline' }));
+    })() : null,
     related.length
       ? h('section', { class: 'card', 'aria-labelledby': 'note-related' },
         h('h2', { id: 'note-related', text: `Mehr aus ${topic?.area}` }),
@@ -421,7 +428,9 @@ function renderGlossary(root, ctx, route) {
       h('label', { class: 'field' }, h('span', { text: 'Suchen' }), input),
       h('label', { class: 'field' }, h('span', { text: 'Prüfungsbereich' }), areaSelect),
       count),
-    h('p', {}, pdfLink(PDF_GLOSSARY, 'Abkürzungsverzeichnis', { className: 'pdf-link inline' })),
+    h('p', {}, jobById(ctx.catalog.job)
+      ? pdfLink(glossaryPdfKey(ctx.catalog.job), `Abkürzungen ${jobById(ctx.catalog.job).short}`, { className: 'pdf-link inline' })
+      : pdfLink(PDF_GLOSSARY, 'Abkürzungsverzeichnis', { className: 'pdf-link inline' })),
     letters,
     list);
   draw();

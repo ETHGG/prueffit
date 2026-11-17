@@ -1,10 +1,10 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 1.1.0 (17.11.2026)
-**Roadmap:** Alle Phasen 0.1 bis 1.1 sind erledigt. **In Arbeit: 2.0 – Inhalte für alle IT-Berufe und berufsspezifische App** (Auftrag in 6 Phasen, Start 17.11.2026 19:11).
+**Aktuelle Version:** 2.0.0 (17.11.2026)
+**Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
-**Phase 6, Schritt 1:** PDFs je Beruf (`lernzettel-ap1.pdf`, `lernzettel-ap2-<beruf>.pdf`, `abkuerzungen-<beruf>.pdf`) und Anzeige nur der eigenen PDFs; danach Version 2.0.0 (package.json nur die zwei oberen `version`-Einträge, js/config.js, sw.js), CHANGELOG, STATUS, README, CLAUDE.md, Push, CI prüfen, Abschlussbericht.
+Nichts offen – der Auftrag 2.0 ist abgeschlossen. Nächste Schritte: siehe „Offen“.
 
 | Phase | Status |
 |---|---|
@@ -13,9 +13,19 @@
 | 3 Migration (Schema 6) und berufsspezifische UI (`js/jobCatalog.js`, `js/ui/jobSetup.js`) | erledigt |
 | 4 Neue AP1-Inhalte (Katalog 2025): 5 Themen, 38 Fragen, 16 Karten | erledigt |
 | 5 Neue AP2-Inhalte je Beruf: 3 Bereiche, 11 Themen, 88 Fragen, 29 Karten, 8 Handlungssituationen | erledigt |
-| 6 Abschluss (PDFs, Version 2.0.0, Doku, Push) | offen |
+| 6 Abschluss: PDFs je Beruf, Version 2.0.0, Doku, Push | erledigt |
 
 ## Erledigt
+
+### 2.0
+- [x] 7 IT-Berufe mit offiziellen AP2-Prüfungsbereichen, AP1-Katalog ab 2025 (`js/curriculum.js`), Quellen in `docs/QUELLEN.md`
+- [x] Alle Fragen und Karten AP1/AP2 und Berufen zugeordnet; 28 nicht mehr AP1-relevante Inhalte in die AP2 verschoben, IDs unverändert
+- [x] Beruf einmalig festlegen (Schema 6, Migration mit Backup), danach kein Wechsel; App zeigt nur eigene Inhalte, gegliedert nach AP1/AP2 und Prüfungsbereich
+- [x] 5 neue AP1-Themen, 3 neue Bereiche (Daten und Prozesse, Digitale Vernetzung, Elektrotechnik), Thema Digitale Geschäftsmodelle, 14 Handlungssituationen (alle Berufe)
+- [x] 15 PDFs: AP1, AP2 und Abkürzungen je Beruf
+- [x] 75 Themen, 603 Fragen, 175 Karten, 75 Lernzettel, 272 Abkürzungen
+- [x] 582 Unit-Tests, 44 Browsertests × 4 Profile
+
 
 ### 1.1
 - [x] 10 PDFs (alle Lernzettel, 8 Bereiche, Abkürzungsverzeichnis) in `pdf/`, erzeugt aus `print.html`
@@ -85,9 +95,12 @@
 ## Offen
 
 - Keine offenen Roadmap-Punkte. Nächste Schritte: weitere Ideen des Nutzers.
+- Die neuen Inhalte für FIDPA, FIDV, ITSE und KDM (je 25 Fragen bzw. 9 für KDM) sind schmaler als die für FISI/FIAE/KITS; weiter ausbauen, sobald Prüfungen nach neuer Ordnung vorliegen.
+- GitHub-Releases 0.8–2.0 fehlen (Anlegen per API war in dieser Umgebung gesperrt); bei Bedarf im Browser unter „Releases“ anlegen.
+- Wer beim Festlegen den falschen Beruf wählt, kann ihn nicht mehr ändern (so gewünscht); Ausweg nur über Browserdaten löschen bzw. App neu installieren (vorher Fortschritt exportieren).
 - Lernzettel und neue Inhalte sind noch nicht fachlich gegengelesen; Hinweise über „Fehler melden“.
 - Prüfungstermine ab Herbst 2028 sind geschätzt; `KNOWN_EXAM_DATES` jährlich mit den Veröffentlichungen der IHK nachpflegen.
-- Für FIAE gibt es in den bereitgestellten Unterlagen keine Prüfung nach AO 2020; die FIAE-Bereiche beruhen auf der Prüfungsordnung, FIAE-Inhalte sind dünner als FISI/ITSM.
+- Für FIAE, FIDPA, FIDV, ITSE und KDM beruhen die AP2-Inhalte auf den Prüfungsbereichen der Ausbildungsordnung und frei zugänglichen Katalogauszügen (vollständige ZPA-Kataloge sind kostenpflichtig, siehe `docs/QUELLEN.md`).
 
 ## Bekannte Probleme / Hinweise
 
@@ -97,4 +110,4 @@
 - Ein importierter Fortschritt ersetzt den aktuellen vollständig (vorher gesichert); Zusammenführen zweier Geräte ist nicht vorgesehen.
 - Die Inhalte hat noch keine Fachperson geprüft („Fehler melden“ nutzen). Rechtliche Angaben (z. B. Fristen, Beitragssätze) entsprechen dem Stand 2026 und müssen bei Gesetzesänderungen angepasst werden.
 - Die Simulation besteht aus automatisch bewertbaren Fragen. Offene Aufgaben der echten Prüfung (Erläutern, Zeichnen, Code schreiben) lassen sich nur im Quiz als Freitext mit Selbstbewertung üben.
-- Ohne gewählten Beruf heißen die AP2-Bereiche „Ganzheitliche Aufgabe 1/2“ und mischen alle Themen außer WiSo.
+- Seit 2.0 gibt es keine Nutzung ohne Beruf mehr. Die Logik-Module kennen „ohne Beruf“ (`alle`) nur noch als Rückfall für Tests und alte Daten.

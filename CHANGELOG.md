@@ -2,6 +2,23 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.0.0] – 2026-11-17
+
+### Hinzugefügt
+- **Alle sieben IT-Berufe:** Fachinformatiker/-in Anwendungsentwicklung (FIAE), Systemintegration (FISI), Daten- und Prozessanalyse (FIDPA), Digitale Vernetzung (FIDV), IT-System-Elektroniker/-in (ITSE), Kaufmann/-frau für IT-System-Management (KITS) und für Digitalisierungsmanagement (KDM). Die AP2-Prüfungsbereiche tragen die offiziellen Namen (`js/curriculum.js`).
+- **Beruf wird einmal festgelegt:** Beim ersten Start (und einmalig für bestehende Nutzer nach dem Update) wählt man den Beruf, vorher ist keine andere Ansicht erreichbar. Danach gibt es keine Berufsauswahl und keinen Wechsel mehr; auch ein importierter Fortschritt ändert den Beruf nicht.
+- **Nur Inhalte des eigenen Berufs** auf allen Seiten (Start, Quiz, Lernzettel, Karten, Abkürzungen, Statistik, Prüfung), gegliedert nach AP1 (sieben Bereiche des Prüfungskatalogs 2025) und den AP2-Prüfungsbereichen des Berufs (`js/jobCatalog.js`).
+- **Neue AP1-Themen nach dem Katalog 2025:** Client in eine Domäne einbinden, barrierefreie Webseiten, Präsentieren und Dokumentieren, Rollout/Abnahme/Abrechnung, Nachhaltigkeit und Green IT; Ergänzungen zu Schreibtischtest, UML-Aktivitätsdiagramm und KI-Verordnung.
+- **Neue AP2-Inhalte:** Bereiche „Daten und Prozesse“ (FIDPA), „Digitale Vernetzung“ (FIDV) und „Elektrotechnik“ (ITSE) mit je 25 Fragen, Thema „Digitale Geschäftsmodelle“ (KDM); 14 Handlungssituationen, je Beruf eine pro AP2-Prüfungsbereich.
+- **PDFs je Beruf:** AP1-Lernzettel (für alle gleich), AP2-Lernzettel und Abkürzungsverzeichnis je Beruf; in der App erscheinen nur die drei PDFs des eigenen Berufs.
+- `docs/QUELLEN.md`: genutzte Quellen und Lizenzhinweise.
+
+### Geändert
+- Alle Fragen und Karten sind AP1/AP2 und Berufen zugeordnet. Seit 2025 nicht mehr in der AP1 enthaltene Inhalte (z. B. SQL, RAID, PAP, Struktogramm) sind nicht gelöscht, sondern in die AP2 der passenden Berufe verschoben. Frage-IDs sind unverändert.
+- „IT-System-Management“ heißt jetzt KITS (`itsm` → `kits`).
+- Speicherschema 6 mit Migration (Backup unter `prueffit.backup.5`): `settings.job` ist eine Berufs-ID oder leer, neu `settings.jobConfirmed`.
+- Inhalt jetzt: 75 Themen, 603 Fragen, 175 Karteikarten, 75 Lernzettel, 272 Abkürzungen.
+
 ## [1.1.0] – 2026-11-17
 
 ### Hinzugefügt

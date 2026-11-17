@@ -4,7 +4,7 @@
 // tests/data.test.js fails while pdf/manifest.json does not match the current data.
 
 import { createServer } from 'node:http';
-import { readFile, writeFile, mkdir, stat } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, stat, readdir, unlink } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
@@ -39,6 +39,9 @@ const footer = `
   </div>`;
 
 await mkdir(OUT, { recursive: true });
+// Remove PDFs that are no longer generated (e.g. the per-area files before 2.0).
+const wanted = new Set(pdfList().map((p) => p.file));
+for (const f of await readdir(OUT)) if (f.endsWith('.pdf') && !wanted.has(f)) await unlink(join(OUT, f));
 const browser = await chromium.launch();
 const page = await browser.newPage();
 const problems = [];
@@ -47,7 +50,7 @@ page.on('console', (m) => { if (m.type() === 'error') problems.push(m.text()); }
 
 const files = [];
 for (const pdf of pdfList()) {
-  await page.goto(`${base}print.html?bereich=${encodeURIComponent(pdf.key)}`);
+  await page.goto(`${base}print.html?pdf=${encodeURIComponent(pdf.key)}`);
   await page.waitForSelector('body[data-ready]');
   if ((await page.getAttribute('body', 'data-ready')) !== '1') throw new Error(`${pdf.key}: Druckansicht konnte nicht geladen werden`);
   await page.evaluate(() => document.fonts.ready);

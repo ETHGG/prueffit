@@ -10,6 +10,7 @@ export async function pdfSourceHash(root) {
   const sources = [
     'data/topics.json', 'data/glossary.json', ...noteFiles.map((f) => `data/notes/${f}`),
     'print.html', 'css/print.css', 'js/ui/printView.js', 'js/notes.js', 'js/pdfs.js', 'js/config.js',
+    'js/curriculum.js', 'js/jobCatalog.js', 'js/glossary.js',
   ];
   const hash = createHash('sha256');
   for (const file of sources) {

@@ -1,15 +1,20 @@
 // Print layout of the Lernzettel (print.html). Used to generate the PDFs in pdf/
 // (scripts/build-pdfs.mjs) and usable directly in the browser („Drucken“ → „Als PDF sichern“).
-//   print.html?bereich=Netzwerke   one area
-//   print.html?bereich=alle        all notes
-//   print.html?bereich=abkuerzungen  abbreviation glossary
+//   print.html?pdf=ap1                AP1 notes (same for all jobs)
+//   print.html?pdf=ap2-fisi           AP2 notes of one job
+//   print.html?pdf=abkuerzungen-fisi  abbreviations of one job
+//   print.html?pdf=alle | abkuerzungen | <area name>  all notes, whole glossary, one area
+//   (older links use ?bereich= instead of ?pdf=)
 
 import { h, append } from './dom.js';
-import { APP_VERSION, AREAS } from '../config.js';
+import { APP_VERSION } from '../config.js';
 import { loadCatalog } from '../questions.js';
 import { renderNoteContent } from './notesView.js';
 import { sortGlossary, initialOf } from '../glossary.js';
-import { notesForPdf, PDF_ALL, PDF_GLOSSARY } from '../pdfs.js';
+import {
+  pdfSections, pdfTitle, pdfFileName, glossaryForPdf, pdfJob, PDF_ALL, PDF_AP1, PDF_GLOSSARY,
+} from '../pdfs.js';
+import { jobById } from '../curriculum.js';
 
 const root = document.getElementById('print');
 
@@ -23,22 +28,23 @@ function cover(title, subtitle, lines) {
       'Alle Inhalte in eigenen Worten, keine Originalaufgaben der IHK. Aktuelle Version und Übungen: ethgg.github.io/prueffit'));
 }
 
-function renderNotes(catalog, area) {
+function renderNotes(catalog, key) {
   const topicsById = new Map(catalog.topics.map((t) => [t.id, t]));
-  const notes = notesForPdf(catalog, area);
-  const areas = [...new Set(notes.map((n) => topicsById.get(n.topic).area))];
-  document.title = area === PDF_ALL ? 'PrüfFit – Alle Lernzettel' : `PrüfFit – Lernzettel ${area}`;
+  const sections = pdfSections(catalog, key);
+  const notes = sections.flatMap((g) => g.notes);
+  const title = pdfTitle(key);
+  const job = jobById(pdfJob(key));
+  document.title = `PrüfFit – ${title}`;
   append(root,
-    cover(area === PDF_ALL ? 'Alle Lernzettel' : `Lernzettel ${area}`, 'Kompakt zum Wiederholen vor der Prüfung', [
-      `${notes.length} Lernzettel${area === PDF_ALL ? ` in ${areas.length} Bereichen` : ''}`,
+    cover(title, key === PDF_AP1 ? 'Gilt für alle IT-Berufe · kompakt zum Wiederholen' : 'Kompakt zum Wiederholen vor der Prüfung', [
+      `${notes.length} Lernzettel in ${sections.length} ${key === PDF_AP1 || job ? 'Prüfungsbereichen' : 'Bereichen'}`,
       `Stand: Version ${APP_VERSION}`,
     ]),
     h('nav', { class: 'toc', 'aria-label': 'Inhalt' },
       h('h2', { text: 'Inhalt' }),
-      areas.map((a) => h('section', {},
-        area === PDF_ALL ? h('h3', { text: a }) : null,
-        h('ol', {}, notes.filter((n) => topicsById.get(n.topic).area === a)
-          .map((n) => h('li', {}, h('a', { href: `#${n.id}` }, n.title))))))),
+      sections.map((g) => h('section', {},
+        sections.length > 1 ? h('h3', { text: g.title }) : null,
+        h('ol', {}, g.notes.map((n) => h('li', {}, h('a', { href: `#${n.id}` }, n.title))))))),
     notes.map((n) => {
       const t = topicsById.get(n.topic);
       return h('article', { class: 'note-page', id: n.id },
@@ -49,9 +55,10 @@ function renderNotes(catalog, area) {
     }));
 }
 
-function renderGlossary(catalog) {
-  const entries = sortGlossary(catalog.glossary);
-  document.title = 'PrüfFit – Abkürzungsverzeichnis';
+function renderGlossary(catalog, key) {
+  const entries = sortGlossary(glossaryForPdf(catalog, key));
+  const job = jobById(pdfJob(key));
+  document.title = `PrüfFit – ${pdfTitle(key)}`;
   const groups = new Map();
   for (const e of entries) {
     const k = initialOf(e);
@@ -59,7 +66,7 @@ function renderGlossary(catalog) {
     groups.get(k).push(e);
   }
   append(root,
-    cover('Abkürzungsverzeichnis', 'Alle Abkürzungen aus den Lernzetteln, ausgeschrieben und erklärt', [
+    cover(job ? `Abkürzungsverzeichnis ${job.short}` : 'Abkürzungsverzeichnis', job ? `Alle Abkürzungen aus den Lernzetteln für ${job.name}` : 'Alle Abkürzungen aus den Lernzetteln, ausgeschrieben und erklärt', [
       `${entries.length} Abkürzungen von A bis Z`,
       `Stand: Version ${APP_VERSION}`,
     ]),
@@ -74,12 +81,13 @@ function renderGlossary(catalog) {
 }
 
 async function main() {
-  const area = new URLSearchParams(location.search).get('bereich') ?? PDF_ALL;
+  const params = new URLSearchParams(location.search);
+  const key = params.get('pdf') ?? params.get('bereich') ?? PDF_ALL;
   const catalog = await loadCatalog((url) => fetch(url, { cache: 'no-cache' }));
   root.replaceChildren();
-  if (area === PDF_GLOSSARY) renderGlossary(catalog);
-  else if (area === PDF_ALL || AREAS.some((a) => a.name === area)) renderNotes(catalog, area);
-  else append(root, h('p', { text: `Unbekannter Bereich „${area}“.` }));
+  if (key === PDF_GLOSSARY || (pdfJob(key) && key.startsWith(PDF_GLOSSARY))) renderGlossary(catalog, key);
+  else if (pdfFileName(key)) renderNotes(catalog, key);
+  else append(root, h('p', { text: `Unbekanntes PDF „${key}“.` }));
   document.body.dataset.ready = '1';
 }
 
