@@ -265,8 +265,7 @@ export function recordExamResult(state, evaluation, now = new Date()) {
 export function updateSettings(state, patch) {
   // The apprenticeship is fixed once confirmed (2.0): later patches cannot change it.
   if (state.settings?.jobConfirmed && ('job' in patch || 'jobConfirmed' in patch)) {
-    const { job, jobConfirmed, ...rest } = patch;
-    patch = rest;
+    patch = Object.fromEntries(Object.entries(patch).filter(([key]) => key !== 'job' && key !== 'jobConfirmed'));
   }
   const merged = normalizeState({ ...state, settings: { ...state.settings, ...patch } }, state.schemaVersion);
   return { ...state, settings: merged.settings };

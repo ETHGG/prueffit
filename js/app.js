@@ -288,12 +288,18 @@ function registerServiceWorker() {
 
 // ---- Start ----
 
+// Requests cancelled because the page is being left (reload, navigation) are not real load errors.
+let leaving = false;
+window.addEventListener('beforeunload', () => { leaving = true; });
+window.addEventListener('pagehide', () => { leaving = true; });
+
 async function start() {
   applyTheme(progress.settings.theme);
   if (!location.hash) history.replaceState(null, '', `#/${DEFAULT_ROUTE}`);
   baseCatalog = await loadCatalog((url) => fetch(url, { cache: 'no-cache' }));
   loadCustom();
 
+  if (leaving) return;
   if (fullCatalog.errors.length) {
     console.warn('PrüfFit: Probleme beim Laden der Fragen', fullCatalog.errors);
     toast(fullCatalog.questions.length
