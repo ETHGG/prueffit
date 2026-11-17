@@ -8,7 +8,7 @@ import {
   submitPart, tick, evaluateExam, restoreExam,
 } from '../exam.js';
 import { recordExamResult } from '../storage.js';
-import { createUi, readResponse, renderInput, formatResponse, correctAnswerText, isEmptyResponse } from './questionInputs.js';
+import { createUi, renderInput, formatResponse, correctAnswerText, isEmptyResponse } from './questionInputs.js';
 import { h, formatNumber, DIFFICULTY_LABELS } from './dom.js';
 
 const EXAM_KEY = 'prueffit.exam';
@@ -157,14 +157,14 @@ export function render(root, ctx) {
       if (counter) counter.textContent = `${ids.filter((id) => Object.hasOwn(exam.responses, id)).length} von ${ids.length} beantwortet`;
     };
     const form = h('form', { novalidate: true, onSubmit: (e) => e.preventDefault() });
+    // Every change is stored immediately (onChange), so navigating never "answers" an
+    // untouched question (e.g. the shuffled start order of an order question).
     const go = (to) => {
-      store(readResponse(form, q, ui));
       pos = to;
       draw();
       root.querySelector('.question-text')?.focus({ preventScroll: true });
     };
     const handIn = async () => {
-      store(readResponse(form, q, ui));
       const open = ids.filter((id) => !Object.hasOwn(exam.responses, id)).length;
       const ok = await ctx.confirm({
         title: `${part.title} abgeben?`,
@@ -295,12 +295,6 @@ export function render(root, ctx) {
   const onTick = () => {
     if (!exam || exam.finished) return;
     if (isTimeUp(exam)) {
-      const form = root.querySelector('form');
-      const q = byId.get(exam.parts[exam.part].ids[pos]);
-      if (form && q && uiState.has(q.id)) {
-        const response = readResponse(form, q, uiState.get(q.id));
-        update(setResponse(exam, q.id, isEmptyResponse(q, response) ? undefined : response));
-      }
       draw();
       return;
     }

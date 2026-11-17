@@ -31,6 +31,7 @@ describe('createDefaultState', () => {
     expect(s.cards).toEqual({});
     expect(s.exams).toEqual([]);
     expect(s.streak).toEqual({ current: 0, lastDay: null });
+    expect(s.daily).toEqual({});
     expect(s.settings).toEqual({ theme: 'auto', dailyGoal: 20, job: 'alle' });
   });
 
@@ -159,24 +160,58 @@ describe('real migration 1 -> 2 (job setting)', () => {
 
   it('is registered for schema 1', () => {
     expect(typeof MIGRATIONS[1]).toBe('function');
-    expect(SCHEMA_VERSION).toBe(2);
+    expect(SCHEMA_VERSION).toBe(3);
   });
 
   it('keeps all progress, adds settings.job and backs up the old data', () => {
     const store = memoryStorage({ [STORAGE_KEY]: JSON.stringify(v1) });
     const { state, status } = loadState(store);
     expect(status).toBe('migrated');
-    expect(state.schemaVersion).toBe(2);
+    expect(state.schemaVersion).toBe(3);
     expect(state.answers).toEqual(v1.answers);
     expect(state.cards).toEqual(v1.cards);
     expect(state.settings).toEqual({ theme: 'dark', dailyGoal: 30, job: 'alle' });
     expect(JSON.parse(store.getItem('prueffit.backup.1'))).toEqual(v1);
-    expect(JSON.parse(store.getItem(STORAGE_KEY)).schemaVersion).toBe(2);
+    expect(JSON.parse(store.getItem('prueffit.backup.2')).settings.job).toBe('alle');
+    expect(JSON.parse(store.getItem(STORAGE_KEY)).schemaVersion).toBe(3);
   });
 
   it('works when version 1 data has no settings at all', () => {
     const { state } = loadState(memoryStorage({ [STORAGE_KEY]: JSON.stringify({ schemaVersion: 1, answers: {} }) }));
     expect(state.settings.job).toBe('alle');
+  });
+});
+
+describe('real migration 2 -> 3 (daily activity)', () => {
+  it('adds an empty daily map, keeps the streak and backs up version 2', () => {
+    const v2 = { schemaVersion: 2, answers: {}, cards: {}, exams: [], streak: { current: 4, lastDay: '2026-11-16' }, settings: { theme: 'auto', dailyGoal: 20, job: 'fisi' } };
+    const store = memoryStorage({ [STORAGE_KEY]: JSON.stringify(v2) });
+    const { state, status } = loadState(store);
+    expect(status).toBe('migrated');
+    expect(state.daily).toEqual({});
+    expect(state.streak).toEqual({ current: 4, lastDay: '2026-11-16' });
+    expect(state.settings.job).toBe('fisi');
+    expect(JSON.parse(store.getItem('prueffit.backup.2'))).toEqual(v2);
+  });
+  it('drops invalid daily entries when normalizing', () => {
+    const s = normalizeState({ daily: { '2026-11-17': 3, 'gestern': 2, '2026-11-16': -1, '2026-11-15': 1.5 } });
+    expect(s.daily).toEqual({ '2026-11-17': 3 });
+  });
+});
+
+describe('activity tracking (Lernserie und Tagesziel)', () => {
+  it('every answered question counts for today (Europe/Berlin) and the streak', () => {
+    let s = createDefaultState();
+    s = recordAnswer(s, 'q1', true, new Date('2026-11-16T22:30:00Z')); // 23:30 in Berlin -> 16.11.
+    s = recordAnswer(s, 'q2', false, new Date('2026-11-16T23:30:00Z')); // 00:30 in Berlin -> 17.11.
+    s = recordAnswer(s, 'q3', true, new Date('2026-11-17T08:00:00Z'));
+    expect(s.daily).toEqual({ '2026-11-16': 1, '2026-11-17': 2 });
+    expect(s.streak).toEqual({ current: 2, lastDay: '2026-11-17' });
+  });
+  it('flashcard reviews count as well', () => {
+    const s = recordCardReview(createDefaultState(), 'fc-1', true, '2026-11-17');
+    expect(s.daily).toEqual({ '2026-11-17': 1 });
+    expect(s.streak).toEqual({ current: 1, lastDay: '2026-11-17' });
   });
 });
 

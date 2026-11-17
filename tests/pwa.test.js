@@ -84,7 +84,7 @@ describe('manifest and index.html', () => {
   });
 
   it('logic modules do not touch the DOM', () => {
-    const offenders = ['grading', 'stats', 'storage', 'questions', 'quiz', 'leitner', 'exam']
+    const offenders = ['grading', 'stats', 'storage', 'questions', 'quiz', 'leitner', 'exam', 'transfer']
       .filter((m) => /\b(document|window)\b/.test(read(`js/${m}.js`)));
     expect(offenders).toEqual([]);
   });

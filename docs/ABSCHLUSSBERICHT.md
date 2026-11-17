@@ -1,3 +1,46 @@
+# Abschlussbericht Version 0.4.0
+
+**Datum:** 17.11.2026 · **Repository:** https://github.com/ETHGG/prueffit · **Live:** https://ethgg.github.io/prueffit/
+
+Mit 0.4 sind alle Phasen der Roadmap aus CLAUDE.md §10 umgesetzt.
+
+## Was umgesetzt wurde
+
+| Bereich | Umsetzung |
+|---|---|
+| Lernserie | `updateStreak()` / `currentStreak()` in `stats.js`. Gleicher Tag zählt einmal, Folgetag +1, nach einer Lücke Neustart bei 1. Angezeigt wird die Serie, solange gestern oder heute gelernt wurde. |
+| Tagesziel | `dailyProgress()` und der Tageszähler `daily` (Schema 3). Jede beantwortete Frage (Quiz und Prüfung) und jede wiederholte Karte zählt, für den Tag in Europe/Berlin. Beim Erreichen erscheint ein Hinweis. |
+| Dark Mode | Schalter System/Hell/Dunkel. Ein Inline-Skript setzt `data-theme` vor dem ersten Zeichnen; die Browserleiste (`theme-color`) folgt. |
+| Import/Export | `js/transfer.js` (neues Logik-Modul ohne DOM). Fortschritts-Import über denselben Weg wie der App-Start (Migrationen und Normalisierung), Ablehnung neuerer Schemata, Backup vor dem Import. Eigene Fragen und Karten werden validiert wie die mitgelieferten Inhalte und im Katalog zusammengeführt. |
+| UI | Einstellungen: Tagesziel, Darstellung, „Sichern und übertragen“ mit Bericht übersprungener Einträge. Startseite: Karte „Heute“. |
+
+## Testergebnis
+
+- **Vitest:** 352/352, darunter `transfer.test.js` mit 13 Tests, Lernserie (Unterbrechung, Monats- und Jahreswechsel, Zeitumstellung, Schaltjahr, Uhrzeit vor Mitternacht), Tagesziel und die Migration 2 → 3.
+- **Playwright:** 24 Tests × 4 Profile. Lokal liefen die drei Chromium-Profile zweimal: 136 grün, 8 bewusst übersprungen (Datei-Downloads werden nur am Desktop getestet). In der CI läuft zusätzlich WebKit.
+- Das Import-Beispiel aus der README wurde mit dem echten Katalog geprüft und lässt sich importieren.
+- **Bei den Tests gefundene und behobene Fehler** (jeweils zuerst mit einem fehlschlagenden Test reproduziert):
+  1. **Datenverlust beim Start:** Wurde vor dem Laden des Katalogs die Adresse gewechselt, renderten Ansichten mit leerem Katalog und verwarfen eine laufende Prüfung bzw. Quiz-Runde. Die App rendert jetzt erst nach dem Laden.
+  2. **Unberührte Reihenfolge-Frage galt als beantwortet:** Beim Weiterblättern in der Prüfung wurde die zufällige Startreihenfolge gespeichert und zählte als Versuch. Jetzt werden nur Änderungen gespeichert, die man selbst vornimmt. Aufgefallen war das durch einen nur zufällig fehlschlagenden Browsertest; die Ursache wurde gesucht, statt den Test zu wiederholen.
+  3. „Automatisch“ brach auf dem iPhone SE mitten im Wort um; die Option heißt jetzt „System“.
+
+## Annahmen und Entscheidungen
+
+1. **Was zählt fürs Tagesziel:** Fragen aus Quiz und Prüfung sowie wiederholte Karten, je 1. Jeder Versuch zählt, auch wenn dieselbe Frage wiederholt wird.
+2. **`daily`** speichert die letzten 90 Tage, damit `localStorage` nicht unbegrenzt wächst. Das bisherige `streak` blieb unverändert (es war seit 0.1 im Schema vorgesehen).
+3. **Import ersetzt:** Ein Fortschritts-Import ersetzt den aktuellen Stand, statt ihn zusammenzuführen. Das ist eindeutiger und mit dem Backup unter `prueffit.backup.import` umkehrbar.
+4. **Eigene Fragen** liegen getrennt unter `prueffit.custom`, gehören nicht zum Fortschritt (keine Migration nötig) und werden bei jedem Start erneut validiert. IDs mitgelieferter Inhalte dürfen nicht überschrieben werden; derselbe Import ersetzt aber eigene Einträge mit gleicher ID.
+5. **iPhone-Export:** Wo Safari das Teilen von Dateien unterstützt, öffnet der Export das Teilen-Menü („In Dateien sichern“), sonst einen normalen Download.
+6. **Neue Datei:** `js/transfer.js` als Logik-Modul (ohne DOM, in der Prüfung „kein DOM in Logik-Modulen“ enthalten), dazu `js/ui/files.js` für Download und Dateiauswahl. Keine neuen Abhängigkeiten.
+
+## Offene Punkte
+
+- Auf einem echten iPhone testen: Export über das Teilen-Menü, Import aus der Dateien-App, Dark-Mode-Schalter in der installierten App (Statusleiste).
+- Eigene Themen für eigene Fragen sind noch nicht möglich.
+- Fachliche Prüfung der Inhalte.
+
+---
+
 # Abschlussbericht Version 0.3.0
 
 **Datum:** 17.11.2026 · **Repository:** https://github.com/ETHGG/prueffit · **Live:** https://ethgg.github.io/prueffit/

@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { hitRate, trafficLight, topicStats, overallStats, practiceSuggestions, areaStats } from '../js/stats.js';
+import {
+  hitRate, trafficLight, topicStats, overallStats, practiceSuggestions, areaStats,
+  updateStreak, currentStreak, dailyProgress, pruneDaily,
+} from '../js/stats.js';
 
 describe('hitRate', () => {
   it('is correct / attempts', () => {
@@ -141,5 +144,58 @@ describe('areaStats', () => {
       { area: 'Netzwerke', attempts: 10, correct: 8, rate: 0.8, light: 'green' },
       { area: 'Recht', attempts: 0, correct: 0, rate: null, light: 'grey' },
     ]);
+  });
+});
+
+describe('Lernserie (updateStreak / currentStreak)', () => {
+  it('starts a streak with the first active day', () => {
+    expect(updateStreak({ current: 0, lastDay: null }, '2026-11-17')).toEqual({ current: 1, lastDay: '2026-11-17' });
+  });
+  it('counts each day only once', () => {
+    const s = updateStreak({ current: 3, lastDay: '2026-11-17' }, '2026-11-17');
+    expect(s).toEqual({ current: 3, lastDay: '2026-11-17' });
+  });
+  it('continues on the next day', () => {
+    expect(updateStreak({ current: 3, lastDay: '2026-11-16' }, '2026-11-17')).toEqual({ current: 4, lastDay: '2026-11-17' });
+  });
+  it('restarts at 1 after a gap (Unterbrechung)', () => {
+    expect(updateStreak({ current: 9, lastDay: '2026-11-15' }, '2026-11-17')).toEqual({ current: 1, lastDay: '2026-11-17' });
+  });
+  it('continues across month and year ends and the DST switch', () => {
+    expect(updateStreak({ current: 2, lastDay: '2026-11-30' }, '2026-12-01').current).toBe(3);
+    expect(updateStreak({ current: 2, lastDay: '2026-12-31' }, '2027-01-01').current).toBe(3);
+    expect(updateStreak({ current: 2, lastDay: '2026-03-28' }, '2026-03-29').current).toBe(3);
+    expect(updateStreak({ current: 2, lastDay: '2026-10-24' }, '2026-10-25').current).toBe(3);
+    expect(updateStreak({ current: 2, lastDay: '2028-02-28' }, '2028-02-29').current).toBe(3);
+  });
+  it('ignores a lastDay in the future (clock changed) and restarts', () => {
+    expect(updateStreak({ current: 5, lastDay: '2026-11-20' }, '2026-11-17')).toEqual({ current: 1, lastDay: '2026-11-17' });
+  });
+  it('shows the streak as long as yesterday was active, otherwise 0', () => {
+    expect(currentStreak({ current: 4, lastDay: '2026-11-17' }, '2026-11-17')).toBe(4);
+    expect(currentStreak({ current: 4, lastDay: '2026-11-16' }, '2026-11-17')).toBe(4);
+    expect(currentStreak({ current: 4, lastDay: '2026-11-15' }, '2026-11-17')).toBe(0);
+    expect(currentStreak({ current: 0, lastDay: null }, '2026-11-17')).toBe(0);
+    expect(currentStreak({ current: 7, lastDay: '2026-12-31' }, '2027-01-01')).toBe(7);
+  });
+});
+
+describe('Tagesziel (dailyProgress)', () => {
+  it('counts today against the goal', () => {
+    expect(dailyProgress({ '2026-11-17': 12, '2026-11-16': 40 }, '2026-11-17', 20)).toEqual({ done: 12, goal: 20, reached: false, ratio: 0.6 });
+  });
+  it('is reached at exactly the goal and capped at 100 %', () => {
+    expect(dailyProgress({ '2026-11-17': 20 }, '2026-11-17', 20).reached).toBe(true);
+    expect(dailyProgress({ '2026-11-17': 35 }, '2026-11-17', 20)).toEqual({ done: 35, goal: 20, reached: true, ratio: 1 });
+  });
+  it('handles a day without activity', () => {
+    expect(dailyProgress({}, '2026-11-17', 20)).toEqual({ done: 0, goal: 20, reached: false, ratio: 0 });
+  });
+});
+
+describe('pruneDaily', () => {
+  it('keeps only the last N days', () => {
+    const daily = { '2026-08-01': 3, '2026-10-20': 5, '2026-11-17': 1 };
+    expect(pruneDaily(daily, '2026-11-17', 30)).toEqual({ '2026-10-20': 5, '2026-11-17': 1 });
   });
 });

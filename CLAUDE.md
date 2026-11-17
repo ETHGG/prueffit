@@ -166,15 +166,17 @@ prueffit/
 ### 5.4 Fortschritt (localStorage, Key `prueffit.v1`)
 ```json
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "answers": { "net-0001": { "attempts": 3, "correct": 2, "lastAt": "2026-11-17T10:00:00Z" } },
   "cards": { "fc-0001": { "box": 3, "nextDue": "2026-11-20" } },
   "exams": [ { "date": "...", "exam": "AP1", "points": 78, "max": 100, "grade": 3 } ],
   "streak": { "current": 4, "lastDay": "2026-11-17" },
+  "daily": { "2026-11-17": 12 },
   "settings": { "theme": "auto", "dailyGoal": 20, "job": "alle" }
 }
 ```
-Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`).
+Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`); 2 → 3 (v0.4.0) ergänzt `daily` (erledigte Aufgaben pro Tag, Europe/Berlin, die letzten 90 Tage).
+Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.custom` (importierte eigene Fragen/Karten), `sessionStorage` `prueffit.quizSession` (laufende Quiz-Runde).
 
 ---
 
@@ -263,7 +265,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **0.1** | Grundgerüst, PWA, Fragen-JSON + Validierung, Quiz-Modus (`single`, `multi`, `number`), einfache Statistik | erledigt |
 | **0.2** | Karteikarten mit Leitner-System, Fragetypen `text`, `match`, `order` | erledigt |
 | **0.3** | Prüfungssimulation mit Timer und IHK-Note, Ampel + „Heute üben“, Diagramme | erledigt |
-| **0.4** | Import/Export (JSON) von Fortschritt und eigenen Fragen, Dark Mode, Lernserie, Tagesziel | offen |
+| **0.4** | Import/Export (JSON) von Fortschritt und eigenen Fragen, Dark Mode, Lernserie, Tagesziel | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

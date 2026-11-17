@@ -199,7 +199,10 @@ h1[tabindex="-1"]:focus, h3[tabindex="-1"]:focus, .view:focus { outline: none; }
 .button.danger { background: var(--bad); color: #fff; }
 .button.block { width: 100%; }
 .button-row { display: flex; gap: .75rem; flex-wrap: wrap; }
-.button-row > .button { flex: 1 1 140px; }
+.button-row > .button, .button-row > .file-button { flex: 1 1 140px; }
+.file-button { display: flex; }
+.file-button > .button { flex: 1; }
+.segmented span { overflow-wrap: normal; padding: 0 .25rem; text-align: center; }
 
 /* Forms (quiz setup) */
 fieldset { border: 0; padding: 0; margin: 0 0 1.25rem; min-width: 0; }
@@ -431,6 +434,15 @@ details.review[open] summary { margin-bottom: .5rem; }
 .suggestion .button { min-height: 44px; padding: .4rem .9rem; flex: none; }
 .chart-box { position: relative; height: 240px; }
 .chart-box canvas { width: 100% !important; }
+
+/* Today: daily goal and streak */
+.goal-row { display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; }
+.goal-count { font-variant-numeric: tabular-nums; }
+.goal-bar { height: 10px; border-radius: 5px; margin: .4rem 0 .5rem; }
+.goal-bar.is-done > div { background: var(--ok); }
+.today a { display: inline-flex; align-items: center; min-height: 44px; }
+.streak { margin: .25rem 0 0; font-weight: 600; }
+.streak-count { font-size: 1.6rem; font-weight: 800; color: var(--primary); }
 
 /* Placeholder views */
 .placeholder { text-align: center; padding: 2rem 1rem; }

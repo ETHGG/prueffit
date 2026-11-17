@@ -1,13 +1,13 @@
 // Central configuration. Keep APP_VERSION in sync with package.json and sw.js.
 
-export const APP_VERSION = '0.3.0';
+export const APP_VERSION = '0.4.0';
 export const APP_NAME = 'PrüfFit';
 export const REPO_URL = 'https://github.com/ETHGG/prueffit';
 export const ISSUE_LABEL = 'inhalt';
 
 // localStorage
 export const STORAGE_KEY = 'prueffit.v1';
-export const SCHEMA_VERSION = 2;
+export const SCHEMA_VERSION = 3;
 export const BACKUP_PREFIX = 'prueffit.backup.';
 export const CORRUPT_BACKUP_KEY = 'prueffit.backup.corrupt';
 

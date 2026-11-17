@@ -2,7 +2,10 @@
 
 import { APP_VERSION } from './config.js';
 import { loadState, saveState, resetProgress } from './storage.js';
+import { dailyProgress } from './stats.js';
+import { todayInBerlin } from './leitner.js';
 import { loadCatalog } from './questions.js';
+import { CUSTOM_KEY, normalizeCustom } from './transfer.js';
 import * as home from './ui/home.js';
 import * as quizView from './ui/quizView.js';
 import * as cardsView from './ui/cardsView.js';
@@ -50,7 +53,37 @@ const storage = getStorageBackend();
 const sessionStore = getSessionBackend();
 const loaded = loadState(storage);
 let progress = loaded.state;
-let catalog = { topics: [], questions: [], errors: [] };
+let baseCatalog = { topics: [], questions: [], flashcards: [], errors: [] };
+let catalog = baseCatalog;
+let custom = { v: 1, questions: [], flashcards: [] };
+
+/** Validation context for imported content: known topics and ids of built-in content. */
+function customContext() {
+  return {
+    topicIds: new Set(baseCatalog.topics.map((t) => t.id)),
+    builtin: {
+      questionIds: new Set(baseCatalog.questions.map((q) => q.id)),
+      cardIds: new Set(baseCatalog.flashcards.map((c) => c.id)),
+    },
+  };
+}
+
+function rebuildCatalog() {
+  catalog = {
+    ...baseCatalog,
+    questions: [...baseCatalog.questions, ...custom.questions],
+    flashcards: [...baseCatalog.flashcards, ...custom.flashcards],
+  };
+}
+
+function loadCustom() {
+  try {
+    custom = normalizeCustom(JSON.parse(storage?.getItem(CUSTOM_KEY) ?? 'null'), customContext());
+  } catch {
+    custom = normalizeCustom(null, customContext());
+  }
+  rebuildCatalog();
+}
 let cleanup = null;
 
 const viewEl = document.getElementById('view');
@@ -85,6 +118,21 @@ function confirmDialog({ title, text, okLabel = 'OK', cancelLabel = 'Abbrechen' 
   });
 }
 
+// ---- Theme (auto = follow the system, CLAUDE.md 7) ----
+
+const THEME_COLORS = { light: '#0f766e', dark: '#0b1416' };
+
+function applyTheme(theme) {
+  const root = document.documentElement;
+  if (theme === 'light' || theme === 'dark') root.setAttribute('data-theme', theme);
+  else root.removeAttribute('data-theme');
+  const metas = document.querySelectorAll('meta[name="theme-color"]');
+  for (const meta of metas) {
+    const scheme = meta.getAttribute('media')?.includes('dark') ? 'dark' : 'light';
+    meta.setAttribute('content', THEME_COLORS[theme === 'light' || theme === 'dark' ? theme : scheme]);
+  }
+}
+
 // ---- Context passed to every view ----
 
 const ctx = {
@@ -96,16 +144,47 @@ const ctx = {
   localStore: storage,
   /** Replace progress with fn(progress) and persist it. */
   updateProgress(fn) {
+    const today = todayInBerlin();
+    const before = dailyProgress(progress.daily, today, progress.settings.dailyGoal).reached;
     progress = fn(progress);
+    if (!before && dailyProgress(progress.daily, today, progress.settings.dailyGoal).reached && (progress.daily[today] ?? 0) > 0) {
+      toast(`Tagesziel erreicht: ${progress.settings.dailyGoal} Aufgaben heute. Stark!`);
+    }
     if (storage && !saveState(storage, progress)) {
       toast('Fortschritt konnte nicht gespeichert werden (Speicher voll?).', { type: 'error' });
     }
+  },
+  get custom() { return custom; },
+  customContext,
+  /** Replaces custom questions/cards (already validated). Returns false if storing failed. */
+  saveCustom(next) {
+    custom = next;
+    rebuildCatalog();
+    try {
+      storage?.setItem(CUSTOM_KEY, JSON.stringify(custom));
+      return Boolean(storage);
+    } catch {
+      return false;
+    }
+  },
+  /** Replaces the whole progress (import); the old data is backed up first. */
+  replaceProgress(next) {
+    try {
+      const raw = storage?.getItem('prueffit.v1');
+      if (raw) storage.setItem('prueffit.backup.import', raw);
+    } catch {
+      // backup is best effort
+    }
+    progress = next;
+    if (storage) saveState(storage, progress);
+    applyTheme(progress.settings.theme);
   },
   resetProgress() {
     progress = resetProgress(storage);
     if (!storage) progress = loadState(null).state;
   },
   navigate(route) { location.hash = `#/${route}`; },
+  applyTheme,
   toast,
   confirm: confirmDialog,
 };
@@ -141,7 +220,12 @@ function focusView() {
   (heading ?? viewEl).focus({ preventScroll: true });
 }
 
+// Views must not render before the catalogue is loaded: with an empty catalogue they
+// would treat a stored quiz/exam as invalid and discard it.
+let ready = false;
+
 window.addEventListener('hashchange', () => {
+  if (!ready) return;
   render();
   focusView();
 });
@@ -166,8 +250,10 @@ function registerServiceWorker() {
 // ---- Start ----
 
 async function start() {
+  applyTheme(progress.settings.theme);
   if (!location.hash) history.replaceState(null, '', `#/${DEFAULT_ROUTE}`);
-  catalog = await loadCatalog((url) => fetch(url, { cache: 'no-cache' }));
+  baseCatalog = await loadCatalog((url) => fetch(url, { cache: 'no-cache' }));
+  loadCustom();
 
   if (catalog.errors.length) {
     console.warn('PrüfFit: Probleme beim Laden der Fragen', catalog.errors);
@@ -181,6 +267,7 @@ async function start() {
     toast('Fortschritt kann in diesem Browser-Modus nicht gespeichert werden.', { type: 'error', duration: 6000 });
   }
 
+  ready = true;
   render();
   registerServiceWorker();
 }

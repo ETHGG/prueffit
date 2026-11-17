@@ -1,6 +1,6 @@
 // Start screen: greeting, overall hit rate, quick start.
 
-import { overallStats } from '../stats.js';
+import { overallStats, currentStreak, dailyProgress } from '../stats.js';
 import { todayInBerlin, dueCards } from '../leitner.js';
 import { h, formatPercent, formatNumber, trafficDot } from './dom.js';
 import { suggestionsCard } from './suggestions.js';
@@ -18,9 +18,28 @@ export function render(root, ctx) {
   const stats = overallStats(ctx.progress.answers, questions);
   const answeredQuestions = questions.filter((q) => ctx.progress.answers[q.id]).length;
 
+  const today = todayInBerlin();
+  const goal = dailyProgress(ctx.progress.daily, today, ctx.progress.settings.dailyGoal);
+  const streak = currentStreak(ctx.progress.streak, today);
+
   root.append(
     h('h1', { text: greeting() }),
     h('p', { class: 'muted' }, 'Bereit für die nächste Lerneinheit? PrüfFit hilft dir bei der Vorbereitung auf AP1 und AP2.'),
+    h('section', { class: 'card today', 'aria-labelledby': 'home-today' },
+      h('h2', { id: 'home-today', text: 'Heute' }),
+      h('div', { class: 'goal-row' },
+        h('span', { class: 'goal-text' }, goal.reached ? 'Tagesziel erreicht ✓' : 'Tagesziel'),
+        h('span', { class: 'goal-count', text: `${goal.done} / ${goal.goal}` })),
+      h('div', {
+        class: `progress goal-bar${goal.reached ? ' is-done' : ''}`, role: 'progressbar', 'aria-label': 'Tagesziel',
+        'aria-valuemin': 0, 'aria-valuemax': goal.goal, 'aria-valuenow': Math.min(goal.done, goal.goal),
+      }, h('div', { style: `width:${Math.round(goal.ratio * 100)}%` })),
+      h('p', { class: 'small muted' }, 'Zählt beantwortete Fragen und wiederholte Karteikarten. ',
+        h('a', { href: '#/einstellungen' }, 'Ziel ändern')),
+      h('p', { class: 'streak' },
+        h('span', { class: 'streak-count', text: String(streak) }),
+        h('span', {}, streak === 1 ? ' Tag Lernserie' : ' Tage Lernserie'),
+        streak === 0 ? h('span', { class: 'muted small', text: ' – heute starten!' }) : null)),
 
     h('section', { class: 'card', 'aria-labelledby': 'home-overview' },
       h('h2', { id: 'home-overview', text: 'Dein Stand' }),

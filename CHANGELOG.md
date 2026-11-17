@@ -2,6 +2,24 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [0.4.0] – 2026-11-17
+
+### Hinzugefügt
+- **Lernserie und Tagesziel** auf der Startseite: Es zählen beantwortete Fragen (Quiz und Prüfung) und wiederholte Karteikarten, Tage nach Europe/Berlin. Das Tagesziel (5 bis 100 Aufgaben) ist in den Einstellungen wählbar; beim Erreichen erscheint ein Hinweis.
+- **Speichermigration 2 → 3**: neues Feld `daily` (Aufgaben pro Tag, die letzten 90 Tage) mit Backup unter `prueffit.backup.2`.
+- **Dark-Mode-Schalter** (System, Hell, Dunkel). Das gewählte Schema wird schon vor dem ersten Zeichnen gesetzt, damit nichts kurz aufblitzt; die Browserleiste (`theme-color`) passt sich an.
+- **Fortschritt exportieren und importieren** als JSON-Datei (`js/transfer.js`). Ältere Exporte werden beim Import migriert, Exporte aus neueren App-Versionen abgelehnt, und vor dem Import wird der bisherige Stand unter `prueffit.backup.import` gesichert. Auf dem iPhone öffnet der Export das Teilen-Menü („In Dateien sichern“).
+- **Eigene Fragen und Karteikarten importieren, exportieren und löschen**:
+  - Sie werden genauso validiert wie die mitgelieferten Inhalte.
+  - Ungültige Einträge, doppelte IDs und IDs mitgelieferter Inhalte werden mit Begründung übersprungen.
+  - Sie erscheinen in Quiz, Karteikarten, Prüfung und Statistik.
+  - Gespeichert werden sie unter `prueffit.custom`.
+- Tests: `transfer.test.js` (13 Tests), Lernserie (inklusive Unterbrechung, Monats- und Jahreswechsel, Zeitumstellung, Schaltjahr) und Tagesziel in `stats.test.js`, Migration 2 → 3 und Aktivitätszählung über Mitternacht in `storage.test.js`; 5 neue Browsertests.
+
+### Behoben
+- **Datenverlust beim Start:** Wurde die Adresse geändert, bevor der Fragenkatalog geladen war, verwarfen Prüfungs- und Quiz-Ansicht eine laufende Prüfung bzw. Runde als „ungültig“. Die App rendert jetzt erst nach dem Laden.
+- **Prüfung:** Eine Reihenfolge-Frage, die man nicht angefasst hatte, galt nach dem Weiterblättern als beantwortet (mit der zufälligen Startreihenfolge) und zählte in der Statistik als Versuch. Änderungen werden jetzt nur noch gespeichert, wenn man selbst etwas ändert.
+
 ## [0.3.0] – 2026-11-17
 
 ### Hinzugefügt

@@ -114,3 +114,21 @@ test('statistics: "Heute üben" links into the quiz and charts render', async ({
   await expectNoHorizontalOverflow(page);
   expect(problems).toEqual([]);
 });
+
+test('an untouched order question stays unanswered when navigating away (regression)', async ({ page }) => {
+  await page.goto('./#/start');
+  await page.evaluate(() => {
+    localStorage.setItem('prueffit.exam', JSON.stringify({
+      v: 1, exam: 'AP1', part: 0, responses: {}, finished: false, finishedAt: null,
+      parts: [{ title: 'AP1', minutes: 90, ids: ['net-0014', 'net-0010'], startedAt: new Date().toISOString(), submittedAt: null, timeUp: false }],
+    }));
+  });
+  await page.goto('./#/pruefung');
+  await expect(page.locator('.order-list')).toBeVisible();
+  await page.getByRole('button', { name: 'Weiter →' }).click();
+  await page.getByRole('button', { name: '← Zurück' }).click();
+  await page.locator('[data-nav="1"]').click();
+  const responses = await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.exam')).responses);
+  expect(responses).toEqual({});
+  await expect(page.locator('#answered-count')).toHaveText('0 von 2 beantwortet');
+});

@@ -10,7 +10,8 @@ import {
   JOBS,
   ALL_JOBS,
 } from './config.js';
-import { reviewCard } from './leitner.js';
+import { reviewCard, todayInBerlin } from './leitner.js';
+import { updateStreak, pruneDaily } from './stats.js';
 
 const THEMES = ['auto', 'light', 'dark'];
 const JOB_IDS = [ALL_JOBS, ...JOBS.map((j) => j.id)];
@@ -26,6 +27,8 @@ export const MIGRATIONS = {
     ...data,
     settings: { ...(isPlainObject(data.settings) ? data.settings : {}), job: ALL_JOBS },
   }),
+  // 2 -> 3 (v0.4.0): activity per day for the daily goal.
+  2: (data) => ({ ...data, daily: {} }),
 };
 
 export function createDefaultState() {
@@ -35,6 +38,7 @@ export function createDefaultState() {
     cards: {},
     exams: [],
     streak: { current: 0, lastDay: null },
+    daily: {},
     settings: { ...DEFAULT_SETTINGS },
   };
 }
@@ -83,6 +87,12 @@ export function normalizeState(raw, version = SCHEMA_VERSION) {
       current: raw.streak.current,
       lastDay: isDay(raw.streak.lastDay) ? raw.streak.lastDay : null,
     };
+  }
+
+  if (isPlainObject(raw.daily)) {
+    for (const [day, count] of Object.entries(raw.daily)) {
+      if (isDay(day) && isCount(count)) state.daily[day] = count;
+    }
   }
 
   if (isPlainObject(raw.settings)) {
@@ -180,10 +190,17 @@ export function saveState(backend, state, key = STORAGE_KEY) {
   }
 }
 
+/** Counts one learning activity (question or card) for `day` (YYYY-MM-DD): daily goal and streak. */
+function recordActivity(state, day) {
+  const daily = { ...(state.daily ?? {}) };
+  daily[day] = (daily[day] ?? 0) + 1;
+  return { ...state, daily: pruneDaily(daily, day), streak: updateStreak(state.streak, day) };
+}
+
 /** Returns a new state with one more attempt recorded for `questionId`. */
 export function recordAnswer(state, questionId, isCorrect, now = new Date()) {
   const prev = state.answers[questionId] ?? { attempts: 0, correct: 0, lastAt: null };
-  return {
+  return recordActivity({
     ...state,
     answers: {
       ...state.answers,
@@ -193,7 +210,7 @@ export function recordAnswer(state, questionId, isCorrect, now = new Date()) {
         lastAt: now.toISOString(),
       },
     },
-  };
+  }, todayInBerlin(now));
 }
 
 /**
@@ -216,10 +233,10 @@ export function updateSettings(state, patch) {
 
 /** Returns a new state with the Leitner review of `cardId` recorded (CLAUDE.md 6.1). */
 export function recordCardReview(state, cardId, known, today) {
-  return {
+  return recordActivity({
     ...state,
     cards: { ...state.cards, [cardId]: reviewCard(state.cards[cardId], known, today) },
-  };
+  }, today);
 }
 
 /**

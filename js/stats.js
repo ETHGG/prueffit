@@ -1,6 +1,7 @@
 // Statistics. Pure functions, no DOM access (CLAUDE.md 6.2).
 
 import { MIN_ATTEMPTS_FOR_RATING, THRESHOLD_GREEN, THRESHOLD_YELLOW } from './config.js';
+import { addDays } from './leitner.js';
 
 /** correct / attempts, or null if there are no attempts. */
 export function hitRate(correct, attempts) {
@@ -93,4 +94,37 @@ export function areaStats(list) {
     sums.set(t.area, s);
   }
   return [...sums].map(([area, { attempts, correct }]) => ({ area, ...summarize(correct, attempts) }));
+}
+
+// ---- Lernserie und Tagesziel (CLAUDE.md 6.2) ----
+// Days are YYYY-MM-DD in Europe/Berlin (see leitner.todayInBerlin).
+
+/**
+ * Streak after activity on `today`: same day -> unchanged, day after lastDay -> +1,
+ * otherwise (gap, or lastDay in the future) -> restart at 1.
+ */
+export function updateStreak(streak, today) {
+  const last = streak?.lastDay ?? null;
+  if (last === today) return { current: Math.max(1, streak.current), lastDay: today };
+  if (last && addDays(last, 1) === today) return { current: streak.current + 1, lastDay: today };
+  return { current: 1, lastDay: today };
+}
+
+/** Streak to display: still valid if the last active day was today or yesterday. */
+export function currentStreak(streak, today) {
+  const last = streak?.lastDay;
+  if (!last) return 0;
+  return last === today || addDays(last, 1) === today ? streak.current : 0;
+}
+
+/** Progress towards the daily goal (questions answered + cards reviewed today). */
+export function dailyProgress(daily, today, goal) {
+  const done = daily?.[today] ?? 0;
+  return { done, goal, reached: done >= goal, ratio: goal > 0 ? Math.min(1, done / goal) : 1 };
+}
+
+/** Keeps only the last `keepDays` days (including today). */
+export function pruneDaily(daily, today, keepDays = 90) {
+  const oldest = addDays(today, -(keepDays - 1));
+  return Object.fromEntries(Object.entries(daily ?? {}).filter(([day]) => day >= oldest && day <= today));
 }

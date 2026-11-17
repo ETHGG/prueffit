@@ -4,7 +4,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 
 **Live:** https://ethgg.github.io/prueffit/
 
-## Funktionen (Version 0.3)
+## Funktionen (Version 0.4)
 
 - **Quiz-Modus:** Fragen nach Prüfung (AP1/AP2), Themen und Schwierigkeit filtern, 5, 10 oder 20 Fragen. Nach jeder Antwort gibt es sofort Feedback mit Erklärung und Lösungsweg, am Ende eine Auswertung mit Punkten und „Fehler wiederholen“. Eine laufende Runde übersteht Neuladen und App-Wechsel.
 - **Sechs Fragetypen:**
@@ -20,9 +20,12 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 - **Inhalte:** 175 eigene Fragen (25 pro Bereich, davon 91 für die AP2) und 56 Karteikarten in 7 Bereichen: Netzwerke, Hardware, IT-Sicherheit, Wirtschaft, Projektmanagement, Programmierung und Recht.
 - **Ausbildungsberuf wählbar:** Fachinformatik Systemintegration, Fachinformatik Anwendungsentwicklung oder IT-System-Management. AP2-Fragen anderer Berufe werden dann ausgeblendet.
 - **Fehler melden:** Unter jeder Erklärung führt ein Link zu einem vorausgefüllten GitHub-Issue.
-- **PWA:** installierbar, funktioniert nach dem ersten Aufruf komplett offline, Dark Mode nach Systemeinstellung, für das iPhone optimiert.
+- **Lernserie und Tagesziel:** Tage in Folge mit mindestens einer Aufgabe; Tagesziel frei wählbar.
+- **Sichern und übertragen:** Fortschritt als Datei exportieren und auf einem anderen Gerät importieren; eigene Fragen und Karteikarten importieren.
+- **Darstellung:** hell, dunkel oder wie das System.
+- **PWA:** installierbar, funktioniert nach dem ersten Aufruf komplett offline, für das iPhone optimiert.
 
-Geplant sind Import/Export, ein Dark-Mode-Schalter, Lernserie und Tagesziel (0.4). Details stehen in [`CLAUDE.md`](CLAUDE.md) und [`docs/STATUS.md`](docs/STATUS.md).
+Alle Phasen der Roadmap (0.1 bis 0.4) sind umgesetzt. Details stehen in [`CLAUDE.md`](CLAUDE.md) und [`docs/STATUS.md`](docs/STATUS.md).
 
 ## Auf dem iPhone installieren
 
@@ -74,9 +77,39 @@ scripts/make-icons.mjs                    erzeugt die PNG-Icons
 docs/                                     Status und Abschlussbericht
 ```
 
-## Eigene Fragen ergänzen
+## Eigene Fragen importieren
 
-Fragen liegen pro Bereich in `data/questions/<bereich>.json`, Karteikarten in `data/flashcards/<bereich>.json`. Das Format ist in [`CLAUDE.md`](CLAUDE.md), Abschnitt 5, beschrieben. Nach jeder Änderung `npm test` ausführen: `data.test.js` meldet fehlende Felder, doppelte IDs oder unpassende Antworten.
+In der App unter **Einstellungen → Sichern und übertragen → Fragen importieren** eine JSON-Datei wählen. Erlaubt sind:
+
+- ein Array von Fragen,
+- ein Objekt `{ "questions": [...], "flashcards": [...] }`,
+- oder eine aus PrüfFit exportierte Datei.
+
+Das Format entspricht [`CLAUDE.md`](CLAUDE.md), Abschnitt 5. Das Thema (`topic`) muss im Themenkatalog `data/topics.json` vorhanden sein. IDs müssen eindeutig sein und dürfen nicht mit mitgelieferten Fragen übereinstimmen; am besten mit eigenem Präfix wie `my-`. Ungültige Einträge werden mit Begründung übersprungen.
+
+```json
+{
+  "questions": [
+    {
+      "id": "my-0001",
+      "exam": ["AP1"],
+      "topic": "netzwerke.subnetting",
+      "difficulty": 2,
+      "type": "single",
+      "question": "Wie viele nutzbare Hosts hat ein /28-Netz?",
+      "options": ["14", "16", "30", "62"],
+      "answer": 0,
+      "points": 2,
+      "explanation": "2^(32-28) = 16 Adressen, minus Netz- und Broadcastadresse = 14."
+    }
+  ],
+  "flashcards": [
+    { "id": "my-fc-0001", "topic": "netzwerke.subnetting", "front": "/28", "back": "255.255.255.240, 14 nutzbare Hosts" }
+  ]
+}
+```
+
+Fragen für das Repo selbst liegen pro Bereich in `data/questions/<bereich>.json`, Karteikarten in `data/flashcards/<bereich>.json`. Nach jeder Änderung `npm test` ausführen; `data.test.js` meldet fehlende Felder, doppelte IDs oder unpassende Antworten.
 
 ## Hinweise
 

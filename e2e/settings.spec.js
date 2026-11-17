@@ -17,7 +17,8 @@ test('saved progress from schema 1 is migrated with backup and keeps all answers
     now: JSON.parse(localStorage.getItem('prueffit.v1')),
     backup: JSON.parse(localStorage.getItem('prueffit.backup.1')),
   }));
-  expect(stored.now.schemaVersion).toBe(2);
+  expect(stored.now.schemaVersion).toBe(3);
+  expect(stored.now.daily).toEqual({});
   expect(stored.now.settings.job).toBe('alle');
   expect(stored.now.answers).toEqual(v1.answers);
   expect(stored.now.cards).toEqual(v1.cards);
