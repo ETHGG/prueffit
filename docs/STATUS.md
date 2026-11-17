@@ -1,7 +1,19 @@
 # Projektstatus PrüfFit
 
 **Aktuelle Version:** 1.1.0 (17.11.2026)
-**Roadmap:** Alle Phasen 0.1 bis 1.1 sind erledigt. Weitere Ideen werden als neue Phasen ergänzt.
+**Roadmap:** Alle Phasen 0.1 bis 1.1 sind erledigt. **In Arbeit: 2.0 – Inhalte für alle IT-Berufe und berufsspezifische App** (Auftrag in 6 Phasen, Start 17.11.2026 19:11).
+
+## Weiter bei:
+**Phase 2, Schritt 1:** Datenmodell für 7 Berufe anlegen (`data/curriculum.json`, `js/curriculum.js`), dann alle bestehenden Inhalte zuordnen.
+
+| Phase | Status |
+|---|---|
+| 1 Recherche, `docs/QUELLEN.md` | erledigt |
+| 2 Datenmodell und Zuordnung | offen |
+| 3 Migration und berufsspezifische UI | offen |
+| 4 Neue AP1-Inhalte (Katalog 2025) | offen |
+| 5 Neue AP2-Inhalte je Beruf | offen |
+| 6 Abschluss (PDFs, Version 2.0.0, Doku, Push) | offen |
 
 ## Erledigt
 
