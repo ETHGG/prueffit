@@ -82,7 +82,9 @@ prueffit/
 │   │   ├── programmierung.json
 │   │   ├── recht.json
 │   │   └── wiso.json
-│   └── flashcards/
+│   ├── flashcards/
+│   │   └── *.json
+│   └── notes/                # Lernzettel, eine Datei pro Bereich
 │       └── *.json
 ├── js/
 │   ├── app.js                # Einstieg, Routing (Hash-Router)
@@ -95,9 +97,11 @@ prueffit/
 │   ├── stats.js              # Statistik-Berechnung
 │   ├── exam.js               # Prüfungssimulation + IHK-Notenschlüssel
 │   ├── schedule.js           # Prüfungstermine, Countdown, Lernplan
+│   ├── notes.js              # Lernzettel: Markdown-Teilumfang, Suche
 │   └── ui/
 │       ├── home.js
 │       ├── quizView.js
+│       ├── notesView.js
 │       ├── cardsView.js
 │       ├── statsView.js
 │       ├── examView.js
@@ -165,6 +169,12 @@ prueffit/
 { "id": "fc-0001", "topic": "hardware.raid", "front": "RAID 5", "back": "Striping mit verteilter Parität, mind. 3 Platten, 1 Platte darf ausfallen." }
 ```
 
+### 5.3a Lernzettel (`data/notes/<bereich>.json`, seit 0.7)
+```json
+{ "id": "note-raid", "topic": "hardware.raid", "title": "RAID-Level und Speicher", "content": "## Übersicht\n| RAID | … |", "source": "eigene", "refs": ["Deine Notizen: …"] }
+```
+Genau **ein Lernzettel pro Thema**. `content` ist ein Markdown-Teilumfang (`##`/`###`, Absätze, `-`/`1.`-Listen, Tabellen, ``` ``` ```-Code, `>`-Merksatz, `**fett**`, `` `code` ``), gerendert ohne innerHTML (`js/notes.js`). `refs` (optional) nennt die Grundlage.
+
 ### 5.4 Fortschritt (localStorage, Key `prueffit.v1`)
 ```json
 {
@@ -228,7 +238,7 @@ Prozent wird **kaufmännisch auf ganze Zahlen gerundet**, bevor die Note bestimm
 ## 7. UI-Richtlinien
 
 - **Mobile first** (iPhone, ab 375 px Breite). Touch-Ziele mind. 44 × 44 px.
-- Navigation unten als Tab-Leiste: **Start · Quiz · Karten · Statistik · Prüfung**.
+- Navigation unten als Tab-Leiste: **Start · Quiz · Lernzettel · Karten · Statistik · Prüfung** (seit 0.7 sechs Einträge).
 - Dark Mode über `prefers-color-scheme` + manueller Schalter.
 - Safe-Area beachten (`env(safe-area-inset-bottom)`).
 - Barrierefreiheit: semantisches HTML, `aria-label` bei Icon-Buttons, ausreichender Kontrast.
@@ -259,7 +269,8 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `exam.test.js` | Notenschlüssel an allen Grenzen (29/30, 49/50, 66/67, 80/81, 91/92), Rundung, Zeitablauf |
 | `storage.test.js` | leerer Speicher, defektes JSON, Migration, Backup wird angelegt |
 | `questions.test.js` | Filtern nach Prüfung/Thema/Schwierigkeit, Zufallsauswahl ohne Duplikate |
-| `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type` |
+| `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type`, ein Lernzettel pro Thema |
+| `notes.test.js` | Markdown-Teilumfang, Suche (Umlaute, UND-Verknüpfung, Ranking), Hervorhebung |
 
 **Regel:** Jede neue Funktion in einem Logik-Modul bekommt mindestens einen Test. Bugs werden zuerst mit einem fehlschlagenden Test reproduziert, dann behoben.
 
@@ -275,6 +286,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **0.4** | Import/Export (JSON) von Fortschritt und eigenen Fragen, Dark Mode, Lernserie, Tagesziel | erledigt |
 | **0.5** | Inhalte an IHK-Prüfungen 2021–2025 angepasst (Bereich WiSo, 325 Fragen, 110 Karten), AP2-Simulation mit Prüfungsbereichen je Beruf und WiSo | erledigt |
 | **0.6** | Willkommensfragen (Beruf, nächste Prüfung), Prüfungstermine (bundeseinheitlich, auch Sachsen-Anhalt), Countdown und Lernplan auf der Startseite | erledigt |
+| **0.7** | Lernzettel für alle 59 Themen mit Suche, eigene Unterrichtsnotizen ausgewertet (7 neue Themen, 76 Fragen, 20 Karten) | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

@@ -8,6 +8,7 @@ import {
   validateQuestion,
   validateFlashcard,
 } from '../js/questions.js';
+import { validateNote, parseMarkdown } from '../js/notes.js';
 import { AREAS, SUPPORTED_QUIZ_TYPES } from '../js/config.js';
 
 const DATA_DIR = fileURLToPath(new URL('../data/', import.meta.url));
@@ -38,12 +39,14 @@ const topicIds = new Set(Array.isArray(topics) ? topics.map((t) => t.id) : []);
 const topicById = new Map(Array.isArray(topics) ? topics.map((t) => [t.id, t]) : []);
 const questionFiles = allFiles.filter((f) => f.startsWith('questions/'));
 const cardFiles = allFiles.filter((f) => f.startsWith('flashcards/'));
+const noteFiles = allFiles.filter((f) => f.startsWith('notes/'));
 const areaName = (file) => AREAS.find((a) => a.id === basename(file, '.json'))?.name;
 
 describe('data/: all files', () => {
   it('contains only known file locations', () => {
     const unexpected = allFiles.filter(
-      (f) => f !== 'topics.json' && !/^questions\/[a-z]+\.json$/.test(f) && !/^flashcards\/[a-z]+\.json$/.test(f),
+      (f) => f !== 'topics.json' && !/^questions\/[a-z]+\.json$/.test(f) && !/^flashcards\/[a-z]+\.json$/.test(f)
+        && !/^notes\/[a-z]+\.json$/.test(f),
     );
     expect(unexpected).toEqual([]);
   });
@@ -181,4 +184,38 @@ describe('data/flashcards', () => {
       });
     });
   }
+});
+
+describe('data/notes (Lernzettel)', () => {
+  const notes = noteFiles.flatMap((f) => (Array.isArray(parsed.get(f)) ? parsed.get(f).map((n) => ({ file: f, n })) : []));
+
+  it('has exactly one file per area', () => {
+    expect(noteFiles.map((f) => basename(f, '.json')).sort()).toEqual(AREAS.map((a) => a.id).sort());
+  });
+  it('every note is valid and lies in the file of its area', () => {
+    for (const { file, n } of notes) {
+      expect(validateNote(n, topicIds), `${file}: ${n?.id}`).toEqual([]);
+      const area = AREAS.find((a) => a.id === basename(file, '.json'));
+      expect(topicById.get(n.topic)?.area, n.id).toBe(area.name);
+    }
+  });
+  it('IDs and titles are unique', () => {
+    const ids = notes.map(({ n }) => n.id);
+    expect(ids.filter((id, i) => ids.indexOf(id) !== i)).toEqual([]);
+    const titles = notes.map(({ n }) => n.title);
+    expect(titles.filter((t, i) => titles.indexOf(t) !== i)).toEqual([]);
+  });
+  it('every topic has exactly one Lernzettel', () => {
+    const count = new Map();
+    for (const { n } of notes) count.set(n.topic, (count.get(n.topic) ?? 0) + 1);
+    expect([...topicIds].filter((t) => count.get(t) !== 1)).toEqual([]);
+  });
+  it('every note has headings and some substance', () => {
+    for (const { n } of notes) {
+      const blocks = parseMarkdown(n.content);
+      expect(blocks.some((b) => b.type === 'heading'), n.id).toBe(true);
+      expect(n.content.length, n.id).toBeGreaterThanOrEqual(400);
+      expect(n.source, n.id).toBe('eigene');
+    }
+  });
 });

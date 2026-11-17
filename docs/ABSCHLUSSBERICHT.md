@@ -1,3 +1,48 @@
+# Abschlussbericht Version 0.7.0
+
+**Datum:** 17.11.2026 · **Live:** https://ethgg.github.io/prueffit/
+
+Auftrag: Die hochgeladenen Unterlagen (Goodnotes-Ordner „PrüfFit“) analysieren, daraus Lernzettel und Prüfungsfragen nach Themen erstellen, neue Themen in der App ergänzen, auch aus den bisherigen Daten Lernzettel erstellen und die UI um eine Suche für Lernzettel erweitern.
+
+## Ausgewertete Unterlagen
+
+Rund 70 PDF-Exporte (ca. 430 Seiten): LF1 (BWL-Grundlagen), LF2 (Kalkulation, Arbeitsplatz), LF3 (Netzwerke, OSI, Medien), LF4 (IT-Sicherheit, KRITIS), LF5 (Software, Speicher, Zahlensysteme, PAP), LF6 (Projektmanagement), LF8 (Rechtsformen, kaufm. Rechnen), LF9 (Elektrotechnik), LF10 (KLR), LF12 (After-Sales), Sozialkunde (Ausbildung, Betriebsrat, JArbSchG, Kündigung, Arbeitszeit, Mutterschutz, Arbeitsgericht, Sozialversicherung), Buchführung (Inventur, Bilanz, Buchungssatz), Kaufvertragsstörungen, Marketing/Marktforschung, Servicebereich (SLA/OLA/UC) und eine bearbeitete AP2 (FISI WS 22/23).
+Getippter Text wurde direkt gelesen, Handschrift und Fotos über die Seitenbilder. Deutsch, Ethik und private Seiten wurden nicht verwendet; nichts davon liegt im Repository – Fragen und Lernzettel sind neu formuliert.
+
+## Was umgesetzt wurde
+
+| Bereich | Umsetzung |
+|---|---|
+| Lernzettel | 59 Zettel (einer pro Thema) in `data/notes/<bereich>.json`, Markdown-Teilumfang, sichere Darstellung ohne innerHTML |
+| Suche | `js/notes.js`: Umlaut-/Groß-/Kleinschreibung-unabhängig, UND-Verknüpfung, Ranking (Titel > Thema/Bereich > Text), Textausschnitt, Hervorhebung |
+| UI | Tab „Lernzettel“, Liste nach Bereichen, Suchfeld, Bereichsfilter, Detailansicht mit Tabellen, „Fragen üben“, verwandte Zettel; Link aus dem Quiz-Feedback |
+| Inhalte | 7 neue Themen, 76 Fragen, 20 Karten auf Basis deiner Notizen; Rechenaufgaben per Skript geprüft |
+
+## Korrekturen zu deinen Notizen
+
+Beim Auswerten sind ein paar Stellen aufgefallen, die in den Lernzetteln richtig stehen:
+1. **Aktiv-Passiv-Mehrung:** In der Notiz steht „Bilanzsumme sinkt“ – richtig ist: sie **steigt** (bei der Minderung sinkt sie).
+2. **EPK:** „beginnt und endet mit einem Ergebnis“ – gemeint ist ein **Ereignis**.
+3. **Permanente Inventur:** einmal steht „jeden Monat körperlich“, einmal „mind. 1× im Jahr“ – gesetzlich nötig ist **mindestens einmal im Jahr** eine körperliche Bestandsaufnahme.
+4. **Umsatzsteuer-Beispiel:** „3580 : 1,19 = 2941,18“ – 2.941,18 € ergibt sich aus **3.500** €; 3.580 € brutto wären 3.008,40 € netto.
+
+## Annahmen
+
+1. **Tab-Leiste mit sechs Einträgen:** Lernzettel sollen schnell erreichbar sein; auf dem iPhone SE geprüft (keine Überläufe, Touch-Ziele ≥ 44 px). CLAUDE.md §7 entsprechend angepasst.
+2. **Buchführung und KLR nur AP2 (ITSM):** Diese Themen kommen in der AP1 nicht vor, in der AP2 ITSM („Kaufmännische Unterstützungsprozesse“) schon.
+3. **Ein Zettel pro Thema** (per Test erzwungen), damit Quiz, Statistik und Lernzettel zusammenpassen.
+
+## Tests
+
+- Unit: 417/417 (neu: `notes.test.js`, Datentests für Lernzettel, `loadCatalog` mit Lernzetteln).
+- Browser: 32 Tests × 4 Profile, lokal 89 grün, 4 bewusst übersprungen (WebKit in CI).
+
+## Offene Punkte
+
+- Fachliches Gegenlesen der neuen Lernzettel durch Ausbilder/Lehrkräfte.
+
+---
+
 # Abschlussbericht Version 0.6.0
 
 **Datum:** 17.11.2026 · **Live:** https://ethgg.github.io/prueffit/

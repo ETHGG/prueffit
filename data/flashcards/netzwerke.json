@@ -12,5 +12,7 @@
   {"id": "fc-0059", "topic": "netzwerke.routing", "front": "Ping per IP geht, per Name nicht", "back": "Netz und Gateway funktionieren – Fehler bei der Namensauflösung: DNS-Server falsch, nicht erreichbar oder Port 53 gesperrt. Prüfen mit nslookup."},
   {"id": "fc-0060", "topic": "netzwerke.vlan", "front": "Spanning Tree (STP)", "back": "Verhindert Schleifen bei redundanten Switch-Verbindungen, indem es Ports blockiert. Fällt der aktive Weg aus, wird der blockierte Port aktiviert."},
   {"id": "fc-0061", "topic": "netzwerke.subnetting", "front": "IPv4-Multicast-Bereich", "back": "224.0.0.0 bis 239.255.255.255 (224.0.0.0/4), erstes Oktett binär 1110."},
-  {"id": "fc-0062", "topic": "netzwerke.ipv6", "front": "SLAAC", "back": "Stateless Address Autoconfiguration: Präfix kommt per Router Advertisement, Client bildet Interface-ID selbst und prüft per DAD. DHCPv6 zusätzlich für DNS-Optionen und zentrale Kontrolle."}
+  {"id": "fc-0062", "topic": "netzwerke.ipv6", "front": "SLAAC", "back": "Stateless Address Autoconfiguration: Präfix kommt per Router Advertisement, Client bildet Interface-ID selbst und prüft per DAD. DHCPv6 zusätzlich für DNS-Optionen und zentrale Kontrolle."},
+  {"id": "fc-0111", "topic": "netzwerke.medien", "front": "Singlemode vs. Multimode (LWL)", "back": "Singlemode: Kern ≈ 9 µm, ein Lichtweg, geringe Dämpfung, viele km. Multimode: Kern 50/62,5 µm, mehrere Lichtwege, einige 100 m (Gradientenindex weiter als Stufenindex)."},
+  {"id": "fc-0112", "topic": "netzwerke.medien", "front": "Kabelbezeichnung S/FTP", "back": "Vor dem / : Gesamtschirm (S = Geflecht, F = Folie, U = keiner). Nach dem / : Schirmung der Paare. TP = Twisted Pair. Max. 100 m pro Strecke."}
 ]

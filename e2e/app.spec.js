@@ -82,14 +82,14 @@ test('statistics list every topic per area (regression: arrays rendered as "[obj
   const topicCount = await page.evaluate(async () => (await (await fetch('./data/topics.json')).json()).length);
   await expect(page.locator('.stat-list .stat-item')).toHaveCount(topicCount);
   await expect(page.locator('main')).not.toContainText('[object');
-  for (const route of ['start', 'quiz', 'karten', 'pruefung', 'einstellungen']) {
+  for (const route of ['start', 'quiz', 'lernzettel', 'karten', 'pruefung', 'einstellungen']) {
     await page.goto(`./#/${route}`);
     await expect(page.locator('main')).not.toContainText('[object');
   }
 });
 
 test('no view prints "null", "undefined" or "[object …]" (regression)', async ({ page }) => {
-  for (const route of ['start', 'quiz', 'karten', 'statistik', 'pruefung', 'einstellungen']) {
+  for (const route of ['start', 'quiz', 'lernzettel', 'karten', 'statistik', 'pruefung', 'einstellungen']) {
     await page.goto(`./#/${route}`);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     const text = await page.locator('main').innerText();

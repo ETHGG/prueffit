@@ -200,6 +200,11 @@ describe('loadCatalog', () => {
       { id: 'fc-1', topic: 'netzwerke.subnetting', front: 'c', back: 'd' },
       { id: 'fc-2', topic: 'nope', front: 'a', back: 'b' },
     ],
+    './data/notes/netzwerke.json': [
+      { id: 'note-sub', topic: 'netzwerke.subnetting', title: 'Subnetting', content: '## Schritte\nBlockgröße = 256 − Maskenwert, dann Netz und Broadcast ablesen.', source: 'eigene' },
+      { id: 'note-sub', topic: 'netzwerke.subnetting', title: 'Doppelt', content: '## Doppelt\nDiese ID gibt es schon, deshalb wird der Zettel übersprungen.' },
+      { id: 'kaputt', topic: 'netzwerke.subnetting', title: 'x', content: 'zu kurz' },
+    ],
   };
   const fakeFetch = async (url) => {
     if (!(url in files)) return { ok: false, status: 404, json: async () => { throw new Error('404'); } };
@@ -220,6 +225,13 @@ describe('loadCatalog', () => {
     expect(res.errors.join()).toMatch(/fc-1: ID ist nicht eindeutig/);
   });
 
+  it('loads valid study notes and skips duplicates and invalid ones', async () => {
+    const res = await loadCatalog(fakeFetch, { areas: ['netzwerke'] });
+    expect(res.notes.map((n) => n.id)).toEqual(['note-sub']);
+    expect(res.errors.join()).toMatch(/note-sub: ID ist nicht eindeutig/);
+    expect(res.errors.join()).toMatch(/kaputt/);
+  });
+
   it('reports missing files instead of throwing', async () => {
     const res = await loadCatalog(fakeFetch, { areas: ['netzwerke', 'recht'] });
     expect(res.questions).toHaveLength(1);
@@ -231,6 +243,7 @@ describe('loadCatalog', () => {
     expect(res.topics).toEqual([]);
     expect(res.questions).toEqual([]);
     expect(res.flashcards).toEqual([]);
+    expect(res.notes).toEqual([]);
     expect(res.errors.length).toBeGreaterThan(0);
   });
 });

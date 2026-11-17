@@ -12,5 +12,14 @@
   {"id": "fc-0077", "topic": "wirtschaft.kalkulation", "front": "Preisuntergrenzen", "back": "Kurzfristig: variable Stückkosten (Fixkosten nicht gedeckt). Langfristig: variable + fixe Stückkosten = Selbstkosten je Stück (Gewinn 0)."},
   {"id": "fc-0078", "topic": "wirtschaft.kalkulation", "front": "Umsatzrendite", "back": "Gewinn / Umsatz × 100. Beispiel: 22.500 € / 250.000 € = 9 %."},
   {"id": "fc-0079", "topic": "wirtschaft.marketing", "front": "BCG-Matrix", "back": "Question Marks (Wachstum hoch, Anteil gering), Stars (beides hoch), Cash Cows (Wachstum gering, Anteil hoch), Poor Dogs (beides gering)."},
-  {"id": "fc-0080", "topic": "wirtschaft.marketing", "front": "Cross- vs. Up-Selling", "back": "Cross-Selling: ergänzende Produkte dazu (Maus zum Notebook). Up-Selling: höherwertige Variante statt Basismodell."}
+  {"id": "fc-0080", "topic": "wirtschaft.marketing", "front": "Cross- vs. Up-Selling", "back": "Cross-Selling: ergänzende Produkte dazu (Maus zum Notebook). Up-Selling: höherwertige Variante statt Basismodell."},
+  {"id": "fc-0113", "topic": "wirtschaft.grundlagen", "front": "Bedürfnis – Bedarf – Nachfrage", "back": "Bedürfnis: Mangelgefühl. Bedarf: Bedürfnis mit Kaufkraft. Nachfrage: am Markt wirksamer Bedarf."},
+  {"id": "fc-0114", "topic": "wirtschaft.grundlagen", "front": "Roh-, Hilfs-, Betriebsstoffe", "back": "Rohstoff: Hauptbestandteil (Holz). Hilfsstoff: Nebenbestandteil (Leim, Schrauben). Betriebsstoff: wird verbraucht, nicht im Produkt (Strom, Öl)."},
+  {"id": "fc-0115", "topic": "wirtschaft.rechnen", "front": "Kaufmännische Zinsformel", "back": "Z = K · p · t / (100 · 360); Monat = 30 Tage, Jahr = 360 Tage. Umgestellt: t = Z · 36.000 / (K · p)."},
+  {"id": "fc-0116", "topic": "wirtschaft.rechnen", "front": "Brutto ↔ Netto (19 % USt)", "back": "Netto = Brutto / 1,19. USt = Netto · 0,19 = Brutto − Netto. Nie 19 % vom Bruttobetrag rechnen!"},
+  {"id": "fc-0117", "topic": "wirtschaft.buchfuehrung", "front": "Vier Bilanzveränderungen", "back": "Aktivtausch, Passivtausch (Summe gleich) · Aktiv-Passiv-Mehrung (Summe steigt) · Aktiv-Passiv-Minderung (Summe sinkt)."},
+  {"id": "fc-0118", "topic": "wirtschaft.buchfuehrung", "front": "Buchungssatz", "back": "Soll an Haben. Aktivkonten: Zugang Soll, Abgang Haben. Passivkonten: Zugang Haben, Abgang Soll. Aufwand Soll, Ertrag Haben."},
+  {"id": "fc-0119", "topic": "wirtschaft.klr", "front": "Neutrale Aufwendungen", "back": "Betriebsfremd (Spende), periodenfremd (Steuernachzahlung Vorjahr), außerordentlich (Brandschaden) → keine Kosten."},
+  {"id": "fc-0120", "topic": "wirtschaft.klr", "front": "Betriebsergebnis", "back": "Leistungen − Kosten. Gesamtergebnis = Betriebsergebnis + neutrales Ergebnis (neutrale Erträge − neutrale Aufwendungen)."},
+  {"id": "fc-0121", "topic": "wirtschaft.kalkulation", "front": "Kalkulationszuschlag vs. Handelsspanne", "back": "Zuschlag = (VP − BP) / BP · 100 (Basis Bezugspreis). Handelsspanne = (VP − BP) / VP · 100 (Basis Verkaufspreis)."}
 ]

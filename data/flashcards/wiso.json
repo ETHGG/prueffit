@@ -10,5 +10,8 @@
   {"id": "fc-0107", "topic": "wiso.sozialversicherung", "front": "Fünf Zweige der Sozialversicherung", "back": "Kranken-, Pflege-, Renten-, Arbeitslosen- und Unfallversicherung (Unfall zahlt der Arbeitgeber allein, Träger Berufsgenossenschaft)."},
   {"id": "fc-0108", "topic": "wiso.unternehmen", "front": "GmbH", "back": "Stammkapital mind. 25.000 € (Hälfte bei Gründung), notarieller Vertrag, entsteht mit HR-Eintragung, Gewinn nach Geschäftsanteilen."},
   {"id": "fc-0109", "topic": "wiso.volkswirtschaft", "front": "Magisches Viereck", "back": "Preisniveaustabilität, hoher Beschäftigungsstand, außenwirtschaftliches Gleichgewicht, stetiges angemessenes Wachstum (StabG 1967)."},
-  {"id": "fc-0110", "topic": "wiso.volkswirtschaft", "front": "Wirtschaftssektoren", "back": "Primär: Urproduktion. Sekundär: Verarbeitung (Industrie, Handwerk, Bau). Tertiär: Dienstleistung."}
+  {"id": "fc-0110", "topic": "wiso.volkswirtschaft", "front": "Wirtschaftssektoren", "back": "Primär: Urproduktion. Sekundär: Verarbeitung (Industrie, Handwerk, Bau). Tertiär: Dienstleistung."},
+  {"id": "fc-0126", "topic": "wiso.schutzgesetze", "front": "Arbeitszeitgesetz", "back": "8 h/Werktag (bis 10 h mit Ausgleich). Pausen: > 6 h 30 min, > 9 h 45 min. Ruhezeit mind. 11 h."},
+  {"id": "fc-0127", "topic": "wiso.schutzgesetze", "front": "Mutterschutz", "back": "Schutzfrist 6 Wochen vor, 8 Wochen nach Entbindung (12 bei Früh-/Mehrlingsgeburt). Kündigungsschutz bis 4 Monate nach Entbindung."},
+  {"id": "fc-0128", "topic": "wiso.schutzgesetze", "front": "Arbeitsgericht", "back": "Arbeitsgericht → Landesarbeitsgericht → Bundesarbeitsgericht. Güteverhandlung zuerst. 1. Instanz: kein Anwaltszwang, jede Partei trägt eigene Anwaltskosten. Kündigungsschutzklage: 3 Wochen."}
 ]

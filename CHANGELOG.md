@@ -2,6 +2,22 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [0.7.0] – 2026-11-17
+
+### Hinzugefügt
+- **Lernzettel:** neuer Bereich in der Tab-Leiste mit einem kompakten Lernzettel für **jedes der 59 Themen** (Tabellen, Formeln, Rechenwege, Merksätze).
+  - **Suche** über Titel, Thema, Bereich und Text; Groß-/Kleinschreibung und Umlaute spielen keine Rolle („kundigung“ findet „Kündigung“), mehrere Begriffe müssen alle vorkommen.
+  - Treffer werden **hervorgehoben**, mit Textausschnitt und nach Relevanz sortiert; Filter nach Bereich; Suche und Filter stehen in der Adresse (teilbar, „Zurück zu den Treffern“).
+  - Vom Lernzettel direkt ins Quiz zum Thema; nach jeder beantworteten Quizfrage ein Link zum passenden Lernzettel.
+- **Eigene Unterrichtsnotizen ausgewertet** (Goodnotes-Exporte LF1–LF13, Sozialkunde, Wirtschaft): daraus 7 neue Themen, 76 neue Fragen und 20 neue Karteikarten, alles in eigenen Worten.
+  - Neue Themen: Übertragungsmedien und Topologien; Bedürfnisse, Güter und Produktionsfaktoren; Kaufmännisches Rechnen (Prozent, Zins, USt, Währung); Inventur, Bilanz und Buchungssätze; Kosten- und Leistungsrechnung; Geschäftsprozesse und EPK; Arbeitszeit, Mutterschutz und Arbeitsgericht.
+  - Lernzettel nennen ihre Grundlage („Deine Notizen: …“).
+- Neues Logikmodul `js/notes.js` (Markdown-Teilumfang ohne innerHTML, Suche, Hervorhebung) mit Unit-Tests; Datentest: genau ein Lernzettel pro Thema; 2 neue Browsertests.
+
+### Geändert
+- Tab-Leiste mit sechs Einträgen: Start · Quiz · Lernzettel · Karten · Statistik · Prüfung.
+- Jetzt 401 Fragen (285 für die AP2), 130 Karteikarten, 59 Themen.
+
 ## [0.6.0] – 2026-11-17
 
 ### Hinzugefügt

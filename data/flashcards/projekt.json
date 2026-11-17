@@ -12,5 +12,7 @@
   {"id": "fc-0083", "topic": "projekt.service", "front": "SLA", "back": "Service Level Agreement: messbare Vereinbarung über Verfügbarkeit, Servicezeiten, Reaktions- und Lösungszeiten, Eskalation und Vertragsstrafen."},
   {"id": "fc-0084", "topic": "projekt.digitalisierung", "front": "ERP", "back": "Enterprise Resource Planning: integrierte Software mit gemeinsamer Datenbasis; Module z. B. Finanzen, Materialwirtschaft, Vertrieb, Personal, Produktion."},
   {"id": "fc-0085", "topic": "projekt.digitalisierung", "front": "XRechnung vs. ZUGFeRD", "back": "XRechnung: reine XML-Datei. ZUGFeRD: PDF mit eingebettetem XML (hybrid, für Mensch und Maschine lesbar)."},
-  {"id": "fc-0086", "topic": "projekt.grundlagen", "front": "Vier-Ohren-Modell", "back": "Sachinhalt, Selbstoffenbarung, Beziehung, Appell (Schulz von Thun)."}
+  {"id": "fc-0086", "topic": "projekt.grundlagen", "front": "Vier-Ohren-Modell", "back": "Sachinhalt, Selbstoffenbarung, Beziehung, Appell (Schulz von Thun)."},
+  {"id": "fc-0122", "topic": "projekt.prozesse", "front": "EPK-Regeln", "back": "Start und Ende = Ereignis (Sechseck). Ereignis und Funktion (abgerundetes Rechteck) wechseln sich ab. Nach einem Ereignis kein XOR/ODER-Verzweiger."},
+  {"id": "fc-0123", "topic": "projekt.service", "front": "SLA, OLA, UC", "back": "SLA: mit dem Kunden. OLA: intern mit anderer Abteilung. UC: mit externem Zulieferer. OLA/UC sichern das SLA ab."}
 ]

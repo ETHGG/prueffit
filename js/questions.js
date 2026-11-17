@@ -1,6 +1,7 @@
 // Loading, validating and filtering questions. No DOM access:
 // `fetch` is passed in so the module can be tested without a browser.
 
+import { validateNote } from './notes.js';
 import { AREAS, APP_VERSION, DATA_BASE, EXAMS, ISSUE_LABEL, JOBS, ALL_JOBS, QUESTION_TYPES, REPO_URL } from './config.js';
 
 const JOB_IDS = JOBS.map((j) => j.id);
@@ -239,7 +240,7 @@ export async function loadCatalog(fetchFn, { base = DATA_BASE, areas = AREAS.map
     }
   } catch (e) {
     errors.push(`topics.json: ${e.message}`);
-    return { topics: [], questions: [], flashcards: [], errors };
+    return { topics: [], questions: [], flashcards: [], notes: [], errors };
   }
 
   const topicIds = new Set(topics.map((t) => t.id));
@@ -292,7 +293,29 @@ export async function loadCatalog(fetchFn, { base = DATA_BASE, areas = AREAS.map
     }
   });
 
-  return { topics, questions, flashcards, errors };
+  const notes = [];
+  const noteResults = await Promise.allSettled(
+    areas.map((area) => fetchJson(fetchFn, `${base}notes/${area}.json`)),
+  );
+  const seenNotes = new Set();
+  noteResults.forEach((r, i) => {
+    if (r.status === 'rejected' || !Array.isArray(r.value)) {
+      errors.push(`notes/${areas[i]}.json: ${r.status === 'rejected' ? (r.reason?.message ?? r.reason) : 'kein Array'}`);
+      return;
+    }
+    for (const note of r.value) {
+      const nErrors = validateNote(note, topicIds);
+      if (!nErrors.length && seenNotes.has(note.id)) nErrors.push('ID ist nicht eindeutig');
+      if (nErrors.length) {
+        errors.push(`${note?.id ?? '?'}: ${nErrors.join('; ')}`);
+        continue;
+      }
+      seenNotes.add(note.id);
+      notes.push(note);
+    }
+  });
+
+  return { topics, questions, flashcards, notes, errors };
 }
 
 const ISSUE_TEXT_LIMIT = 300;

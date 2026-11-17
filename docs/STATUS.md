@@ -1,9 +1,14 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 0.6.0 (17.11.2026)
-**Roadmap:** Alle Phasen 0.1 bis 0.6 sind erledigt. Weitere Ideen werden als neue Phasen ergänzt.
+**Aktuelle Version:** 0.7.0 (17.11.2026)
+**Roadmap:** Alle Phasen 0.1 bis 0.7 sind erledigt. Weitere Ideen werden als neue Phasen ergänzt.
 
 ## Erledigt
+
+### 0.7
+- [x] Lernzettel für alle 59 Themen, Suche mit Hervorhebung, Bereichsfilter, Links Quiz ↔ Lernzettel
+- [x] Unterrichtsnotizen (Goodnotes) ausgewertet: 7 neue Themen, 76 Fragen, 20 Karten
+- [x] 417 Unit-Tests, 32 Browsertests × 4 Profile
 
 ### 0.6
 - [x] Willkommensfragen (Beruf, nächste Prüfung, Termin) auf der Startseite
@@ -41,6 +46,7 @@
 ## Offen
 
 - Keine offenen Roadmap-Punkte. Nächste Schritte: weitere Ideen des Nutzers.
+- Lernzettel und neue Inhalte sind noch nicht fachlich gegengelesen; Hinweise über „Fehler melden“.
 - Prüfungstermine ab Herbst 2028 sind geschätzt; `KNOWN_EXAM_DATES` jährlich mit den Veröffentlichungen der IHK nachpflegen.
 - Für FIAE gibt es in den bereitgestellten Unterlagen keine Prüfung nach AO 2020; die FIAE-Bereiche beruhen auf der Prüfungsordnung, FIAE-Inhalte sind dünner als FISI/ITSM.
 

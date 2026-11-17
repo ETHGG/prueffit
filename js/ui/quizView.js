@@ -285,6 +285,14 @@ function textInput(q, answered, result, submitSelf, onChange) {
   return h('div', {}, ...parts);
 }
 
+/** Link to the study note of a topic (the running quiz survives the detour). */
+function noteLink(ctx, topicId) {
+  const note = (ctx.catalog.notes ?? []).find((n) => n.topic === topicId);
+  return note
+    ? h('p', { class: 'note-hint' }, '📄 ', h('a', { href: `#/lernzettel/${encodeURIComponent(note.id)}` }, `Lernzettel: ${note.title}`))
+    : null;
+}
+
 function reportLink(item) {
   return h('p', { class: 'report' },
     h('a', { href: issueUrl(item), target: '_blank', rel: 'noopener' }, 'Fehler in dieser Frage melden'));
@@ -325,6 +333,7 @@ function drawQuestion(root, ctx, draw, topicById) {
       h('p', { class: 'small' }, `${formatNumber(result.points)} von ${formatNumber(result.maxPoints)} ${result.maxPoints === 1 ? 'Punkt' : 'Punkten'}`),
       !result.correct && q.type !== 'text' ? h('p', {}, h('strong', { text: 'Richtige Antwort: ' }), correctAnswerText(q)) : null,
       h('p', {}, h('strong', { text: 'Erklärung: ' }), q.explanation),
+      noteLink(ctx, q.topic),
       reportLink(q));
   }
 

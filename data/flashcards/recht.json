@@ -12,5 +12,6 @@
   {"id": "fc-0095", "topic": "recht.vertragsrecht", "front": "Kaufvertragsstörungen", "back": "Lieferungsverzug, mangelhafte Lieferung (Schlechtleistung), Zahlungsverzug, Annahmeverzug."},
   {"id": "fc-0096", "topic": "recht.datenschutz", "front": "Pseudonymisierung vs. Anonymisierung", "back": "Pseudonym: mit Zusatzwissen wieder zuordenbar → weiter personenbezogen. Anonym: Bezug dauerhaft nicht herstellbar → DSGVO gilt nicht."},
   {"id": "fc-0097", "topic": "recht.datenschutz", "front": "Auftragsverarbeitung (AVV)", "back": "Dienstleister verarbeitet personenbezogene Daten im Auftrag und nach Weisung (z. B. Cloud, Fernwartung) → Vertrag nach Art. 28 DSGVO."},
-  {"id": "fc-0098", "topic": "recht.lizenzen", "front": "Benutzer-CAL vs. Geräte-CAL", "back": "Benutzer-CAL: eine Person, beliebig viele Geräte (Außendienst). Geräte-CAL: ein Gerät, beliebig viele Personen (Schichtbetrieb)."}
+  {"id": "fc-0098", "topic": "recht.lizenzen", "front": "Benutzer-CAL vs. Geräte-CAL", "back": "Benutzer-CAL: eine Person, beliebig viele Geräte (Außendienst). Geräte-CAL: ein Gerät, beliebig viele Personen (Schichtbetrieb)."},
+  {"id": "fc-0125", "topic": "recht.vertragsrecht", "front": "Rügepflicht § 377 HGB", "back": "Nur beim zweiseitigen Handelskauf: offene Mängel unverzüglich nach Lieferung, versteckte unverzüglich nach Entdeckung rügen – sonst Verlust der Mängelrechte."}
 ]

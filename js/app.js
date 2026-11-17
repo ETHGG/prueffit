@@ -9,6 +9,7 @@ import { CUSTOM_KEY, normalizeCustom } from './transfer.js';
 import * as home from './ui/home.js';
 import * as quizView from './ui/quizView.js';
 import * as cardsView from './ui/cardsView.js';
+import * as notesView from './ui/notesView.js';
 import * as statsView from './ui/statsView.js';
 import * as examView from './ui/examView.js';
 import * as settingsView from './ui/settingsView.js';
@@ -17,6 +18,7 @@ import { h } from './ui/dom.js';
 const ROUTES = {
   start: { view: home, title: 'Start' },
   quiz: { view: quizView, title: 'Quiz' },
+  lernzettel: { view: notesView, title: 'Lernzettel' },
   karten: { view: cardsView, title: 'Karteikarten' },
   statistik: { view: statsView, title: 'Statistik' },
   pruefung: { view: examView, title: 'Prüfung' },
