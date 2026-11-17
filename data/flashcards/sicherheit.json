@@ -13,5 +13,5 @@
   {"id": "fc-0072", "topic": "sicherheit.management", "front": "Härtung", "back": "Angriffsfläche verkleinern: unnötige Dienste/Software/Konten weg, Standardpasswörter ändern, Updates, minimale Rechte, Protokollierung."},
   {"id": "fc-0073", "topic": "sicherheit.netzsicherheit", "front": "TLS-Inspection", "back": "Firewall bricht TLS auf (Man in the Middle) mit eigener, auf Clients verteilter CA. Vorteil: Malware in HTTPS erkennbar. Nachteil: Datenschutz, Aufwand, Fehler bei Zertifikat-Pinning."},
   {"id": "fc-0074", "topic": "sicherheit.schutzziele", "front": "Authentifizierungsfaktoren", "back": "Wissen (Passwort, PIN), Besitz (Chipkarte, Token, Smartphone), Sein/Biometrie (Fingerabdruck). 2FA = zwei verschiedene Kategorien."},
-  {"id": "fc-0124", "topic": "sicherheit.management", "front": "KRITIS", "back": "Kritische Infrastrukturen (Energie, Wasser, Gesundheit, IT/TK, Transport, Ernährung, Finanzen, Staat). Pflichten: Stand der Technik, Nachweis alle 2 Jahre, Meldung an das BSI."}
+  {"id": "fc-0124", "topic": "sicherheit.management", "front": "KRITIS", "back": "Kritische Infrastrukturen (Energie, Wasser, Gesundheit, IT/TK, Transport, Ernährung, Finanzen, Staat). Pflichten: Stand der Technik, Nachweis alle 3 Jahre (§ 39 BSIG), Meldung an das BSI."}
 ]

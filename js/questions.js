@@ -3,6 +3,7 @@
 
 import { validateNote } from './notes.js';
 import { validateGlossaryEntry, spellings } from './glossary.js';
+import { validateScenario } from './exam.js';
 import { AREAS, APP_VERSION, DATA_BASE, EXAMS, ISSUE_LABEL, JOBS, ALL_JOBS, QUESTION_TYPES, REPO_URL } from './config.js';
 
 const JOB_IDS = JOBS.map((j) => j.id);
@@ -241,7 +242,7 @@ export async function loadCatalog(fetchFn, { base = DATA_BASE, areas = AREAS.map
     }
   } catch (e) {
     errors.push(`topics.json: ${e.message}`);
-    return { topics: [], questions: [], flashcards: [], notes: [], glossary: [], errors };
+    return { topics: [], questions: [], flashcards: [], notes: [], glossary: [], scenarios: [], errors };
   }
 
   const topicIds = new Set(topics.map((t) => t.id));
@@ -336,7 +337,28 @@ export async function loadCatalog(fetchFn, { base = DATA_BASE, areas = AREAS.map
     errors.push(`glossary.json: ${e.message}`);
   }
 
-  return { topics, questions, flashcards, notes, glossary, errors };
+  // AP2 scenarios ("Handlungssituationen"), optional.
+  const scenarios = [];
+  try {
+    const raw = await fetchJson(fetchFn, `${base}scenarios.json`);
+    if (!Array.isArray(raw)) throw new Error('kein Array');
+    const questionIds = new Set(questions.map((q) => q.id));
+    const used = new Set();
+    for (const s of raw) {
+      const sErrors = validateScenario(s, questionIds);
+      if (!sErrors.length && s.questions.some((id) => used.has(id))) sErrors.push('Frage gehört schon zu einer anderen Situation');
+      if (sErrors.length) {
+        errors.push(`scenarios.json ${s?.id ?? '?'}: ${sErrors.join('; ')}`);
+        continue;
+      }
+      s.questions.forEach((id) => used.add(id));
+      scenarios.push(s);
+    }
+  } catch (e) {
+    errors.push(`scenarios.json: ${e.message}`);
+  }
+
+  return { topics, questions, flashcards, notes, glossary, scenarios, errors };
 }
 
 const ISSUE_TEXT_LIMIT = 300;

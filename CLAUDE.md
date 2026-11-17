@@ -74,6 +74,7 @@ prueffit/
 ├── data/
 │   ├── topics.json           # Themenkatalog
 │   ├── glossary.json         # Abkürzungsverzeichnis
+│   ├── scenarios.json        # AP2-Handlungssituationen
 │   ├── questions/
 │   │   ├── netzwerke.json
 │   │   ├── hardware.json
@@ -104,6 +105,8 @@ prueffit/
 │       ├── home.js
 │       ├── quizView.js
 │       ├── fold.js           # aufklappbare Bereiche (details)
+│       ├── backup.js         # Erinnerung an die Datensicherung
+│       ├── scenario.js       # Box „Ausgangssituation“
 │       ├── notesView.js
 │       ├── cardsView.js
 │       ├── statsView.js
@@ -184,19 +187,26 @@ Genau **ein Lernzettel pro Thema**. `content` ist ein Markdown-Teilumfang (`##`/
 ```
 `area` ist ein Bereichsname oder `Allgemein`; Abkürzungen und `aliases` sind eindeutig. **Jede Abkürzung in einem Lernzettel muss im Verzeichnis stehen** (`data.test.js` prüft das; Nicht-Abkürzungen wie SQL-Schlüsselwörter stehen dort in `NOT_ABBREVIATIONS`).
 
+### 5.3c Handlungssituation (`data/scenarios.json`, seit 1.0)
+```json
+{ "id": "sz-fisi-ga2", "exam": "AP2", "part": "ga2", "jobs": ["fisi"], "title": "…", "situation": "Markdown-Teilumfang", "questions": ["net-0049", "net-0050"] }
+```
+Eine Situation eröffnet einen AP2-Prüfungsbereich: Erst kommen ihre Fragen in der angegebenen Reihenfolge, dann Zufallsfragen bis zur Punktzahl. Fragen einer Situation werden **nie ohne sie** gezogen (im Quiz erscheint die Ausgangssituation über der Frage). Jede Frage gehört zu höchstens einer Situation, hat dieselben `jobs`, ist automatisch bewertbar und passt zum Prüfungsbereich (`data.test.js`).
+
 ### 5.4 Fortschritt (localStorage, Key `prueffit.v1`)
 ```json
 {
-  "schemaVersion": 4,
-  "answers": { "net-0001": { "attempts": 3, "correct": 2, "lastAt": "2026-11-17T10:00:00Z" } },
+  "schemaVersion": 5,
+  "answers": { "net-0001": { "attempts": 3, "correct": 2, "lastAt": "2026-11-17T10:00:00Z", "lastCorrect": false } },
   "cards": { "fc-0001": { "box": 3, "nextDue": "2026-11-20" } },
   "exams": [ { "date": "...", "exam": "AP1", "points": 78, "max": 100, "grade": 3 } ],
   "streak": { "current": 4, "lastDay": "2026-11-17" },
   "daily": { "2026-11-17": 12 },
-  "settings": { "theme": "auto", "dailyGoal": 20, "job": "alle", "onboarded": true, "examTarget": { "exam": "AP2", "day": "2027-04-28" } }
+  "settings": { "theme": "auto", "dailyGoal": 20, "job": "alle", "onboarded": true, "examTarget": { "exam": "AP2", "day": "2027-04-28" }, "backup": { "lastAt": "2026-11-10", "snoozeUntil": null } }
 }
 ```
-Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`); 2 → 3 (v0.4.0) ergänzt `daily` (erledigte Aufgaben pro Tag, Europe/Berlin, die letzten 90 Tage); 3 → 4 (v0.6.0) ergänzt `settings.onboarded` (Willkommensfragen beantwortet) und `settings.examTarget` (nächste Prüfung und Termin oder `null`).
+Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`); 2 → 3 (v0.4.0) ergänzt `daily` (erledigte Aufgaben pro Tag, Europe/Berlin, die letzten 90 Tage); 3 → 4 (v0.6.0) ergänzt `settings.onboarded` (Willkommensfragen beantwortet) und `settings.examTarget` (nächste Prüfung und Termin oder `null`); 4 → 5 (v1.0.0) ergänzt `settings.backup` (letzte Sicherung, „Später“ bis). Antworten haben seit 1.0 zusätzlich `lastCorrect` (letzte Antwort richtig?) für „Meine Fehler“; ältere Einträge ohne dieses Feld gelten als Fehler, solange nicht alle Versuche richtig waren.
+Karteikarten aus dem Abkürzungsverzeichnis haben die IDs `ab-<abkürzung>` und liegen ebenfalls unter `cards`.
 Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.custom` (importierte eigene Fragen/Karten), `sessionStorage` `prueffit.quizSession` (laufende Quiz-Runde).
 
 ---
@@ -218,6 +228,7 @@ Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.custom` (impo
 
 ### 6.3 Prüfungssimulation
 - AP1: 90 Minuten. AP2: zwei Prüfungsbereiche mit je 90 Minuten (Namen je Beruf, siehe `AP2_BLUEPRINTS` in `js/exam.js`) und WiSo mit 60 Minuten (bis zu 30 Fragen); jeder Teil wird einzeln benotet. Timer läuft weiter, wenn die App kurz verlassen wird (Startzeit speichern, nicht runterzählen).
+- AP2-Prüfungsbereiche beginnen mit einer Handlungssituation, wenn eine zu Beruf und Bereich passt (siehe 5.3c).
 - Bei Zeitablauf automatisch abgeben.
 - **IHK-Notenschlüssel (Prozent der Punkte):**
 
@@ -280,7 +291,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `questions.test.js` | Filtern nach Prüfung/Thema/Schwierigkeit, Zufallsauswahl ohne Duplikate |
 | `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type`, ein Lernzettel pro Thema |
 | `notes.test.js` | Markdown-Teilumfang, Suche (Umlaute, UND-Verknüpfung, Ranking), Hervorhebung |
-| `glossary.test.js` | Fundstellen (ganze Wörter, längste zuerst, Aliase), Suche, Gruppierung A–Z |
+| `glossary.test.js` | Fundstellen (ganze Wörter, längste zuerst, Aliase), Suche, Gruppierung A–Z, Abkürzungs-Karteikarten |
 
 **Regel:** Jede neue Funktion in einem Logik-Modul bekommt mindestens einen Test. Bugs werden zuerst mit einem fehlschlagenden Test reproduziert, dann behoben.
 
@@ -299,6 +310,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **0.7** | Lernzettel für alle 59 Themen mit Suche, eigene Unterrichtsnotizen ausgewertet (7 neue Themen, 76 Fragen, 20 Karten) | erledigt |
 | **0.8** | UI für den Mehrinhalt: aufklappbare Bereiche (Quiz, Statistik, Lernzettel), Karten-Durchgänge, Lernzettel-Suche auf der Startseite | erledigt |
 | **0.9** | Abkürzungsverzeichnis (242 Abkürzungen) mit Suche, A–Z-Sprungleiste und Abkürzungen je Lernzettel | erledigt |
+| **1.0** | „Meine Fehler“, Abkürzungen als Karteikarten und antippbar, AP2-Handlungssituationen, Fragen ausgebaut (473), unabhängige Fachprüfung, Erinnerung an die Datensicherung (Schema 5) | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

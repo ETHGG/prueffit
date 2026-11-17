@@ -32,7 +32,7 @@ describe('createDefaultState', () => {
     expect(s.exams).toEqual([]);
     expect(s.streak).toEqual({ current: 0, lastDay: null });
     expect(s.daily).toEqual({});
-    expect(s.settings).toEqual({ theme: 'auto', dailyGoal: 20, job: 'alle', onboarded: false, examTarget: null });
+    expect(s.settings).toEqual({ theme: 'auto', dailyGoal: 20, job: 'alle', onboarded: false, examTarget: null, backup: { lastAt: null, snoozeUntil: null } });
   });
 
   it('returns independent objects', () => {
@@ -95,7 +95,7 @@ describe('loadState', () => {
     const partial = { schemaVersion: SCHEMA_VERSION, answers: { 'a-1': { attempts: 2, correct: 1 } } };
     const { state } = loadState(memoryStorage({ [STORAGE_KEY]: JSON.stringify(partial) }));
     expect(state.answers['a-1']).toEqual({ attempts: 2, correct: 1, lastAt: null });
-    expect(state.settings).toEqual({ theme: 'auto', dailyGoal: 20, job: 'alle', onboarded: false, examTarget: null });
+    expect(state.settings).toEqual({ theme: 'auto', dailyGoal: 20, job: 'alle', onboarded: false, examTarget: null, backup: { lastAt: null, snoozeUntil: null } });
     expect(state.exams).toEqual([]);
   });
 
@@ -144,7 +144,7 @@ describe('normalizeState', () => {
 
   it('replaces invalid settings with defaults', () => {
     const s = normalizeState({ settings: { theme: 'pink', dailyGoal: -3, job: 'koch' } });
-    expect(s.settings).toEqual({ theme: 'auto', dailyGoal: 20, job: 'alle', onboarded: false, examTarget: null });
+    expect(s.settings).toEqual({ theme: 'auto', dailyGoal: 20, job: 'alle', onboarded: false, examTarget: null, backup: { lastAt: null, snoozeUntil: null } });
   });
 });
 
@@ -160,20 +160,20 @@ describe('real migration 1 -> 2 (job setting)', () => {
 
   it('is registered for schema 1', () => {
     expect(typeof MIGRATIONS[1]).toBe('function');
-    expect(SCHEMA_VERSION).toBe(4);
+    expect(SCHEMA_VERSION).toBe(5);
   });
 
   it('keeps all progress, adds settings.job and backs up the old data', () => {
     const store = memoryStorage({ [STORAGE_KEY]: JSON.stringify(v1) });
     const { state, status } = loadState(store);
     expect(status).toBe('migrated');
-    expect(state.schemaVersion).toBe(4);
+    expect(state.schemaVersion).toBe(5);
     expect(state.answers).toEqual(v1.answers);
     expect(state.cards).toEqual(v1.cards);
-    expect(state.settings).toEqual({ theme: 'dark', dailyGoal: 30, job: 'alle', onboarded: false, examTarget: null });
+    expect(state.settings).toEqual({ theme: 'dark', dailyGoal: 30, job: 'alle', onboarded: false, examTarget: null, backup: { lastAt: null, snoozeUntil: null } });
     expect(JSON.parse(store.getItem('prueffit.backup.1'))).toEqual(v1);
     expect(JSON.parse(store.getItem('prueffit.backup.2')).settings.job).toBe('alle');
-    expect(JSON.parse(store.getItem(STORAGE_KEY)).schemaVersion).toBe(4);
+    expect(JSON.parse(store.getItem(STORAGE_KEY)).schemaVersion).toBe(5);
   });
 
   it('works when version 1 data has no settings at all', () => {
@@ -205,10 +205,10 @@ describe('real migration 3 -> 4 (welcome questions, exam date)', () => {
     const store = memoryStorage({ [STORAGE_KEY]: JSON.stringify(v3) });
     const { state, status } = loadState(store);
     expect(status).toBe('migrated');
-    expect(state.schemaVersion).toBe(4);
+    expect(state.schemaVersion).toBe(5);
     expect(state.answers).toEqual(v3.answers);
     expect(state.daily).toEqual(v3.daily);
-    expect(state.settings).toEqual({ theme: 'dark', dailyGoal: 30, job: 'itsm', onboarded: false, examTarget: null });
+    expect(state.settings).toEqual({ theme: 'dark', dailyGoal: 30, job: 'itsm', onboarded: false, examTarget: null, backup: { lastAt: null, snoozeUntil: null } });
     expect(JSON.parse(store.getItem('prueffit.backup.3'))).toEqual(v3);
   });
   it('validates the exam target', () => {
@@ -219,6 +219,29 @@ describe('real migration 3 -> 4 (welcome questions, exam date)', () => {
     }
     expect(updateSettings(ok, { examTarget: null }).settings.examTarget).toBeNull();
     expect(updateSettings(createDefaultState(), { onboarded: 'ja' }).settings.onboarded).toBe(false);
+  });
+});
+
+describe('real migration 4 -> 5 (backup reminder, last answer)', () => {
+  it('keeps everything, adds settings.backup and backs up version 4', () => {
+    const v4 = { schemaVersion: 4, answers: { q1: { attempts: 3, correct: 1, lastAt: null } }, cards: {}, exams: [], streak: { current: 1, lastDay: '2026-11-16' }, daily: {}, settings: { theme: 'auto', dailyGoal: 20, job: 'fiae', onboarded: true, examTarget: { exam: 'AP2', day: '2027-04-28' } } };
+    const store = memoryStorage({ [STORAGE_KEY]: JSON.stringify(v4) });
+    const { state, status } = loadState(store);
+    expect(status).toBe('migrated');
+    expect(state.schemaVersion).toBe(5);
+    expect(state.answers).toEqual(v4.answers);
+    expect(state.settings).toEqual({ ...v4.settings, backup: { lastAt: null, snoozeUntil: null } });
+    expect(JSON.parse(store.getItem('prueffit.backup.4'))).toEqual(v4);
+  });
+  it('validates backup days and lastCorrect', () => {
+    const s = normalizeState({
+      answers: { a: { attempts: 2, correct: 1, lastCorrect: false }, b: { attempts: 1, correct: 1, lastCorrect: 'ja' } },
+      settings: { backup: { lastAt: '2026-11-01', snoozeUntil: 'bald' } },
+    });
+    expect(s.answers.a.lastCorrect).toBe(false);
+    expect('lastCorrect' in s.answers.b).toBe(false);
+    expect(s.settings.backup).toEqual({ lastAt: '2026-11-01', snoozeUntil: null });
+    expect(updateSettings(createDefaultState(), { backup: 'x' }).settings.backup).toEqual({ lastAt: null, snoozeUntil: null });
   });
 });
 
@@ -247,7 +270,7 @@ describe('updateSettings', () => {
   });
   it('ignores invalid values', () => {
     const s = updateSettings(createDefaultState(), { job: 'koch', theme: 'neon', dailyGoal: 0 });
-    expect(s.settings).toEqual({ theme: 'auto', dailyGoal: 20, job: 'alle', onboarded: false, examTarget: null });
+    expect(s.settings).toEqual({ theme: 'auto', dailyGoal: 20, job: 'alle', onboarded: false, examTarget: null, backup: { lastAt: null, snoozeUntil: null } });
   });
 });
 
@@ -272,8 +295,8 @@ describe('recordAnswer', () => {
     const s1 = recordAnswer(s0, 'net-0001', true, now);
     const s2 = recordAnswer(s1, 'net-0001', false, now);
     expect(s0.answers).toEqual({});
-    expect(s1.answers['net-0001']).toEqual({ attempts: 1, correct: 1, lastAt: '2026-11-17T09:30:00.000Z' });
-    expect(s2.answers['net-0001']).toEqual({ attempts: 2, correct: 1, lastAt: '2026-11-17T09:30:00.000Z' });
+    expect(s1.answers['net-0001']).toEqual({ attempts: 1, correct: 1, lastAt: '2026-11-17T09:30:00.000Z', lastCorrect: true });
+    expect(s2.answers['net-0001']).toEqual({ attempts: 2, correct: 1, lastAt: '2026-11-17T09:30:00.000Z', lastCorrect: false });
   });
 });
 
@@ -306,7 +329,7 @@ describe('recordExamResult', () => {
     const s0 = createDefaultState();
     const s1 = recordExamResult(s0, evaluation, new Date('2026-11-17T10:30:00Z'));
     expect(s1.exams).toEqual([evaluation.record]);
-    expect(s1.answers.a).toEqual({ attempts: 1, correct: 1, lastAt: '2026-11-17T10:30:00.000Z' });
+    expect(s1.answers.a).toEqual({ attempts: 1, correct: 1, lastAt: '2026-11-17T10:30:00.000Z', lastCorrect: true });
     expect(s1.answers.b.correct).toBe(0);
     expect(s1.answers.c).toBeUndefined();
     expect(s0.exams).toEqual([]);

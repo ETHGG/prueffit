@@ -3,7 +3,8 @@
 import { overallStats, currentStreak, dailyProgress } from '../stats.js';
 import { todayInBerlin, dueCards } from '../leitner.js';
 import { h, formatPercent, formatNumber, trafficDot, append } from './dom.js';
-import { suggestionsCard } from './suggestions.js';
+import { suggestionsCard, mistakesButton } from './suggestions.js';
+import { backupCard } from './backup.js';
 import { needsWelcome, welcomeCard, countdownCard } from './welcome.js';
 
 function greeting(date = new Date()) {
@@ -38,6 +39,7 @@ export function render(root, ctx) {
       ? welcomeCard(ctx, { rerender })
       : h('p', { class: 'muted' }, 'Bereit für die nächste Lerneinheit? PrüfFit hilft dir bei der Vorbereitung auf AP1 und AP2.'),
     welcome ? null : countdownCard(ctx, { rerender }),
+    welcome ? null : backupCard(ctx, { rerender }),
     h('section', { class: 'card today', 'aria-labelledby': 'home-today' },
       h('h2', { id: 'home-today', text: 'Heute' }),
       h('div', { class: 'goal-row' },
@@ -71,7 +73,8 @@ export function render(root, ctx) {
           h('div', { class: 'kpi-label' }, cardsDue === 1 ? 'Karte fällig' : 'Karten fällig'))),
       stats.attempts === 0
         ? h('p', { class: 'muted small spaced' }, 'Noch keine Antworten – starte dein erstes Quiz!')
-        : null),
+        : null,
+      mistakesButton(ctx, { secondary: true })),
 
     suggestionsCard(ctx),
     notesSearchCard(ctx),

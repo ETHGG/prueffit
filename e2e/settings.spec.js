@@ -17,9 +17,9 @@ test('saved progress from schema 1 is migrated with backup and keeps all answers
     now: JSON.parse(localStorage.getItem('prueffit.v1')),
     backup: JSON.parse(localStorage.getItem('prueffit.backup.1')),
   }));
-  expect(stored.now.schemaVersion).toBe(4);
+  expect(stored.now.schemaVersion).toBe(5);
   expect(stored.now.daily).toEqual({});
-  expect(stored.now.settings).toMatchObject({ job: 'alle', onboarded: false, examTarget: null });
+  expect(stored.now.settings).toMatchObject({ job: 'alle', onboarded: false, examTarget: null, backup: { lastAt: null, snoozeUntil: null } });
   // Migrated users are asked the welcome questions once.
   await expect(page.getByRole('heading', { name: 'Willkommen bei PrüfFit 👋' })).toBeVisible();
   expect(stored.now.answers).toEqual(v1.answers);

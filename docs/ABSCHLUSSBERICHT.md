@@ -1,4 +1,40 @@
-# Abschlussbericht Version 0.9.0
+# Abschlussbericht Version 1.0.0
+
+**Datum:** 17.11.2026 · **Live:** https://ethgg.github.io/prueffit/
+
+Auftrag: Die sechs vorgeschlagenen Verbesserungen umsetzen: Fehler wiederholen, Abkürzungen als Karteikarten, Abkürzungen antippbar, Inhalte prüfen und ausbauen, realistischere AP2-Simulation, Erinnerung an die Datensicherung.
+
+## Was umgesetzt wurde
+
+| Punkt | Umsetzung |
+|---|---|
+| 1. Meine Fehler | Antworten speichern `lastCorrect`; `mistakeIds` (stats.js); Quiz-Modus „Meine Fehler (n)“, Deep-Link `#/quiz?fehler=1`, Schaltflächen auf Start und Statistik |
+| 2. Abkürzungs-Karten | `glossaryCards` (glossary.js) erzeugt 243 Karten (`ab-…`); Stapel „Abkürzungen“ im Kartenbereich, Leitner wie gewohnt |
+| 3. Antippbar | Abkürzungen im Lernzetteltext sind Schaltflächen; Tipp blendet die Bedeutung inline ein (barrierefrei mit `aria-expanded`) |
+| 4. Inhalte | Unabhängige Fachprüfung durch einen separaten Prüfdurchlauf: alle Antwortindizes und Rechnungen korrekt, 7 Textkorrekturen (siehe CHANGELOG). 72 neue Fragen (473 gesamt), jedes Thema ≥ 6 Fragen, FIAE-AP2 von 231 auf 269 Fragen |
+| 5. Handlungssituationen | `data/scenarios.json` mit 6 Situationen (je Beruf GA1 und GA2), 40 Teilaufgaben; `createExam` beginnt jeden AP2-Bereich mit einer Situation und füllt zufällig auf; Box „Ausgangssituation“ in Simulation und Quiz |
+| 6. Sicherung | Schema 5 (`settings.backup`) mit Migration; Erinnerung nach 20 Aufgaben und alle 14 Tage, „Später“ = 7 Tage; Hinweis „Zum Home-Bildschirm“ in Safari; letzte Sicherung in den Einstellungen |
+
+## Annahmen
+
+- „Meine Fehler“ für alte Antworten (vor 1.0 ohne `lastCorrect`): Eine Frage gilt als Fehler, solange nicht alle Versuche richtig waren. Nach der nächsten Antwort zählt nur noch die letzte.
+- Abkürzungs-Karten zählen nicht bei „Karten fällig“ auf der Startseite mit, damit 243 neue Karten den Überblick nicht verfälschen.
+- Fragen einer Handlungssituation erscheinen in der Simulation nur zusammen mit ihrer Situation. Im Quiz kommen sie einzeln vor, die Situation steht dann darüber.
+- Die Firmen in den Situationen sind erfunden.
+
+## Tests
+
+- 458 Unit-Tests (neu u. a. Migration 4 → 5, `isMistake`, `backupReminder`, `glossaryCards`, Situationen in `createExam`; Datentests für `scenarios.json`)
+- 38 Browsertests × 4 Profile (neu: Meine Fehler, Abkürzungs-Karten und Antippen, Sicherungs-Erinnerung, AP2 mit Situation)
+
+## Offene Punkte
+
+- Release-Einträge auf GitHub für 0.8 bis 1.0 (Browser war nicht verbunden).
+- Goodnotes: Lernzettel IT-Sicherheit neu erstellt (KRITIS-Korrektur). Im Goodnotes-Abkürzungsverzeichnis fehlen noch die Änderungen bei TCO und BSIG.
+
+---
+
+# Abschlussbericht Version 0.9.0 (vorherige Phase)
 
 **Datum:** 17.11.2026 · **Live:** https://ethgg.github.io/prueffit/
 

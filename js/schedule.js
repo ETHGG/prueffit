@@ -88,3 +88,23 @@ export function studyPlan({ today, day, open = 0 }) {
 export function openQuestions(questions, answers, exam) {
   return questions.filter((q) => q.exam.includes(exam) && !(answers[q.id]?.correct > 0)).length;
 }
+
+// ---- Erinnerung an die Datensicherung (v1.0) ----
+
+export const BACKUP_INTERVAL_DAYS = 14;
+export const BACKUP_MIN_ACTIVITY = 20;
+export const BACKUP_SNOOZE_DAYS = 7;
+
+/**
+ * Whether the start page should remind to export the progress.
+ * Only after some real progress (`activity` = answered questions + learned cards), never while
+ * snoozed, and when the last export is missing or at least BACKUP_INTERVAL_DAYS old.
+ * @returns {{ due: boolean, daysSince: number|null }}
+ */
+export function backupReminder(backup, today, activity) {
+  const lastAt = isDay(backup?.lastAt) ? backup.lastAt : null;
+  const daysSince = lastAt ? daysBetween(lastAt, today) : null;
+  if (!(activity >= BACKUP_MIN_ACTIVITY)) return { due: false, daysSince };
+  if (isDay(backup?.snoozeUntil) && daysBetween(today, backup.snoozeUntil) > 0) return { due: false, daysSince };
+  return { due: daysSince === null || daysSince >= BACKUP_INTERVAL_DAYS, daysSince };
+}

@@ -6,9 +6,12 @@ import {
 import { recordCardReview } from '../storage.js';
 import { issueUrl } from '../questions.js';
 import { h, formatDay, append } from './dom.js';
+import { glossaryCards } from '../glossary.js';
 
 const INTERVAL_LABELS = { 1: 'täglich', 2: 'alle 2 Tage', 3: 'alle 4 Tage', 4: 'jede Woche', 5: 'alle 2 Wochen' };
 const ALL = 'alle';
+const DECK_ABBR = 'abkuerzungen';
+let abbrCards = null; // built once from the glossary
 
 // In memory while the app is open.
 let area = ALL;
@@ -37,6 +40,10 @@ export function render(root, ctx) {
 
 function cardsInArea(ctx, topicById) {
   const { flashcards } = ctx.catalog;
+  if (area === DECK_ABBR) {
+    abbrCards ??= glossaryCards(ctx.catalog.glossary ?? []);
+    return abbrCards;
+  }
   return area === ALL ? flashcards : flashcards.filter((c) => topicById.get(c.topic)?.area === area);
 }
 
@@ -59,14 +66,19 @@ function drawOverview(root, ctx, draw, topicById) {
     id: 'card-area',
     onChange: (e) => { area = e.target.value; draw(); },
   },
-  h('option', { value: ALL, selected: area === ALL }, 'Alle Bereiche'),
-  areas.map((a) => h('option', { value: a, selected: area === a }, a)));
+  h('optgroup', { label: 'Fachkarten' },
+    h('option', { value: ALL, selected: area === ALL }, 'Alle Bereiche'),
+    areas.map((a) => h('option', { value: a, selected: area === a }, a))),
+  (ctx.catalog.glossary ?? []).length
+    ? h('optgroup', { label: 'Extra' },
+      h('option', { value: DECK_ABBR, selected: area === DECK_ABBR }, `Abkürzungen (${ctx.catalog.glossary.length})`))
+    : null);
 
   append(root, 
     h('h1', { text: 'Karteikarten' }),
     h('section', { class: 'card', 'aria-labelledby': 'cards-due' },
       h('div', { class: 'field' },
-        h('label', { for: 'card-area', text: 'Bereich' }),
+        h('label', { for: 'card-area', text: 'Stapel' }),
         select),
       h('h2', { id: 'cards-due', class: 'spaced', text: due.length ? `Heute fällig: ${due.length}` : 'Heute ist nichts fällig' }),
       due.length
@@ -153,7 +165,7 @@ function drawCard(root, ctx, draw, topicById) {
     }, h('div', { style: `width:${(session.index / total) * 100}%` })),
     h('article', { class: `card flashcard${session.flipped ? ' is-flipped' : ''}` },
       h('div', { class: 'question-meta' },
-        h('span', { class: 'tag', text: `${topic?.area ?? ''} · ${topic?.name ?? card.topic}` }),
+        h('span', { class: 'tag', text: card.topic ? `${topic?.area ?? ''} · ${topic?.name ?? card.topic}` : `Abkürzung · ${card.area}` }),
         h('span', { class: 'tag', text: entry ? `Fach ${box}` : 'Fach 1 · neu' })),
       h('div', { class: 'flashcard-front' },
         h('h2', { class: 'visually-hidden', text: 'Vorderseite' }),

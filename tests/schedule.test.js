@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   KNOWN_EXAM_DATES, daysBetween, lastWednesday, sessionLabel, upcomingExamDates, nextExamDate, studyPlan, openQuestions,
+  backupReminder,
 } from '../js/schedule.js';
 
 describe('daysBetween', () => {
@@ -78,5 +79,25 @@ describe('openQuestions', () => {
     const answers = { b: { attempts: 2, correct: 1 }, c: { attempts: 3, correct: 0 } };
     expect(openQuestions(qs, answers, 'AP2')).toBe(2); // c (never correct) and d (never tried)
     expect(openQuestions(qs, answers, 'AP1')).toBe(1);
+  });
+});
+
+describe('backupReminder', () => {
+  const today = '2026-11-17';
+  it('stays quiet without enough progress', () => {
+    expect(backupReminder({ lastAt: null, snoozeUntil: null }, today, 19)).toEqual({ due: false, daysSince: null });
+  });
+  it('is due when never exported or the last export is 14+ days old', () => {
+    expect(backupReminder({ lastAt: null, snoozeUntil: null }, today, 20).due).toBe(true);
+    expect(backupReminder({ lastAt: '2026-11-03', snoozeUntil: null }, today, 50)).toEqual({ due: true, daysSince: 14 });
+    expect(backupReminder({ lastAt: '2026-11-04', snoozeUntil: null }, today, 50)).toEqual({ due: false, daysSince: 13 });
+  });
+  it('respects the snooze until (excluding) the given day', () => {
+    expect(backupReminder({ lastAt: null, snoozeUntil: '2026-11-18' }, today, 50).due).toBe(false);
+    expect(backupReminder({ lastAt: null, snoozeUntil: '2026-11-17' }, today, 50).due).toBe(true);
+  });
+  it('copes with missing or broken data', () => {
+    expect(backupReminder(undefined, today, 30).due).toBe(true);
+    expect(backupReminder({ lastAt: 'gestern' }, today, 30)).toEqual({ due: true, daysSince: null });
   });
 });

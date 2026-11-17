@@ -1,6 +1,6 @@
 // "Heute üben" card (CLAUDE.md 6.2), shared by the start page and the statistics.
 
-import { topicStats, practiceSuggestions } from '../stats.js';
+import { topicStats, practiceSuggestions, mistakeIds } from '../stats.js';
 import { filterQuestions } from '../questions.js';
 import { h, formatPercent, trafficDot } from './dom.js';
 
@@ -29,4 +29,13 @@ export function suggestionsCard(ctx) {
               note ? [' · ', h('a', { href: `#/lernzettel/${encodeURIComponent(note)}`, 'aria-label': `Lernzettel zu ${t.name}` }, 'Lernzettel')] : null)),
           h('a', { class: 'button', href: `#/quiz?thema=${encodeURIComponent(t.id)}`, 'aria-label': `${t.name} üben` }, 'Üben'));
       })));
+}
+
+/** Button "N Fehler wiederholen" (quiz mode "Meine Fehler"), or null when there are none. */
+export function mistakesButton(ctx, { secondary = false } = {}) {
+  const pool = filterQuestions(ctx.catalog.questions, { job: ctx.progress.settings.job });
+  const n = mistakeIds(pool, ctx.progress.answers).length;
+  if (!n) return null;
+  return h('a', { class: `button${secondary ? ' secondary' : ''} mistakes-button`, href: '#/quiz?fehler=1' },
+    `${n} ${n === 1 ? 'Fehler' : 'Fehler'} wiederholen`);
 }

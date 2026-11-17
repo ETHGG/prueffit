@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   validateGlossaryEntry, matchGlossary, abbreviationsIn, searchGlossary, lookupAbbreviation,
-  abbreviationCandidates, initialOf, sortGlossary,
+  abbreviationCandidates, initialOf, sortGlossary, glossaryCards,
 } from '../js/glossary.js';
 
 const G = [
@@ -84,5 +84,21 @@ describe('initialOf / abbreviationCandidates', () => {
   it('detects abbreviation-like tokens', () => {
     const tokens = abbreviationCandidates('Der DHCP-Server, IPv6, GmbH, RJ45, SSD/HDD und Netzwerk, aber nicht Kabel').map((c) => c.token);
     expect(tokens).toEqual(['DHCP', 'IPv6', 'GmbH', 'RJ45', 'SSD', 'HDD']);
+  });
+});
+
+describe('glossaryCards', () => {
+  it('creates one card per abbreviation with stable, unique ids', () => {
+    const cards = glossaryCards([...G, { abbr: 'a.LL', full: 'Kollision', area: 'Wirtschaft' }]);
+    expect(cards).toHaveLength(G.length + 1);
+    expect(new Set(cards.map((c) => c.id)).size).toBe(cards.length);
+    expect(cards.find((c) => c.front === 'a. LL').id).toBe('ab-a-ll');
+    expect(cards.find((c) => c.front === 'a.LL').id).toBe('ab-a-ll-2');
+    expect(cards.find((c) => c.id === 'ab-so-dimm').back).toBe('Small Outline Dual Inline Memory Module');
+  });
+  it('puts aliases on the front and the explanation on the back', () => {
+    const cards = glossaryCards(G);
+    expect(cards.find((c) => c.id === 'ab-ssd').front).toBe('SSD (auch SSDs)');
+    expect(cards.find((c) => c.id === 'ab-https').back).toBe('Hypertext Transfer Protocol Secure\nHTTP mit TLS');
   });
 });

@@ -7,15 +7,19 @@ import {
   serializeQuiz, restoreQuiz,
 } from '../quiz.js';
 import { recordAnswer } from '../storage.js';
+import { mistakeIds } from '../stats.js';
 import { keywordHits } from '../grading.js';
 import {
   createUi, isValidUi, readResponse, isIncomplete, missingInputMessage, correctAnswerText, renderInput,
 } from './questionInputs.js';
 import { h, formatNumber, formatPercent, DIFFICULTY_LABELS, append } from './dom.js';
 import { fold } from './fold.js';
+import { scenarioBox, scenarioByQuestion } from './scenario.js';
 
 // Kept in memory while the app is open, so switching tabs does not lose a running quiz.
-const setup = { exam: 'alle', topics: null, difficulties: [1, 2, 3], size: DEFAULT_QUIZ_SIZE, job: ALL_JOBS };
+const setup = { exam: 'alle', topics: null, difficulties: [1, 2, 3], size: DEFAULT_QUIZ_SIZE, job: ALL_JOBS, mode: 'alle' };
+const MODE_ALL = 'alle';
+const MODE_MISTAKES = 'fehler';
 let session = null;
 
 const ALL_EXAMS = 'alle';
@@ -50,6 +54,14 @@ function restoreSession(store, questions) {
   }
 }
 
+/** Questions matching the setup; in mode "Meine Fehler" only those answered wrong last time. */
+function matchingQuestions(questions, answers, crit = criteria()) {
+  const pool = filterQuestions(questions, crit);
+  if (setup.mode !== MODE_MISTAKES) return pool;
+  const wrong = new Set(mistakeIds(pool, answers));
+  return pool.filter((q) => wrong.has(q.id));
+}
+
 function criteria() {
   return {
     exam: setup.exam,
@@ -74,8 +86,21 @@ export function render(root, ctx) {
   if (!session) session = restoreSession(ctx.sessionStore, questions);
 
   // Deep link from "Heute üben": #/quiz?thema=<topic id> preselects that topic.
-  const requested = new URLSearchParams(location.hash.split('?')[1] ?? '').get('thema');
+  const params = new URLSearchParams(location.hash.split('?')[1] ?? '');
+  const requested = params.get('thema');
   let notice = null;
+  // Deep link "Fehler wiederholen": #/quiz?fehler=1 (all topics, only questions answered wrong last time).
+  if (params.get('fehler') === '1') {
+    history.replaceState(null, '', '#/quiz');
+    if (!session) {
+      setup.mode = MODE_MISTAKES;
+      setup.topics = new Set(topics.map((t) => t.id));
+      setup.exam = ALL_EXAMS;
+      setup.difficulties = [1, 2, 3];
+    } else {
+      notice = 'Es läuft noch ein Quiz. Beende es, um deine Fehler zu wiederholen.';
+    }
+  }
   if (requested) {
     history.replaceState(null, '', '#/quiz');
     const topic = topics.find((t) => t.id === requested);
@@ -115,7 +140,7 @@ function drawSetup(root, ctx, draw) {
 
   const refresh = () => {
     // Counts per topic respect the exam and difficulty filters.
-    const base = filterQuestions(questions, { exam: setup.exam, difficulties: setup.difficulties, types: SUPPORTED_QUIZ_TYPES, job: setup.job });
+    const base = matchingQuestions(questions, ctx.progress.answers, { exam: setup.exam, difficulties: setup.difficulties, types: SUPPORTED_QUIZ_TYPES, job: setup.job });
     const perTopic = new Map();
     for (const q of base) perTopic.set(q.topic, (perTopic.get(q.topic) ?? 0) + 1);
     for (const [id, el] of countEls) el.textContent = String(perTopic.get(id) ?? 0);
@@ -138,13 +163,25 @@ function drawSetup(root, ctx, draw) {
       startBtn.disabled = true;
       return;
     }
-    const available = filterQuestions(questions, criteria()).length;
+    const available = matchingQuestions(questions, ctx.progress.answers).length;
     const n = Math.min(setup.size, available);
     availableEl.textContent = available === 0
-      ? 'Keine Fragen passen zu deiner Auswahl.'
+      ? (setup.mode === MODE_MISTAKES ? 'Keine Fehler in dieser Auswahl – gut gemacht!' : 'Keine Fragen passen zu deiner Auswahl.')
       : `${available} passende Fragen – das Quiz enthält ${n} ${n === 1 ? 'Frage' : 'Fragen'}.`;
     startBtn.disabled = available === 0;
   };
+
+  const mistakeCount = mistakeIds(filterQuestions(questions, { types: SUPPORTED_QUIZ_TYPES, job: setup.job }), ctx.progress.answers).length;
+  const modeField = h('fieldset', {},
+    h('legend', { text: 'Fragen' }),
+    h('div', { class: 'segmented' },
+      [[MODE_ALL, 'Alle'], [MODE_MISTAKES, `Meine Fehler (${mistakeCount})`]].map(([mode, label]) => h('label', {},
+        h('input', {
+          type: 'radio', name: 'mode', value: mode, checked: setup.mode === mode,
+          onChange: () => { setup.mode = mode; refresh(); },
+        }),
+        h('span', { text: label })))),
+    h('p', { class: 'muted small' }, 'Meine Fehler: Fragen, die du zuletzt falsch beantwortet hast. Richtig beantwortet, verschwinden sie aus der Liste.'));
 
   const examField = h('fieldset', {},
     h('legend', { text: 'Prüfung' }),
@@ -232,7 +269,7 @@ function drawSetup(root, ctx, draw) {
     onSubmit: (e) => {
       e.preventDefault();
       if (setup.difficulties.length === 0 || setup.topics.size === 0) return;
-      const pool = filterQuestions(questions, criteria());
+      const pool = matchingQuestions(questions, ctx.progress.answers);
       const picked = pickRandom(pool, setup.size);
       if (!picked.length) {
         ctx.toast('Keine Fragen passen zu deiner Auswahl.');
@@ -241,7 +278,7 @@ function drawSetup(root, ctx, draw) {
       session = { quiz: createQuiz(picked) };
       draw();
     },
-  }, examField, sizeField, difficultyField, topicField,
+  }, modeField, examField, sizeField, difficultyField, topicField,
   h('div', { class: 'sticky-actions' }, availableEl, startBtn));
 
   const job = JOBS.find((j) => j.id === setup.job);
@@ -328,6 +365,7 @@ function drawQuestion(root, ctx, draw, topicById) {
   const result = answered ? quiz.results[quiz.index] : null;
   const total = quiz.questions.length;
   const topic = topicById.get(q.topic);
+  const scenario = scenarioByQuestion(ctx.catalog.scenarios).get(q.id) ?? null;
   const errorEl = h('p', { class: 'form-error', role: 'alert' });
 
   const commit = (response) => {
@@ -407,6 +445,7 @@ function drawQuestion(root, ctx, draw, topicById) {
       class: 'progress', role: 'progressbar', 'aria-label': 'Fortschritt',
       'aria-valuemin': 0, 'aria-valuemax': total, 'aria-valuenow': done,
     }, h('div', { style: `width:${(done / total) * 100}%` })),
+    scenario ? scenarioBox(scenario, { step: scenario.questions.indexOf(q.id) + 1, open: !answered }) : null,
     h('article', { class: 'card' },
       h('div', { class: 'question-meta' },
         h('span', { class: 'tag', text: `${topic?.area ?? ''} · ${topic?.name ?? q.topic}` }),

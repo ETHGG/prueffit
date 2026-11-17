@@ -2,7 +2,7 @@
 
 import { topicStats, overallStats, areaStats } from '../stats.js';
 import { h, formatPercent, formatNumber, trafficDot, LIGHT_LABELS, append } from './dom.js';
-import { suggestionsCard } from './suggestions.js';
+import { suggestionsCard, mistakesButton } from './suggestions.js';
 import { fold, foldControls } from './fold.js';
 import { loadChartJs, themeColors, reducedMotion } from './charts.js';
 
@@ -47,7 +47,8 @@ export function render(root, ctx) {
           h('div', { class: 'kpi-label' }, 'davon richtig')),
         h('div', { class: 'kpi' },
           h('div', { class: 'kpi-value' }, formatNumber(ctx.progress.exams.length)),
-          h('div', { class: 'kpi-label' }, 'Prüfungen')))),
+          h('div', { class: 'kpi-label' }, 'Prüfungen'))),
+      mistakesButton(ctx, { secondary: true })),
     practicedAreas.length
       ? h('section', { class: 'card', 'aria-labelledby': 'chart-areas' },
         h('h2', { id: 'chart-areas', text: 'Trefferquote pro Bereich' }),

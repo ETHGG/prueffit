@@ -43,16 +43,50 @@ function highlighted(text, query) {
   return highlightParts(text, query).map((p) => (p.hit ? h('mark', { text: p.text }) : p.text));
 }
 
-function inline(text, query) {
+/** Abbreviation that shows its meaning when tapped (button + hidden definition). */
+function abbrTerm(entry, text, query) {
+  const def = h('span', { class: 'abbr-def', hidden: true }, ` (${entry.full})`);
+  const button = h('button', {
+    type: 'button', class: 'abbr-term', 'aria-expanded': 'false', title: entry.full,
+    'aria-label': `${text}: Bedeutung anzeigen`,
+  }, highlighted(text, query));
+  button.addEventListener('click', () => {
+    const open = button.getAttribute('aria-expanded') !== 'true';
+    button.setAttribute('aria-expanded', String(open));
+    button.setAttribute('aria-label', `${text}: Bedeutung ${open ? 'ausblenden' : 'anzeigen'}`);
+    def.hidden = !open;
+  });
+  return [button, def];
+}
+
+/** Plain text with search hits marked and glossary abbreviations made tappable. */
+function richText(text, query, glossary) {
+  if (!glossary?.length) return highlighted(text, query);
+  const out = [];
+  let pos = 0;
+  for (const m of matchGlossary(text, glossary)) {
+    if (m.index > pos) out.push(highlighted(text.slice(pos, m.index), query));
+    out.push(abbrTerm(m.entry, text.slice(m.index, m.index + m.length), query));
+    pos = m.index + m.length;
+  }
+  if (pos < text.length) out.push(highlighted(text.slice(pos), query));
+  return out;
+}
+
+function inlineWith(text, query, glossary = null) {
   return parseInline(text).map((span) => {
-    if (span.type === 'strong') return h('strong', {}, highlighted(span.text, query));
+    if (span.type === 'strong') return h('strong', {}, richText(span.text, query, glossary));
     if (span.type === 'code') return h('code', { text: span.text });
-    return highlighted(span.text, query);
+    return richText(span.text, query, glossary);
   });
 }
 
-/** Renders the Markdown subset of a note into DOM nodes. */
-export function renderNoteContent(md, query = '') {
+/**
+ * Renders the Markdown subset of a note into DOM nodes.
+ * With a glossary, abbreviations in the text can be tapped to show their meaning.
+ */
+export function renderNoteContent(md, query = '', glossary = null) {
+  const inline = (text, q) => inlineWith(text, q, glossary);
   return parseMarkdown(md).map((b) => {
     switch (b.type) {
       case 'heading': return h(b.level === 2 ? 'h2' : 'h3', {}, inline(b.text, query));
@@ -198,7 +232,7 @@ function renderDetail(root, ctx, note, topicsById, route) {
         h('span', { class: 'tag', text: topic?.area ?? '' }),
         (topic?.exams ?? []).map((e) => h('span', { class: 'tag', text: e })),
         topic && topic.name !== note.title ? h('span', { class: 'tag', text: topic.name }) : null),
-      renderNoteContent(note.content, route.q),
+      renderNoteContent(note.content, route.q, ctx.catalog.glossary ?? []),
       note.refs?.length ? h('p', { class: 'muted small spaced' }, `Grundlage: ${note.refs.join(' · ')}`) : null),
     abbrs.length
       ? fold('note-abbr', note.id, {

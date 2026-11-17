@@ -1,9 +1,18 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 0.9.0 (17.11.2026)
-**Roadmap:** Alle Phasen 0.1 bis 0.9 sind erledigt. Weitere Ideen werden als neue Phasen ergänzt.
+**Aktuelle Version:** 1.0.0 (17.11.2026)
+**Roadmap:** Alle Phasen 0.1 bis 1.0 sind erledigt. Weitere Ideen werden als neue Phasen ergänzt.
 
 ## Erledigt
+
+### 1.0
+- [x] Quiz-Modus „Meine Fehler“ (`lastCorrect`, `mistakeIds`)
+- [x] Abkürzungen als Karteikarten-Stapel und antippbar in Lernzetteln
+- [x] 6 AP2-Handlungssituationen mit 40 Teilaufgaben, in Simulation und Quiz
+- [x] 72 neue Fragen (473 gesamt, jedes Thema ≥ 6), mehr FIAE
+- [x] Unabhängige Fachprüfung, 7 Korrekturen eingearbeitet
+- [x] Sicherungs-Erinnerung, Schema 5 mit Migration
+- [x] 458 Unit-Tests, 38 Browsertests × 4 Profile
 
 ### 0.9
 - [x] Abkürzungsverzeichnis (242 Einträge) mit Suche, A–Z, Bereichsfilter und Fundstellen

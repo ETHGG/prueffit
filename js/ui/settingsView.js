@@ -4,9 +4,10 @@ import { h, append } from './dom.js';
 import { JOBS, ALL_JOBS } from '../config.js';
 import { updateSettings } from '../storage.js';
 import {
-  buildProgressExport, parseProgressImport, buildCustomExport, parseCustomImport, mergeCustom, exportFileName,
+  parseProgressImport, buildCustomExport, parseCustomImport, mergeCustom, exportFileName,
 } from '../transfer.js';
 import { downloadJson, readTextFile } from './files.js';
+import { exportProgressNow } from './backup.js';
 import { examTargetFields, formatExamDay } from './welcome.js';
 import { todayInBerlin } from '../leitner.js';
 import { sessionLabel } from '../schedule.js';
@@ -47,7 +48,7 @@ export function render(root, ctx) {
     return h('span', { class: 'file-button' }, input, h('button', { type: 'button', class: 'button secondary', onClick: () => input.click() }, label));
   };
 
-  const exportProgress = () => downloadJson(exportFileName('fortschritt'), buildProgressExport(ctx.progress, { appVersion: ctx.version }));
+  const exportProgress = () => { exportProgressNow(ctx); rerender(); };
   const importProgress = async (text) => {
     const res = parseProgressImport(text);
     if (!res.ok) {
@@ -188,7 +189,10 @@ export function render(root, ctx) {
       h('p', { class: 'muted small' }, '„System“ folgt der Hell-/Dunkel-Einstellung deines Geräts.')),
     h('section', { class: 'card', 'aria-labelledby': 'settings-transfer' },
       h('h2', { id: 'settings-transfer', text: 'Sichern und übertragen' }),
-      h('p', { class: 'muted small' }, 'Speichere deinen Fortschritt als Datei, z. B. um ihn auf ein anderes Gerät zu übertragen.'),
+      h('p', { class: 'muted small' }, 'Speichere deinen Fortschritt als Datei, z. B. um ihn auf ein anderes Gerät zu übertragen. Die App erinnert dich alle zwei Wochen daran.'),
+      h('p', { class: 'small', id: 'last-backup' }, ctx.progress.settings.backup?.lastAt
+        ? `Letzte Sicherung: ${ctx.progress.settings.backup.lastAt.split('-').reverse().join('.')}`
+        : 'Noch keine Sicherung.'),
       h('div', { class: 'button-row' },
         h('button', { type: 'button', class: 'button secondary', onClick: exportProgress }, 'Fortschritt exportieren'),
         fileButton('Fortschritt importieren', importProgress)),

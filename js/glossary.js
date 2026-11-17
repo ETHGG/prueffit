@@ -118,3 +118,29 @@ export function abbreviationCandidates(text) {
   }
   return out;
 }
+
+/** Prefix of the flashcard ids generated from the glossary. */
+export const GLOSSARY_CARD_PREFIX = 'ab-';
+
+/**
+ * One flashcard per abbreviation (deck „Abkürzungen“): front = abbreviation, back = full form
+ * and explanation. Ids are stable: "ab-" + abbreviation in lower case ("S/MIME" -> "ab-s-mime").
+ */
+export function glossaryCards(glossary) {
+  const seen = new Set();
+  const cards = [];
+  for (const e of sortGlossary(glossary)) {
+    const slug = foldText(e.abbr).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    let id = `${GLOSSARY_CARD_PREFIX}${slug}`;
+    for (let n = 2; seen.has(id); n++) id = `${GLOSSARY_CARD_PREFIX}${slug}-${n}`;
+    seen.add(id);
+    cards.push({
+      id,
+      topic: null,
+      area: e.area,
+      front: e.aliases?.length ? `${e.abbr} (auch ${e.aliases.join(', ')})` : e.abbr,
+      back: e.explanation ? `${e.full}\n${e.explanation}` : e.full,
+    });
+  }
+  return cards;
+}

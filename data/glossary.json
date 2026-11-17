@@ -191,6 +191,12 @@
     "area": "IT-Sicherheit"
   },
   {
+    "abbr": "BSIG",
+    "full": "BSI-Gesetz",
+    "explanation": "Gesetz über das BSI und die IT-Sicherheit von Einrichtungen; seit Dezember 2025 mit der NIS2-Umsetzung (u. a. KRITIS-Pflichten)",
+    "area": "IT-Sicherheit"
+  },
+  {
     "abbr": "BUrlG",
     "full": "Bundesurlaubsgesetz",
     "explanation": "Mindesturlaub 24 Werktage",
@@ -1251,9 +1257,9 @@
   },
   {
     "abbr": "TCO",
-    "full": "TCO Certified",
-    "explanation": "Nachhaltigkeitssiegel für IT-Geräte (TCO Development)",
-    "area": "Hardware"
+    "full": "Total Cost of Ownership",
+    "explanation": "Gesamtkosten über die Nutzungsdauer (Anschaffung, Betrieb, Wartung, Energie, Entsorgung); außerdem Name des Nachhaltigkeitssiegels „TCO Certified“",
+    "area": "Wirtschaft"
   },
   {
     "abbr": "TCP",

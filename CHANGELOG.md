@@ -2,6 +2,23 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [1.0.0] – 2026-11-17
+
+### Hinzugefügt
+- **Meine Fehler:** Quiz-Modus nur mit Fragen, die zuletzt falsch beantwortet wurden; richtig beantwortet verschwinden sie. Schaltfläche „N Fehler wiederholen“ auf Start- und Statistikseite.
+- **Abkürzungen als Karteikarten:** neuer Stapel „Abkürzungen (243)“ im Bereich Karteikarten, mit Leitner-System.
+- **Abkürzungen antippbar:** In jedem Lernzettel zeigt ein Tipp auf eine Abkürzung die Bedeutung direkt im Text.
+- **AP2-Handlungssituationen:** sechs durchgehende Ausgangssituationen (FISI, FIAE, ITSM je zwei Prüfungsbereiche) mit 40 zusammenhängenden Teilaufgaben. Jeder AP2-Prüfungsbereich beginnt damit; im Quiz steht die Situation über der Frage.
+- **Erinnerung an die Datensicherung:** Nach 20 bearbeiteten Aufgaben und dann alle 14 Tage schlägt die Startseite vor, den Fortschritt als Datei zu sichern („Später“ = 7 Tage Ruhe). In Safari außerhalb des Home-Bildschirms gibt es einen Hinweis. Die Einstellungen zeigen die letzte Sicherung.
+- 72 neue Fragen (jetzt 473, davon 349 für die AP2): jedes Thema hat mindestens 6 Fragen; mehr FIAE-Inhalte (SQL, Algorithmen, UML, Tests).
+
+### Geändert
+- **Unabhängige Fachprüfung** aller Fragen, Karten und Abkürzungen. Alle Antworten und Rechnungen waren richtig; korrigiert wurden Erklärtexte: KRITIS-Nachweis jetzt **alle 3 Jahre** (§ 39 BSIG seit der NIS2-Umsetzung im Dezember 2025), Stimmrecht der JAV (§ 67 BetrVG), vermögenswirksame Leistungen, Mindesturlaub nach JArbSchG sowie TCO im Abkürzungsverzeichnis (Total Cost of Ownership).
+- Speicherschema 5 mit Migration (Backup unter `prueffit.backup.4`).
+
+### Behoben
+- Prüfungs-Timer bricht auf kleinen iPhones nicht mehr um.
+
 ## [0.9.0] – 2026-11-17
 
 ### Hinzugefügt

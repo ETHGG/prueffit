@@ -9,6 +9,7 @@ import {
 } from '../exam.js';
 import { recordExamResult } from '../storage.js';
 import { createUi, renderInput, formatResponse, correctAnswerText, isEmptyResponse } from './questionInputs.js';
+import { scenarioBox } from './scenario.js';
 import { h, formatNumber, DIFFICULTY_LABELS, append } from './dom.js';
 
 const EXAM_KEY = 'prueffit.exam';
@@ -98,7 +99,8 @@ export function render(root, ctx) {
     const blueprint = examParts(chosenExam, job);
     if (chosenExam === 'AP1' || !blueprint.some((p) => p.id === chosenScope)) chosenScope = 'alle';
     const partIds = chosenScope === 'alle' ? undefined : [chosenScope];
-    const preview = previewExam({ exam: chosenExam, job, partIds, pool });
+    const scenarios = ctx.catalog.scenarios ?? [];
+    const preview = previewExam({ exam: chosenExam, job, partIds, pool, scenarios });
     const total = preview.reduce((s, p) => s + p.questions, 0);
     const history = [...ctx.progress.exams].reverse().slice(0, 10);
     const jobShort = (id) => JOBS.find((j) => j.id === id)?.short;
@@ -130,6 +132,9 @@ export function render(root, ctx) {
           h('li', {}, chosenExam === 'AP1'
             ? 'Wie in der echten AP1: ein Teil mit 90 Minuten und Fragen im Umfang von etwa 100 Punkten.'
             : 'Aufbau wie in der echten AP2: zwei Prüfungsbereiche mit je 90 Minuten und Wirtschafts- und Sozialkunde mit 60 Minuten (bis zu 30 Fragen). Jeden weiteren Teil startest du, wenn du bereit bist.'),
+          chosenExam === 'AP2' && scenarios.length
+            ? h('li', {}, 'Jeder Prüfungsbereich beginnt wie in der echten Prüfung mit einer Handlungssituation (Ausgangslage eines Betriebs) und mehreren Teilaufgaben dazu.')
+            : null,
           h('li', {}, 'Rückmeldung und Note gibt es erst nach der Abgabe – wie in der echten Prüfung, bei der AP2 auch für jeden Teil einzeln.'),
           h('li', {}, 'Die Zeit läuft weiter, auch wenn du die App schließt. Bei Zeitablauf wird automatisch abgegeben.'),
           h('li', {}, 'Freitextfragen kommen nicht vor, weil sie sich nur selbst bewerten lassen.'),
@@ -139,7 +144,7 @@ export function render(root, ctx) {
         h('button', {
           type: 'button', class: 'button block', disabled: total === 0,
           onClick: () => {
-            update(createExam({ exam: chosenExam, job, partIds, pool }));
+            update(createExam({ exam: chosenExam, job, partIds, pool, scenarios }));
             pos = 0;
             uiState.clear();
             draw();
@@ -171,6 +176,7 @@ export function render(root, ctx) {
     const topic = topicById.get(q.topic);
     const answeredCount = ids.filter((id) => Object.hasOwn(exam.responses, id)).length;
     const label = exam.exam === 'AP1' ? 'AP1' : part.title;
+    const scenario = part.scenario ? (ctx.catalog.scenarios ?? []).find((s) => s.id === part.scenario) : null;
 
     const store = (response) => {
       update(setResponse(exam, q.id, isEmptyResponse(q, response) ? undefined : response));
@@ -222,6 +228,9 @@ export function render(root, ctx) {
           h('div', { class: 'small muted', id: 'answered-count', text: `${answeredCount} von ${ids.length} beantwortet` })),
         timerEl),
       h('h1', { tabindex: '-1', class: 'exam-question-no', text: `Frage ${pos + 1} von ${ids.length}` }),
+      scenario && scenario.questions.includes(q.id)
+        ? scenarioBox(scenario, { step: scenario.questions.indexOf(q.id) + 1, open: scenario.questions.indexOf(q.id) === 0 })
+        : null,
       h('article', { class: 'card' },
         h('div', { class: 'question-meta' },
           h('span', { class: 'tag', text: `${topic?.area ?? ''} · ${topic?.name ?? q.topic}` }),

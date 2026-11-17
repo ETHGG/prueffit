@@ -140,20 +140,61 @@ export function selectExamQuestions(pool, target, random = Math.random, areaOf =
   return picked;
 }
 
+// ---- Handlungssituationen (v1.0) ----
+// Scenario: { id, exam: 'AP2', part: 'ga1'|'ga2', jobs?: [...], title, situation (Markdown subset), questions: [ids in order] }
+
+/** @returns {string[]} problems (empty = valid) */
+export function validateScenario(s, questionIds = null) {
+  const errors = [];
+  if (!s || typeof s !== 'object' || Array.isArray(s)) return ['Situation ist kein Objekt'];
+  if (typeof s.id !== 'string' || !/^sz-[a-z0-9-]+$/.test(s.id)) errors.push('id muss mit „sz-“ beginnen');
+  if (!EXAM_TYPES[s.exam]) errors.push('exam unbekannt');
+  if (!['ga1', 'ga2'].includes(s.part)) errors.push('part muss ga1 oder ga2 sein');
+  if (s.jobs !== undefined && (!Array.isArray(s.jobs) || !s.jobs.length || !s.jobs.every((j) => AP2_BLUEPRINTS[j] && j !== 'alle'))) errors.push('jobs ungültig');
+  for (const key of ['title', 'situation']) if (typeof s[key] !== 'string' || !s[key].trim()) errors.push(`${key} fehlt`);
+  if (!Array.isArray(s.questions) || s.questions.length < 3) errors.push('mindestens 3 Fragen nötig');
+  else if (new Set(s.questions).size !== s.questions.length) errors.push('Fragen doppelt');
+  else if (questionIds && !s.questions.every((id) => questionIds.has(id))) errors.push('unbekannte Frage');
+  return errors;
+}
+
+/** Scenarios that can open a part (exam, part id and apprenticeship match). */
+export function scenariosForPart(scenarios, exam, partId, job) {
+  return (scenarios ?? []).filter((s) => s.exam === exam && s.part === partId
+    && (!job || job === 'alle' || !s.jobs || s.jobs.includes(job)));
+}
+
+/** Ids of all questions that belong to a scenario (they are never drawn without it). */
+export function scenarioQuestionIds(scenarios) {
+  return new Set((scenarios ?? []).flatMap((s) => s.questions));
+}
+
 /**
  * Creates a new exam. `pool` should already be filtered by apprenticeship;
  * this function filters by exam (AP1/AP2), gradable types and the topics of each part.
  * `job` selects the AP2 blueprint, `partIds` limits the exam to some parts (e.g. only WiSo).
  * Parts without matching questions are left out.
  */
-export function createExam({ exam, job, partIds, pool, now = new Date(), random = Math.random, areaOf = defaultAreaOf }) {
+export function createExam({
+  exam, job, partIds, pool, scenarios = [], now = new Date(), random = Math.random, areaOf = defaultAreaOf,
+}) {
   const blueprint = examParts(exam, job).filter((p) => !partIds || partIds.includes(p.id));
   if (!blueprint.length) throw new RangeError('No exam parts selected');
   let remaining = pool.filter((q) => q.exam.includes(exam) && EXAM_QUESTION_TYPES.includes(q.type));
+  const inScenario = scenarioQuestionIds(scenarios);
   const parts = [];
   for (const p of blueprint) {
-    const target = p.count ? { count: p.count } : { points: p.points };
-    const picked = selectExamQuestions(remaining.filter((q) => questionFitsPart(q, p)), target, random, areaOf);
+    // A part may start with a scenario: all of its questions (in order), then random questions up to the target.
+    const byId = new Map(remaining.map((q) => [q.id, q]));
+    const usable = scenariosForPart(scenarios, exam, p.id, job).filter((s) => s.questions.every((id) => byId.has(id)));
+    const chosen = usable.length ? usable[Math.floor(random() * usable.length) % usable.length] : null;
+    const opening = chosen ? chosen.questions.map((id) => byId.get(id)) : [];
+    const openingPoints = opening.reduce((sum, q) => sum + q.points, 0);
+    const target = p.count ? { count: p.count - opening.length } : { points: p.points - openingPoints };
+    const fill = (target.count ?? target.points) > 0
+      ? selectExamQuestions(remaining.filter((q) => !inScenario.has(q.id) && questionFitsPart(q, p)), target, random, areaOf)
+      : [];
+    const picked = [...opening, ...fill];
     if (!picked.length) continue;
     const ids = new Set(picked.map((q) => q.id));
     remaining = remaining.filter((q) => !ids.has(q.id));
@@ -162,6 +203,7 @@ export function createExam({ exam, job, partIds, pool, now = new Date(), random 
       title: p.title,
       minutes: p.minutes,
       ids: picked.map((q) => q.id),
+      scenario: chosen?.id ?? null,
       startedAt: parts.length === 0 ? now.toISOString() : null,
       submittedAt: null,
       timeUp: false,
@@ -181,9 +223,9 @@ export function createExam({ exam, job, partIds, pool, now = new Date(), random 
 }
 
 /** Number of questions each part of a blueprint would get from `pool` (for the start screen). */
-export function previewExam({ exam, job, partIds, pool }) {
+export function previewExam({ exam, job, partIds, pool, scenarios = [] }) {
   try {
-    const state = createExam({ exam, job, partIds, pool, random: () => 0.5 });
+    const state = createExam({ exam, job, partIds, pool, scenarios, random: () => 0.5 });
     return state.parts.map((p) => ({ id: p.id, title: p.title, minutes: p.minutes, questions: p.ids.length }));
   } catch {
     return [];
@@ -294,6 +336,7 @@ export function restoreExam(data, questions) {
   for (const p of data.parts) {
     if (!p || !Array.isArray(p.ids) || !p.ids.every((id) => known.has(id))) return null;
     if (!isIsoOrNull(p.startedAt) || !isIsoOrNull(p.submittedAt) || !(p.minutes > 0) || typeof p.title !== 'string') return null;
+    if (p.scenario !== undefined && p.scenario !== null && typeof p.scenario !== 'string') return null;
   }
   return structuredClone(data);
 }

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   hitRate, trafficLight, topicStats, overallStats, practiceSuggestions, areaStats,
-  updateStreak, currentStreak, dailyProgress, pruneDaily,
+  updateStreak, currentStreak, dailyProgress, pruneDaily, isMistake, mistakeIds,
 } from '../js/stats.js';
 
 describe('hitRate', () => {
@@ -197,5 +197,28 @@ describe('pruneDaily', () => {
   it('keeps only the last N days', () => {
     const daily = { '2026-08-01': 3, '2026-10-20': 5, '2026-11-17': 1 };
     expect(pruneDaily(daily, '2026-11-17', 30)).toEqual({ '2026-10-20': 5, '2026-11-17': 1 });
+  });
+});
+
+describe('isMistake / mistakeIds', () => {
+  it('uses the last answer when known', () => {
+    expect(isMistake({ attempts: 3, correct: 2, lastCorrect: false })).toBe(true);
+    expect(isMistake({ attempts: 3, correct: 1, lastCorrect: true })).toBe(false);
+  });
+  it('falls back to "not always correct" for older entries', () => {
+    expect(isMistake({ attempts: 2, correct: 1 })).toBe(true);
+    expect(isMistake({ attempts: 2, correct: 2 })).toBe(false);
+    expect(isMistake({ attempts: 0, correct: 0 })).toBe(false);
+    expect(isMistake(undefined)).toBe(false);
+  });
+  it('lists mistakes of the given questions, most recent first', () => {
+    const questions = [{ id: 'a' }, { id: 'b' }, { id: 'c' }, { id: 'd' }];
+    const answers = {
+      a: { attempts: 1, correct: 0, lastAt: '2026-11-15T10:00:00Z', lastCorrect: false },
+      b: { attempts: 1, correct: 1, lastAt: '2026-11-16T10:00:00Z', lastCorrect: true },
+      c: { attempts: 2, correct: 0, lastAt: '2026-11-17T10:00:00Z', lastCorrect: false },
+      x: { attempts: 1, correct: 0, lastCorrect: false },
+    };
+    expect(mistakeIds(questions, answers)).toEqual(['c', 'a']);
   });
 });

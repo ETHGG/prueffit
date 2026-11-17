@@ -11,6 +11,7 @@ import {
 import { validateNote, parseMarkdown } from '../js/notes.js';
 import { validateGlossaryEntry, spellings, matchGlossary, abbreviationCandidates } from '../js/glossary.js';
 import { AREAS, SUPPORTED_QUIZ_TYPES } from '../js/config.js';
+import { validateScenario, examParts, questionFitsPart, EXAM_QUESTION_TYPES } from '../js/exam.js';
 
 const DATA_DIR = fileURLToPath(new URL('../data/', import.meta.url));
 const MIN_QUESTIONS_PER_AREA = 25;
@@ -47,7 +48,7 @@ describe('data/: all files', () => {
   it('contains only known file locations', () => {
     const unexpected = allFiles.filter(
       (f) => f !== 'topics.json' && !/^questions\/[a-z]+\.json$/.test(f) && !/^flashcards\/[a-z]+\.json$/.test(f)
-        && !/^notes\/[a-z]+\.json$/.test(f) && f !== 'glossary.json',
+        && !/^notes\/[a-z]+\.json$/.test(f) && f !== 'glossary.json' && f !== 'scenarios.json',
     );
     expect(unexpected).toEqual([]);
   });
@@ -260,5 +261,50 @@ describe('data/glossary.json (Abkürzungsverzeichnis)', () => {
       }
     }
     expect([...missing]).toEqual([]);
+  });
+});
+
+describe('data/scenarios.json (AP2-Handlungssituationen)', () => {
+  const scenarios = parsed.get('scenarios.json');
+  const questions = questionFiles.flatMap((f) => parsed.get(f));
+  const byId = new Map(questions.map((q) => [q.id, q]));
+
+  it('every scenario is valid and refers to existing questions', () => {
+    const problems = scenarios.flatMap((sc) => validateScenario(sc, new Set(byId.keys())).map((p) => `${sc.id}: ${p}`));
+    expect(problems).toEqual([]);
+    expect(new Set(scenarios.map((sc) => sc.id)).size).toBe(scenarios.length);
+  });
+
+  it('a question belongs to at most one scenario', () => {
+    const all = scenarios.flatMap((sc) => sc.questions);
+    expect(all.filter((id, i) => all.indexOf(id) !== i)).toEqual([]);
+  });
+
+  it('covers both AP2 parts for every apprenticeship', () => {
+    for (const job of ['fisi', 'fiae', 'itsm']) {
+      for (const part of ['ga1', 'ga2']) {
+        expect(scenarios.some((sc) => sc.part === part && sc.jobs?.includes(job)), `${job} ${part}`).toBe(true);
+      }
+    }
+  });
+
+  it('questions fit the scenario: AP2, gradable, same jobs, topic of the exam part, at most 50 points', () => {
+    const problems = [];
+    for (const sc of scenarios) {
+      let points = 0;
+      for (const id of sc.questions) {
+        const q = byId.get(id);
+        points += q.points;
+        if (!q.exam.includes(sc.exam)) problems.push(`${id}: nicht ${sc.exam}`);
+        if (!EXAM_QUESTION_TYPES.includes(q.type)) problems.push(`${id}: Typ ${q.type} nicht automatisch bewertbar`);
+        if (JSON.stringify(q.jobs ?? null) !== JSON.stringify(sc.jobs ?? null)) problems.push(`${id}: jobs passen nicht zur Situation`);
+        for (const job of sc.jobs ?? ['alle']) {
+          const part = examParts(sc.exam, job).find((p) => p.id === sc.part);
+          if (!questionFitsPart(q, part)) problems.push(`${id}: Thema ${q.topic} passt nicht zu ${job} ${sc.part}`);
+        }
+      }
+      if (points > 50) problems.push(`${sc.id}: ${points} Punkte (max. 50)`);
+    }
+    expect(problems).toEqual([]);
   });
 });

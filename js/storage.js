@@ -35,6 +35,11 @@ export const MIGRATIONS = {
     ...data,
     settings: { ...(isPlainObject(data.settings) ? data.settings : {}), onboarded: false, examTarget: null },
   }),
+  // 4 -> 5 (v1.0.0): reminder to export a backup. Answers may now carry `lastCorrect`.
+  4: (data) => ({
+    ...data,
+    settings: { ...(isPlainObject(data.settings) ? data.settings : {}), backup: { lastAt: null, snoozeUntil: null } },
+  }),
 };
 
 export function createDefaultState() {
@@ -45,7 +50,7 @@ export function createDefaultState() {
     exams: [],
     streak: { current: 0, lastDay: null },
     daily: {},
-    settings: { ...DEFAULT_SETTINGS },
+    settings: { ...DEFAULT_SETTINGS, backup: { ...DEFAULT_SETTINGS.backup } },
   };
 }
 
@@ -72,6 +77,7 @@ export function normalizeState(raw, version = SCHEMA_VERSION) {
         correct,
         lastAt: typeof entry.lastAt === 'string' ? entry.lastAt : null,
       };
+      if (typeof entry.lastCorrect === 'boolean' && attempts > 0) state.answers[id].lastCorrect = entry.lastCorrect;
     }
   }
 
@@ -110,6 +116,13 @@ export function normalizeState(raw, version = SCHEMA_VERSION) {
     const target = raw.settings.examTarget;
     if (isPlainObject(target) && EXAMS.includes(target.exam) && isDay(target.day)) {
       state.settings.examTarget = { exam: target.exam, day: target.day };
+    }
+    const backup = raw.settings.backup;
+    if (isPlainObject(backup)) {
+      state.settings.backup = {
+        lastAt: isDay(backup.lastAt) ? backup.lastAt : null,
+        snoozeUntil: isDay(backup.snoozeUntil) ? backup.snoozeUntil : null,
+      };
     }
   }
 
@@ -219,6 +232,7 @@ export function recordAnswer(state, questionId, isCorrect, now = new Date()) {
         attempts: prev.attempts + 1,
         correct: prev.correct + (isCorrect ? 1 : 0),
         lastAt: now.toISOString(),
+        lastCorrect: Boolean(isCorrect),
       },
     },
   }, todayInBerlin(now));

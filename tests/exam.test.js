@@ -20,6 +20,9 @@ import {
   evaluateExam,
   restoreExam,
   EXAM_STATE_VERSION,
+  validateScenario,
+  scenariosForPart,
+  scenarioQuestionIds,
 } from '../js/exam.js';
 import { createSeededRandom } from '../js/questions.js';
 
@@ -325,5 +328,57 @@ describe('restoreExam', () => {
     const old = { ...exam, v: 1, parts: exam.parts.map((p) => { const copy = { ...p }; delete copy.id; return copy; }) };
     delete old.job;
     expect(restoreExam(JSON.parse(JSON.stringify(old)), pool)).toEqual(old);
+  });
+});
+
+describe('Handlungssituationen (scenarios)', () => {
+  const mk = (id, topic, points = 5, extra = {}) => ({ id, exam: ['AP2'], topic, difficulty: 1, type: 'single', question: id, options: ['a', 'b'], answer: 0, points, explanation: 'x', ...extra });
+  const pool = [
+    mk('s1', 'netzwerke.subnetting', 10, { jobs: ['fisi'] }),
+    mk('s2', 'netzwerke.vlan', 10, { jobs: ['fisi'] }),
+    mk('s3', 'sicherheit.mail', 10, { jobs: ['fisi'] }),
+    ...Array.from({ length: 12 }, (_, i) => mk(`n${i}`, 'netzwerke.dienste', 5)),
+  ];
+  const scenario = { id: 'sz-test', exam: 'AP2', part: 'ga2', jobs: ['fisi'], title: 'Test', situation: 'Ausgangslage', questions: ['s2', 's1', 's3'] };
+
+  it('validates scenarios', () => {
+    expect(validateScenario(scenario, new Set(pool.map((q) => q.id)))).toEqual([]);
+    expect(validateScenario({ ...scenario, id: 'x', part: 'ga3', questions: ['s1'] })).toHaveLength(3);
+    expect(validateScenario({ ...scenario, questions: ['s1', 's2', 'zz'] }, new Set(['s1', 's2']))).toEqual(['unbekannte Frage']);
+    expect(validateScenario({ ...scenario, jobs: ['alle'] })).toEqual(['jobs ungültig']);
+  });
+
+  it('finds scenarios for exam, part and apprenticeship', () => {
+    expect(scenariosForPart([scenario], 'AP2', 'ga2', 'fisi')).toHaveLength(1);
+    expect(scenariosForPart([scenario], 'AP2', 'ga2', 'alle')).toHaveLength(1);
+    expect(scenariosForPart([scenario], 'AP2', 'ga2', 'fiae')).toHaveLength(0);
+    expect(scenariosForPart([scenario], 'AP2', 'ga1', 'fisi')).toHaveLength(0);
+  });
+
+  it('opens the part with the scenario questions in order and fills up with other questions', () => {
+    const exam = createExam({ exam: 'AP2', job: 'fisi', partIds: ['ga2'], pool, scenarios: [scenario], now: t0, random: createSeededRandom(1) });
+    const part = exam.parts[0];
+    expect(part.scenario).toBe('sz-test');
+    expect(part.ids.slice(0, 3)).toEqual(['s2', 's1', 's3']);
+    const points = part.ids.reduce((sum, id) => sum + pool.find((q) => q.id === id).points, 0);
+    expect(points).toBe(50);
+  });
+
+  it('never draws scenario questions without their scenario', () => {
+    const other = { ...scenario, id: 'sz-andere', part: 'ga1' };
+    for (let seed = 1; seed < 6; seed++) {
+      const exam = createExam({ exam: 'AP2', job: 'fisi', partIds: ['ga2'], pool, scenarios: [other], now: t0, random: createSeededRandom(seed) });
+      expect(exam.parts[0].scenario).toBeNull();
+      expect(exam.parts[0].ids.some((id) => id.startsWith('s'))).toBe(false);
+    }
+    const ids = scenarioQuestionIds([scenario]);
+    const exam = createExam({ exam: 'AP2', partIds: ['ga1'], pool, scenarios: [scenario], now: t0 });
+    expect(exam.parts[0].ids.some((id) => ids.has(id))).toBe(false);
+  });
+
+  it('keeps the scenario id when restoring a stored exam', () => {
+    const exam = createExam({ exam: 'AP2', job: 'fisi', partIds: ['ga2'], pool, scenarios: [scenario], now: t0 });
+    expect(restoreExam(JSON.parse(JSON.stringify(exam)), pool).parts[0].scenario).toBe('sz-test');
+    expect(restoreExam({ ...exam, parts: [{ ...exam.parts[0], scenario: 7 }] }, pool)).toBeNull();
   });
 });

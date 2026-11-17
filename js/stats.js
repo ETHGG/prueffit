@@ -128,3 +128,23 @@ export function pruneDaily(daily, today, keepDays = 90) {
   const oldest = addDays(today, -(keepDays - 1));
   return Object.fromEntries(Object.entries(daily ?? {}).filter(([day]) => day >= oldest && day <= today));
 }
+
+// ---- Fehler wiederholen (v1.0) ----
+
+/**
+ * True if the last answer to a question was wrong. Older entries (before v1.0) have no
+ * `lastCorrect`; they count as a mistake while not every attempt was correct.
+ */
+export function isMistake(entry) {
+  if (!entry || !(entry.attempts > 0)) return false;
+  if (typeof entry.lastCorrect === 'boolean') return !entry.lastCorrect;
+  return entry.correct < entry.attempts;
+}
+
+/** Ids of the given questions whose last answer was wrong, most recent first. */
+export function mistakeIds(questions, answers) {
+  return questions
+    .filter((q) => isMistake(answers?.[q.id]))
+    .sort((a, b) => String(answers[b.id].lastAt ?? '').localeCompare(String(answers[a.id].lastAt ?? '')))
+    .map((q) => q.id);
+}
