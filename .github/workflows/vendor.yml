@@ -1,10 +1,14 @@
 name: Abhängigkeiten bereitstellen
 
-# Manually triggered: installs the dev dependencies and provides
-# package-lock.json and the Chart.js UMD build as a downloadable artifact
-# (for environments without npm registry access).
+# Manually triggered: installs the dev dependencies and pushes
+# package-lock.json and the Chart.js UMD build (vendor/chart.umd.min.js)
+# to the branch "vendor-update", from where they can be merged into main.
+# Useful for environments without npm registry access.
 on:
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   vendor:
@@ -15,13 +19,15 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-      - run: |
-          mkdir -p out/vendor
-          cp package-lock.json out/
-          cp node_modules/chart.js/dist/chart.umd.js out/vendor/chart.umd.min.js
-          cp node_modules/chart.js/LICENSE.md out/vendor/chart.js-LICENSE.md
-          node -p "'chart.js ' + JSON.parse(require('fs').readFileSync('node_modules/chart.js/package.json','utf8')).version" > out/vendor/VERSION.txt
-      - uses: actions/upload-artifact@v4
-        with:
-          name: vendor
-          path: out/
+      - name: Dateien übernehmen
+        run: |
+          cp node_modules/chart.js/dist/chart.umd.js vendor/chart.umd.min.js
+          cp node_modules/chart.js/LICENSE.md vendor/chart.js-LICENSE.md
+      - name: Auf Branch vendor-update pushen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B vendor-update
+          git add package-lock.json vendor/chart.umd.min.js vendor/chart.js-LICENSE.md
+          git commit -m "package-lock.json und Chart.js $(node -p "JSON.parse(require('fs').readFileSync('node_modules/chart.js/package.json','utf8')).version")"
+          git push --force origin vendor-update
