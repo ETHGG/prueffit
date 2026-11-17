@@ -581,3 +581,27 @@ details.fold.card[open] { padding-bottom: 1rem; }
 @media (min-width: 1024px) {
   .view { max-width: 840px; }
 }
+
+/* Abkürzungsverzeichnis (0.9) */
+.gloss-link { display: flex; flex-direction: column; gap: .1rem; margin-top: .5rem; padding: .6rem .75rem; min-height: 44px; border-radius: 10px; background: var(--surface-2); text-decoration: none; color: inherit; }
+.gloss-link-title { font-weight: 700; color: var(--primary); }
+.gloss-link:hover .gloss-link-title, .gloss-link:focus-visible .gloss-link-title { text-decoration: underline; }
+.gloss-hit { border-left: 4px solid var(--primary); }
+.gloss-hit p { margin: 0 0 .25rem; }
+.gloss-list { list-style: none; margin: 0; padding: 0; }
+.gloss-item { display: grid; grid-template-columns: minmax(4.5rem, auto) 1fr; gap: .1rem .75rem; padding: .6rem 0; border-top: 1px solid var(--border); }
+.gloss-item:first-child { border-top: 0; }
+.gloss-abbr { grid-row: span 3; font-weight: 800; color: var(--primary); overflow-wrap: anywhere; }
+.gloss-alias { font-weight: 400; color: var(--muted); font-size: .85rem; }
+.gloss-full { font-weight: 600; hyphens: auto; overflow-wrap: break-word; }
+.gloss-expl { font-size: .9rem; hyphens: auto; overflow-wrap: break-word; }
+.gloss-meta { font-size: .8rem; color: var(--muted); grid-column: 2; }
+.gloss-group { scroll-margin-top: 4.5rem; }
+.gloss-letter { font-size: 1.3rem; margin: 0 0 .25rem; }
+.letter-nav { display: flex; flex-wrap: wrap; gap: .35rem; margin: 0 0 1rem; }
+.letter-button {
+  min-width: 44px; min-height: 44px; border-radius: 10px; border: 2px solid var(--border);
+  background: var(--surface); color: var(--primary); font: inherit; font-weight: 700; cursor: pointer;
+}
+.letter-button:hover { background: var(--surface-2); }
+.letter-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }

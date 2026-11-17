@@ -1,4 +1,36 @@
-# Abschlussbericht Version 0.8.0
+# Abschlussbericht Version 0.9.0
+
+**Datum:** 17.11.2026 · **Live:** https://ethgg.github.io/prueffit/
+
+Auftrag: Für die Abkürzungen in den Lernzetteln ein Verzeichnis anlegen, in dem sie ausgeschrieben sind.
+
+## Was umgesetzt wurde
+
+| Bereich | Umsetzung |
+|---|---|
+| Daten | `data/glossary.json`: 242 Einträge (Abkürzung, ausgeschrieben, kurze Erklärung, Bereich, Schreibvarianten wie SSDs, WPA2/WPA3) |
+| Vollständigkeit | Alle 59 Lernzettel automatisch nach Abkürzungen durchsucht; ein Datentest stellt sicher, dass jede Abkürzung erklärt ist |
+| Logik | `js/glossary.js`: Fundstellen (ganze Wörter, längere Form gewinnt: HTTPS vor HTTP, IPv4 statt IP), Suche, A–Z-Gruppierung |
+| UI | Seite „Abkürzungen“ (`#/lernzettel/abkuerzungen`) mit Suche, Bereichsfilter, A–Z-Sprungleiste und Links zu den Lernzetteln; Abschnitt „Abkürzungen in diesem Lernzettel“; Bedeutung bei exakter Suche |
+| Goodnotes | Dokument „PrüfFit – Abkürzungsverzeichnis“ (A–Z) |
+
+## Annahmen
+
+- SQL-Schlüsselwörter (SELECT …), Pseudocode-Wörter (WENN, DANN), Hexwerte (B7, E3) und Produktnamen (VMware, WireGuard …) sind keine Abkürzungen und stehen nicht im Verzeichnis.
+- Mehrdeutige Abkürzungen erklären beide Bedeutungen (ER: Eingangsrechnung / Entity-Relationship; ECC: Error-Correcting Code / Elliptic Curve Cryptography).
+- Kein neuer Speicherschlüssel, keine Migration.
+
+## Behoben
+
+- `h()` hat verschachtelte Listen nur eine Ebene tief geglättet; tiefere Listen erschienen als Text. Jetzt vollständig geglättet (vom neuen Browsertest gefunden).
+
+## Offene Punkte
+
+- Keine.
+
+---
+
+# Abschlussbericht Version 0.8.0 (vorherige Phase)
 
 **Datum:** 17.11.2026 · **Live:** https://ethgg.github.io/prueffit/
 
@@ -19,7 +51,7 @@ Der Auf-/Zuklapp-Zustand bleibt erhalten, solange die App offen ist (kein neuer 
 
 ## Tests
 
-- 420 Unit-Tests grün (neu: `sessionCards`), 34 Browsertests (neu: Quiz-Bereiche, Suche von der Startseite; angepasst: Karten-Durchgänge, Lernzettel-Bereiche).
+- 420 Unit-Tests grün (neu: `sessionCards`), 33 Browsertests (neu: Quiz-Bereiche, Suche von der Startseite; angepasst: Karten-Durchgänge, Lernzettel-Bereiche).
 - Ansichten auf iPhone SE, iPhone 13 (dunkel) und Desktop per Screenshot geprüft, kein horizontales Scrollen.
 
 ## Annahmen

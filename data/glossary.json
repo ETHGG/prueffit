@@ -1,0 +1,1475 @@
+[
+  {
+    "abbr": "a. LL",
+    "full": "aus Lieferungen und Leistungen",
+    "explanation": "z. B. Verbindlichkeiten a. LL = offene Rechnungen von Lieferanten",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "AAAA",
+    "full": "AAAA-Record (Quad-A)",
+    "explanation": "DNS-Eintrag für eine IPv6-Adresse",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "AAC",
+    "full": "Advanced Audio Coding",
+    "explanation": "Verlustbehaftetes Audioformat",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "AES",
+    "full": "Advanced Encryption Standard",
+    "explanation": "Symmetrisches Verschlüsselungsverfahren",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "AfA",
+    "full": "Absetzung für Abnutzung",
+    "explanation": "Steuerliche Abschreibung von Anlagegütern",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "AG",
+    "full": "Aktiengesellschaft",
+    "explanation": "Kapitalgesellschaft, Grundkapital mind. 50.000 €",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "AGB",
+    "full": "Allgemeine Geschäftsbedingungen",
+    "explanation": "Vorformulierte Vertragsbedingungen",
+    "area": "Recht"
+  },
+  {
+    "abbr": "AGG",
+    "full": "Allgemeines Gleichbehandlungsgesetz",
+    "explanation": "Verbietet Benachteiligung, z. B. wegen Geschlecht oder Alter",
+    "area": "WiSo"
+  },
+  {
+    "abbr": "AI",
+    "full": "Artificial Intelligence",
+    "explanation": "Künstliche Intelligenz; „EU AI Act“ = KI-Verordnung der EU",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "AIDA",
+    "full": "Attention, Interest, Desire, Action",
+    "explanation": "Werbemodell: Aufmerksamkeit, Interesse, Wunsch, Handlung",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "AN",
+    "full": "Arbeitnehmer",
+    "area": "WiSo"
+  },
+  {
+    "abbr": "AP1",
+    "full": "Abschlussprüfung Teil 1 (AP2: Teil 2)",
+    "explanation": "IHK-Abschlussprüfung: Teil 1 etwa zur Mitte, Teil 2 am Ende der Ausbildung",
+    "area": "Allgemein",
+    "aliases": [
+      "AP2"
+    ]
+  },
+  {
+    "abbr": "API",
+    "full": "Application Programming Interface",
+    "explanation": "Programmierschnittstelle, z. B. Web-API mit JSON",
+    "area": "Allgemein",
+    "aliases": [
+      "APIs"
+    ]
+  },
+  {
+    "abbr": "APIPA",
+    "full": "Automatic Private IP Addressing",
+    "explanation": "Selbst vergebene Adresse 169.254.x.x, wenn kein DHCP-Server antwortet",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "ARP",
+    "full": "Address Resolution Protocol",
+    "explanation": "Ermittelt zu einer IPv4-Adresse die MAC-Adresse",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "ASCII",
+    "full": "American Standard Code for Information Interchange",
+    "explanation": "7-Bit-Zeichensatz mit 128 Zeichen",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "AVV",
+    "full": "Auftragsverarbeitungsvertrag",
+    "explanation": "Vertrag nach Art. 28 DSGVO mit Dienstleistern, die personenbezogene Daten verarbeiten",
+    "area": "Recht"
+  },
+  {
+    "abbr": "B2B",
+    "full": "Business to Business",
+    "explanation": "Geschäfte zwischen Unternehmen",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "BAB",
+    "full": "Betriebsabrechnungsbogen",
+    "explanation": "Verteilt Gemeinkosten auf Kostenstellen",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "BBiG",
+    "full": "Berufsbildungsgesetz",
+    "explanation": "Regelt die Berufsausbildung",
+    "area": "Recht"
+  },
+  {
+    "abbr": "BBK",
+    "full": "Bundesamt für Bevölkerungsschutz und Katastrophenhilfe",
+    "explanation": "Zuständig u. a. für den Schutz Kritischer Infrastrukturen",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "BCD",
+    "full": "Binary Coded Decimal",
+    "explanation": "Jede Dezimalziffer einzeln in 4 Bit",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "BCG",
+    "full": "Boston Consulting Group",
+    "explanation": "BCG-Matrix: Portfolio aus Marktwachstum und Marktanteil",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "BDSG",
+    "full": "Bundesdatenschutzgesetz",
+    "explanation": "Ergänzt die DSGVO in Deutschland",
+    "area": "Recht"
+  },
+  {
+    "abbr": "BetrVG",
+    "full": "Betriebsverfassungsgesetz",
+    "explanation": "Regelt Betriebsrat und Mitbestimmung",
+    "area": "WiSo"
+  },
+  {
+    "abbr": "BGA",
+    "full": "Betriebs- und Geschäftsausstattung",
+    "explanation": "Anlagevermögen wie Büromöbel, PCs",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "BGB",
+    "full": "Bürgerliches Gesetzbuch",
+    "explanation": "Allgemeines Zivilrecht, z. B. Kaufvertrag, Kündigung",
+    "area": "Recht"
+  },
+  {
+    "abbr": "BIOS",
+    "full": "Basic Input/Output System",
+    "explanation": "Alte PC-Firmware, abgelöst durch UEFI",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "BP",
+    "full": "Bezugspreis",
+    "explanation": "Einstandspreis nach Rabatt, Skonto und Bezugskosten",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "BPMN",
+    "full": "Business Process Model and Notation",
+    "explanation": "Grafische Notation für Geschäftsprozesse",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "BSI",
+    "full": "Bundesamt für Sicherheit in der Informationstechnik",
+    "explanation": "IT-Grundschutz, Warnungen, KRITIS-Aufsicht",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "BUrlG",
+    "full": "Bundesurlaubsgesetz",
+    "explanation": "Mindesturlaub 24 Werktage",
+    "area": "WiSo"
+  },
+  {
+    "abbr": "BWL",
+    "full": "Betriebswirtschaftslehre",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "BYOD",
+    "full": "Bring Your Own Device",
+    "explanation": "Private Geräte werden dienstlich genutzt",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "CA",
+    "full": "Certificate Authority",
+    "explanation": "Zertifizierungsstelle, stellt digitale Zertifikate aus",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "CAL",
+    "full": "Client Access License",
+    "explanation": "Zugriffslizenz pro Benutzer oder pro Gerät",
+    "area": "Recht"
+  },
+  {
+    "abbr": "CIA",
+    "full": "Confidentiality, Integrity, Availability",
+    "explanation": "Die drei Schutzziele: Vertraulichkeit, Integrität, Verfügbarkeit",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "CNAME",
+    "full": "Canonical Name Record",
+    "explanation": "DNS-Alias: ein Name verweist auf einen anderen",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "COPE",
+    "full": "Corporate Owned, Personally Enabled",
+    "explanation": "Firmengerät, private Nutzung erlaubt",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "CPU",
+    "full": "Central Processing Unit",
+    "explanation": "Prozessor",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "CRL",
+    "full": "Certificate Revocation List",
+    "explanation": "Sperrliste widerrufener Zertifikate",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "CRM",
+    "full": "Customer Relationship Management",
+    "explanation": "Verwaltung der Kundenbeziehungen (Software)",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "CSV",
+    "full": "Comma-Separated Values",
+    "explanation": "Textdatei mit Werten, getrennt durch Komma oder Semikolon",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "DAD",
+    "full": "Duplicate Address Detection",
+    "explanation": "IPv6: prüft, ob eine Adresse im Netz schon benutzt wird",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "DDoS",
+    "full": "Distributed Denial of Service",
+    "explanation": "Überlastungsangriff von vielen Rechnern (Botnetz)",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "DDR4",
+    "full": "Double Data Rate, 4. Generation",
+    "explanation": "RAM-Standard; DDR5 ist die 5. Generation, beide nicht kompatibel",
+    "area": "Hardware",
+    "aliases": [
+      "DDR5"
+    ]
+  },
+  {
+    "abbr": "DGUV",
+    "full": "Deutsche Gesetzliche Unfallversicherung",
+    "explanation": "Spitzenverband der Berufsgenossenschaften, Unfallverhütungsvorschriften",
+    "area": "Recht"
+  },
+  {
+    "abbr": "DHCP",
+    "full": "Dynamic Host Configuration Protocol",
+    "explanation": "Vergibt automatisch IP-Adresse, Maske, Gateway und DNS",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "DHCPv6",
+    "full": "Dynamic Host Configuration Protocol for IPv6",
+    "explanation": "DHCP für IPv6",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "DKIM",
+    "full": "DomainKeys Identified Mail",
+    "explanation": "Mailserver signiert ausgehende Mails, Schlüssel im DNS",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "DMARC",
+    "full": "Domain-based Message Authentication, Reporting and Conformance",
+    "explanation": "Regel, was bei fehlgeschlagener SPF-/DKIM-Prüfung passiert, plus Berichte",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "DMZ",
+    "full": "Demilitarisierte Zone",
+    "explanation": "Netzsegment für öffentlich erreichbare Server zwischen Internet und LAN",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "DNAT",
+    "full": "Destination Network Address Translation",
+    "explanation": "Ändert die Zieladresse, z. B. für Portweiterleitung",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "DNS",
+    "full": "Domain Name System",
+    "explanation": "Übersetzt Namen (www.beispiel.de) in IP-Adressen",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "DORA",
+    "full": "Discover, Offer, Request, Acknowledge",
+    "explanation": "Die vier Schritte der DHCP-Vergabe",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "DRAM",
+    "full": "Dynamic Random Access Memory",
+    "explanation": "Arbeitsspeicher, braucht ständigen Refresh",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "DSGVO",
+    "full": "Datenschutz-Grundverordnung",
+    "explanation": "EU-Verordnung zum Schutz personenbezogener Daten",
+    "area": "Recht"
+  },
+  {
+    "abbr": "e. K.",
+    "full": "eingetragener Kaufmann / eingetragene Kauffrau",
+    "explanation": "Einzelunternehmen im Handelsregister",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "ECC",
+    "full": "Error-Correcting Code",
+    "explanation": "Fehlerkorrigierender Arbeitsspeicher; in der Kryptografie auch Elliptic Curve Cryptography",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "eG",
+    "full": "eingetragene Genossenschaft",
+    "explanation": "Fördert ihre Mitglieder, je Mitglied eine Stimme",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "ElektroG",
+    "full": "Elektro- und Elektronikgerätegesetz",
+    "explanation": "Rücknahme und Entsorgung von Elektroschrott",
+    "area": "WiSo"
+  },
+  {
+    "abbr": "EMV",
+    "full": "Elektromagnetische Verträglichkeit",
+    "explanation": "Störfestigkeit gegen elektromagnetische Felder (LWL ist unempfindlich)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "EPK",
+    "full": "Ereignisgesteuerte Prozesskette",
+    "explanation": "Prozessdarstellung aus Ereignissen und Funktionen",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "ER",
+    "full": "Eingangsrechnung",
+    "explanation": "Rechnung eines Lieferanten; in der Programmierung: Entity-Relationship (ER-Modell)",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "ERP",
+    "full": "Enterprise Resource Planning",
+    "explanation": "Integrierte Unternehmenssoftware mit gemeinsamer Datenbasis",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "ESXi",
+    "full": "VMware ESXi",
+    "explanation": "Hypervisor Typ 1 von VMware, läuft direkt auf der Hardware",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "EU",
+    "full": "Europäische Union",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "EULA",
+    "full": "End User License Agreement",
+    "explanation": "Lizenzvertrag mit dem Endnutzer",
+    "area": "Recht"
+  },
+  {
+    "abbr": "exFAT",
+    "full": "Extended File Allocation Table",
+    "explanation": "Dateisystem für USB-Sticks und SD-Karten, große Dateien",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "ext4",
+    "full": "Fourth Extended Filesystem",
+    "explanation": "Standard-Dateisystem unter Linux",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "FAT32",
+    "full": "File Allocation Table, 32 Bit",
+    "explanation": "Altes Dateisystem, Dateien max. 4 GiB",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "FAZ",
+    "full": "Frühester Anfangszeitpunkt",
+    "explanation": "Netzplan: frühestmöglicher Start eines Vorgangs",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "FCS",
+    "full": "Frame Check Sequence",
+    "explanation": "Prüfsumme am Ende eines Ethernet-Frames",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "FEZ",
+    "full": "Frühester Endzeitpunkt",
+    "explanation": "Netzplan: FAZ + Dauer",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "FLAC",
+    "full": "Free Lossless Audio Codec",
+    "explanation": "Verlustfreies Audioformat",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "FP",
+    "full": "Freier Puffer",
+    "explanation": "Netzplan: Verschiebung ohne Einfluss auf den Nachfolger",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "GB",
+    "full": "Gigabyte",
+    "explanation": "10^9 Byte (dezimal)",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "GbR",
+    "full": "Gesellschaft bürgerlichen Rechts",
+    "explanation": "Personengesellschaft, alle haften unbeschränkt",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "GG",
+    "full": "Grundgesetz",
+    "explanation": "Verfassung der Bundesrepublik Deutschland",
+    "area": "WiSo"
+  },
+  {
+    "abbr": "GHz",
+    "full": "Gigahertz",
+    "explanation": "10^9 Schwingungen pro Sekunde, z. B. CPU-Takt oder WLAN-Band",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "GiB",
+    "full": "Gibibyte",
+    "explanation": "2^30 Byte (binär) = 1.073.741.824 Byte",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "GmbH",
+    "full": "Gesellschaft mit beschränkter Haftung",
+    "explanation": "Kapitalgesellschaft, Stammkapital 25.000 €",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "GP",
+    "full": "Gesamtpuffer",
+    "explanation": "Netzplan: Verschiebung ohne Einfluss auf das Projektende (SAZ − FAZ)",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "GPL",
+    "full": "GNU General Public License",
+    "explanation": "Open-Source-Lizenz mit Copyleft",
+    "area": "Recht"
+  },
+  {
+    "abbr": "GPT",
+    "full": "GUID Partition Table",
+    "explanation": "Partitionstabelle für UEFI, Nachfolger von MBR",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "GuV",
+    "full": "Gewinn- und Verlustrechnung",
+    "explanation": "Stellt Aufwendungen und Erträge gegenüber",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "GWG",
+    "full": "Geringwertiges Wirtschaftsgut",
+    "explanation": "Bis 800 € netto, sofort abschreibbar",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "HDD",
+    "full": "Hard Disk Drive",
+    "explanation": "Festplatte mit drehenden Magnetscheiben",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "HDMI",
+    "full": "High-Definition Multimedia Interface",
+    "explanation": "Bild- und Tonanschluss (TV, Beamer)",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "HGB",
+    "full": "Handelsgesetzbuch",
+    "explanation": "Recht der Kaufleute",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "HR",
+    "full": "Handelsregister",
+    "explanation": "Öffentliches Verzeichnis der Kaufleute (Abteilung A und B)",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "HTTP",
+    "full": "Hypertext Transfer Protocol",
+    "explanation": "Protokoll für Webseiten (Port 80)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "HTTPS",
+    "full": "Hypertext Transfer Protocol Secure",
+    "explanation": "HTTP mit TLS-Verschlüsselung (Port 443)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "IaaS",
+    "full": "Infrastructure as a Service",
+    "explanation": "Cloud: Kunde mietet Server/Speicher, verwaltet OS und Anwendungen selbst",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "ICMP",
+    "full": "Internet Control Message Protocol",
+    "explanation": "Steuer- und Fehlermeldungen, z. B. ping",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "ID",
+    "full": "Identifier",
+    "explanation": "Kennung, z. B. VLAN-ID oder Interface-ID",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "IDS",
+    "full": "Intrusion Detection System",
+    "explanation": "Erkennt Angriffe und meldet sie",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "IEC",
+    "full": "International Electrotechnical Commission",
+    "explanation": "Internationale Normungsorganisation für Elektrotechnik; Binärpräfixe KiB, MiB …",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "IEEE",
+    "full": "Institute of Electrical and Electronics Engineers",
+    "explanation": "Normungsorganisation, z. B. IEEE 802.3 (Ethernet), 802.11 (WLAN)",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "IHK",
+    "full": "Industrie- und Handelskammer",
+    "explanation": "Zuständige Stelle für Ausbildung und Prüfungen",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "IMAPS",
+    "full": "Internet Message Access Protocol Secure",
+    "explanation": "Verschlüsselter Mailabruf, Mails bleiben auf dem Server (Port 993)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "IoT",
+    "full": "Internet of Things",
+    "explanation": "Internet der Dinge: vernetzte Sensoren und Geräte",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "IP",
+    "full": "Internet Protocol",
+    "explanation": "Adressierung und Weiterleitung von Paketen (OSI-Schicht 3)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "IPS",
+    "full": "Intrusion Prevention System",
+    "explanation": "Erkennt und blockiert Angriffe",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "IPsec",
+    "full": "Internet Protocol Security",
+    "explanation": "Verschlüsselung auf IP-Ebene, oft für VPNs",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "IPv4",
+    "full": "Internet Protocol Version 4",
+    "explanation": "32-Bit-Adressen, z. B. 192.168.1.10",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "IPv6",
+    "full": "Internet Protocol Version 6",
+    "explanation": "128-Bit-Adressen in Hex, z. B. 2001:db8::1",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "iSCSI",
+    "full": "Internet Small Computer System Interface",
+    "explanation": "Blockspeicher über das IP-Netz (SAN)",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "ISMS",
+    "full": "Information Security Management System",
+    "explanation": "Managementsystem für Informationssicherheit (ISO/IEC 27001)",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "ISO",
+    "full": "International Organization for Standardization",
+    "explanation": "Internationale Normungsorganisation (z. B. ISO 9001, ISO/IEC 27001)",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "IT",
+    "full": "Informationstechnik",
+    "explanation": "Engl. Information Technology",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "ITIL",
+    "full": "IT Infrastructure Library",
+    "explanation": "Sammlung bewährter Verfahren für IT-Service-Management",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "JArbSchG",
+    "full": "Jugendarbeitsschutzgesetz",
+    "explanation": "Schützt Beschäftigte unter 18 Jahren",
+    "area": "Recht"
+  },
+  {
+    "abbr": "JAV",
+    "full": "Jugend- und Auszubildendenvertretung",
+    "explanation": "Vertritt Beschäftigte unter 18 und Azubis unter 25",
+    "area": "WiSo"
+  },
+  {
+    "abbr": "JPEG",
+    "full": "Joint Photographic Experts Group",
+    "explanation": "Verlustbehaftetes Bildformat für Fotos",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "JSON",
+    "full": "JavaScript Object Notation",
+    "explanation": "Kompaktes Datenformat aus Schlüssel-Wert-Paaren, oft bei Web-APIs",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "kB",
+    "full": "Kilobyte",
+    "explanation": "10^3 = 1.000 Byte",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "KG",
+    "full": "Kommanditgesellschaft",
+    "explanation": "Komplementär haftet voll, Kommanditist bis zur Einlage",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "KI",
+    "full": "Künstliche Intelligenz",
+    "explanation": "Engl. AI (Artificial Intelligence)",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "KiB",
+    "full": "Kibibyte",
+    "explanation": "2^10 = 1.024 Byte",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "KLR",
+    "full": "Kosten- und Leistungsrechnung",
+    "explanation": "Internes Rechnungswesen zur Steuerung",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "KRITIS",
+    "full": "Kritische Infrastrukturen",
+    "explanation": "Einrichtungen, deren Ausfall die Versorgung gefährdet (Energie, Wasser, Gesundheit …)",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "KV",
+    "full": "Krankenversicherung",
+    "explanation": "Zweig der Sozialversicherung",
+    "area": "WiSo"
+  },
+  {
+    "abbr": "LAN",
+    "full": "Local Area Network",
+    "explanation": "Lokales Netz, z. B. im Betrieb",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "LED",
+    "full": "Light Emitting Diode",
+    "explanation": "Leuchtdiode, z. B. Link-LED am Netzwerkanschluss",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "LLC",
+    "full": "Logical Link Control",
+    "explanation": "Obere Teilschicht der OSI-Schicht 2 (2b)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "LWL",
+    "full": "Lichtwellenleiter",
+    "explanation": "Glasfaserkabel (Singlemode, Multimode)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "MAC",
+    "full": "Media Access Control",
+    "explanation": "Hardwareadresse der Netzwerkkarte (48 Bit); untere Teilschicht der Schicht 2 (2a)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "MB",
+    "full": "Megabyte",
+    "explanation": "10^6 Byte",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "MDM",
+    "full": "Mobile Device Management",
+    "explanation": "Zentrale Verwaltung von Smartphones und Tablets",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "MFA",
+    "full": "Multi-Faktor-Authentifizierung",
+    "explanation": "Anmeldung mit mindestens zwei verschiedenen Faktoren (Wissen, Besitz, Sein)",
+    "area": "IT-Sicherheit",
+    "aliases": [
+      "2FA"
+    ]
+  },
+  {
+    "abbr": "MiB",
+    "full": "Mebibyte",
+    "explanation": "2^20 Byte = 1.048.576 Byte",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "MIT",
+    "full": "MIT-Lizenz (Massachusetts Institute of Technology)",
+    "explanation": "Freizügige Open-Source-Lizenz",
+    "area": "Recht"
+  },
+  {
+    "abbr": "MP3",
+    "full": "MPEG-1 Audio Layer III",
+    "explanation": "Verlustbehaftetes Audioformat",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "MQTT",
+    "full": "Message Queuing Telemetry Transport",
+    "explanation": "Leichtes Publish/Subscribe-Protokoll für IoT (Port 1883, mit TLS 8883)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "MST",
+    "full": "Multi-Stream Transport",
+    "explanation": "DisplayPort: mehrere Monitore hintereinander (Daisy Chain)",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "MX",
+    "full": "Mail Exchange Record",
+    "explanation": "DNS-Eintrag für den zuständigen Mailserver",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "NAND",
+    "full": "Not AND",
+    "explanation": "Negiertes UND",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "NAS",
+    "full": "Network Attached Storage",
+    "explanation": "Speicher im Netz mit Dateifreigaben (SMB/NFS)",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "NAT",
+    "full": "Network Address Translation",
+    "explanation": "Setzt private in öffentliche IP-Adressen um",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "NDP",
+    "full": "Neighbor Discovery Protocol",
+    "explanation": "IPv6: findet Nachbarn und Router, ersetzt ARP",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "NF",
+    "full": "Normalform",
+    "explanation": "Stufen der Datenbank-Normalisierung (1. NF, 2. NF, 3. NF)",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "NFS",
+    "full": "Network File System",
+    "explanation": "Dateifreigabe-Protokoll, vor allem unter Linux",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "NGFW",
+    "full": "Next-Generation Firewall",
+    "explanation": "Firewall mit Applikationserkennung, IPS und TLS-Inspection",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "NIS2",
+    "full": "Network and Information Security Directive 2",
+    "explanation": "EU-Richtlinie für Cybersicherheit, gilt für deutlich mehr Unternehmen",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "NOR",
+    "full": "Not OR",
+    "explanation": "Negiertes ODER",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "NTFS",
+    "full": "New Technology File System",
+    "explanation": "Windows-Dateisystem mit Rechten und Journaling",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "NTP",
+    "full": "Network Time Protocol",
+    "explanation": "Zeitsynchronisation (Port 123)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "NVMe",
+    "full": "Non-Volatile Memory Express",
+    "explanation": "Schnelles Protokoll für SSDs über PCIe",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "OCSP",
+    "full": "Online Certificate Status Protocol",
+    "explanation": "Online-Abfrage, ob ein Zertifikat gesperrt ist",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "OEM",
+    "full": "Original Equipment Manufacturer",
+    "explanation": "OEM-Lizenz: an ein bestimmtes Gerät gebunden",
+    "area": "Recht"
+  },
+  {
+    "abbr": "OHG",
+    "full": "Offene Handelsgesellschaft",
+    "explanation": "Personengesellschaft, alle haften unbeschränkt",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "OLA",
+    "full": "Operational Level Agreement",
+    "explanation": "Vereinbarung zwischen IT und interner Abteilung",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "OS",
+    "full": "Operating System",
+    "explanation": "Betriebssystem",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "OSI",
+    "full": "Open Systems Interconnection",
+    "explanation": "Referenzmodell mit 7 Schichten",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "OUI",
+    "full": "Organizationally Unique Identifier",
+    "explanation": "Herstellerkennung in den ersten 3 Byte der MAC-Adresse",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "PaaS",
+    "full": "Platform as a Service",
+    "explanation": "Cloud: Plattform (z. B. Datenbank) wird gestellt, Kunde verwaltet nur Anwendungen",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "PAP",
+    "full": "Programmablaufplan",
+    "explanation": "Grafische Darstellung eines Algorithmus (DIN 66001)",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "PAT",
+    "full": "Port Address Translation",
+    "explanation": "NAT mit Ports: viele private Adressen teilen eine öffentliche (NAT-Overload)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "PC",
+    "full": "Personal Computer",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "PCIe",
+    "full": "Peripheral Component Interconnect Express",
+    "explanation": "Schneller Erweiterungsbus für Steckkarten und M.2-SSDs",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "PDCA",
+    "full": "Plan, Do, Check, Act",
+    "explanation": "Deming-Kreis für kontinuierliche Verbesserung",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "PDF",
+    "full": "Portable Document Format",
+    "explanation": "Seitengetreues Dokumentformat",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "PGP",
+    "full": "Pretty Good Privacy",
+    "explanation": "Verschlüsselung und Signatur von E-Mails",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "PNG",
+    "full": "Portable Network Graphics",
+    "explanation": "Verlustfreies Bildformat mit Transparenz",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "POP3S",
+    "full": "Post Office Protocol 3 Secure",
+    "explanation": "Verschlüsselter Mailabruf, Mails werden meist heruntergeladen (Port 995)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "PSP",
+    "full": "Projektstrukturplan",
+    "explanation": "Zerlegt das Projekt in Teilaufgaben und Arbeitspakete",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "PTR",
+    "full": "Pointer Record",
+    "explanation": "DNS-Eintrag für die Rückwärtsauflösung (IP → Name)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "RADIUS",
+    "full": "Remote Authentication Dial-In User Service",
+    "explanation": "Zentraler Anmeldeserver, z. B. für WLAN mit 802.1X",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "RAID",
+    "full": "Redundant Array of Independent Disks",
+    "explanation": "Verbund mehrerer Festplatten für Leistung und/oder Ausfallsicherheit",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "RAM",
+    "full": "Random Access Memory",
+    "explanation": "Flüchtiger Arbeitsspeicher",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "RDP",
+    "full": "Remote Desktop Protocol",
+    "explanation": "Fernzugriff auf Windows-Desktops (Port 3389)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "RGB",
+    "full": "Rot, Grün, Blau",
+    "explanation": "Farbmodell; 8 Bit je Kanal = 24 Bit Farbtiefe",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "RJ45",
+    "full": "Registered Jack 45",
+    "explanation": "Stecker für Twisted-Pair-Ethernet",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "ROM",
+    "full": "Read-Only Memory",
+    "explanation": "Nur-Lese-Speicher, nicht flüchtig",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "RPO",
+    "full": "Recovery Point Objective",
+    "explanation": "Wie viel Datenverlust höchstens tragbar ist (Abstand der Sicherungen)",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "RSA",
+    "full": "Rivest, Shamir, Adleman",
+    "explanation": "Asymmetrisches Verschlüsselungsverfahren (Namen der Erfinder)",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "RTO",
+    "full": "Recovery Time Objective",
+    "explanation": "Wie schnell ein System wiederhergestellt sein muss",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "S/FTP",
+    "full": "Screened / Foiled Twisted Pair",
+    "explanation": "Gesamtschirm aus Geflecht, jedes Paar mit Folie geschirmt",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "S/MIME",
+    "full": "Secure / Multipurpose Internet Mail Extensions",
+    "explanation": "E-Mail-Verschlüsselung und -Signatur mit X.509-Zertifikaten",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "SaaS",
+    "full": "Software as a Service",
+    "explanation": "Cloud: fertige Software zur Nutzung, z. B. Microsoft 365",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "SAN",
+    "full": "Storage Area Network",
+    "explanation": "Eigenes Speichernetz mit Blockzugriff (iSCSI, Fibre Channel)",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "SATA",
+    "full": "Serial Advanced Technology Attachment",
+    "explanation": "Anschluss für Festplatten und SSDs",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "SAZ",
+    "full": "Spätester Anfangszeitpunkt",
+    "explanation": "Netzplan: SEZ − Dauer",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "SEZ",
+    "full": "Spätester Endzeitpunkt",
+    "explanation": "Netzplan: spätestes Ende ohne Verzögerung des Projekts",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "SHA",
+    "full": "Secure Hash Algorithm",
+    "explanation": "Hashverfahren, z. B. SHA-256",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "SI",
+    "full": "Système international d’unités",
+    "explanation": "Internationales Einheitensystem (Dezimalpräfixe k, M, G …)",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "SLA",
+    "full": "Service Level Agreement",
+    "explanation": "Vereinbarung zwischen IT-Dienstleister und Kunde (Verfügbarkeit, Reaktionszeit)",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "SLAAC",
+    "full": "Stateless Address Autoconfiguration",
+    "explanation": "IPv6: Gerät bildet seine Adresse aus dem Router-Präfix selbst",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "SMART",
+    "full": "Spezifisch, Messbar, Attraktiv, Realistisch, Terminiert",
+    "explanation": "Regel für gut formulierte Ziele",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "SMB",
+    "full": "Server Message Block",
+    "explanation": "Dateifreigabe-Protokoll, vor allem unter Windows",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "SMS",
+    "full": "Short Message Service",
+    "explanation": "Kurznachricht per Mobilfunk",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "SMTP",
+    "full": "Simple Mail Transfer Protocol",
+    "explanation": "Mailversand (Port 25, Einlieferung 587)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "SNMP",
+    "full": "Simple Network Management Protocol",
+    "explanation": "Überwachung von Netzgeräten (UDP 161, Traps 162); SNMPv3 verschlüsselt",
+    "area": "Netzwerke",
+    "aliases": [
+      "SNMPv3"
+    ]
+  },
+  {
+    "abbr": "SO-DIMM",
+    "full": "Small Outline Dual Inline Memory Module",
+    "explanation": "Kleine RAM-Module für Notebooks",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "SPF",
+    "full": "Sender Policy Framework",
+    "explanation": "DNS-Eintrag mit den Servern, die für eine Domain Mails senden dürfen",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "SQL",
+    "full": "Structured Query Language",
+    "explanation": "Abfragesprache für relationale Datenbanken",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "SRAM",
+    "full": "Static Random Access Memory",
+    "explanation": "Schneller, teurer Speicher für den Cache",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "SSD",
+    "full": "Solid State Drive",
+    "explanation": "Flash-Speicher ohne bewegliche Teile",
+    "area": "Hardware",
+    "aliases": [
+      "SSDs"
+    ]
+  },
+  {
+    "abbr": "SSH",
+    "full": "Secure Shell",
+    "explanation": "Verschlüsselte Fernwartung per Kommandozeile (Port 22)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "SSL",
+    "full": "Secure Sockets Layer",
+    "explanation": "Vorgänger von TLS; heute noch in Namen wie „SSL-VPN“",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "StabG",
+    "full": "Stabilitätsgesetz",
+    "explanation": "Gesetz zur Förderung der Stabilität und des Wachstums der Wirtschaft (1967), magisches Viereck",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "STARTTLS",
+    "full": "Start Transport Layer Security",
+    "explanation": "Schaltet eine bestehende Mailverbindung auf TLS-Verschlüsselung um",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "STP",
+    "full": "Spanning Tree Protocol",
+    "explanation": "Verhindert Schleifen zwischen Switches durch Blockieren von Ports",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "SVG",
+    "full": "Scalable Vector Graphics",
+    "explanation": "Vektorgrafik-Format, verlustfrei skalierbar",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "TB",
+    "full": "Terabyte",
+    "explanation": "10^12 Byte (dezimal)",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "TCO",
+    "full": "TCO Certified",
+    "explanation": "Nachhaltigkeitssiegel für IT-Geräte (TCO Development)",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "TCP",
+    "full": "Transmission Control Protocol",
+    "explanation": "Verbindungsorientiert und zuverlässig (OSI-Schicht 4)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "TiB",
+    "full": "Tebibyte",
+    "explanation": "2^40 Byte (binär)",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "TK",
+    "full": "Telekommunikation",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "TKIP",
+    "full": "Temporal Key Integrity Protocol",
+    "explanation": "Veraltetes Verschlüsselungsverfahren von WPA, unsicher",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "TLS",
+    "full": "Transport Layer Security",
+    "explanation": "Verschlüsselt Verbindungen, z. B. bei HTTPS",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "TOM",
+    "full": "Technische und organisatorische Maßnahmen",
+    "explanation": "Schutzmaßnahmen nach DSGVO (Zutritt, Zugang, Zugriff …)",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "TV",
+    "full": "Television",
+    "explanation": "Fernseher",
+    "area": "Allgemein"
+  },
+  {
+    "abbr": "TXT",
+    "full": "Text Record",
+    "explanation": "DNS-Eintrag mit freiem Text, z. B. SPF oder DMARC",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "UC",
+    "full": "Underpinning Contract",
+    "explanation": "Vertrag zwischen IT und externem Zulieferer",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "UDP",
+    "full": "User Datagram Protocol",
+    "explanation": "Verbindungslos und schnell, ohne Neusenden (OSI-Schicht 4)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "UEFI",
+    "full": "Unified Extensible Firmware Interface",
+    "explanation": "PC-Firmware, Nachfolger des BIOS, mit Secure Boot",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "UG",
+    "full": "Unternehmergesellschaft (haftungsbeschränkt)",
+    "explanation": "„Mini-GmbH“ ab 1 € Stammkapital",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "UML",
+    "full": "Unified Modeling Language",
+    "explanation": "Standardisierte Diagramme für Softwaremodelle",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "USB",
+    "full": "Universal Serial Bus",
+    "explanation": "Universeller Anschluss für Daten und Strom",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "USD",
+    "full": "US-Dollar",
+    "explanation": "Währung der USA",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "USt",
+    "full": "Umsatzsteuer",
+    "explanation": "Regelsatz 19 %, ermäßigt 7 %",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "USV",
+    "full": "Unterbrechungsfreie Stromversorgung",
+    "explanation": "Überbrückt Stromausfälle mit Akkus",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "UTF-8",
+    "full": "Unicode Transformation Format, 8 Bit",
+    "explanation": "Kodierung für Unicode mit 1–4 Byte, ASCII-kompatibel",
+    "area": "Programmierung",
+    "aliases": [
+      "UTF"
+    ]
+  },
+  {
+    "abbr": "VFD",
+    "full": "Voltage and Frequency Dependent",
+    "explanation": "Offline-USV: schaltet erst bei Ausfall um",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "VFI",
+    "full": "Voltage and Frequency Independent",
+    "explanation": "Online-USV (Doppelwandler): beste Qualität",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "VI",
+    "full": "Voltage Independent",
+    "explanation": "Line-Interactive-USV: gleicht zusätzlich Spannungsschwankungen aus",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "VLAN",
+    "full": "Virtual Local Area Network",
+    "explanation": "Logisch getrenntes Netz auf demselben Switch",
+    "area": "Netzwerke",
+    "aliases": [
+      "VLANs"
+    ]
+  },
+  {
+    "abbr": "VoIP",
+    "full": "Voice over IP",
+    "explanation": "Telefonie über IP-Netze",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "VP",
+    "full": "Verkaufspreis",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "VPN",
+    "full": "Virtual Private Network",
+    "explanation": "Verschlüsselter Tunnel über das Internet",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "VWL",
+    "full": "Volkswirtschaftslehre",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "WEP",
+    "full": "Wired Equivalent Privacy",
+    "explanation": "Veraltete WLAN-Verschlüsselung, unsicher",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "WIP",
+    "full": "Work in Progress",
+    "explanation": "Kanban: Aufgaben in Arbeit; WIP-Limit begrenzt ihre Anzahl",
+    "area": "Projektmanagement"
+  },
+  {
+    "abbr": "WLAN",
+    "full": "Wireless Local Area Network",
+    "explanation": "Funknetz nach IEEE 802.11",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "WPA",
+    "full": "Wi-Fi Protected Access",
+    "explanation": "WLAN-Sicherheitsstandard; WPA2 und WPA3 sind die aktuellen Versionen",
+    "area": "Netzwerke",
+    "aliases": [
+      "WPA2",
+      "WPA3"
+    ]
+  },
+  {
+    "abbr": "XML",
+    "full": "Extensible Markup Language",
+    "explanation": "Auszeichnungssprache mit Tags, z. B. für E-Rechnungen",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "XOR",
+    "full": "Exclusive OR",
+    "explanation": "Exklusives ODER: wahr, wenn genau ein Eingang 1 ist",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "XRechnung",
+    "full": "XRechnung",
+    "explanation": "Deutscher Standard für E-Rechnungen als reine XML-Datei",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "XSD",
+    "full": "XML Schema Definition",
+    "explanation": "Beschreibt und prüft den Aufbau einer XML-Datei",
+    "area": "Programmierung"
+  },
+  {
+    "abbr": "ZUGFeRD",
+    "full": "Zentraler User Guide des Forums elektronische Rechnung Deutschland",
+    "explanation": "E-Rechnung als PDF mit eingebetteter XML-Datei",
+    "area": "Wirtschaft"
+  }
+]

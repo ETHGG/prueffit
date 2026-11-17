@@ -17,7 +17,7 @@ export function h(tag, attrs = {}, ...children) {
     else if (value === true) el.setAttribute(key, '');
     else el.setAttribute(key, String(value));
   }
-  for (const child of children.flat()) {
+  for (const child of children.flat(Infinity)) {
     if (child === null || child === undefined || child === false) continue;
     el.append(child instanceof Node ? child : document.createTextNode(String(child)));
   }
@@ -29,7 +29,7 @@ const numberFormat = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 2 }
 
 /** Like parent.append(), but skips null/undefined/false (native append would print "null"). */
 export function append(parent, ...children) {
-  for (const child of children.flat()) {
+  for (const child of children.flat(Infinity)) {
     if (child === null || child === undefined || child === false) continue;
     parent.append(child);
   }

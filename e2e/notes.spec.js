@@ -65,3 +65,37 @@ test('deep link by topic opens the note; quiz feedback links to the note', async
   await expect(page.locator('.feedback')).toBeVisible();
   expect(problems).toEqual([]);
 });
+
+test('Abkürzungsverzeichnis: list A–Z, search, exact hit in the note search, abbreviations of a note', async ({ page }) => {
+  const problems = watchProblems(page);
+  await page.goto('./#/lernzettel');
+  const total = await page.evaluate(async () => (await (await fetch('./data/glossary.json')).json()).length);
+  await page.getByRole('link', { name: /Abkürzungsverzeichnis/ }).click();
+  await expect(page.getByRole('heading', { level: 1, name: 'Abkürzungen' })).toBeVisible();
+  await expect(page.locator('#glossary-count')).toHaveText(`${total} Abkürzungen`);
+  await expect(page.locator('.gloss-item')).toHaveCount(total);
+  await page.getByRole('button', { name: 'Zu W springen' }).click();
+  await expect(page.locator('#gloss-W')).toBeInViewport();
+  await expectNoHorizontalOverflow(page);
+
+  // Search by abbreviation (exact hit first) and by the written-out term.
+  await page.locator('#glossary-search').fill('dhcp');
+  await expect(page.locator('.gloss-item').first().locator('.gloss-abbr')).toHaveText('DHCP');
+  await expect(page.locator('.gloss-item').first()).toContainText('Dynamic Host Configuration Protocol');
+  await expect(page.locator('.gloss-item').first().getByRole('link', { name: 'Protokolle, Dienste und Ports' })).toBeVisible();
+  await page.locator('#glossary-search').fill('beschrankter haftung');
+  await expect(page.locator('.gloss-item')).toHaveCount(1);
+  await expect(page.locator('.gloss-abbr')).toHaveText('GmbH');
+  expect(page.url()).toContain('lernzettel/abkuerzungen?q=beschrankter');
+
+  // An exact abbreviation in the note search shows its meaning above the hits.
+  await page.goto('./#/lernzettel?q=KRITIS');
+  await expect(page.locator('.gloss-hit')).toContainText('KRITIS = Kritische Infrastrukturen');
+
+  // Every note lists its abbreviations.
+  await page.goto('./#/lernzettel/note-dienste');
+  const abbr = page.locator('details.fold', { hasText: 'Abkürzungen in diesem Lernzettel' });
+  await abbr.locator('summary').click();
+  await expect(abbr.locator('.gloss-item', { hasText: 'Simple Mail Transfer Protocol' })).toBeVisible();
+  expect(problems).toEqual([]);
+});

@@ -73,6 +73,7 @@ prueffit/
 │   └── chart.umd.min.js
 ├── data/
 │   ├── topics.json           # Themenkatalog
+│   ├── glossary.json         # Abkürzungsverzeichnis
 │   ├── questions/
 │   │   ├── netzwerke.json
 │   │   ├── hardware.json
@@ -98,6 +99,7 @@ prueffit/
 │   ├── exam.js               # Prüfungssimulation + IHK-Notenschlüssel
 │   ├── schedule.js           # Prüfungstermine, Countdown, Lernplan
 │   ├── notes.js              # Lernzettel: Markdown-Teilumfang, Suche
+│   ├── glossary.js           # Abkürzungsverzeichnis: Suche, Fundstellen in Lernzetteln
 │   └── ui/
 │       ├── home.js
 │       ├── quizView.js
@@ -175,6 +177,12 @@ prueffit/
 { "id": "note-raid", "topic": "hardware.raid", "title": "RAID-Level und Speicher", "content": "## Übersicht\n| RAID | … |", "source": "eigene", "refs": ["Deine Notizen: …"] }
 ```
 Genau **ein Lernzettel pro Thema**. `content` ist ein Markdown-Teilumfang (`##`/`###`, Absätze, `-`/`1.`-Listen, Tabellen, ``` ``` ```-Code, `>`-Merksatz, `**fett**`, `` `code` ``), gerendert ohne innerHTML (`js/notes.js`). `refs` (optional) nennt die Grundlage.
+
+### 5.3b Abkürzung (`data/glossary.json`, seit 0.9)
+```json
+{ "abbr": "SNMP", "full": "Simple Network Management Protocol", "explanation": "Überwachung von Netzgeräten …", "area": "Netzwerke", "aliases": ["SNMPv3"] }
+```
+`area` ist ein Bereichsname oder `Allgemein`; Abkürzungen und `aliases` sind eindeutig. **Jede Abkürzung in einem Lernzettel muss im Verzeichnis stehen** (`data.test.js` prüft das; Nicht-Abkürzungen wie SQL-Schlüsselwörter stehen dort in `NOT_ABBREVIATIONS`).
 
 ### 5.4 Fortschritt (localStorage, Key `prueffit.v1`)
 ```json
@@ -272,6 +280,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `questions.test.js` | Filtern nach Prüfung/Thema/Schwierigkeit, Zufallsauswahl ohne Duplikate |
 | `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type`, ein Lernzettel pro Thema |
 | `notes.test.js` | Markdown-Teilumfang, Suche (Umlaute, UND-Verknüpfung, Ranking), Hervorhebung |
+| `glossary.test.js` | Fundstellen (ganze Wörter, längste zuerst, Aliase), Suche, Gruppierung A–Z |
 
 **Regel:** Jede neue Funktion in einem Logik-Modul bekommt mindestens einen Test. Bugs werden zuerst mit einem fehlschlagenden Test reproduziert, dann behoben.
 
@@ -289,6 +298,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **0.6** | Willkommensfragen (Beruf, nächste Prüfung), Prüfungstermine (bundeseinheitlich, auch Sachsen-Anhalt), Countdown und Lernplan auf der Startseite | erledigt |
 | **0.7** | Lernzettel für alle 59 Themen mit Suche, eigene Unterrichtsnotizen ausgewertet (7 neue Themen, 76 Fragen, 20 Karten) | erledigt |
 | **0.8** | UI für den Mehrinhalt: aufklappbare Bereiche (Quiz, Statistik, Lernzettel), Karten-Durchgänge, Lernzettel-Suche auf der Startseite | erledigt |
+| **0.9** | Abkürzungsverzeichnis (242 Abkürzungen) mit Suche, A–Z-Sprungleiste und Abkürzungen je Lernzettel | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

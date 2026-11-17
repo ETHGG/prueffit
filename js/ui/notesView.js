@@ -1,10 +1,16 @@
 // Study notes ("Lernzettel"): searchable list and detail view.
-// Routes: #/lernzettel, #/lernzettel?q=raid&bereich=Hardware, #/lernzettel/<note id>
+// Routes: #/lernzettel, #/lernzettel?q=raid&bereich=Hardware, #/lernzettel/<note id>,
+//         #/lernzettel/abkuerzungen?q=dhcp&bereich=Netzwerke (Abkürzungsverzeichnis)
 
 import { AREAS } from '../config.js';
 import { parseMarkdown, parseInline, searchNotes, highlightParts } from '../notes.js';
 import { h, append } from './dom.js';
 import { fold, foldControls } from './fold.js';
+import {
+  GENERAL_AREA, searchGlossary, abbreviationsIn, lookupAbbreviation, initialOf, matchGlossary,
+} from '../glossary.js';
+
+export const GLOSSARY_ID = 'abkuerzungen';
 
 const ALL = '';
 
@@ -25,6 +31,10 @@ function listHash(q, area) {
   if (area) params.set('bereich', area);
   const s = params.toString();
   return `#/lernzettel${s ? `?${s}` : ''}`;
+}
+
+function glossaryHash(q, area) {
+  return listHash(q, area).replace('#/lernzettel', `#/lernzettel/${GLOSSARY_ID}`);
 }
 
 /** Text with <mark> around search hits. */
@@ -63,6 +73,7 @@ export function render(root, ctx) {
   const topicsById = new Map(topics.map((t) => [t.id, t]));
   const route = parseRoute();
 
+  if (route.noteId === GLOSSARY_ID) return renderGlossary(root, ctx, route);
   if (route.noteId) {
     const note = notes.find((n) => n.id === route.noteId);
     if (note) return renderDetail(root, ctx, note, topicsById, route);
@@ -89,8 +100,23 @@ export function render(root, ctx) {
     AREAS.map((a) => h('option', { value: a.name, selected: area === a.name, text: a.name })));
   const count = h('p', { id: 'notes-count', class: 'muted small', 'aria-live': 'polite' });
   const list = h('div', { class: 'note-results' });
+  const glossary = ctx.catalog.glossary ?? [];
+  const abbrHit = h('div', { 'aria-live': 'polite' });
+
+  const drawAbbrHit = () => {
+    const entry = lookupAbbreviation(glossary, query);
+    abbrHit.replaceChildren();
+    if (!entry) return;
+    append(abbrHit, h('aside', { class: 'card gloss-hit', 'aria-label': 'Abkürzung' },
+      h('p', {},
+        h('strong', { class: 'gloss-abbr', text: entry.abbr }), ' = ',
+        h('span', { class: 'gloss-full', text: entry.full })),
+      entry.explanation ? h('p', { class: 'muted small', text: entry.explanation }) : null,
+      h('a', { class: 'small', href: glossaryHash(entry.abbr, '') }, 'Im Abkürzungsverzeichnis ansehen')));
+  };
 
   const drawResults = () => {
+    drawAbbrHit();
     const pool = area ? notes.filter((n) => topicsById.get(n.topic)?.area === area) : notes;
     const results = searchNotes(pool, query, topicsById);
     count.textContent = query
@@ -143,7 +169,13 @@ export function render(root, ctx) {
     h('div', { class: 'card notes-filter', role: 'search' },
       h('label', { class: 'field' }, h('span', { text: 'Suchen' }), input),
       h('label', { class: 'field' }, h('span', { text: 'Bereich' }), areaSelect),
-      count),
+      count,
+      glossary.length
+        ? h('a', { class: 'gloss-link', href: glossaryHash('', '') },
+          h('span', { class: 'gloss-link-title', text: 'Abkürzungsverzeichnis' }),
+          h('span', { class: 'muted small', text: `${glossary.length} Abkürzungen ausgeschrieben, z. B. DHCP, KRITIS, GuV` }))
+        : null),
+    abbrHit,
     list);
   drawResults();
   return null;
@@ -153,6 +185,7 @@ function renderDetail(root, ctx, note, topicsById, route) {
   const topic = topicsById.get(note.topic);
   const cards = (ctx.catalog.flashcards ?? []).filter((c) => c.topic === note.topic).length;
   const questions = ctx.catalog.questions.filter((q) => q.topic === note.topic).length;
+  const abbrs = abbreviationsIn(`${note.title}\n${note.content}`, ctx.catalog.glossary ?? []);
   const related = (ctx.catalog.notes ?? [])
     .filter((n) => n.id !== note.id && topicsById.get(n.topic)?.area === topic?.area)
     .sort((a, b) => a.title.localeCompare(b.title, 'de'));
@@ -167,6 +200,17 @@ function renderDetail(root, ctx, note, topicsById, route) {
         topic && topic.name !== note.title ? h('span', { class: 'tag', text: topic.name }) : null),
       renderNoteContent(note.content, route.q),
       note.refs?.length ? h('p', { class: 'muted small spaced' }, `Grundlage: ${note.refs.join(' · ')}`) : null),
+    abbrs.length
+      ? fold('note-abbr', note.id, {
+        remember: false,
+        summary: [
+          h('span', { class: 'fold-title', text: 'Abkürzungen in diesem Lernzettel' }),
+          h('span', { class: 'fold-meta', text: `${abbrs.length} ausgeschrieben` }),
+        ],
+      },
+      glossaryList(abbrs, ''),
+      h('p', { class: 'small spaced' }, h('a', { href: glossaryHash('', '') }, 'Ganzes Abkürzungsverzeichnis')))
+      : null,
     h('div', { class: 'button-row' },
       questions ? h('a', { class: 'button', href: `#/quiz?thema=${encodeURIComponent(note.topic)}` }, `${questions} Fragen üben`) : null,
       cards ? h('a', { class: 'button secondary', href: '#/karten' }, `${cards} Karteikarten`) : null),
@@ -177,5 +221,111 @@ function renderDetail(root, ctx, note, topicsById, route) {
           h('a', { class: 'note-link', href: `#/lernzettel/${encodeURIComponent(n.id)}` }, h('span', { class: 'note-title', text: n.title }))))))
       : null,
   );
+  return null;
+}
+
+// ---------------------------------------------------------------- Abkürzungsverzeichnis
+
+/** <ul> of glossary entries; `query` highlights hits; `usedIn` maps entry -> notes (optional). */
+function glossaryList(entries, query, usedIn = null) {
+  return h('ul', { class: 'gloss-list' }, entries.map((e) => {
+    const notes = usedIn?.get(e) ?? [];
+    return h('li', { class: 'gloss-item' },
+      h('span', { class: 'gloss-abbr' }, highlighted(e.abbr, query),
+        e.aliases?.length ? h('span', { class: 'gloss-alias' }, ' (', highlighted(e.aliases.join(', '), query), ')') : null),
+      h('span', { class: 'gloss-full' }, highlighted(e.full, query)),
+      e.explanation ? h('span', { class: 'gloss-expl' }, highlighted(e.explanation, query)) : null,
+      h('span', { class: 'gloss-meta' },
+        e.area,
+        notes.length
+          ? [' · Lernzettel: ', notes.slice(0, 3).flatMap((n, i) => [i ? ', ' : '', h('a', { href: `#/lernzettel/${encodeURIComponent(n.id)}` }, n.title)]),
+            notes.length > 3 ? ` (+${notes.length - 3})` : '']
+          : null));
+  }));
+}
+
+function renderGlossary(root, ctx, route) {
+  const glossary = ctx.catalog.glossary ?? [];
+  const notes = ctx.catalog.notes ?? [];
+  // Which notes use which abbreviation (for the links below each entry).
+  // Notes that use an abbreviation most often come first.
+  const counts = new Map(); // entry -> Map(note -> count)
+  for (const note of notes) {
+    for (const m of matchGlossary(`${note.title}\n${note.content}`, glossary)) {
+      if (!counts.has(m.entry)) counts.set(m.entry, new Map());
+      const perNote = counts.get(m.entry);
+      perNote.set(note, (perNote.get(note) ?? 0) + 1);
+    }
+  }
+  const usedIn = new Map([...counts].map(([e, perNote]) => [e, [...perNote]
+    .sort((a, b) => b[1] - a[1] || a[0].title.localeCompare(b[0].title, 'de'))
+    .map(([note]) => note)]));
+  const areaNames = [GENERAL_AREA, ...AREAS.map((a) => a.name)].filter((a) => glossary.some((e) => e.area === a));
+  let query = route.q;
+  let area = route.area;
+
+  const input = h('input', {
+    type: 'search', id: 'glossary-search', value: query, autocomplete: 'off', enterkeyhint: 'search',
+    placeholder: 'z. B. DHCP, Haftung', 'aria-describedby': 'glossary-count',
+  });
+  const areaSelect = h('select', { id: 'glossary-area' },
+    h('option', { value: ALL, selected: area === ALL, text: 'Alle Bereiche' }),
+    areaNames.map((a) => h('option', { value: a, selected: area === a, text: a })));
+  const count = h('p', { id: 'glossary-count', class: 'muted small', 'aria-live': 'polite' });
+  const letters = h('nav', { class: 'letter-nav', 'aria-label': 'Anfangsbuchstaben' });
+  const list = h('div', { class: 'gloss-results' });
+
+  const draw = () => {
+    const pool = area ? glossary.filter((e) => e.area === area) : glossary;
+    const results = searchGlossary(pool, query);
+    count.textContent = query.trim()
+      ? `${results.length} Treffer für „${query.trim()}“`
+      : `${results.length} Abkürzungen`;
+    letters.replaceChildren();
+    if (!results.length) {
+      list.replaceChildren(h('div', { class: 'card empty' },
+        h('p', { text: 'Keine Abkürzung gefunden.' }),
+        h('p', { class: 'muted small', text: 'Tipp: Du kannst auch nach dem ausgeschriebenen Begriff suchen, z. B. „Haftung“ oder „Protocol“.' })));
+      return;
+    }
+    if (query.trim()) {
+      list.replaceChildren(h('section', { class: 'card' }, glossaryList(results, query, usedIn)));
+      return;
+    }
+    const groups = new Map();
+    for (const e of results) {
+      const k = initialOf(e);
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(e);
+    }
+    const sections = [...groups].map(([letter, entries]) => h('section', { class: 'card gloss-group', id: `gloss-${letter}`, 'aria-label': `Buchstabe ${letter}` },
+      h('h2', { class: 'gloss-letter', tabindex: '-1', text: letter }),
+      glossaryList(entries, '', usedIn)));
+    append(letters, [...groups.keys()].map((letter) => h('button', {
+      type: 'button', class: 'letter-button', 'aria-label': `Zu ${letter} springen`,
+      onClick: () => {
+        const target = root.querySelector(`#gloss-${letter}`);
+        target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        target?.querySelector('h2')?.focus?.({ preventScroll: true });
+      },
+    }, letter)));
+    list.replaceChildren(...sections);
+  };
+
+  const syncHash = () => history.replaceState(null, '', glossaryHash(query.trim(), area));
+  input.addEventListener('input', () => { query = input.value; draw(); syncHash(); });
+  areaSelect.addEventListener('change', () => { area = areaSelect.value; draw(); syncHash(); });
+
+  append(root,
+    h('p', { class: 'back-link' }, h('a', { href: '#/lernzettel' }, '← Alle Lernzettel')),
+    h('h1', { text: 'Abkürzungen' }),
+    h('p', { class: 'muted' }, `Alle ${glossary.length} Abkürzungen aus den Lernzetteln, ausgeschrieben und kurz erklärt.`),
+    h('div', { class: 'card notes-filter', role: 'search' },
+      h('label', { class: 'field' }, h('span', { text: 'Suchen' }), input),
+      h('label', { class: 'field' }, h('span', { text: 'Bereich' }), areaSelect),
+      count),
+    letters,
+    list);
+  draw();
   return null;
 }

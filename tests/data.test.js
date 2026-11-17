@@ -9,6 +9,7 @@ import {
   validateFlashcard,
 } from '../js/questions.js';
 import { validateNote, parseMarkdown } from '../js/notes.js';
+import { validateGlossaryEntry, spellings, matchGlossary, abbreviationCandidates } from '../js/glossary.js';
 import { AREAS, SUPPORTED_QUIZ_TYPES } from '../js/config.js';
 
 const DATA_DIR = fileURLToPath(new URL('../data/', import.meta.url));
@@ -46,7 +47,7 @@ describe('data/: all files', () => {
   it('contains only known file locations', () => {
     const unexpected = allFiles.filter(
       (f) => f !== 'topics.json' && !/^questions\/[a-z]+\.json$/.test(f) && !/^flashcards\/[a-z]+\.json$/.test(f)
-        && !/^notes\/[a-z]+\.json$/.test(f),
+        && !/^notes\/[a-z]+\.json$/.test(f) && f !== 'glossary.json',
     );
     expect(unexpected).toEqual([]);
   });
@@ -217,5 +218,47 @@ describe('data/notes (Lernzettel)', () => {
       expect(n.content.length, n.id).toBeGreaterThanOrEqual(400);
       expect(n.source, n.id).toBe('eigene');
     }
+  });
+});
+
+// Words in the notes that look like abbreviations but are not: SQL keywords, pseudocode,
+// German capitalised words, hex values, roman numerals and product names.
+const NOT_ABBREVIATIONS = new Set([
+  'ALTER', 'AND', 'AS', 'ASC', 'AVG', 'BETWEEN', 'BY', 'COUNT', 'CREATE', 'DELETE', 'FROM', 'GRANT', 'GROUP', 'HAVING',
+  'IN', 'INSERT', 'INTO', 'IS', 'JOIN', 'LIKE', 'MAX', 'MIN', 'NULL', 'ON', 'ORDER', 'REVOKE', 'SELECT', 'SET', 'SUM',
+  'TABLE', 'UPDATE', 'VALUES', 'WHERE',
+  'BIS', 'DANN', 'FÜR', 'NICHT', 'ODER', 'SOLANGE', 'SONST', 'UND', 'VON', 'WENN', 'WAS', 'WER', 'WIE', 'WOMIT',
+  'B7', 'E3', 'II', 'PLUS', 'YTP',
+  'DisplayPort', 'OpenVPN', 'TrueHD', 'VirtualBox', 'VMware', 'WireGuard',
+]);
+
+describe('data/glossary.json (Abkürzungsverzeichnis)', () => {
+  const glossary = parsed.get('glossary.json');
+
+  it('exists and every entry is valid', () => {
+    expect(Array.isArray(glossary)).toBe(true);
+    const problems = glossary.flatMap((e) => validateGlossaryEntry(e).map((p) => `${e.abbr}: ${p}`));
+    expect(problems).toEqual([]);
+  });
+
+  it('has unique abbreviations and aliases', () => {
+    const all = glossary.flatMap(spellings);
+    expect(all.filter((s, i) => all.indexOf(s) !== i)).toEqual([]);
+  });
+
+  it('explains every abbreviation used in the Lernzettel', () => {
+    const missing = new Set();
+    for (const file of noteFiles) {
+      for (const note of parsed.get(file)) {
+        for (const text of [note.title, note.content]) {
+          const spans = matchGlossary(text, glossary);
+          for (const c of abbreviationCandidates(text)) {
+            if (NOT_ABBREVIATIONS.has(c.token)) continue;
+            if (!spans.some((s) => c.index >= s.index && c.index < s.index + s.length)) missing.add(`${c.token} (${note.id})`);
+          }
+        }
+      }
+    }
+    expect([...missing]).toEqual([]);
   });
 });

@@ -2,6 +2,19 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [0.9.0] – 2026-11-17
+
+### Hinzugefügt
+- **Abkürzungsverzeichnis** mit 242 Abkürzungen aus den Lernzetteln (z. B. DHCP, KRITIS, GuV, BetrVG). Jede Abkürzung ist ausgeschrieben, kurz erklärt und einem Bereich zugeordnet.
+  - Eigene Seite unter Lernzettel → „Abkürzungsverzeichnis“: A–Z mit Sprungleiste, Suche nach Abkürzung oder ausgeschriebenem Begriff (Umlaute und Groß-/Kleinschreibung egal), Bereichsfilter, Links zu den Lernzetteln, in denen die Abkürzung vorkommt.
+  - Jeder Lernzettel hat unten „Abkürzungen in diesem Lernzettel“.
+  - Sucht man in den Lernzetteln genau nach einer Abkürzung (z. B. „KRITIS“), steht die Bedeutung direkt über den Treffern.
+- Datentest: Jede Abkürzung in einem Lernzettel muss im Verzeichnis stehen.
+- Neues Logikmodul `js/glossary.js` mit Unit-Tests; Verzeichnis zusätzlich als Goodnotes-Dokument.
+
+### Behoben
+- Verschachtelte Listen in Ansichten wurden als Text („,https://…“) statt als Links ausgegeben (`h()` glättet Kinder jetzt vollständig).
+
 ## [0.8.0] – 2026-11-17
 
 ### Geändert

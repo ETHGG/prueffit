@@ -2,6 +2,7 @@
 // `fetch` is passed in so the module can be tested without a browser.
 
 import { validateNote } from './notes.js';
+import { validateGlossaryEntry, spellings } from './glossary.js';
 import { AREAS, APP_VERSION, DATA_BASE, EXAMS, ISSUE_LABEL, JOBS, ALL_JOBS, QUESTION_TYPES, REPO_URL } from './config.js';
 
 const JOB_IDS = JOBS.map((j) => j.id);
@@ -240,7 +241,7 @@ export async function loadCatalog(fetchFn, { base = DATA_BASE, areas = AREAS.map
     }
   } catch (e) {
     errors.push(`topics.json: ${e.message}`);
-    return { topics: [], questions: [], flashcards: [], notes: [], errors };
+    return { topics: [], questions: [], flashcards: [], notes: [], glossary: [], errors };
   }
 
   const topicIds = new Set(topics.map((t) => t.id));
@@ -315,7 +316,27 @@ export async function loadCatalog(fetchFn, { base = DATA_BASE, areas = AREAS.map
     }
   });
 
-  return { topics, questions, flashcards, notes, errors };
+  // Abbreviation glossary (optional: without it the notes still work).
+  const glossary = [];
+  try {
+    const raw = await fetchJson(fetchFn, `${base}glossary.json`);
+    if (!Array.isArray(raw)) throw new Error('kein Array');
+    const seenAbbr = new Set();
+    for (const entry of raw) {
+      const gErrors = validateGlossaryEntry(entry);
+      if (!gErrors.length && spellings(entry).some((s) => seenAbbr.has(s))) gErrors.push('Abkürzung doppelt');
+      if (gErrors.length) {
+        errors.push(`glossary.json ${entry?.abbr ?? '?'}: ${gErrors.join('; ')}`);
+        continue;
+      }
+      spellings(entry).forEach((s) => seenAbbr.add(s));
+      glossary.push(entry);
+    }
+  } catch (e) {
+    errors.push(`glossary.json: ${e.message}`);
+  }
+
+  return { topics, questions, flashcards, notes, glossary, errors };
 }
 
 const ISSUE_TEXT_LIMIT = 300;

@@ -205,6 +205,11 @@ describe('loadCatalog', () => {
       { id: 'note-sub', topic: 'netzwerke.subnetting', title: 'Doppelt', content: '## Doppelt\nDiese ID gibt es schon, deshalb wird der Zettel übersprungen.' },
       { id: 'kaputt', topic: 'netzwerke.subnetting', title: 'x', content: 'zu kurz' },
     ],
+    './data/glossary.json': [
+      { abbr: 'IP', full: 'Internet Protocol', area: 'Netzwerke' },
+      { abbr: 'IP', full: 'Doppelt', area: 'Netzwerke' },
+      { abbr: 'XY', full: 'Falscher Bereich', area: 'Mathe' },
+    ],
   };
   const fakeFetch = async (url) => {
     if (!(url in files)) return { ok: false, status: 404, json: async () => { throw new Error('404'); } };
@@ -232,6 +237,13 @@ describe('loadCatalog', () => {
     expect(res.errors.join()).toMatch(/kaputt/);
   });
 
+  it('loads the glossary and skips duplicate or invalid entries', async () => {
+    const res = await loadCatalog(fakeFetch, { areas: ['netzwerke'] });
+    expect(res.glossary.map((e) => e.full)).toEqual(['Internet Protocol']);
+    expect(res.errors.join()).toMatch(/glossary.json IP: Abkürzung doppelt/);
+    expect(res.errors.join()).toMatch(/glossary.json XY/);
+  });
+
   it('reports missing files instead of throwing', async () => {
     const res = await loadCatalog(fakeFetch, { areas: ['netzwerke', 'recht'] });
     expect(res.questions).toHaveLength(1);
@@ -244,6 +256,7 @@ describe('loadCatalog', () => {
     expect(res.questions).toEqual([]);
     expect(res.flashcards).toEqual([]);
     expect(res.notes).toEqual([]);
+    expect(res.glossary).toEqual([]);
     expect(res.errors.length).toBeGreaterThan(0);
   });
 });
