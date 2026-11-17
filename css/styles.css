@@ -328,6 +328,9 @@ textarea:disabled { opacity: .8; }
 .feedback.bad { background: var(--bad-bg); border-color: var(--bad); }
 .feedback.partial { background: var(--partial-bg); border-color: var(--partial); }
 .feedback p:last-child { margin-bottom: 0; }
+.report { font-size: .85rem; margin: .5rem 0 0; }
+.report a { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); }
+.flashcard-back { display: flex; flex-direction: column; justify-content: center; }
 
 .result-list { list-style: none; padding: 0; margin: 0; }
 .result-list li { display: flex; gap: .75rem; padding: .6rem 0; border-top: 1px solid var(--border); }

@@ -2,6 +2,8 @@
 
 export const APP_VERSION = '0.2.0';
 export const APP_NAME = 'PrüfFit';
+export const REPO_URL = 'https://github.com/ETHGG/prueffit';
+export const ISSUE_LABEL = 'inhalt';
 
 // localStorage
 export const STORAGE_KEY = 'prueffit.v1';

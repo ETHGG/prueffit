@@ -8,6 +8,7 @@ import {
   pickRandom,
   loadCatalog,
   createSeededRandom,
+  issueUrl,
 } from '../js/questions.js';
 
 const topicIds = new Set(['netzwerke.subnetting', 'netzwerke.osi', 'recht.vertrag']);
@@ -208,5 +209,27 @@ describe('loadCatalog', () => {
     expect(res.questions).toEqual([]);
     expect(res.flashcards).toEqual([]);
     expect(res.errors.length).toBeGreaterThan(0);
+  });
+});
+
+describe('issueUrl', () => {
+  it('builds a pre-filled GitHub issue for a question', () => {
+    const url = new URL(issueUrl(base, { version: '9.9.9', repo: 'https://github.com/x/y' }));
+    expect(url.origin + url.pathname).toBe('https://github.com/x/y/issues/new');
+    expect(url.searchParams.get('title')).toBe('Fehler in Frage net-0001');
+    expect(url.searchParams.get('labels')).toBe('inhalt');
+    const body = url.searchParams.get('body');
+    expect(body).toContain('**Fragen-ID:** net-0001');
+    expect(body).toContain('**Version:** 9.9.9');
+    expect(body).toContain('Wie viele nutzbare Hosts hat ein /26-Netz?');
+  });
+  it('works for flashcards and limits long texts', () => {
+    const url = new URL(issueUrl({ id: 'fc-1', topic: 't', front: 'x'.repeat(1000), back: 'b' }));
+    expect(url.searchParams.get('title')).toBe('Fehler in Karteikarte fc-1');
+    expect(url.searchParams.get('body')).toContain('**Karten-ID:** fc-1');
+    expect(url.searchParams.get('body').length).toBeLessThan(600);
+  });
+  it('does not throw for missing data', () => {
+    expect(issueUrl(undefined)).toContain('Fehler+in+Frage+unbekannt');
   });
 });

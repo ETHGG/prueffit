@@ -23,6 +23,9 @@ test('match question: partial points per pair', async ({ page }) => {
   await page.getByRole('button', { name: 'Antwort prüfen' }).click();
   await expect(page.locator('#feedback-title')).toHaveText('Teilweise richtig');
   await expect(page.locator('.feedback')).toContainText('2 von 4 Punkten');
+  const report = page.getByRole('link', { name: 'Fehler in dieser Frage melden' });
+  await expect(report).toHaveAttribute('href', /^https:\/\/github\.com\/ETHGG\/prueffit\/issues\/new\?title=Fehler\+in\+Frage\+net-0013/);
+  await expect(report).toHaveAttribute('target', '_blank');
   await expectNoHorizontalOverflow(page);
 });
 

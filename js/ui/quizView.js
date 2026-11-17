@@ -1,7 +1,7 @@
 // Quiz screen: setup -> one question per screen with instant feedback -> summary.
 
 import { EXAMS, QUIZ_SIZES, DEFAULT_QUIZ_SIZE, SUPPORTED_QUIZ_TYPES } from '../config.js';
-import { filterQuestions, pickRandom, shuffle } from '../questions.js';
+import { filterQuestions, pickRandom, shuffle, issueUrl } from '../questions.js';
 import {
   createQuiz, currentQuestion, submitAnswer, nextQuestion, isFinished, isAnswered, summarizeQuiz,
   serializeQuiz, restoreQuiz,
@@ -429,6 +429,11 @@ function textInput(q, answered, result, submitSelf, onChange) {
   return h('div', {}, ...parts);
 }
 
+function reportLink(item) {
+  return h('p', { class: 'report' },
+    h('a', { href: issueUrl(item), target: '_blank', rel: 'noopener' }, 'Fehler in dieser Frage melden'));
+}
+
 function drawQuestion(root, ctx, draw, topicById) {
   const { quiz } = session;
   const q = currentQuestion(quiz);
@@ -468,7 +473,8 @@ function drawQuestion(root, ctx, draw, topicById) {
       h('h3', { id: 'feedback-title', tabindex: '-1', text: title }),
       h('p', { class: 'small' }, `${formatNumber(result.points)} von ${formatNumber(result.maxPoints)} ${result.maxPoints === 1 ? 'Punkt' : 'Punkten'}`),
       !result.correct && q.type !== 'text' ? h('p', {}, h('strong', { text: 'Richtige Antwort: ' }), correctAnswerText(q)) : null,
-      h('p', {}, h('strong', { text: 'Erklärung: ' }), q.explanation));
+      h('p', {}, h('strong', { text: 'Erklärung: ' }), q.explanation),
+      reportLink(q));
   }
 
   const isLast = quiz.index === total - 1;

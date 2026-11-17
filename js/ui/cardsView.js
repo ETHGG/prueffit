@@ -2,6 +2,7 @@
 
 import { BOX_INTERVALS, todayInBerlin, dueCards, boxCounts, nextDueDay } from '../leitner.js';
 import { recordCardReview } from '../storage.js';
+import { issueUrl } from '../questions.js';
 import { h, formatDay } from './dom.js';
 
 const INTERVAL_LABELS = { 1: 'täglich', 2: 'alle 2 Tage', 3: 'alle 4 Tage', 4: 'jede Woche', 5: 'alle 2 Wochen' };
@@ -143,7 +144,8 @@ function drawCard(root, ctx, draw, topicById) {
       session.flipped
         ? h('div', { class: 'flashcard-back', id: 'card-back', tabindex: '-1' },
           h('h2', { class: 'visually-hidden', text: 'Rückseite' }),
-          h('p', { text: card.back }))
+          h('p', { text: card.back }),
+          h('p', { class: 'report' }, h('a', { href: issueUrl(card), target: '_blank', rel: 'noopener' }, 'Fehler in dieser Karte melden')))
         : null),
     session.flipped
       ? h('div', {},

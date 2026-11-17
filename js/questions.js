@@ -1,7 +1,7 @@
 // Loading, validating and filtering questions. No DOM access:
 // `fetch` is passed in so the module can be tested without a browser.
 
-import { AREAS, DATA_BASE, EXAMS, QUESTION_TYPES } from './config.js';
+import { AREAS, APP_VERSION, DATA_BASE, EXAMS, ISSUE_LABEL, QUESTION_TYPES, REPO_URL } from './config.js';
 
 const isNonEmptyString = (v) => typeof v === 'string' && v.trim() !== '';
 const isPlainObject = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
@@ -281,4 +281,31 @@ export async function loadCatalog(fetchFn, { base = DATA_BASE, areas = AREAS.map
   });
 
   return { topics, questions, flashcards, errors };
+}
+
+const ISSUE_TEXT_LIMIT = 300;
+
+/**
+ * Link to a pre-filled GitHub issue for reporting a content error in a question or flashcard.
+ * Only the item id, its visible text and the app version are included (no personal data).
+ */
+export function issueUrl(item, { version = APP_VERSION, repo = REPO_URL } = {}) {
+  const isCard = item && 'front' in item;
+  const id = item?.id ?? 'unbekannt';
+  const text = String(isCard ? item.front : item?.question ?? '').slice(0, ISSUE_TEXT_LIMIT);
+  const params = new URLSearchParams({
+    title: `Fehler in ${isCard ? 'Karteikarte' : 'Frage'} ${id}`,
+    labels: ISSUE_LABEL,
+    body: [
+      `**${isCard ? 'Karten' : 'Fragen'}-ID:** ${id}`,
+      `**Version:** ${version}`,
+      `**${isCard ? 'Vorderseite' : 'Frage'}:** ${text}`,
+      '',
+      '**Was ist falsch und was wäre richtig?**',
+      '',
+      '**Quelle (falls vorhanden):**',
+      '',
+    ].join('\n'),
+  });
+  return `${repo}/issues/new?${params}`;
 }
