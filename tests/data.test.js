@@ -11,8 +11,9 @@ import {
 import { AREAS, SUPPORTED_QUIZ_TYPES } from '../js/config.js';
 
 const DATA_DIR = fileURLToPath(new URL('../data/', import.meta.url));
-const MIN_QUESTIONS_PER_AREA = 10;
-const MIN_CARDS_PER_AREA = 5;
+const MIN_QUESTIONS_PER_AREA = 25;
+const MIN_AP2_PER_AREA = 5;
+const MIN_CARDS_PER_AREA = 8;
 
 function listJsonFiles(dir) {
   return readdirSync(dir).flatMap((name) => {
@@ -117,8 +118,12 @@ describe('data/questions', () => {
         expect(wrong).toEqual([]);
       });
 
-      it('mixes at least two difficulty levels', () => {
-        expect(new Set(questions.map((q) => q.difficulty)).size).toBeGreaterThanOrEqual(2);
+      it('has all three difficulty levels', () => {
+        expect(new Set(questions.map((q) => q.difficulty)).size).toBe(3);
+      });
+
+      it(`has at least ${MIN_AP2_PER_AREA} AP2 questions`, () => {
+        expect(questions.filter((q) => q.exam.includes('AP2')).length).toBeGreaterThanOrEqual(MIN_AP2_PER_AREA);
       });
 
       it('declares an allowed source', () => {

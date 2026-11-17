@@ -2,6 +2,31 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [0.2.1] – 2026-11-17
+
+### Hinzugefügt
+- **Ausbildungsberuf** in den Einstellungen: Fachinformatik Systemintegration, Fachinformatik Anwendungsentwicklung, IT-System-Management oder alle. AP2-Fragen können über das neue Feld `jobs` einem oder mehreren Berufen zugeordnet werden; das Quiz zeigt dann nur die passenden. Die AP1 ist für alle Berufe gleich.
+- **Speichermigration 1 → 2**: ergänzt `settings.job`. Der bisherige Stand wird vorher unter `prueffit.backup.1` gesichert; Antworten und Karteikarten bleiben erhalten.
+- **„Fehler melden“**: Unter jeder Erklärung und auf jeder Kartenrückseite öffnet ein Link ein vorausgefülltes GitHub-Issue mit ID, Version und Fragetext. Dazu gibt es das Label `inhalt` und eine Issue-Vorlage.
+- **Inhalte**: 73 neue Fragen (jetzt 25 pro Bereich, insgesamt 175, davon 91 für die AP2) und 21 neue Karteikarten (insgesamt 56). Neue Themen:
+  - VLAN und WLAN
+  - Virtualisierung und Cloud
+  - Betriebssysteme und Linux
+  - Firewall, VPN und Netzsicherheit
+  - Beratung, Angebot und Vertrieb
+  - Risiko- und Qualitätsmanagement
+  - Algorithmen und Pseudocode
+  - Softwaretest
+  - Arbeitsschutz und Ergonomie
+- **Browsertests im Repo** (`npm run test:e2e`, Playwright): 12 Tests in vier Profilen (Desktop, iPhone SE, iPhone 13 dunkel und iPhone 13 mit WebKit/Safari-Engine), automatisch in der CI.
+- **ESLint** (`npm run lint`) mit eigener CI-Prüfung.
+
+### Geändert
+- Datentests verlangen jetzt mindestens 25 Fragen, alle drei Schwierigkeitsstufen und mindestens 5 AP2-Fragen pro Bereich sowie mindestens 8 Karteikarten.
+
+### Behoben
+- Auswahllisten mit langen Einträgen machten die Seite auf schmalen Bildschirmen zu breit.
+
 ## [0.2.0] – 2026-11-17
 
 ### Hinzugefügt

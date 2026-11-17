@@ -4,7 +4,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 
 **Live:** https://ethgg.github.io/prueffit/
 
-## Funktionen (Version 0.2)
+## Funktionen (Version 0.2.1)
 
 - **Quiz-Modus:** Fragen nach Prüfung (AP1/AP2), Themen und Schwierigkeit filtern, 5, 10 oder 20 Fragen. Nach jeder Antwort gibt es sofort Feedback mit Erklärung und Lösungsweg, am Ende eine Auswertung mit Punkten und „Fehler wiederholen“. Eine laufende Runde übersteht Neuladen und App-Wechsel.
 - **Sechs Fragetypen:**
@@ -15,7 +15,9 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
   - Reihenfolge
 - **Karteikarten mit Leitner-System:** 5 Fächer (Wiederholung nach 1, 2, 4, 7 und 14 Tagen), fällige Karten lernen, umdrehen, „Gewusst“ oder „Nicht gewusst“, Übersicht der Fächer.
 - **Statistik:** Trefferquote und Versuche pro Thema mit Ampel (grün ab 80 %, gelb ab 50 %, rot darunter, grau unter 5 Versuchen).
-- **Inhalte:** 102 eigene Fragen und 35 Karteikarten in 7 Bereichen: Netzwerke, Hardware, IT-Sicherheit, Wirtschaft, Projektmanagement, Programmierung und Recht.
+- **Inhalte:** 175 eigene Fragen (25 pro Bereich, davon 91 für die AP2) und 56 Karteikarten in 7 Bereichen: Netzwerke, Hardware, IT-Sicherheit, Wirtschaft, Projektmanagement, Programmierung und Recht.
+- **Ausbildungsberuf wählbar:** Fachinformatik Systemintegration, Fachinformatik Anwendungsentwicklung oder IT-System-Management. AP2-Fragen anderer Berufe werden dann ausgeblendet.
+- **Fehler melden:** Unter jeder Erklärung führt ein Link zu einem vorausgefüllten GitHub-Issue.
 - **PWA:** installierbar, funktioniert nach dem ersten Aufruf komplett offline, Dark Mode nach Systemeinstellung, für das iPhone optimiert.
 
 Geplant sind die Prüfungssimulation mit IHK-Note, „Heute üben“ und Diagramme (0.3) sowie Import/Export, Dark-Mode-Schalter, Lernserie und Tagesziel (0.4). Details stehen in [`CLAUDE.md`](CLAUDE.md) und [`docs/STATUS.md`](docs/STATUS.md).
@@ -45,9 +47,12 @@ Danach http://localhost:8080 öffnen.
 ## Tests
 
 ```bash
-npm install          # Dev-Abhängigkeiten (Vitest, jsdom)
-npm test             # alle Tests einmal ausführen
-npm run test:watch   # Watch-Modus
+npm install                     # Dev-Abhängigkeiten
+npm test                        # Unit-Tests (Vitest)
+npm run test:watch              # Watch-Modus
+npm run lint                    # ESLint
+npx playwright install chromium webkit   # einmalig: Browser für die Browsertests
+npm run test:e2e                # Browsertests (Playwright: Desktop, iPhone, WebKit)
 ```
 
 Die Tests prüfen die Logik-Module (Bewertung aller Fragetypen, Leitner-System inkl. Datums- und Zeitzonenfällen, Statistik, Speicher inkl. Migration, Filter und Zufallsauswahl, Quiz-Ablauf und dessen Sicherung), **jede** JSON-Datei in `data/` (Pflichtfelder, eindeutige IDs, gültige Themen, Antwort passend zum Fragetyp) und die PWA-Konfiguration (Service-Worker-Dateiliste, relative Pfade, Versionen). Bei jedem Push laufen sie automatisch über GitHub Actions, zusätzlich in einer zweiten Zeitzone.
@@ -62,6 +67,7 @@ js/ui/                                    Ansichten (DOM)
 data/                                     Themen, Fragen, Karteikarten (JSON)
 vendor/                                   lokale Bibliotheken (Chart.js)
 tests/                                    Vitest-Tests
+e2e/                                      Browsertests (Playwright)
 scripts/make-icons.mjs                    erzeugt die PNG-Icons
 docs/                                     Status und Abschlussbericht
 ```

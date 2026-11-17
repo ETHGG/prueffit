@@ -1,7 +1,10 @@
 [
-  { "id": "fc-0011", "topic": "sicherheit.schutzziele", "front": "Klassische Schutzziele (CIA)", "back": "Vertraulichkeit (Confidentiality), Integrität (Integrity), Verfügbarkeit (Availability)." },
-  { "id": "fc-0012", "topic": "sicherheit.kryptografie", "front": "Symmetrische vs. asymmetrische Verschlüsselung", "back": "Symmetrisch: ein gemeinsamer Schlüssel, schnell (z. B. AES). Asymmetrisch: Schlüsselpaar aus öffentlichem und privatem Schlüssel, langsamer (z. B. RSA). In der Praxis hybrid kombiniert." },
-  { "id": "fc-0013", "topic": "sicherheit.kryptografie", "front": "Digitale Signatur", "back": "Hashwert des Dokuments mit dem privaten Schlüssel des Absenders signieren; Prüfung mit dessen öffentlichem Schlüssel. Sichert Integrität und Authentizität." },
-  { "id": "fc-0014", "topic": "sicherheit.backup", "front": "Differenzielle vs. inkrementelle Sicherung", "back": "Differenziell: alle Änderungen seit der letzten Vollsicherung. Inkrementell: nur Änderungen seit der letzten Sicherung beliebiger Art." },
-  { "id": "fc-0015", "topic": "sicherheit.backup", "front": "3-2-1-Regel", "back": "3 Kopien der Daten, auf 2 verschiedenen Medientypen, davon 1 Kopie außer Haus bzw. offline." }
+  {"id": "fc-0011", "topic": "sicherheit.schutzziele", "front": "Klassische Schutzziele (CIA)", "back": "Vertraulichkeit (Confidentiality), Integrität (Integrity), Verfügbarkeit (Availability)."},
+  {"id": "fc-0012", "topic": "sicherheit.kryptografie", "front": "Symmetrische vs. asymmetrische Verschlüsselung", "back": "Symmetrisch: ein gemeinsamer Schlüssel, schnell (z. B. AES). Asymmetrisch: Schlüsselpaar aus öffentlichem und privatem Schlüssel, langsamer (z. B. RSA). In der Praxis hybrid kombiniert."},
+  {"id": "fc-0013", "topic": "sicherheit.kryptografie", "front": "Digitale Signatur", "back": "Hashwert des Dokuments mit dem privaten Schlüssel des Absenders signieren; Prüfung mit dessen öffentlichem Schlüssel. Sichert Integrität und Authentizität."},
+  {"id": "fc-0014", "topic": "sicherheit.backup", "front": "Differenzielle vs. inkrementelle Sicherung", "back": "Differenziell: alle Änderungen seit der letzten Vollsicherung. Inkrementell: nur Änderungen seit der letzten Sicherung beliebiger Art."},
+  {"id": "fc-0015", "topic": "sicherheit.backup", "front": "3-2-1-Regel", "back": "3 Kopien der Daten, auf 2 verschiedenen Medientypen, davon 1 Kopie außer Haus bzw. offline."},
+  {"id": "fc-0042", "topic": "sicherheit.netzsicherheit", "front": "DMZ", "back": "Abgeschottetes Netzsegment zwischen Internet und LAN für öffentlich erreichbare Server (Web, Mail). Schützt das interne Netz bei einem Einbruch in diese Server."},
+  {"id": "fc-0043", "topic": "sicherheit.netzsicherheit", "front": "Paketfilter vs. Application-Level-Firewall", "back": "Paketfilter: prüft IP-Adressen, Ports, Protokoll (Schicht 3/4). Application-Level-Firewall/Proxy: versteht das Protokoll und prüft Inhalte (Schicht 7)."},
+  {"id": "fc-0044", "topic": "sicherheit.backup", "front": "RPO und RTO", "back": "RPO: maximal tolerierbarer Datenverlust (Zeitraum) → bestimmt die Backup-Häufigkeit. RTO: maximal tolerierbare Ausfallzeit bis zur Wiederherstellung."}
 ]

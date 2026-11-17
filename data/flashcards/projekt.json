@@ -1,7 +1,10 @@
 [
-  { "id": "fc-0021", "topic": "projekt.grundlagen", "front": "Lastenheft vs. Pflichtenheft", "back": "Lastenheft: vom Auftraggeber, „Was und wofür?“. Pflichtenheft: vom Auftragnehmer, „Wie und womit?“." },
-  { "id": "fc-0022", "topic": "projekt.grundlagen", "front": "Magisches Dreieck", "back": "Zeit, Kosten und Qualität bzw. Leistung hängen voneinander ab. Ändert man eine Größe, wirkt sich das auf die anderen aus." },
-  { "id": "fc-0023", "topic": "projekt.planung", "front": "Gesamtpuffer (GP)", "back": "GP = SAZ − FAZ (oder SEZ − FEZ). Vorgänge mit GP = 0 liegen auf dem kritischen Pfad." },
-  { "id": "fc-0024", "topic": "projekt.vorgehen", "front": "Scrum-Rollen", "back": "Product Owner (Backlog, Wert), Scrum Master (Prozess, Hindernisse), Developers (Umsetzung im Sprint)." },
-  { "id": "fc-0025", "topic": "projekt.grundlagen", "front": "SMART", "back": "Spezifisch, Messbar, Attraktiv bzw. Akzeptiert, Realistisch, Terminiert." }
+  {"id": "fc-0021", "topic": "projekt.grundlagen", "front": "Lastenheft vs. Pflichtenheft", "back": "Lastenheft: vom Auftraggeber, „Was und wofür?“. Pflichtenheft: vom Auftragnehmer, „Wie und womit?“."},
+  {"id": "fc-0022", "topic": "projekt.grundlagen", "front": "Magisches Dreieck", "back": "Zeit, Kosten und Qualität bzw. Leistung hängen voneinander ab. Ändert man eine Größe, wirkt sich das auf die anderen aus."},
+  {"id": "fc-0023", "topic": "projekt.planung", "front": "Gesamtpuffer (GP)", "back": "GP = SAZ − FAZ (oder SEZ − FEZ). Vorgänge mit GP = 0 liegen auf dem kritischen Pfad."},
+  {"id": "fc-0024", "topic": "projekt.vorgehen", "front": "Scrum-Rollen", "back": "Product Owner (Backlog, Wert), Scrum Master (Prozess, Hindernisse), Developers (Umsetzung im Sprint)."},
+  {"id": "fc-0025", "topic": "projekt.grundlagen", "front": "SMART", "back": "Spezifisch, Messbar, Attraktiv bzw. Akzeptiert, Realistisch, Terminiert."},
+  {"id": "fc-0048", "topic": "projekt.risiko", "front": "Risikowert", "back": "Eintrittswahrscheinlichkeit × Schadenshöhe. Strategien: vermeiden, vermindern, übertragen, akzeptieren."},
+  {"id": "fc-0049", "topic": "projekt.risiko", "front": "PDCA-Zyklus", "back": "Plan – Do – Check – Act: planen, umsetzen, prüfen, verbessern. Grundlage der kontinuierlichen Verbesserung."},
+  {"id": "fc-0050", "topic": "projekt.grundlagen", "front": "Projektphasen nach DIN 69901", "back": "Initialisierung → Definition → Planung → Steuerung → Abschluss."}
 ]

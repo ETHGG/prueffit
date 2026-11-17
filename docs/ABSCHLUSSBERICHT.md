@@ -1,3 +1,28 @@
+# Abschlussbericht Version 0.2.1 (Nachtrag zu 0.2.0)
+
+Zwischenversion vor 0.3 mit den Empfehlungen aus dem 0.2-Abschluss.
+
+| Block | Inhalt | Commit |
+|---|---|---|
+| A | Playwright-Browsertests im Repo (`e2e/`, 4 Profile inkl. WebKit), ESLint, drei CI-Jobs | `d62fd7e` |
+| B | „Fehler melden“-Link mit vorausgefülltem GitHub-Issue, Label `inhalt`, Issue-Vorlage | `d9d58d1` |
+| C | Berufsauswahl (FISI/FIAE/ITSM), Feld `jobs`, Speichermigration 1 → 2 mit Backup | `4953c21` |
+| D | 73 neue Fragen (175 insgesamt, 25 pro Bereich), 9 neue Themen, 21 neue Karteikarten (56) | dieser Release |
+
+**Tests:** Vitest 282/282, Browsertests 12 Tests × 4 Profile. Alle 50 Rechenaufgaben wurden per Skript nachgerechnet; die binäre Suche (1.000 Elemente, höchstens 10 Vergleiche) zusätzlich simuliert.
+
+**Bei den Tests gefunden und behoben:** Die Berufsauswahl mit langen Einträgen machte die Einstellungsseite auf dem iPhone zu breit. Alle Auswahllisten sind jetzt auf die Bildschirmbreite begrenzt.
+
+**Annahmen:**
+1. **Berufe:** abgedeckt sind die drei Berufe aus CLAUDE.md §1. Das Feld `jobs` ist nur bei AP2-Fragen erlaubt, weil die AP1 seit der Neuordnung 2020 für alle IT-Berufe gleich ist. Fragen ohne `jobs` gelten für alle Berufe. Getaggt wurden nur eindeutig berufsspezifische Fragen, z. B. Algorithmik → FIAE, VLAN-Details → FISI, Skonto-Zinsen → ITSM.
+2. **Speicherformat:** Die neue Einstellung wurde als echte Migration (Schema 2) umgesetzt, wie es CLAUDE.md §2.5 und §6.4 verlangen. Dafür habe ich das Datenmodell in CLAUDE.md §5.2 und §5.4 um `jobs` und `settings.job` ergänzt.
+3. **„Fehler melden“:** Der Link öffnet GitHub erst nach einem Tipp. Die App selbst macht weiterhin keine externen Anfragen, und es werden keine persönlichen Daten übertragen.
+4. **Neue Dev-Abhängigkeiten** (keine zur Laufzeit): `eslint`, `@eslint/js` und `globals` für das Linting, das CLAUDE.md §3 empfiehlt; `playwright` für die Browsertests, damit Darstellung, Offline-Start und Bedienung auf Mobilgeräten bei jedem Push geprüft werden. In 0.2 hatten diese Tests zwei echte Fehler gefunden.
+
+**Offen:** Die Inhalte hat noch keine Fachperson geprüft (dafür gibt es den Link „Fehler melden“).
+
+---
+
 # Abschlussbericht Version 0.2.0
 
 **Datum:** 17.11.2026 · **Repository:** https://github.com/ETHGG/prueffit · **Live:** https://ethgg.github.io/prueffit/

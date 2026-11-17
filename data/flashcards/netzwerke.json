@@ -1,7 +1,10 @@
 [
-  { "id": "fc-0001", "topic": "netzwerke.subnetting", "front": "Nutzbare Hosts in einem IPv4-Netz mit Präfix /n", "back": "2^(32 − n) − 2 (Netz- und Broadcastadresse abziehen). Beispiel /24: 2^8 − 2 = 254." },
-  { "id": "fc-0002", "topic": "netzwerke.subnetting", "front": "Private IPv4-Bereiche (RFC 1918)", "back": "10.0.0.0/8, 172.16.0.0/12 (bis 172.31.255.255) und 192.168.0.0/16." },
-  { "id": "fc-0003", "topic": "netzwerke.osi", "front": "Die 7 OSI-Schichten (von unten)", "back": "1 Bitübertragung, 2 Sicherung, 3 Vermittlung, 4 Transport, 5 Sitzung, 6 Darstellung, 7 Anwendung." },
-  { "id": "fc-0004", "topic": "netzwerke.dienste", "front": "DHCP – Ablauf (DORA)", "back": "Discover → Offer → Request → Acknowledge. Der Client erhält IP-Adresse, Maske, Gateway und DNS-Server. Läuft über UDP 67/68." },
-  { "id": "fc-0005", "topic": "netzwerke.ipv6", "front": "Regeln zum Kürzen von IPv6-Adressen", "back": "Führende Nullen je Block weglassen; eine einzige Folge von Null-Blöcken durch :: ersetzen (nur einmal pro Adresse)." }
+  {"id": "fc-0001", "topic": "netzwerke.subnetting", "front": "Nutzbare Hosts in einem IPv4-Netz mit Präfix /n", "back": "2^(32 − n) − 2 (Netz- und Broadcastadresse abziehen). Beispiel /24: 2^8 − 2 = 254."},
+  {"id": "fc-0002", "topic": "netzwerke.subnetting", "front": "Private IPv4-Bereiche (RFC 1918)", "back": "10.0.0.0/8, 172.16.0.0/12 (bis 172.31.255.255) und 192.168.0.0/16."},
+  {"id": "fc-0003", "topic": "netzwerke.osi", "front": "Die 7 OSI-Schichten (von unten)", "back": "1 Bitübertragung, 2 Sicherung, 3 Vermittlung, 4 Transport, 5 Sitzung, 6 Darstellung, 7 Anwendung."},
+  {"id": "fc-0004", "topic": "netzwerke.dienste", "front": "DHCP – Ablauf (DORA)", "back": "Discover → Offer → Request → Acknowledge. Der Client erhält IP-Adresse, Maske, Gateway und DNS-Server. Läuft über UDP 67/68."},
+  {"id": "fc-0005", "topic": "netzwerke.ipv6", "front": "Regeln zum Kürzen von IPv6-Adressen", "back": "Führende Nullen je Block weglassen; eine einzige Folge von Null-Blöcken durch :: ersetzen (nur einmal pro Adresse)."},
+  {"id": "fc-0036", "topic": "netzwerke.vlan", "front": "VLAN", "back": "Logische Aufteilung eines physischen Netzes in getrennte Broadcast-Domänen. Verkehr zwischen VLANs braucht einen Router oder Layer-3-Switch."},
+  {"id": "fc-0037", "topic": "netzwerke.vlan", "front": "Access-Port vs. Trunk-Port", "back": "Access-Port: gehört genau einem VLAN, Frames ungetaggt. Trunk-Port: überträgt mehrere VLANs, Frames mit 802.1Q-Tag (12-Bit-VLAN-ID)."},
+  {"id": "fc-0038", "topic": "netzwerke.vlan", "front": "Sichere WLAN-Verschlüsselung", "back": "WPA3 (aktuell) oder WPA2 mit AES/CCMP und starkem Passwort. WEP und WPA/TKIP gelten als unsicher."}
 ]

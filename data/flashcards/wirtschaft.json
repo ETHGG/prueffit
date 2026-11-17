@@ -1,7 +1,10 @@
 [
-  { "id": "fc-0016", "topic": "wirtschaft.kalkulation", "front": "Bezugskalkulation (Schema)", "back": "Listeneinkaufspreis − Rabatt = Zieleinkaufspreis − Skonto = Bareinkaufspreis + Bezugskosten = Bezugspreis." },
-  { "id": "fc-0017", "topic": "wirtschaft.kalkulation", "front": "Deckungsbeitrag und Break-even", "back": "DB pro Stück = Verkaufspreis − variable Stückkosten. Break-even-Menge = Fixkosten ÷ DB pro Stück." },
-  { "id": "fc-0018", "topic": "wirtschaft.nutzwert", "front": "Nutzwertanalyse – Vorgehen", "back": "Kriterien festlegen, gewichten (Summe 100 %), Alternativen mit Punkten bewerten, Gewicht × Punkte summieren, höchster Nutzwert gewinnt." },
-  { "id": "fc-0019", "topic": "wirtschaft.abschreibung", "front": "Lineare Abschreibung", "back": "Jährlicher Betrag = Anschaffungskosten ÷ Nutzungsdauer. Restbuchwert = Anschaffungskosten − bisherige Abschreibungen." },
-  { "id": "fc-0020", "topic": "wirtschaft.abschreibung", "front": "Amortisationszeit", "back": "Investitionssumme ÷ jährlicher Rückfluss (Einsparung bzw. Gewinn minus zusätzliche Kosten)." }
+  {"id": "fc-0016", "topic": "wirtschaft.kalkulation", "front": "Bezugskalkulation (Schema)", "back": "Listeneinkaufspreis − Rabatt = Zieleinkaufspreis − Skonto = Bareinkaufspreis + Bezugskosten = Bezugspreis."},
+  {"id": "fc-0017", "topic": "wirtschaft.kalkulation", "front": "Deckungsbeitrag und Break-even", "back": "DB pro Stück = Verkaufspreis − variable Stückkosten. Break-even-Menge = Fixkosten ÷ DB pro Stück."},
+  {"id": "fc-0018", "topic": "wirtschaft.nutzwert", "front": "Nutzwertanalyse – Vorgehen", "back": "Kriterien festlegen, gewichten (Summe 100 %), Alternativen mit Punkten bewerten, Gewicht × Punkte summieren, höchster Nutzwert gewinnt."},
+  {"id": "fc-0019", "topic": "wirtschaft.abschreibung", "front": "Lineare Abschreibung", "back": "Jährlicher Betrag = Anschaffungskosten ÷ Nutzungsdauer. Restbuchwert = Anschaffungskosten − bisherige Abschreibungen."},
+  {"id": "fc-0020", "topic": "wirtschaft.abschreibung", "front": "Amortisationszeit", "back": "Investitionssumme ÷ jährlicher Rückfluss (Einsparung bzw. Gewinn minus zusätzliche Kosten)."},
+  {"id": "fc-0045", "topic": "wirtschaft.kalkulation", "front": "Jahreszins bei Skontoverzicht (Überschlag)", "back": "Skontosatz × 360 ÷ (Zahlungsziel − Skontofrist). Beispiel 2/10, netto 30: 2 × 360 ÷ 20 = 36 %."},
+  {"id": "fc-0046", "topic": "wirtschaft.abschreibung", "front": "Leasing vs. Kauf", "back": "Kauf: Eigentum, Bilanzierung und Abschreibung, hohe Einmalzahlung. Leasing: Leasinggeber bleibt Eigentümer, Raten als Aufwand, schont Liquidität, meist teurer."},
+  {"id": "fc-0047", "topic": "wirtschaft.unternehmen", "front": "Minimal- und Maximalprinzip", "back": "Minimalprinzip: festes Ziel mit möglichst wenig Mitteln. Maximalprinzip: feste Mittel, möglichst großes Ergebnis."}
 ]
