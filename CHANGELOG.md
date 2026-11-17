@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.1.1] – 2026-11-17
+
+### Hinzugefügt
+- **FIAE** nach FIAusbV §§ 13–14 ausgebaut: neues Thema „Entwicklungswerkzeuge und Oberflächen“ (IDE, Bibliotheken, Git, Continuous Integration, User Stories, Grundsätze der Dialoggestaltung) mit Lernzettel; Rekursion, Ausnahmebehandlung, binäre Suche, Grenzwertanalyse, Teststufen, SQL-Injection, Entwurfsmuster; je eine zweite Handlungssituation für beide FIAE-Prüfungsbereiche (21 Fragen, 5 Karten).
+
 ## [2.1.0] – 2026-11-17
 
 ### Hinzugefügt

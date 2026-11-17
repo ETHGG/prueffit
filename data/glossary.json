@@ -666,6 +666,12 @@
     "area": "Allgemein"
   },
   {
+    "abbr": "IDE",
+    "full": "Integrated Development Environment",
+    "explanation": "Entwicklungsumgebung mit Editor, Compiler/Interpreter und Debugger",
+    "area": "Programmierung"
+  },
+  {
     "abbr": "IDS",
     "full": "Intrusion Detection System",
     "explanation": "Erkennt Angriffe und meldet sie",

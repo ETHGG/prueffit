@@ -57,7 +57,7 @@ const LAW = ['recht.vertragsrecht', 'recht.datenschutz', 'recht.lizenzen'];
 export const AP2_PARTS = Object.freeze({
   fiae: [
     { id: 'ga1', title: 'Planen eines Softwareproduktes', minutes: 90, points: 50,
-      topics: [...ALL_PROJECT, 'programmierung.modellierung', 'programmierung.testen', 'programmierung.datenbanken', 'programmierung.datenformate',
+      topics: [...ALL_PROJECT, 'programmierung.entwicklung', 'programmierung.modellierung', 'programmierung.testen', 'programmierung.datenbanken', 'programmierung.datenformate',
         'sicherheit.schutzziele', 'sicherheit.kryptografie', 'sicherheit.angriffe', 'hardware.virtualisierung', ...LAW,
         'wirtschaft.kalkulation', 'wirtschaft.abschreibung', 'wirtschaft.finanzierung'] },
     { id: 'ga2', title: 'Entwicklung und Umsetzung von Algorithmen', minutes: 90, points: 50, topics: [...ALL_PROGRAMMING] },

@@ -52,6 +52,7 @@
   {"id": "programmierung.datenformate", "area": "Programmierung", "name": "Datenformate und Speicherbedarf", "exams": ["AP1", "AP2"]},
   {"id": "programmierung.barrierefreiheit", "area": "Programmierung", "name": "Barrierefreie Webseiten", "exams": ["AP1"]},
   {"id": "programmierung.skripte", "area": "Programmierung", "name": "Skripte zur Systemverwaltung", "exams": ["AP2"]},
+  {"id": "programmierung.entwicklung", "area": "Programmierung", "name": "Entwicklungswerkzeuge und Oberflächen", "exams": ["AP2"]},
   {"id": "recht.vertragsrecht", "area": "Recht", "name": "Vertragsrecht", "exams": ["AP1", "AP2"]},
   {"id": "recht.datenschutz", "area": "Recht", "name": "Datenschutz", "exams": ["AP1", "AP2"]},
   {"id": "recht.arbeitsrecht", "area": "Recht", "name": "Ausbildung und Arbeitsrecht", "exams": ["AP2"]},

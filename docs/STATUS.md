@@ -1,10 +1,10 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.1.0 (17.11.2026)
+**Aktuelle Version:** 2.1.1 (17.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
-**Prüf- und Verbesserungsrunden bis 18.11.2026 11:30 Uhr** (Auftrag des Nutzers): je Runde App prüfen (Tests, Browser-Durchlauf, Inhalte stichprobenartig gegenlesen, Lücken laut `docs/ABGLEICH.md`), verbessern, testen, committen, pushen, kurz melden. Nächste Runde: Runde 1.
+**Prüf- und Verbesserungsrunden bis 18.11.2026 11:30 Uhr** (Auftrag des Nutzers): je Runde App prüfen (Tests, Browser-Durchlauf, Inhalte stichprobenartig gegenlesen, Lücken laut `docs/ABGLEICH.md`), verbessern, testen, committen, pushen, kurz melden. Erledigt: Runde 1 (FIAE ausgebaut, 2.1.1). Nächste Runde: Runde 2 – Oberflächen-Durchgang aller Ansichten (Mobil/Desktop, hell/dunkel) mit Screenshots, Auffälligkeiten beheben.
 
 | Phase 2.1 | Status |
 |---|---|

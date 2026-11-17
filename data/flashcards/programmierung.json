@@ -22,5 +22,10 @@
   {"id": "fc-0177", "exam": ["AP2"], "jobs": ["fisi"], "topic": "programmierung.skripte", "front": "PowerShell-Pipeline", "back": "Gibt Objekte weiter: `Get-Service | Where-Object Status -eq 'Stopped'`. Befehle heißen Verb-Nomen."},
   {"id": "fc-0178", "exam": ["AP2"], "jobs": ["fisi"], "topic": "programmierung.skripte", "front": "Bash: $1, $?, Shebang", "back": "$1 = erster Parameter, $? = Exit-Code des letzten Befehls (0 = ok), #!/bin/bash = Interpreter."},
   {"id": "fc-0194", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "programmierung.datenbanken", "front": "WHERE vs. HAVING", "back": "WHERE filtert Zeilen vor der Gruppierung, HAVING filtert Gruppen (z. B. COUNT(*) > 3)."},
-  {"id": "fc-0195", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "programmierung.datenbanken", "front": "NULL bei Aggregaten", "back": "COUNT(spalte), SUM, AVG ignorieren NULL – Durchschnitte können verfälscht sein."}
+  {"id": "fc-0195", "exam": ["AP2"], "jobs": ["fidpa"], "topic": "programmierung.datenbanken", "front": "NULL bei Aggregaten", "back": "COUNT(spalte), SUM, AVG ignorieren NULL – Durchschnitte können verfälscht sein."},
+  {"id": "fc-0202", "exam": ["AP2"], "jobs": ["fiae"], "topic": "programmierung.entwicklung", "front": "Grundsätze der Dialoggestaltung", "back": "Aufgabenangemessenheit, Selbstbeschreibungsfähigkeit, Erwartungskonformität, Erlernbarkeit, Steuerbarkeit, Robustheit gegen Benutzerfehler, Benutzerbindung."},
+  {"id": "fc-0203", "exam": ["AP2"], "jobs": ["fiae"], "topic": "programmierung.entwicklung", "front": "User Story", "back": "„Als ‹Rolle› möchte ich ‹Ziel›, damit ‹Nutzen›.“ + Akzeptanzkriterien."},
+  {"id": "fc-0204", "exam": ["AP2"], "jobs": ["fiae"], "topic": "programmierung.entwicklung", "front": "Continuous Integration", "back": "Jede Änderung wird automatisch gebaut und getestet."},
+  {"id": "fc-0205", "exam": ["AP2"], "jobs": ["fiae"], "topic": "programmierung.testen", "front": "Grenzwertanalyse", "back": "Grenzen und direkte Nachbarn testen: Bereich 1–99 → 0, 1, 99, 100."},
+  {"id": "fc-0206", "exam": ["AP2"], "jobs": ["fiae"], "topic": "programmierung.datenbanken", "front": "SQL-Injection verhindern", "back": "Prepared Statements mit Parametern, Eingaben nie als SQL-Text zusammenbauen."}
 ]
