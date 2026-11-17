@@ -2,6 +2,25 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [0.5.0] – 2026-11-17
+
+### Hinzugefügt
+- **Inhalte an die IHK-Prüfungen angepasst:** Ausgewertet wurden die AP1-Prüfungen Herbst 2021 bis Herbst 2025 und die AP2-Prüfungen (FISI und ITSM) Sommer 2023 bis Winter 2025 samt Lösungen. Die Aufgaben dienten nur als Vorlage für Themen, Schwierigkeit und Stil; alle neuen Inhalte sind in eigenen Worten und mit eigenen Zahlen formuliert (`source: "eigene"`), die Originale liegen nicht im Repository.
+- **Neuer Bereich WiSo** (Wirtschafts- und Sozialkunde, AP2) mit 7 Themen: Berufsausbildung (BBiG, JArbSchG), Arbeitsvertrag und Kündigung, Betriebsrat/JAV/Tarifrecht, Sozialversicherung, Rechtsformen und Organisation, Volkswirtschaft, Arbeitssicherheit und Umwelt. 45 Fragen, 12 Karteikarten.
+- **150 neue Fragen und 54 neue Karteikarten** (je Bereich 15 Fragen und 6 Karten): jetzt 325 Fragen (231 für die AP2) und 110 Karten.
+- **9 neue Themen**, die in den Prüfungen häufig vorkommen: Routing, NAT und Fehleranalyse; Serverbetrieb, Monitoring und Mobilgeräte; E-Mail-Sicherheit und Zertifikate (SPF, DKIM, DMARC, S/MIME, TLS-Inspection); BSI-Grundschutz, Härtung und TOM; Beschaffung, Finanzierung und Leasing; Marketing (AIDA, BCG-Matrix, CRM); IT-Service-Management (ITIL, SLA); KI, ERP und E-Rechnung; Datenformate und Speicherbedarf.
+- **Prüfungssimulation AP2 wie die echte Prüfung:** zwei Prüfungsbereiche mit je 90 Minuten und WiSo mit 60 Minuten und 30 Fragen. Je nach Beruf mit den offiziellen Bereichen (FISI: Konzeption und Administration von IT-Systemen / Analyse und Entwicklung von Netzwerken; FIAE: Planen eines Softwareproduktes / Entwicklung und Umsetzung von Algorithmen; ITSM: Einführen einer IT-Systemlösung / Kaufmännische Unterstützungsprozesse) und passenden Themen.
+- Einzelne Prüfungsteile lassen sich allein üben (z. B. nur WiSo); die Startseite zeigt die Teile mit Zeit und Fragenzahl.
+- Ergebnis und Verlauf zeigen eine **Note pro Prüfungsteil** sowie den Beruf.
+- Tests: neue Unit-Tests für Bauplan, Themenfilter, Fragenanzahl, Einzelteile, Benotung pro Teil und alte Prüfungsstände; 3 neue Browsertests.
+
+### Geändert
+- UML/Modellierung, Vertragsrecht und PC-Komponenten gelten jetzt für AP1 und AP2; einige bisher reine AP1-Fragen (z. B. DNS, VLAN, WLAN-Sicherheit, DMZ, Phishing) zählen auch für die AP2.
+- Der Zustand einer laufenden Prüfung hat Version 2 (mit Beruf und Teil-IDs); laufende Prüfungen aus 0.4 bleiben gültig.
+
+### Behoben
+- Die Prüfungsseite zeigte ohne bisherige Ergebnisse unter der Karte den Text „null“. Alle Ansichten fügen jetzt nur noch vorhandene Elemente ein; ein Browsertest prüft alle Ansichten darauf.
+
 ## [0.4.0] – 2026-11-17
 
 ### Hinzugefügt

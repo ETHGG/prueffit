@@ -80,7 +80,8 @@ prueffit/
 │   │   ├── wirtschaft.json
 │   │   ├── projekt.json
 │   │   ├── programmierung.json
-│   │   └── recht.json
+│   │   ├── recht.json
+│   │   └── wiso.json
 │   └── flashcards/
 │       └── *.json
 ├── js/
@@ -196,7 +197,7 @@ Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.custom` (impo
 - Lernserie: zählt Tage in Folge mit mindestens einer beantworteten Frage oder Karte.
 
 ### 6.3 Prüfungssimulation
-- AP1: 90 Minuten. AP2: 90 Minuten pro Teil. Timer läuft weiter, wenn die App kurz verlassen wird (Startzeit speichern, nicht runterzählen).
+- AP1: 90 Minuten. AP2: zwei Prüfungsbereiche mit je 90 Minuten (Namen je Beruf, siehe `AP2_BLUEPRINTS` in `js/exam.js`) und WiSo mit 60 Minuten (bis zu 30 Fragen); jeder Teil wird einzeln benotet. Timer läuft weiter, wenn die App kurz verlassen wird (Startzeit speichern, nicht runterzählen).
 - Bei Zeitablauf automatisch abgeben.
 - **IHK-Notenschlüssel (Prozent der Punkte):**
 
@@ -266,6 +267,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **0.2** | Karteikarten mit Leitner-System, Fragetypen `text`, `match`, `order` | erledigt |
 | **0.3** | Prüfungssimulation mit Timer und IHK-Note, Ampel + „Heute üben“, Diagramme | erledigt |
 | **0.4** | Import/Export (JSON) von Fortschritt und eigenen Fragen, Dark Mode, Lernserie, Tagesziel | erledigt |
+| **0.5** | Inhalte an IHK-Prüfungen 2021–2025 angepasst (Bereich WiSo, 325 Fragen, 110 Karten), AP2-Simulation mit Prüfungsbereichen je Beruf und WiSo | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

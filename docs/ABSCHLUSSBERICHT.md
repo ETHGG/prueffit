@@ -1,3 +1,54 @@
+# Abschlussbericht Version 0.5.0
+
+**Datum:** 17.11.2026 · **Repository:** https://github.com/ETHGG/prueffit · **Live:** https://ethgg.github.io/prueffit/
+
+Auftrag: Aufgaben an die bereitgestellten Prüfungen anpassen, Fragen und Karten erweitern, die Prüfungssimulation ausbauen.
+
+## Auswertung der Prüfungen
+
+Die Unterlagen (2000 bis Winter 2025) liegen nur auf dem Rechner des Nutzers. Ausgewertet wurden vor allem die Prüfungen nach der aktuellen Ordnung (AO 2020): 9 AP1-Prüfungen (Herbst 2021 bis Herbst 2025), AP2 FISI und ITSM (Sommer 2024 bis Winter 2025), dazu AP2/WiSo Sommer 2023, FIAE Sommer 2022 und das Zusatzmaterial. Die meisten PDFs sind Scans; der Text wurde per OCR (Tesseract) gelesen. **Nichts davon liegt im Repository.**
+
+Erkenntnisse, die umgesetzt wurden:
+
+| Beobachtung | Umsetzung |
+|---|---|
+| AP1 (90 Min., 4 Aufgaben, 100 Punkte): Nutzwertanalyse, Bezugspreis, Leasing, Skonto, Kaufvertrag, Netzwerkkonfiguration (APIPA, ipconfig), Speicherbedarf, USV/Netzteil, Phishing, Härtung, Verschlüsselung, Netzplan, UML-Anwendungsfall, SQL, Pseudocode, KI-Einsatz | Neue Fragen in genau diesen Mustern, UML jetzt auch AP1 |
+| AP2 FISI Bereich 1: Cloud vs. On-Premises, Virtualisierung, RAID-Berechnung, Hot-Spare, DSGVO-Vorfall, TOM, Malware, Schreibtischtest/Fehlersuche im Code, Datentypen, CAL-Lizenzen, MDM | Themen „Serverbetrieb, Monitoring und Mobilgeräte“, „BSI-Grundschutz, Härtung“ und passende Fragen |
+| AP2 FISI Bereich 2: Subnetting (/12, IPv6-Präfixe), Routing-Tabellen, NAT/Portweiterleitung, ARP, DNS-Fehler, VLAN/Trunk/STP, SPI-Firewall, TLS-Inspection, SPF/DKIM, WLAN, MQTT | Themen „Routing, NAT und Fehleranalyse“, „E-Mail-Sicherheit und Zertifikate“ |
+| AP2 ITSM: ERP, E-Rechnung, CRM, BCG-Matrix, Deckungsbeitrag, Preisuntergrenze, Umsatzrendite, Beschaffung, AGB, Gewährleistung/Garantie | Themen „Marketing“, „Beschaffung, Finanzierung“, „KI, ERP und Digitalisierung“, „IT-Service-Management“ |
+| WiSo (60 Min., 30 Aufgaben, Mehrfachauswahl): BBiG, JArbSchG, Betriebsrat/JAV, Tarif und Streik, Kündigungsfristen, Zeugnis, AGG, Rechtsformen, Organisation, Sozialversicherung, Konjunktur, Umwelt | Neuer Bereich WiSo |
+
+## Was umgesetzt wurde
+
+| Bereich | Umsetzung |
+|---|---|
+| Inhalte | 150 neue Fragen, 54 neue Karten, 16 neue Themen (davon 7 WiSo). Jetzt 325 Fragen (231 AP2), 110 Karten, 52 Themen. 10 bestehende Fragen gelten zusätzlich für die AP2. |
+| Prüfung | `js/exam.js`: Baupläne pro Beruf (`AP2_BLUEPRINTS`), Themenfilter je Teil (`questionFitsPart`), Ziel nach Punkten oder Fragenzahl, einzelne Teile (`partIds`), Vorschau (`previewExam`), Note pro Teil, Beruf im Ergebnis. Zustand Version 2, Version 1 wird weiter gelesen. |
+| UI | Prüfungsstart mit Umfang (komplett oder ein Teil), Liste der Teile mit Zeit und Fragenzahl; Ergebnis mit Note pro Teil; Verlauf mit Beruf und Teilnoten. |
+
+## Testergebnis
+
+- **Unit-Tests:** 379/379 (u. a. 9 neue in `exam.test.js`; `data.test.js` prüft jetzt auch `wiso.json`).
+- **Playwright:** 27 Tests × 4 Profile; lokal die drei Chromium-Profile: 74 grün, 4 bewusst übersprungen. Neu: AP2 mit drei Teilen, FISI-Bereiche und reine WiSo-Prüfung, keine Ansicht zeigt „null“.
+- Alle neuen Rechenaufgaben sind in den Generierungsskripten mit `assert` nachgerechnet (RAID, USV, Netzteil, Stromkosten, Subnetting, IPv6, MQTT, Kredit, Leasing, Bezugspreis, Preisuntergrenze, Schreibtischtests, SQL, Kündigungsfristen, Sozialversicherung).
+- **Gefundener Fehler:** Die Prüfungsseite zeigte ohne Verlauf „null“ (seit 0.3), weil `Element.append(null)` den Text „null“ einfügt. Behoben über die Hilfsfunktion `append()` in `dom.js`; Browsertest ergänzt.
+
+## Annahmen und Entscheidungen
+
+1. **Urheberrecht (CLAUDE.md §11):** Keine Aufgabe wurde übernommen. Übernommen wurden nur Themen, Aufgabenarten und Schwierigkeitsniveau; Szenarien, Zahlen und Texte sind neu.
+2. **Punkte statt Originalumfang:** Die echten Bereiche haben 100 Punkte aus offenen Aufgaben. Die App nutzt kürzere, automatisch bewertbare Fragen; deshalb zielen die AP2-Bereiche auf etwa 50 Punkte (rund 20 Fragen) in 90 Minuten, WiSo auf 30 Fragen in 60 Minuten. Die Note ergibt sich wie bisher aus dem Prozentsatz.
+3. **FIAE:** In den Unterlagen gibt es keine FIAE-Prüfung nach AO 2020. Die Bereichsnamen stammen aus der Ausbildungsordnung, die Themen sind daraus abgeleitet.
+4. **Ohne Beruf** heißen die AP2-Bereiche neutral „Ganzheitliche Aufgabe 1/2“.
+5. **Rechtsstand 2026:** Fristen und Sätze (z. B. Beweislastumkehr 1 Jahr, BetrVG-Wahlalter 16) entsprechen dem aktuellen Stand; Beitragssätze werden in den Aufgaben immer vorgegeben, damit sie nicht veralten.
+
+## Offene Punkte
+
+- Fachliche Prüfung durch Ausbilder; „Fehler melden“ nutzen.
+- Mehr FIAE-spezifische AP2-Fragen, sobald Vorlagen vorliegen.
+- Weitere Ideen des Nutzers.
+
+---
+
 # Abschlussbericht Version 0.4.0
 
 **Datum:** 17.11.2026 · **Repository:** https://github.com/ETHGG/prueffit · **Live:** https://ethgg.github.io/prueffit/

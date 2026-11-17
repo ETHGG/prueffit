@@ -4,7 +4,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 
 **Live:** https://ethgg.github.io/prueffit/
 
-## Funktionen (Version 0.4)
+## Funktionen (Version 0.5)
 
 - **Quiz-Modus:** Fragen nach Prüfung (AP1/AP2), Themen und Schwierigkeit filtern, 5, 10 oder 20 Fragen. Nach jeder Antwort gibt es sofort Feedback mit Erklärung und Lösungsweg, am Ende eine Auswertung mit Punkten und „Fehler wiederholen“. Eine laufende Runde übersteht Neuladen und App-Wechsel.
 - **Sechs Fragetypen:**
@@ -14,10 +14,10 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
   - Zuordnung (Teilpunkte pro Paar)
   - Reihenfolge
 - **Karteikarten mit Leitner-System:** 5 Fächer (Wiederholung nach 1, 2, 4, 7 und 14 Tagen), fällige Karten lernen, umdrehen, „Gewusst“ oder „Nicht gewusst“, Übersicht der Fächer.
-- **Prüfungssimulation:** AP1 (90 Minuten) oder AP2 (zwei Teile à 90 Minuten) mit Timer, der auch bei geschlossener App weiterläuft, automatischer Abgabe, Note nach IHK-Schlüssel und Auswertung jeder Frage.
+- **Prüfungssimulation:** AP1 (90 Minuten) oder AP2 wie die echte Prüfung: zwei Prüfungsbereiche à 90 Minuten mit den offiziellen Namen des gewählten Berufs und Wirtschafts- und Sozialkunde (60 Minuten, 30 Fragen); einzelne Teile lassen sich auch allein üben. Mit Timer, der auch bei geschlossener App weiterläuft, automatischer Abgabe, Note nach IHK-Schlüssel Note pro Teil und Auswertung jeder Frage.
 - **Statistik:** Trefferquote und Versuche pro Thema mit Ampel (grün ab 80 %, gelb ab 50 %, rot darunter, grau unter 5 Versuchen), Diagramme pro Bereich und für den Verlauf der Prüfungsergebnisse.
 - **Heute üben:** Die schwächsten Themen (oder noch ungeübte) werden vorgeschlagen und lassen sich direkt im Quiz üben.
-- **Inhalte:** 175 eigene Fragen (25 pro Bereich, davon 91 für die AP2) und 56 Karteikarten in 7 Bereichen: Netzwerke, Hardware, IT-Sicherheit, Wirtschaft, Projektmanagement, Programmierung und Recht.
+- **Inhalte:** 325 eigene Fragen (davon 231 für die AP2) und 110 Karteikarten in 52 Themen und 8 Bereichen: Netzwerke, Hardware, IT-Sicherheit, Wirtschaft, Projektmanagement, Programmierung, Recht und WiSo. Themen, Schwierigkeit und Aufgabenstil orientieren sich an den IHK-Prüfungen 2021–2025; alle Aufgaben sind in eigenen Worten und mit eigenen Zahlen formuliert.
 - **Ausbildungsberuf wählbar:** Fachinformatik Systemintegration, Fachinformatik Anwendungsentwicklung oder IT-System-Management. AP2-Fragen anderer Berufe werden dann ausgeblendet.
 - **Fehler melden:** Unter jeder Erklärung führt ein Link zu einem vorausgefüllten GitHub-Issue.
 - **Lernserie und Tagesziel:** Tage in Folge mit mindestens einer Aufgabe; Tagesziel frei wählbar.
@@ -25,7 +25,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 - **Darstellung:** hell, dunkel oder wie das System.
 - **PWA:** installierbar, funktioniert nach dem ersten Aufruf komplett offline, für das iPhone optimiert.
 
-Alle Phasen der Roadmap (0.1 bis 0.4) sind umgesetzt. Details stehen in [`CLAUDE.md`](CLAUDE.md) und [`docs/STATUS.md`](docs/STATUS.md).
+Alle Phasen der Roadmap (0.1 bis 0.5) sind umgesetzt. Details stehen in [`CLAUDE.md`](CLAUDE.md) und [`docs/STATUS.md`](docs/STATUS.md).
 
 ## Auf dem iPhone installieren
 
