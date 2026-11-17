@@ -9,7 +9,7 @@ test('first start asks for job and next exam, then shows a countdown', async ({ 
   await page.goto('./#/start');
   await expect(page.getByRole('heading', { name: 'Willkommen bei PrüfFit 👋' })).toBeVisible();
   await expectNoHorizontalOverflow(page);
-  await page.getByRole('radio', { name: 'Fachinformatik Systemintegration' }).check();
+  await page.getByRole('radio', { name: 'Fachinformatiker/-in Systemintegration' }).check();
   await page.locator('label', { hasText: 'AP2 (Teil 2)' }).click();
   // The next AP2 date after 17.11.2026 is preselected; Sachsen-Anhalt uses the nationwide dates.
   await expect(page.locator('#welcome-day')).toHaveValue('2026-11-25');

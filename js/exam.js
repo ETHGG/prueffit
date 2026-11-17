@@ -4,6 +4,7 @@
 
 import { gradeAnswer } from './grading.js';
 import { shuffle } from './questions.js';
+import { AP2_PARTS, jobById, itemExamsForJob } from './curriculum.js';
 
 export const EXAM_STATE_VERSION = 2;
 const SUPPORTED_STATE_VERSIONS = [1, 2];
@@ -20,32 +21,14 @@ const WISO_PART = Object.freeze({ id: 'wiso', title: 'Wirtschafts- und Sozialkun
 const NOT_WISO = ['wiso'];
 
 export const AP2_BLUEPRINTS = Object.freeze({
+  // Without a chosen apprenticeship (older data): generic parts over all non-WiSo topics.
   alle: [
     { id: 'ga1', title: 'Ganzheitliche Aufgabe 1', minutes: 90, points: 50, exclude: NOT_WISO },
     { id: 'ga2', title: 'Ganzheitliche Aufgabe 2', minutes: 90, points: 50, exclude: NOT_WISO },
     WISO_PART,
   ],
-  fisi: [
-    { id: 'ga1', title: 'Konzeption und Administration von IT-Systemen', minutes: 90, points: 50,
-      topics: ['hardware', 'sicherheit.schutzziele', 'sicherheit.backup', 'sicherheit.angriffe', 'sicherheit.management', 'programmierung', 'projekt', 'recht'] },
-    { id: 'ga2', title: 'Analyse und Entwicklung von Netzwerken', minutes: 90, points: 50,
-      topics: ['netzwerke', 'sicherheit.netzsicherheit', 'sicherheit.mail', 'sicherheit.kryptografie'] },
-    WISO_PART,
-  ],
-  fiae: [
-    { id: 'ga1', title: 'Planen eines Softwareproduktes', minutes: 90, points: 50,
-      topics: ['programmierung.modellierung', 'programmierung.testen', 'programmierung.datenbanken', 'projekt', 'recht', 'sicherheit', 'wirtschaft'] },
-    { id: 'ga2', title: 'Entwicklung und Umsetzung von Algorithmen', minutes: 90, points: 50,
-      topics: ['programmierung'] },
-    WISO_PART,
-  ],
-  itsm: [
-    { id: 'ga1', title: 'Einführen einer IT-Systemlösung', minutes: 90, points: 50,
-      topics: ['hardware', 'netzwerke', 'sicherheit', 'programmierung.datenbanken', 'programmierung.datenformate', 'projekt.digitalisierung', 'recht.datenschutz', 'recht.lizenzen'] },
-    { id: 'ga2', title: 'Kaufmännische Unterstützungsprozesse', minutes: 90, points: 50,
-      topics: ['wirtschaft', 'recht', 'projekt'] },
-    WISO_PART,
-  ],
+  // The seven apprenticeships: official exam parts from js/curriculum.js.
+  ...AP2_PARTS,
 });
 
 /** Default blueprints (AP2 for all apprenticeships). */
@@ -54,7 +37,7 @@ export const EXAM_TYPES = Object.freeze({
   AP2: { parts: AP2_BLUEPRINTS.alle },
 });
 
-/** Blueprint parts for an exam and apprenticeship (`job` = fisi/fiae/itsm/alle). */
+/** Blueprint parts for an exam and apprenticeship (`job` = one of js/curriculum.js JOBS, or alle). */
 export function examParts(exam, job) {
   if (!EXAM_TYPES[exam]) throw new RangeError(`Unknown exam: ${exam}`);
   if (exam === 'AP2' && job && AP2_BLUEPRINTS[job]) return AP2_BLUEPRINTS[job];
@@ -180,7 +163,9 @@ export function createExam({
 }) {
   const blueprint = examParts(exam, job).filter((p) => !partIds || partIds.includes(p.id));
   if (!blueprint.length) throw new RangeError('No exam parts selected');
-  let remaining = pool.filter((q) => q.exam.includes(exam) && EXAM_QUESTION_TYPES.includes(q.type));
+  // Only questions that count for this exam in this apprenticeship (never another job's AP2 content).
+  const counts = jobById(job) ? (q) => itemExamsForJob(q, job).includes(exam) : (q) => q.exam.includes(exam);
+  let remaining = pool.filter((q) => counts(q) && EXAM_QUESTION_TYPES.includes(q.type));
   const inScenario = scenarioQuestionIds(scenarios);
   const parts = [];
   for (const p of blueprint) {

@@ -25,11 +25,8 @@ export const AREAS = [
 ];
 export const EXAMS = ['AP1', 'AP2'];
 // Apprenticeships covered (CLAUDE.md 1). AP1 is identical for all, AP2 differs.
-export const JOBS = [
-  { id: 'fisi', name: 'Fachinformatik Systemintegration', short: 'FISI' },
-  { id: 'fiae', name: 'Fachinformatik Anwendungsentwicklung', short: 'FIAE' },
-  { id: 'itsm', name: 'IT-System-Management', short: 'ITSM' },
-];
+// The seven apprenticeships and their exam parts live in js/curriculum.js.
+export { JOBS } from './curriculum.js';
 export const ALL_JOBS = 'alle';
 export const QUESTION_TYPES = ['single', 'multi', 'number', 'text', 'match', 'order'];
 // Types the quiz can present in this version.

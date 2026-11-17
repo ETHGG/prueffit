@@ -4,13 +4,22 @@
 import { validateNote } from './notes.js';
 import { validateGlossaryEntry, spellings } from './glossary.js';
 import { validateScenario } from './exam.js';
-import { AREAS, APP_VERSION, DATA_BASE, EXAMS, ISSUE_LABEL, JOBS, ALL_JOBS, QUESTION_TYPES, REPO_URL } from './config.js';
-
-const JOB_IDS = JOBS.map((j) => j.id);
+import { JOB_IDS, jobById, itemForJob, itemExamsForJob } from './curriculum.js';
+import { AREAS, APP_VERSION, DATA_BASE, EXAMS, ISSUE_LABEL, ALL_JOBS, QUESTION_TYPES, REPO_URL } from './config.js';
 
 const isNonEmptyString = (v) => typeof v === 'string' && v.trim() !== '';
 const isPlainObject = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
 const isIndex = (v, length) => Number.isInteger(v) && v >= 0 && v < length;
+
+/** `jobs` (optional): only for AP2 content, ids from js/curriculum.js without duplicates. */
+function validateJobs(item, errors) {
+  if (item.jobs === undefined) return;
+  if (!Array.isArray(item.jobs) || item.jobs.length === 0 || !item.jobs.every((j) => JOB_IDS.includes(j)) || new Set(item.jobs).size !== item.jobs.length) {
+    errors.push(`jobs: muss ein Array aus ${JOB_IDS.join('/')} ohne Doppelungen sein`);
+  } else if (!Array.isArray(item.exam) || !item.exam.includes('AP2')) {
+    errors.push('jobs: nur bei AP2-Inhalten erlaubt (die AP1 ist für alle Berufe gleich)');
+  }
+}
 
 const REQUIRED_FIELDS = ['id', 'exam', 'topic', 'difficulty', 'type', 'question', 'answer', 'points', 'explanation'];
 
@@ -97,13 +106,7 @@ export function validateQuestion(q, topicIds = new Set()) {
   if (q.explanation !== undefined && !isNonEmptyString(q.explanation)) errors.push('explanation: darf nicht leer sein');
   if (q.points !== undefined && !(Number.isFinite(q.points) && q.points > 0)) errors.push('points: muss > 0 sein');
   if (q.source !== undefined && !isNonEmptyString(q.source)) errors.push('source: muss Text sein');
-  if (q.jobs !== undefined) {
-    if (!Array.isArray(q.jobs) || q.jobs.length === 0 || !q.jobs.every((j) => JOB_IDS.includes(j)) || new Set(q.jobs).size !== q.jobs.length) {
-      errors.push(`jobs: muss ein Array aus ${JOB_IDS.join('/')} ohne Doppelungen sein`);
-    } else if (!Array.isArray(q.exam) || !q.exam.includes('AP2')) {
-      errors.push('jobs: nur bei AP2-Fragen erlaubt (die AP1 ist für alle Berufe gleich)');
-    }
-  }
+  validateJobs(q, errors);
   if (q.type !== undefined && !QUESTION_TYPES.includes(q.type)) {
     errors.push(`type: unbekannter Fragetyp "${q.type}"`);
   } else if (q.type !== undefined && q.answer !== undefined && q.answer !== null) {
@@ -135,6 +138,10 @@ export function validateFlashcard(card, topicIds = new Set()) {
   if (!topicIds.has(card.topic)) errors.push(`topic: unbekanntes Thema "${card.topic}"`);
   if (!isNonEmptyString(card.front)) errors.push('front: darf nicht leer sein');
   if (!isNonEmptyString(card.back)) errors.push('back: darf nicht leer sein');
+  if (card.exam !== undefined && (!Array.isArray(card.exam) || card.exam.length === 0 || !card.exam.every((e) => EXAMS.includes(e)))) {
+    errors.push(`exam: muss ein Array aus ${EXAMS.join('/')} sein`);
+  }
+  validateJobs(card, errors);
   return errors;
 }
 
@@ -165,21 +172,23 @@ const ALL = 'alle';
 
 /**
  * Filters questions. Empty or missing criteria match everything.
- * `job`: questions without `jobs` count for every apprenticeship.
+ * `job`: only questions of this apprenticeship's AP1/AP2 (js/curriculum.js); with `exam` only those
+ * that count for that exam in this apprenticeship. Without a job (or "alle") every question matches.
  * @param {{ exam?: string, topics?: string[], difficulties?: number[], types?: string[], job?: string }} criteria
  */
 export function filterQuestions(questions, criteria = {}) {
   const { exam, topics, difficulties, types, job } = criteria;
-  const jobFilter = job && job !== ALL_JOBS ? job : null;
+  const jobFilter = job && job !== ALL_JOBS && jobById(job) ? job : null;
   const topicSet = topics?.length ? new Set(topics) : null;
   const diffSet = difficulties?.length ? new Set(difficulties) : null;
   const typeSet = types?.length ? new Set(types) : null;
   return questions.filter((q) =>
-    (!exam || exam === ALL || q.exam.includes(exam))
+    (jobFilter
+      ? (exam && exam !== ALL ? itemExamsForJob(q, jobFilter).includes(exam) : itemForJob(q, jobFilter))
+      : (!exam || exam === ALL || q.exam.includes(exam)))
     && (!topicSet || topicSet.has(q.topic))
     && (!diffSet || diffSet.has(q.difficulty))
-    && (!typeSet || typeSet.has(q.type))
-    && (!jobFilter || !q.jobs || q.jobs.includes(jobFilter)));
+    && (!typeSet || typeSet.has(q.type)));
 }
 
 /** Deterministic PRNG (mulberry32) for reproducible tests. */

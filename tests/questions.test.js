@@ -77,7 +77,8 @@ describe('validateQuestion', () => {
   it('validates the optional jobs field (AP2 only)', () => {
     const ap2 = { ...base, exam: ['AP1', 'AP2'] };
     expect(validateQuestion({ ...ap2, jobs: ['fisi'] }, topicIds)).toEqual([]);
-    expect(validateQuestion({ ...ap2, jobs: ['fisi', 'fiae', 'itsm'] }, topicIds)).toEqual([]);
+    expect(validateQuestion({ ...ap2, jobs: ['fisi', 'fiae', 'fidpa', 'fidv', 'itse', 'kits', 'kdm'] }, topicIds)).toEqual([]);
+    expect(validateQuestion({ ...ap2, jobs: ['itsm'] }, topicIds).join()).toMatch(/jobs/);
     expect(validateQuestion({ ...ap2, jobs: [] }, topicIds).join()).toMatch(/jobs/);
     expect(validateQuestion({ ...ap2, jobs: ['koch'] }, topicIds).join()).toMatch(/jobs/);
     expect(validateQuestion({ ...ap2, jobs: ['fisi', 'fisi'] }, topicIds).join()).toMatch(/jobs/);
@@ -134,16 +135,21 @@ describe('filterQuestions', () => {
   it('combines filters', () => {
     expect(filterQuestions(pool, { exam: 'AP2', topics: ['netzwerke.osi'], difficulties: [3] }).map((q) => q.id)).toEqual(['c']);
   });
-  it('filters by job: untagged questions count for every job', () => {
+  it('filters by job: AP1 for everyone, AP2 only for the listed jobs whose AP2 contains the topic', () => {
     const tagged = [
-      { id: 'x', exam: ['AP2'], topic: 't', difficulty: 1, type: 'single', jobs: ['fiae'] },
-      { id: 'y', exam: ['AP2'], topic: 't', difficulty: 1, type: 'single', jobs: ['fisi', 'itsm'] },
-      { id: 'z', exam: ['AP2'], topic: 't', difficulty: 1, type: 'single' },
+      { id: 'x', exam: ['AP2'], topic: 'programmierung.algorithmen', difficulty: 1, type: 'single', jobs: ['fiae'] },
+      { id: 'y', exam: ['AP2'], topic: 'netzwerke.vlan', difficulty: 1, type: 'single', jobs: ['fisi', 'kits'] },
+      { id: 'z', exam: ['AP2'], topic: 'netzwerke.vlan', difficulty: 1, type: 'single' },
+      { id: 'a', exam: ['AP1'], topic: 'netzwerke.vlan', difficulty: 1, type: 'single' },
+      { id: 'w', exam: ['AP2'], topic: 'wiso.ausbildung', difficulty: 1, type: 'single', jobs: ['fiae', 'fisi', 'fidpa', 'fidv', 'itse', 'kits', 'kdm'] },
     ];
-    expect(filterQuestions(tagged, { job: 'fisi' }).map((q) => q.id)).toEqual(['y', 'z']);
-    expect(filterQuestions(tagged, { job: 'fiae' }).map((q) => q.id)).toEqual(['x', 'z']);
-    expect(filterQuestions(tagged, { job: 'alle' }).map((q) => q.id)).toEqual(['x', 'y', 'z']);
-    expect(filterQuestions(tagged, {}).map((q) => q.id)).toEqual(['x', 'y', 'z']);
+    expect(filterQuestions(tagged, { job: 'fisi' }).map((q) => q.id)).toEqual(['y', 'z', 'a', 'w']);
+    expect(filterQuestions(tagged, { job: 'fiae' }).map((q) => q.id)).toEqual(['x', 'a', 'w']);
+    expect(filterQuestions(tagged, { job: 'kdm' }).map((q) => q.id)).toEqual(['a', 'w']);
+    expect(filterQuestions(tagged, { job: 'fisi', exam: 'AP1' }).map((q) => q.id)).toEqual(['a']);
+    expect(filterQuestions(tagged, { job: 'fiae', exam: 'AP2' }).map((q) => q.id)).toEqual(['x', 'w']);
+    expect(filterQuestions(tagged, { job: 'alle' }).map((q) => q.id)).toEqual(['x', 'y', 'z', 'a', 'w']);
+    expect(filterQuestions(tagged, {}).map((q) => q.id)).toEqual(['x', 'y', 'z', 'a', 'w']);
   });
 
   it('treats empty or missing filters as "all"', () => {

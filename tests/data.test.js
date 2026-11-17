@@ -281,7 +281,7 @@ describe('data/scenarios.json (AP2-Handlungssituationen)', () => {
   });
 
   it('covers both AP2 parts for every apprenticeship', () => {
-    for (const job of ['fisi', 'fiae', 'itsm']) {
+    for (const job of ['fisi', 'fiae', 'kits']) {
       for (const part of ['ga1', 'ga2']) {
         expect(scenarios.some((sc) => sc.part === part && sc.jobs?.includes(job)), `${job} ${part}`).toBe(true);
       }
@@ -321,5 +321,48 @@ describe('pdf/ (Lernzettel als PDF)', () => {
       expect(manifest.files.find((f) => f.file === pdf.file)?.bytes).toBe(statSync(`${root}pdf/${pdf.file}`).size);
     }
     expect(manifest.sourceHash, 'PDFs sind veraltet – bitte „npm run pdfs“ ausführen').toBe(await pdfSourceHash(root));
+  });
+});
+
+describe('Zuordnung zu AP1/AP2 und Berufen (2.0)', () => {
+  const topics = parsed.get('topics.json');
+  const items = [...questionFiles, ...cardFiles].flatMap((f) => parsed.get(f));
+  const REMOVED_FROM_AP1 = /\bSQL\b|\bSELECT\b|Normalform|\bRAID\b|Struktogramm|Programmablaufplan|\bPAP\b|Kanban|V-Modell|Spiralmodell|SWOT|27001|Cross-Selling|Up-Selling|Deckungsbeitrag/i;
+
+  it('every curriculum topic exists and topics.json exams match the curriculum', async () => {
+    const { examsForTopic, AP1_SECTIONS, AP2_PARTS } = await import('../js/curriculum.js');
+    const ids = new Set(topics.map((t) => t.id));
+    const used = [...AP1_SECTIONS.flatMap((s) => s.topics), ...Object.values(AP2_PARTS).flat().flatMap((p) => p.topics)];
+    expect(used.filter((t) => !ids.has(t))).toEqual([]);
+    expect(topics.filter((t) => JSON.stringify(t.exams) !== JSON.stringify(examsForTopic(t.id))).map((t) => t.id)).toEqual([]);
+    expect(topics.filter((t) => !examsForTopic(t.id).length).map((t) => t.id)).toEqual([]);
+  });
+
+  it('AP1 content belongs to the AP1 catalog; AP2 content names its jobs, and each job has the topic', async () => {
+    const { isAp1Topic, ap2Topics } = await import('../js/curriculum.js');
+    const problems = [];
+    for (const it of items) {
+      if (!Array.isArray(it.exam)) { problems.push(`${it.id}: exam fehlt`); continue; }
+      if (it.exam.includes('AP1') && !isAp1Topic(it.topic)) problems.push(`${it.id}: ${it.topic} ist nicht im AP1-Katalog`);
+      if (it.exam.includes('AP2')) {
+        if (!Array.isArray(it.jobs) || !it.jobs.length) problems.push(`${it.id}: AP2 ohne Berufe`);
+        else for (const job of it.jobs) if (!ap2Topics(job).has(it.topic)) problems.push(`${it.id}: ${it.topic} gehört nicht zur AP2 von ${job}`);
+      } else if (it.jobs) problems.push(`${it.id}: Berufe nur bei AP2`);
+    }
+    expect(problems).toEqual([]);
+  });
+
+  it('topics removed from the AP1 in 2025 are AP2 only (SQL, RAID, PAP, Struktogramm, …)', () => {
+    const keep = new Set(['prog-0059', 'sec-0019', 'sec-0050']); // Begriff nur in falschen Antwortoptionen
+    const ap1 = items.filter((it) => it.exam?.includes('AP1') && !keep.has(it.id));
+    const offending = ap1.filter((it) => REMOVED_FROM_AP1.test(`${it.question ?? ''} ${it.front ?? ''} ${(it.options ?? []).join(' ')}`));
+    expect(offending.map((it) => it.id)).toEqual([]);
+  });
+
+  it('WiSo content is for all seven jobs', async () => {
+    const { JOB_IDS } = await import('../js/curriculum.js');
+    const wiso = items.filter((it) => it.topic.startsWith('wiso.'));
+    expect(wiso.length).toBeGreaterThan(50);
+    expect(wiso.filter((it) => JSON.stringify(it.jobs) !== JSON.stringify(JOB_IDS)).map((it) => it.id)).toEqual([]);
   });
 });

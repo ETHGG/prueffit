@@ -39,11 +39,11 @@ test('choosing an apprenticeship filters AP2 questions in the quiz', async ({ pa
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.v1')).settings.job)).toBe('fiae');
 
   await page.goto('./#/quiz');
-  await expect(page.getByText(/Beruf: Fachinformatik Anwendungsentwicklung/)).toBeVisible();
+  await expect(page.getByText('Beruf: Fachinformatiker/-in Anwendungsentwicklung', { exact: false })).toBeVisible();
   const fiaeCount = Number((await page.getByText(/passende Fragen/).textContent()).match(/\d+/)[0]);
   expect(fiaeCount).toBeLessThan(allCount);
 
   // The setting survives a reload.
   await page.reload();
-  await expect(page.getByText(/Beruf: Fachinformatik Anwendungsentwicklung/)).toBeVisible();
+  await expect(page.getByText('Beruf: Fachinformatiker/-in Anwendungsentwicklung', { exact: false })).toBeVisible();
 });

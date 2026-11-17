@@ -109,14 +109,18 @@ describe('exam configuration', () => {
     expect(EXAM_TYPES.AP2.parts[2]).toMatchObject({ id: 'wiso', count: 30 });
   });
   it('has an AP2 blueprint for every apprenticeship with the official part names', () => {
-    expect(Object.keys(AP2_BLUEPRINTS).sort()).toEqual(['alle', 'fiae', 'fisi', 'itsm']);
+    expect(Object.keys(AP2_BLUEPRINTS).sort()).toEqual(['alle', 'fiae', 'fidpa', 'fidv', 'fisi', 'itse', 'kdm', 'kits']);
     for (const parts of Object.values(AP2_BLUEPRINTS)) {
       expect(parts.map((p) => p.id)).toEqual(['ga1', 'ga2', 'wiso']);
       expect(parts.map((p) => p.minutes)).toEqual([90, 90, 60]);
     }
     expect(examParts('AP2', 'fisi').map((p) => p.title)).toEqual([
       'Konzeption und Administration von IT-Systemen', 'Analyse und Entwicklung von Netzwerken', 'Wirtschafts- und Sozialkunde']);
-    expect(examParts('AP2', 'itsm')[1].title).toBe('Kaufmännische Unterstützungsprozesse');
+    expect(examParts('AP2', 'kits')[1].title).toBe('Kaufmännische Unterstützungsprozesse');
+    expect(examParts('AP2', 'kdm')[0].title).toBe('Entwicklung eines digitalen Geschäftsmodells');
+    expect(examParts('AP2', 'fidpa').map((p) => p.title)).toEqual(['Durchführen einer Prozessanalyse', 'Sicherstellen der Datenqualität', 'Wirtschafts- und Sozialkunde']);
+    expect(examParts('AP2', 'fidv').map((p) => p.title)).toEqual(['Diagnose und Störungsbeseitigung in vernetzten Systemen', 'Betrieb und Erweiterung von vernetzten Systemen', 'Wirtschafts- und Sozialkunde']);
+    expect(examParts('AP2', 'itse')[1].title).toBe('Anbindung von Geräten, Systemen und Betriebsmitteln an die Stromversorgung');
     expect(examParts('AP2', 'fiae')[1].title).toBe('Entwicklung und Umsetzung von Algorithmen');
     expect(examParts('AP2', 'alle')).toBe(EXAM_TYPES.AP2.parts);
     expect(examParts('AP2', 'unbekannt')).toBe(EXAM_TYPES.AP2.parts);
@@ -206,7 +210,7 @@ describe('createExam / timer', () => {
 
   it('can run single parts only (e.g. WiSo practice)', () => {
     const wiso = Array.from({ length: 10 }, (_, i) => ({ ...pool[1], id: `w${i}`, topic: 'wiso.ausbildung', exam: ['AP2'] }));
-    const exam = createExam({ exam: 'AP2', job: 'itsm', partIds: ['wiso'], pool: [...pool, ...wiso], now: t0 });
+    const exam = createExam({ exam: 'AP2', job: 'kits', partIds: ['wiso'], pool: [...pool, ...wiso], now: t0 });
     expect(exam.parts.map((p) => p.id)).toEqual(['wiso']);
     expect(exam.parts[0].startedAt).toBe(t0.toISOString());
     expect(() => createExam({ exam: 'AP2', partIds: ['gibt-es-nicht'], pool, now: t0 })).toThrow();

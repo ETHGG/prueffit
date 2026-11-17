@@ -4,12 +4,12 @@
 **Roadmap:** Alle Phasen 0.1 bis 1.1 sind erledigt. **In Arbeit: 2.0 – Inhalte für alle IT-Berufe und berufsspezifische App** (Auftrag in 6 Phasen, Start 17.11.2026 19:11).
 
 ## Weiter bei:
-**Phase 2, Schritt 1:** Datenmodell für 7 Berufe anlegen (`data/curriculum.json`, `js/curriculum.js`), dann alle bestehenden Inhalte zuordnen.
+**Phase 3, Schritt 1:** Speicherschema 6 (Beruf einmalig bestätigen, `itsm`→`kits`, `alle` entfernen), danach berufsspezifische UI (Start, Quiz nach AP1/AP2 und Prüfungsbereich, Lernzettel, Karten, Statistik, Prüfung) und Tests „keine fremden Inhalte“.
 
 | Phase | Status |
 |---|---|
 | 1 Recherche, `docs/QUELLEN.md` | erledigt |
-| 2 Datenmodell und Zuordnung | offen |
+| 2 Datenmodell und Zuordnung (`js/curriculum.js`, alle Inhalte zugeordnet) | erledigt |
 | 3 Migration und berufsspezifische UI | offen |
 | 4 Neue AP1-Inhalte (Katalog 2025) | offen |
 | 5 Neue AP2-Inhalte je Beruf | offen |

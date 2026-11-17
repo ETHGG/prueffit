@@ -208,7 +208,7 @@ describe('real migration 3 -> 4 (welcome questions, exam date)', () => {
     expect(state.schemaVersion).toBe(5);
     expect(state.answers).toEqual(v3.answers);
     expect(state.daily).toEqual(v3.daily);
-    expect(state.settings).toEqual({ theme: 'dark', dailyGoal: 30, job: 'itsm', onboarded: false, examTarget: null, backup: { lastAt: null, snoozeUntil: null } });
+    expect(state.settings).toEqual({ theme: 'dark', dailyGoal: 30, job: 'kits', onboarded: false, examTarget: null, backup: { lastAt: null, snoozeUntil: null } });
     expect(JSON.parse(store.getItem('prueffit.backup.3'))).toEqual(v3);
   });
   it('validates the exam target', () => {

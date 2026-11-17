@@ -1,11 +1,11 @@
 {
   "version": "1.1.0",
-  "sourceHash": "d6d1fc9894374127077742072ddacf46c0da1325dd7b197a41f51f85ceec6d07",
+  "sourceHash": "6484f13830e742550f2980ee6d38131947d13568ca1dead4c2f2379cf6739353",
   "files": [
     {
       "key": "alle",
       "file": "lernzettel-alle.pdf",
-      "bytes": 1421276
+      "bytes": 1421283
     },
     {
       "key": "Netzwerke",
@@ -15,7 +15,7 @@
     {
       "key": "Hardware",
       "file": "lernzettel-hardware.pdf",
-      "bytes": 239858
+      "bytes": 239838
     },
     {
       "key": "IT-Sicherheit",
@@ -40,7 +40,7 @@
     {
       "key": "Recht",
       "file": "lernzettel-recht.pdf",
-      "bytes": 179162
+      "bytes": 179187
     },
     {
       "key": "WiSo",

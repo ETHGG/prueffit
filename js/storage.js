@@ -111,7 +111,9 @@ export function normalizeState(raw, version = SCHEMA_VERSION) {
     const { theme, dailyGoal } = raw.settings;
     if (THEMES.includes(theme)) state.settings.theme = theme;
     if (Number.isInteger(dailyGoal) && dailyGoal > 0 && dailyGoal <= 500) state.settings.dailyGoal = dailyGoal;
-    if (JOB_IDS.includes(raw.settings.job)) state.settings.job = raw.settings.job;
+    // „itsm“ (bis 1.1) heißt seit 2.0 „kits“ (Kaufmann/-frau für IT-System-Management).
+    const job = raw.settings.job === 'itsm' ? 'kits' : raw.settings.job;
+    if (JOB_IDS.includes(job)) state.settings.job = job;
     if (typeof raw.settings.onboarded === 'boolean') state.settings.onboarded = raw.settings.onboarded;
     const target = raw.settings.examTarget;
     if (isPlainObject(target) && EXAMS.includes(target.exam) && isDay(target.day)) {
