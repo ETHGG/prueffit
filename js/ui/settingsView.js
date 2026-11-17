@@ -33,7 +33,7 @@ export function render(root, ctx) {
   /** Hidden file input + visible button (44 px), returns the button. */
   const fileButton = (label, onText) => {
     const input = h('input', {
-      type: 'file', accept: 'application/json,.json', class: 'visually-hidden', tabindex: '-1',
+      type: 'file', accept: 'application/json,.json', class: 'visually-hidden', tabindex: '-1', 'aria-label': label,
       onChange: async (e) => {
         const file = e.target.files?.[0];
         e.target.value = '';

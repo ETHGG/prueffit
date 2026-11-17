@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.4] – 2026-11-18
+
+### Behoben
+- Barrierefreiheit: Das Grün für „richtig“ hatte im hellen Design auf hellgrünem Grund nur einen Kontrast von 4,49 : 1 und ist jetzt dunkler (5,0 : 1, WCAG AA). Neuer Test `tests/contrast.test.js` prüft alle Textfarben beider Designs.
+- Das versteckte Dateifeld beim Import hat jetzt eine Beschriftung für Screenreader.
+
+### Geprüft
+- Alle Ansichten, laufendes Quiz, laufende Prüfung, Bewertung offener Aufgaben und Ergebnis: Schaltflächen und Eingabefelder beschriftet, keine doppelten IDs, genau eine Hauptüberschrift je Ansicht.
+
 ## [2.2.3] – 2026-11-18
 
 ### Hinzugefügt
