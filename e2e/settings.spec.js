@@ -1,5 +1,5 @@
 import { test, expect } from 'playwright/test';
-import { watchProblems } from './helpers.js';
+import { watchProblems, gotoApp } from './helpers.js';
 
 test('saved progress from schema 1 is migrated with backup and keeps all answers', async ({ page }) => {
   const problems = watchProblems(page);
@@ -9,7 +9,7 @@ test('saved progress from schema 1 is migrated with backup and keeps all answers
     cards: { 'fc-0001': { box: 3, nextDue: '2026-12-31' } },
     exams: [], streak: { current: 0, lastDay: null }, settings: { theme: 'auto', dailyGoal: 20 },
   };
-  await page.goto('./#/start');
+  await gotoApp(page);
   await page.evaluate((data) => { localStorage.clear(); localStorage.setItem('prueffit.v1', JSON.stringify(data)); }, v1);
   await page.reload();
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();

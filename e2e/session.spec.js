@@ -1,5 +1,5 @@
 import { test, expect } from 'playwright/test';
-import { openQuizWith, answerCurrent } from './helpers.js';
+import { openQuizWith, answerCurrent, gotoApp } from './helpers.js';
 
 test('running quiz survives reload and tab switch without double counting', async ({ page }) => {
   await openQuizWith(page, ['net-0010', 'hw-0012', 'pm-0012', 'net-0001']);
@@ -26,7 +26,7 @@ test('running quiz survives reload and tab switch without double counting', asyn
 });
 
 test('broken session data is discarded', async ({ page }) => {
-  await page.goto('./#/start');
+  await gotoApp(page);
   await page.evaluate(() => sessionStorage.setItem('prueffit.quizSession', '{"quiz":{"v":1,"ids":["gibts-nicht"],"index":0,"responses":[]}}'));
   await page.goto('./#/quiz');
   await expect(page.getByText(/passende Fragen/)).toBeVisible();

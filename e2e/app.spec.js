@@ -1,5 +1,5 @@
 import { test, expect } from 'playwright/test';
-import { watchProblems, answerCurrent, openQuizWith, expectNoHorizontalOverflow, jobScope } from './helpers.js';
+import { watchProblems, answerCurrent, openQuizWith, expectNoHorizontalOverflow, jobScope, gotoApp } from './helpers.js';
 
 const ROUTES = ['start', 'quiz', 'karten', 'statistik', 'pruefung', 'einstellungen'];
 
@@ -54,7 +54,7 @@ test('empty answers are rejected with a message', async ({ page }) => {
 
 test('offline start after the first visit', async ({ page, context, browserName }) => {
   test.skip(browserName === 'webkit', 'Playwright WebKit does not support offline service-worker emulation reliably');
-  await page.goto('./#/start');
+  await gotoApp(page);
   await page.evaluate(() => navigator.serviceWorker.ready);
   await page.reload();
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
@@ -68,7 +68,7 @@ test('offline start after the first visit', async ({ page, context, browserName 
 });
 
 test('broken saved progress is backed up and the app still starts', async ({ page }) => {
-  await page.goto('./#/start');
+  await gotoApp(page);
   await page.evaluate(() => localStorage.setItem('prueffit.v1', '{kaputt'));
   await page.reload();
   await expect(page.locator('.toast').first()).toContainText('beschädigt');

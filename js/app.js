@@ -314,6 +314,8 @@ async function start() {
 
   ready = true;
   render();
+  // Signal for tests: data loaded and first view rendered (no requests pending from the start).
+  document.documentElement.dataset.ready = '1';
   registerServiceWorker();
 }
 

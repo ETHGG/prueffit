@@ -1,9 +1,9 @@
 import { test, expect } from 'playwright/test';
-import { watchProblems, expectNoHorizontalOverflow, jobScope, useJob } from './helpers.js';
+import { watchProblems, expectNoHorizontalOverflow, jobScope, useJob, gotoApp } from './helpers.js';
 
 test('job setup: shown before every view, no tab bar, cancel keeps it, the choice is final', async ({ page }) => {
   const problems = watchProblems(page);
-  await page.goto('./#/start');
+  await gotoApp(page);
   await page.evaluate(() => localStorage.clear());
   for (const route of ['quiz', 'karten', 'einstellungen']) {
     await page.goto(`./#/${route}`);
@@ -35,7 +35,7 @@ test('job setup: shown before every view, no tab bar, cancel keeps it, the choic
 });
 
 test('existing users keep their progress and confirm the job once (schema 5 -> 6)', async ({ page }) => {
-  await page.goto('./#/start');
+  await gotoApp(page);
   await page.evaluate(() => {
     localStorage.clear();
     localStorage.setItem('prueffit.v1', JSON.stringify({
@@ -73,7 +73,7 @@ for (const job of ['fidpa', 'itse', 'kdm']) {
     expect(scope.questions).toBeLessThan(scope.fullQuestions);
 
     // Start: counts of the job's catalog.
-    await page.goto('./#/start');
+    await gotoApp(page);
     await expect(page.locator('#home-notes').locator('..')).toContainText(`${scope.notes} Lernzettel`);
     await expect(page.locator('#home-notes').locator('..')).toContainText(`in ${scope.topics} Themen`);
 

@@ -1,5 +1,5 @@
 import { test, expect } from 'playwright/test';
-import { watchProblems, expectNoHorizontalOverflow, useJob } from './helpers.js';
+import { watchProblems, expectNoHorizontalOverflow, useJob, gotoApp } from './helpers.js';
 
 async function answerExamQuestion(page) {
   if (await page.locator('#answer-input').count()) await page.fill('#answer-input', '1');
@@ -161,7 +161,7 @@ test('statistics: "Heute üben" links into the quiz and charts render', async ({
 });
 
 test('an untouched order question stays unanswered when navigating away (regression)', async ({ page }) => {
-  await page.goto('./#/start');
+  await gotoApp(page);
   await page.evaluate(() => {
     localStorage.setItem('prueffit.exam', JSON.stringify({
       v: 1, exam: 'AP1', part: 0, responses: {}, finished: false, finishedAt: null,

@@ -589,11 +589,11 @@ details.fold.card[open] { padding-bottom: 1rem; }
 .gloss-hit { border-left: 4px solid var(--primary); }
 .gloss-hit p { margin: 0 0 .25rem; }
 .gloss-list { list-style: none; margin: 0; padding: 0; }
-.gloss-item { display: grid; grid-template-columns: minmax(4.5rem, auto) 1fr; gap: .1rem .75rem; padding: .6rem 0; border-top: 1px solid var(--border); }
+.gloss-item { display: grid; grid-template-columns: minmax(4.5rem, auto) minmax(0, 1fr); gap: .1rem .75rem; padding: .6rem 0; border-top: 1px solid var(--border); }
 .gloss-item:first-child { border-top: 0; }
 .gloss-abbr { grid-row: span 3; font-weight: 800; color: var(--primary); overflow-wrap: anywhere; }
 .gloss-alias { font-weight: 400; color: var(--muted); font-size: .85rem; }
-.gloss-full { font-weight: 600; hyphens: auto; overflow-wrap: break-word; }
+.gloss-full { font-weight: 600; hyphens: auto; overflow-wrap: anywhere; }
 .gloss-expl { font-size: .9rem; hyphens: auto; overflow-wrap: break-word; }
 .gloss-meta { font-size: .8rem; color: var(--muted); grid-column: 2; }
 .gloss-group { scroll-margin-top: 4.5rem; }

@@ -1,12 +1,12 @@
 import { test, expect } from 'playwright/test';
-import { watchProblems, expectNoHorizontalOverflow } from './helpers.js';
+import { watchProblems, expectNoHorizontalOverflow, gotoApp } from './helpers.js';
 
 const settings = (page) => page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.v1')).settings);
 
 test('first start asks for the job once, then for the next exam, then shows a countdown', async ({ page }) => {
   const problems = watchProblems(page);
   await page.clock.setFixedTime(new Date('2026-11-17T10:00:00+01:00'));
-  await page.goto('./#/start');
+  await gotoApp(page);
   await page.evaluate(() => localStorage.clear());
   await page.reload();
   await expect(page.getByRole('heading', { level: 1, name: 'Willkommen bei PrüfFit 👋' })).toBeVisible();
@@ -53,7 +53,7 @@ test('first start asks for the job once, then for the next exam, then shows a co
 
 test('"Später" skips the questions; settings can set the exam date', async ({ page }) => {
   await page.clock.setFixedTime(new Date('2026-11-17T10:00:00+01:00'));
-  await page.goto('./#/start');
+  await gotoApp(page);
   await expect(page.getByRole('heading', { name: 'Deine nächste Prüfung' })).toBeVisible();
   await page.getByRole('button', { name: 'Später' }).click();
   await expect(page.getByRole('heading', { name: 'Deine nächste Prüfung' })).toHaveCount(0);
@@ -67,13 +67,13 @@ test('"Später" skips the questions; settings can set the exam date', async ({ p
   await page.getByRole('button', { name: 'Termin speichern' }).click();
   await expect(page.locator('.toast').first()).toContainText('AP1 am Mi., 29.09.2027');
   await expect(page.locator('#settings-exam-current')).toHaveText('Aktuell: AP1 · Herbst 2027 (Mi., 29.09.2027)');
-  await page.goto('./#/start');
+  await gotoApp(page);
   await expect(page.locator('.countdown-days')).toHaveText('316');
 });
 
 test('after the exam date the start page asks for the next exam', async ({ page }) => {
   await page.clock.setFixedTime(new Date('2026-11-26T10:00:00+01:00'));
-  await page.goto('./#/start');
+  await gotoApp(page);
   await page.evaluate(() => {
     const state = JSON.parse(localStorage.getItem('prueffit.v1') ?? 'null') ?? { schemaVersion: 4 };
     state.schemaVersion = 4;

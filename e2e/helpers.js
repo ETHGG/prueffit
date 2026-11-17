@@ -8,9 +8,18 @@ export function watchProblems(page) {
   return problems;
 }
 
+/**
+ * Opens a route and waits until the app has loaded its data and rendered. Before a reload or
+ * another navigation this avoids cancelled requests, which WebKit reports as page errors.
+ */
+export async function gotoApp(page, url = './#/start') {
+  await page.goto(url);
+  await expect(page.locator('html[data-ready="1"]')).toBeAttached();
+}
+
 /** Starts a quiz with fixed question ids via the sessionStorage snapshot (deterministic tests). */
 export async function openQuizWith(page, ids) {
-  await page.goto('./#/start');
+  await gotoApp(page);
   await page.evaluate((list) => {
     sessionStorage.setItem('prueffit.quizSession', JSON.stringify({ quiz: { v: 1, ids: list, index: 0, responses: [] }, ui: {} }));
   }, ids);
@@ -76,11 +85,12 @@ export async function jobScope(page, job = TEST_JOB) {
 
 /** Switches the test user to another (confirmed) job, keeping the rest of the progress. */
 export async function useJob(page, job) {
-  await page.goto('./#/start');
+  await gotoApp(page);
   await page.evaluate((j) => {
     const state = JSON.parse(localStorage.getItem('prueffit.v1') ?? '{}');
     state.settings = { ...(state.settings ?? {}), job: j, jobConfirmed: true };
     localStorage.setItem('prueffit.v1', JSON.stringify(state));
   }, job);
   await page.reload();
+  await expect(page.locator('html[data-ready="1"]')).toBeAttached();
 }
