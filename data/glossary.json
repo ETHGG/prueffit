@@ -304,6 +304,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "DAS",
+    "full": "Direct Attached Storage",
+    "explanation": "Speicher direkt am einzelnen Server angeschlossen",
+    "area": "Hardware"
+  },
+  {
     "abbr": "DC",
     "full": "Domain Controller (Domänencontroller)",
     "explanation": "Server, der das Verzeichnis einer Domäne speichert und Anmeldungen prüft",
@@ -816,6 +822,12 @@
     "area": "WiSo"
   },
   {
+    "abbr": "LACP",
+    "full": "Link Aggregation Control Protocol",
+    "explanation": "Bündelt mehrere Leitungen zwischen zwei Geräten zu einer logischen Verbindung",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "LAN",
     "full": "Local Area Network",
     "explanation": "Lokales Netz, z. B. im Betrieb",
@@ -1274,6 +1286,12 @@
     "area": "Allgemein"
   },
   {
+    "abbr": "SIEM",
+    "full": "Security Information and Event Management",
+    "explanation": "Sammelt und korreliert Sicherheitsprotokolle vieler Systeme zentral",
+    "area": "IT-Sicherheit"
+  },
+  {
     "abbr": "SLA",
     "full": "Service Level Agreement",
     "explanation": "Vereinbarung zwischen IT-Dienstleister und Kunde (Verfügbarkeit, Reaktionszeit)",
@@ -1576,6 +1594,12 @@
     "full": "Virtual Private Network",
     "explanation": "Verschlüsselter Tunnel über das Internet",
     "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "VRRP",
+    "full": "Virtual Router Redundancy Protocol",
+    "explanation": "Mehrere Router teilen sich eine virtuelle Gateway-Adresse für Ausfallsicherheit",
+    "area": "Netzwerke"
   },
   {
     "abbr": "VWL",

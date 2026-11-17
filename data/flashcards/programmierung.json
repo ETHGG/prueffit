@@ -17,5 +17,8 @@
   {"id": "fc-0130", "exam": ["AP2"], "jobs": ["fiae", "fisi", "fidpa"], "topic": "programmierung.algorithmen", "front": "PAP-Symbole", "back": "Oval: Start/Ende · Rechteck: Verarbeitung · Raute: Verzweigung · Parallelogramm: Ein-/Ausgabe."},
   {"id": "fc-0135", "exam": ["AP1"], "topic": "programmierung.barrierefreiheit", "front": "Vier Grundprinzipien barrierefreier Webseiten (WCAG)", "back": "Wahrnehmbar, bedienbar, verständlich, robust."},
   {"id": "fc-0136", "exam": ["AP1"], "topic": "programmierung.barrierefreiheit", "front": "Mindestkontrast für normalen Text (WCAG, Doppel-A)", "back": "4,5 : 1 (große Schrift 3 : 1)."},
-  {"id": "fc-0137", "exam": ["AP1"], "topic": "programmierung.barrierefreiheit", "front": "BFSG", "back": "Barrierefreiheitsstärkungsgesetz: seit 28.06.2025 Barrierefreiheit für viele Verbraucher-Produkte und -Dienste (z. B. Online-Shops); Ausnahme Kleinstunternehmen bei Dienstleistungen."}
+  {"id": "fc-0137", "exam": ["AP1"], "topic": "programmierung.barrierefreiheit", "front": "BFSG", "back": "Barrierefreiheitsstärkungsgesetz: seit 28.06.2025 Barrierefreiheit für viele Verbraucher-Produkte und -Dienste (z. B. Online-Shops); Ausnahme Kleinstunternehmen bei Dienstleistungen."},
+  {"id": "fc-0176", "exam": ["AP2"], "jobs": ["fisi"], "topic": "programmierung.skripte", "front": "cron-Felder", "back": "Minute – Stunde – Tag – Monat – Wochentag – Befehl. `0 23 * * 0` = sonntags 23:00 Uhr."},
+  {"id": "fc-0177", "exam": ["AP2"], "jobs": ["fisi"], "topic": "programmierung.skripte", "front": "PowerShell-Pipeline", "back": "Gibt Objekte weiter: `Get-Service | Where-Object Status -eq 'Stopped'`. Befehle heißen Verb-Nomen."},
+  {"id": "fc-0178", "exam": ["AP2"], "jobs": ["fisi"], "topic": "programmierung.skripte", "front": "Bash: $1, $?, Shebang", "back": "$1 = erster Parameter, $? = Exit-Code des letzten Befehls (0 = ok), #!/bin/bash = Interpreter."}
 ]

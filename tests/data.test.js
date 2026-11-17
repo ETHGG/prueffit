@@ -230,7 +230,7 @@ const NOT_ABBREVIATIONS = new Set([
   'TABLE', 'UPDATE', 'VALUES', 'WHERE',
   'BIS', 'DANN', 'FÜR', 'NICHT', 'ODER', 'SOLANGE', 'SONST', 'UND', 'VON', 'WENN', 'WAS', 'WER', 'WIE', 'WOMIT',
   'B7', 'B16', 'E3', 'II', 'III', 'PLUS', 'YTP',
-  'DisplayPort', 'OpenVPN', 'TrueHD', 'VirtualBox', 'VMware', 'WireGuard',
+  'DisplayPort', 'OpenVPN', 'PowerShell', 'ADUser', 'ForEach', 'ChildItem', 'LastWriteTime', 'AddDays', 'WhatIf', 'TrueHD', 'VirtualBox', 'VMware', 'WireGuard',
 ]);
 
 describe('data/glossary.json (Abkürzungsverzeichnis)', () => {

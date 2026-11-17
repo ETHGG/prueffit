@@ -18,5 +18,6 @@
   {"id": "fc-0131", "exam": ["AP1"], "topic": "netzwerke.verzeichnisdienst", "front": "Domänencontroller (DC)", "back": "Server, der das Verzeichnis (z. B. Active Directory) speichert und Anmeldungen per Kerberos prüft. Für Ausfallsicherheit mindestens zwei."},
   {"id": "fc-0132", "exam": ["AP1"], "topic": "netzwerke.verzeichnisdienst", "front": "Gruppenrichtlinie (GPO)", "back": "Zentral verwaltete Einstellungen für Benutzer/Computer, gebunden an eine OU. Sofort anwenden: gpupdate /force, prüfen: gpresult /r."},
   {"id": "fc-0133", "exam": ["AP1"], "topic": "netzwerke.verzeichnisdienst", "front": "Warum muss beim Domänenbeitritt der DC als DNS-Server eingetragen sein?", "back": "Der Client findet den Domänencontroller über SRV-Einträge im internen DNS. Der Router kennt die interne Domäne nicht."},
-  {"id": "fc-0134", "exam": ["AP1"], "topic": "netzwerke.verzeichnisdienst", "front": "Kerberos und Uhrzeit", "back": "Tickets enthalten Zeitstempel; mehr als 5 Minuten Abweichung zwischen Client und DC → Anmeldung scheitert. Lösung: NTP-Abgleich."}
+  {"id": "fc-0134", "exam": ["AP1"], "topic": "netzwerke.verzeichnisdienst", "front": "Kerberos und Uhrzeit", "back": "Tickets enthalten Zeitstempel; mehr als 5 Minuten Abweichung zwischen Client und DC → Anmeldung scheitert. Lösung: NTP-Abgleich."},
+  {"id": "fc-0182", "exam": ["AP2"], "jobs": ["fisi"], "topic": "netzwerke.vlan", "front": "LACP / STP / VRRP", "back": "LACP bündelt Leitungen, STP verhindert Schleifen, VRRP stellt ein ausfallsicheres virtuelles Gateway bereit."}
 ]

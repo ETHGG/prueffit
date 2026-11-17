@@ -25,5 +25,11 @@
   {"id": "fc-0172", "exam": ["AP2"], "jobs": ["kdm"], "topic": "wirtschaft.geschaeftsmodelle", "front": "Business Model Canvas", "back": "9 Felder: Kundensegmente, Wertangebot, Kanäle, Kundenbeziehungen, Einnahmequellen, Schlüsselressourcen, -aktivitäten, -partner, Kostenstruktur."},
   {"id": "fc-0173", "exam": ["AP2"], "jobs": ["kdm"], "topic": "wirtschaft.geschaeftsmodelle", "front": "Freemium", "back": "Grundversion kostenlos, Zusatzfunktionen kostenpflichtig."},
   {"id": "fc-0174", "exam": ["AP2"], "jobs": ["kdm"], "topic": "wirtschaft.geschaeftsmodelle", "front": "Konversionsrate / Churn", "back": "Konversion = Käufe ÷ Besucher · Churn = Kündigungen ÷ Kunden zu Periodenbeginn."},
-  {"id": "fc-0175", "exam": ["AP2"], "jobs": ["kdm"], "topic": "wirtschaft.geschaeftsmodelle", "front": "MVP", "back": "Minimum Viable Product: kleinstes nutzbares Produkt, um früh mit echten Kunden zu lernen."}
+  {"id": "fc-0175", "exam": ["AP2"], "jobs": ["kdm"], "topic": "wirtschaft.geschaeftsmodelle", "front": "MVP", "back": "Minimum Viable Product: kleinstes nutzbares Produkt, um früh mit echten Kunden zu lernen."},
+  {"id": "fc-0185", "exam": ["AP2"], "jobs": ["kits"], "topic": "wirtschaft.nutzwert", "front": "TCO", "back": "Total Cost of Ownership: alle Kosten über die Nutzungsdauer (Anschaffung, Strom, Wartung, Lizenzen, Schulung, Entsorgung)."},
+  {"id": "fc-0186", "exam": ["AP2"], "jobs": ["kits"], "topic": "wirtschaft.vertrieb", "front": "ABC-Analyse (Kunden)", "back": "A: wenige Kunden, großer Umsatzanteil → intensive Betreuung. C: viele Kunden, kleiner Anteil → standardisiert."},
+  {"id": "fc-0187", "exam": ["AP2"], "jobs": ["kits"], "topic": "wirtschaft.klr", "front": "Gewinnschwelle", "back": "Fixkosten ÷ Deckungsbeitrag je Stück. DB = Preis − variable Kosten."},
+  {"id": "fc-0188", "exam": ["AP2"], "jobs": ["kits"], "topic": "wirtschaft.klr", "front": "Kurzfristige Preisuntergrenze", "back": "Die variablen Kosten je Stück (bei freier Kapazität)."},
+  {"id": "fc-0189", "exam": ["AP2"], "jobs": ["kits"], "topic": "wirtschaft.buchfuehrung", "front": "Eigenkapitalquote / Umsatzrentabilität", "back": "EK ÷ Gesamtkapital × 100 % · Gewinn ÷ Umsatz × 100 %."},
+  {"id": "fc-0190", "exam": ["AP2"], "jobs": ["kits"], "topic": "wirtschaft.marketing", "front": "Marketingmix (4 P)", "back": "Produkt-, Preis-, Distributions- und Kommunikationspolitik."}
 ]

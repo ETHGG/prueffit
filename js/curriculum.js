@@ -65,7 +65,7 @@ export const AP2_PARTS = Object.freeze({
   ],
   fisi: [
     { id: 'ga1', title: 'Konzeption und Administration von IT-Systemen', minutes: 90, points: 50,
-      topics: [...ALL_HARDWARE, 'netzwerke.verzeichnisdienst', 'sicherheit.schutzziele', 'sicherheit.backup', 'sicherheit.angriffe', 'sicherheit.management', ...ALL_PROGRAMMING, ...ALL_PROJECT, ...LAW] },
+      topics: [...ALL_HARDWARE, 'programmierung.skripte', 'netzwerke.verzeichnisdienst', 'sicherheit.schutzziele', 'sicherheit.backup', 'sicherheit.angriffe', 'sicherheit.management', ...ALL_PROGRAMMING, ...ALL_PROJECT, ...LAW] },
     { id: 'ga2', title: 'Analyse und Entwicklung von Netzwerken', minutes: 90, points: 50,
       topics: [...ALL_NETWORK, 'sicherheit.netzsicherheit', 'sicherheit.mail', 'sicherheit.kryptografie'] },
     WISO,
@@ -82,7 +82,7 @@ export const AP2_PARTS = Object.freeze({
     { id: 'ga1', title: 'Diagnose und Störungsbeseitigung in vernetzten Systemen', minutes: 90, points: 50,
       topics: ['vernetzung.diagnose', 'vernetzung.sensorik', ...ALL_NETWORK, 'netzwerke.verzeichnisdienst', 'hardware.betrieb', 'hardware.komponenten', 'sicherheit.angriffe', 'sicherheit.schutzziele'] },
     { id: 'ga2', title: 'Betrieb und Erweiterung von vernetzten Systemen', minutes: 90, points: 50,
-      topics: ['vernetzung.ot', 'netzwerke.dienste', 'netzwerke.vlan', 'netzwerke.routing', 'netzwerke.ipv6', 'netzwerke.medien', 'sicherheit.netzsicherheit', 'sicherheit.management',
+      topics: ['vernetzung.ot', 'programmierung.skripte', 'netzwerke.dienste', 'netzwerke.vlan', 'netzwerke.routing', 'netzwerke.ipv6', 'netzwerke.medien', 'sicherheit.netzsicherheit', 'sicherheit.management',
         'sicherheit.kryptografie', 'hardware.virtualisierung', 'hardware.energie', 'programmierung.datenformate', 'projekt.service', 'projekt.planung'] },
     WISO,
   ],
@@ -96,7 +96,7 @@ export const AP2_PARTS = Object.freeze({
   ],
   kits: [
     { id: 'ga1', title: 'Einführen einer IT-Systemlösung', minutes: 90, points: 50,
-      topics: [...ALL_HARDWARE, ...ALL_NETWORK, ...ALL_SECURITY, 'programmierung.datenbanken', 'programmierung.datenformate', 'projekt.digitalisierung', 'recht.datenschutz', 'recht.lizenzen'] },
+      topics: [...ALL_HARDWARE, ...ALL_NETWORK, ...ALL_SECURITY, 'wirtschaft.nutzwert', 'wirtschaft.kalkulation', 'programmierung.datenbanken', 'programmierung.datenformate', 'projekt.digitalisierung', 'recht.datenschutz', 'recht.lizenzen'] },
     { id: 'ga2', title: 'Kaufmännische Unterstützungsprozesse', minutes: 90, points: 50, topics: [...ALL_BUSINESS, ...LAW, ...ALL_PROJECT] },
     WISO,
   ],

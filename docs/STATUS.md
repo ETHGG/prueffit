@@ -4,16 +4,15 @@
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
-Nichts offen – der Auftrag 2.0 ist abgeschlossen. Nächste Schritte: siehe „Offen“.
+**2.1, Phase C:** FIDPA, FIDV, ITSE, KDM ausbauen (je ca. 15 weitere AP2-Fragen, Karten). Danach Phase D (Bewertungsraster für offene Aufgaben, Tagesplan), Phase E (Gegenprüfung, PDFs, Version 2.1.0, Releases). Ab dann bis 18.11.2026 11:30 Uhr: App wiederholt prüfen und verbessern.
 
-| Phase | Status |
+| Phase 2.1 | Status |
 |---|---|
-| 1 Recherche, `docs/QUELLEN.md` | erledigt |
-| 2 Datenmodell und Zuordnung (`js/curriculum.js`, alle Inhalte zugeordnet) | erledigt |
-| 3 Migration (Schema 6) und berufsspezifische UI (`js/jobCatalog.js`, `js/ui/jobSetup.js`) | erledigt |
-| 4 Neue AP1-Inhalte (Katalog 2025): 5 Themen, 38 Fragen, 16 Karten | erledigt |
-| 5 Neue AP2-Inhalte je Beruf: 3 Bereiche, 11 Themen, 88 Fragen, 29 Karten, 8 Handlungssituationen | erledigt |
-| 6 Abschluss: PDFs je Beruf, Version 2.0.0, Doku, Push | erledigt |
+| A Quellen und Abgleich (`docs/ABGLEICH.md`) | erledigt |
+| B KITS und FISI ausbauen | erledigt |
+| C FIDPA, FIDV, ITSE, KDM ausbauen | offen |
+| D Bewertungsraster, Tagesplan | offen |
+| E Gegenprüfung, PDFs, Version 2.1.0, Releases | offen |
 
 ## Erledigt
 

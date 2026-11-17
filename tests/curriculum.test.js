@@ -25,7 +25,9 @@ describe('curriculum: assignment of topics', () => {
     expect(examsForTopic('netzwerke.subnetting')).toEqual(['AP1', 'AP2']);
     expect(examsForTopic('hardware.raid')).toEqual(['AP2']); // seit 2025 nicht mehr AP1
     expect(examsForTopic('wiso.ausbildung')).toEqual(['AP2']);
-    expect(examsForTopic('wirtschaft.nutzwert')).toEqual(['AP1']);
+    // Seit 2.1 auch AP2 für KITS (ITSManKflAusbV § 12: Angebotsvergleiche).
+    expect(examsForTopic('wirtschaft.nutzwert')).toEqual(['AP1', 'AP2']);
+    expect(examsForTopic('projekt.kommunikation')).toEqual(['AP1']);
     expect(examsForTopic('gibt.es.nicht')).toEqual([]);
   });
   it('lists the jobs whose AP2 contains a topic', () => {

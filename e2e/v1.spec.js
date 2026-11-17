@@ -96,8 +96,13 @@ test('AP2 part starts with a Handlungssituation', async ({ page }) => {
   await page.locator('#exam-scope').selectOption('ga2');
   await page.getByRole('button', { name: 'AP2 starten' }).click();
   const box = page.locator('.scenario-box');
-  await expect(box).toContainText('Spedition Nordlicht GmbH: zweiter Standort');
-  await expect(box).toContainText('Teilaufgabe 1 von 6');
+  // Since 2.1 there are two FISI situations for this part; one of them is chosen at random.
+  const options = { 'Spedition Nordlicht GmbH: zweiter Standort': 6, 'Praxisverbund Elbaue: acht Standorte vernetzen': 4 };
+  await expect(box).toContainText(new RegExp(Object.keys(options).join('|')));
+  const text = await box.textContent();
+  const [title, count] = Object.entries(options).find(([t]) => text.includes(t));
+  expect(title).toBeTruthy();
+  await expect(box).toContainText(`Teilaufgabe 1 von ${count}`);
   await expect(box).toHaveAttribute('open', '');
   await expectNoHorizontalOverflow(page);
   expect(problems).toEqual([]);
