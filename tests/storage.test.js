@@ -7,6 +7,8 @@ import {
   recordAnswer,
   recordCardReview,
   resetProgress,
+  updateSettings,
+  MIGRATIONS,
 } from '../js/storage.js';
 import { STORAGE_KEY, SCHEMA_VERSION, CORRUPT_BACKUP_KEY } from '../js/config.js';
 
@@ -28,7 +30,7 @@ describe('createDefaultState', () => {
     expect(s.cards).toEqual({});
     expect(s.exams).toEqual([]);
     expect(s.streak).toEqual({ current: 0, lastDay: null });
-    expect(s.settings).toEqual({ theme: 'auto', dailyGoal: 20 });
+    expect(s.settings).toEqual({ theme: 'auto', dailyGoal: 20, job: 'alle' });
   });
 
   it('returns independent objects', () => {
@@ -91,7 +93,7 @@ describe('loadState', () => {
     const partial = { schemaVersion: SCHEMA_VERSION, answers: { 'a-1': { attempts: 2, correct: 1 } } };
     const { state } = loadState(memoryStorage({ [STORAGE_KEY]: JSON.stringify(partial) }));
     expect(state.answers['a-1']).toEqual({ attempts: 2, correct: 1, lastAt: null });
-    expect(state.settings).toEqual({ theme: 'auto', dailyGoal: 20 });
+    expect(state.settings).toEqual({ theme: 'auto', dailyGoal: 20, job: 'alle' });
     expect(state.exams).toEqual([]);
   });
 
@@ -139,8 +141,54 @@ describe('normalizeState', () => {
   });
 
   it('replaces invalid settings with defaults', () => {
-    const s = normalizeState({ settings: { theme: 'pink', dailyGoal: -3 } });
-    expect(s.settings).toEqual({ theme: 'auto', dailyGoal: 20 });
+    const s = normalizeState({ settings: { theme: 'pink', dailyGoal: -3, job: 'koch' } });
+    expect(s.settings).toEqual({ theme: 'auto', dailyGoal: 20, job: 'alle' });
+  });
+});
+
+describe('real migration 1 -> 2 (job setting)', () => {
+  const v1 = {
+    schemaVersion: 1,
+    answers: { 'net-0001': { attempts: 3, correct: 2, lastAt: '2026-11-17T10:00:00Z' } },
+    cards: { 'fc-0001': { box: 3, nextDue: '2026-11-20' } },
+    exams: [],
+    streak: { current: 0, lastDay: null },
+    settings: { theme: 'dark', dailyGoal: 30 },
+  };
+
+  it('is registered for schema 1', () => {
+    expect(typeof MIGRATIONS[1]).toBe('function');
+    expect(SCHEMA_VERSION).toBe(2);
+  });
+
+  it('keeps all progress, adds settings.job and backs up the old data', () => {
+    const store = memoryStorage({ [STORAGE_KEY]: JSON.stringify(v1) });
+    const { state, status } = loadState(store);
+    expect(status).toBe('migrated');
+    expect(state.schemaVersion).toBe(2);
+    expect(state.answers).toEqual(v1.answers);
+    expect(state.cards).toEqual(v1.cards);
+    expect(state.settings).toEqual({ theme: 'dark', dailyGoal: 30, job: 'alle' });
+    expect(JSON.parse(store.getItem('prueffit.backup.1'))).toEqual(v1);
+    expect(JSON.parse(store.getItem(STORAGE_KEY)).schemaVersion).toBe(2);
+  });
+
+  it('works when version 1 data has no settings at all', () => {
+    const { state } = loadState(memoryStorage({ [STORAGE_KEY]: JSON.stringify({ schemaVersion: 1, answers: {} }) }));
+    expect(state.settings.job).toBe('alle');
+  });
+});
+
+describe('updateSettings', () => {
+  it('applies valid values without mutating the input', () => {
+    const s0 = createDefaultState();
+    const s1 = updateSettings(s0, { job: 'fisi' });
+    expect(s1.settings.job).toBe('fisi');
+    expect(s0.settings.job).toBe('alle');
+  });
+  it('ignores invalid values', () => {
+    const s = updateSettings(createDefaultState(), { job: 'koch', theme: 'neon', dailyGoal: 0 });
+    expect(s.settings).toEqual({ theme: 'auto', dailyGoal: 20, job: 'alle' });
   });
 });
 

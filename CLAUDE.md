@@ -155,6 +155,7 @@ prueffit/
 | `order` | Array in richtiger Reihenfolge | richtig/falsch |
 
 **Pflichtfelder:** `id`, `exam`, `topic`, `difficulty` (1–3), `type`, `question`, `answer`, `points`, `explanation`.
+**Optional:** `source`, `jobs` (nur bei AP2-Fragen: Array aus `fisi`, `fiae`, `itsm`; ohne `jobs` gilt die Frage für alle Berufe).
 `id` muss **global eindeutig** sein, `topic` muss in `topics.json` existieren.
 
 ### 5.3 Karteikarte
@@ -165,14 +166,15 @@ prueffit/
 ### 5.4 Fortschritt (localStorage, Key `prueffit.v1`)
 ```json
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "answers": { "net-0001": { "attempts": 3, "correct": 2, "lastAt": "2026-11-17T10:00:00Z" } },
   "cards": { "fc-0001": { "box": 3, "nextDue": "2026-11-20" } },
   "exams": [ { "date": "...", "exam": "AP1", "points": 78, "max": 100, "grade": 3 } ],
   "streak": { "current": 4, "lastDay": "2026-11-17" },
-  "settings": { "theme": "auto", "dailyGoal": 20 }
+  "settings": { "theme": "auto", "dailyGoal": 20, "job": "alle" }
 }
 ```
+Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`).
 
 ---
 

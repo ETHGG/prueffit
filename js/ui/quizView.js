@@ -1,6 +1,6 @@
 // Quiz screen: setup -> one question per screen with instant feedback -> summary.
 
-import { EXAMS, QUIZ_SIZES, DEFAULT_QUIZ_SIZE, SUPPORTED_QUIZ_TYPES } from '../config.js';
+import { EXAMS, QUIZ_SIZES, DEFAULT_QUIZ_SIZE, SUPPORTED_QUIZ_TYPES, JOBS, ALL_JOBS } from '../config.js';
 import { filterQuestions, pickRandom, shuffle, issueUrl } from '../questions.js';
 import {
   createQuiz, currentQuestion, submitAnswer, nextQuestion, isFinished, isAnswered, summarizeQuiz,
@@ -11,7 +11,7 @@ import { keywordHits } from '../grading.js';
 import { h, formatNumber, formatPercent, DIFFICULTY_LABELS } from './dom.js';
 
 // Kept in memory while the app is open, so switching tabs does not lose a running quiz.
-const setup = { exam: 'alle', topics: null, difficulties: [1, 2, 3], size: DEFAULT_QUIZ_SIZE };
+const setup = { exam: 'alle', topics: null, difficulties: [1, 2, 3], size: DEFAULT_QUIZ_SIZE, job: ALL_JOBS };
 let session = null;
 
 const ALL_EXAMS = 'alle';
@@ -52,6 +52,7 @@ function criteria() {
     topics: [...setup.topics],
     difficulties: setup.difficulties,
     types: SUPPORTED_QUIZ_TYPES,
+    job: setup.job,
   };
 }
 
@@ -65,6 +66,7 @@ export function render(root, ctx) {
     return;
   }
   if (!setup.topics) setup.topics = new Set(topics.map((t) => t.id));
+  setup.job = ctx.progress.settings.job ?? ALL_JOBS;
   if (!session) session = restoreSession(ctx.sessionStore, questions);
 
   const topicById = new Map(topics.map((t) => [t.id, t]));
@@ -90,7 +92,7 @@ function drawSetup(root, ctx, draw) {
 
   const refresh = () => {
     // Counts per topic respect the exam and difficulty filters.
-    const base = filterQuestions(questions, { exam: setup.exam, difficulties: setup.difficulties, types: SUPPORTED_QUIZ_TYPES });
+    const base = filterQuestions(questions, { exam: setup.exam, difficulties: setup.difficulties, types: SUPPORTED_QUIZ_TYPES, job: setup.job });
     const perTopic = new Map();
     for (const q of base) perTopic.set(q.topic, (perTopic.get(q.topic) ?? 0) + 1);
     for (const [id, el] of countEls) el.textContent = `(${perTopic.get(id) ?? 0})`;
@@ -199,7 +201,14 @@ function drawSetup(root, ctx, draw) {
   }, examField, sizeField, difficultyField, topicField,
   h('div', { class: 'sticky-actions' }, availableEl, startBtn));
 
-  root.append(h('h1', { text: 'Quiz' }), h('p', { class: 'muted' }, 'Stell dir dein Quiz zusammen. Die Fragen werden zufällig gezogen.'), form);
+  const job = JOBS.find((j) => j.id === setup.job);
+  root.append(
+    h('h1', { text: 'Quiz' }),
+    h('p', { class: 'muted' }, 'Stell dir dein Quiz zusammen. Die Fragen werden zufällig gezogen.'),
+    h('p', { class: 'small job-line' },
+      job ? `Beruf: ${job.name} (AP2-Fragen für andere Berufe sind ausgeblendet). ` : 'Beruf: alle IT-Berufe. ',
+      h('a', { href: '#/einstellungen' }, 'Ändern')),
+    form);
   refresh();
 }
 

@@ -7,17 +7,26 @@ import {
   BACKUP_PREFIX,
   CORRUPT_BACKUP_KEY,
   DEFAULT_SETTINGS,
+  JOBS,
+  ALL_JOBS,
 } from './config.js';
 import { reviewCard } from './leitner.js';
 
 const THEMES = ['auto', 'light', 'dark'];
+const JOB_IDS = [ALL_JOBS, ...JOBS.map((j) => j.id)];
 
 /**
  * Migrations keyed by the schema version they upgrade FROM.
  * Each function receives the parsed data of version n and returns version n + 1.
- * There are none yet (schema 1 is the first version).
+ * A backup of the input is stored under `prueffit.backup.<n>` before each step.
  */
-export const MIGRATIONS = {};
+export const MIGRATIONS = {
+  // 1 -> 2 (v0.2.1): new setting `job` (apprenticeship for AP2 content).
+  1: (data) => ({
+    ...data,
+    settings: { ...(isPlainObject(data.settings) ? data.settings : {}), job: ALL_JOBS },
+  }),
+};
 
 export function createDefaultState() {
   return {
@@ -80,6 +89,7 @@ export function normalizeState(raw, version = SCHEMA_VERSION) {
     const { theme, dailyGoal } = raw.settings;
     if (THEMES.includes(theme)) state.settings.theme = theme;
     if (Number.isInteger(dailyGoal) && dailyGoal > 0 && dailyGoal <= 500) state.settings.dailyGoal = dailyGoal;
+    if (JOB_IDS.includes(raw.settings.job)) state.settings.job = raw.settings.job;
   }
 
   return state;
@@ -184,6 +194,12 @@ export function recordAnswer(state, questionId, isCorrect, now = new Date()) {
       },
     },
   };
+}
+
+/** Returns a new state with changed settings; invalid values are ignored. */
+export function updateSettings(state, patch) {
+  const merged = normalizeState({ ...state, settings: { ...state.settings, ...patch } }, state.schemaVersion);
+  return { ...state, settings: merged.settings };
 }
 
 /** Returns a new state with the Leitner review of `cardId` recorded (CLAUDE.md 6.1). */

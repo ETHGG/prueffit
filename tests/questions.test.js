@@ -74,6 +74,17 @@ describe('validateQuestion', () => {
     expect(validateQuestion({ ...base, type: 'order', answer: ['a'] }, topicIds).length).toBeGreaterThan(0);
   });
 
+  it('validates the optional jobs field (AP2 only)', () => {
+    const ap2 = { ...base, exam: ['AP1', 'AP2'] };
+    expect(validateQuestion({ ...ap2, jobs: ['fisi'] }, topicIds)).toEqual([]);
+    expect(validateQuestion({ ...ap2, jobs: ['fisi', 'fiae', 'itsm'] }, topicIds)).toEqual([]);
+    expect(validateQuestion({ ...ap2, jobs: [] }, topicIds).join()).toMatch(/jobs/);
+    expect(validateQuestion({ ...ap2, jobs: ['koch'] }, topicIds).join()).toMatch(/jobs/);
+    expect(validateQuestion({ ...ap2, jobs: ['fisi', 'fisi'] }, topicIds).join()).toMatch(/jobs/);
+    expect(validateQuestion({ ...ap2, jobs: 'fisi' }, topicIds).join()).toMatch(/jobs/);
+    expect(validateQuestion({ ...base, exam: ['AP1'], jobs: ['fisi'] }, topicIds).join()).toMatch(/AP2/);
+  });
+
   it('does not throw for garbage input', () => {
     for (const bad of [null, undefined, 42, 'x', []]) {
       expect(validateQuestion(bad, topicIds).length).toBeGreaterThan(0);
@@ -123,6 +134,18 @@ describe('filterQuestions', () => {
   it('combines filters', () => {
     expect(filterQuestions(pool, { exam: 'AP2', topics: ['netzwerke.osi'], difficulties: [3] }).map((q) => q.id)).toEqual(['c']);
   });
+  it('filters by job: untagged questions count for every job', () => {
+    const tagged = [
+      { id: 'x', exam: ['AP2'], topic: 't', difficulty: 1, type: 'single', jobs: ['fiae'] },
+      { id: 'y', exam: ['AP2'], topic: 't', difficulty: 1, type: 'single', jobs: ['fisi', 'itsm'] },
+      { id: 'z', exam: ['AP2'], topic: 't', difficulty: 1, type: 'single' },
+    ];
+    expect(filterQuestions(tagged, { job: 'fisi' }).map((q) => q.id)).toEqual(['y', 'z']);
+    expect(filterQuestions(tagged, { job: 'fiae' }).map((q) => q.id)).toEqual(['x', 'z']);
+    expect(filterQuestions(tagged, { job: 'alle' }).map((q) => q.id)).toEqual(['x', 'y', 'z']);
+    expect(filterQuestions(tagged, {}).map((q) => q.id)).toEqual(['x', 'y', 'z']);
+  });
+
   it('treats empty or missing filters as "all"', () => {
     expect(filterQuestions(pool, {})).toHaveLength(4);
     expect(filterQuestions(pool, { exam: 'alle', topics: [], difficulties: [] })).toHaveLength(4);
