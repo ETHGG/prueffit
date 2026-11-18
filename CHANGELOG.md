@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.17] – 2026-11-18
+
+### Hinzugefügt
+- **8 offene Aufgaben** für den ersten Prüfungsbereich von FIDPA, FIDV und KDM (teils auch für weitere Berufe): Ist- und Soll-Prozess, Diagrammwahl, Gantt und kritischer Pfad, Fehlersuche bei sporadischen Abbrüchen, analoge vs. digitale Signale, Netzdokumentation, Netzwerkeffekt von Plattformen, Erfolgsfaktoren der Digitalisierung. Jetzt 76 offene Aufgaben, 884 Fragen.
+
 ## [2.2.16] – 2026-11-18
 
 ### Hinzugefügt
