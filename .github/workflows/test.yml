@@ -52,7 +52,14 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium webkit
+      # The Ubuntu package mirror sometimes stalls; give the install a time limit and one more try.
+      - id: pwinstall
+        run: npx playwright install --with-deps chromium webkit
+        timeout-minutes: 6
+        continue-on-error: true
+      - if: steps.pwinstall.outcome == 'failure'
+        run: npx playwright install --with-deps chromium webkit
+        timeout-minutes: 8
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v4
         if: failure()
