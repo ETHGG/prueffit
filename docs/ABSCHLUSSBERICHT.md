@@ -1,6 +1,6 @@
-# Abschlussbericht Versionen 2.2.1–2.2.9 (Nachtrunden)
+# Abschlussbericht Versionen 2.2.0–2.2.19 (Nachtrunden)
 
-**Datum:** 17./18.11.2026 · **Runden 3–14** (00:00–01:00 Uhr)
+**Datum:** 17./18.11.2026 · **Runden 2–27** (23:40–05:10 Uhr, Abschlussprüfung 08:05 Uhr)
 
 | Runde | Version | Inhalt |
 |---|---|---|
@@ -16,12 +16,23 @@
 | 12 | – | Tippfehler-Scan aller Texte, Tastaturbedienung: unauffällig |
 | 13 | 2.2.8 | 24 AP2-Fragen für die dünnsten KITS/FISI-Themen |
 | 14 | 2.2.9 | 25 Karteikarten, Lernzettel-Suche geprüft |
+| 15 | 2.2.10 | Dritte Handlungssituationen für KITS und FISI (4 Situationen, 24 Fragen) |
+| 16 | 2.2.11 | Punkteziele der Simulation für alle Berufe geprüft; Musterlösung und Raster im Ergebnis |
+| 17 | 2.2.12 | Quiz-Modus „Offene Aufgaben“ |
+| 18 | 2.2.13 | Eine offene Aufgabe täglich in „Dein Plan für heute“ |
+| 19–20 | 2.2.14 | WebKit-Ergebnisse geprüft, 17 Pseudocode/SQL-Aufgaben nachgerechnet (prog-0072 präzisiert) |
+| 21–22 | 2.2.15 | Elektro/OT-Rechnungen geprüft, PDF sichtgeprüft, 15 AP1-Fragen |
+| 23–24 | 2.2.16–2.2.17 | 18 offene Aufgaben für dünne Prüfungsbereiche aller Berufe |
+| 25–26 | 2.2.18 | Gesamtprüfung, 11 Karteikarten |
+| 27 | 2.2.19 | 9 AP2-Fragen KITS/FISI; CI-Browsertests im Playwright-Container, Testserver in Node |
 
-**Stand 2.2.9:** 827 Fragen (58 offene Aufgaben mit Raster), 241 Karten, 77 Lernzettel, 287 Abkürzungen, 28 Handlungssituationen (zwei je AP2-Prüfungsbereich und Beruf).
+**Stand 2.2.19:** 893 Fragen (76 offene Aufgaben mit Raster; vor der Nacht 724 bzw. 20), 252 Karten, 77 Lernzettel, 288 Abkürzungen, 32 Handlungssituationen (KITS/FISI drei, übrige Berufe zwei je AP2-Prüfungsbereich). 608 Unit-Tests, 185 Browsertests (Chromium + WebKit) grün.
+
+**Neue Abhängigkeiten:** keine. In der CI läuft der Browser-Job im offiziellen Playwright-Container (`mcr.microsoft.com/playwright`, gleiche Version wie im Lockfile, geprüft durch `tests/ci.test.js`), weil der Ubuntu-Paketspiegel beim Installieren mehrfach hing.
 
 **Annahmen:** Rechtsangaben (Verzugszinsen, Fixhandelskauf, RCD-Pflicht bis 32 A, Kerberos 5 Minuten) nach aktuellem Stand von BGB, HGB und DIN VDE 0100-410:2018; VoIP-Bandbreite mit vereinfachten 100 kbit/s je Gespräch (in der Aufgabe angegeben).
 
-**Offen:** GitHub-Releases legt der Nutzer selbst an (API für Releases in dieser Umgebung gesperrt). Ein CI-Lauf (2.2.3) hing beim Runner und wurde abgebrochen; die Folgeläufe mit demselben Code sind grün.
+**Offen:** GitHub-Releases legt der Nutzer selbst an (API für Releases in dieser Umgebung gesperrt). Die Live-Seite konnte aus der Arbeitsumgebung nicht direkt aufgerufen werden; die GitHub-Pages-Auslieferung meldet Erfolg. Weitere Inhaltsideen: offene Aufgaben für ITSE GA2 und FIAE GA2 weiter ausbauen.
 
 # Abschlussbericht Version 2.2.0
 
