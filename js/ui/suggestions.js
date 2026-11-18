@@ -1,6 +1,6 @@
 // "Heute üben" card (CLAUDE.md 6.2), shared by the start page and the statistics.
 
-import { topicStats, practiceSuggestions, mistakeIds, dailyPlan, dailyProgress } from '../stats.js';
+import { topicStats, practiceSuggestions, mistakeIds, dailyPlan, dailyProgress, dueRetryIds } from '../stats.js';
 import { dueCards, todayInBerlin } from '../leitner.js';
 import { filterQuestions } from '../questions.js';
 import { h, formatPercent, trafficDot } from './dom.js';
@@ -52,7 +52,8 @@ export function dailyPlanCard(ctx) {
     goal: goal.goal,
     done: goal.done,
     dueCards: dueCards(flashcards, ctx.progress.cards, today).length,
-    mistakes: mistakeIds(questions, ctx.progress.answers).length,
+    // Since 2.6: the plan repeats the questions due today (wrong answers after 1, 3, 7 days).
+    mistakes: dueRetryIds(questions, ctx.progress.answers, todayInBerlin()).length,
     focus: focus ?? null,
     openQuestions: questions.filter((q) => !(ctx.progress.answers[q.id]?.correct > 0)).length,
     openTasks: questions.filter((q) => q.type === 'text' && !ctx.progress.answers[q.id]?.lastCorrect).length,
@@ -60,7 +61,7 @@ export function dailyPlanCard(ctx) {
   const item = (step) => {
     switch (step.kind) {
       case 'cards': return [`${step.count} fällige ${step.count === 1 ? 'Karteikarte' : 'Karteikarten'} wiederholen`, '#/karten'];
-      case 'mistakes': return [`${step.count} ${step.count === 1 ? 'Fehler' : 'Fehler'} wiederholen`, '#/quiz?fehler=1'];
+      case 'mistakes': return [`${step.count} fällige ${step.count === 1 ? 'Frage' : 'Fragen'} wiederholen`, '#/quiz?faellig=1'];
       case 'topic': return [`${step.count} Fragen zu „${step.topic.name}“ ${step.topic.reason === 'weak' ? '(dein schwächstes Thema)' : '(noch nicht geübt)'}`, `#/quiz?thema=${encodeURIComponent(step.topic.id)}`];
       case 'open': return ['1 offene Aufgabe wie in der Prüfung schreiben und bewerten', '#/quiz?offen=1'];
       case 'new': return [`${step.count} neue Fragen üben`, '#/quiz'];

@@ -9,7 +9,8 @@ import {
   serializeQuiz, restoreQuiz,
 } from '../quiz.js';
 import { recordAnswer } from '../storage.js';
-import { mistakeIds } from '../stats.js';
+import { mistakeIds, dueRetryIds } from '../stats.js';
+import { todayInBerlin } from '../leitner.js';
 import { keywordHits, rubricPoints } from '../grading.js';
 import {
   createUi, isValidUi, readResponse, isIncomplete, missingInputMessage, correctAnswerText, renderInput,
@@ -23,6 +24,7 @@ import { scenarioBox, scenarioByQuestion } from './scenario.js';
 const setup = { exam: 'alle', keys: null, sections: [], difficulties: [1, 2, 3], size: DEFAULT_QUIZ_SIZE, job: null, mode: 'alle' };
 const MODE_ALL = 'alle';
 const MODE_MISTAKES = 'fehler';
+const MODE_DUE = 'faellig'; // repetitions due today: wrong answers after 1, 3 and 7 days (since 2.6)
 const MODE_OPEN = 'offen'; // only open tasks (text), like the written AP2 (since 2.2.12)
 let session = null;
 
@@ -63,6 +65,11 @@ function matchingQuestions(questions, answers, crit = criteria(), keys = setup.k
   const exam = crit.exam && crit.exam !== ALL_EXAMS ? crit.exam : null;
   const pool = filterQuestions(questions, crit).filter((q) => !keys || inSelection(q, keys, setup.sections, exam));
   if (setup.mode === MODE_OPEN) return pool.filter((q) => q.type === 'text');
+  if (setup.mode === MODE_DUE) {
+    const order = dueRetryIds(pool, answers, todayInBerlin());
+    const byId = new Map(pool.map((q) => [q.id, q]));
+    return order.map((id) => byId.get(id));
+  }
   if (setup.mode !== MODE_MISTAKES) return pool;
   const wrong = new Set(mistakeIds(pool, answers));
   return pool.filter((q) => wrong.has(q.id));
@@ -110,6 +117,19 @@ export function render(root, ctx) {
       setup.difficulties = [1, 2, 3];
     } else {
       notice = 'Es läuft noch ein Quiz. Beende es, um deine Fehler zu wiederholen.';
+    }
+  }
+  // Deep link from the day plan: #/quiz?faellig=1 (all topics, only repetitions due today).
+  if (params.get('faellig') === '1') {
+    history.replaceState(null, '', '#/quiz');
+    if (!session) {
+      setup.mode = MODE_DUE;
+      setup.keys = allKeys();
+      setup.exam = ALL_EXAMS;
+      setup.difficulties = [1, 2, 3];
+      notice = 'Fällige Wiederholungen sind ausgewählt.';
+    } else {
+      notice = 'Es läuft noch ein Quiz. Beende es, um die fälligen Fragen zu wiederholen.';
     }
   }
   // Deep link from the day plan: #/quiz?offen=1 (all topics, only open tasks).
@@ -211,23 +231,25 @@ function drawSetup(root, ctx, draw) {
     const available = matchingQuestions(questions, ctx.progress.answers).length;
     const n = Math.min(setup.size, available);
     availableEl.textContent = available === 0
-      ? (setup.mode === MODE_MISTAKES ? 'Keine Fehler in dieser Auswahl – gut gemacht!' : 'Keine Fragen passen zu deiner Auswahl.')
+      ? (setup.mode === MODE_MISTAKES ? 'Keine Fehler in dieser Auswahl – gut gemacht!'
+        : setup.mode === MODE_DUE ? 'Heute ist nichts zu wiederholen – gut gemacht!' : 'Keine Fragen passen zu deiner Auswahl.')
       : `${available} passende Fragen – das Quiz enthält ${n} ${n === 1 ? 'Frage' : 'Fragen'}.`;
     startBtn.disabled = available === 0;
   };
 
   const mistakeCount = mistakeIds(filterQuestions(questions, { types: SUPPORTED_QUIZ_TYPES }), ctx.progress.answers).length;
   const openCount = filterQuestions(questions, { types: ['text'], job: setup.job }).length;
+  const dueCount = dueRetryIds(filterQuestions(questions, { types: SUPPORTED_QUIZ_TYPES }), ctx.progress.answers, todayInBerlin()).length;
   const modeField = h('fieldset', {},
     h('legend', { text: 'Fragen' }),
-    h('div', { class: 'segmented' },
-      [[MODE_ALL, 'Alle'], [MODE_MISTAKES, `Meine Fehler (${mistakeCount})`], [MODE_OPEN, `Offene Aufgaben (${openCount})`]].map(([mode, label]) => h('label', {},
+    h('div', { class: 'segmented quiz-modes' },
+      [[MODE_ALL, 'Alle'], [MODE_DUE, `Fällig (${dueCount})`], [MODE_MISTAKES, `Meine Fehler (${mistakeCount})`], [MODE_OPEN, `Offene Aufgaben (${openCount})`]].map(([mode, label]) => h('label', {},
         h('input', {
           type: 'radio', name: 'mode', value: mode, checked: setup.mode === mode,
           onChange: () => { setup.mode = mode; refresh(); },
         }),
         h('span', { text: label })))),
-    h('p', { class: 'muted small' }, 'Meine Fehler: Fragen, die du zuletzt falsch beantwortet hast. Richtig beantwortet, verschwinden sie aus der Liste. Offene Aufgaben: Freitext wie in der schriftlichen Prüfung, bewertet mit Musterlösung und Bewertungsraster.'));
+    h('p', { class: 'muted small' }, 'Fällig: Falsch beantwortete Fragen kommen nach 1, 3 und 7 Tagen wieder – dreimal richtig am Fälligkeitstag, dann sitzt die Frage. Meine Fehler: Fragen, die du zuletzt falsch beantwortet hast. Richtig beantwortet, verschwinden sie aus der Liste. Offene Aufgaben: Freitext wie in der schriftlichen Prüfung, bewertet mit Musterlösung und Bewertungsraster.'));
 
   const examField = h('fieldset', {},
     h('legend', { text: 'Prüfung' }),

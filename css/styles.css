@@ -690,3 +690,4 @@ body.setup-mode .tabbar { display: none; }
 .task-results { text-align: left; }
 .task-results .stat-item { grid-template-columns: 1fr auto; }
 .task-results .stat-name { hyphens: manual; overflow-wrap: break-word; }
+.segmented.quiz-modes { display: grid; grid-template-columns: 1fr 1fr; }

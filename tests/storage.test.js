@@ -371,7 +371,7 @@ describe('recordAnswer', () => {
     const s2 = recordAnswer(s1, 'net-0001', false, now);
     expect(s0.answers).toEqual({});
     expect(s1.answers['net-0001']).toEqual({ attempts: 1, correct: 1, lastAt: '2026-11-17T09:30:00.000Z', lastCorrect: true });
-    expect(s2.answers['net-0001']).toEqual({ attempts: 2, correct: 1, lastAt: '2026-11-17T09:30:00.000Z', lastCorrect: false });
+    expect(s2.answers['net-0001']).toEqual({ attempts: 2, correct: 1, lastAt: '2026-11-17T09:30:00.000Z', lastCorrect: false, retry: { step: 0, due: '2026-11-18' } }); // wrong → repeat tomorrow (2.6)
   });
 });
 
@@ -425,5 +425,26 @@ describe('resetProgress', () => {
     expect(fresh).toEqual(createDefaultState());
     expect(JSON.parse(store.getItem('prueffit.backup.reset')).answers.x.attempts).toBe(1);
     expect(JSON.parse(store.getItem(STORAGE_KEY))).toEqual(createDefaultState());
+  });
+});
+
+describe('repetition schedule in the progress (since 2.6)', () => {
+  it('keeps valid schedules on load and drops invalid ones', () => {
+    const s = normalizeState({ ...createDefaultState(), answers: {
+      a: { attempts: 1, correct: 0, lastCorrect: false, retry: { step: 0, due: '2026-11-19' } },
+      b: { attempts: 1, correct: 0, lastCorrect: false, retry: { step: 5, due: '2026-11-19' } },
+    } });
+    expect(s.answers.a.retry).toEqual({ step: 0, due: '2026-11-19' });
+    expect(s.answers.b.retry).toBeUndefined();
+  });
+  it('recordAnswer moves the schedule on and removes it once mastered', () => {
+    let s = recordAnswer(createDefaultState(), 'q', false, new Date('2026-11-17T09:00:00Z'));
+    expect(s.answers.q.retry).toEqual({ step: 0, due: '2026-11-18' });
+    s = recordAnswer(s, 'q', true, new Date('2026-11-18T09:00:00Z'));
+    expect(s.answers.q.retry).toEqual({ step: 1, due: '2026-11-21' });
+    s = recordAnswer(s, 'q', true, new Date('2026-11-21T09:00:00Z'));
+    s = recordAnswer(s, 'q', true, new Date('2026-11-28T09:00:00Z'));
+    expect(s.answers.q.retry).toBeUndefined();
+    expect(s.answers.q).toMatchObject({ attempts: 4, correct: 3, lastCorrect: true });
   });
 });

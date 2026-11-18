@@ -2,6 +2,18 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.6.0] – 2026-11-18
+
+### Hinzugefügt
+- **Falsche Antworten kommen von selbst wieder:** Eine falsch beantwortete Frage ist nach 1 Tag fällig, nach richtiger Antwort am Fälligkeitstag wieder nach 3, dann nach 7 Tagen; danach gilt sie als gemeistert. Eine falsche Antwort setzt den Ablauf zurück. Das gilt für Quiz und Prüfungssimulation.
+  - Neuer Quiz-Modus **„Fällig (N)“** mit allen heute fälligen Fragen (älteste zuerst); „Meine Fehler“ bleibt für das sofortige Nachüben.
+  - **„Dein Plan für heute“** schlägt jetzt die fälligen Wiederholungen vor („3 fällige Fragen wiederholen“) und öffnet das Quiz direkt im Modus „Fällig“.
+  - Ältere Fehler ohne Zeitplan gelten einmalig als fällig.
+- Speicher: Antworten haben optional `retry` (`step`, `due`); keine Schema-Migration nötig, ältere Versionen ignorieren das Feld.
+
+### Geändert
+- Die Fragen-Auswahl im Quiz steht jetzt in zwei Zeilen (vier Modi).
+
 ## [2.5.1] – 2026-11-18
 
 ### Behoben

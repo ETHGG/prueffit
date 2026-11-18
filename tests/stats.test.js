@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import {
   hitRate, trafficLight, topicStats, overallStats, practiceSuggestions, areaStats,
-  updateStreak, currentStreak, dailyProgress, pruneDaily, isMistake, mistakeIds, dailyPlan } from '../js/stats.js';
+  updateStreak, currentStreak, dailyProgress, pruneDaily, isMistake, mistakeIds, dailyPlan,
+  nextRetry, dueRetryIds, isValidRetry, RETRY_INTERVALS } from '../js/stats.js';
 
 describe('hitRate', () => {
   it('is correct / attempts', () => {
@@ -260,5 +261,37 @@ describe('dailyPlan with open tasks (2.2.13)', () => {
   it('with the default goal the topic step shrinks by the open task', () => {
     const plan = dailyPlan({ goal: 20, dueCards: 30, focus, openQuestions: 100, openTasks: 5 });
     expect(plan).toEqual([{ kind: 'cards', count: 10 }, { kind: 'open', count: 1 }, { kind: 'topic', count: 9, topic: focus }]);
+  });
+});
+
+describe('repeating wrong answers after 1, 3 and 7 days (since 2.6)', () => {
+  it('schedules wrong answers for tomorrow and moves on after right answers on the due day', () => {
+    let r = nextRetry(undefined, false, '2026-11-30');
+    expect(r).toEqual({ step: 0, due: '2026-12-01' }); // month change
+    r = nextRetry(r, true, '2026-12-01');
+    expect(r).toEqual({ step: 1, due: '2026-12-04' });
+    r = nextRetry(r, true, '2026-12-05'); // late is fine
+    expect(r).toEqual({ step: 2, due: '2026-12-12' });
+    expect(nextRetry(r, true, '2026-12-31')).toBeNull(); // mastered
+    expect(RETRY_INTERVALS).toEqual([1, 3, 7]);
+  });
+  it('keeps the schedule for right answers before the due day and restarts after a wrong one', () => {
+    const r = { step: 1, due: '2026-12-04' };
+    expect(nextRetry(r, true, '2026-12-02')).toBe(r);
+    expect(nextRetry(r, false, '2026-12-31')).toEqual({ step: 0, due: '2027-01-01' }); // year change
+    expect(nextRetry(null, true, '2026-12-02')).toBeNull();
+    expect(nextRetry({ step: 9, due: 'x' }, true, '2026-12-02')).toBeNull();
+  });
+  it('lists due questions (oldest first), counting old mistakes without a schedule as due', () => {
+    const qs = ['a', 'b', 'c', 'd', 'e'].map((id) => ({ id }));
+    const answers = {
+      a: { attempts: 1, correct: 0, lastCorrect: false, retry: { step: 0, due: '2026-11-20' } }, // not yet
+      b: { attempts: 2, correct: 1, lastCorrect: true, retry: { step: 1, due: '2026-11-18' } }, // due
+      c: { attempts: 3, correct: 1 }, // legacy mistake
+      d: { attempts: 1, correct: 1, lastCorrect: true }, // fine
+      e: { attempts: 1, correct: 0, lastCorrect: false, retry: { step: 0, due: '2026-11-15' } },
+    };
+    expect(dueRetryIds(qs, answers, '2026-11-18')).toEqual(['c', 'e', 'b']);
+    expect(isValidRetry({ step: 3, due: '2026-11-18' })).toBe(false);
   });
 });

@@ -11,7 +11,7 @@ import {
   EXAMS,
 } from './config.js';
 import { reviewCard, todayInBerlin } from './leitner.js';
-import { updateStreak, pruneDaily } from './stats.js';
+import { updateStreak, pruneDaily, nextRetry, isValidRetry } from './stats.js';
 
 const THEMES = ['auto', 'light', 'dark'];
 const JOB_IDS = JOBS.map((j) => j.id);
@@ -88,6 +88,8 @@ export function normalizeState(raw, version = SCHEMA_VERSION) {
         lastAt: typeof entry.lastAt === 'string' ? entry.lastAt : null,
       };
       if (typeof entry.lastCorrect === 'boolean' && attempts > 0) state.answers[id].lastCorrect = entry.lastCorrect;
+      // Optional repetition schedule (since 2.6, no schema change: older versions ignore it).
+      if (isValidRetry(entry.retry)) state.answers[id].retry = { step: entry.retry.step, due: entry.retry.due };
     }
   }
 
@@ -235,6 +237,8 @@ function recordActivity(state, day) {
 /** Returns a new state with one more attempt recorded for `questionId`. */
 export function recordAnswer(state, questionId, isCorrect, now = new Date()) {
   const prev = state.answers[questionId] ?? { attempts: 0, correct: 0, lastAt: null };
+  const today = todayInBerlin(now);
+  const retry = nextRetry(prev.retry, Boolean(isCorrect), today);
   return recordActivity({
     ...state,
     answers: {
@@ -244,9 +248,10 @@ export function recordAnswer(state, questionId, isCorrect, now = new Date()) {
         correct: prev.correct + (isCorrect ? 1 : 0),
         lastAt: now.toISOString(),
         lastCorrect: Boolean(isCorrect),
+        ...(retry ? { retry } : {}),
       },
     },
-  }, todayInBerlin(now));
+  }, today);
 }
 
 /**

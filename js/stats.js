@@ -141,6 +141,49 @@ export function isMistake(entry) {
   return entry.correct < entry.attempts;
 }
 
+// ---- Fehler zeitversetzt wiederholen (since 2.6) ----
+
+/** Days until the next repetition: after a wrong answer 1 day, then 3, then 7; afterwards mastered. */
+export const RETRY_INTERVALS = [1, 3, 7];
+
+const isDay = (d) => typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d);
+
+/** True if `retry` is a valid schedule entry { step: 0..2, due: 'YYYY-MM-DD' }. */
+export function isValidRetry(retry) {
+  return retry !== null && typeof retry === 'object' && Number.isInteger(retry.step)
+    && retry.step >= 0 && retry.step < RETRY_INTERVALS.length && isDay(retry.due);
+}
+
+/**
+ * Next repetition schedule of a question after an answer (pure).
+ * Wrong → step 0, due tomorrow. Right on or after the due day → next step (3, then 7 days),
+ * after the last step the question is mastered (null). Right before the due day → unchanged.
+ * Without a schedule a right answer keeps it that way (null).
+ */
+export function nextRetry(retry, isCorrect, today) {
+  if (!isCorrect) return { step: 0, due: addDays(today, RETRY_INTERVALS[0]) };
+  if (!isValidRetry(retry)) return null;
+  if (retry.due > today) return retry;
+  const step = retry.step + 1;
+  return step >= RETRY_INTERVALS.length ? null : { step, due: addDays(today, RETRY_INTERVALS[step]) };
+}
+
+/**
+ * Ids of the given questions due for repetition today, oldest due day first.
+ * Older wrong answers without a schedule (before 2.6) count as due.
+ */
+export function dueRetryIds(questions, answers, today) {
+  const dueOf = (entry) => {
+    if (isValidRetry(entry?.retry)) return entry.retry.due <= today ? entry.retry.due : null;
+    return isMistake(entry) ? '0000-00-00' : null;
+  };
+  return questions
+    .map((q) => ({ id: q.id, due: dueOf(answers?.[q.id]) }))
+    .filter((x) => x.due !== null)
+    .sort((a, b) => a.due.localeCompare(b.due))
+    .map((x) => x.id);
+}
+
 /** Ids of the given questions whose last answer was wrong, most recent first. */
 export function mistakeIds(questions, answers) {
   return questions

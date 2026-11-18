@@ -85,7 +85,8 @@ test('quiz mode "Offene Aufgaben" practises only open tasks with marking scheme'
   const mode = page.getByRole('radio', { name: /^Offene Aufgaben \(\d+\)$/ });
   const count = Number((await mode.locator('xpath=..').textContent()).match(/\((\d+)\)/)[1]);
   expect(count).toBeGreaterThan(5);
-  await mode.check({ force: true });
+  await page.locator('.quiz-modes label', { hasText: 'Offene Aufgaben' }).click();
+  await expect(mode).toBeChecked();
   await expect(page.locator('.hint')).toContainText(/\d+/);
   await page.getByRole('button', { name: 'Quiz starten' }).click();
   await expect(page.locator('textarea')).toBeVisible();
