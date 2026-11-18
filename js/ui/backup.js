@@ -6,10 +6,13 @@ import { buildProgressExport, exportFileName } from '../transfer.js';
 import { backupReminder, BACKUP_SNOOZE_DAYS } from '../schedule.js';
 import { addDays, todayInBerlin } from '../leitner.js';
 import { downloadJson } from './files.js';
+import { PROJECT_KEY, parseProjectState } from '../projectGuide.js';
 
 /** Downloads the progress file and remembers the day of the export. */
 export function exportProgressNow(ctx) {
-  downloadJson(exportFileName('fortschritt'), buildProgressExport(ctx.progress, { appVersion: ctx.version }));
+  // Since 2.6 the project checklists and the grade calculator are part of the backup.
+  const project = parseProjectState(ctx.localStore?.getItem(PROJECT_KEY));
+  downloadJson(exportFileName('fortschritt'), buildProgressExport(ctx.progress, { appVersion: ctx.version, project }));
   const today = todayInBerlin();
   ctx.updateProgress((p) => updateSettings(p, { backup: { ...p.settings.backup, lastAt: today, snoozeUntil: null } }));
 }

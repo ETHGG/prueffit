@@ -8,6 +8,7 @@ import {
 } from '../transfer.js';
 import { downloadJson, readTextFile } from './files.js';
 import { exportProgressNow } from './backup.js';
+import { PROJECT_KEY } from '../projectGuide.js';
 import { examTargetFields, formatExamDay } from './welcome.js';
 import { todayInBerlin } from '../leitner.js';
 import { sessionLabel } from '../schedule.js';
@@ -62,7 +63,14 @@ export function render(root, ctx) {
     });
     if (!ok) return;
     ctx.replaceProgress(res.state);
-    ctx.toast('Fortschritt importiert.');
+    if (res.project) {
+      try {
+        ctx.localStore?.setItem(PROJECT_KEY, JSON.stringify(res.project));
+      } catch {
+        // storage full or blocked: the progress itself is imported anyway
+      }
+    }
+    ctx.toast(res.project ? 'Fortschritt mit Projekt-Checklisten und Notenrechner importiert.' : 'Fortschritt importiert.');
     rerender();
   };
 
@@ -184,7 +192,7 @@ export function render(root, ctx) {
       h('p', { class: 'muted small' }, '„System“ folgt der Hell-/Dunkel-Einstellung deines Geräts.')),
     h('section', { class: 'card', 'aria-labelledby': 'settings-transfer' },
       h('h2', { id: 'settings-transfer', text: 'Sichern und übertragen' }),
-      h('p', { class: 'muted small' }, 'Speichere deinen Fortschritt als Datei, z. B. um ihn auf ein anderes Gerät zu übertragen. Die App erinnert dich alle zwei Wochen daran.'),
+      h('p', { class: 'muted small' }, 'Speichere deinen Fortschritt als Datei, z. B. um ihn auf ein anderes Gerät zu übertragen – inklusive Projekt-Checklisten und Notenrechner. Die App erinnert dich alle zwei Wochen daran.'),
       h('p', { class: 'small', id: 'last-backup' }, ctx.progress.settings.backup?.lastAt
         ? `Letzte Sicherung: ${ctx.progress.settings.backup.lastAt.split('-').reverse().join('.')}`
         : 'Noch keine Sicherung.'),

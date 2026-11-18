@@ -134,3 +134,29 @@ describe('mergeCustom / normalizeCustom', () => {
     expect(normalizeCustom(null, { topicIds, builtin })).toEqual({ v: 1, questions: [], flashcards: [] });
   });
 });
+
+describe('project data in the progress export (since 2.6)', () => {
+  const project = { checked: { 'a-echt': true, 'p-zeit': true }, points: { ap1: 72, project: 60 } };
+
+  it('exports checklists and calculator points next to the progress and imports them again', () => {
+    const file = buildProgressExport(createDefaultState(), { project });
+    expect(file.project).toEqual(project);
+    expect(file.data.project).toBeUndefined();
+    const res = parseProgressImport(JSON.stringify(file));
+    expect(res.ok).toBe(true);
+    expect(res.project).toEqual(project);
+  });
+
+  it('leaves the field out when there is nothing to save, and older files import with project = null', () => {
+    expect(buildProgressExport(createDefaultState(), { project: { checked: {}, points: {} } }).project).toBeUndefined();
+    expect(buildProgressExport(createDefaultState()).project).toBeUndefined();
+    expect(parseProgressImport(JSON.stringify(buildProgressExport(createDefaultState()))).project).toBeNull();
+    expect(parseProgressImport(JSON.stringify(createDefaultState())).project).toBeNull();
+  });
+
+  it('drops invalid project entries but keeps the valid ones', () => {
+    const file = buildProgressExport(createDefaultState());
+    file.project = { checked: { 'a-echt': true, hack: true }, points: { ap1: 500, wiso: 70 } };
+    expect(parseProgressImport(JSON.stringify(file)).project).toEqual({ checked: { 'a-echt': true }, points: { wiso: 70 } });
+  });
+});

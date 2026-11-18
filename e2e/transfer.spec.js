@@ -109,3 +109,27 @@ test('daily goal and streak on the start page', async ({ page }) => {
   await expect(page.locator('.goal-text')).toHaveText('Tagesziel erreicht ✓');
   await expect(page.locator('.streak')).toContainText('1 Tag Lernserie');
 });
+
+test('the backup contains project checklists and grade calculator and restores them (since 2.6)', async ({ page }, info) => {
+  desktopOnly(info);
+  const problems = watchProblems(page);
+  await page.goto('./#/projekt');
+  await page.locator('details[data-fold="antrag"] summary').click();
+  await page.locator('input[data-item="a-echt"]').check();
+  await page.fill('#final-ap1', '72');
+
+  await page.goto('./#/einstellungen');
+  const [download] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Fortschritt exportieren' }).click()]);
+  const exported = JSON.parse(readFileSync(await download.path(), 'utf8'));
+  expect(exported.project).toEqual({ checked: { 'a-echt': true }, points: { ap1: 72 } });
+
+  // Lost on this device, restored from the file.
+  await page.evaluate(() => localStorage.removeItem('prueffit.project'));
+  await page.locator('input[type="file"]').first().setInputFiles({ name: 'sicherung.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(exported)) });
+  await page.getByRole('button', { name: 'Importieren', exact: true }).click();
+  await expect(page.locator('.toast', { hasText: 'mit Projekt-Checklisten und Notenrechner' })).toBeVisible();
+  await page.goto('./#/projekt');
+  await expect(page.locator('input[data-item="a-echt"]')).toBeChecked();
+  await expect(page.locator('#final-ap1')).toHaveValue('72');
+  expect(problems).toEqual([]);
+});

@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.5.1] – 2026-11-18
+
+### Behoben
+- **Datensicherung vollständig:** Der Export „Fortschritt exportieren“ (und die Erinnerung „Jetzt sichern“) enthält jetzt auch die Häkchen der Projekt-Checklisten und die Eingaben des Notenrechners; beim Import werden sie wiederhergestellt. Ältere Sicherungsdateien lassen sich weiter importieren.
+
 ## [2.5.0] – 2026-11-18
 
 ### Geändert

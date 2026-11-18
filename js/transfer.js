@@ -6,6 +6,7 @@ import { SCHEMA_VERSION, STORAGE_KEY } from './config.js';
 import { loadState } from './storage.js';
 import { validateQuestion, validateFlashcard } from './questions.js';
 import { todayInBerlin } from './leitner.js';
+import { parseProjectState } from './projectGuide.js';
 
 export const EXPORT_FORMAT = 'prueffit-export';
 export const EXPORT_VERSION = 1;
@@ -34,26 +35,37 @@ export function exportFileName(kind, now = new Date()) {
 
 // ---------------------------------------------------------------- progress
 
-export function buildProgressExport(state, options) {
-  return wrap('fortschritt', state, options);
+/**
+ * Progress export. Since 2.6 it can carry the project data (checklists, grade calculator) next to the
+ * progress (`project`, outside `data`, so the progress schema stays unchanged).
+ */
+export function buildProgressExport(state, { project = null, ...options } = {}) {
+  const out = wrap('fortschritt', state, options);
+  if (project && (Object.keys(project.checked ?? {}).length || Object.keys(project.points ?? {}).length)) {
+    out.project = parseProjectState(JSON.stringify(project));
+  }
+  return out;
 }
 
 /**
  * Reads an exported progress file (or a bare progress object).
  * Older schema versions are migrated, unknown/invalid parts are dropped.
- * @returns {{ ok: boolean, state: object|null, errors: string[] }}
+ * The optional project data (since 2.6) is checked like stored data; `project` is null if absent.
+ * @returns {{ ok: boolean, state: object|null, project: object|null, errors: string[] }}
  */
 export function parseProgressImport(text) {
-  const fail = (msg) => ({ ok: false, state: null, errors: [msg] });
+  const fail = (msg) => ({ ok: false, state: null, project: null, errors: [msg] });
   const { value, error } = parseJson(text);
   if (error) return fail(error);
   if (!isPlainObject(value)) return fail('Die Datei ist kein PrüfFit-Fortschritt.');
 
   let data = value;
+  let project = null;
   if ('format' in value) {
     if (value.format !== EXPORT_FORMAT) return fail('Die Datei stammt nicht aus PrüfFit.');
     if (value.kind !== 'fortschritt') return fail('Die Datei enthält keinen Fortschritt (sondern z. B. eigene Fragen).');
     data = value.data;
+    if (isPlainObject(value.project)) project = parseProjectState(JSON.stringify(value.project));
   }
   if (!isPlainObject(data) || !Number.isInteger(data.schemaVersion)) return fail('Die Datei enthält keinen gültigen Fortschritt.');
   if (data.schemaVersion > SCHEMA_VERSION) {
@@ -65,7 +77,7 @@ export function parseProgressImport(text) {
   const backend = { getItem: (k) => memory.get(k) ?? null, setItem: (k, v) => memory.set(k, v), removeItem: (k) => memory.delete(k) };
   const { state, status } = loadState(backend);
   if (status === 'corrupt' || status === 'migration-failed') return fail('Der Fortschritt konnte nicht übernommen werden.');
-  return { ok: true, state, errors: [] };
+  return { ok: true, state, project, errors: [] };
 }
 
 // ---------------------------------------------------------------- custom questions
