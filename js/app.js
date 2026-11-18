@@ -14,6 +14,7 @@ import * as notesView from './ui/notesView.js';
 import * as statsView from './ui/statsView.js';
 import * as examView from './ui/examView.js';
 import * as settingsView from './ui/settingsView.js';
+import * as projectView from './ui/projectView.js';
 import * as jobSetup from './ui/jobSetup.js';
 import { h } from './ui/dom.js';
 
@@ -24,6 +25,7 @@ const ROUTES = {
   karten: { view: cardsView, title: 'Karteikarten' },
   statistik: { view: statsView, title: 'Statistik' },
   pruefung: { view: examView, title: 'Prüfung' },
+  projekt: { view: projectView, title: 'Projektarbeit', tab: 'pruefung' },
   einstellungen: { view: settingsView, title: 'Einstellungen' },
 };
 const DEFAULT_ROUTE = 'start';
@@ -220,13 +222,13 @@ function render() {
   }
   document.body.classList.remove('setup-mode');
   const name = currentRoute();
-  const { view, title } = ROUTES[name];
+  const { view, title, tab = name } = ROUTES[name];
   if (typeof cleanup === 'function') cleanup();
   cleanup = null;
 
   document.title = `${title} – PrüfFit`;
   for (const link of document.querySelectorAll('[data-route]')) {
-    if (link.dataset.route === name) link.setAttribute('aria-current', 'page');
+    if (link.dataset.route === tab) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
   }
 

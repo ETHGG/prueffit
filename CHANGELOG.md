@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.3.0] – 2026-11-18
+
+### Hinzugefügt
+- **Neuer Bereich „Projektarbeit & Fachgespräch“** (über die Prüfungsseite erreichbar): Die betriebliche Projektarbeit zählt 50 % der Gesamtnote und war bisher nicht abgedeckt.
+  - Prüfungsbereich des eigenen Berufs mit offiziellem Namen, Projektdauer (FIAE 80 Std., alle anderen 40 Std.), Präsentation höchstens 15 von 30 Minuten, Gewichtung Dokumentation : Präsentation/Fachgespräch = 50 : 50, Beispielthemen.
+  - Fünf abhakbare Checklisten (Projektantrag, Durchführung, Dokumentation, Präsentation, Fachgespräch vorbereiten) mit Fortschritt; gespeichert auf dem Gerät.
+  - „Fachgespräch üben“: 13–14 typische Fragen je Beruf (berufsspezifische zuerst) mit Hinweis, worauf die Prüfer achten; Reihenfolge mischbar.
+- Logik-Module `js/projectGuide.js` und `js/finalGrade.js` (Gesamtnote, Grundlage für 2.4) mit Tests; Quellen in `docs/QUELLEN.md`.
+
 ## [2.2.19] – 2026-11-18
 
 ### Hinzugefügt

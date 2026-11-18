@@ -110,6 +110,11 @@ export function render(root, ctx) {
 
     append(root, 
       h('h1', { text: 'Prüfungssimulation' }),
+      h('a', { class: 'card nav-card', href: '#/projekt' },
+        h('span', { class: 'grow' },
+          h('strong', { text: 'Projektarbeit & Fachgespräch' }),
+          h('span', { class: 'muted small block', text: '50 % der Gesamtnote: Checklisten, Fragen fürs Fachgespräch' })),
+        h('span', { 'aria-hidden': 'true', text: '→' })),
       h('section', { class: 'card' },
         h('fieldset', {},
           h('legend', { text: 'Prüfung' }),

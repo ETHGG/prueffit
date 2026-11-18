@@ -33,6 +33,16 @@ Stand der Recherche: 17.11.2026.
 | layer8academy.boxberger.app | – | Themenabgleich AP1 (Netzwerke, Sicherheit, Systeme, Software, BWL/Prozesse) |
 | prüfungslerner.de | – | Nur Startseite gelesen; keine Themenliste frei sichtbar, daher nicht weiter genutzt |
 
+## Projektarbeit, Fachgespräch und Gesamtnote (seit 2.3)
+
+| Quelle | Genutzt für |
+|---|---|
+| Fachinformatikerausbildungsverordnung (FIAusbV) §§ 12–17, 20–25, 28–33, 36–41, gesetze-im-internet.de | Prüfungsbereiche, Projektdauer, Präsentation/Fachgespräch, Gewichtung 20/50/10/10/10, Bestehensregeln, mündliche Ergänzungsprüfung (2 : 1) |
+| IT-System-Management-Kaufleute-Ausbildungsverordnung §§ 11, 15, 16, gesetze-im-internet.de | dasselbe für KITS („Abwicklung eines Kundenauftrages“) |
+| IHK-Merkblätter zur betrieblichen Projektarbeit (u. a. Rhein-Neckar, Nürnberg, Kassel, DIHK-Umsetzungshilfe) | Projektdauer je Beruf (FIAE 80 Std., sonst 40 Std.), Namen der Projekt-Prüfungsbereiche von FIDPA, FIDV, ITSE, KDM, Ablauf Antrag – Dokumentation – Präsentation |
+
+Checklisten und Fachgesprächsfragen sind eigene Formulierungen auf dieser Grundlage; die konkreten Termine und Formvorgaben legt jede IHK selbst fest.
+
 ## Eigene Grundlagen
 
 - Unterrichtsnotizen des Nutzers (Goodnotes, siehe `docs/ABSCHLUSSBERICHT.md` 0.7), ohne persönliche Daten.

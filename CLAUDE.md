@@ -123,6 +123,8 @@ prueffit/
 │   ├── notes.js              # Lernzettel: Markdown-Teilumfang, Suche
 │   ├── glossary.js           # Abkürzungsverzeichnis: Suche, Fundstellen in Lernzetteln
 │   ├── pdfs.js               # Liste und Dateinamen der Lernzettel-PDFs
+│   ├── projectGuide.js       # Projektarbeit: Prüfungsbereich je Beruf, Checklisten, Fachgesprächsfragen (seit 2.3)
+│   ├── finalGrade.js         # Gesamtnote, Bestehensregeln, mündliche Ergänzungsprüfung (seit 2.3, UI ab 2.4)
 │   └── ui/
 │       ├── home.js
 │       ├── jobSetup.js       # einmalige Berufswahl (vor allen Ansichten)
@@ -136,6 +138,7 @@ prueffit/
 │       ├── cardsView.js
 │       ├── statsView.js
 │       ├── examView.js
+│       ├── projectView.js    # #/projekt (seit 2.3)
 │       └── settingsView.js
 ├── tests/
 │   ├── grading.test.js
@@ -233,7 +236,7 @@ Eine Situation eröffnet einen AP2-Prüfungsbereich: Erst kommen ihre Fragen in 
 ```
 Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`); 2 → 3 (v0.4.0) ergänzt `daily` (erledigte Aufgaben pro Tag, Europe/Berlin, die letzten 90 Tage); 3 → 4 (v0.6.0) ergänzt `settings.onboarded` (Willkommensfragen beantwortet) und `settings.examTarget` (nächste Prüfung und Termin oder `null`); 4 → 5 (v1.0.0) ergänzt `settings.backup` (letzte Sicherung, „Später“ bis); 5 → 6 (v2.0.0): `settings.job` ist eine Berufs-ID oder `null` (`itsm` → `kits`, `alle` → `null`), neu `settings.jobConfirmed` (nach der Migration `false`, damit jeder seinen Beruf einmal bestätigt). Ein bestätigter Beruf kann nicht mehr geändert werden (`updateSettings`, Import). Antworten haben seit 1.0 zusätzlich `lastCorrect` (letzte Antwort richtig?) für „Meine Fehler“; ältere Einträge ohne dieses Feld gelten als Fehler, solange nicht alle Versuche richtig waren.
 Karteikarten aus dem Abkürzungsverzeichnis haben die IDs `ab-<abkürzung>` und liegen ebenfalls unter `cards`.
-Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.custom` (importierte eigene Fragen/Karten), `sessionStorage` `prueffit.quizSession` (laufende Quiz-Runde).
+Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (abgehakte Punkte der Projekt-Checklisten, seit 2.3; defekte Daten → leer), `prueffit.custom` (importierte eigene Fragen/Karten), `sessionStorage` `prueffit.quizSession` (laufende Quiz-Runde).
 
 ---
 
@@ -324,6 +327,8 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `curriculum.test.js` / `jobCatalog.test.js` | Berufe und Prüfungsbereiche, Zuordnung der Themen, keine Inhalte fremder Berufe |
 | `notes.test.js` | Markdown-Teilumfang, Suche (Umlaute, UND-Verknüpfung, Ranking), Hervorhebung |
 | `glossary.test.js` | Fundstellen (ganze Wörter, längste zuerst, Aliase), Suche, Gruppierung A–Z, Abkürzungs-Karteikarten |
+| `projectGuide.test.js` | Projektdauer je Beruf, Rahmen (50 %, 15/30 Min.), eindeutige Checklisten-IDs, Fragen je Beruf, defekter Speicher |
+| `finalGrade.test.js` | Gewichtung 20/50/10/10/10, Rundung, alle Bestehensregeln, mündliche Ergänzungsprüfung 2 : 1 und nötige Punkte |
 | `contrast.test.js` | Kontrast aller Textfarben in hellem und dunklem Design (mind. 4,5 : 1) |
 | `ci.test.js` | Playwright-Container in der CI passt zur gesperrten Playwright-Version, Testserver ohne Python |
 | `pdfs.test.js` | Dateinamen, Reihenfolge der Lernzettel, Dateigrößen-Anzeige (Aktualität der PDFs prüft `data.test.js`) |
@@ -350,6 +355,9 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.0** | Alle 7 IT-Berufe, Beruf einmalig festlegen (Schema 6), nur eigene Inhalte nach AP1/AP2 und Prüfungsbereich, AP1-Katalog 2025, neue AP2-Bereiche (FIDPA, FIDV, ITSE, KDM), Handlungssituationen für alle Berufe, PDFs je Beruf, `docs/QUELLEN.md` | erledigt |
 | **2.1** | Abgleich mit Ausbildungsverordnungen (`docs/ABGLEICH.md`), KITS/FISI ausgebaut (Skripte, Speicher, Lizenzmodelle, Kennzahlen …), zweite Handlungssituationen, Bewertungsraster für Freitext, „Dein Plan für heute“, AP2-Termin KITS/KDM dienstags | erledigt |
 | **2.2** | Offene Aufgaben (Freitext mit Bewertungsraster) in der Prüfungssimulation, Selbstbewertung nach der Abgabe; Feinschliff der Oberfläche | erledigt |
+| **2.3** | Bereich „Projektarbeit & Fachgespräch“ (`#/projekt`): Prüfungsbereich je Beruf, Checklisten, Fachgesprächsfragen | erledigt |
+| **2.4** | Gesamtnoten-Rechner mit Bestehensregeln und mündlicher Ergänzungsprüfung | offen |
+| **2.5** | Prüfungssimulation in große Aufgaben gegliedert (Punkte je Aufgabe) | offen |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

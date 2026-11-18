@@ -663,3 +663,10 @@ body.setup-mode .tabbar { display: none; }
 /* Open tasks in the exam simulation (since 2.2) */
 #exam-text { width: 100%; }
 .own-answer { white-space: pre-wrap; padding: .6rem .75rem; border-left: 3px solid var(--primary); background: var(--surface-2, transparent); }
+
+/* Project work & Fachgespräch (since 2.3) */
+.nav-card { display: flex; align-items: center; gap: .75rem; min-height: 44px; text-decoration: none; color: inherit; }
+.nav-card .block { display: block; }
+.practice .button-row { flex-wrap: wrap; }
+#view progress { width: 100%; height: .6rem; accent-color: var(--primary); }
+.fg-hint { padding: .6rem .75rem; border-left: 3px solid var(--primary); background: var(--surface-2); border-radius: 4px; }
