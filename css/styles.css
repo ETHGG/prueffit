@@ -285,6 +285,7 @@ textarea:disabled { opacity: .8; }
 .keywords { list-style: none; padding: 0; margin: .25rem 0 0; display: flex; flex-wrap: wrap; gap: .4rem; }
 .keywords li { padding: .15rem .6rem; border-radius: 999px; font-size: .85rem; border: 1px solid var(--border); }
 .keywords li.hit { border-color: var(--ok); color: var(--ok); font-weight: 600; }
+.rubric-review li { border-radius: 8px; flex-basis: 100%; }
 .self-rating legend { margin-bottom: .5rem; }
 .self-rating .button { flex-direction: column; gap: 0; }
 .button-hint { display: block; font-size: .75rem; font-weight: 500; opacity: .85; }

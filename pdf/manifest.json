@@ -1,11 +1,11 @@
 {
-  "version": "2.2.10",
-  "sourceHash": "917234a73cbcfeae0ade8138d787d8a17641b89fefc3a8121d3d2696d1a75b78",
+  "version": "2.2.11",
+  "sourceHash": "2242d66c81e1bc0d245663685a2cb187c4c35642d7af30da20525064a80347f0",
   "files": [
     {
       "key": "ap1",
       "file": "lernzettel-ap1.pdf",
-      "bytes": 1381746
+      "bytes": 1381745
     },
     {
       "key": "ap2-fiae",
@@ -15,37 +15,37 @@
     {
       "key": "ap2-fisi",
       "file": "lernzettel-ap2-fisi.pdf",
-      "bytes": 1337203
+      "bytes": 1337205
     },
     {
       "key": "ap2-fidpa",
       "file": "lernzettel-ap2-fidpa.pdf",
-      "bytes": 843222
+      "bytes": 843225
     },
     {
       "key": "ap2-fidv",
       "file": "lernzettel-ap2-fidv.pdf",
-      "bytes": 939298
+      "bytes": 939297
     },
     {
       "key": "ap2-itse",
       "file": "lernzettel-ap2-itse.pdf",
-      "bytes": 853532
+      "bytes": 853534
     },
     {
       "key": "ap2-kits",
       "file": "lernzettel-ap2-kits.pdf",
-      "bytes": 1390242
+      "bytes": 1390246
     },
     {
       "key": "ap2-kdm",
       "file": "lernzettel-ap2-kdm.pdf",
-      "bytes": 948027
+      "bytes": 948031
     },
     {
       "key": "abkuerzungen-fiae",
       "file": "abkuerzungen-fiae.pdf",
-      "bytes": 596110
+      "bytes": 596112
     },
     {
       "key": "abkuerzungen-fisi",
@@ -55,27 +55,27 @@
     {
       "key": "abkuerzungen-fidpa",
       "file": "abkuerzungen-fidpa.pdf",
-      "bytes": 603884
+      "bytes": 603883
     },
     {
       "key": "abkuerzungen-fidv",
       "file": "abkuerzungen-fidv.pdf",
-      "bytes": 605993
+      "bytes": 605997
     },
     {
       "key": "abkuerzungen-itse",
       "file": "abkuerzungen-itse.pdf",
-      "bytes": 614977
+      "bytes": 614978
     },
     {
       "key": "abkuerzungen-kits",
       "file": "abkuerzungen-kits.pdf",
-      "bytes": 611753
+      "bytes": 611754
     },
     {
       "key": "abkuerzungen-kdm",
       "file": "abkuerzungen-kdm.pdf",
-      "bytes": 607119
+      "bytes": 607118
     }
   ]
 }

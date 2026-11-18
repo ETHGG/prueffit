@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.11] – 2026-11-18
+
+### Geändert
+- Prüfungsergebnis: Bei offenen Aufgaben zeigt die Auswertung jetzt die Musterlösung und das Bewertungsraster mit den abgehakten Kriterien (statt nur „Richtige Antwort“).
+
+### Geprüft
+- Prüfungssimulation für alle sieben Berufe mit 30 Zufallsstarts: Jeder Prüfungsbereich erreicht rund 50 Punkte, WiSo 30 Fragen, AP1 100 Punkte; alle Handlungssituationen werden gezogen.
+
 ## [2.2.10] – 2026-11-18
 
 ### Hinzugefügt

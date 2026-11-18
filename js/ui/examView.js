@@ -382,7 +382,19 @@ export function render(root, ctx) {
                   h('span', { class: 'muted small review-points', text: ` ${formatNumber(r.points)}/${formatNumber(r.maxPoints)} P.` })),
                 q.question.includes('\n') ? h('p', { class: 'question-text small', text: q.question }) : null,
                 h('p', {}, h('strong', { text: 'Deine Antwort: ' }), formatResponse(q, r.response)),
-                !r.correct ? h('p', {}, h('strong', { text: 'Richtige Antwort: ' }), correctAnswerText(q)) : null,
+                q.type === 'text'
+                  ? [
+                    h('p', {}, h('strong', { text: 'Musterlösung: ' }), q.answer.sample),
+                    h('ul', { class: 'keywords rubric-review', 'aria-label': 'Bewertungsraster' },
+                      q.answer.rubric.map((c, k) => {
+                        const met = (r.response?.criteria ?? []).includes(k);
+                        return h('li', { class: met ? 'hit' : 'miss' },
+                          h('span', { 'aria-hidden': 'true', text: met ? '✓ ' : '○ ' }),
+                          `${c.criterion} (${formatNumber(c.points)} P.)`,
+                          h('span', { class: 'visually-hidden', text: met ? ' (erfüllt)' : ' (nicht erfüllt)' }));
+                      })),
+                  ]
+                  : !r.correct ? h('p', {}, h('strong', { text: 'Richtige Antwort: ' }), correctAnswerText(q)) : null,
                 h('p', {}, h('strong', { text: 'Erklärung: ' }), q.explanation),
                 h('p', { class: 'report' }, h('a', { href: issueUrl(q), target: '_blank', rel: 'noopener' }, 'Fehler in dieser Frage melden'))));
           }))),

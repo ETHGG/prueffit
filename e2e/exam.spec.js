@@ -225,5 +225,11 @@ test('open tasks: answered in free text, assessed with the marking scheme after 
   const exam = await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.exam')));
   expect(exam.responses['net-0015'].criteria).toEqual([0]);
   await expect(page.locator('.result-list li').first()).toContainText(/\d+(,\d+)?\/4 P\./);
+  // The review shows the sample solution and which criteria were ticked.
+  const review = page.locator('.result-list details').first();
+  await review.locator('summary').click();
+  await expect(review.locator('.rubric-review li')).toHaveCount(2);
+  await expect(review.locator('.rubric-review li.hit')).toHaveCount(1);
+  await expect(review).toContainText('Musterlösung:');
   expect(problems).toEqual([]);
 });
