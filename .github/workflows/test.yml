@@ -5,10 +5,16 @@ on:
     branches: [main]
   pull_request:
 
+# A newer push makes older runs obsolete; hung runs end after a fixed time.
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   unit:
     name: Unit-Tests (Vitest)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,6 +31,7 @@ jobs:
   lint:
     name: ESLint
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -37,6 +44,7 @@ jobs:
   e2e:
     name: Browsertests (Playwright, Chromium + WebKit)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
