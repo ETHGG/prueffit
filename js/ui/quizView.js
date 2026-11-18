@@ -23,6 +23,7 @@ import { scenarioBox, scenarioByQuestion } from './scenario.js';
 const setup = { exam: 'alle', keys: null, sections: [], difficulties: [1, 2, 3], size: DEFAULT_QUIZ_SIZE, job: null, mode: 'alle' };
 const MODE_ALL = 'alle';
 const MODE_MISTAKES = 'fehler';
+const MODE_OPEN = 'offen'; // only open tasks (text), like the written AP2 (since 2.2.12)
 let session = null;
 
 const ALL_EXAMS = 'alle';
@@ -61,6 +62,7 @@ function restoreSession(store, questions) {
 function matchingQuestions(questions, answers, crit = criteria(), keys = setup.keys) {
   const exam = crit.exam && crit.exam !== ALL_EXAMS ? crit.exam : null;
   const pool = filterQuestions(questions, crit).filter((q) => !keys || inSelection(q, keys, setup.sections, exam));
+  if (setup.mode === MODE_OPEN) return pool.filter((q) => q.type === 'text');
   if (setup.mode !== MODE_MISTAKES) return pool;
   const wrong = new Set(mistakeIds(pool, answers));
   return pool.filter((q) => wrong.has(q.id));
@@ -115,6 +117,7 @@ export function render(root, ctx) {
     const topic = topics.find((t) => t.id === requested);
     if (topic && !session) {
       setup.keys = new Set(setup.sections.filter((sec) => sec.topics.includes(topic.id)).map((sec) => sectionKey(sec.id, topic.id)));
+      setup.mode = MODE_ALL;
       setup.exam = ALL_EXAMS;
       setup.difficulties = [1, 2, 3];
       notice = `Thema „${topic.name}“ ist ausgewählt.`;
@@ -201,16 +204,17 @@ function drawSetup(root, ctx, draw) {
   };
 
   const mistakeCount = mistakeIds(filterQuestions(questions, { types: SUPPORTED_QUIZ_TYPES }), ctx.progress.answers).length;
+  const openCount = filterQuestions(questions, { types: ['text'], job: setup.job }).length;
   const modeField = h('fieldset', {},
     h('legend', { text: 'Fragen' }),
     h('div', { class: 'segmented' },
-      [[MODE_ALL, 'Alle'], [MODE_MISTAKES, `Meine Fehler (${mistakeCount})`]].map(([mode, label]) => h('label', {},
+      [[MODE_ALL, 'Alle'], [MODE_MISTAKES, `Meine Fehler (${mistakeCount})`], [MODE_OPEN, `Offene Aufgaben (${openCount})`]].map(([mode, label]) => h('label', {},
         h('input', {
           type: 'radio', name: 'mode', value: mode, checked: setup.mode === mode,
           onChange: () => { setup.mode = mode; refresh(); },
         }),
         h('span', { text: label })))),
-    h('p', { class: 'muted small' }, 'Meine Fehler: Fragen, die du zuletzt falsch beantwortet hast. Richtig beantwortet, verschwinden sie aus der Liste.'));
+    h('p', { class: 'muted small' }, 'Meine Fehler: Fragen, die du zuletzt falsch beantwortet hast. Richtig beantwortet, verschwinden sie aus der Liste. Offene Aufgaben: Freitext wie in der schriftlichen Prüfung, bewertet mit Musterlösung und Bewertungsraster.'));
 
   const examField = h('fieldset', {},
     h('legend', { text: 'Prüfung' }),

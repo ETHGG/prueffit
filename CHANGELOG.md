@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.12] – 2026-11-18
+
+### Hinzugefügt
+- **Quiz-Modus „Offene Aufgaben“:** Neben „Alle“ und „Meine Fehler“ lassen sich gezielt nur die Freitextaufgaben üben (je Beruf 20–30), bewertet mit Musterlösung und Bewertungsraster – wie die schriftliche AP2.
+
+### Behoben
+- Der Sprung „Üben“ aus „Heute üben“ setzt den Modus auf „Alle“ zurück, damit nicht versehentlich nur Fehler oder offene Aufgaben des Themas gezogen werden.
+
 ## [2.2.11] – 2026-11-18
 
 ### Geändert

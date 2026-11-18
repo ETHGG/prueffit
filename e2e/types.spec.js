@@ -1,5 +1,5 @@
 import { test, expect } from 'playwright/test';
-import { watchProblems, openQuizWith, expectNoHorizontalOverflow } from './helpers.js';
+import { watchProblems, openQuizWith, expectNoHorizontalOverflow, gotoApp } from './helpers.js';
 
 test('text question: sample solution, keywords and self-assessment', async ({ page }) => {
   const problems = watchProblems(page);
@@ -77,4 +77,21 @@ test('a long unbreakable option does not widen the page (iPhone SE regression)',
   await page.getByRole('button', { name: 'Antwort prüfen' }).click();
   await page.locator('#next-button').click();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Auswertung');
+});
+
+test('quiz mode "Offene Aufgaben" practises only open tasks with marking scheme', async ({ page }) => {
+  const problems = watchProblems(page);
+  await gotoApp(page, './#/quiz');
+  const mode = page.getByRole('radio', { name: /^Offene Aufgaben \(\d+\)$/ });
+  const count = Number((await mode.locator('xpath=..').textContent()).match(/\((\d+)\)/)[1]);
+  expect(count).toBeGreaterThan(5);
+  await mode.check({ force: true });
+  await expect(page.locator('.hint')).toContainText(/\d+/);
+  await page.getByRole('button', { name: 'Quiz starten' }).click();
+  await expect(page.locator('textarea')).toBeVisible();
+  await page.fill('textarea', 'Testantwort');
+  await page.getByRole('button', { name: 'Musterlösung anzeigen' }).click();
+  await expect(page.locator('.rubric')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+  expect(problems).toEqual([]);
 });
