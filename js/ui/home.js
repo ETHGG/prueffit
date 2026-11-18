@@ -3,7 +3,7 @@
 import { overallStats, currentStreak, dailyProgress } from '../stats.js';
 import { todayInBerlin, dueCards } from '../leitner.js';
 import { h, formatPercent, formatNumber, trafficDot, append } from './dom.js';
-import { suggestionsCard, mistakesButton, dailyPlanCard } from './suggestions.js';
+import { mistakesButton, dailyPlanCard } from './suggestions.js';
 import { backupCard } from './backup.js';
 import { needsWelcome, welcomeCard, countdownCard } from './welcome.js';
 
@@ -33,16 +33,20 @@ export function render(root, ctx) {
   };
   const welcome = needsWelcome(ctx, today);
 
+  // Since 2.7: one compact card for today's goal and the overall state, quick start right
+  // after the plan; the weakest topics ("Heute üben") live in the statistics view.
   append(root,
     h('h1', { tabindex: '-1', text: greeting() }),
-    welcome
-      ? welcomeCard(ctx, { rerender })
-      : h('p', { class: 'muted' }, 'Bereit für die nächste Lerneinheit? PrüfFit hilft dir bei der Vorbereitung auf AP1 und AP2.'),
+    welcome ? welcomeCard(ctx, { rerender }) : null,
     welcome ? null : countdownCard(ctx, { rerender }),
     welcome ? null : backupCard(ctx, { rerender }),
     welcome ? null : dailyPlanCard(ctx),
+    h('div', { class: 'button-row quick-start' },
+      h('a', { class: 'button', href: '#/quiz' }, 'Quiz starten'),
+      h('a', { class: 'button secondary', href: '#/pruefung' }, 'Prüfung simulieren')),
+
     h('section', { class: 'card today', 'aria-labelledby': 'home-today' },
-      h('h2', { id: 'home-today', text: 'Heute' }),
+      h('h2', { id: 'home-today', text: 'Dein Stand' }),
       h('div', { class: 'goal-row' },
         h('span', { class: 'goal-text' }, goal.reached ? 'Tagesziel erreicht ✓' : 'Tagesziel'),
         h('span', { class: 'goal-count', text: `${goal.done} / ${goal.goal}` })),
@@ -50,40 +54,27 @@ export function render(root, ctx) {
         class: `progress goal-bar${goal.reached ? ' is-done' : ''}`, role: 'progressbar', 'aria-label': 'Tagesziel',
         'aria-valuemin': 0, 'aria-valuemax': goal.goal, 'aria-valuenow': Math.min(goal.done, goal.goal),
       }, h('div', { style: `width:${Math.round(goal.ratio * 100)}%` })),
-      h('p', { class: 'small muted' }, 'Zählt beantwortete Fragen und wiederholte Karteikarten. ',
-        h('a', { href: '#/einstellungen' }, 'Ziel ändern')),
-      h('p', { class: 'streak' },
-        h('span', { class: 'streak-count', text: String(streak) }),
-        h('span', {}, streak === 1 ? ' Tag Lernserie' : ' Tage Lernserie'),
-        streak === 0 ? h('span', { class: 'muted small', text: ' – heute starten!' }) : null)),
-
-    h('section', { class: 'card', 'aria-labelledby': 'home-overview' },
-      h('h2', { id: 'home-overview', text: 'Dein Stand' }),
-      h('div', { class: 'kpis' },
-        h('div', { class: 'kpi' },
+      h('div', { class: 'row between today-meta' },
+        h('p', { class: 'streak' },
+          h('span', { class: 'streak-count', text: String(streak) }),
+          h('span', {}, streak === 1 ? ' Tag Lernserie' : ' Tage Lernserie'),
+          streak === 0 ? h('span', { class: 'muted small', text: ' – heute starten!' }) : null),
+        h('a', { class: 'small', href: '#/einstellungen', 'aria-label': 'Tagesziel ändern' }, 'Ziel ändern')),
+      h('div', { class: 'kpis kpis-3' },
+        h('a', { class: 'kpi kpi-link', href: '#/statistik' },
           h('div', { class: 'kpi-value' }, formatPercent(stats.rate)),
-          h('div', { class: 'kpi-label row' }, trafficDot(stats.light), 'Gesamtquote')),
-        h('div', { class: 'kpi' },
-          h('div', { class: 'kpi-value' }, formatNumber(stats.attempts)),
-          h('div', { class: 'kpi-label' }, 'Antworten gesamt')),
-        h('div', { class: 'kpi' },
+          h('div', { class: 'kpi-label row' }, trafficDot(stats.light), 'Quote')),
+        h('a', { class: 'kpi kpi-link', href: '#/quiz' },
           h('div', { class: 'kpi-value' }, `${answeredQuestions}/${questions.length}`),
           h('div', { class: 'kpi-label' }, 'Fragen bearbeitet')),
         h('a', { class: 'kpi kpi-link', href: '#/karten' },
           h('div', { class: 'kpi-value' }, formatNumber(cardsDue)),
           h('div', { class: 'kpi-label' }, cardsDue === 1 ? 'Karte fällig' : 'Karten fällig'))),
-      stats.attempts === 0
-        ? h('p', { class: 'muted small spaced' }, 'Noch keine Antworten – starte dein erstes Quiz!')
-        : null,
       mistakesButton(ctx, { secondary: true })),
 
-    suggestionsCard(ctx),
     notesSearchCard(ctx),
-    h('div', { class: 'button-row' },
-      h('a', { class: 'button', href: '#/quiz' }, 'Quiz starten'),
-      h('a', { class: 'button secondary', href: '#/pruefung' }, 'Prüfung simulieren')),
     h('p', { class: 'muted small spaced center' },
-      h('a', { href: '#/statistik' }, 'Statistik ansehen')),
+      h('a', { href: '#/statistik' }, 'Statistik und schwächste Themen')),
   );
 }
 

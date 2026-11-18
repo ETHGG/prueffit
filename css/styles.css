@@ -691,3 +691,19 @@ body.setup-mode .tabbar { display: none; }
 .task-results .stat-item { grid-template-columns: 1fr auto; }
 .task-results .stat-name { hyphens: manual; overflow-wrap: break-word; }
 .segmented.quiz-modes { display: grid; grid-template-columns: 1fr 1fr; }
+
+/* 2.7: compact start page */
+.quick-start { margin: 0 0 1rem; }
+.row.between { justify-content: space-between; }
+.today-meta { margin: .5rem 0 .75rem; }
+.today-meta .streak { margin: 0; }
+.kpis-3 { grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+.kpis-3 .kpi { padding: .6rem .5rem; }
+.kpis-3 .kpi-value { font-size: 1.25rem; }
+@media (min-width: 600px) { .kpis-3 { grid-template-columns: repeat(3, 1fr); } .kpis-3 .kpi-value { font-size: 1.6rem; } }
+details.quiz-more { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 1rem 0; padding: .25rem 0; }
+.more-summary { overflow-wrap: anywhere; }
+details.exam-rules { margin-top: .75rem; border-top: 1px solid var(--border); padding-top: .25rem; }
+.today a.kpi { display: block; min-height: 0; }
+.today-meta { flex-wrap: nowrap; align-items: baseline; }
+.today-meta > a { white-space: nowrap; }

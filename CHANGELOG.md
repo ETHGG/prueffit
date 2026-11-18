@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.7.0] – 2026-11-18
+
+### Geändert – übersichtlichere Oberfläche
+- **Startseite** deutlich kürzer: „Quiz starten“ und „Prüfung simulieren“ stehen direkt unter „Dein Plan für heute“; Tagesziel, Lernserie, Quote, bearbeitete Fragen und fällige Karten in einer Karte „Dein Stand“ (Kacheln antippbar). „Heute üben“ steht nur noch in der Statistik – der Tagesplan schlägt das schwächste Thema ohnehin vor.
+- **Quiz:** Themenliste und Schwierigkeit sind unter „Themen und Schwierigkeit“ eingeklappt; eine Zeile fasst die Auswahl zusammen („Alle 63 Themen ausgewählt · alle Schwierigkeiten“). Modus, Prüfung und Anzahl bleiben sofort sichtbar.
+- **Prüfungssimulation:** Der Start-Button steht direkt unter den Prüfungsteilen, die Hinweise zum Ablauf sind unter „So läuft die Simulation ab“ eingeklappt.
+- **Einstellungen:** Prüfungstermin, Tagesziel, Darstellung und Sicherung zuerst; „Fortschritt zurücksetzen“, Installationshinweis und der feste Ausbildungsberuf weiter unten.
+
 ## [2.6.0] – 2026-11-18
 
 ### Hinzugefügt

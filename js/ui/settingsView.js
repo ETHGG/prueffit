@@ -141,15 +141,7 @@ export function render(root, ctx) {
 
   append(root,
     h('h1', { text: 'Einstellungen' }),
-    h('section', { class: 'card', 'aria-labelledby': 'settings-job-title' },
-      h('h2', { id: 'settings-job-title', text: 'Ausbildungsberuf' }),
-      h('p', { id: 'settings-job', class: 'job-fixed' }, h('strong', { text: job ? `${job.name} (${job.short})` : '–' })),
-      job
-        ? h('ul', { class: 'small plain-list' },
-          h('li', { text: `AP1: ${AP1_TITLE}` }),
-          AP2_PARTS[job.id].map((p) => h('li', { text: `AP2: ${p.title}` })))
-        : null,
-      h('p', { class: 'muted small spaced' }, 'Der Beruf wurde beim Einrichten festgelegt und kann nicht geändert werden. PrüfFit zeigt nur Inhalte, die in deinen Prüfungen vorkommen.')),
+    // Since 2.7: everyday settings first, reset and the fixed job further down.
     h('section', { class: 'card', 'aria-labelledby': 'settings-exam-title' },
       h('h2', { id: 'settings-exam-title', text: 'Prüfungstermin' }),
       h('p', { id: 'settings-exam-current' }, target
@@ -157,11 +149,6 @@ export function render(root, ctx) {
         : 'Noch kein Termin gewählt. Mit Termin zeigt die Startseite einen Countdown und einen Lernplan.'),
       examBox,
       h('button', { type: 'button', class: 'button', onClick: saveExam }, 'Termin speichern')),
-    h('section', { class: 'card', 'aria-labelledby': 'settings-data' },
-      h('h2', { id: 'settings-data', text: 'Daten' }),
-      h('p', { text: STORAGE_TEXT[ctx.storageStatus] ?? STORAGE_TEXT.ok }),
-      h('p', { class: 'muted small' }, `Gespeicherte Fragen-Statistiken: ${answered}`),
-      h('button', { type: 'button', class: 'button danger', onClick: reset, disabled: answered === 0 }, 'Fortschritt zurücksetzen')),
     h('section', { class: 'card', 'aria-labelledby': 'settings-goal' },
       h('h2', { id: 'settings-goal', text: 'Tagesziel' }),
       h('div', { class: 'field' },
@@ -213,9 +200,23 @@ export function render(root, ctx) {
           type: 'button', class: 'button danger', disabled: !ctx.custom.questions.length && !ctx.custom.flashcards.length, onClick: deleteCustom,
         }, 'Eigene Fragen löschen')),
       h('div', { id: 'custom-report', class: 'spaced' })),
+    h('section', { class: 'card', 'aria-labelledby': 'settings-data' },
+      h('h2', { id: 'settings-data', text: 'Daten' }),
+      h('p', { text: STORAGE_TEXT[ctx.storageStatus] ?? STORAGE_TEXT.ok }),
+      h('p', { class: 'muted small' }, `Gespeicherte Fragen-Statistiken: ${answered}`),
+      h('button', { type: 'button', class: 'button danger', onClick: reset, disabled: answered === 0 }, 'Fortschritt zurücksetzen')),
     h('section', { class: 'card', 'aria-labelledby': 'settings-install' },
       h('h2', { id: 'settings-install', text: 'Als App installieren' }),
       h('p', {}, 'iPhone: In Safari auf „Teilen“ tippen und „Zum Home-Bildschirm“ wählen. Danach funktioniert PrüfFit auch offline.')),
+    h('section', { class: 'card', 'aria-labelledby': 'settings-job-title' },
+      h('h2', { id: 'settings-job-title', text: 'Ausbildungsberuf' }),
+      h('p', { id: 'settings-job', class: 'job-fixed' }, h('strong', { text: job ? `${job.name} (${job.short})` : '–' })),
+      job
+        ? h('ul', { class: 'small plain-list' },
+          h('li', { text: `AP1: ${AP1_TITLE}` }),
+          AP2_PARTS[job.id].map((p) => h('li', { text: `AP2: ${p.title}` })))
+        : null,
+      h('p', { class: 'muted small spaced' }, 'Der Beruf wurde beim Einrichten festgelegt und kann nicht geändert werden. PrüfFit zeigt nur Inhalte, die in deinen Prüfungen vorkommen.')),
     h('section', { class: 'card', 'aria-labelledby': 'settings-about' },
       h('h2', { id: 'settings-about', text: 'Über PrüfFit' }),
       h('p', {}, `Version ${ctx.version} · ${ctx.catalog.questions.length} Fragen in ${ctx.catalog.topics.length} Themen`),

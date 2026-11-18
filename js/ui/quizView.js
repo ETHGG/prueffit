@@ -183,6 +183,7 @@ function drawSetup(root, ctx, draw) {
   const sectionMetaEls = new Map();
   const groupEls = new Map();
   const topicTotalEl = h('span', { class: 'muted small', 'aria-live': 'polite' });
+  const moreSummaryEl = h('span', { class: 'muted small more-summary' });
   const availableEl = h('p', { class: 'hint', 'aria-live': 'polite' });
   const startBtn = h('button', { class: 'button block', type: 'submit' }, 'Quiz starten');
   const visible = () => sections.filter((sec) => setup.exam === ALL_EXAMS || !sec.exam || sec.exam === setup.exam);
@@ -219,6 +220,10 @@ function drawSetup(root, ctx, draw) {
     topicTotalEl.textContent = keysOf(shown).every((k) => setup.keys.has(k))
       ? `Alle ${shownTopics.size} Themen ausgewählt`
       : `${shownChosen} von ${shownTopics.size} Themen ausgewählt`;
+    const diffText = setup.difficulties.length === 3 ? 'alle Schwierigkeiten'
+      : setup.difficulties.length === 0 ? 'keine Schwierigkeit'
+        : setup.difficulties.map((d) => DIFFICULTY_LABELS[d]).join(', ');
+    moreSummaryEl.textContent = `${topicTotalEl.textContent} · ${diffText}`;
 
     // Empty selections are handled here, the quiz needs at least one topic and difficulty.
     if (shownChosen === 0 || setup.difficulties.length === 0) {
@@ -358,7 +363,12 @@ function drawSetup(root, ctx, draw) {
       session = { quiz: createQuiz(picked) };
       draw();
     },
-  }, modeField, examField, sizeField, difficultyField, topicField,
+  }, modeField, examField, sizeField,
+  // Since 2.7: the long topic list and the difficulty are folded, with a one-line summary.
+  fold('quiz', 'more', {
+    class: 'quiz-more',
+    summary: [h('span', { class: 'fold-title', text: 'Themen und Schwierigkeit' }), moreSummaryEl],
+  }, difficultyField, topicField),
   h('div', { class: 'sticky-actions' }, availableEl, startBtn));
 
   append(root,

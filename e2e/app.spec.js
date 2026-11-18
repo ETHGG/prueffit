@@ -109,6 +109,11 @@ test('quiz topics are grouped by AP1 area and AP2 exam part of the job, with cou
   const ga2 = scope.sections.find((s) => s.exam === 'AP2' && s.id === 'ga2');
   expect(ga2.title).toBe('Analyse und Entwicklung von Netzwerken');
   const n = ga2.topics.length;
+  // Since 2.7 the topic list is folded under "Themen und Schwierigkeit".
+  const more = page.locator('details.fold[data-fold="more"]');
+  await expect(more).not.toHaveAttribute('open', '');
+  await expect(more.locator('.more-summary')).toHaveText(`Alle ${scope.topics} Themen ausgewählt · alle Schwierigkeiten`);
+  await more.locator('summary').first().click();
   const part = page.locator('details.fold[data-fold="AP2-ga2"]');
   await expect(part).not.toHaveAttribute('open', '');
   await expect(part.locator('summary')).toContainText(new RegExp(`${n}/${n} Themen · \\d+ Fragen`));

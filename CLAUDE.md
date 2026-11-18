@@ -366,6 +366,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.4** | Gesamtnoten-Rechner mit Bestehensregeln und mündlicher Ergänzungsprüfung | erledigt |
 | **2.5** | Prüfungssimulation in große Aufgaben gegliedert (Punkte je Aufgabe); 2.5.1 Projektdaten in der Datensicherung | erledigt |
 | **2.6** | Falsche Fragen nach 1/3/7 Tagen wiederholen (Quiz-Modus „Fällig“, Tagesplan) | erledigt |
+| **2.7** | Übersichtlichere Oberfläche: kompakte Startseite, eingeklappte Quiz-Optionen und Prüfungshinweise, Einstellungen neu geordnet | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

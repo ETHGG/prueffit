@@ -142,6 +142,10 @@ test('statistics: "Heute üben" links into the quiz and charts render', async ({
   await first.getByRole('link', { name: /üben/ }).click();
   await expect(page.locator('.toast').first()).toContainText(`Thema „${name}“ ist ausgewählt.`);
   // The topic is selected in every AP1 area / AP2 exam part it belongs to, nothing else.
+  // Since 2.7 the topic list is folded; the summary line names the selection.
+  const more = page.locator('details.fold[data-fold="more"]');
+  await expect(more.locator('.more-summary')).toContainText('1 von');
+  await more.locator('summary').first().click();
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const boxes = page.getByRole('checkbox', { name: new RegExp(`^${escaped} \\d+`) });
   const n = await boxes.count();

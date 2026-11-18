@@ -11,6 +11,7 @@ import { rubricPoints } from '../grading.js';
 import { recordExamResult } from '../storage.js';
 import { createUi, renderInput, formatResponse, correctAnswerText, isEmptyResponse } from './questionInputs.js';
 import { scenarioBox } from './scenario.js';
+import { fold } from './fold.js';
 import { h, formatNumber, DIFFICULTY_LABELS, append } from './dom.js';
 
 const EXAM_KEY = 'prueffit.exam';
@@ -152,18 +153,7 @@ export function render(root, ctx) {
           preview.map((p) => h('li', {},
             h('strong', { text: p.title }),
             h('span', { class: 'muted small', text: ` · ${p.minutes} Minuten · ${p.questions} Fragen` })))),
-        h('ul', { class: 'facts' },
-          h('li', {}, chosenExam === 'AP1'
-            ? 'Wie in der echten AP1: ein Teil mit 90 Minuten und Fragen im Umfang von etwa 100 Punkten.'
-            : 'Aufbau wie in der echten AP2: zwei Prüfungsbereiche mit je 90 Minuten und Wirtschafts- und Sozialkunde mit 60 Minuten (bis zu 30 Fragen). Jeden weiteren Teil startest du, wenn du bereit bist.'),
-          chosenExam === 'AP2' && scenarios.length
-            ? h('li', {}, 'Jeder Prüfungsbereich beginnt wie in der echten Prüfung mit einer Handlungssituation (Ausgangslage eines Betriebs) und mehreren Teilaufgaben dazu.')
-            : null,
-          h('li', {}, 'Rückmeldung und Note gibt es erst nach der Abgabe – wie in der echten Prüfung, bei der AP2 auch für jeden Teil einzeln.'),
-          h('li', {}, 'Die Zeit läuft weiter, auch wenn du die App schließt. Bei Zeitablauf wird automatisch abgegeben.'),
-          h('li', {}, 'Die schriftlichen Teile sind wie in der echten Prüfung in bis zu vier Aufgaben gegliedert; im AP2-Bereich ist Aufgabe 1 die Handlungssituation. Im Ergebnis siehst du die Punkte je Aufgabe.'),
-          h('li', {}, 'Offene Aufgaben (Freitext) beantwortest du in Stichpunkten. Nach der Abgabe bewertest du sie selbst mit dem Bewertungsraster – so wie die Prüfer mit dem Lösungshinweis.'),
-          h('li', {}, `Beruf: ${jobInfo ? jobInfo.name : 'alle IT-Berufe'} · ${total} Fragen aus ${chosenExam === 'AP1' ? 'der AP1' : 'deinen AP2-Prüfungsbereichen'}.`)),
+        // Since 2.7: start button first, the rules are folded below it.
         h('button', {
           type: 'button', class: 'button block', disabled: total === 0,
           onClick: () => {
@@ -173,7 +163,23 @@ export function render(root, ctx) {
             draw();
             root.querySelector('h1')?.focus({ preventScroll: true });
           },
-        }, `${chosenExam} starten`)),
+        }, `${chosenExam} starten`),
+        fold('exam', 'rules', {
+          class: 'exam-rules',
+          summary: h('span', { class: 'fold-title', text: 'So läuft die Simulation ab' }),
+        },
+          h('ul', { class: 'facts' },
+            h('li', {}, chosenExam === 'AP1'
+              ? 'Wie in der echten AP1: ein Teil mit 90 Minuten und Fragen im Umfang von etwa 100 Punkten.'
+              : 'Aufbau wie in der echten AP2: zwei Prüfungsbereiche mit je 90 Minuten und Wirtschafts- und Sozialkunde mit 60 Minuten (bis zu 30 Fragen). Jeden weiteren Teil startest du, wenn du bereit bist.'),
+            chosenExam === 'AP2' && scenarios.length
+              ? h('li', {}, 'Jeder Prüfungsbereich beginnt wie in der echten Prüfung mit einer Handlungssituation (Ausgangslage eines Betriebs) und mehreren Teilaufgaben dazu.')
+              : null,
+            h('li', {}, 'Rückmeldung und Note gibt es erst nach der Abgabe – wie in der echten Prüfung, bei der AP2 auch für jeden Teil einzeln.'),
+            h('li', {}, 'Die Zeit läuft weiter, auch wenn du die App schließt. Bei Zeitablauf wird automatisch abgegeben.'),
+            h('li', {}, 'Die schriftlichen Teile sind wie in der echten Prüfung in bis zu vier Aufgaben gegliedert; im AP2-Bereich ist Aufgabe 1 die Handlungssituation. Im Ergebnis siehst du die Punkte je Aufgabe.'),
+            h('li', {}, 'Offene Aufgaben (Freitext) beantwortest du in Stichpunkten. Nach der Abgabe bewertest du sie selbst mit dem Bewertungsraster – so wie die Prüfer mit dem Lösungshinweis.'),
+            h('li', {}, `Beruf: ${jobInfo ? jobInfo.name : 'alle IT-Berufe'} · ${total} Fragen aus ${chosenExam === 'AP1' ? 'der AP1' : 'deinen AP2-Prüfungsbereichen'}.`)))),
       history.length
         ? h('section', { class: 'card', 'aria-labelledby': 'exam-history' },
           h('h2', { id: 'exam-history', text: 'Bisherige Ergebnisse' }),
