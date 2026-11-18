@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.10] – 2026-11-18
+
+### Hinzugefügt
+- **Dritte Handlungssituation für jeden AP2-Prüfungsbereich von KITS und FISI** (4 Situationen, 24 Fragen): Pflegedienst mit RAID 6, Sicherungsplan und USV-Dimensionierung; Messebau mit Subnetting, Trunk, Leitungsredundanz, SPF und Ports; Steuerbüro mit Nutzwert, TCO, Lizenzmodell, Datenträgervernichtung und Migrationsdauer; Systemhaus-Monatsabschluss mit Betriebsergebnis, Gewinnschwelle, Restbuchwert, Buchungssatz und Liquidität 2. Grades.
+- Jetzt 851 Fragen und 32 Handlungssituationen.
+
 ## [2.2.9] – 2026-11-18
 
 ### Hinzugefügt
