@@ -112,6 +112,19 @@ export function render(root, ctx) {
       notice = 'Es läuft noch ein Quiz. Beende es, um deine Fehler zu wiederholen.';
     }
   }
+  // Deep link from the day plan: #/quiz?offen=1 (all topics, only open tasks).
+  if (params.get('offen') === '1') {
+    history.replaceState(null, '', '#/quiz');
+    if (!session) {
+      setup.mode = MODE_OPEN;
+      setup.keys = allKeys();
+      setup.exam = ALL_EXAMS;
+      setup.difficulties = [1, 2, 3];
+      notice = 'Offene Aufgaben sind ausgewählt.';
+    } else {
+      notice = 'Es läuft noch ein Quiz. Beende es, um offene Aufgaben zu üben.';
+    }
+  }
   if (requested) {
     history.replaceState(null, '', '#/quiz');
     const topic = topics.find((t) => t.id === requested);

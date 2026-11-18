@@ -55,12 +55,14 @@ export function dailyPlanCard(ctx) {
     mistakes: mistakeIds(questions, ctx.progress.answers).length,
     focus: focus ?? null,
     openQuestions: questions.filter((q) => !(ctx.progress.answers[q.id]?.correct > 0)).length,
+    openTasks: questions.filter((q) => q.type === 'text' && !ctx.progress.answers[q.id]?.lastCorrect).length,
   });
   const item = (step) => {
     switch (step.kind) {
       case 'cards': return [`${step.count} fällige ${step.count === 1 ? 'Karteikarte' : 'Karteikarten'} wiederholen`, '#/karten'];
       case 'mistakes': return [`${step.count} ${step.count === 1 ? 'Fehler' : 'Fehler'} wiederholen`, '#/quiz?fehler=1'];
       case 'topic': return [`${step.count} Fragen zu „${step.topic.name}“ ${step.topic.reason === 'weak' ? '(dein schwächstes Thema)' : '(noch nicht geübt)'}`, `#/quiz?thema=${encodeURIComponent(step.topic.id)}`];
+      case 'open': return ['1 offene Aufgabe wie in der Prüfung schreiben und bewerten', '#/quiz?offen=1'];
       case 'new': return [`${step.count} neue Fragen üben`, '#/quiz'];
       default: return null;
     }

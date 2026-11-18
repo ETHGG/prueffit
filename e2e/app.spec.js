@@ -144,11 +144,17 @@ test('start page: "Dein Plan für heute" fills the daily goal with concrete step
   await page.reload();
   const plan = page.locator('.day-plan');
   await expect(plan.getByRole('heading', { name: 'Dein Plan für heute' })).toBeVisible();
-  // Fresh user, goal 20: half of it due flashcards, the rest the first topic to practise.
-  await expect(plan.locator('li')).toHaveCount(2);
+  // Fresh user, goal 20: half of it due flashcards, one open task (since 2.2.13), the rest the first topic to practise.
+  await expect(plan.locator('li')).toHaveCount(3);
   await expect(plan.locator('li').nth(0)).toHaveText('10 fällige Karteikarten wiederholen');
-  await expect(plan.locator('li').nth(1)).toContainText(/^10 Fragen zu „.+“ \(noch nicht geübt\)$/);
-  await plan.locator('li').nth(1).getByRole('link').click();
+  await expect(plan.locator('li').nth(1)).toHaveText('1 offene Aufgabe wie in der Prüfung schreiben und bewerten');
+  await expect(plan.locator('li').nth(2)).toContainText(/^9 Fragen zu „.+“ \(noch nicht geübt\)$/);
+  await plan.locator('li').nth(2).getByRole('link').click();
   await expect(page.locator('.toast').first()).toContainText('ist ausgewählt');
+  // The open task link selects the quiz mode „Offene Aufgaben“.
+  await page.goto('./#/start');
+  await plan.locator('li').nth(1).getByRole('link').click();
+  await expect(page.locator('.toast', { hasText: 'Offene Aufgaben sind ausgewählt.' })).toBeVisible();
+  await expect(page.getByRole('radio', { name: /^Offene Aufgaben/ })).toBeChecked();
   expect(problems).toEqual([]);
 });

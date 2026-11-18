@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.13] – 2026-11-18
+
+### Hinzugefügt
+- „Dein Plan für heute“ enthält täglich **eine offene Aufgabe** (solange es noch nicht gemeisterte gibt); der Link öffnet das Quiz im Modus „Offene Aufgaben“. Das Thema-Üben verkürzt sich dafür um eine Frage, das Tagesziel bleibt gleich.
+
 ## [2.2.12] – 2026-11-18
 
 ### Hinzugefügt

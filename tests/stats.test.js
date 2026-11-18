@@ -244,3 +244,21 @@ describe('dailyPlan (2.1)', () => {
     expect(dailyPlan({ goal: 10, openQuestions: 4 })).toEqual([{ kind: 'new', count: 4 }]);
   });
 });
+
+describe('dailyPlan with open tasks (2.2.13)', () => {
+  const focus = { id: 'netzwerke.vlan', name: 'VLAN', reason: 'weak' };
+  it('adds exactly one open task before the topic step while open tasks are left', () => {
+    const plan = dailyPlan({ goal: 20, done: 0, dueCards: 4, mistakes: 2, focus, openQuestions: 50, openTasks: 7 });
+    expect(plan.map((s) => s.kind)).toEqual(['cards', 'mistakes', 'open', 'topic', 'new']);
+    expect(plan.find((s) => s.kind === 'open').count).toBe(1);
+    expect(plan.reduce((sum, s) => sum + s.count, 0)).toBe(20);
+  });
+  it('leaves the open task out when none are left or the goal is used up', () => {
+    expect(dailyPlan({ goal: 20, focus, openQuestions: 50, openTasks: 0 }).some((s) => s.kind === 'open')).toBe(false);
+    expect(dailyPlan({ goal: 10, dueCards: 5, mistakes: 5, focus, openQuestions: 50, openTasks: 3 }).some((s) => s.kind === 'open')).toBe(false);
+  });
+  it('with the default goal the topic step shrinks by the open task', () => {
+    const plan = dailyPlan({ goal: 20, dueCards: 30, focus, openQuestions: 100, openTasks: 5 });
+    expect(plan).toEqual([{ kind: 'cards', count: 10 }, { kind: 'open', count: 1 }, { kind: 'topic', count: 9, topic: focus }]);
+  });
+});

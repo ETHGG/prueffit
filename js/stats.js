@@ -155,7 +155,7 @@ export function mistakeIds(questions, answers) {
  * @param {{ goal: number, done: number, dueCards: number, mistakes: number, focus: { id, name, reason }|null, openQuestions: number }} input
  * @returns {{ kind: 'cards'|'mistakes'|'topic'|'new'|'done', count: number, topic?: object }[]}
  */
-export function dailyPlan({ goal, done = 0, dueCards = 0, mistakes = 0, focus = null, openQuestions = 0 }) {
+export function dailyPlan({ goal, done = 0, dueCards = 0, mistakes = 0, focus = null, openQuestions = 0, openTasks = 0 }) {
   let left = Math.max(0, goal - done);
   if (left === 0) return [{ kind: 'done', count: 0 }];
   const steps = [];
@@ -165,6 +165,8 @@ export function dailyPlan({ goal, done = 0, dueCards = 0, mistakes = 0, focus = 
   };
   take('cards', Math.min(dueCards, Math.ceil(goal / 2)));
   take('mistakes', Math.min(mistakes, 5));
+  // One open task (free text with marking scheme) a day, as long as some are not mastered yet (since 2.2.13).
+  take('open', Math.min(openTasks, 1));
   if (focus) take('topic', 10, { topic: focus });
   take('new', openQuestions);
   return steps.length ? steps : [{ kind: 'done', count: 0 }];
