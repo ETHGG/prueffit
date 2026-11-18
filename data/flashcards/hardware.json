@@ -17,5 +17,9 @@
   {"id": "fc-0145", "exam": ["AP1"], "topic": "hardware.nachhaltigkeit", "front": "PUE", "back": "Power Usage Effectiveness = Gesamtenergie Rechenzentrum ÷ Energie der IT-Geräte. Ideal nahe 1,0."},
   {"id": "fc-0146", "exam": ["AP1"], "topic": "hardware.nachhaltigkeit", "front": "Größte Umweltwirkung bei Notebooks und Smartphones", "back": "Die Herstellung → Geräte möglichst lange nutzen, reparieren, refurbished kaufen."},
   {"id": "fc-0179", "exam": ["AP2"], "jobs": ["fisi", "kits"], "topic": "hardware.raid", "front": "NAS vs. SAN", "back": "NAS: Dateiebene über LAN (SMB/NFS). SAN: Blockebene über eigenes Speichernetz (FC, iSCSI)."},
-  {"id": "fc-0180", "exam": ["AP2"], "jobs": ["fisi", "kits"], "topic": "hardware.raid", "front": "Snapshot ≠ Backup", "back": "Snapshot liegt auf demselben System – schützt nicht vor dessen Ausfall, Brand oder Verschlüsselung."}
+  {"id": "fc-0180", "exam": ["AP2"], "jobs": ["fisi", "kits"], "topic": "hardware.raid", "front": "Snapshot ≠ Backup", "back": "Snapshot liegt auf demselben System – schützt nicht vor dessen Ausfall, Brand oder Verschlüsselung."},
+  {"id": "fc-0223", "exam": ["AP1", "AP2"], "jobs": ["fisi", "itse", "kits"], "topic": "hardware.betriebssysteme", "front": "Linux-Rechte rwx als Zahl", "back": "r = 4, w = 2, x = 1 je Besitzer, Gruppe, andere. Beispiel 750: rwx r-x ---; 640: rw- r-- ---."},
+  {"id": "fc-0224", "exam": ["AP1", "AP2"], "jobs": ["fisi", "itse", "kits"], "topic": "hardware.betriebssysteme", "front": "Zentrale Updateverwaltung", "back": "Updates erst an Testgruppe, dann stufenweise freigeben (Update-Ringe), z. B. mit WSUS oder Intune."},
+  {"id": "fc-0225", "exam": ["AP1", "AP2"], "jobs": ["fisi", "fidv", "itse", "kits"], "topic": "hardware.komponenten", "front": "ECC-RAM", "back": "Arbeitsspeicher mit Prüfbits: erkennt und korrigiert Einzelbitfehler, erkennt Mehrbitfehler. Standard bei Servern."},
+  {"id": "fc-0226", "exam": ["AP1", "AP2"], "jobs": ["fisi", "fidv", "itse", "kits"], "topic": "hardware.komponenten", "front": "Hot-Swap", "back": "Komponenten (Platten, Netzteile, Lüfter) im laufenden Betrieb tauschen – zusammen mit RAID ohne Ausfallzeit."}
 ]

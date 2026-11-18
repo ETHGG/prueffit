@@ -28,5 +28,6 @@
   {"id": "fc-0204", "exam": ["AP2"], "jobs": ["fiae"], "topic": "programmierung.entwicklung", "front": "Continuous Integration", "back": "Jede Änderung wird automatisch gebaut und getestet."},
   {"id": "fc-0205", "exam": ["AP2"], "jobs": ["fiae"], "topic": "programmierung.testen", "front": "Grenzwertanalyse", "back": "Grenzen und direkte Nachbarn testen: Bereich 1–99 → 0, 1, 99, 100."},
   {"id": "fc-0206", "exam": ["AP2"], "jobs": ["fiae"], "topic": "programmierung.datenbanken", "front": "SQL-Injection verhindern", "back": "Prepared Statements mit Parametern, Eingaben nie als SQL-Text zusammenbauen."},
-  {"id": "fc-0208", "exam": ["AP2"], "jobs": ["fiae", "fidpa", "fisi", "kits"], "topic": "programmierung.datenbanken", "front": "ACID bei Transaktionen", "back": "Atomarität (ganz oder gar nicht), Konsistenz (Regeln erfüllt), Isolation (keine Störung paralleler Transaktionen), Dauerhaftigkeit (nach COMMIT gesichert)."}
+  {"id": "fc-0208", "exam": ["AP2"], "jobs": ["fiae", "fidpa", "fisi", "kits"], "topic": "programmierung.datenbanken", "front": "ACID bei Transaktionen", "back": "Atomarität (ganz oder gar nicht), Konsistenz (Regeln erfüllt), Isolation (keine Störung paralleler Transaktionen), Dauerhaftigkeit (nach COMMIT gesichert)."},
+  {"id": "fc-0241", "exam": ["AP1", "AP2"], "jobs": ["fiae", "fisi", "fidpa"], "topic": "programmierung.modellierung", "front": "UML: Aggregation vs. Komposition", "back": "Aggregation (leere Raute): Teil existiert unabhängig. Komposition (gefüllte Raute): Teil lebt und stirbt mit dem Ganzen."}
 ]

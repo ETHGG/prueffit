@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.9] – 2026-11-18
+
+### Hinzugefügt
+- **25 Karteikarten** für Themen, die für KITS und FISI bisher keine oder nur eine Karte hatten: Angriffe (Phishing, Ransomware, DDoS, Social Engineering), Umweltschutz, Betriebssysteme, Serverhardware, OSI-Modell, DHCP/APIPA, Vorgehensmodelle, EPK und PDCA, Kündigungsfristen und Probezeit, Angebot und Kundengespräch, Sozialversicherung, GmbH, UML (jetzt 241 Karten).
+
+### Geprüft
+- Lernzettel-Suche findet alle in dieser Nacht ergänzten Begriffe (z. B. AGDLP, Verzugszinsen, Live Zero, PoE-Budget, Rahmenvertrag, Fixhandelskauf).
+
 ## [2.2.8] – 2026-11-18
 
 ### Hinzugefügt
