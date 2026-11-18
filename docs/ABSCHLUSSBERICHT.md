@@ -1,3 +1,28 @@
+# Abschlussbericht Versionen 2.2.1–2.2.9 (Nachtrunden)
+
+**Datum:** 17./18.11.2026 · **Runden 3–14** (00:00–01:00 Uhr)
+
+| Runde | Version | Inhalt |
+|---|---|---|
+| 3 | 2.2.1 | 17 offene Aufgaben mit Bewertungsraster KITS/FISI; datumsabhängigen Browser-Test repariert |
+| 4 | – | Faktencheck: 22 Rechenaufgaben nachgerechnet, ca. 70 WiSo-/Rechtsfragen geprüft, keine Fehler |
+| 5 | 2.2.2 | 20 offene Aufgaben für FIAE, FIDPA, FIDV, ITSE, KDM; passende Aufgaben für weitere Berufe freigegeben |
+| 6 | 2.2.3 | Lernzettel/Karten: AGDLP, ACID, Zahlungsverzug, SLA-Zeiten |
+| 7 | 2.2.4 | Barrierefreiheit: Grün auf 5,0 : 1, Kontrasttest, Beschriftung Dateifeld |
+| 8 | 2.2.5 | Zweite Handlungssituationen FIDPA, FIDV, ITSE, KDM (8 Situationen, 32 Fragen) |
+| 9 | 2.2.6 | Lernzettel/Karten zu den neuen Situationen, Abkürzungen CAC/CLV |
+| 10 | – | Lasttest mit sehr großem Fortschritt: unter 0,4 s je Ansicht |
+| 11 | 2.2.7 | Restlücken aus `docs/ABGLEICH.md` (Beschaffung, Lieferungsverzug, QoS, SFP, Layer-3-Switch) |
+| 12 | – | Tippfehler-Scan aller Texte, Tastaturbedienung: unauffällig |
+| 13 | 2.2.8 | 24 AP2-Fragen für die dünnsten KITS/FISI-Themen |
+| 14 | 2.2.9 | 25 Karteikarten, Lernzettel-Suche geprüft |
+
+**Stand 2.2.9:** 827 Fragen (58 offene Aufgaben mit Raster), 241 Karten, 77 Lernzettel, 287 Abkürzungen, 28 Handlungssituationen (zwei je AP2-Prüfungsbereich und Beruf).
+
+**Annahmen:** Rechtsangaben (Verzugszinsen, Fixhandelskauf, RCD-Pflicht bis 32 A, Kerberos 5 Minuten) nach aktuellem Stand von BGB, HGB und DIN VDE 0100-410:2018; VoIP-Bandbreite mit vereinfachten 100 kbit/s je Gespräch (in der Aufgabe angegeben).
+
+**Offen:** GitHub-Releases legt der Nutzer selbst an (API für Releases in dieser Umgebung gesperrt). Ein CI-Lauf (2.2.3) hing beim Runner und wurde abgebrochen; die Folgeläufe mit demselben Code sind grün.
+
 # Abschlussbericht Version 2.2.0
 
 **Datum:** 17.11.2026 · **Runde 2** der nächtlichen Prüf- und Verbesserungsrunden (23:40–00:00 Uhr)
