@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.19] – 2026-11-18
+
+### Hinzugefügt
+- **9 AP2-Fragen** zu dünnen KITS-/FISI-Themen: Wirtschaftssektoren, Arbeitsteilung, DMARC, Verhalten nach Phishing-Klick, Stromkosten eines Netzwerkschranks, Format für Konfigurationsdateien, Risikowert, MOD im Pseudocode, „Cloud first“. Lernzettel ergänzt (Konfigurationsdateien, Cloud-Strategie), Abkürzung YAML.
+
+### Geändert
+- CI: Installation der Testbrowser bis zu dreimal mit je 5 Minuten; nach einem hängenden Versuch werden die apt-Sperren aufgeräumt (der zweite Versuch war zuvor daran gescheitert).
+
 ## [2.2.18] – 2026-11-18
 
 ### Hinzugefügt

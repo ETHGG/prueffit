@@ -1740,6 +1740,12 @@
     "area": "Programmierung"
   },
   {
+    "abbr": "YAML",
+    "full": "YAML Ain’t Markup Language",
+    "explanation": "Gut lesbares Textformat für Konfigurationsdateien; Struktur über Einrückungen, Kommentare mit #",
+    "area": "Programmierung"
+  },
+  {
     "abbr": "ZUGFeRD",
     "full": "Zentraler User Guide des Forums elektronische Rechnung Deutschland",
     "explanation": "E-Rechnung als PDF mit eingebetteter XML-Datei",
