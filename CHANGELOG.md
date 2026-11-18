@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.14] – 2026-11-18
+
+### Behoben
+- Frage prog-0072 (Durchschnitt mit Fehler in der Schleife): Die Aufgabe sagt jetzt ausdrücklich, dass mit ganzen Zahlen gerechnet wird – sonst wäre das Ergebnis 3,33 statt 3.
+
+### Geändert
+- CI: Zeitlimit von 20 Minuten je Job, veraltete Läufe werden bei einem neuen Push abgebrochen (zwei Läufe hingen nachts beim Runner).
+
+### Geprüft
+- 17 Pseudocode- und SQL-Aufgaben nachgerechnet (Schleifen, Rekursion, COUNT mit Datumsbereich, AVG mit NULL); WebKit-Browsertests in der CI grün.
+
 ## [2.2.13] – 2026-11-18
 
 ### Hinzugefügt
