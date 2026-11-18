@@ -1,4 +1,4 @@
-# Abschlussbericht Versionen 2.3.0 und 2.4.0
+# Abschlussbericht Versionen 2.3.0 bis 2.5.0
 
 **Datum:** 18.11.2026 · Auftrag des Nutzers: 1. Projektarbeit & Fachgespräch, 2. Gesamtnoten-Rechner, 3. Simulation in große Aufgaben gliedern
 
@@ -6,7 +6,9 @@
 - **2.4.0:** Gesamtnoten-Rechner (`js/finalGrade.js`): Gewichtung 20/50/10/10/10, Bestehensregeln, mündliche Ergänzungsprüfung mit mindestens nötigen Punkten, Übernahme der letzten Simulationsergebnisse.
 - **Annahmen:** Gewichtete Ergebnisse werden wie in der Simulation kaufmännisch auf ganze Punkte gerundet (die Verordnung regelt die Rundung nicht; die IHKs runden in der Praxis ebenso auf ganze Punkte). Die mündliche Ergänzungsprüfung wird als ganze Punktzahl 0–100 angenommen.
 - **Speicher:** neuer Schlüssel `prueffit.project` (Checklisten, Rechner-Eingaben), unabhängig vom Fortschritt; keine Schema-Migration nötig. Er ist nicht Teil der Datensicherung (Export).
+- **2.5.0:** Simulation in bis zu vier Aufgaben je schriftlichem Teil gegliedert (`splitIntoTasks` in `js/exam.js`): Handlungssituation als Aufgabe 1, übrige Fragen nach Thema gebündelt und nach Punkten ausgeglichen; Aufgabe und Schwerpunkt über jeder Frage, Übersicht gruppiert, Punkte je Aufgabe im Ergebnis. Annahme: Die Punktzahl je Teil bleibt bei 50 (Prozent und Note ändern sich dadurch nicht); WiSo bleibt ungegliedert.
 - **Neue Abhängigkeiten:** keine.
+- **Offen:** `prueffit.project` in die Datensicherung aufnehmen; falsche Fragen zeitversetzt wiederholen.
 
 # Abschlussbericht Versionen 2.2.0–2.2.19 (Nachtrunden)
 

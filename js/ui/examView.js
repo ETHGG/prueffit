@@ -54,6 +54,22 @@ export function render(root, ctx) {
   const { questions, topics } = ctx.catalog;
   const byId = new Map(questions.map((q) => [q.id, q]));
   const topicById = new Map(topics.map((t) => [t.id, t]));
+
+  /** Heading of a task (since 2.5): the scenario title, or the two topics with the most points. */
+  function taskTitle(part, task) {
+    if (task.scenario) {
+      const sc = (ctx.catalog.scenarios ?? []).find((s) => s.id === part.scenario);
+      return sc ? `Handlungssituation: ${sc.title}` : 'Handlungssituation';
+    }
+    const pointsByTopic = new Map();
+    for (const id of task.ids) {
+      const q = byId.get(id);
+      if (q) pointsByTopic.set(q.topic, (pointsByTopic.get(q.topic) ?? 0) + q.points);
+    }
+    const names = [...pointsByTopic].sort((a, b) => b[1] - a[1]).slice(0, 2).map(([t]) => topicById.get(t)?.name ?? t);
+    return `Schwerpunkt: ${names.join(', ')}${pointsByTopic.size > 2 ? ' u. a.' : ''}`;
+  }
+  const taskPoints = (task) => task.ids.reduce((s, id) => s + (byId.get(id)?.points ?? 0), 0);
   let exam = loadExam(ctx);
   let timerEl = null;
 
@@ -145,6 +161,7 @@ export function render(root, ctx) {
             : null,
           h('li', {}, 'Rückmeldung und Note gibt es erst nach der Abgabe – wie in der echten Prüfung, bei der AP2 auch für jeden Teil einzeln.'),
           h('li', {}, 'Die Zeit läuft weiter, auch wenn du die App schließt. Bei Zeitablauf wird automatisch abgegeben.'),
+          h('li', {}, 'Die schriftlichen Teile sind wie in der echten Prüfung in bis zu vier Aufgaben gegliedert; im AP2-Bereich ist Aufgabe 1 die Handlungssituation. Im Ergebnis siehst du die Punkte je Aufgabe.'),
           h('li', {}, 'Offene Aufgaben (Freitext) beantwortest du in Stichpunkten. Nach der Abgabe bewertest du sie selbst mit dem Bewertungsraster – so wie die Prüfer mit dem Lösungshinweis.'),
           h('li', {}, `Beruf: ${jobInfo ? jobInfo.name : 'alle IT-Berufe'} · ${total} Fragen aus ${chosenExam === 'AP1' ? 'der AP1' : 'deinen AP2-Prüfungsbereichen'}.`)),
         h('button', {
@@ -183,6 +200,8 @@ export function render(root, ctx) {
     const answeredCount = ids.filter((id) => Object.hasOwn(exam.responses, id)).length;
     const label = exam.exam === 'AP1' ? 'AP1' : part.title;
     const scenario = part.scenario ? (ctx.catalog.scenarios ?? []).find((s) => s.id === part.scenario) : null;
+    const currentTaskIndex = part.tasks ? part.tasks.findIndex((t) => t.ids.includes(q.id)) : -1;
+    const currentTask = currentTaskIndex >= 0 ? part.tasks[currentTaskIndex] : null;
 
     const store = (response) => {
       update(setResponse(exam, q.id, isEmptyResponse(q, response) ? undefined : response));
@@ -243,6 +262,11 @@ export function render(root, ctx) {
           h('div', { class: 'exam-title', text: exam.exam === 'AP1' ? 'AP1' : `${exam.exam} · ${part.title}` }),
           h('div', { class: 'small muted', id: 'answered-count', text: `${answeredCount} von ${ids.length} beantwortet` })),
         timerEl),
+      currentTask
+        ? h('p', { class: 'exam-task', id: 'exam-task' },
+          h('strong', { text: `Aufgabe ${currentTaskIndex + 1} von ${part.tasks.length}` }),
+          ` · ${taskTitle(part, currentTask)} · ${formatNumber(taskPoints(currentTask))} Punkte`)
+        : null,
       h('h1', { tabindex: '-1', class: 'exam-question-no', text: `Frage ${pos + 1} von ${ids.length}` }),
       scenario && scenario.questions.includes(q.id)
         ? scenarioBox(scenario, { step: scenario.questions.indexOf(q.id) + 1, open: scenario.questions.indexOf(q.id) === 0 })
@@ -261,16 +285,25 @@ export function render(root, ctx) {
             : h('button', { type: 'button', class: 'button', onClick: handIn }, `${label} abgeben`))),
       h('nav', { class: 'card', 'aria-label': 'Fragenübersicht' },
         h('h2', { class: 'small-heading', text: 'Übersicht' }),
-        h('ol', { class: 'exam-nav' },
-          ids.map((id, i) => h('li', {},
-            h('button', {
-              type: 'button',
-              class: `exam-nav-btn${Object.hasOwn(exam.responses, id) ? ' is-answered' : ''}${i === pos ? ' is-current' : ''}`,
-              'data-nav': i,
-              'aria-current': i === pos ? 'step' : null,
-              'aria-label': `Frage ${i + 1}${Object.hasOwn(exam.responses, id) ? ', beantwortet' : ''}`,
-              onClick: () => go(i),
-            }, String(i + 1))))),
+        (part.tasks ?? [{ ids }]).map((task, t) => {
+          const offset = (part.tasks ?? []).slice(0, t).reduce((n, x) => n + x.ids.length, 0);
+          return [
+            part.tasks ? h('h3', { class: 'exam-nav-task', text: `Aufgabe ${t + 1}` }) : null,
+            h('ol', { class: 'exam-nav', start: offset + 1 },
+              task.ids.map((id, k) => {
+                const i = offset + k;
+                return h('li', {},
+                  h('button', {
+                    type: 'button',
+                    class: `exam-nav-btn${Object.hasOwn(exam.responses, id) ? ' is-answered' : ''}${i === pos ? ' is-current' : ''}`,
+                    'data-nav': i,
+                    'aria-current': i === pos ? 'step' : null,
+                    'aria-label': `Frage ${i + 1}${Object.hasOwn(exam.responses, id) ? ', beantwortet' : ''}`,
+                    onClick: () => go(i),
+                  }, String(i + 1)));
+              })),
+          ];
+        }),
         h('div', { class: 'button-row spaced' },
           h('button', { type: 'button', class: 'button', onClick: handIn }, `${label} abgeben`),
           h('button', { type: 'button', class: 'link-button', onClick: abort }, 'Prüfung abbrechen'))),
@@ -363,6 +396,17 @@ export function render(root, ctx) {
               h('span', { class: 'stat-name', text: p.title }),
               h('span', { class: 'stat-rate', text: `${ev.parts[i].percent} %` }),
               h('span', { class: 'stat-detail', text: `${formatNumber(ev.parts[i].points)} von ${formatNumber(ev.parts[i].max)} Punkten · Note ${ev.parts[i].grade}` }))))
+          : null,
+        ev.parts.some((p) => p.tasks)
+          ? h('div', { class: 'task-results' },
+            ev.parts.map((p, i) => (p.tasks
+              ? h('div', {},
+                exam.parts.length > 1 ? h('h3', { class: 'small-heading', text: p.title }) : null,
+                h('ul', { class: 'stat-list', 'aria-label': `Punkte pro Aufgabe${exam.parts.length > 1 ? ` – ${p.title}` : ''}` },
+                  p.tasks.map((t, k) => h('li', { class: 'stat-item' },
+                    h('span', { class: 'stat-name', text: `Aufgabe ${k + 1}: ${taskTitle(exam.parts[i], t)}` }),
+                    h('span', { class: 'stat-detail', text: `${formatNumber(t.points)} von ${formatNumber(t.max)} Punkten` })))))
+              : null)))
           : null,
         exam.parts.some((p) => p.timeUp) ? h('p', { class: 'muted small', text: 'Mindestens ein Teil wurde wegen Zeitablaufs automatisch abgegeben.' }) : null,
         h('p', { class: 'muted small' }, passed

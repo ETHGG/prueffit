@@ -23,6 +23,8 @@ import {
   validateScenario,
   scenariosForPart,
   scenarioQuestionIds,
+  splitIntoTasks,
+  TASKS_PER_PART,
   isExamQuestion,
   pendingAssessment,
   assessResponse,
@@ -445,5 +447,56 @@ describe('open tasks with a marking scheme (since 2.2)', () => {
     expect(partly.results.find((r) => r.questionId === 'o1')).toMatchObject({ points: 2, correct: false });
     // A recorded exam can no longer be changed.
     expect(assessResponse({ ...state, recorded: true }, 'o1', [])).toEqual({ ...state, recorded: true });
+  });
+});
+
+describe('tasks within a part (since 2.5)', () => {
+  const round = (x) => Math.round(x * 100) / 100;
+  const q = (id, topic, points) => ({ id, topic, points });
+
+  it('puts the scenario questions into task 1 and spreads the topics evenly over the other tasks', () => {
+    const qs = [q('s1', 'a.x', 4), q('s2', 'a.y', 6),
+      q('n1', 'net.a', 6), q('n2', 'net.a', 6), q('h1', 'hw.b', 4), q('h2', 'hw.b', 4), q('k1', 'sec.c', 5), q('w1', 'wi.d', 3)];
+    const tasks = splitIntoTasks(qs, { scenarioIds: ['s1', 's2'] });
+    expect(tasks[0]).toEqual({ ids: ['s1', 's2'], scenario: true });
+    expect(tasks).toHaveLength(TASKS_PER_PART);
+    // groups: net 12, hw 8, sec 5, wi 3 → bins: [net]=12, [hw]=8, [sec, wi]=8
+    expect(tasks.slice(1).map((t) => t.ids)).toEqual([['n1', 'n2'], ['h1', 'h2'], ['k1', 'w1']]);
+    expect(tasks.flatMap((t) => t.ids).sort()).toEqual(qs.map((x) => x.id).sort());
+  });
+
+  it('uses four tasks without a scenario, never empty tasks, and keeps a topic together', () => {
+    const tasks = splitIntoTasks([q('a', 't.1', 2), q('b', 't.1', 2), q('c', 't.2', 2)]);
+    expect(tasks).toEqual([{ ids: ['a', 'b'], scenario: false }, { ids: ['c'], scenario: false }]);
+    expect(splitIntoTasks([])).toEqual([]);
+  });
+
+  it('createExam stores tasks for written parts but not for WiSo; evaluation sums points per task', () => {
+    let exam = createExam({ exam: 'AP2', pool, now: t0, random: createSeededRandom(4) });
+    const [ga1, , wiso] = exam.parts;
+    expect(ga1.tasks.length).toBeGreaterThan(1);
+    expect(ga1.tasks.length).toBeLessThanOrEqual(TASKS_PER_PART);
+    expect(ga1.tasks.flatMap((t) => t.ids)).toEqual(ga1.ids);
+    if (wiso) expect(wiso.tasks).toBeUndefined();
+    for (const id of ga1.tasks[0].ids) exam = setResponse(exam, id, 0);
+    exam = submitPart(exam, plus(MIN));
+    const ev = evaluateExam(exam, pool);
+    const t = ev.parts[0].tasks;
+    expect(t).toHaveLength(ga1.tasks.length);
+    expect(t.reduce((s, x) => s + x.max, 0)).toBe(ev.parts[0].max);
+    expect(round(t.reduce((s, x) => s + x.points, 0))).toBe(ev.parts[0].points);
+  });
+
+  it('restoreExam keeps valid tasks, drops broken ones and accepts exams without tasks', () => {
+    const exam = createExam({ exam: 'AP1', pool, now: t0, random: createSeededRandom(3) });
+    expect(restoreExam(exam, pool).parts[0].tasks).toEqual(exam.parts[0].tasks);
+    const broken = structuredClone(exam);
+    broken.parts[0].tasks = [{ ids: exam.parts[0].ids.slice(1), scenario: false }];
+    const restored = restoreExam(broken, pool);
+    expect(restored).not.toBeNull();
+    expect(restored.parts[0].tasks).toBeUndefined();
+    const old = structuredClone(exam);
+    delete old.parts[0].tasks;
+    expect(restoreExam(old, pool).parts[0].tasks).toBeUndefined();
   });
 });

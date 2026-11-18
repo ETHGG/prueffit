@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.5.0] – 2026-11-18
+
+### Geändert
+- **Prüfungssimulation in Aufgaben gegliedert** wie die echte Prüfung: AP1 und die schriftlichen AP2-Bereiche bestehen aus bis zu vier Aufgaben. In der AP2 ist Aufgabe 1 die Handlungssituation; die übrigen Fragen werden nach Thema gebündelt und so verteilt, dass die Aufgaben möglichst gleich viele Punkte haben. WiSo bleibt ungegliedert (gebundene Aufgaben).
+  - Über jeder Frage steht „Aufgabe 2 von 4 · Schwerpunkt: … · 14 Punkte“, die Übersicht ist nach Aufgaben gruppiert.
+  - Im Ergebnis stehen die Punkte je Aufgabe – so siehst du, welcher Handlungsschritt schwach war.
+- Laufende Prüfungen aus älteren Versionen laufen ohne Gliederung weiter.
+
 ## [2.4.0] – 2026-11-18
 
 ### Hinzugefügt

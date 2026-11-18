@@ -259,6 +259,7 @@ Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (`ch
 - AP1: 90 Minuten. AP2: zwei Prüfungsbereiche mit je 90 Minuten (Namen je Beruf, siehe `AP2_BLUEPRINTS` in `js/exam.js`) und WiSo mit 60 Minuten (bis zu 30 Fragen); jeder Teil wird einzeln benotet. Timer läuft weiter, wenn die App kurz verlassen wird (Startzeit speichern, nicht runterzählen).
 - Offene Aufgaben (`text` mit `rubric`, seit 2.2) kommen in allen Teilen außer WiSo vor; nach der letzten Abgabe bewertet der Lernende sie mit dem Raster, erst danach wird das Ergebnis gespeichert.
 - AP2-Prüfungsbereiche beginnen mit einer Handlungssituation, wenn eine zu Beruf und Bereich passt (siehe 5.3c).
+- Seit 2.5 sind AP1 und die schriftlichen AP2-Bereiche in bis zu vier Aufgaben gegliedert (`splitIntoTasks`): Handlungssituation = Aufgabe 1, übrige Fragen nach Thema gebündelt und nach Punkten ausgeglichen verteilt; WiSo ohne Gliederung. `parts[].tasks` im Prüfungszustand ist optional (ältere Zustände ohne).
 - Bei Zeitablauf automatisch abgeben.
 - **IHK-Notenschlüssel (Prozent der Punkte):**
 
@@ -362,7 +363,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.2** | Offene Aufgaben (Freitext mit Bewertungsraster) in der Prüfungssimulation, Selbstbewertung nach der Abgabe; Feinschliff der Oberfläche | erledigt |
 | **2.3** | Bereich „Projektarbeit & Fachgespräch“ (`#/projekt`): Prüfungsbereich je Beruf, Checklisten, Fachgesprächsfragen | erledigt |
 | **2.4** | Gesamtnoten-Rechner mit Bestehensregeln und mündlicher Ergänzungsprüfung | erledigt |
-| **2.5** | Prüfungssimulation in große Aufgaben gegliedert (Punkte je Aufgabe) | offen |
+| **2.5** | Prüfungssimulation in große Aufgaben gegliedert (Punkte je Aufgabe) | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

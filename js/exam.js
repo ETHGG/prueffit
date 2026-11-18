@@ -199,11 +199,13 @@ export function createExam({
     if (!picked.length) continue;
     const ids = new Set(picked.map((q) => q.id));
     remaining = remaining.filter((q) => !ids.has(q.id));
+    const tasks = UNSPLIT_PARTS.includes(p.id) ? null : splitIntoTasks(picked, { scenarioIds: opening.map((q) => q.id) });
     parts.push({
       id: p.id,
       title: p.title,
       minutes: p.minutes,
-      ids: picked.map((q) => q.id),
+      ids: tasks ? tasks.flatMap((t) => t.ids) : picked.map((q) => q.id),
+      ...(tasks ? { tasks } : {}),
       scenario: chosen?.id ?? null,
       startedAt: parts.length === 0 ? now.toISOString() : null,
       submittedAt: null,
@@ -221,6 +223,49 @@ export function createExam({
     finished: false,
     finishedAt: null,
   };
+}
+
+/** Parts that are not split into tasks (WiSo: many short multiple-choice questions, as in the real exam). */
+const UNSPLIT_PARTS = ['wiso'];
+/** Number of tasks per written part, like the real exam (4 tasks, "Handlungsschritte"). */
+export const TASKS_PER_PART = 4;
+
+/**
+ * Splits the questions of a part into tasks (since 2.5), like the real exam where each part
+ * consists of a few larger tasks. The scenario questions form task 1; the other questions are
+ * grouped by topic and the groups are spread over the remaining tasks so that their points are
+ * as even as possible (largest group first, always into the task with the fewest points).
+ * Returns [{ ids, scenario }] in exam order; empty tasks are dropped.
+ */
+export function splitIntoTasks(questions, { scenarioIds = [], tasks = TASKS_PER_PART } = {}) {
+  const inScenario = new Set(scenarioIds);
+  const opening = questions.filter((q) => inScenario.has(q.id));
+  const rest = questions.filter((q) => !inScenario.has(q.id));
+  const binCount = Math.max(1, tasks - (opening.length ? 1 : 0));
+  const groups = new Map();
+  for (const q of rest) {
+    if (!groups.has(q.topic)) groups.set(q.topic, []);
+    groups.get(q.topic).push(q);
+  }
+  const pointsOf = (list) => list.reduce((sum, q) => sum + q.points, 0);
+  const bins = Array.from({ length: binCount }, () => []);
+  const sorted = [...groups.values()].map((list, i) => ({ list, i })).sort((a, b) => pointsOf(b.list) - pointsOf(a.list) || a.i - b.i);
+  for (const { list } of sorted) {
+    let target = 0;
+    for (let b = 1; b < bins.length; b += 1) if (pointsOf(bins[b]) < pointsOf(bins[target])) target = b;
+    bins[target].push(...list);
+  }
+  const out = opening.length ? [{ ids: opening.map((q) => q.id), scenario: true }] : [];
+  for (const bin of bins) if (bin.length) out.push({ ids: bin.map((q) => q.id), scenario: false });
+  return out;
+}
+
+/** True if `tasks` is a valid split of the part's ids (same ids, same order, no empty task). */
+function validTasks(tasks, ids) {
+  if (!Array.isArray(tasks) || !tasks.length) return false;
+  if (!tasks.every((t) => t && Array.isArray(t.ids) && t.ids.length && typeof t.scenario === 'boolean')) return false;
+  const flat = tasks.flatMap((t) => t.ids);
+  return flat.length === ids.length && flat.every((id, i) => id === ids[i]);
 }
 
 /** Number of questions each part of a blueprint would get from `pool` (for the start screen). */
@@ -329,7 +374,16 @@ export function evaluateExam(state, questions) {
   const max = results.reduce((s, r) => s + r.maxPoints, 0);
   const { percent, grade, label } = gradeExam(points, max);
   const date = state.finishedAt ?? state.parts.map((p) => p.submittedAt).filter(Boolean).pop() ?? null;
-  const parts = partSums.map((sum, i) => ({ ...sum, ...gradeExam(sum.points, sum.max), id: state.parts[i].id ?? null, title: state.parts[i].title }));
+  const resultById = new Map(results.map((r) => [r.questionId, r]));
+  const taskSums = (part) => part.tasks?.map((t) => ({
+    scenario: t.scenario,
+    ids: t.ids,
+    points: round2(t.ids.reduce((s, id) => s + (resultById.get(id)?.points ?? 0), 0)),
+    max: t.ids.reduce((s, id) => s + (resultById.get(id)?.maxPoints ?? 0), 0),
+  })) ?? null;
+  const parts = partSums.map((sum, i) => ({
+    ...sum, ...gradeExam(sum.points, sum.max), id: state.parts[i].id ?? null, title: state.parts[i].title, tasks: taskSums(state.parts[i]),
+  }));
   const record = { date, exam: state.exam, points, max, percent, grade };
   if (state.job) record.job = state.job;
   // Part ids since 2.4 (for the overall grade calculator); older records only have titles.
@@ -364,5 +418,8 @@ export function restoreExam(data, questions) {
     if (!isIsoOrNull(p.startedAt) || !isIsoOrNull(p.submittedAt) || !(p.minutes > 0) || typeof p.title !== 'string') return null;
     if (p.scenario !== undefined && p.scenario !== null && typeof p.scenario !== 'string') return null;
   }
-  return structuredClone(data);
+  const restored = structuredClone(data);
+  // Tasks are optional (exams started before 2.5 have none); a broken split is dropped, not fatal.
+  for (const p of restored.parts) if (p.tasks !== undefined && !validTasks(p.tasks, p.ids)) delete p.tasks;
+  return restored;
 }

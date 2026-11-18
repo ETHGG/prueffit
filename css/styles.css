@@ -681,3 +681,12 @@ body.setup-mode .tabbar { display: none; }
 .final-result { margin-top: 1rem; }
 .final-verdict.ok strong { color: var(--ok); }
 .final-verdict.bad strong { color: var(--bad); }
+
+/* Tasks within an exam part (since 2.5) */
+.exam-task { margin: .25rem 0 0; font-size: .9rem; color: var(--muted); }
+.exam-task strong { color: var(--text); }
+.exam-nav-task { font-size: .85rem; margin: .75rem 0 .35rem; color: var(--muted); }
+.task-results { margin-top: .75rem; }
+.task-results { text-align: left; }
+.task-results .stat-item { grid-template-columns: 1fr auto; }
+.task-results .stat-name { hyphens: manual; overflow-wrap: break-word; }

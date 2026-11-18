@@ -233,3 +233,27 @@ test('open tasks: answered in free text, assessed with the marking scheme after 
   await expect(review).toContainText('Musterlösung:');
   expect(problems).toEqual([]);
 });
+
+test('AP2 parts are split into tasks: scenario first, task header, grouped overview, points per task (since 2.5)', async ({ page }) => {
+  const problems = watchProblems(page);
+  // FISI is the job of the test user (playwright.config.js).
+  await page.goto('./#/pruefung');
+  await page.locator('label', { hasText: /^AP2$/ }).click();
+  await page.locator('#exam-scope').selectOption('ga1');
+  await page.getByRole('button', { name: 'AP2 starten' }).click();
+  await expect(page.locator('#exam-task')).toContainText(/^Aufgabe 1 von [2-4] · Handlungssituation: /);
+  const tasks = await page.locator('.exam-nav-task').count();
+  expect(tasks).toBeGreaterThanOrEqual(2);
+  expect(tasks).toBeLessThanOrEqual(4);
+  // Jump to the first question of the last task: header follows.
+  const lastStart = await page.locator('ol.exam-nav').last().getAttribute('start');
+  await page.locator(`[data-nav="${Number(lastStart) - 1}"]`).click();
+  await expect(page.locator('#exam-task')).toContainText(new RegExp(`^Aufgabe ${tasks} von ${tasks} · Schwerpunkt: `));
+  await expectNoHorizontalOverflow(page);
+  await page.getByRole('button', { name: /abgeben$/ }).last().click();
+  await page.getByRole('button', { name: 'Abgeben', exact: true }).click();
+  await finishAssessment(page);
+  await expect(page.locator('.task-results li')).toHaveCount(tasks);
+  await expect(page.locator('.task-results li').first()).toContainText(/^Aufgabe 1: Handlungssituation: .+0 von \d+ Punkten$/);
+  expect(problems).toEqual([]);
+});
