@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.16] – 2026-11-18
+
+### Hinzugefügt
+- **10 offene Aufgaben** für Prüfungsbereiche, die bisher wenige hatten (FISI „Analyse und Entwicklung von Netzwerken“, ITSE „Anbindung an die Stromversorgung“, FIAE „Entwicklung und Umsetzung von Algorithmen“): Subnetze planen, Fehlersuche ohne Internet, Hash vs. Verschlüsselung, Vorteile von IPv6, Stromkreis für den Serverschrank, Schutzklassen, Prüfung nach Reparatur, Bubble Sort, Vererbung und Polymorphie, Normalisierung und Anomalien. Jetzt 68 offene Aufgaben, 876 Fragen.
+
 ## [2.2.15] – 2026-11-18
 
 ### Hinzugefügt
