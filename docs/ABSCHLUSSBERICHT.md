@@ -44,7 +44,7 @@
 
 **Annahmen:** Rechtsangaben (Verzugszinsen, Fixhandelskauf, RCD-Pflicht bis 32 A, Kerberos 5 Minuten) nach aktuellem Stand von BGB, HGB und DIN VDE 0100-410:2018; VoIP-Bandbreite mit vereinfachten 100 kbit/s je Gespräch (in der Aufgabe angegeben).
 
-**Offen:** GitHub-Releases legt der Nutzer selbst an (API für Releases in dieser Umgebung gesperrt). Die Live-Seite konnte aus der Arbeitsumgebung nicht direkt aufgerufen werden; die GitHub-Pages-Auslieferung meldet Erfolg. Weitere Inhaltsideen: offene Aufgaben für ITSE GA2 und FIAE GA2 weiter ausbauen.
+**Erledigt (18.11., 13:45):** GitHub-Releases v0.8.0–v2.6.0 über die Weboberfläche angelegt (mit Zustimmung des Nutzers). Die Live-Seite konnte aus der Arbeitsumgebung nicht direkt aufgerufen werden; die GitHub-Pages-Auslieferung meldet Erfolg. Weitere Inhaltsideen: offene Aufgaben für ITSE GA2 und FIAE GA2 weiter ausbauen.
 
 # Abschlussbericht Version 2.2.0
 
