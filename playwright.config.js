@@ -22,7 +22,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   webServer: {
-    command: 'python3 -m http.server 8080 --bind 127.0.0.1',
+    command: 'node scripts/serve.mjs 8080',
     url: 'http://127.0.0.1:8080/',
     reuseExistingServer: !process.env.CI,
     stdout: 'ignore',

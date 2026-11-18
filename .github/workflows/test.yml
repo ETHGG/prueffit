@@ -45,26 +45,13 @@ jobs:
     name: Browsertests (Playwright, Chromium + WebKit)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # Official Playwright image with browsers and system libraries preinstalled: no apt downloads
+    # (the Ubuntu mirror stalled several times). Keep the tag equal to the playwright version in package-lock.json.
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.1-noble
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
       - run: npm ci
-      # The Ubuntu package mirror sometimes stalls. Up to three tries of 5 minutes each;
-      # after a stalled try the killed apt run leaves locks behind, so clean up before the next one.
-      - name: Install Playwright browsers (with retry)
-        timeout-minutes: 17
-        run: |
-          for try in 1 2 3; do
-            if timeout 300 npx playwright install --with-deps chromium webkit; then exit 0; fi
-            echo "::warning::Playwright-Installation, Versuch $try fehlgeschlagen"
-            sudo pkill -9 -f 'apt|dpkg' || true
-            sudo rm -f /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock /var/lib/apt/lists/lock /var/cache/apt/archives/lock
-            sudo dpkg --configure -a || true
-          done
-          exit 1
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v4
         if: failure()

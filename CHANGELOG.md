@@ -8,7 +8,7 @@ Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](h
 - **9 AP2-Fragen** zu dünnen KITS-/FISI-Themen: Wirtschaftssektoren, Arbeitsteilung, DMARC, Verhalten nach Phishing-Klick, Stromkosten eines Netzwerkschranks, Format für Konfigurationsdateien, Risikowert, MOD im Pseudocode, „Cloud first“. Lernzettel ergänzt (Konfigurationsdateien, Cloud-Strategie), Abkürzung YAML.
 
 ### Geändert
-- CI: Installation der Testbrowser bis zu dreimal mit je 5 Minuten; nach einem hängenden Versuch werden die apt-Sperren aufgeräumt (der zweite Versuch war zuvor daran gescheitert).
+- CI: Die Browsertests laufen im offiziellen Playwright-Container (Browser und Systembibliotheken vorinstalliert), weil der Ubuntu-Paketspiegel beim Installieren mehrfach hing. Statt `python3 -m http.server` startet `scripts/serve.mjs` (Node, ohne Abhängigkeiten) den Testserver. Neuer Test `tests/ci.test.js` hält die Container-Version und die Playwright-Version gleich.
 
 ## [2.2.18] – 2026-11-18
 
