@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.18] – 2026-11-18
+
+### Hinzugefügt
+- **11 Karteikarten** zu den Inhalten der neuen offenen Aufgaben: Anomalien ohne Normalisierung, Netzwerkeffekt, Bubble Sort, Polymorphie, Ist- vs. Soll-Prozess, Make or Buy, Fixhandelskauf, Rahmenvertrag, Prüfung nach Reparatur, kritischer Pfad, Hashen vs. Verschlüsseln (jetzt 252 Karten).
+
+### Geändert
+- CI: Die Installation der Testbrowser hat ein Zeitlimit und einen zweiten Versuch, weil der Ubuntu-Paketspiegel nachts zweimal hing.
+
 ## [2.2.17] – 2026-11-18
 
 ### Hinzugefügt

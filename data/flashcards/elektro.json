@@ -8,5 +8,6 @@
   {"id": "fc-0170", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.installation", "front": "PoE-Standards", "back": "802.3af 15,4 W · 802.3at 30 W · 802.3bt 60/90 W (am Switchport)."},
   {"id": "fc-0171", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.installation", "front": "NYM-J 3 × 1,5", "back": "Mantelleitung, J = mit Schutzleiter, 3 Adern à 1,5 mm²."},
   {"id": "fc-0198", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.grundlagen", "front": "Drehstromleistung", "back": "P = √3 × U × I × cos φ (U = 400 V zwischen Außenleitern)."},
-  {"id": "fc-0199", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.schutz", "front": "Spannungsfreiheit feststellen", "back": "Zweipoliger Spannungsprüfer, allpolig, vorher an bekannter Quelle testen."}
+  {"id": "fc-0199", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.schutz", "front": "Spannungsfreiheit feststellen", "back": "Zweipoliger Spannungsprüfer, allpolig, vorher an bekannter Quelle testen."},
+  {"id": "fc-0250", "exam": ["AP2"], "jobs": ["itse"], "topic": "elektro.schutz", "front": "Prüfung nach Reparatur (DIN EN 50678)", "back": "Sichtprüfung → Schutzleiterwiderstand → Isolationswiderstand bzw. Schutzleiter-/Berührungsstrom → Funktionsprüfung → Protokoll."}
 ]
