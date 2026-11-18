@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.2.15] – 2026-11-18
+
+### Hinzugefügt
+- **15 AP1-Fragen** für die bisher dünnsten Themen des AP1-Katalogs 2025 (gelten für alle Berufe): IT-Service (Incident, Priorität), Marktforschung und AIDA, Wartungsfenster und IT-Inventar, IPv6 (Länge, Link-Local), lineare Suche und Algorithmusbegriff, Primärschlüssel und 1:n-Beziehung, Phishing-Merkmale, S/MIME-Signatur, VPN fürs Homeoffice. Lernzettel „IT-Betrieb“ ergänzt.
+
+### Geprüft
+- 26 Elektro- und OT-Rechenaufgaben (ITSE/FIDV) nachgerechnet, keine Fehler. Lernzettel-PDF (KITS) mit den neuen Abschnitten sichtgeprüft.
+
 ## [2.2.14] – 2026-11-18
 
 ### Behoben
