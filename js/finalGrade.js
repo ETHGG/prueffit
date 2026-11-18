@@ -85,3 +85,28 @@ export function oralOptions(p) {
     return { id: a.id, written: p[a.id], needed };
   }).filter((o) => o.needed !== null);
 }
+
+/**
+ * Newest simulation result (percent = points of 100) per area from stored exam records.
+ * AP2 records carry part ids since 2.4; for older records the part titles of the occupation
+ * (`titles`: { ga1, ga2, wiso }) are used. Records of another occupation are ignored.
+ * Returns e.g. { ap1: 72, ga1: 64, wiso: 80 } – areas without a result are missing.
+ */
+export function latestSimulationResults(exams = [], { job = null, titles = {} } = {}) {
+  const out = {};
+  const idForTitle = (title) => Object.keys(titles).find((id) => titles[id] === title);
+  const sorted = [...exams].filter((e) => e && typeof e === 'object')
+    .sort((a, b) => String(b.date ?? '').localeCompare(String(a.date ?? '')));
+  const take = (id, percent) => {
+    if (id && !(id in out) && Number.isFinite(percent) && percent >= 0 && percent <= 100) out[id] = percent;
+  };
+  for (const e of sorted) {
+    if (job && e.job && e.job !== job) continue;
+    if (e.exam === 'AP1') take('ap1', e.percent);
+    else if (e.exam === 'AP2') {
+      if (Array.isArray(e.parts)) for (const p of e.parts) take(p.id ?? idForTitle(p.title), p.percent);
+      else take(e.part, e.percent);
+    }
+  }
+  return out;
+}

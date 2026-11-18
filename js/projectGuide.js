@@ -213,15 +213,25 @@ export function checklistProgress(checked = {}) {
 /** Storage key for the ticked checklist items (separate from the progress, like the running exam). */
 export const PROJECT_KEY = 'prueffit.project';
 
-/** Reads stored checklist state; broken or foreign data yields an empty state (never throws). */
+const POINT_AREAS = ['ap1', 'project', 'ga1', 'ga2', 'wiso'];
+
+/**
+ * Reads stored state: ticked checklist items and (since 2.4) the points entered in the overall grade
+ * calculator. Broken or foreign data yields an empty state (never throws).
+ */
 export function parseProjectState(raw) {
   try {
     const data = JSON.parse(raw ?? 'null');
     const known = new Set(CHECKLISTS.flatMap((l) => l.items.map(([id]) => id)));
     const checked = {};
     for (const [id, value] of Object.entries(data?.checked ?? {})) if (known.has(id) && value === true) checked[id] = true;
-    return { checked };
+    const points = {};
+    for (const id of POINT_AREAS) {
+      const v = data?.points?.[id];
+      if (typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= 100) points[id] = v;
+    }
+    return { checked, points };
   } catch {
-    return { checked: {} };
+    return { checked: {}, points: {} };
   }
 }

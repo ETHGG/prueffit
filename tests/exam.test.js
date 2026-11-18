@@ -313,10 +313,19 @@ describe('evaluateExam', () => {
     expect(ev.parts[0]).toMatchObject({ id: 'ga1', percent: 100, grade: 1 });
     expect(ev.parts[1]).toMatchObject({ id: 'ga2', percent: 0, grade: 6 });
     expect(ev.record.parts).toEqual([
-      { title: 'Ganzheitliche Aufgabe 1', percent: 100, grade: 1 },
-      { title: 'Ganzheitliche Aufgabe 2', percent: 0, grade: 6 },
+      { id: 'ga1', title: 'Ganzheitliche Aufgabe 1', percent: 100, grade: 1 },
+      { id: 'ga2', title: 'Ganzheitliche Aufgabe 2', percent: 0, grade: 6 },
     ]);
     expect(ev.record.job).toBeUndefined();
+    expect(ev.record.part).toBeUndefined();
+  });
+
+  it('stores the part id when only one AP2 part was taken (since 2.4)', () => {
+    let exam = createExam({ exam: 'AP2', partIds: ['ga2'], pool, now: t0, random: createSeededRandom(2) });
+    exam = submitPart(exam, plus(MIN));
+    const ev = evaluateExam(exam, pool);
+    expect(ev.record.part).toBe('ga2');
+    expect(ev.record.parts).toBeUndefined();
   });
 });
 

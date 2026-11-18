@@ -47,8 +47,12 @@ describe('checklistProgress / parseProjectState', () => {
     expect(p.total).toBe(CHECKLISTS.reduce((s, l) => s + l.items.length, 0));
   });
   it('never throws on broken data and drops unknown ids', () => {
-    expect(parseProjectState('{kaputt')).toEqual({ checked: {} });
-    expect(parseProjectState(null)).toEqual({ checked: {} });
-    expect(parseProjectState(JSON.stringify({ checked: { 'a-echt': true, 'zz': true, 'a-ziel': 'ja' } }))).toEqual({ checked: { 'a-echt': true } });
+    expect(parseProjectState('{kaputt')).toEqual({ checked: {}, points: {} });
+    expect(parseProjectState(null)).toEqual({ checked: {}, points: {} });
+    expect(parseProjectState(JSON.stringify({ checked: { 'a-echt': true, 'zz': true, 'a-ziel': 'ja' } }))).toEqual({ checked: { 'a-echt': true }, points: {} });
+  });
+  it('keeps valid calculator points 0..100 and drops everything else (since 2.4)', () => {
+    const raw = JSON.stringify({ points: { ap1: 72, project: 100, ga1: 101, ga2: -1, wiso: '80', foo: 50 } });
+    expect(parseProjectState(raw).points).toEqual({ ap1: 72, project: 100 });
   });
 });

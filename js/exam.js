@@ -332,7 +332,9 @@ export function evaluateExam(state, questions) {
   const parts = partSums.map((sum, i) => ({ ...sum, ...gradeExam(sum.points, sum.max), id: state.parts[i].id ?? null, title: state.parts[i].title }));
   const record = { date, exam: state.exam, points, max, percent, grade };
   if (state.job) record.job = state.job;
-  if (state.parts.length > 1) record.parts = parts.map((p) => ({ title: p.title, percent: p.percent, grade: p.grade }));
+  // Part ids since 2.4 (for the overall grade calculator); older records only have titles.
+  if (state.parts.length > 1) record.parts = parts.map((p) => ({ id: p.id, title: p.title, percent: p.percent, grade: p.grade }));
+  else if (state.exam === 'AP2' && parts[0]?.id) record.part = parts[0].id;
   return {
     results,
     parts,

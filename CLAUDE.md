@@ -236,7 +236,7 @@ Eine Situation eröffnet einen AP2-Prüfungsbereich: Erst kommen ihre Fragen in 
 ```
 Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`); 2 → 3 (v0.4.0) ergänzt `daily` (erledigte Aufgaben pro Tag, Europe/Berlin, die letzten 90 Tage); 3 → 4 (v0.6.0) ergänzt `settings.onboarded` (Willkommensfragen beantwortet) und `settings.examTarget` (nächste Prüfung und Termin oder `null`); 4 → 5 (v1.0.0) ergänzt `settings.backup` (letzte Sicherung, „Später“ bis); 5 → 6 (v2.0.0): `settings.job` ist eine Berufs-ID oder `null` (`itsm` → `kits`, `alle` → `null`), neu `settings.jobConfirmed` (nach der Migration `false`, damit jeder seinen Beruf einmal bestätigt). Ein bestätigter Beruf kann nicht mehr geändert werden (`updateSettings`, Import). Antworten haben seit 1.0 zusätzlich `lastCorrect` (letzte Antwort richtig?) für „Meine Fehler“; ältere Einträge ohne dieses Feld gelten als Fehler, solange nicht alle Versuche richtig waren.
 Karteikarten aus dem Abkürzungsverzeichnis haben die IDs `ab-<abkürzung>` und liegen ebenfalls unter `cards`.
-Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (abgehakte Punkte der Projekt-Checklisten, seit 2.3; defekte Daten → leer), `prueffit.custom` (importierte eigene Fragen/Karten), `sessionStorage` `prueffit.quizSession` (laufende Quiz-Runde).
+Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (`checked`: abgehakte Punkte der Projekt-Checklisten seit 2.3, `points`: Eingaben des Gesamtnoten-Rechners seit 2.4; defekte Daten → leer), `prueffit.custom` (importierte eigene Fragen/Karten), `sessionStorage` `prueffit.quizSession` (laufende Quiz-Runde).
 
 ---
 
@@ -272,6 +272,11 @@ Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (abg
 | 0–29 | 6 (ungenügend) |
 
 Prozent wird **kaufmännisch auf ganze Zahlen gerundet**, bevor die Note bestimmt wird.
+
+### 6.3a Gesamtnote (seit 2.4, `js/finalGrade.js`)
+- Gewichtung für alle IT-Berufe (VO 2020): Teil 1 20 %, Projekt 50 %, zwei schriftliche Bereiche je 10 %, WiSo 10 %. Gewichtete Ergebnisse werden kaufmännisch auf ganze Punkte gerundet.
+- Bestanden: Gesamt ≥ 50, Teil 2 ≥ 50, mindestens drei Bereiche von Teil 2 ≥ 50, keiner < 30.
+- Mündliche Ergänzungsprüfung: nur in einem schriftlichen Bereich von Teil 2 mit < 50 Punkten, wenn sie das Bestehen entscheiden kann; schriftlich : mündlich = 2 : 1.
 
 ### 6.4 Prüfungstermine
 - Die schriftlichen Prüfungen der IT-Berufe sind bundeseinheitlich (gilt auch für Sachsen-Anhalt). Bekannte Termine stehen in `KNOWN_EXAM_DATES` (`js/schedule.js`) und werden jährlich nachgepflegt.
@@ -356,7 +361,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.1** | Abgleich mit Ausbildungsverordnungen (`docs/ABGLEICH.md`), KITS/FISI ausgebaut (Skripte, Speicher, Lizenzmodelle, Kennzahlen …), zweite Handlungssituationen, Bewertungsraster für Freitext, „Dein Plan für heute“, AP2-Termin KITS/KDM dienstags | erledigt |
 | **2.2** | Offene Aufgaben (Freitext mit Bewertungsraster) in der Prüfungssimulation, Selbstbewertung nach der Abgabe; Feinschliff der Oberfläche | erledigt |
 | **2.3** | Bereich „Projektarbeit & Fachgespräch“ (`#/projekt`): Prüfungsbereich je Beruf, Checklisten, Fachgesprächsfragen | erledigt |
-| **2.4** | Gesamtnoten-Rechner mit Bestehensregeln und mündlicher Ergänzungsprüfung | offen |
+| **2.4** | Gesamtnoten-Rechner mit Bestehensregeln und mündlicher Ergänzungsprüfung | erledigt |
 | **2.5** | Prüfungssimulation in große Aufgaben gegliedert (Punkte je Aufgabe) | offen |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.

@@ -113,7 +113,7 @@ export function render(root, ctx) {
       h('a', { class: 'card nav-card', href: '#/projekt' },
         h('span', { class: 'grow' },
           h('strong', { text: 'Projektarbeit & Fachgespräch' }),
-          h('span', { class: 'muted small block', text: '50 % der Gesamtnote: Checklisten, Fragen fürs Fachgespräch' })),
+          h('span', { class: 'muted small block', text: '50 % der Gesamtnote: Checklisten, Fragen fürs Fachgespräch, Gesamtnote berechnen' })),
         h('span', { 'aria-hidden': 'true', text: '→' })),
       h('section', { class: 'card' },
         h('fieldset', {},

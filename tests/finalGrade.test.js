@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { evaluateFinal, withOral, oralOptions, AREAS } from '../js/finalGrade.js';
+import { evaluateFinal, withOral, oralOptions, AREAS, latestSimulationResults } from '../js/finalGrade.js';
 
 const all = (ap1, project, ga1, ga2, wiso) => ({ ap1, project, ga1, ga2, wiso });
 
@@ -73,5 +73,25 @@ describe('oral supplementary exam', () => {
   it('offers nothing if the project is failed (no oral exam there) or nothing can be saved', () => {
     expect(evaluateFinal(all(80, 20, 80, 80, 80)).oral).toEqual([]);
     expect(oralOptions({ ap1: 0, project: 40, ga1: 10, ga2: 10, wiso: 10 })).toEqual([]);
+  });
+});
+
+describe('latestSimulationResults', () => {
+  const titles = { ga1: 'Einführen einer IT-Systemlösung', ga2: 'Kaufmännische Unterstützungsprozesse', wiso: 'Wirtschafts- und Sozialkunde' };
+  it('takes the newest result per area, by part id or (older records) by title', () => {
+    const exams = [
+      { date: '2026-10-01T10:00:00Z', exam: 'AP1', percent: 55, job: 'kits' },
+      { date: '2026-11-01T10:00:00Z', exam: 'AP1', percent: 72, job: 'kits' },
+      { date: '2026-10-05T10:00:00Z', exam: 'AP2', job: 'kits', parts: [
+        { title: 'Einführen einer IT-Systemlösung', percent: 61 }, { title: 'Kaufmännische Unterstützungsprozesse', percent: 58 },
+        { title: 'Wirtschafts- und Sozialkunde', percent: 80 }] },
+      { date: '2026-11-10T10:00:00Z', exam: 'AP2', job: 'kits', part: 'ga2', percent: 66 },
+      { date: '2026-11-11T10:00:00Z', exam: 'AP2', job: 'fisi', part: 'ga1', percent: 99 }, // other occupation
+      'kaputt',
+    ];
+    expect(latestSimulationResults(exams, { job: 'kits', titles })).toEqual({ ap1: 72, ga1: 61, ga2: 66, wiso: 80 });
+  });
+  it('returns an empty object without records', () => {
+    expect(latestSimulationResults(undefined)).toEqual({});
   });
 });

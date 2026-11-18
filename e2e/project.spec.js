@@ -44,3 +44,39 @@ test('Projektarbeit: FIAE has 80 hours, broken stored checklist does not crash',
   await expect(page.locator('input[data-item]:checked')).toHaveCount(0);
   expect(problems).toEqual([]);
 });
+
+test('Gesamtnote berechnen: weighting, passing rules, oral supplementary exam, values from simulations', async ({ page }) => {
+  const problems = watchProblems(page);
+  await useJob(page, 'fisi');
+  await page.evaluate(() => {
+    const s = JSON.parse(localStorage.getItem('prueffit.v1'));
+    s.exams = [
+      { date: '2026-11-01T10:00:00Z', exam: 'AP1', points: 72, max: 100, percent: 72, grade: 3, job: 'fisi' },
+      { date: '2026-11-02T10:00:00Z', exam: 'AP2', points: 40, max: 80, percent: 50, grade: 4, job: 'fisi',
+        parts: [{ id: 'ga1', title: 'x', percent: 45, grade: 5 }, { id: 'ga2', title: 'y', percent: 40, grade: 5 }, { id: 'wiso', title: 'z', percent: 70, grade: 3 }] },
+    ];
+    localStorage.setItem('prueffit.v1', JSON.stringify(s));
+  });
+  await page.goto('./#/projekt');
+  await page.reload(); // load the seeded exam records
+  await expect(page.locator('.final-result')).toContainText('Noch offen');
+  await page.getByRole('button', { name: 'Ergebnisse aus Simulationen übernehmen' }).click();
+  await expect(page.locator('#final-ap1')).toHaveValue('72');
+  await expect(page.locator('#final-ga2')).toHaveValue('40');
+  await expect(page.locator('.final-result')).toContainText('Noch offen: Projekt');
+  await page.fill('#final-project', '60');
+  // Teil 2 areas: 60, 45, 40, 70 → only two with ≥ 50 → not passed; oral exam can save it.
+  await expect(page.locator('.final-verdict')).toContainText('Nicht bestanden');
+  await expect(page.locator('.final-result')).toContainText('weniger als drei Prüfungsbereiche');
+  await expect(page.locator('.final-result')).toContainText('mindestens 59 Punkte mündlich nötig (schriftlich 45)');
+  await page.fill('#final-ga1', '55');
+  // 0.2·72 + 0.5·60 + 0.1·(55 + 40 + 70) = 14.4 + 30 + 16.5 = 60.9 → 61 → Note 4
+  await expect(page.locator('.final-verdict')).toHaveText('Bestanden – Gesamtergebnis 61 Punkte, Note 4 (ausreichend)');
+  await page.reload();
+  await expect(page.locator('#final-ga1')).toHaveValue('55');
+  await expect(page.locator('.final-verdict')).toContainText('Bestanden');
+  await page.fill('#final-wiso', '120');
+  await expect(page.locator('#final-wiso')).toHaveAttribute('aria-invalid', 'true');
+  await expectNoHorizontalOverflow(page);
+  expect(problems).toEqual([]);
+});

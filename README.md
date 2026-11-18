@@ -19,6 +19,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 - **Übersichtlich trotz vieler Inhalte:** Themen in Quiz und Statistik sowie Lernzettel und Karten sind nach AP1/AP2 und Prüfungsbereich aufklappbar; Karteikarten lassen sich in Durchgängen zu 10, 20 oder 50 Karten lernen.
 - **Meine Fehler:** Quiz nur mit den Fragen, die du zuletzt falsch beantwortet hast.
 - **Projektarbeit & Fachgespräch:** Prüfungsbereich des eigenen Berufs, Checklisten vom Projektantrag bis zum Fachgespräch und typische Fachgesprächsfragen mit Hinweisen.
+- **Gesamtnote berechnen:** Gesamtergebnis und Note nach Ausbildungsverordnung, alle Bestehensregeln und – falls nötig – die mündliche Ergänzungsprüfung mit den mindestens nötigen Punkten.
 - **Offene Aufgaben:** Freitextaufgaben wie in der schriftlichen AP2 gezielt üben und mit Musterlösung und Bewertungsraster selbst bewerten – auch in der Prüfungssimulation.
 - **AP2 mit Handlungssituationen:** Jeder Prüfungsbereich beginnt wie in der echten Prüfung mit einer Ausgangslage und zusammenhängenden Teilaufgaben.
 - **Sicherung:** Die App erinnert daran, den Fortschritt ab und zu als Datei zu sichern.

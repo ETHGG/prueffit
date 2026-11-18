@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.4.0] – 2026-11-18
+
+### Hinzugefügt
+- **Gesamtnote berechnen** (im Bereich „Projektarbeit & Fachgespräch“): Punkte 0–100 für Teil 1, Projekt und die drei schriftlichen Bereiche von Teil 2 eintragen – die App rechnet nach Ausbildungsverordnung (20 / 50 / 10 / 10 / 10 %) Gesamtergebnis, Note und Teil 2 und prüft alle Bestehensregeln (Gesamt und Teil 2 mindestens ausreichend, mindestens drei Bereiche von Teil 2 ausreichend, keiner ungenügend).
+  - Ist die Prüfung nicht bestanden, zeigt sie, in welchem schriftlichen Bereich eine **mündliche Ergänzungsprüfung** helfen kann und wie viele Punkte dort mindestens nötig wären (schriftlich : mündlich = 2 : 1).
+  - „Ergebnisse aus Simulationen übernehmen“ setzt die letzten Ergebnisse deiner AP1- und AP2-Simulationen ein. Die Eingaben bleiben auf dem Gerät gespeichert.
+- Prüfungsergebnisse speichern seit 2.4 die ID des Prüfungsbereichs (ältere Einträge werden über den Titel zugeordnet).
+
 ## [2.3.0] – 2026-11-18
 
 ### Hinzugefügt

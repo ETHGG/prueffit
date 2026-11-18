@@ -1,3 +1,13 @@
+# Abschlussbericht Versionen 2.3.0 und 2.4.0
+
+**Datum:** 18.11.2026 · Auftrag des Nutzers: 1. Projektarbeit & Fachgespräch, 2. Gesamtnoten-Rechner, 3. Simulation in große Aufgaben gliedern
+
+- **2.3.0:** Bereich `#/projekt` mit Prüfungsbereich je Beruf (Name, Projektdauer FIAE 80 / sonst 40 Std., Präsentation ≤ 15 von 30 Min., 50 : 50), fünf Checklisten, 13–14 Fachgesprächsfragen je Beruf mit Prüferhinweis. Daten und Logik in `js/projectGuide.js`, Quellen in `docs/QUELLEN.md`.
+- **2.4.0:** Gesamtnoten-Rechner (`js/finalGrade.js`): Gewichtung 20/50/10/10/10, Bestehensregeln, mündliche Ergänzungsprüfung mit mindestens nötigen Punkten, Übernahme der letzten Simulationsergebnisse.
+- **Annahmen:** Gewichtete Ergebnisse werden wie in der Simulation kaufmännisch auf ganze Punkte gerundet (die Verordnung regelt die Rundung nicht; die IHKs runden in der Praxis ebenso auf ganze Punkte). Die mündliche Ergänzungsprüfung wird als ganze Punktzahl 0–100 angenommen.
+- **Speicher:** neuer Schlüssel `prueffit.project` (Checklisten, Rechner-Eingaben), unabhängig vom Fortschritt; keine Schema-Migration nötig. Er ist nicht Teil der Datensicherung (Export).
+- **Neue Abhängigkeiten:** keine.
+
 # Abschlussbericht Versionen 2.2.0–2.2.19 (Nachtrunden)
 
 **Datum:** 17./18.11.2026 · **Runden 2–27** (23:40–05:10 Uhr, Abschlussprüfung 08:05 Uhr)
