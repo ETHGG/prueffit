@@ -197,6 +197,12 @@
     "area": "Recht"
   },
   {
+    "abbr": "BIA",
+    "full": "Business-Impact-Analyse",
+    "explanation": "ermittelt kritische Geschäftsprozesse und wie lange sie höchstens ausfallen dürfen (Grundlage des Notfallmanagements)",
+    "area": "IT-Sicherheit"
+  },
+  {
     "abbr": "BIOS",
     "full": "Basic Input/Output System",
     "explanation": "Alte PC-Firmware, abgelöst durch UEFI",
@@ -1262,6 +1268,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "ROI",
+    "full": "Return on Investment",
+    "explanation": "Kapitalrendite = Umsatzrentabilität × Kapitalumschlag = Gewinn / Gesamtkapital × 100",
+    "area": "Wirtschaft"
+  },
+  {
     "abbr": "ROM",
     "full": "Read-Only Memory",
     "explanation": "Nur-Lese-Speicher, nicht flüchtig",
@@ -1320,6 +1332,12 @@
     "full": "Spätester Anfangszeitpunkt",
     "explanation": "Netzplan: SEZ − Dauer",
     "area": "Projektmanagement"
+  },
+  {
+    "abbr": "SEPA",
+    "full": "Single Euro Payments Area",
+    "explanation": "einheitlicher Euro-Zahlungsraum für Überweisungen und Lastschriften",
+    "area": "Wirtschaft"
   },
   {
     "abbr": "SEZ",
@@ -1640,6 +1658,18 @@
     "aliases": [
       "VLANs"
     ]
+  },
+  {
+    "abbr": "VLSM",
+    "full": "Variable Length Subnet Mask",
+    "explanation": "Teilnetze mit unterschiedlich langen Präfixen, damit jedes Netz nur so viele Adressen bekommt, wie es braucht",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "VM",
+    "full": "Virtuelle Maschine",
+    "explanation": "Gast-Rechner, der auf einem Hypervisor läuft und sich Hardware mit anderen VMs teilt",
+    "area": "Hardware"
   },
   {
     "abbr": "VoIP",

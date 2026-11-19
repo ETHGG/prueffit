@@ -141,3 +141,14 @@ Fragen, die für AP1 und AP2 zählen, sind in beiden Spalten enthalten. Gesamtbe
 - Inhalte für FIDPA, FIDV, ITSE und KDM ausbauen (derzeit je 25 bzw. 9 neue Fragen).
 - Fachliches Gegenlesen der neuen Inhalte (Hinweise über „Fehler melden“).
 - GitHub-Releases 0.8–2.0 fehlen (API-Anlage war gesperrt).
+
+## Nachtrag 2.8.0 – Zuordnung FISI/KITS nach dem Prüfungskompendium (19.11.2026)
+
+**Was gemacht:** Das Prüfungskompendium (Grund- und erweiterte Ausgabe) und die Prüfungssimulationen des Nutzers ausgewertet. Die AP2-Prüfungsbereiche von FISI und KITS in `js/curriculum.js` an die Kapitelgliederung angepasst (Teil B = FISI § 21/22, Teil C = KITS § 12/13). Für die Lücken 8 neue Themen ergänzt, je mit Lernzettel, Fragen und Karten: Beschaffung, Controlling, Investition, Zahlungsverkehr, Personal, Einführung, Hochverfügbarkeit, VLSM. Dazu vier neue Handlungssituationen. Explizite `jobs`-Angaben bestehender Fragen und Karten automatisch bereinigt, wo ein Thema für einen Beruf nicht mehr zur AP2 gehört; die Inhalte bleiben über die AP1 bzw. andere Berufe erreichbar.
+
+**Annahmen:**
+- KITS braucht Technik „in Grundzügen“ (Hinweis im Kompendium, § 12 ITSysManKflAusbV). Deshalb bleiben Hardware, Virtualisierung, RAID, Subnetting, Dienste, VLAN, IT-Sicherheit und Serverbetrieb/MDM im ersten Bereich.
+- KDM hat denselben Prüfungsbereich „Kaufmännische Unterstützungsprozesse“ wie KITS und übernimmt die neuen kaufmännischen Themen. Die Projektthemen von KDM wandern in dessen ersten Bereich, damit nichts verloren geht.
+- Die Dokumente sind mit Copilot erstellt. Alle übernommenen Fakten wurden nachgerechnet bzw. geprüft. Texte, Firmen und Zahlen sind eigene; die Dokumente selbst liegen nicht im Repository.
+
+**Offene Punkte:** Zuordnung bei Gelegenheit mit dem offiziellen Prüfungskatalog (AkA) und dem Ausbilder abgleichen.

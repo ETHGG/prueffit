@@ -27,8 +27,28 @@ describe('curriculum: assignment of topics', () => {
     expect(examsForTopic('wiso.ausbildung')).toEqual(['AP2']);
     // Seit 2.1 auch AP2 für KITS (ITSManKflAusbV § 12: Angebotsvergleiche).
     expect(examsForTopic('wirtschaft.nutzwert')).toEqual(['AP1', 'AP2']);
-    expect(examsForTopic('projekt.kommunikation')).toEqual(['AP1']);
+    // Seit 2.8 auch AP2 für KITS (Angebotspräsentation, ITSysManKflAusbV § 12).
+    expect(examsForTopic('projekt.kommunikation')).toEqual(['AP1', 'AP2']);
+    expect(examsForTopic('projekt.abnahme')).toEqual(['AP1']);
+    expect(examsForTopic('wirtschaft.beschaffung')).toEqual(['AP2']);
     expect(examsForTopic('gibt.es.nicht')).toEqual([]);
+  });
+  it('assigns FISI and KITS topics like the AO 2020 exam areas (since 2.8)', () => {
+    expect(ap2JobsForTopic('sicherheit.verfuegbarkeit')).toEqual(['fisi']);
+    expect(ap2JobsForTopic('netzwerke.vlsm')).toEqual(['fisi']);
+    expect(ap2JobsForTopic('wirtschaft.beschaffung')).toEqual(['kits']);
+    expect(ap2JobsForTopic('wirtschaft.controlling')).toEqual(['kits', 'kdm']);
+    expect(ap2JobsForTopic('projekt.einfuehrung')).toEqual(['fisi', 'kits']);
+    // KITS: Lizenzen, Datenschutz und Projektplanung gehören zu "Einführen einer IT-Systemlösung".
+    const kits = AP2_PARTS.kits;
+    for (const t of ['recht.lizenzen', 'recht.datenschutz', 'projekt.planung', 'wirtschaft.nutzwert']) expect(kits[0].topics).toContain(t);
+    expect(kits[1].topics).not.toContain('recht.lizenzen');
+    for (const t of ['wirtschaft.buchfuehrung', 'wirtschaft.klr', 'wirtschaft.investition', 'wirtschaft.zahlungsverkehr', 'wirtschaft.personal']) expect(kits[1].topics).toContain(t);
+    // FISI: keine Modellierung/Softwaretests in der AP2, Skripte und SQL schon.
+    const fisi = AP2_PARTS.fisi;
+    for (const t of ['programmierung.skripte', 'programmierung.datenbanken', 'hardware.raid']) expect(fisi[0].topics).toContain(t);
+    expect(fisi[0].topics).not.toContain('programmierung.modellierung');
+    for (const t of ['netzwerke.vlsm', 'netzwerke.routing', 'sicherheit.netzsicherheit']) expect(fisi[1].topics).toContain(t);
   });
   it('lists the jobs whose AP2 contains a topic', () => {
     expect(ap2JobsForTopic('wiso.mitbestimmung')).toEqual(JOB_IDS);

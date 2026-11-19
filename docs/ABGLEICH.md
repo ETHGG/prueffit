@@ -13,6 +13,18 @@ Stand: 17.11.2026. Schwerpunkt: **Kaufmann/-frau für IT-System-Management (KITS
 
 Nicht verwendet wurden Original-Prüfungsaufgaben oder -Lösungen (urheberrechtlich geschützt, auch wenn sie im Netz kursieren).
 
+## Abgleich mit dem Prüfungskompendium FISI/KITS (2.8)
+
+Grundlage: das Prüfungskompendium des Nutzers (Grund- und erweiterte Ausgabe) und seine Prüfungssimulationen für FISI und KITS (privat, nicht im Repository). Die Kapitel folgen den Prüfungsbereichen der Verordnungen; die Inhalte wurden stichprobenartig nachgerechnet (Andler, Lagerkennzahlen, Liquiditätsgrade, ROI, Kostenvergleich, Darlehen, Leasing, Verzugszinsen, Verfügbarkeit) – keine Fehler gefunden.
+
+| Kompendium | PrüfFit-Bereich | Änderung |
+|---|---|---|
+| Teil B, B1–B11 (FISI, § 21) | FISI ga1 | Hochverfügbarkeit/Notfall neu; Modellierung, Tests, Zahlensysteme, allgemeines PM und Kaufrecht nur noch AP1 |
+| Teil B, B12–B21 (FISI, § 22) | FISI ga2 | VLSM/Supernetting/Adressplanung neu |
+| Teil C, C1–C7 (KITS, § 12) | KITS ga1 | Beschaffung/Lager und Einführung neu; Lizenzen, Datenschutz, Projektplanung, Präsentation hierher; tiefe Netzwerktechnik nur noch AP1 |
+| Teil C, C8–C15 (KITS, § 13) | KITS ga2 (= KDM ga2) | Kennzahlen, Investition, Zahlungsverkehr, Personal neu; PM/Lizenzen/Datenschutz nach ga1 |
+| Teil A, D, E | AP1, WiSo, Projektarbeit | bereits abgedeckt, keine Änderung |
+
 ## Soll-Anforderungen und Abdeckung vor 2.1
 
 ### KITS – Einführen einer IT-Systemlösung (§ 12)

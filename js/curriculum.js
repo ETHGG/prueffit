@@ -50,7 +50,8 @@ const ALL_HARDWARE = ['hardware.einheiten', 'hardware.raid', 'hardware.komponent
 const ALL_NETWORK = ['netzwerke.subnetting', 'netzwerke.ipv6', 'netzwerke.osi', 'netzwerke.medien', 'netzwerke.dienste', 'netzwerke.vlan', 'netzwerke.routing'];
 const ALL_SECURITY = ['sicherheit.schutzziele', 'sicherheit.kryptografie', 'sicherheit.backup', 'sicherheit.angriffe', 'sicherheit.netzsicherheit', 'sicherheit.mail', 'sicherheit.management'];
 const ALL_PROGRAMMING = ['programmierung.zahlensysteme', 'programmierung.grundlagen', 'programmierung.datenbanken', 'programmierung.modellierung', 'programmierung.algorithmen', 'programmierung.testen', 'programmierung.datenformate'];
-const ALL_BUSINESS = ['wirtschaft.grundlagen', 'wirtschaft.rechnen', 'wirtschaft.kalkulation', 'wirtschaft.abschreibung', 'wirtschaft.buchfuehrung', 'wirtschaft.klr', 'wirtschaft.vertrieb', 'wirtschaft.finanzierung', 'wirtschaft.marketing'];
+const ALL_BUSINESS = ['wirtschaft.grundlagen', 'wirtschaft.rechnen', 'wirtschaft.kalkulation', 'wirtschaft.abschreibung', 'wirtschaft.buchfuehrung', 'wirtschaft.klr', 'wirtschaft.vertrieb', 'wirtschaft.finanzierung', 'wirtschaft.marketing',
+  'wirtschaft.controlling', 'wirtschaft.investition', 'wirtschaft.zahlungsverkehr', 'wirtschaft.personal'];
 const LAW = ['recht.vertragsrecht', 'recht.datenschutz', 'recht.lizenzen'];
 
 /** Written AP2 parts per apprenticeship (official names), 90 minutes and 50 points each, plus WiSo. */
@@ -63,11 +64,15 @@ export const AP2_PARTS = Object.freeze({
     { id: 'ga2', title: 'Entwicklung und Umsetzung von Algorithmen', minutes: 90, points: 50, topics: [...ALL_PROGRAMMING] },
     WISO,
   ],
+  // FISI and KITS since 2.8: aligned with § 21/22 FIAusbV and § 12/13 ITSysManKflAusbV as described in the
+  // learner's own compendium (docs/ABGLEICH.md, section "Kompendium FISI/KITS").
   fisi: [
     { id: 'ga1', title: 'Konzeption und Administration von IT-Systemen', minutes: 90, points: 50,
-      topics: [...ALL_HARDWARE, 'programmierung.skripte', 'netzwerke.verzeichnisdienst', 'sicherheit.schutzziele', 'sicherheit.backup', 'sicherheit.angriffe', 'sicherheit.management', ...ALL_PROGRAMMING, ...ALL_PROJECT, ...LAW] },
+      topics: [...ALL_HARDWARE, 'sicherheit.verfuegbarkeit', 'sicherheit.backup', 'sicherheit.schutzziele', 'sicherheit.angriffe', 'sicherheit.management', 'sicherheit.kryptografie',
+        'netzwerke.verzeichnisdienst', 'programmierung.skripte', 'programmierung.datenbanken', 'programmierung.grundlagen', 'programmierung.algorithmen', 'programmierung.datenformate',
+        'projekt.service', 'projekt.einfuehrung', 'wirtschaft.abschreibung', 'wirtschaft.nutzwert', 'recht.datenschutz', 'recht.lizenzen'] },
     { id: 'ga2', title: 'Analyse und Entwicklung von Netzwerken', minutes: 90, points: 50,
-      topics: [...ALL_NETWORK, 'sicherheit.netzsicherheit', 'sicherheit.mail', 'sicherheit.kryptografie'] },
+      topics: [...ALL_NETWORK, 'netzwerke.vlsm', 'sicherheit.netzsicherheit', 'sicherheit.mail', 'sicherheit.kryptografie'] },
     WISO,
   ],
   fidpa: [
@@ -96,15 +101,20 @@ export const AP2_PARTS = Object.freeze({
   ],
   kits: [
     { id: 'ga1', title: 'Einführen einer IT-Systemlösung', minutes: 90, points: 50,
-      topics: [...ALL_HARDWARE, ...ALL_NETWORK, ...ALL_SECURITY, 'wirtschaft.nutzwert', 'wirtschaft.kalkulation', 'programmierung.datenbanken', 'programmierung.datenformate', 'projekt.digitalisierung', 'recht.datenschutz', 'recht.lizenzen'] },
-    { id: 'ga2', title: 'Kaufmännische Unterstützungsprozesse', minutes: 90, points: 50, topics: [...ALL_BUSINESS, ...LAW, ...ALL_PROJECT] },
+      topics: ['wirtschaft.beschaffung', 'wirtschaft.nutzwert', 'wirtschaft.kalkulation', 'wirtschaft.finanzierung', 'wirtschaft.vertrieb', 'projekt.einfuehrung',
+        'projekt.grundlagen', 'projekt.planung', 'projekt.risiko', 'projekt.kommunikation', 'recht.vertragsrecht', 'recht.lizenzen', 'recht.datenschutz',
+        'hardware.komponenten', 'hardware.einheiten', 'hardware.raid', 'hardware.virtualisierung', 'hardware.energie', 'hardware.betrieb', 'netzwerke.subnetting', 'netzwerke.medien', 'netzwerke.dienste', 'netzwerke.vlan',
+        'sicherheit.schutzziele', 'sicherheit.backup', 'sicherheit.angriffe', 'sicherheit.kryptografie', 'sicherheit.management', 'projekt.digitalisierung',
+        'programmierung.datenbanken', 'programmierung.datenformate'] },
+    { id: 'ga2', title: 'Kaufmännische Unterstützungsprozesse', minutes: 90, points: 50,
+      topics: [...ALL_BUSINESS, 'recht.vertragsrecht', 'projekt.service'] },
     WISO,
   ],
   kdm: [
     { id: 'ga1', title: 'Entwicklung eines digitalen Geschäftsmodells', minutes: 90, points: 50,
-      topics: ['wirtschaft.geschaeftsmodelle', 'daten.prozessanalyse', 'projekt.digitalisierung', 'projekt.prozesse', 'projekt.grundlagen', 'wirtschaft.marketing', 'wirtschaft.vertrieb', 'wirtschaft.grundlagen',
+      topics: ['wirtschaft.geschaeftsmodelle', 'daten.prozessanalyse', 'projekt.digitalisierung', 'projekt.prozesse', 'projekt.grundlagen', 'projekt.planung', 'projekt.vorgehen', 'projekt.risiko', 'wirtschaft.marketing', 'wirtschaft.vertrieb', 'wirtschaft.grundlagen',
         'programmierung.datenformate', 'programmierung.datenbanken', 'recht.datenschutz', 'recht.lizenzen', 'sicherheit.schutzziele'] },
-    { id: 'ga2', title: 'Kaufmännische Unterstützungsprozesse', minutes: 90, points: 50, topics: [...ALL_BUSINESS, ...LAW, ...ALL_PROJECT] },
+    { id: 'ga2', title: 'Kaufmännische Unterstützungsprozesse', minutes: 90, points: 50, topics: [...ALL_BUSINESS, 'recht.vertragsrecht', 'projekt.service'] },
     WISO,
   ],
 });

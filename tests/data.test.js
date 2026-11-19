@@ -229,7 +229,7 @@ const NOT_ABBREVIATIONS = new Set([
   'IN', 'INSERT', 'INTO', 'IS', 'JOIN', 'LIKE', 'MAX', 'MIN', 'NULL', 'ON', 'ORDER', 'REVOKE', 'SELECT', 'SET', 'SUM',
   'TABLE', 'UPDATE', 'VALUES', 'WHERE', 'COMMIT', 'ROLLBACK',
   'BIS', 'DANN', 'FÜR', 'NICHT', 'ODER', 'SOLANGE', 'SONST', 'UND', 'VON', 'WENN', 'WAS', 'WER', 'WIE', 'WOMIT',
-  'B7', 'B16', 'E3', 'II', 'III', 'PLUS', 'YTP',
+  'B7', 'B16', 'E3', 'II', 'III', 'PLUS', 'YTP', 'A1', 'A2', 'ABC', 'DuPont',
   'DisplayPort', 'OpenVPN', 'PowerShell', 'ADUser', 'ForEach', 'ChildItem', 'LastWriteTime', 'AddDays', 'WhatIf', 'TrueHD', 'VirtualBox', 'VMware', 'WireGuard',
 ]);
 
@@ -284,6 +284,14 @@ describe('data/scenarios.json (AP2-Handlungssituationen)', () => {
     for (const job of ['fiae', 'fisi', 'fidpa', 'fidv', 'itse', 'kits', 'kdm']) { // seit 2.0 alle sieben Berufe
       for (const part of ['ga1', 'ga2']) {
         expect(scenarios.some((sc) => sc.part === part && sc.jobs?.includes(job)), `${job} ${part}`).toBe(true);
+      }
+    }
+  });
+
+  it('FISI and KITS (main focus) have four scenarios per AP2 part (since 2.8)', () => {
+    for (const job of ['fisi', 'kits']) {
+      for (const part of ['ga1', 'ga2']) {
+        expect(scenarios.filter((sc) => sc.part === part && sc.jobs?.includes(job)).length, `${job} ${part}`).toBeGreaterThanOrEqual(4);
       }
     }
   });

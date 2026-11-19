@@ -2,6 +2,34 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.8.0] – 2026-11-19
+
+### Geändert – Zuordnung FISI und KITS nach deinem Prüfungskompendium
+- Grundlage: dein Prüfungskompendium und deine Prüfungssimulationen für FISI und KITS. Sie folgen den Prüfungsbereichen der Ausbildungsverordnungen (§ 21/22 FIAusbV, § 12/13 ITSysManKflAusbV). Die Inhalte wurden fachlich gegengeprüft und in eigenen Worten mit eigenen Zahlen umgesetzt; aus den Dokumenten wurde nichts übernommen.
+- **KITS – Einführen einer IT-Systemlösung:** jetzt Beschaffung, Angebotsvergleich, Kalkulation, Leasing, Verträge, Lizenzen, Datenschutz, Projektplanung, Präsentation und Einführung. Die Technik bleibt in Grundzügen dabei (Hardware, Virtualisierung, RAID, Subnetting, Netzdienste, VLAN, IT-Sicherheit). Routing, IPv6, OSI-Modell, Firewall/VPN, E-Mail-Sicherheit und Betriebssysteme gehören für KITS nur noch zur AP1.
+- **KITS – Kaufmännische Unterstützungsprozesse:** Buchführung, KLR, Kennzahlen, Investition und Finanzierung, Marketing, Zahlungsverkehr, Personal sowie Verträge und Leistungskontrolle (SLA). Projektmanagement, Lizenzen und Datenschutz stehen jetzt im ersten Prüfungsbereich. KDM hat denselben Prüfungsbereich und bekommt die neuen kaufmännischen Themen mit; Projektplanung, Vorgehensmodelle und Risiko stehen bei KDM jetzt im ersten Bereich.
+- **FISI – Konzeption und Administration:** Hardware, Server, Virtualisierung, RAID, Backup, Hochverfügbarkeit, Verzeichnisdienst, Skripte, SQL, IT-Sicherheit, IT-Service-Management, Wirtschaftlichkeit (TCO, Nutzwert) und Einführung. UML-Modellierung, Softwaretests, Zahlensysteme, allgemeines Projektmanagement und Kaufvertragsrecht zählen für FISI nur noch zur AP1.
+- **FISI – Analyse und Entwicklung von Netzwerken:** wie bisher, dazu VLSM, Supernetting und Adressplanung.
+- „Präsentation und Dokumentation“ gilt jetzt auch für die AP2 (KITS, Angebotspräsentation).
+
+### Hinzugefügt
+- **8 neue Themen mit Lernzettel, Fragen und Karteikarten:**
+  - KITS: Beschaffung und Lagerhaltung (Andler, Meldebestand, Lagerkennzahlen, ABC-Analyse)
+  - KITS: Kennzahlen und Controlling (Rentabilität, ROI, Liquiditätsgrade, goldene Bilanzregel, Leverage-Effekt)
+  - KITS: Investitionsrechnung und Kredite (Kostenvergleich, kritische Menge, Amortisation, Kapitalwert, Darlehensarten, Sicherheiten)
+  - KITS: Zahlungsverkehr und Forderungsmanagement (SEPA, Verzugszinsen, Mahnwesen, Factoring)
+  - KITS: Personalwirtschaft (Personalbedarf, Beschaffung, Zeugnis)
+  - FISI und KITS: Einführung einer IT-Systemlösung (Strategien, Schulung, Abnahme, Datenschutz-Folgenabschätzung, Mitbestimmung)
+  - FISI: Hochverfügbarkeit und Notfallmanagement (RPO/RTO, Verfügbarkeit in Reihe und parallel, Cluster, Ausweichstandorte, Wiederanlauf)
+  - FISI: VLSM, Supernetting und Adressplanung
+- 78 neue Fragen (davon 6 offene Aufgaben mit Bewertungsraster), 27 Karteikarten, 5 Abkürzungen.
+- 4 neue Handlungssituationen nach dem Vorbild deiner Simulationen, mit eigenen Firmen und Zahlen. FISI und KITS haben jetzt je vier pro Prüfungsbereich:
+  - Logistik Saale: Ausfallsicherheit
+  - Stadtwerke Elster: VLSM-Adresskonzept
+  - Ohre IT: Notebook-Rollout mit Lager
+  - IT-Service Fläming: Jahresauswertung
+- Zuordnung und Situationen werden durch Tests geprüft.
+
 ## [2.7.0] – 2026-11-18
 
 ### Geändert – übersichtlichere Oberfläche

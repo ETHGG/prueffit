@@ -150,7 +150,7 @@ test('Lernzettel as PDF: only the PDFs of the own job (AP1, AP2, abbreviations),
   await expect(page.locator('body')).toHaveAttribute('data-ready', '1');
   await expect(page.locator('.cover h1')).toHaveText('Lernzettel Netzwerke');
   const netNotes = await page.evaluate(async () => (await (await fetch('./data/notes/netzwerke.json')).json()).length);
-  expect(netNotes).toBe(8); // seit 2.0 mit „Client in eine Domäne einbinden“
+  expect(netNotes).toBe(9); // seit 2.0 mit „Client in eine Domäne einbinden“, seit 2.8 mit VLSM
   await expect(page.locator('article.note-page')).toHaveCount(netNotes);
   expect(problems).toEqual([]);
 });
