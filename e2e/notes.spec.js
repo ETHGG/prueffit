@@ -154,3 +154,25 @@ test('Lernzettel as PDF: only the PDFs of the own job (AP1, AP2, abbreviations),
   await expect(page.locator('article.note-page')).toHaveCount(netNotes);
   expect(problems).toEqual([]);
 });
+
+test('PDF on iPhone (2.9.1): opens the share sheet, the app stays open', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'userAgent', { get: () => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148' });
+    window.__shared = [];
+    navigator.canShare = (data) => Array.isArray(data?.files) && data.files.length > 0;
+    navigator.share = async (data) => { window.__shared.push({ name: data.files[0].name, type: data.files[0].type, size: data.files[0].size, title: data.title }); };
+  });
+  await page.goto('./#/lernzettel');
+  const card = page.locator('details.fold[data-fold="pdf"]');
+  await card.locator('summary').click();
+  await expect(card).toContainText('In Dateien sichern');
+  const link = card.locator('.pdf-link', { hasText: 'AP2 FISI' });
+  await expect(link).toHaveAttribute('target', '_blank');
+  await link.click();
+  await expect.poll(() => page.evaluate(() => window.__shared.length)).toBe(1);
+  const shared = await page.evaluate(() => window.__shared[0]);
+  expect(shared).toMatchObject({ name: 'lernzettel-ap2-fisi.pdf', type: 'application/pdf', title: 'AP2 FISI – alle Lernzettel' });
+  expect(shared.size).toBeGreaterThan(100000);
+  await expect(page).toHaveURL(/#\/lernzettel$/); // still inside the app
+  expect(page.context().pages()).toHaveLength(1);
+});

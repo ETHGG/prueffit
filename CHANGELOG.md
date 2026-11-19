@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.9.1] – 2026-11-19
+
+### Behoben
+- **PDFs auf dem iPhone:** In der App vom Home-Bildschirm öffnete ein Tipp auf ein Lernzettel-PDF das PDF bildschirmfüllend, ohne Weg zurück; herunterladen ging auch nicht. Jetzt öffnet sich auf iPhone und iPad das Teilen-Menü („In Dateien sichern“, Goodnotes, Drucken …), und die App bleibt offen. Lädt das PDF beim ersten Tippen zu lange, erscheint der Hinweis, noch einmal zu tippen. Ohne Teilen-Menü öffnet sich das PDF in einem eigenen Fenster mit „Fertig“-Knopf, nicht mehr in der App selbst.
+
 ## [2.9.0] – 2026-11-19
 
 ### Hinzugefügt

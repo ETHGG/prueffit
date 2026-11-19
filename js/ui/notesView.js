@@ -11,6 +11,9 @@ import {
   pdfList, pdfFileName, formatFileSize, pdfKeyForTopic, glossaryPdfKey, PDF_DIR, PDF_GLOSSARY,
 } from '../pdfs.js';
 import { jobById } from '../curriculum.js';
+import { canSharePdfs, preloadPdf, sharePdf } from './files.js';
+
+let toastFn = null; // set in render(), used by the PDF links
 import {
   GENERAL_AREA, searchGlossary, abbreviationsIn, lookupAbbreviation, initialOf, matchGlossary,
 } from '../glossary.js';
@@ -33,10 +36,22 @@ function pdfLink(key, label, { className = 'pdf-link' } = {}) {
   if (!pdfManifest) {
     fetch(`${PDF_DIR}manifest.json`).then((r) => (r.ok ? r.json() : null)).then((m) => { if (m) { pdfManifest = m; fill(); } }).catch(() => {});
   }
-  return h('a', { class: className, href: `${PDF_DIR}${file}`, download: file, type: 'application/pdf' },
-    h('span', { class: 'pdf-icon', 'aria-hidden': 'true', text: '⬇' }),
-    h('span', { class: 'pdf-label', text: label }),
-    size);
+  const url = `${PDF_DIR}${file}`;
+  const share = canSharePdfs();
+  // target=_blank: even without the share sheet, the PDF never replaces the app itself (2.9.1).
+  return h('a', {
+    class: className, href: url, download: file, type: 'application/pdf', target: '_blank', rel: 'noopener',
+    onPointerdown: share ? () => { preloadPdf(url, file); } : null,
+    onClick: share ? async (e) => {
+      e.preventDefault();
+      const result = await sharePdf(url, file, label);
+      if (result === 'retry') toastFn?.('PDF ist geladen – tippe noch einmal darauf, um es zu sichern oder zu teilen.');
+      else if (result === 'failed') window.open(url, '_blank', 'noopener');
+    } : null,
+  },
+  h('span', { class: 'pdf-icon', 'aria-hidden': 'true', text: '⬇' }),
+  h('span', { class: 'pdf-label', text: label }),
+  size);
 }
 
 /** Collapsible card with the job's PDFs: AP1, AP2 and abbreviations (Lernzettel list). */
@@ -49,7 +64,9 @@ function pdfCard(job) {
     ],
   },
   h('ul', { class: 'pdf-list' }, list.map((p) => h('li', {}, pdfLink(p.key, p.label)))),
-  h('p', { class: 'muted small' }, 'Die PDFs werden mit jeder neuen Version der App aktualisiert. Einmal geladen, sind sie auch offline verfügbar.'));
+  h('p', { class: 'muted small' }, canSharePdfs()
+    ? 'Tippe auf ein PDF: Es öffnet sich das Teilen-Menü – dort „In Dateien sichern“, Goodnotes oder Drucken wählen. Die PDFs werden mit jeder neuen Version aktualisiert.'
+    : 'Die PDFs werden mit jeder neuen Version der App aktualisiert. Einmal geladen, sind sie auch offline verfügbar.'));
 }
 
 const ALL = '';
@@ -143,6 +160,7 @@ export function renderNoteContent(md, query = '', glossary = null) {
 }
 
 export function render(root, ctx) {
+  toastFn = ctx.toast ?? null;
   const { notes = [], topics } = ctx.catalog;
   const topicsById = new Map(topics.map((t) => [t.id, t]));
   const route = parseRoute();
