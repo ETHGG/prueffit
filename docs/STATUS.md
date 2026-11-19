@@ -22,7 +22,7 @@
 | einmalig | Mo 23.11.2026, 00:47 | Prüfungsreife je Prüfungsbereich, Tabellenaufgabe in jeder Simulation, Formelsammlung als PDF (mit Fachprüfung) |
 | täglich | 01:47 | Qualitätsrunde: CI- und Live-Check, 2 Themen nach `docs/PRUEFPROTOKOLL.md` fachlich prüfen |
 | wöchentlich | Mo 03:06 | Fehlermeldungen und Wünsche (GitHub-Issues), Ausbau, Quellenprüfung |
-| wöchentlich | Mi 02:41 | Fragen vertiefen (FISI/KITS, schwächste Themen, zuerst RAID und USV) |
+| 2× pro Woche | Mi + Sa 02:41 | Fragen vertiefen (FISI/KITS, je 3 schwächste Themen, zuerst RAID und USV) bis alle 74 Themen ≥ 15 Fragen und ≥ 3 Fragetypen haben, danach monatlich am 8. |
 | monatlich | 1., 04:13 | Technik-Wartung (Dev-Abhängigkeiten, CI, Live-Seite, Links) und Lückenanalyse |
 | halbjährlich | 2.1. und 2.7., 04:37 | Basiszinssatz |
 | jährlich | 3.1., 04:23 | Jahreswechsel-Werte (Sozialversicherung, Mindestvergütung, Steuern, Gesetzesänderungen), Prüfungstermine |
