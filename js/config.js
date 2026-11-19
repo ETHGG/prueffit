@@ -1,9 +1,10 @@
 // Central configuration. Keep APP_VERSION in sync with package.json and sw.js.
 
-export const APP_VERSION = '2.9.2';
+export const APP_VERSION = '2.9.3';
 export const APP_NAME = 'PrüfFit';
 export const REPO_URL = 'https://github.com/ETHGG/prueffit';
 export const ISSUE_LABEL = 'inhalt';
+export const WISH_LABEL = 'wunsch'; // topic requests and extensions (since 2.10)
 
 // localStorage
 export const STORAGE_KEY = 'prueffit.v1';

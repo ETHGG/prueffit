@@ -12,6 +12,7 @@ import {
 } from '../pdfs.js';
 import { jobById } from '../curriculum.js';
 import { canSharePdfs, preloadPdf, sharePdf } from './files.js';
+import { wishUrl } from '../questions.js';
 
 let toastFn = null; // set in render(), used by the PDF links
 import {
@@ -239,7 +240,8 @@ export function render(root, ctx) {
     if (!results.length) {
       list.replaceChildren(h('div', { class: 'card empty' },
         h('p', { text: 'Kein Lernzettel gefunden.' }),
-        h('p', { class: 'muted small', text: 'Tipp: Weniger oder andere Suchbegriffe verwenden, z. B. „Bilanz“ statt „Bilanzsumme berechnen“. Groß-/Kleinschreibung und Umlaute spielen keine Rolle.' })));
+        h('p', { class: 'muted small', text: 'Tipp: Weniger oder andere Suchbegriffe verwenden, z. B. „Bilanz“ statt „Bilanzsumme berechnen“. Groß-/Kleinschreibung und Umlaute spielen keine Rolle.' }),
+        h('p', {}, h('a', { class: 'wish-link', href: wishUrl({ job: ctx.catalog.job, context: `Lernzettel zu „${query}“` }), target: '_blank', rel: 'noopener' }, 'Thema fehlt? Wünsch es dir'))));
       return;
     }
     if (query) {

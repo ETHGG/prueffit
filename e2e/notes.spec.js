@@ -176,3 +176,16 @@ test('PDF on iPhone (2.9.1): opens the share sheet, the app stays open', async (
   await expect(page).toHaveURL(/#\/lernzettel$/); // still inside the app
   expect(page.context().pages()).toHaveLength(1);
 });
+
+test('topic wishes (2.9.3): button in the settings, link for a search without hits', async ({ page }) => {
+  await page.goto('./#/einstellungen');
+  const button = page.getByRole('link', { name: 'Thema wünschen oder Erweiterung vorschlagen' });
+  await expect(button).toHaveAttribute('target', '_blank');
+  const href = new URL(await button.getAttribute('href'));
+  expect(href.pathname).toBe('/ETHGG/prueffit/issues/new');
+  expect(href.searchParams.get('labels')).toBe('wunsch');
+  expect(href.searchParams.get('body')).toContain('**Beruf:** fisi');
+  await page.goto('./#/lernzettel?q=quantencomputer');
+  const wish = page.getByRole('link', { name: 'Thema fehlt? Wünsch es dir' });
+  expect(new URL(await wish.getAttribute('href')).searchParams.get('title')).toBe('Wunsch: Lernzettel zu „quantencomputer“');
+});

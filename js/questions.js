@@ -6,7 +6,7 @@ import { validateGlossaryEntry, spellings } from './glossary.js';
 import { validateFormula } from './formulas.js';
 import { validateScenario } from './exam.js';
 import { JOB_IDS, jobById, itemForJob, itemExamsForJob } from './curriculum.js';
-import { AREAS, APP_VERSION, DATA_BASE, EXAMS, ISSUE_LABEL, ALL_JOBS, QUESTION_TYPES, REPO_URL } from './config.js';
+import { AREAS, APP_VERSION, DATA_BASE, EXAMS, ISSUE_LABEL, WISH_LABEL, ALL_JOBS, QUESTION_TYPES, REPO_URL } from './config.js';
 
 const isNonEmptyString = (v) => typeof v === 'string' && v.trim() !== '';
 const isPlainObject = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
@@ -445,6 +445,31 @@ export function issueUrl(item, { version = APP_VERSION, repo = REPO_URL } = {}) 
       '**Was ist falsch und was wäre richtig?**',
       '',
       '**Quelle (falls vorhanden):**',
+      '',
+    ].join('\n'),
+  });
+  return `${repo}/issues/new?${params}`;
+}
+
+/**
+ * Link to a pre-filled GitHub issue for a topic request or an extension of the app (since 2.10).
+ * Contains only the job, the app version and an optional context (e.g. the current search).
+ */
+export function wishUrl({ job = null, context = '', version = APP_VERSION, repo = REPO_URL } = {}) {
+  const extra = String(context ?? '').trim().slice(0, ISSUE_TEXT_LIMIT);
+  const params = new URLSearchParams({
+    title: extra ? `Wunsch: ${extra.slice(0, 80)}` : 'Wunsch: ',
+    labels: WISH_LABEL,
+    body: [
+      `**Beruf:** ${job ?? 'nicht festgelegt'}`,
+      `**Version:** ${version}`,
+      ...(extra ? [`**Zusammenhang:** ${extra}`] : []),
+      '',
+      '**Welches Thema oder welche Erweiterung wünschst du dir?**',
+      '',
+      '**Wofür brauchst du es (AP1, AP2-Prüfungsbereich, WiSo, Projekt)?**',
+      '',
+      '**Unterlagen oder Quelle (optional):**',
       '',
     ].join('\n'),
   });

@@ -732,3 +732,4 @@ details.exam-rules { margin-top: .75rem; border-top: 1px solid var(--border); pa
 .fill-table tr.is-correct .mark { color: var(--ok); }
 .fill-table tr.is-wrong .mark { color: var(--bad); }
 .sample p { white-space: pre-line; }
+.wish-button { margin-top: .75rem; }

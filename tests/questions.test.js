@@ -9,6 +9,7 @@ import {
   loadCatalog,
   createSeededRandom,
   issueUrl,
+  wishUrl,
 } from '../js/questions.js';
 
 const topicIds = new Set(['netzwerke.subnetting', 'netzwerke.osi', 'recht.vertrag']);
@@ -311,5 +312,28 @@ describe('issueUrl', () => {
   });
   it('does not throw for missing data', () => {
     expect(issueUrl(undefined)).toContain('Fehler+in+Frage+unbekannt');
+  });
+});
+
+describe('wishUrl (topic requests, since 2.10)', () => {
+  it('builds a pre-filled issue with the label "wunsch", job and version', () => {
+    const url = new URL(wishUrl({ job: 'kits', version: '9.9.9', repo: 'https://github.com/x/y' }));
+    expect(url.origin + url.pathname).toBe('https://github.com/x/y/issues/new');
+    expect(url.searchParams.get('labels')).toBe('wunsch');
+    expect(url.searchParams.get('title')).toBe('Wunsch: ');
+    const body = url.searchParams.get('body');
+    expect(body).toContain('**Beruf:** kits');
+    expect(body).toContain('**Version:** 9.9.9');
+    expect(body).toContain('Welches Thema oder welche Erweiterung');
+    expect(body).not.toContain('Zusammenhang');
+  });
+  it('takes an optional context (e.g. a search without hits) and limits it', () => {
+    const url = new URL(wishUrl({ context: 'Blockchain' }));
+    expect(url.searchParams.get('title')).toBe('Wunsch: Blockchain');
+    expect(url.searchParams.get('body')).toContain('**Zusammenhang:** Blockchain');
+    expect(url.searchParams.get('body')).toContain('**Beruf:** nicht festgelegt');
+    const long = new URL(wishUrl({ context: 'x'.repeat(1000) }));
+    expect(long.searchParams.get('title').length).toBeLessThanOrEqual(88);
+    expect(long.searchParams.get('body').length).toBeLessThan(700);
   });
 });

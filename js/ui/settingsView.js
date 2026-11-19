@@ -9,6 +9,7 @@ import {
 import { downloadJson, readTextFile } from './files.js';
 import { exportProgressNow } from './backup.js';
 import { PROJECT_KEY } from '../projectGuide.js';
+import { wishUrl } from '../questions.js';
 import { examTargetFields, formatExamDay } from './welcome.js';
 import { todayInBerlin } from '../leitner.js';
 import { sessionLabel } from '../schedule.js';
@@ -220,6 +221,8 @@ export function render(root, ctx) {
     h('section', { class: 'card', 'aria-labelledby': 'settings-about' },
       h('h2', { id: 'settings-about', text: 'Über PrüfFit' }),
       h('p', {}, `Version ${ctx.version} · ${ctx.catalog.questions.length} Fragen in ${ctx.catalog.topics.length} Themen`),
-      h('p', { class: 'muted small' }, 'Alle Aufgaben sind selbst erstellt und keine Original-Prüfungsaufgaben der IHK. Keine Anmeldung, kein Tracking – alle Daten bleiben auf deinem Gerät.')),
+      h('p', { class: 'muted small' }, 'Alle Aufgaben sind selbst erstellt und keine Original-Prüfungsaufgaben der IHK. Keine Anmeldung, kein Tracking – alle Daten bleiben auf deinem Gerät.'),
+      h('a', { class: 'button secondary block wish-button', href: wishUrl({ job: ctx.progress.settings.job }), target: '_blank', rel: 'noopener' }, 'Thema wünschen oder Erweiterung vorschlagen'),
+      h('p', { class: 'muted small', text: 'Öffnet ein vorausgefülltes Formular auf GitHub (kostenloses Konto nötig). Wünsche werden jede Woche ausgewertet und die App wird danach erweitert.' })),
   );
 }

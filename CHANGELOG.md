@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.9.3] – 2026-11-19
+
+### Hinzugefügt
+- **Themenwünsche und Erweiterungen:** Neuer Knopf „Thema wünschen oder Erweiterung vorschlagen“ in den Einstellungen (Über PrüfFit), Link „Thema wünschen“ unten auf der Startseite. Findet die Lernzettel-Suche nichts, erscheint „Thema fehlt? Wünsch es dir“ mit dem Suchbegriff. Alle öffnen ein vorausgefülltes GitHub-Formular mit dem Label „wunsch“, Beruf und Version (keine weiteren persönlichen Daten).
+- Wünsche und Fehlermeldungen werden jeden Montag gegen 3 Uhr ausgewertet und die App danach erweitert bzw. korrigiert.
+
 ## [2.9.2] – 2026-11-19
 
 ### Geändert

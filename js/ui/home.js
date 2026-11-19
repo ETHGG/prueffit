@@ -3,6 +3,7 @@
 import { overallStats, currentStreak, dailyProgress } from '../stats.js';
 import { todayInBerlin, dueCards } from '../leitner.js';
 import { h, formatPercent, formatNumber, trafficDot, append } from './dom.js';
+import { wishUrl } from '../questions.js';
 import { mistakesButton, dailyPlanCard } from './suggestions.js';
 import { backupCard } from './backup.js';
 import { needsWelcome, welcomeCard, countdownCard } from './welcome.js';
@@ -74,7 +75,8 @@ export function render(root, ctx) {
 
     notesSearchCard(ctx),
     h('p', { class: 'muted small spaced center' },
-      h('a', { href: '#/statistik' }, 'Statistik und schwächste Themen')),
+      h('a', { href: '#/statistik' }, 'Statistik und schwächste Themen'), ' · ',
+      h('a', { href: wishUrl({ job: ctx.catalog.job }), target: '_blank', rel: 'noopener' }, 'Thema wünschen')),
   );
 }
 
