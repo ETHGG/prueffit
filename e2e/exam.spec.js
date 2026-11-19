@@ -8,6 +8,8 @@ async function answerExamQuestion(page) {
     for (const sel of await page.locator('select[data-left]').all()) await sel.selectOption({ index: 1 });
   } else if (await page.locator('.order-list').count()) {
     await page.locator('.order-item').first().getByRole('button', { name: /nach unten/ }).click();
+  } else if (await page.locator('input[data-row]').count()) {
+    for (const cell of await page.locator('input[data-row]').all()) await cell.fill('1'); // table (2.9)
   } else await page.locator('.option').first().click();
 }
 

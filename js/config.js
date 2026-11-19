@@ -1,6 +1,6 @@
 // Central configuration. Keep APP_VERSION in sync with package.json and sw.js.
 
-export const APP_VERSION = '2.8.0';
+export const APP_VERSION = '2.9.0';
 export const APP_NAME = 'PrüfFit';
 export const REPO_URL = 'https://github.com/ETHGG/prueffit';
 export const ISSUE_LABEL = 'inhalt';
@@ -33,9 +33,9 @@ export const EXAMS = ['AP1', 'AP2'];
 export { JOBS } from './curriculum.js';
 // Former setting value "all apprenticeships" (until 1.1); logic modules still accept it as "no job".
 export const ALL_JOBS = 'alle';
-export const QUESTION_TYPES = ['single', 'multi', 'number', 'text', 'match', 'order'];
+export const QUESTION_TYPES = ['single', 'multi', 'number', 'text', 'match', 'order', 'table'];
 // Types the quiz can present in this version.
-export const SUPPORTED_QUIZ_TYPES = ['single', 'multi', 'number', 'text', 'match', 'order'];
+export const SUPPORTED_QUIZ_TYPES = ['single', 'multi', 'number', 'text', 'match', 'order', 'table'];
 
 // Quiz
 export const QUIZ_SIZES = [5, 10, 20];

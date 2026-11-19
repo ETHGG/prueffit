@@ -24,7 +24,7 @@ export const AP1_TITLE = 'Einrichten eines IT-gestützten Arbeitsplatzes';
 /** AP1 catalog from 2025, seven areas (titles in own words). Topic ids from data/topics.json. */
 export const AP1_SECTIONS = Object.freeze([
   { id: 'ap1-projekte', title: 'Projekte planen und steuern',
-    topics: ['projekt.grundlagen', 'projekt.planung', 'projekt.vorgehen', 'projekt.service', 'projekt.prozesse', 'projekt.kommunikation', 'wirtschaft.abschreibung'] },
+    topics: ['projekt.grundlagen', 'projekt.planung', 'projekt.vorgehen', 'projekt.service', 'projekt.prozesse', 'projekt.kommunikation', 'projekt.operatoren', 'wirtschaft.abschreibung'] },
   { id: 'ap1-kunden', title: 'Kunden beraten und Angebote erstellen',
     topics: ['wirtschaft.grundlagen', 'wirtschaft.unternehmen', 'wirtschaft.vertrieb', 'wirtschaft.marketing', 'wirtschaft.nutzwert', 'wirtschaft.kalkulation', 'wirtschaft.rechnen'] },
   { id: 'ap1-produkte', title: 'IT-Produkte und -Systeme auswählen',

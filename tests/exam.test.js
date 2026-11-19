@@ -144,7 +144,7 @@ describe('exam configuration', () => {
   });
   it('excludes self-assessed text questions', () => {
     expect(EXAM_QUESTION_TYPES).not.toContain('text');
-    expect(EXAM_QUESTION_TYPES).toEqual(['single', 'multi', 'number', 'match', 'order']);
+    expect(EXAM_QUESTION_TYPES).toEqual(['single', 'multi', 'number', 'match', 'order', 'table']);
   });
 });
 

@@ -91,6 +91,7 @@ prueffit/
 │   ├── topics.json           # Themenkatalog
 │   ├── glossary.json         # Abkürzungsverzeichnis
 │   ├── scenarios.json        # AP2-Handlungssituationen
+│   ├── formulas.json         # Formelsammlung (seit 2.9): id, topic, name, formula, legend?, example?
 │   ├── questions/
 │   │   ├── netzwerke.json
 │   │   ├── hardware.json
@@ -124,6 +125,7 @@ prueffit/
 │   ├── glossary.js           # Abkürzungsverzeichnis: Suche, Fundstellen in Lernzetteln
 │   ├── pdfs.js               # Liste und Dateinamen der Lernzettel-PDFs
 │   ├── projectGuide.js       # Projektarbeit: Prüfungsbereich je Beruf, Checklisten, Fachgesprächsfragen (seit 2.3)
+│   ├── formulas.js           # Formelsammlung: Validierung, Suche, Gruppierung (seit 2.9)
 │   ├── finalGrade.js         # Gesamtnote, Bestehensregeln, mündliche Ergänzungsprüfung (seit 2.3, UI ab 2.4)
 │   └── ui/
 │       ├── home.js
@@ -139,6 +141,7 @@ prueffit/
 │       ├── statsView.js
 │       ├── examView.js
 │       ├── projectView.js    # #/projekt (seit 2.3)
+│       ├── formulasView.js   # #/formeln (seit 2.9)
 │       └── settingsView.js
 ├── tests/
 │   ├── grading.test.js
@@ -193,6 +196,7 @@ prueffit/
 | `text` | `{ "keywords": ["..."], "sample": "Musterlösung", "rubric": [{ "criterion": "…", "points": 2 }] }` | mit `rubric` (seit 2.1, Summe = `points`): Kriterien abhaken wie im IHK-Bewertungsraster; ohne: Selbstbewertung 0 / halb / voll |
 | `match` | Objekt `{ "linkesElement": "rechtesElement" }` | Teilpunkte pro richtiger Zuordnung |
 | `order` | Array in richtiger Reihenfolge | richtig/falsch |
+| `table` (seit 2.9) | `{ "rows": [{ "label": "…", "given": "1.000,00" }, { "label": "…", "value": 100, "tolerance": 0.01 }], "unit": "€", "columns": ["Position", "Betrag"] }` | Vorgabeblatt ausfüllen: Teilpunkte pro richtiger Zelle (mind. 2 offene Zellen) |
 
 **Pflichtfelder:** `id`, `exam`, `topic`, `difficulty` (1–3), `type`, `question`, `answer`, `points`, `explanation`.
 **Optional:** `source`, `jobs` (nur bei AP2-Inhalten: Array aus `fiae`, `fisi`, `fidpa`, `fidv`, `itse`, `kits`, `kdm`; jeder genannte Beruf muss das Thema in seiner AP2 haben).
@@ -335,6 +339,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `notes.test.js` | Markdown-Teilumfang, Suche (Umlaute, UND-Verknüpfung, Ranking), Hervorhebung |
 | `glossary.test.js` | Fundstellen (ganze Wörter, längste zuerst, Aliase), Suche, Gruppierung A–Z, Abkürzungs-Karteikarten |
 | `projectGuide.test.js` | Projektdauer je Beruf, Rahmen (50 %, 15/30 Min.), eindeutige Checklisten-IDs, Fragen je Beruf, defekter Speicher |
+| `formulas.test.js` | Formelsammlung: Pflichtfelder, eindeutige IDs, Kernformeln für FISI/KITS, Suche, Gruppierung |
 | `finalGrade.test.js` | Gewichtung 20/50/10/10/10, Rundung, alle Bestehensregeln, mündliche Ergänzungsprüfung 2 : 1 und nötige Punkte |
 | `contrast.test.js` | Kontrast aller Textfarben in hellem und dunklem Design (mind. 4,5 : 1) |
 | `ci.test.js` | Playwright-Container in der CI passt zur gesperrten Playwright-Version, Testserver ohne Python |
@@ -368,6 +373,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.6** | Falsche Fragen nach 1/3/7 Tagen wiederholen (Quiz-Modus „Fällig“, Tagesplan) | erledigt |
 | **2.7** | Übersichtlichere Oberfläche: kompakte Startseite, eingeklappte Quiz-Optionen und Prüfungshinweise, Einstellungen neu geordnet | erledigt |
 | **2.8** | Zuordnung FISI/KITS nach dem Prüfungskompendium (§ 21/22 FIAusbV, § 12/13 ITSysManKflAusbV), 8 neue Themen, vier Handlungssituationen je Bereich | erledigt |
+| **2.9** | Formelsammlung, Aufgabentyp „Tabelle ausfüllen“ und Skizzenaufgaben, Operatoren, WiSo nach der WiSo-Simulation ergänzt | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { gradeAnswer, parseNumberInput, keywordHits, GRADABLE_TYPES, rubricPoints } from '../js/grading.js';
+import { tableCells, tableCellCorrect } from '../js/grading.js';
 
 const single = { id: 's', type: 'single', options: ['a', 'b', 'c', 'd'], answer: 1, points: 2 };
 const multi = { id: 'm', type: 'multi', options: ['a', 'b', 'c', 'd', 'e'], answer: [0, 2, 3], points: 3 };
@@ -207,7 +208,7 @@ describe('order (right or wrong)', () => {
 
 describe('unsupported or broken questions', () => {
   it('grades all six documented types', () => {
-    expect(GRADABLE_TYPES.slice().sort()).toEqual(['match', 'multi', 'number', 'order', 'single', 'text']);
+    expect(GRADABLE_TYPES.slice().sort()).toEqual(['match', 'multi', 'number', 'order', 'single', 'table', 'text']);
   });
   it('returns invalid for unknown types', () => {
     const r = gradeAnswer({ type: 'essay', answer: 'x', points: 2 }, 'abc');
@@ -245,5 +246,44 @@ describe('text with rubric (Bewertungsraster, 2.1)', () => {
   it('rubricPoints sums ticked points', () => {
     expect(rubricPoints(q, [1, 2])).toBe(4);
     expect(rubricPoints({ answer: {} }, [0])).toBe(0);
+  });
+});
+
+describe('table (fill-in schema, since 2.9)', () => {
+  const q = {
+    type: 'table', points: 4,
+    answer: {
+      unit: '€',
+      rows: [
+        { label: 'Listeneinkaufspreis', given: '1.000,00' },
+        { label: '− 10 % Rabatt', value: 100 },
+        { label: '= Zieleinkaufspreis', value: 900 },
+        { label: '− 2 % Skonto', value: 18, tolerance: 0.01 },
+        { label: '= Bareinkaufspreis', value: 882 },
+      ],
+    },
+  };
+  it('lists only the open cells', () => {
+    expect(tableCells(q).map((c) => c.index)).toEqual([1, 2, 3, 4]);
+  });
+  it('gives full points when every cell is right (German number formats, tolerance)', () => {
+    expect(gradeAnswer(q, { 1: '100', 2: '900,00', 3: '18,005', 4: '882' })).toEqual({ valid: true, correct: true, points: 4, maxPoints: 4 });
+  });
+  it('gives points per correct cell; empty or unreadable cells count as wrong', () => {
+    expect(gradeAnswer(q, { 1: '100', 2: '900', 3: '20' })).toMatchObject({ valid: true, correct: false, points: 2 });
+    expect(gradeAnswer(q, { 1: 'abc' })).toMatchObject({ valid: true, points: 0 });
+    expect(gradeAnswer(q, {})).toMatchObject({ valid: true, points: 0 });
+  });
+  it('rejects malformed responses', () => {
+    expect(gradeAnswer(q, null).valid).toBe(false);
+    expect(gradeAnswer(q, ['100']).valid).toBe(false);
+    expect(gradeAnswer(q, { 0: '1.000' }).valid).toBe(false); // given row is not an input
+    expect(gradeAnswer(q, { 9: '1' }).valid).toBe(false);
+    expect(gradeAnswer(q, { 1: { x: 1 } }).valid).toBe(false);
+  });
+  it('checks a single cell', () => {
+    expect(tableCellCorrect({ value: 18, tolerance: 0.01 }, '18,01')).toBe(true);
+    expect(tableCellCorrect({ value: 18 }, '18,01')).toBe(false);
+    expect(tableCellCorrect({ value: 18 }, '')).toBe(false);
   });
 });

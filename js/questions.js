@@ -3,6 +3,7 @@
 
 import { validateNote } from './notes.js';
 import { validateGlossaryEntry, spellings } from './glossary.js';
+import { validateFormula } from './formulas.js';
 import { validateScenario } from './exam.js';
 import { JOB_IDS, jobById, itemForJob, itemExamsForJob } from './curriculum.js';
 import { AREAS, APP_VERSION, DATA_BASE, EXAMS, ISSUE_LABEL, ALL_JOBS, QUESTION_TYPES, REPO_URL } from './config.js';
@@ -83,6 +84,29 @@ const ANSWER_VALIDATORS = {
     if (!Object.entries(a).every(([k, v]) => isNonEmptyString(k) && isNonEmptyString(v))) {
       errors.push('answer: Zuordnungen müssen Text enthalten');
     }
+  },
+  table(q, errors) {
+    const a = q.answer;
+    if (!isPlainObject(a) || !Array.isArray(a.rows) || a.rows.length < 2) {
+      errors.push('answer: erwartet { rows: [{ label, value | given }] } mit mindestens 2 Zeilen');
+      return;
+    }
+    let open = 0;
+    a.rows.forEach((r, i) => {
+      const hasValue = isPlainObject(r) && Number.isFinite(r.value);
+      const hasGiven = isPlainObject(r) && isNonEmptyString(r.given);
+      if (!isPlainObject(r) || !isNonEmptyString(r.label) || hasValue === hasGiven) {
+        errors.push(`answer.rows[${i}]: erwartet label und genau eines von value (Zahl) oder given (Text)`);
+        return;
+      }
+      if (r.tolerance !== undefined && !(Number.isFinite(r.tolerance) && r.tolerance >= 0)) errors.push(`answer.rows[${i}].tolerance: muss eine Zahl ≥ 0 sein`);
+      if (hasValue) open += 1;
+    });
+    if (open < 2) errors.push('answer: mindestens 2 auszufüllende Zellen');
+    if (a.columns !== undefined && !(Array.isArray(a.columns) && a.columns.length === 2 && a.columns.every(isNonEmptyString))) {
+      errors.push('answer.columns: erwartet 2 Spaltenüberschriften');
+    }
+    if (a.unit !== undefined && typeof a.unit !== 'string') errors.push('answer.unit: muss Text sein');
   },
   order(q, errors) {
     const a = q.answer;
@@ -260,7 +284,7 @@ export async function loadCatalog(fetchFn, { base = DATA_BASE, areas = AREAS.map
     }
   } catch (e) {
     errors.push(`topics.json: ${e.message}`);
-    return { topics: [], questions: [], flashcards: [], notes: [], glossary: [], scenarios: [], errors };
+    return { topics: [], questions: [], flashcards: [], notes: [], glossary: [], scenarios: [], formulas: [], errors };
   }
 
   const topicIds = new Set(topics.map((t) => t.id));
@@ -376,7 +400,28 @@ export async function loadCatalog(fetchFn, { base = DATA_BASE, areas = AREAS.map
     errors.push(`scenarios.json: ${e.message}`);
   }
 
-  return { topics, questions, flashcards, notes, glossary, scenarios, errors };
+  // Formula collection (since 2.9), optional.
+  const formulas = [];
+  try {
+    const raw = await fetchJson(fetchFn, `${base}formulas.json`);
+    if (!Array.isArray(raw)) throw new Error('kein Array');
+    const known = new Set(topics.map((t) => t.id));
+    const ids = new Set();
+    for (const f of raw) {
+      const fErrors = validateFormula(f, known);
+      if (!fErrors.length && ids.has(f.id)) fErrors.push('id doppelt');
+      if (fErrors.length) {
+        errors.push(`formulas.json ${f?.id ?? '?'}: ${fErrors.join('; ')}`);
+        continue;
+      }
+      ids.add(f.id);
+      formulas.push(f);
+    }
+  } catch (e) {
+    errors.push(`formulas.json: ${e.message}`);
+  }
+
+  return { topics, questions, flashcards, notes, glossary, scenarios, formulas, errors };
 }
 
 const ISSUE_TEXT_LIMIT = 300;

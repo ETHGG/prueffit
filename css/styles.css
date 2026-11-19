@@ -707,3 +707,28 @@ details.exam-rules { margin-top: .75rem; border-top: 1px solid var(--border); pa
 .today a.kpi { display: block; min-height: 0; }
 .today-meta { flex-wrap: nowrap; align-items: baseline; }
 .today-meta > a { white-space: nowrap; }
+
+/* 2.9: formula collection */
+.formula-topic { margin: .75rem 0 1rem; }
+.formula-topic h3 { font-size: 1rem; margin: 0 0 .5rem; display: flex; gap: .5rem; align-items: baseline; flex-wrap: wrap; }
+.formula { border-left: 3px solid var(--primary); padding: .25rem 0 .25rem .75rem; margin: 0 0 .75rem; }
+.formula-name { margin: 0 0 .25rem; font-size: .95rem; }
+.formula-text { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .9rem; background: var(--surface-2, transparent); }
+.formula-legend, .formula-example { margin: .25rem 0 0; }
+
+/* 2.9: fill-in tables (question type "table") */
+.table-wrap { overflow-x: auto; margin: 1rem 0; }
+.fill-table { width: 100%; border-collapse: collapse; }
+.fill-table th, .fill-table td { border-bottom: 1px solid var(--border); padding: .4rem .3rem; text-align: left; vertical-align: middle; }
+.fill-table th[scope="row"] { font-weight: 600; overflow-wrap: anywhere; }
+.fill-table td.num { text-align: right; white-space: nowrap; }
+.fill-table tr.is-given td.num { color: var(--muted); }
+.cell-input { display: inline-flex; align-items: center; gap: .3rem; }
+.cell-input input { width: 7.5rem; min-height: 44px; text-align: right; font: inherit; padding: .3rem .5rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); }
+.cell-input .unit { color: var(--muted); font-weight: 600; }
+.fill-table tr.is-correct { background: var(--ok-bg); }
+.fill-table tr.is-wrong { background: var(--bad-bg); }
+.fill-table .mark { display: block; font-size: .85rem; font-weight: 700; }
+.fill-table tr.is-correct .mark { color: var(--ok); }
+.fill-table tr.is-wrong .mark { color: var(--bad); }
+.sample p { white-space: pre-line; }

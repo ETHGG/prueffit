@@ -96,3 +96,41 @@ test('quiz mode "Offene Aufgaben" practises only open tasks with marking scheme'
   await expectNoHorizontalOverflow(page);
   expect(problems).toEqual([]);
 });
+
+test('table question (2.9): fill in the schema, Enter jumps to the next cell, points per cell', async ({ page }) => {
+  const problems = watchProblems(page);
+  await openQuizWith(page, ['wi-0199']);
+  const table = page.locator('.fill-table');
+  await expect(table).toContainText('Listeneinkaufspreis (25 × 180 €)');
+  await expect(table.locator('input')).toHaveCount(6);
+  await page.getByRole('button', { name: 'Antwort prüfen' }).click();
+  await expect(page.locator('.form-error, [role="alert"]').first()).toContainText('Bitte fülle alle offenen Felder aus');
+  const first = page.getByLabel('− 15 % Liefererrabatt');
+  await first.fill('675');
+  await first.press('Enter');
+  await expect(page.getByLabel('= Zieleinkaufspreis')).toBeFocused();
+  for (const [label, value] of [['= Zieleinkaufspreis', '3825'], ['− 2 % Liefererskonto', '76,50'], ['= Bareinkaufspreis', '3.748,50'], ['+ Bezugskosten', '60'], ['= Bezugspreis (Einstandspreis)', '3800']]) {
+    await page.getByLabel(label).fill(value);
+  }
+  await expectNoHorizontalOverflow(page);
+  await page.getByRole('button', { name: 'Antwort prüfen' }).click();
+  await expect(page.locator('#feedback-title')).toHaveText('Teilweise richtig');
+  await expect(page.locator('.feedback')).toContainText('5 von 6 Punkten');
+  await expect(table.locator('tr.is-wrong .mark')).toHaveText('✗ richtig: 3.808,5');
+  await expect(table.locator('tr.is-correct')).toHaveCount(5);
+  expect(problems).toEqual([]);
+});
+
+test('formula collection (2.9): grouped by area, search, link to the note', async ({ page }) => {
+  const problems = watchProblems(page);
+  await gotoApp(page, './#/lernzettel');
+  await page.getByRole('link', { name: /Formelsammlung/ }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Formelsammlung');
+  await page.getByLabel('Formeln durchsuchen').fill('verfuegbarkeit');
+  await expect(page.locator('.formula-name').first()).toContainText('Verfügbarkeit');
+  await expect(page).toHaveURL(/#\/formeln\?q=verfuegbarkeit/);
+  await page.getByRole('link', { name: /Lernzettel Hochverfügbarkeit/ }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Hochverfügbarkeit und Notfallmanagement');
+  await expectNoHorizontalOverflow(page);
+  expect(problems).toEqual([]);
+});

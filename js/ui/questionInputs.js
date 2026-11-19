@@ -1,4 +1,4 @@
-// Answer inputs for the question types single, multi, number, match and order.
+// Answer inputs for the question types single, multi, number, match, order and table (since 2.9).
 // Shared by the quiz (instant feedback) and the exam simulation (feedback at the end).
 //
 // Options for the render functions:
@@ -10,6 +10,7 @@
 //   onChange  called with the new response whenever the learner changes something (optional)
 
 import { shuffle } from '../questions.js';
+import { tableCells, tableCellCorrect } from '../grading.js';
 import { h, formatNumber } from './dom.js';
 
 /** Initial UI state: shuffled order (never already correct) and shuffled match targets. */
@@ -72,6 +73,13 @@ export function readResponse(form, q, ui) {
     }
     case 'order':
       return [...ui.order];
+    case 'table': {
+      const response = {};
+      for (const input of form.querySelectorAll('input[data-row]')) {
+        if (input.value.trim()) response[input.dataset.row] = input.value.trim();
+      }
+      return response;
+    }
     default:
       return undefined;
   }
@@ -83,6 +91,7 @@ export function isIncomplete(q, response) {
   if (q.type === 'multi') return response.length === 0;
   if (q.type === 'number') return String(response).trim() === '';
   if (q.type === 'match') return Object.keys(response).length < Object.keys(q.answer).length;
+  if (q.type === 'table') return tableCells(q).some((c) => !String(response[String(c.index)] ?? '').trim());
   return false;
 }
 
@@ -92,6 +101,7 @@ export function missingInputMessage(q) {
     case 'multi': return 'Bitte wähle mindestens eine Antwort aus.';
     case 'number': return 'Bitte gib eine Zahl ein, z. B. 62 oder 3,75.';
     case 'match': return 'Bitte ordne jedem Begriff einen Eintrag zu.';
+    case 'table': return 'Bitte fülle alle offenen Felder aus (Zahlen ohne Einheit).';
     default: return 'Diese Antwort ist ungültig.';
   }
 }
@@ -107,6 +117,7 @@ export function correctAnswerText(q) {
     case 'match': return Object.entries(q.answer).map(([l, r]) => `${l} → ${r}`).join(' · ');
     case 'order': return q.answer.join(' → ');
     case 'text': return q.answer.sample;
+    case 'table': return tableCells(q).map((c) => `${c.label}: ${formatNumber(c.value)}${q.answer.unit ? ` ${q.answer.unit}` : ''}`).join(' · ');
     default: return '';
   }
 }
@@ -124,6 +135,10 @@ export function formatResponse(q, response) {
     }
     case 'order': return response.join(' → ');
     case 'text': return response.text?.trim() ? response.text : '–';
+    case 'table': {
+      const cells = tableCells(q).filter((c) => response[String(c.index)]).map((c) => `${c.label}: ${response[String(c.index)]}`);
+      return cells.length ? cells.join(' · ') : '–';
+    }
     default: return '–';
   }
 }
@@ -133,7 +148,7 @@ export function isEmptyResponse(q, response) {
   if (response === undefined || response === null) return true;
   if (q.type === 'multi') return response.length === 0;
   if (q.type === 'number') return String(response).trim() === '';
-  if (q.type === 'match') return Object.keys(response).length === 0;
+  if (q.type === 'match' || q.type === 'table') return Object.keys(response).length === 0;
   return false;
 }
 
@@ -236,12 +251,51 @@ function orderInput(q, { response, locked, reveal, ui, redraw, onChange }) {
       })));
 }
 
+function tableInput(q, { response, locked, reveal, onChange }) {
+  const unit = q.answer.unit ?? '';
+  const rows = q.answer.rows.map((row, i) => {
+    if (!Number.isFinite(row.value)) {
+      return h('tr', { class: 'is-given' },
+        h('th', { scope: 'row', text: row.label }),
+        h('td', { class: 'num' }, h('span', { text: row.given }), unit ? h('span', { class: 'unit', text: ` ${unit}` }) : null));
+    }
+    const id = `cell-${i}`;
+    const entered = response?.[String(i)] ?? '';
+    const ok = reveal && tableCellCorrect(row, entered);
+    return h('tr', { class: reveal ? (ok ? 'is-correct' : 'is-wrong') : '' },
+      h('th', { scope: 'row' }, h('label', { for: id, text: row.label })),
+      h('td', { class: 'num' },
+        h('span', { class: 'cell-input' },
+          h('input', {
+            id, type: 'text', inputmode: 'decimal', autocomplete: 'off', enterkeyhint: 'next', 'data-row': i,
+            disabled: locked, value: entered || null,
+            onInput: onChange ? (e) => onChange(readResponse(e.target.form, q)) : null,
+            // Enter moves to the next open cell instead of submitting the whole answer.
+            onKeydown: (e) => {
+              if (e.key !== 'Enter') return;
+              const cells = [...e.target.form.querySelectorAll('input[data-row]')];
+              const next = cells[cells.indexOf(e.target) + 1];
+              if (next) { e.preventDefault(); next.focus(); }
+            },
+          }),
+          unit ? h('span', { class: 'unit', text: unit }) : null),
+        reveal ? h('span', { class: 'mark', text: ok ? '✓' : `✗ richtig: ${formatNumber(row.value)}` }) : null));
+  });
+  return h('fieldset', {},
+    h('legend', { class: 'hint', text: 'Fülle die leeren Felder aus (Zahlen mit Komma oder Punkt, ohne Einheit). Jede richtige Zelle bringt Punkte.' }),
+    h('div', { class: 'table-wrap' },
+      h('table', { class: 'fill-table' },
+        q.answer.columns ? h('thead', {}, h('tr', {}, q.answer.columns.map((c) => h('th', { scope: 'col', text: c })))) : null,
+        h('tbody', {}, rows))));
+}
+
 /** Renders the input for all types except `text` (which needs the quiz's reveal flow). */
 export function renderInput(q, options) {
   switch (q.type) {
     case 'number': return numberInput(q, options);
     case 'match': return matchInput(q, options);
     case 'order': return orderInput(q, options);
+    case 'table': return tableInput(q, options);
     case 'single':
     case 'multi': return choiceInput(q, options);
     default: return h('p', { class: 'form-error', text: `Fragetyp „${q.type}“ wird hier nicht unterstützt.` });

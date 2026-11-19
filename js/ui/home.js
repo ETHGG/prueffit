@@ -100,5 +100,6 @@ function notesSearchCard(ctx) {
       h('a', { href: '#/lernzettel' }, `${notes.length} Lernzettel`), ' · ',
       h('a', { href: '#/quiz' }, `${formatNumber(questions.length)} Fragen`), ' · ',
       h('a', { href: '#/karten' }, `${formatNumber(flashcards.length)} Karteikarten`),
-      ` in ${topics.length} Themen`));
+      ` in ${topics.length} Themen · `,
+      h('a', { href: '#/formeln' }, 'Formelsammlung')));
 }

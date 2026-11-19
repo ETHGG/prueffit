@@ -51,6 +51,7 @@
   {"id": "projekt.kommunikation", "area": "Projektmanagement", "name": "Präsentation und Dokumentation", "exams": ["AP1", "AP2"]},
   {"id": "projekt.abnahme", "area": "Projektmanagement", "name": "Rollout, Abnahme und Abrechnung", "exams": ["AP1"]},
   {"id": "projekt.einfuehrung", "area": "Projektmanagement", "name": "Einführung einer IT-Systemlösung", "exams": ["AP2"]},
+  {"id": "projekt.operatoren", "area": "Projektmanagement", "name": "Prüfungsaufgaben und Operatoren", "exams": ["AP1"]},
   {"id": "programmierung.zahlensysteme", "area": "Programmierung", "name": "Zahlensysteme und Logik", "exams": ["AP1", "AP2"]},
   {"id": "programmierung.grundlagen", "area": "Programmierung", "name": "Kontrollstrukturen und Datentypen", "exams": ["AP1", "AP2"]},
   {"id": "programmierung.datenbanken", "area": "Programmierung", "name": "Datenbanken und SQL", "exams": ["AP1", "AP2"]},

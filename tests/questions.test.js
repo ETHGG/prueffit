@@ -74,6 +74,18 @@ describe('validateQuestion', () => {
     expect(validateQuestion({ ...base, type: 'order', answer: ['a'] }, topicIds).length).toBeGreaterThan(0);
   });
 
+  it('validates fill-in tables (since 2.9)', () => {
+    const table = { ...base, type: 'table', options: undefined };
+    const rows = [{ label: 'Preis', given: '100' }, { label: 'Rabatt', value: 10 }, { label: 'Ziel', value: 90, tolerance: 0.01 }];
+    expect(validateQuestion({ ...table, answer: { rows, unit: '€', columns: ['Position', 'Betrag'] } }, topicIds)).toEqual([]);
+    expect(validateQuestion({ ...table, answer: { rows: rows.slice(0, 2) } }, topicIds).length).toBeGreaterThan(0); // only 1 open cell
+    expect(validateQuestion({ ...table, answer: { rows: [...rows, { label: 'x', value: 1, given: '1' }] } }, topicIds).length).toBeGreaterThan(0);
+    expect(validateQuestion({ ...table, answer: { rows: [...rows, { label: '', value: 1 }] } }, topicIds).length).toBeGreaterThan(0);
+    expect(validateQuestion({ ...table, answer: { rows: [...rows, { label: 'y', value: 1, tolerance: -1 }] } }, topicIds).length).toBeGreaterThan(0);
+    expect(validateQuestion({ ...table, answer: { rows, columns: ['nur eine'] } }, topicIds).length).toBeGreaterThan(0);
+    expect(validateQuestion({ ...table, answer: [1, 2] }, topicIds).length).toBeGreaterThan(0);
+  });
+
   it('validates the optional jobs field (AP2 only)', () => {
     const ap2 = { ...base, exam: ['AP1', 'AP2'] };
     expect(validateQuestion({ ...ap2, jobs: ['fisi'] }, topicIds)).toEqual([]);

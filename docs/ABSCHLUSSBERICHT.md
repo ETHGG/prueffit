@@ -152,3 +152,18 @@ Fragen, die für AP1 und AP2 zählen, sind in beiden Spalten enthalten. Gesamtbe
 - Die Dokumente sind mit Copilot erstellt. Alle übernommenen Fakten wurden nachgerechnet bzw. geprüft. Texte, Firmen und Zahlen sind eigene; die Dokumente selbst liegen nicht im Repository.
 
 **Offene Punkte:** Zuordnung bei Gelegenheit mit dem offiziellen Prüfungskatalog (AkA) und dem Ausbilder abgleichen.
+
+## Nachtrag 2.9.0 – Formelsammlung, Tabellenaufgaben, Operatoren, WiSo (19.11.2026)
+
+**Was gemacht:**
+- Formelsammlung: `data/formulas.json`, `js/formulas.js`, `#/formeln`.
+- Neuer Fragetyp `table` für Vorgabeblätter (Bewertung je Zelle). Er ist in Quiz und Prüfungssimulation freigeschaltet (`QUESTION_TYPES`, `SUPPORTED_QUIZ_TYPES`, `EXAM_QUESTION_TYPES`).
+- 17 Tabellenaufgaben, 3 Skizzenaufgaben (als offene Aufgabe mit Raster), Thema „Operatoren“.
+- WiSo-Lernzettel und -Fragen nach der WiSo-Simulation des Nutzers ergänzt; Inhalte in eigenen Worten und mit eigenen Zahlen.
+
+**Annahmen:**
+- Zeichnungen lassen sich im Browser nicht sinnvoll automatisch bewerten. Skizzenaufgaben werden auf Papier gelöst und mit Musterlösung und Raster selbst bewertet.
+- Operatoren sind ein AP1-Thema und damit für alle Berufe sichtbar.
+- Die Formelsammlung ist nicht Teil der PDFs; sie lässt sich über die Druckfunktion des Browsers drucken.
+
+**Offene Punkte:** Formelsammlung bei Bedarf als eigenes PDF.

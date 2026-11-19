@@ -30,5 +30,8 @@
   {"id": "fc-0251", "exam": ["AP2"], "jobs": ["fiae", "fidpa", "fidv", "kits", "kdm"], "topic": "projekt.planung", "front": "Kritischer Pfad", "back": "Folge von Vorgängen ohne Puffer; jede Verzögerung darauf verschiebt das Projektende."},
   {"id": "fc-0270", "exam": ["AP2"], "jobs": ["fisi", "kits"], "topic": "projekt.einfuehrung", "front": "Einführungsstrategien", "back": "Stichtag (schnell, riskant), stufenweise (Risiko begrenzt, dauert), Parallelbetrieb (sicher, teuer), Pilot (früh Fehler finden)."},
   {"id": "fc-0271", "exam": ["AP2"], "jobs": ["fisi", "kits"], "topic": "projekt.einfuehrung", "front": "Hypercare", "back": "Verstärkter Support in den ersten Wochen nach dem Go-Live."},
-  {"id": "fc-0272", "exam": ["AP2"], "jobs": ["fisi", "kits"], "topic": "projekt.einfuehrung", "front": "Mitbestimmung bei IT-Systemen", "back": "§ 87 Abs. 1 Nr. 6 BetrVG: Betriebsrat bestimmt mit, wenn ein System Leistung oder Verhalten überwachen kann."}
+  {"id": "fc-0272", "exam": ["AP2"], "jobs": ["fisi", "kits"], "topic": "projekt.einfuehrung", "front": "Mitbestimmung bei IT-Systemen", "back": "§ 87 Abs. 1 Nr. 6 BetrVG: Betriebsrat bestimmt mit, wenn ein System Leistung oder Verhalten überwachen kann."},
+  {"id": "fc-0280", "exam": ["AP1"], "topic": "projekt.operatoren", "front": "nennen vs. erläutern", "back": "Nennen: Stichworte ohne Erklärung. Erläutern: Zusammenhang in ganzen Sätzen mit Begründung oder Beispiel, bezogen auf die Situation."},
+  {"id": "fc-0281", "exam": ["AP1"], "topic": "projekt.operatoren", "front": "beurteilen / bewerten", "back": "Kriterien aus der Situation abwägen und zu einem klaren, begründeten Urteil kommen („Ich empfehle …, weil …“)."},
+  {"id": "fc-0282", "exam": ["AP1"], "topic": "projekt.operatoren", "front": "Zeitregel schriftliche Prüfung", "back": "90 Minuten für etwa 100 Punkte → knapp eine Minute pro Punkt."}
 ]

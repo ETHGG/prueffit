@@ -37,6 +37,7 @@ export function catalogForJob(catalog, job) {
     notes,
     glossary: glossary.filter((e) => used.has(e)),
     scenarios: (catalog.scenarios ?? []).filter((s) => !Array.isArray(s.jobs) || s.jobs.includes(job)),
+    formulas: (catalog.formulas ?? []).filter((f) => topicIds.has(f.topic)),
   };
 }
 

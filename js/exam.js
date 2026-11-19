@@ -10,7 +10,7 @@ export const EXAM_STATE_VERSION = 2;
 const SUPPORTED_STATE_VERSIONS = [1, 2];
 
 /** Question types that can be graded automatically. */
-export const EXAM_QUESTION_TYPES = ['single', 'multi', 'number', 'match', 'order'];
+export const EXAM_QUESTION_TYPES = ['single', 'multi', 'number', 'match', 'order', 'table'];
 
 /** Parts without open tasks (WiSo is multiple choice in the real exam). */
 const CLOSED_PARTS = ['wiso'];

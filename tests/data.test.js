@@ -48,7 +48,7 @@ describe('data/: all files', () => {
   it('contains only known file locations', () => {
     const unexpected = allFiles.filter(
       (f) => f !== 'topics.json' && !/^questions\/[a-z]+\.json$/.test(f) && !/^flashcards\/[a-z]+\.json$/.test(f)
-        && !/^notes\/[a-z]+\.json$/.test(f) && f !== 'glossary.json' && f !== 'scenarios.json',
+        && !/^notes\/[a-z]+\.json$/.test(f) && f !== 'glossary.json' && f !== 'scenarios.json' && f !== 'formulas.json',
     );
     expect(unexpected).toEqual([]);
   });

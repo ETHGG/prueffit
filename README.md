@@ -4,7 +4,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 
 **Live:** https://ethgg.github.io/prueffit/
 
-## Funktionen (Version 2.8)
+## Funktionen (Version 2.9)
 
 - **Dein Beruf, deine Inhalte:** Beim ersten Start legst du einmal deinen Beruf fest. Danach zeigt PrüfFit überall nur, was in deiner AP1 und AP2 vorkommt – gegliedert nach AP1 (Prüfungskatalog ab 2025) und den AP2-Prüfungsbereichen deines Berufs. Der Beruf lässt sich später nicht ändern.
 
@@ -31,7 +31,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 - **Prüfungssimulation:** AP1 (90 Minuten) oder AP2 wie die echte Prüfung: zwei Prüfungsbereiche à 90 Minuten mit den offiziellen Namen des gewählten Berufs und Wirtschafts- und Sozialkunde (60 Minuten, 30 Fragen); einzelne Teile lassen sich auch allein üben. Offene Aufgaben (Freitext) bewertest du nach der Abgabe selbst mit dem Bewertungsraster. Mit Timer, der auch bei geschlossener App weiterläuft, automatischer Abgabe, Note nach IHK-Schlüssel Note pro Teil und Auswertung jeder Frage.
 - **Statistik:** Trefferquote und Versuche pro Thema mit Ampel (grün ab 80 %, gelb ab 50 %, rot darunter, grau unter 5 Versuchen), Themen nach Prüfungsbereich, Diagramme pro Fachbereich und für den Verlauf der Prüfungsergebnisse.
 - **Heute üben:** Die schwächsten Themen (oder noch ungeübte) werden vorgeschlagen und lassen sich direkt im Quiz üben.
-- **Inhalte:** 971 eigene Fragen (davon 82 offene Aufgaben mit Bewertungsraster), 279 Karteikarten, 85 Lernzettel in 85 Themen und 11 Bereichen: Netzwerke, Hardware, IT-Sicherheit, Wirtschaft, Projektmanagement, Programmierung, Recht, WiSo, Daten und Prozesse, Digitale Vernetzung, Elektrotechnik. Je Beruf sind es rund 460–610 Fragen (am meisten für KITS und FISI, abgeglichen mit den Ausbildungsverordnungen und dem Prüfungskompendium, siehe `docs/ABGLEICH.md`); jeder AP2-Prüfungsbereich beginnt mit einer von zwei (KITS, FISI: vier) Handlungssituationen.
+- **Inhalte:** 1.007 eigene Fragen (davon 86 offene Aufgaben mit Bewertungsraster und 17 Tabellen zum Ausfüllen), 282 Karteikarten, 86 Lernzettel in 86 Themen, eine Formelsammlung mit 65 Formeln und 11 Bereichen: Netzwerke, Hardware, IT-Sicherheit, Wirtschaft, Projektmanagement, Programmierung, Recht, WiSo, Daten und Prozesse, Digitale Vernetzung, Elektrotechnik. Je Beruf sind es rund 460–610 Fragen (am meisten für KITS und FISI, abgeglichen mit den Ausbildungsverordnungen und dem Prüfungskompendium, siehe `docs/ABGLEICH.md`); jeder AP2-Prüfungsbereich beginnt mit einer von zwei (KITS, FISI: vier) Handlungssituationen.
 - **Freitext mit Bewertungsraster:** Musterlösung plus Kriterien mit Punkten zum Abhaken, wie in den IHK-Lösungshinweisen.
 - **Dein Plan für heute:** konkrete Schritte für das Tagesziel – fällige Karten, Fehler, schwächstes Thema. Themen, Schwierigkeit und Aufgabenstil orientieren sich an den IHK-Prüfungen 2021–2025; alle Aufgaben sind in eigenen Worten und mit eigenen Zahlen formuliert.
 - **Fehler melden:** Unter jeder Erklärung führt ein Link zu einem vorausgefüllten GitHub-Issue.

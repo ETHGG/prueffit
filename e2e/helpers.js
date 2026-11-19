@@ -44,6 +44,8 @@ export async function answerCurrent(page) {
     if (await page.locator('#answer-input').count()) await page.fill('#answer-input', '1');
     else if (await page.locator('select[data-left]').count()) {
       for (const sel of await page.locator('select[data-left]').all()) await sel.selectOption({ index: 1 });
+    } else if (await page.locator('input[data-row]').count()) {
+      for (const cell of await page.locator('input[data-row]').all()) await cell.fill('1'); // table (2.9)
     } else if (!(await page.locator('.order-list').count())) await page.locator('.option').first().click();
     await page.getByRole('button', { name: 'Antwort prüfen' }).click();
   }

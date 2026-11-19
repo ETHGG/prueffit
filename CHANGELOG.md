@@ -2,6 +2,20 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.9.0] – 2026-11-19
+
+### Hinzugefügt
+- **Formelsammlung** (`#/formeln`): 65 Formeln mit Erklärung und Rechenbeispiel, nach Bereichen gegliedert, durchsuchbar (Umlaute egal) und auf den eigenen Beruf beschränkt. Themen u. a.: Einheiten, Subnetting/VLSM, RAID, Energie, Verfügbarkeit, Kalkulation, Abschreibung, KLR, Beschaffung, Kennzahlen, Investition, Verzugszinsen, Netzplan, Elektrotechnik, Inflation. Jede Formel führt zum passenden Lernzettel. Erreichbar über Lernzettel und Startseite.
+- **Neuer Aufgabentyp „Tabelle ausfüllen“ (`table`)** wie die Vorgabeblätter der Prüfung:
+  - offene Zellen ausfüllen, Punkte je richtiger Zelle; Enter springt zur nächsten Zelle
+  - im Quiz und in der Prüfungssimulation (automatisch bewertet)
+  - 17 Aufgaben: Bezugs- und Verkaufskalkulation, Nutzwertanalyse, Netzplan, Hosts je Präfix, Bild und Übertragung, Abschreibungsplan, Energiekosten, RAID-Kapazitäten, Verfügbarkeit, VLSM, Bestellmengen, Bilanzkennzahlen, Kostenvergleich, Tilgungsplan, Entgeltabrechnung, Gewinnverteilung
+- **Skizzenaufgaben:** Netzplan, ER-Modell und logischer Netzplan auf Papier zeichnen, dann mit Musterlösung und Bewertungsraster selbst bewerten.
+- **Operatoren:** neues Thema „Prüfungsaufgaben und Operatoren“ (nennen, erläutern, beurteilen, berechnen …) mit Lernzettel, 7 Fragen und 3 Karteikarten.
+- **WiSo nach deiner WiSo-Simulation ergänzt:**
+  - Lernzettel erweitert: Konjunkturindikatoren, Arten der Arbeitslosigkeit, Inflation und Kaufkraft, Verbraucherschutz, Gewinnverteilung bei Personengesellschaften
+  - 11 neue Fragen, dazu passende Formeln
+
 ## [2.8.0] – 2026-11-19
 
 ### Geändert – Zuordnung FISI und KITS nach deinem Prüfungskompendium

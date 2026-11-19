@@ -1,5 +1,5 @@
 // Grading of single answers. Pure functions, no DOM access.
-// Supports all six question types of CLAUDE.md 5.2.
+// Supports all question types of CLAUDE.md 5.2 (table since 2.9).
 
 const round2 = (x) => Math.round(x * 100) / 100;
 const EPSILON = 1e-9;
@@ -121,6 +121,35 @@ function gradeOrder(q, response, max) {
   return result(true, correct, correct ? max : 0, max);
 }
 
+/**
+ * table (since 2.9): fill in the open cells of a schema (e.g. a calculation). Points per correct cell;
+ * `response` maps the row index to the entered text, `answer.rows[i]` is `{ label, value, tolerance }`
+ * (to fill in) or `{ label, given }` (shown). Empty cells count as wrong.
+ */
+export function tableCells(q) {
+  return (q.answer?.rows ?? []).map((r, i) => ({ ...r, index: i })).filter((r) => Number.isFinite(r.value));
+}
+
+export function tableCellCorrect(row, input) {
+  const value = parseNumberInput(input);
+  if (value === null) return false;
+  const tolerance = Number.isFinite(row.tolerance) ? Math.abs(row.tolerance) : 0;
+  return Math.abs(value - row.value) <= tolerance + EPSILON;
+}
+
+function gradeTable(q, response, max) {
+  if (!isPlainObject(response)) return result(false, false, 0, max);
+  const cells = tableCells(q);
+  const open = new Set(cells.map((c) => String(c.index)));
+  for (const [key, v] of Object.entries(response)) {
+    if (!open.has(key) || !(typeof v === 'string' || typeof v === 'number')) return result(false, false, 0, max);
+  }
+  if (!cells.length) return result(false, false, 0, max);
+  const hits = cells.filter((c) => tableCellCorrect(c, response[String(c.index)])).length;
+  const correct = hits === cells.length;
+  return result(true, correct, correct ? max : round2(max * (hits / cells.length)), max);
+}
+
 const GRADERS = {
   single: gradeSingle,
   multi: gradeMulti,
@@ -128,6 +157,7 @@ const GRADERS = {
   text: gradeText,
   match: gradeMatch,
   order: gradeOrder,
+  table: gradeTable,
 };
 
 function normalizeForSearch(value) {

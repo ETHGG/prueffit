@@ -272,6 +272,11 @@ export function render(root, ctx) {
         ? h('a', { class: 'gloss-link', href: glossaryHash('', '') },
           h('span', { class: 'gloss-link-title', text: 'Abkürzungsverzeichnis' }),
           h('span', { class: 'muted small', text: `${glossary.length} Abkürzungen ausgeschrieben, z. B. DHCP, KRITIS, GuV` }))
+        : null,
+      ctx.catalog.formulas?.length
+        ? h('a', { class: 'gloss-link', href: '#/formeln' },
+          h('span', { class: 'gloss-link-title', text: 'Formelsammlung' }),
+          h('span', { class: 'muted small', text: `${ctx.catalog.formulas.length} Formeln, z. B. Subnetting, Kalkulation, Verfügbarkeit` }))
         : null),
     abbrHit,
     pdfCard(ctx.catalog.job),
