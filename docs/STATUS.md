@@ -14,6 +14,22 @@
 | D Bewertungsraster, „Dein Plan für heute“ | erledigt |
 | E Gegenprüfung (VDE-Norm, Prüfungstermine KITS/KDM), PDFs, Version 2.1.0 | erledigt |
 
+
+## Geplante Aufgaben (Stand 19.11.2026, alle nachts, Europe/Berlin)
+
+| Rhythmus | Zeit | Aufgabe |
+|---|---|---|
+| einmalig | Mo 23.11.2026, 00:47 | Prüfungsreife je Prüfungsbereich, Tabellenaufgabe in jeder Simulation, Formelsammlung als PDF (mit Fachprüfung) |
+| täglich | 01:47 | Qualitätsrunde: CI- und Live-Check, 2 Themen nach `docs/PRUEFPROTOKOLL.md` fachlich prüfen |
+| wöchentlich | Mo 03:06 | Fehlermeldungen und Wünsche (GitHub-Issues), Ausbau, Quellenprüfung |
+| wöchentlich | Mi 02:41 | Fragen vertiefen (FISI/KITS, schwächste Themen, zuerst RAID und USV) |
+| monatlich | 1., 04:13 | Technik-Wartung (Dev-Abhängigkeiten, CI, Live-Seite, Links) und Lückenanalyse |
+| halbjährlich | 2.1. und 2.7., 04:37 | Basiszinssatz |
+| jährlich | 3.1., 04:23 | Jahreswechsel-Werte (Sozialversicherung, Mindestvergütung, Steuern, Gesetzesänderungen), Prüfungstermine |
+| jährlich | 14.9., 03:51 | Prüfungskataloge, Ausbildungsverordnungen, Prüfungstermine des Folgejahres |
+
+Alle Läufe holen vor dem Push mit `git pull --rebase` den neuesten Stand.
+
 ## Erledigt
 
 ### 2.1
