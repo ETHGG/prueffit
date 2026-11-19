@@ -385,6 +385,7 @@ Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` akt
 - Feld `source` ist immer `"eigene"` oder eine freie Quelle mit Lizenz.
 - Startumfang 0.1: mind. **10 Fragen pro Bereich** und **5 Karteikarten pro Bereich**.
 - Fachliche Inhalte müssen korrekt sein. Rechenaufgaben in der `explanation` mit vollständigem Lösungsweg.
+- **Verallgemeinerungen genauer prüfen (Wunsch des Nutzers):** Aussagen wie „ein Switch arbeitet auf Schicht 2“ sind nicht falsch, haben aber Varianten. Solche Aussagen nicht weglassen, sondern präzisieren und die Variante nennen (z. B. „klassischer Switch: Schicht 2; ein Layer-3-Switch kann zusätzlich routen“). Eine solche Präzisierung **überall gleich** nachziehen: Lernzettel, Fragen inkl. Erklärungen und Musterlösungen, Karteikarten, Formeln, Handlungssituationen, PDFs.
 
 ---
 
