@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.9.2] – 2026-11-19
+
+### Geändert
+- **Layer-3-Switches** (Hinweis des Nutzers): Aussagen wie „ein Switch arbeitet auf Schicht 2“ gelten jetzt ausdrücklich für den klassischen Switch.
+  - Lernzettel OSI: Layer-3-Switch in der Schichtentabelle und ein Merksatz dazu.
+  - Zuordnungsfragen net-0013 und net-0087 präzisiert; net-0087 enthält jetzt zusätzlich den Layer-3-Switch.
+  - Musterlösung „Switch vs. Router“ (net-0015) und Karteikarte „Geräte und OSI-Schicht“ ergänzt.
+
 ## [2.9.1] – 2026-11-19
 
 ### Behoben
