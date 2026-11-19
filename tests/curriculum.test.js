@@ -27,7 +27,7 @@ describe('curriculum: assignment of topics', () => {
     expect(examsForTopic('wiso.ausbildung')).toEqual(['AP2']);
     // Seit 2.1 auch AP2 für KITS (ITSManKflAusbV § 12: Angebotsvergleiche).
     expect(examsForTopic('wirtschaft.nutzwert')).toEqual(['AP1', 'AP2']);
-    // Seit 2.8 auch AP2 für KITS (Angebotspräsentation, ITSysManKflAusbV § 12).
+    // Seit 2.8 auch AP2 für KITS (Angebotspräsentation, ITSManKflAusbV § 12).
     expect(examsForTopic('projekt.kommunikation')).toEqual(['AP1', 'AP2']);
     expect(examsForTopic('projekt.abnahme')).toEqual(['AP1']);
     expect(examsForTopic('wirtschaft.beschaffung')).toEqual(['AP2']);

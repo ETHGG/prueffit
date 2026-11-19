@@ -64,7 +64,7 @@ export const AP2_PARTS = Object.freeze({
     { id: 'ga2', title: 'Entwicklung und Umsetzung von Algorithmen', minutes: 90, points: 50, topics: [...ALL_PROGRAMMING] },
     WISO,
   ],
-  // FISI and KITS since 2.8: aligned with § 21/22 FIAusbV and § 12/13 ITSysManKflAusbV as described in the
+  // FISI and KITS since 2.8: aligned with § 21/22 FIAusbV and § 12/13 ITSManKflAusbV as described in the
   // learner's own compendium (docs/ABGLEICH.md, section "Kompendium FISI/KITS").
   fisi: [
     { id: 'ga1', title: 'Konzeption und Administration von IT-Systemen', minutes: 90, points: 50,

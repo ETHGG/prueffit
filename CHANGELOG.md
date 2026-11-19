@@ -2,6 +2,22 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.9.4] – 2026-11-19
+
+### Geändert – erste fachliche Prüfung (Verallgemeinerungen und Stand der Angaben)
+- **Präzisiert statt weggelassen**, jeweils überall gleich nachgezogen:
+  - **MAC-Adressen:** vom Hersteller vergeben, aber per Software änderbar; im WLAN oft zufällige MAC-Adressen (Lernzettel OSI, Abkürzung MAC).
+  - **TLS:** im OSI-Modell nicht eindeutig einer Schicht zugeordnet, meist 5/6.
+  - **ping:** Keine Antwort beweist keinen Ausfall – viele Firewalls und Windows-Rechner blockieren ICMP.
+  - **Gewährleistung:** gebrauchte Ware gegenüber Verbrauchern auf 1 Jahr verkürzbar; zwischen Unternehmen vertraglich verkürzbar (Lernzettel Vertragsrecht und Volkswirtschaft, Frage wiso-0066).
+  - **OEM-Lizenz:** laut Lizenzbedingungen an das Gerät gebunden, Weiterverkauf an Dritte nach BGH (2000) aber grundsätzlich erlaubt (Frage re-0058, Karte fc-0184, Lernzettel Lizenzen).
+  - **GPL:** Die Copyleft-Pflicht greift bei Weitergabe, nicht bei rein interner Nutzung.
+  - **Sozialversicherung:** Sätze ausdrücklich „Stand 2026“ (Ø Zusatzbeitrag 2,9 %, Pflegeversicherung mit Ausnahmen für Sachsen und nach Kinderzahl). Lohnfortzahlung erst nach 4 Wochen Beschäftigung. Vermögenswirksame Leistungen laut Tarif- oder Arbeitsvertrag.
+- **Aktualisiert:**
+  - Basiszinssatz ab 1.7.2026: 1,52 % (Lernzettel Vertragsrecht, Zahlungsverkehr).
+  - Amtliche Abkürzung der KITS-Verordnung auf **ITSManKflAusbV** korrigiert.
+- Neue Abkürzung **BGH**; Quellenprüfung mit Datum in `docs/QUELLEN.md`.
+
 ## [2.9.3] – 2026-11-19
 
 ### Hinzugefügt
@@ -38,7 +54,7 @@ Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](h
 ## [2.8.0] – 2026-11-19
 
 ### Geändert – Zuordnung FISI und KITS nach deinem Prüfungskompendium
-- Grundlage: dein Prüfungskompendium und deine Prüfungssimulationen für FISI und KITS. Sie folgen den Prüfungsbereichen der Ausbildungsverordnungen (§ 21/22 FIAusbV, § 12/13 ITSysManKflAusbV). Die Inhalte wurden fachlich gegengeprüft und in eigenen Worten mit eigenen Zahlen umgesetzt; aus den Dokumenten wurde nichts übernommen.
+- Grundlage: dein Prüfungskompendium und deine Prüfungssimulationen für FISI und KITS. Sie folgen den Prüfungsbereichen der Ausbildungsverordnungen (§ 21/22 FIAusbV, § 12/13 ITSManKflAusbV). Die Inhalte wurden fachlich gegengeprüft und in eigenen Worten mit eigenen Zahlen umgesetzt; aus den Dokumenten wurde nichts übernommen.
 - **KITS – Einführen einer IT-Systemlösung:** jetzt Beschaffung, Angebotsvergleich, Kalkulation, Leasing, Verträge, Lizenzen, Datenschutz, Projektplanung, Präsentation und Einführung. Die Technik bleibt in Grundzügen dabei (Hardware, Virtualisierung, RAID, Subnetting, Netzdienste, VLAN, IT-Sicherheit). Routing, IPv6, OSI-Modell, Firewall/VPN, E-Mail-Sicherheit und Betriebssysteme gehören für KITS nur noch zur AP1.
 - **KITS – Kaufmännische Unterstützungsprozesse:** Buchführung, KLR, Kennzahlen, Investition und Finanzierung, Marketing, Zahlungsverkehr, Personal sowie Verträge und Leistungskontrolle (SLA). Projektmanagement, Lizenzen und Datenschutz stehen jetzt im ersten Prüfungsbereich. KDM hat denselben Prüfungsbereich und bekommt die neuen kaufmännischen Themen mit; Projektplanung, Vorgehensmodelle und Risiko stehen bei KDM jetzt im ersten Bereich.
 - **FISI – Konzeption und Administration:** Hardware, Server, Virtualisierung, RAID, Backup, Hochverfügbarkeit, Verzeichnisdienst, Skripte, SQL, IT-Sicherheit, IT-Service-Management, Wirtschaftlichkeit (TCO, Nutzwert) und Einführung. UML-Modellierung, Softwaretests, Zahlensysteme, allgemeines Projektmanagement und Kaufvertragsrecht zählen für FISI nur noch zur AP1.

@@ -372,7 +372,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.5** | Prüfungssimulation in große Aufgaben gegliedert (Punkte je Aufgabe); 2.5.1 Projektdaten in der Datensicherung | erledigt |
 | **2.6** | Falsche Fragen nach 1/3/7 Tagen wiederholen (Quiz-Modus „Fällig“, Tagesplan) | erledigt |
 | **2.7** | Übersichtlichere Oberfläche: kompakte Startseite, eingeklappte Quiz-Optionen und Prüfungshinweise, Einstellungen neu geordnet | erledigt |
-| **2.8** | Zuordnung FISI/KITS nach dem Prüfungskompendium (§ 21/22 FIAusbV, § 12/13 ITSysManKflAusbV), 8 neue Themen, vier Handlungssituationen je Bereich | erledigt |
+| **2.8** | Zuordnung FISI/KITS nach dem Prüfungskompendium (§ 21/22 FIAusbV, § 12/13 ITSManKflAusbV), 8 neue Themen, vier Handlungssituationen je Bereich | erledigt |
 | **2.9** | Formelsammlung, Aufgabentyp „Tabelle ausfüllen“ und Skizzenaufgaben, Operatoren, WiSo nach der WiSo-Simulation ergänzt | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.

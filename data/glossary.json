@@ -197,6 +197,12 @@
     "area": "Recht"
   },
   {
+    "abbr": "BGH",
+    "full": "Bundesgerichtshof",
+    "explanation": "Oberstes deutsches Gericht in Zivil- und Strafsachen; seine Urteile prägen z. B. das Software- und Lizenzrecht",
+    "area": "Recht"
+  },
+  {
     "abbr": "BIA",
     "full": "Business-Impact-Analyse",
     "explanation": "ermittelt kritische Geschäftsprozesse und wie lange sie höchstens ausfallen dürfen (Grundlage des Notfallmanagements)",
@@ -914,7 +920,7 @@
   {
     "abbr": "MAC",
     "full": "Media Access Control",
-    "explanation": "Hardwareadresse der Netzwerkkarte (48 Bit); untere Teilschicht der Schicht 2 (2a)",
+    "explanation": "Hardwareadresse der Netzwerkkarte (48 Bit); untere Teilschicht der Schicht 2 (2a); vom Hersteller vergeben, per Software änderbar (im WLAN oft zufällige MAC-Adressen)",
     "area": "Netzwerke"
   },
   {
