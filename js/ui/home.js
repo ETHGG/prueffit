@@ -4,6 +4,7 @@ import { overallStats, currentStreak, dailyProgress } from '../stats.js';
 import { todayInBerlin, dueCards } from '../leitner.js';
 import { h, formatPercent, formatNumber, trafficDot, append } from './dom.js';
 import { wishUrl } from '../questions.js';
+import { NOTICES_KEY, parseNotices, noticeDue, confirmNotice } from '../notices.js';
 import { mistakesButton, dailyPlanCard } from './suggestions.js';
 import { backupCard } from './backup.js';
 import { needsWelcome, welcomeCard, countdownCard } from './welcome.js';
@@ -40,6 +41,7 @@ export function render(root, ctx) {
     h('h1', { tabindex: '-1', text: greeting() }),
     welcome ? welcomeCard(ctx, { rerender }) : null,
     welcome ? null : countdownCard(ctx, { rerender }),
+    githubNoticeCard(ctx, { rerender }),
     welcome ? null : backupCard(ctx, { rerender }),
     welcome ? null : dailyPlanCard(ctx),
     h('div', { class: 'button-row quick-start' },
@@ -78,6 +80,25 @@ export function render(root, ctx) {
       h('a', { href: '#/statistik' }, 'Statistik und schwächste Themen'), ' · ',
       h('a', { href: wishUrl({ job: ctx.catalog.job }), target: '_blank', rel: 'noopener' }, 'Thema wünschen')),
   );
+}
+
+/** One-time hint (2.9.5): reporting errors and wishes needs a free GitHub account. */
+function githubNoticeCard(ctx, { rerender }) {
+  let seen = {};
+  try { seen = parseNotices(localStorage.getItem(NOTICES_KEY)); } catch { /* storage blocked */ }
+  if (!noticeDue(seen, 'github')) return null;
+  return h('section', { class: 'card notice-card', 'aria-labelledby': 'notice-github' },
+    h('h2', { id: 'notice-github', text: 'Fehler melden und Themen wünschen' }),
+    h('p', {}, 'Über „Fehler in dieser Frage melden“ und „Thema wünschen“ öffnet sich ein vorausgefülltes Formular auf GitHub. Zum Absenden brauchst du ein kostenloses GitHub-Konto (github.com/signup). Meldungen und Wünsche werden jede Woche ausgewertet.'),
+    h('div', { class: 'button-row' },
+      h('a', { class: 'button secondary', href: 'https://github.com/signup', target: '_blank', rel: 'noopener' }, 'Konto anlegen'),
+      h('button', {
+        type: 'button', class: 'button',
+        onClick: () => {
+          try { localStorage.setItem(NOTICES_KEY, confirmNotice(seen, 'github', todayInBerlin())); } catch { /* ignore */ }
+          rerender({ keepScroll: true });
+        },
+      }, 'Verstanden')));
 }
 
 /** Search box that opens the Lernzettel list with the query, plus the size of the catalog. */

@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.9.5] – 2026-11-20
+
+### Hinzugefügt
+- **Hinweis zum GitHub-Konto:** Auf der Startseite erscheint einmalig für alle (bestehende Nutzer beim nächsten Öffnen, neue nach der Berufswahl) der Hinweis, dass man für „Fehler melden“ und „Thema wünschen“ ein kostenloses GitHub-Konto braucht – mit Link „Konto anlegen“ und „Verstanden“. Gespeichert unter `prueffit.notices` (ohne Änderung des Speicherformats).
+
 ## [2.9.4] – 2026-11-19
 
 ### Geändert – erste fachliche Prüfung (Verallgemeinerungen und Stand der Angaben)

@@ -189,3 +189,15 @@ test('topic wishes (2.9.3): button in the settings, link for a search without hi
   const wish = page.getByRole('link', { name: 'Thema fehlt? Wünsch es dir' });
   expect(new URL(await wish.getAttribute('href')).searchParams.get('title')).toBe('Wunsch: Lernzettel zu „quantencomputer“');
 });
+
+test('GitHub notice (2.9.5): shown once on the start page until confirmed', async ({ page }) => {
+  await page.goto('./#/start');
+  const notice = page.locator('.notice-card');
+  await expect(notice).toContainText('kostenloses GitHub-Konto');
+  await expect(notice.getByRole('link', { name: 'Konto anlegen' })).toHaveAttribute('href', 'https://github.com/signup');
+  await notice.getByRole('button', { name: 'Verstanden' }).click();
+  await expect(notice).toHaveCount(0);
+  await page.reload();
+  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('.notice-card')).toHaveCount(0);
+});
