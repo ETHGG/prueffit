@@ -6,8 +6,8 @@ Reihenfolge: zuerst Themen von FISI und KITS, dann die übrigen.
 
 | Thema | ID | zuletzt geprüft | Ergebnis |
 |---|---|---|---|
-| IPv4 und Subnetting | `netzwerke.subnetting` | – |  |
-| IPv6 | `netzwerke.ipv6` | – |  |
+| IPv4 und Subnetting | `netzwerke.subnetting` | 21.11.2026 | Rechnungen ok; 4 präzisiert: /31 (RFC 3021) und /32, Subnetz 0 (RFC 950), Broadcast-Formel, APIPA = Link-Local |
+| IPv6 | `netzwerke.ipv6` | 21.11.2026 | Rechnungen ok; 6 präzisiert: Kürzen (RFC 5952), Link-Local, ULA fd00::/8, SLAAC (Interface-ID, Gateway, RDNSS), NAT/NPTv6, IPsec nur empfohlen (RFC 8504), Header |
 | OSI- und TCP/IP-Modell | `netzwerke.osi` | 19.11.2026 (Teilprüfung) | Layer-3-Switch, MAC, TLS präzisiert |
 | Übertragungsmedien und Topologien | `netzwerke.medien` | – |  |
 | Protokolle und Dienste | `netzwerke.dienste` | – |  |

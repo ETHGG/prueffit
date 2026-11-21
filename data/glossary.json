@@ -528,6 +528,15 @@
     "area": "Allgemein"
   },
   {
+    "abbr": "EUI-64",
+    "full": "64-Bit Extended Unique Identifier",
+    "explanation": "IPv6: Interface-ID aus der 48-Bit-MAC-Adresse (ff:fe in der Mitte, 7. Bit umgedreht); heute meist durch zufällige oder stabile Interface-IDs ersetzt",
+    "area": "Netzwerke",
+    "aliases": [
+      "EUI"
+    ]
+  },
+  {
     "abbr": "EULA",
     "full": "End User License Agreement",
     "explanation": "Lizenzvertrag mit dem Endnutzer",
@@ -1053,6 +1062,12 @@
     "area": "Programmierung"
   },
   {
+    "abbr": "NPTv6",
+    "full": "IPv6-to-IPv6 Network Prefix Translation",
+    "explanation": "Tauscht nur das Präfix einer IPv6-Adresse aus (RFC 6296); bei IPv6 die Ausnahme, normalerweise ist keine Adressumsetzung nötig",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "NTFS",
     "full": "New Technology File System",
     "explanation": "Windows-Dateisystem mit Rechten und Journaling",
@@ -1256,10 +1271,22 @@
     "area": "Elektrotechnik"
   },
   {
+    "abbr": "RDNSS",
+    "full": "Recursive DNS Server (Option)",
+    "explanation": "IPv6: Option im Router Advertisement, die DNS-Server mitteilt (RFC 8106)",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "RDP",
     "full": "Remote Desktop Protocol",
     "explanation": "Fernzugriff auf Windows-Desktops (Port 3389)",
     "area": "Netzwerke"
+  },
+  {
+    "abbr": "RFC",
+    "full": "Request for Comments",
+    "explanation": "Normdokumente der IETF für Internetprotokolle, z. B. RFC 1918 (private IPv4-Bereiche)",
+    "area": "Allgemein"
   },
   {
     "abbr": "RGB",

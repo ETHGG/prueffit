@@ -61,3 +61,15 @@ Checklisten und Fachgesprächsfragen sind eigene Formulierungen auf dieser Grund
 | OEM-Lizenzen | BGH, Urteil vom 6.7.2000, I ZR 244/97 („OEM-Version“) | Lizenzbindung an das Gerät laut Herstellerbedingungen; Weiterverkauf an Dritte nach Erschöpfungsgrundsatz grundsätzlich erlaubt – Frage, Karte und Lernzettel präzisiert |
 | Prüfungstermine 2027 | IHK-Terminübersichten (am 17.11.2026 geprüft) | unverändert |
 
+## Quellenprüfung 21.11.2026 (2.9.6)
+
+| Geprüft | Quelle | Ergebnis |
+|---|---|---|
+| /31 auf Punkt-zu-Punkt-Verbindungen | RFC 3021 (rfc-editor.org/rfc/rfc3021) | beide Adressen nutzbar – Lernzettel, Formel, Karten, Frage net-0105 ergänzt |
+| Subnetz 0 / „all ones“ | RFC 950, RFC 1878 | heute zählen alle 2^n Subnetze – Formel und Lernzettel ergänzt |
+| IPv6-Schreibweise | RFC 5952 | längste Null-Folge, bei Gleichstand die erste; einzelner Null-Block bleibt 0 |
+| ULA | RFC 4193 | fc00::/7, verwendet wird fd00::/8 (zufällige Global ID) |
+| SLAAC, Interface-ID | RFC 4862, RFC 7217, RFC 8981 | Interface-ID zufällig/stabil oder EUI-64; Gateway nur per Router Advertisement |
+| DNS per Router Advertisement | RFC 8106 (RDNSS) | ergänzt in Lernzettel, Karte, Frage net-0077 |
+| IPsec bei IPv6 | RFC 8504 (IPv6 Node Requirements, vorher RFC 6434) | nur noch empfohlen (SHOULD), nicht Pflicht – Frage net-0025 korrigiert |
+| NPTv6 | RFC 6296 | Präfix-Übersetzung als Ausnahme genannt |

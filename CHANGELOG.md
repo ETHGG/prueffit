@@ -2,6 +2,25 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.9.6] – 2026-11-21
+
+### Behoben
+- **CI wieder grün:** ESLint meldete die ungenutzte Konstante `ALL_SECURITY` in `js/curriculum.js` (seit 2.9.4 schlug der Lint-Schritt fehl); entfernt.
+
+### Geändert – Qualitätsrunde „IPv4 und Subnetting“ und „IPv6“
+- Alle Rechnungen per Skript nachgerechnet: korrekt.
+- **Präzisiert statt weggelassen**, überall gleich nachgezogen (Lernzettel, Formeln, Karten, Fragen):
+  - **Nutzbare Hosts = 2^h − 2** gilt bis /30; /31 auf Punkt-zu-Punkt-Verbindungen nach RFC 3021 (beide Adressen nutzbar), /32 = einzelne Adresse (Lernzettel, Formel, Karten fc-0001 und VLSM-Karte, Frage net-0105).
+  - **Anzahl Subnetze = 2^n:** erstes und letztes Subnetz zählen heute mit, nach altem RFC 950 2^n − 2.
+  - **Broadcast-Formel:** gilt im betroffenen Oktett, dahinter alles 255.
+  - **IPv6 kürzen:** nach RFC 5952 die längste Null-Folge, bei Gleichstand die erste; ein einzelner Null-Block bleibt 0.
+  - **Link-Local** auf jeder IPv6-Schnittstelle; **ULA** fc00::/7, genutzt fd00::/8, meist zusätzlich zur globalen Adresse.
+  - **SLAAC:** Interface-ID zufällig, stabil (RFC 7217) oder per EUI-64; Standardgateway kommt immer per Router Advertisement; DNS auch per RDNSS (RFC 8106).
+  - **NAT** bei IPv6 normalerweise nicht nötig (NPTv6 als Ausnahme).
+  - **IPsec** bei IPv6 nur noch empfohlen (RFC 8504), nicht mehr Pflicht – Bewertungsraster net-0025 an net-0102 angeglichen.
+  - **IPv6-Header:** Basis-Header fester Länge (40 Byte), Optionen in Erweiterungs-Headern.
+- Neue Abkürzungen: **EUI-64**, **NPTv6**, **RDNSS**, **RFC**.
+
 ## [2.9.5] – 2026-11-20
 
 ### Hinzugefügt

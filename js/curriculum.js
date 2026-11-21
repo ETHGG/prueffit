@@ -48,7 +48,6 @@ const WISO = Object.freeze({
 const ALL_PROJECT = ['projekt.grundlagen', 'projekt.planung', 'projekt.vorgehen', 'projekt.risiko', 'projekt.service', 'projekt.prozesse', 'projekt.digitalisierung'];
 const ALL_HARDWARE = ['hardware.einheiten', 'hardware.raid', 'hardware.komponenten', 'hardware.energie', 'hardware.virtualisierung', 'hardware.betriebssysteme', 'hardware.betrieb'];
 const ALL_NETWORK = ['netzwerke.subnetting', 'netzwerke.ipv6', 'netzwerke.osi', 'netzwerke.medien', 'netzwerke.dienste', 'netzwerke.vlan', 'netzwerke.routing'];
-const ALL_SECURITY = ['sicherheit.schutzziele', 'sicherheit.kryptografie', 'sicherheit.backup', 'sicherheit.angriffe', 'sicherheit.netzsicherheit', 'sicherheit.mail', 'sicherheit.management'];
 const ALL_PROGRAMMING = ['programmierung.zahlensysteme', 'programmierung.grundlagen', 'programmierung.datenbanken', 'programmierung.modellierung', 'programmierung.algorithmen', 'programmierung.testen', 'programmierung.datenformate'];
 const ALL_BUSINESS = ['wirtschaft.grundlagen', 'wirtschaft.rechnen', 'wirtschaft.kalkulation', 'wirtschaft.abschreibung', 'wirtschaft.buchfuehrung', 'wirtschaft.klr', 'wirtschaft.vertrieb', 'wirtschaft.finanzierung', 'wirtschaft.marketing',
   'wirtschaft.controlling', 'wirtschaft.investition', 'wirtschaft.zahlungsverkehr', 'wirtschaft.personal'];
