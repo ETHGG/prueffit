@@ -1,3 +1,11 @@
+# Kurzbericht 2.14.0 (Nachtauftrag Block D, 24.11.2026)
+
+- **Fachgespräch üben:** Übungsmodus in `#/projekt` – zufällige Frage des eigenen Berufs (noch nicht Gewusstes gewichtet öfter), wählbare Antwortzeit 1/2/3/5 Min. (Timer aus der Startzeit), danach Prüfer-Hinweis und Erwartungshorizont, Selbsteinschätzung gewusst/teilweise/nicht. Stichpunkte für alle 32 Fragen ergänzt.
+- **Suche über alles:** `js/search.js` + `#/suche` (Lupe in der Kopfzeile, Suchfeld der Startseite): Lernzettel, Abkürzungen, Formeln und Fragen des Berufs, gruppiert, hervorgehoben, verlinkt (Frage → Quiz mit genau dieser Frage, „Thema üben“).
+- **Annahmen:** Kein neuer Tab (Regel „Übersichtlichkeit“) – die Suche sitzt in der Kopfzeile. Bewertung nach der Selbsteinschätzung startet sofort die nächste Frage (weniger Tippen); „Üben beenden“ stoppt. Umlaute: Suche läuft zusätzlich mit der Schreibweise ae/oe/ue ↔ ä/ö/ü, weil Lernzettel-Suche (ü → u) und Formelsuche (ü → ue) unterschiedlich falten. Antworten und Formeln einer Frage werden mit durchsucht, Handlungssituationen nicht. Je Gruppe zunächst 8 Treffer.
+- **Nebenbei behoben:** Ein Häkchen in den Projekt-Checklisten verwarf die gespeicherten Punkte des Gesamtnoten-Rechners.
+- **Neue Abhängigkeiten:** keine. Unit-Tests lokal mit Ersatz-Runner (npm-Registry gesperrt), Browsertests Chromium (Desktop, iPhone SE, iPhone 13 dunkel); die CI prüft mit dem echten Vitest und WebKit.
+
 # Kurzbericht 2.13.0 (Nachtbetrieb Lauf 1, 23.11.2026)
 
 - **Rechentraining:** `js/generator.js` erzeugt Rechenaufgaben (7 Arten, je 2–4 Varianten) im normalen Fragenformat; eingeklappt unter der Quiz-Auswahl, nur Arten des eigenen Berufs.

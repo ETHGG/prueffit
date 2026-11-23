@@ -5,6 +5,9 @@ import { AREAS } from './config.js';
 import { foldText, queryTerms } from './notes.js';
 
 export const GENERAL_AREA = 'Allgemein';
+
+/** Route id of the abbreviation list in the Lernzettel view (#/lernzettel/abkuerzungen). */
+export const GLOSSARY_ROUTE_ID = 'abkuerzungen';
 const AREA_NAMES = new Set([GENERAL_AREA, ...AREAS.map((a) => a.name)]);
 const WORD_CHAR = /[\p{L}\p{N}]/u;
 

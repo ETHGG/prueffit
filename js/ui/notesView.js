@@ -16,10 +16,10 @@ import { wishUrl } from '../questions.js';
 
 let toastFn = null; // set in render(), used by the PDF links
 import {
-  GENERAL_AREA, searchGlossary, abbreviationsIn, lookupAbbreviation, initialOf, matchGlossary,
+  GENERAL_AREA, GLOSSARY_ROUTE_ID, searchGlossary, abbreviationsIn, lookupAbbreviation, initialOf, matchGlossary,
 } from '../glossary.js';
 
-export const GLOSSARY_ID = 'abkuerzungen';
+export const GLOSSARY_ID = GLOSSARY_ROUTE_ID;
 
 // ---------------------------------------------------------------- PDF-Downloads
 
@@ -83,6 +83,7 @@ function parseRoute() {
     q: params.get('q') ?? '',
     area: params.get('bereich') ?? ALL,
     topic: params.get('thema') ?? null,
+    from: params.get('von') ?? null, // 'suche': opened from the search over everything (2.14)
   };
 }
 
@@ -318,7 +319,9 @@ function renderDetail(root, ctx, note, topicsById, route) {
     .sort((a, b) => a.title.localeCompare(b.title, 'de'));
 
   append(root,
-    h('p', { class: 'back-link' }, h('a', { href: listHash(route.q, route.area) }, route.q ? '← Zurück zu den Treffern' : '← Alle Lernzettel')),
+    h('p', { class: 'back-link' }, route.from === 'suche' && route.q
+      ? h('a', { href: `#/suche?q=${encodeURIComponent(route.q)}` }, '← Zurück zur Suche')
+      : h('a', { href: listHash(route.q, route.area) }, route.q ? '← Zurück zu den Treffern' : '← Alle Lernzettel')),
     h('article', { class: 'card note' },
       h('h1', { text: note.title }),
       h('p', { class: 'question-meta' },

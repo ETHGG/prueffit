@@ -16,6 +16,7 @@ import * as examView from './ui/examView.js';
 import * as settingsView from './ui/settingsView.js';
 import * as projectView from './ui/projectView.js';
 import * as formulasView from './ui/formulasView.js';
+import * as searchView from './ui/searchView.js';
 import * as jobSetup from './ui/jobSetup.js';
 import { h } from './ui/dom.js';
 
@@ -28,6 +29,7 @@ const ROUTES = {
   pruefung: { view: examView, title: 'Prüfung' },
   projekt: { view: projectView, title: 'Projektarbeit', tab: 'pruefung' },
   formeln: { view: formulasView, title: 'Formelsammlung', tab: 'lernzettel' },
+  suche: { view: searchView, title: 'Suche' },
   einstellungen: { view: settingsView, title: 'Einstellungen' },
 };
 const DEFAULT_ROUTE = 'start';

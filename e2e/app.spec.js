@@ -130,12 +130,12 @@ test('quiz topics are grouped by AP1 area and AP2 exam part of the job, with cou
   expect(problems).toEqual([]);
 });
 
-test('start page search opens the Lernzettel hits', async ({ page }) => {
+test('start page search opens the search over everything (2.14)', async ({ page }) => {
   await page.goto('./');
   await page.locator('#home-notes-search').fill('vlan');
   await page.getByRole('button', { name: 'Suchen' }).click();
-  await expect(page).toHaveURL(/#\/lernzettel\?q=vlan$/);
-  await expect(page.locator('#notes-count')).toHaveText(/Treffer für „vlan“/);
+  await expect(page).toHaveURL(/#\/suche\?q=vlan$/);
+  await expect(page.locator('#search-status')).toHaveText(/Treffer für „vlan“/);
 });
 
 test('start page: "Dein Plan für heute" fills the daily goal with concrete steps (2.1)', async ({ page }) => {

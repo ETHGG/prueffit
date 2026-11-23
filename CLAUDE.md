@@ -125,9 +125,10 @@ prueffit/
 │   ├── notes.js              # Lernzettel: Markdown-Teilumfang, Suche
 │   ├── glossary.js           # Abkürzungsverzeichnis: Suche, Fundstellen in Lernzetteln
 │   ├── pdfs.js               # Liste und Dateinamen der Lernzettel-PDFs
-│   ├── projectGuide.js       # Projektarbeit: Prüfungsbereich je Beruf, Checklisten, Fachgesprächsfragen (seit 2.3)
+│   ├── projectGuide.js       # Projektarbeit: Prüfungsbereich je Beruf, Checklisten, Fachgesprächsfragen mit Stichpunkten, Übungsmodus mit Timer (seit 2.3/2.14)
 │   ├── formulas.js           # Formelsammlung: Validierung, Suche, Gruppierung (seit 2.9)
 │   ├── generator.js          # Rechentraining: erzeugte Rechenaufgaben je Art und Seed (seit 2.13)
+│   ├── search.js             # Suche über alles: Lernzettel, Abkürzungen, Formeln, Fragen des Berufs (seit 2.14)
 │   ├── finalGrade.js         # Gesamtnote, Bestehensregeln, mündliche Ergänzungsprüfung (seit 2.3, UI ab 2.4)
 │   └── ui/
 │       ├── home.js
@@ -146,6 +147,7 @@ prueffit/
 │       ├── examView.js
 │       ├── projectView.js    # #/projekt (seit 2.3)
 │       ├── formulasView.js   # #/formeln (seit 2.9)
+│       ├── searchView.js     # #/suche (seit 2.14), Lupe in der Kopfzeile
 │       └── settingsView.js
 ├── tests/
 │   ├── grading.test.js
@@ -246,7 +248,7 @@ Eine Situation eröffnet einen AP2-Prüfungsbereich: Erst kommen ihre Fragen in 
 Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`); 2 → 3 (v0.4.0) ergänzt `daily` (erledigte Aufgaben pro Tag, Europe/Berlin, die letzten 90 Tage); 3 → 4 (v0.6.0) ergänzt `settings.onboarded` (Willkommensfragen beantwortet) und `settings.examTarget` (nächste Prüfung und Termin oder `null`); 4 → 5 (v1.0.0) ergänzt `settings.backup` (letzte Sicherung, „Später“ bis); 5 → 6 (v2.0.0): `settings.job` ist eine Berufs-ID oder `null` (`itsm` → `kits`, `alle` → `null`), neu `settings.jobConfirmed` (nach der Migration `false`, damit jeder seinen Beruf einmal bestätigt). Ein bestätigter Beruf kann nicht mehr geändert werden (`updateSettings`, Import). Antworten haben seit 1.0 zusätzlich `lastCorrect` (letzte Antwort richtig?) für „Meine Fehler“ und seit 2.6 optional `retry` (`{ step: 0–2, due: 'YYYY-MM-DD' }`, Wiederholung nach 1/3/7 Tagen; ohne Schema-Wechsel, ungültige Werte werden verworfen); ältere Einträge ohne dieses Feld gelten als Fehler, solange nicht alle Versuche richtig waren.
 Erzeugte Rechenaufgaben (seit 2.13, IDs `gen-<art>-<seed>`) werden nie unter `answers` gespeichert, sie zählen nur in `daily`/`streak`.
 Karteikarten aus dem Abkürzungsverzeichnis haben die IDs `ab-<abkürzung>` und liegen ebenfalls unter `cards`.
-Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (`checked`: abgehakte Punkte der Projekt-Checklisten seit 2.3, `points`: Eingaben des Gesamtnoten-Rechners seit 2.4; defekte Daten → leer; seit 2.5.1 als Feld `project` neben `data` in der Fortschritts-Sicherung), `prueffit.custom` (importierte eigene Fragen/Karten), `sessionStorage` `prueffit.quizSession` (laufende Quiz-Runde).
+Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (`checked`: abgehakte Punkte der Projekt-Checklisten seit 2.3, `points`: Eingaben des Gesamtnoten-Rechners seit 2.4, `ratings`: Selbsteinschätzung im Fachgespräch-Training `{ <frage-id>: 'yes'|'partly'|'no' }` seit 2.14, nur wenn vorhanden; defekte Daten → leer; seit 2.5.1 als Feld `project` neben `data` in der Fortschritts-Sicherung), `prueffit.custom` (importierte eigene Fragen/Karten), `sessionStorage` `prueffit.quizSession` (laufende Quiz-Runde).
 
 ---
 
@@ -310,7 +312,7 @@ Prozent wird **kaufmännisch auf ganze Zahlen gerundet**, bevor die Note bestimm
 ## 7. UI-Richtlinien
 
 - **Mobile first** (iPhone, ab 375 px Breite). Touch-Ziele mind. 44 × 44 px.
-- Navigation unten als Tab-Leiste: **Start · Quiz · Lernzettel · Karten · Statistik · Prüfung** (seit 0.7 sechs Einträge). Während der einmaligen Berufswahl ist sie ausgeblendet.
+- Navigation unten als Tab-Leiste: **Start · Quiz · Lernzettel · Karten · Statistik · Prüfung** (seit 0.7 sechs Einträge). Während der einmaligen Berufswahl ist sie ausgeblendet. Kopfzeile: Suche (Lupe, seit 2.14) und Einstellungen.
 - Gliederung (seit 2.0): erst AP1/AP2, dann Prüfungsbereich (`catalogSections`).
 - Dark Mode über `prefers-color-scheme` + manueller Schalter.
 - Safe-Area beachten (`env(safe-area-inset-bottom)`).
@@ -350,7 +352,8 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `curriculum.test.js` / `jobCatalog.test.js` | Berufe und Prüfungsbereiche, Zuordnung der Themen, keine Inhalte fremder Berufe |
 | `notes.test.js` | Markdown-Teilumfang, Suche (Umlaute, UND-Verknüpfung, Ranking), Hervorhebung |
 | `glossary.test.js` | Fundstellen (ganze Wörter, längste zuerst, Aliase), Suche, Gruppierung A–Z, Abkürzungs-Karteikarten |
-| `projectGuide.test.js` | Projektdauer je Beruf, Rahmen (50 %, 15/30 Min.), eindeutige Checklisten-IDs, Fragen je Beruf, defekter Speicher |
+| `projectGuide.test.js` | Projektdauer je Beruf, Rahmen (50 %, 15/30 Min.), eindeutige Checklisten-IDs, Fragen je Beruf mit eindeutiger ID und ≥ 3 Stichpunkten, Zufallsauswahl (Gewichtung, keine Wiederholung), Timer aus Startzeit, Selbsteinschätzung, defekter Speicher |
+| `search.test.js` | Suche über alles: Umlaut-Varianten (ae/ä), UND-Verknüpfung, Ranking, Gruppen und Links, keine Doppeltreffer, nur Inhalte des eigenen Berufs (echte Daten) |
 | `formulas.test.js` | Formelsammlung: Pflichtfelder, eindeutige IDs, Kernformeln für FISI/KITS, Suche, Gruppierung |
 | `finalGrade.test.js` | Gewichtung 20/50/10/10/10, Rundung, alle Bestehensregeln, mündliche Ergänzungsprüfung 2 : 1 und nötige Punkte |
 | `contrast.test.js` | Kontrast aller Textfarben in hellem und dunklem Design (mind. 4,5 : 1), seit 2.11 auch der Druckansicht |
@@ -392,6 +395,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.11** | Prüfungssimulation zum Ausdrucken: Aufgabenblatt im Stil eines IHK-Hefts und Lösungsblatt mit Bewertungsraster | erledigt |
 | **2.12** | Verlauf der Prüfungsreife (Wochenwerte, Diagramm), Wochenplan bis zur Prüfung | erledigt |
 | **2.13** | Rechentraining: unbegrenzt erzeugte Rechenaufgaben (Subnetting, Zahlensysteme, Speicher/Übertragung, Kalkulation, Abschreibung, Nutzwert, Kennzahlen) | erledigt |
+| **2.14** | Fachgespräch üben mit Timer, Erwartungshorizont und Selbsteinschätzung; Suche über alles (`#/suche`) | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

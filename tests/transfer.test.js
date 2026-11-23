@@ -154,6 +154,13 @@ describe('project data in the progress export (since 2.6)', () => {
     expect(parseProgressImport(JSON.stringify(createDefaultState())).project).toBeNull();
   });
 
+  it('carries the Fachgespräch self-ratings, even without checklists or points (since 2.14)', () => {
+    const only = { checked: {}, points: {}, ratings: { 'fg-wahl': 'partly' } };
+    const file = buildProgressExport(createDefaultState(), { project: only });
+    expect(file.project).toEqual(only);
+    expect(parseProgressImport(JSON.stringify(file)).project).toEqual(only);
+  });
+
   it('drops invalid project entries but keeps the valid ones', () => {
     const file = buildProgressExport(createDefaultState());
     file.project = { checked: { 'a-echt': true, hack: true }, points: { ap1: 500, wiso: 70 } };

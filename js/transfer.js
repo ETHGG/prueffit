@@ -41,7 +41,7 @@ export function exportFileName(kind, now = new Date()) {
  */
 export function buildProgressExport(state, { project = null, ...options } = {}) {
   const out = wrap('fortschritt', state, options);
-  if (project && (Object.keys(project.checked ?? {}).length || Object.keys(project.points ?? {}).length)) {
+  if (project && ['checked', 'points', 'ratings'].some((k) => Object.keys(project[k] ?? {}).length)) {
     out.project = parseProjectState(JSON.stringify(project));
   }
   return out;

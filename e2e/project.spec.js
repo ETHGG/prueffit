@@ -23,14 +23,33 @@ test('Projektarbeit & Fachgespräch: frame of the occupation, checklists are sav
   await expect(page.locator('input[data-item="a-echt"]')).toBeChecked();
   await expect(page.locator('input[data-item="a-titel"]')).not.toBeChecked();
 
-  // Practice: KITS-specific question first, hint on demand, navigation.
-  await expect(page.locator('#fg-question')).toHaveText('Wie haben Sie den Bedarf des Kunden ermittelt?');
+  // Practice (since 2.14): random question of the own occupation, answer time, key points, self-rating.
+  const kitsQuestions = ['Wie haben Sie den Bedarf des Kunden ermittelt?', 'Wie haben Sie Ihr Angebot kalkuliert?',
+    'Welche vertraglichen Regelungen gelten für den Auftrag?', 'Wie haben Sie den Auftrag abgerechnet und nachbetreut?'];
+  await expect(page.getByText('mündliche Ergänzungsprüfung', { exact: false }).first()).toBeVisible();
+  await page.getByRole('radio', { name: '3 Min.' }).check();
+  await page.getByRole('button', { name: 'Zufällige Frage starten' }).click();
+  await expect(page.locator('#fg-question')).not.toBeEmpty();
+  await expect(page.getByRole('timer')).toHaveText(/^(3:00|2:59)$/);
   await expect(page.locator('#fg-hint')).toHaveCount(0);
-  await page.getByRole('button', { name: 'Hinweis zeigen' }).click();
+  const first = await page.locator('#fg-question').textContent();
+  await page.getByRole('button', { name: 'Fertig – Stichpunkte aufdecken' }).click();
   await expect(page.locator('#fg-hint')).toContainText('Darauf achten die Prüfer');
-  await page.getByRole('button', { name: 'Nächste →' }).click();
-  await expect(page.locator('#fg-hint')).toHaveCount(0);
-  await expect(page.getByText(/^Frage 2 von \d+$/)).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Erwartungshorizont' })).toBeVisible();
+  expect(await page.locator('.fg-points li').count()).toBeGreaterThanOrEqual(3);
+  await expect(page.getByRole('timer')).toHaveCount(0);
+  await expectNoHorizontalOverflow(page);
+  await page.getByRole('button', { name: 'Gewusst', exact: true }).click();
+  // Next question starts at once, never the same one twice in a row.
+  await expect(page.locator('#fg-question')).not.toHaveText(first);
+  await expect(page.getByText(/^Selbsteinschätzung: 1 gewusst · 0 teilweise · 0 nicht gewusst · \d+ offen/)).toBeVisible();
+  // The rating is stored next to the checklists and survives a reload; a KITS question is listed.
+  await page.reload();
+  await expect(page.getByText(/^Selbsteinschätzung: 1 gewusst/)).toBeVisible();
+  await page.locator('details[data-fold="fg-alle"] summary').click();
+  await expect(page.locator('.fg-review')).toContainText(kitsQuestions[2]);
+  await expect(page.locator('.fg-review .fg-badge')).toHaveCount(1);
+  await expect(page.locator('input[data-item="a-echt"]')).toBeChecked(); // rating did not drop the checklist
   await expectNoHorizontalOverflow(page);
   expect(problems).toEqual([]);
 });
@@ -77,6 +96,28 @@ test('Gesamtnote berechnen: weighting, passing rules, oral supplementary exam, v
   await expect(page.locator('.final-verdict')).toContainText('Bestanden');
   await page.fill('#final-wiso', '120');
   await expect(page.locator('#final-wiso')).toHaveAttribute('aria-invalid', 'true');
+  await expectNoHorizontalOverflow(page);
+  expect(problems).toEqual([]);
+});
+
+test('Fachgespräch üben: timer runs from the start time and reports when time is up', async ({ page }) => {
+  const problems = watchProblems(page);
+  await useJob(page, 'fisi');
+  await page.clock.install();
+  await page.goto('./#/projekt');
+  await page.getByRole('radio', { name: '1 Min.' }).check();
+  await page.getByRole('button', { name: 'Zufällige Frage starten' }).click();
+  await expect(page.getByRole('timer')).toHaveText('1:00');
+  await page.clock.runFor(45_000);
+  await expect(page.getByRole('timer')).toHaveText('0:15');
+  await page.clock.runFor(20_000);
+  await expect(page.getByRole('timer')).toHaveText('0:00');
+  await expect(page.locator('.fg-over')).toContainText('Zeit um');
+  await page.getByRole('button', { name: 'Fertig – Stichpunkte aufdecken' }).click();
+  await expect(page.getByText('Deine Antwortzeit: 1:05 Min.')).toBeVisible();
+  await page.getByRole('button', { name: 'Üben beenden' }).click();
+  await expect(page.getByRole('button', { name: 'Zufällige Frage starten' })).toBeVisible();
+  await page.setViewportSize({ width: 320, height: 640 });
   await expectNoHorizontalOverflow(page);
   expect(problems).toEqual([]);
 });

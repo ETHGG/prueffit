@@ -8,11 +8,15 @@ import { AREAS, PASS_MIN, evaluateFinal, latestSimulationResults } from '../fina
 import {
   PROJECT_AREAS, PROJECT_FACTS, PROJECT_EXAMPLES, CHECKLISTS, PROJECT_KEY,
   fachgespraechQuestions, checklistProgress, parseProjectState,
+  PRACTICE_DURATIONS, DEFAULT_PRACTICE_SECONDS, PRACTICE_RATINGS,
+  pickPracticeQuestion, practiceTimer, formatSeconds, practiceSummary,
 } from '../projectGuide.js';
 
-let practiceIndex = 0;
-let hintShown = false;
-let order = null; // shuffled question order (indices) or null = natural order
+// Practice state survives re-rendering (e.g. leaving the view briefly); the timer is computed from
+// the start time, so it keeps running in the background.
+let current = null; // { id, startedAt, revealed, elapsed? } or null = not practising
+let practiceSeconds = DEFAULT_PRACTICE_SECONDS;
+let timerHandle = null;
 
 export function render(root, ctx) {
   const job = ctx.progress.settings.job;
@@ -21,8 +25,6 @@ export function render(root, ctx) {
   const store = ctx.localStore;
   let state = parseProjectState(store?.getItem(PROJECT_KEY));
   const questions = fachgespraechQuestions(job);
-  if (!order || order.length !== questions.length) order = questions.map((_, i) => i);
-  practiceIndex = Math.min(practiceIndex, questions.length - 1);
 
   const save = () => {
     try {
@@ -133,38 +135,101 @@ export function render(root, ctx) {
     resultEl,
     h('p', { class: 'muted small', text: `Ab ${PASS_MIN} Punkten ist ein Bereich „ausreichend“. Die Rechnung ist eine Orientierung; maßgeblich ist der Bescheid deiner IHK.` }));
 
+  // ---- Fachgespräch practice (since 2.14): random question, answer time, key points, self-rating
+  const RATING_LABELS = { yes: 'Gewusst', partly: 'Teilweise', no: 'Nicht gewusst' };
+  const ratings = () => state.ratings ?? {};
   const practice = h('div', { class: 'practice' });
+  const summaryEl = h('p', { class: 'muted small', 'aria-live': 'polite' });
+  const reviewList = h('ol', { class: 'fg-review' });
+  const drawSummary = () => {
+    const s = practiceSummary(questions, ratings());
+    summaryEl.textContent = `Selbsteinschätzung: ${s.yes} gewusst · ${s.partly} teilweise · ${s.no} nicht gewusst · ${s.open} offen (von ${s.total})`;
+    reviewList.replaceChildren(...questions.map((q) => h('li', {},
+      h('p', { class: 'fg-review-q' },
+        h('strong', { text: q.question }),
+        ratings()[q.id] ? h('span', { class: `fg-badge fg-${ratings()[q.id]}`, text: RATING_LABELS[ratings()[q.id]] }) : null),
+      h('ul', { class: 'small' }, q.points.map((p) => h('li', { text: p }))))));
+  };
+  const stopTimer = () => { if (timerHandle) clearInterval(timerHandle); timerHandle = null; };
+  const startQuestion = () => {
+    const q = pickPracticeQuestion(questions, ratings(), Math.random, current?.id ?? null);
+    current = q && { id: q.id, startedAt: Date.now(), revealed: false };
+    drawPractice();
+    practice.querySelector('#fg-question')?.focus();
+  };
   const drawPractice = () => {
-    const q = questions[order[practiceIndex]];
-    practice.replaceChildren(
-      h('p', { class: 'muted small', text: `Frage ${practiceIndex + 1} von ${questions.length}` }),
-      h('p', { class: 'question-text', id: 'fg-question', text: q.question }),
-      hintShown
-        ? h('p', { class: 'fg-hint', id: 'fg-hint' }, h('strong', { text: 'Darauf achten die Prüfer: ' }), q.hint)
-        : null,
+    stopTimer();
+    const q = current && questions.find((x) => x.id === current.id);
+    if (!q) {
+      current = null;
+      practice.replaceChildren(
+        h('fieldset', {},
+          h('legend', { text: 'Antwortzeit je Frage' }),
+          h('div', { class: 'segmented' },
+            PRACTICE_DURATIONS.map((sec) => h('label', {},
+              h('input', {
+                type: 'radio', name: 'fg-time', value: sec, checked: sec === practiceSeconds,
+                onChange: () => { practiceSeconds = sec; },
+              }),
+              h('span', { text: `${sec / 60} Min.` }))))),
+        h('button', { type: 'button', class: 'button block', onClick: startQuestion }, 'Zufällige Frage starten'));
+      return;
+    }
+    const timerEl = h('span', { class: 'exam-timer', role: 'timer', 'aria-label': 'Restliche Antwortzeit' });
+    const meter = h('progress', { max: practiceSeconds, value: 0, 'aria-hidden': 'true', class: 'fg-meter' });
+    const overEl = h('p', { class: 'fg-over', 'aria-live': 'polite' });
+    const tick = () => {
+      if (!timerEl.isConnected) { stopTimer(); return; }
+      const t = practiceTimer(current.startedAt, practiceSeconds);
+      timerEl.textContent = formatSeconds(t.remaining);
+      timerEl.classList.toggle('is-low', t.remaining <= 15);
+      meter.value = t.elapsed;
+      const msg = t.over ? 'Zeit um – komm zum Schluss und decke die Stichpunkte auf.' : '';
+      if (overEl.textContent !== msg) overEl.textContent = msg;
+    };
+    const rate = (value) => {
+      state = { ...state, ratings: { ...ratings(), [q.id]: value } };
+      save();
+      drawSummary();
+      startQuestion();
+    };
+    practice.replaceChildren();
+    append(practice,
+      h('div', { class: 'fg-head' },
+        h('span', { class: 'muted small', text: `Antwortzeit ${practiceSeconds / 60} Min.` }),
+        current.revealed ? null : timerEl),
+      current.revealed ? null : meter,
+      h('p', { class: 'question-text', id: 'fg-question', tabindex: '-1', text: q.question }),
+      current.revealed
+        ? [
+          h('p', { class: 'fg-hint', id: 'fg-hint' }, h('strong', { text: 'Darauf achten die Prüfer: ' }), q.hint),
+          h('h3', { text: 'Erwartungshorizont' }),
+          h('ul', { class: 'fg-points' }, q.points.map((p) => h('li', { text: p }))),
+          h('p', { class: 'muted small', text: `Deine Antwortzeit: ${formatSeconds(current.elapsed ?? 0)} Min.` }),
+          h('p', { class: 'fg-rate-label', text: 'Wie gut hast du die Frage beantwortet?' }),
+          h('div', { class: 'button-row fg-rate' },
+            PRACTICE_RATINGS.map((r) => h('button', { type: 'button', class: `button secondary fg-${r}`, onClick: () => rate(r) }, RATING_LABELS[r]))),
+        ]
+        : [
+          overEl,
+          h('p', { class: 'muted small', text: 'Antworte jetzt laut – als säßest du vor dem Prüfungsausschuss.' }),
+          h('button', {
+            type: 'button', class: 'button block',
+            onClick: () => {
+              current = { ...current, revealed: true, elapsed: practiceTimer(current.startedAt, practiceSeconds).elapsed };
+              drawPractice();
+              practice.querySelector('#fg-hint')?.scrollIntoView?.({ block: 'nearest' });
+            },
+          }, 'Fertig – Stichpunkte aufdecken'),
+        ],
       h('div', { class: 'button-row' },
-        h('button', {
-          type: 'button', class: 'button secondary', 'aria-expanded': hintShown ? 'true' : 'false',
-          onClick: () => { hintShown = !hintShown; drawPractice(); },
-        }, hintShown ? 'Hinweis ausblenden' : 'Hinweis zeigen'),
-        h('button', {
-          type: 'button', class: 'button secondary', disabled: practiceIndex === 0,
-          onClick: () => { practiceIndex -= 1; hintShown = false; drawPractice(); },
-        }, '← Zurück'),
-        h('button', {
-          type: 'button', class: 'button', disabled: practiceIndex === questions.length - 1,
-          onClick: () => { practiceIndex += 1; hintShown = false; drawPractice(); },
-        }, 'Nächste →')),
-      h('button', {
-        type: 'button', class: 'link-button',
-        onClick: () => {
-          order = shuffle(order);
-          practiceIndex = 0;
-          hintShown = false;
-          drawPractice();
-        },
-      }, 'Reihenfolge mischen'),
+        h('button', { type: 'button', class: 'button secondary', onClick: startQuestion }, 'Andere Frage'),
+        h('button', { type: 'button', class: 'button secondary', onClick: () => { current = null; drawPractice(); } }, 'Üben beenden')),
     );
+    if (!current.revealed) {
+      tick();
+      timerHandle = setInterval(tick, 500);
+    }
   };
 
   append(root,
@@ -206,7 +271,7 @@ export function render(root, ctx) {
                   const checked = { ...state.checked };
                   if (e.target.checked) checked[id] = true;
                   else delete checked[id];
-                  state = { checked };
+                  state = { ...state, checked };
                   save();
                   updateProgress();
                 },
@@ -217,19 +282,16 @@ export function render(root, ctx) {
 
     h('section', { class: 'card', 'aria-labelledby': 'project-practice' },
       h('h2', { id: 'project-practice', text: 'Fachgespräch üben' }),
-      h('p', { class: 'muted small', text: 'Beantworte jede Frage laut und auf dein eigenes Projekt bezogen – am besten vor jemandem, der nachfragt. Erst danach den Hinweis aufdecken.' }),
-      practice),
+      h('p', { class: 'muted small', text: 'Eine zufällige Frage deines Berufs, eine feste Antwortzeit: Beantworte sie laut und auf dein eigenes Projekt bezogen – am besten vor jemandem, der nachfragt. Danach den Erwartungshorizont aufdecken und dich selbst einschätzen. Was du noch nicht wusstest, kommt öfter dran.' }),
+      h('p', { class: 'muted small', text: 'Das hilft auch für die mündliche Ergänzungsprüfung: Dort beantwortest du etwa 15 Minuten lang Fragen zu einem schriftlichen Prüfungsbereich – frei und unter Zeitdruck zu sprechen, trainierst du hier.' }),
+      summaryEl,
+      practice,
+      fold('project', 'fg-alle', { class: 'fg-all', summary: [h('span', { class: 'grow', text: 'Alle Fragen mit Stichpunkten' }), h('span', { class: 'fold-rate', text: String(questions.length) })] },
+        reviewList)),
   );
   updateProgress();
   drawResult();
+  drawSummary();
   drawPractice();
 }
 
-function shuffle(list) {
-  const a = [...list];
-  for (let i = a.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}

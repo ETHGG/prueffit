@@ -154,10 +154,12 @@ export function render(root, ctx) {
     history.replaceState(null, '', '#/quiz');
     const byId = new Map(questions.map((q) => [q.id, q]));
     const picked = params.get('fragen').split(',').map((id) => byId.get(id)).filter(Boolean);
-    if (session) notice = 'Es läuft noch ein Quiz. Beende es, um die Fehler der Prüfung zu üben.';
+    if (session) notice = params.get('von') === 'suche' ? 'Es läuft noch ein Quiz. Beende es, um diese Frage zu üben.' : 'Es läuft noch ein Quiz. Beende es, um die Fehler der Prüfung zu üben.';
     else if (picked.length) {
       session = { quiz: createQuiz(picked) };
-      notice = `${picked.length} ${picked.length === 1 ? 'Frage' : 'Fragen'} aus der Prüfung – los geht’s.`;
+      notice = params.get('von') === 'suche'
+        ? `${picked.length === 1 ? 'Frage' : 'Fragen'} aus der Suche – los geht’s.`
+        : `${picked.length} ${picked.length === 1 ? 'Frage' : 'Fragen'} aus der Prüfung – los geht’s.`;
     }
   }
   if (requested) {

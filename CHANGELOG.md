@@ -2,6 +2,20 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.14.0] – 2026-11-24
+
+### Hinzugefügt
+- **Fachgespräch üben mit Timer** (Prüfung → Projektarbeit & Fachgespräch → „Fachgespräch üben“): zufällige Frage aus den Fachgesprächsfragen des eigenen Berufs, Antwortzeit frei wählbar (1, 2, 3 oder 5 Minuten; der Timer rechnet ab der Startzeit und läuft auch weiter, wenn die App kurz verlassen wird), laut antworten, danach „Darauf achten die Prüfer“ und den **Erwartungshorizont** (Stichpunkte) aufdecken und sich selbst einschätzen: gewusst / teilweise / nicht gewusst. Noch nicht Gewusstes kommt öfter dran, dieselbe Frage nie zweimal hintereinander. Übersicht „Selbsteinschätzung“ und eingeklappt „Alle Fragen mit Stichpunkten“. Hinweis, dass das Training auch für die mündliche Ergänzungsprüfung hilft.
+- Zu allen 32 Fachgesprächsfragen (10 allgemeine, 3–4 je Beruf) Stichpunkte ergänzt, mit Präzisierungen wo nötig (z. B. „RAID ersetzt keine Datensicherung“, Gewährleistung ≠ Garantie, Modbus/TCP ohne eigene Sicherheit – Secure-Variante mit TLS existiert, Prüfungen nach DIN VDE 0100-600 bzw. 0701/0702).
+- **Suche über alles** (neues Lupen-Symbol in der Kopfzeile, `#/suche`; das Suchfeld „Nachschlagen“ auf der Startseite führt jetzt dorthin): durchsucht gleichzeitig Lernzettel, Abkürzungen, Formeln und Fragen des eigenen Berufs. Mehrere Wörter = alle müssen vorkommen, Groß-/Kleinschreibung egal, Umlaute auch als ae/oe/ue. Treffer gruppiert mit Anzahl, Sprungleiste, Hervorhebung und „Weitere anzeigen“. Links: Lernzettel (mit markierten Treffern und „Zurück zur Suche“), Abkürzungsverzeichnis, Formelsammlung, Frage → Quiz mit genau dieser Frage, „Thema üben“ → Quiz mit dem Thema.
+
+### Behoben
+- Projektarbeit: Ein Häkchen in den Checklisten setzte die Eingaben im Gesamtnoten-Rechner im gespeicherten Stand zurück (wurde erst nach dem Neuladen sichtbar).
+
+### Technik
+- `js/projectGuide.js`: Fragen mit stabiler ID und Stichpunkten, `pickPracticeQuestion`, `practiceTimer`, `formatSeconds`, `practiceSummary`; Selbsteinschätzungen als optionales Feld `ratings` in `prueffit.project` (auch in der Datensicherung, ungültige Werte werden verworfen).
+- Neues Logik-Modul `js/search.js` (`queryVariants`, `searchQuestions`, `searchAll`, `highlightQuery`; nutzt `searchNotes`, `searchGlossary`, `searchFormulas`), neue Ansicht `js/ui/searchView.js` (beide im Service Worker gecacht). Tests: `tests/search.test.js`, `tests/projectGuide.test.js`, `e2e/search.spec.js`, `e2e/project.spec.js`. PDFs neu erzeugt (Version).
+
 ## [2.13.0] – 2026-11-23
 
 ### Hinzugefügt

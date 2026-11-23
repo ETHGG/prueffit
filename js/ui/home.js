@@ -105,13 +105,13 @@ function githubNoticeCard(ctx, { rerender }) {
       }, 'Verstanden')));
 }
 
-/** Search box that opens the Lernzettel list with the query, plus the size of the catalog. */
+/** Search box over everything (#/suche, since 2.14), plus the size of the catalog. */
 function notesSearchCard(ctx) {
   const { notes = [], questions, flashcards = [], topics } = ctx.catalog;
   if (!notes.length) return null;
   const input = h('input', {
     type: 'search', id: 'home-notes-search', autocomplete: 'off', enterkeyhint: 'search',
-    placeholder: 'z. B. VLAN, Bilanz', 'aria-label': 'Lernzettel durchsuchen',
+    placeholder: 'z. B. VLAN, Bilanz', 'aria-label': 'Lernzettel, Abkürzungen, Formeln und Fragen durchsuchen',
   });
   return h('section', { class: 'card', 'aria-labelledby': 'home-notes' },
     h('h2', { id: 'home-notes', text: 'Nachschlagen' }),
@@ -120,7 +120,7 @@ function notesSearchCard(ctx) {
       onSubmit: (e) => {
         e.preventDefault();
         const q = input.value.trim();
-        location.hash = q ? `#/lernzettel?q=${encodeURIComponent(q)}` : '#/lernzettel';
+        location.hash = q ? `#/suche?q=${encodeURIComponent(q)}` : '#/suche';
       },
     }, input, h('button', { type: 'submit', class: 'button' }, 'Suchen')),
     h('p', { class: 'muted small spaced' },
