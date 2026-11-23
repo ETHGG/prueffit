@@ -6,6 +6,7 @@ import { filterQuestions, issueUrl } from '../questions.js';
 import {
   examParts, previewExam, createExam, startPart, remainingMs, isTimeUp, setResponse,
   submitPart, tick, evaluateExam, restoreExam, isExamQuestion, pendingAssessment, assessResponse,
+  examMistakeIds,
 } from '../exam.js';
 import { rubricPoints } from '../grading.js';
 import { recordExamResult } from '../storage.js';
@@ -418,6 +419,10 @@ export function render(root, ctx) {
         h('p', { class: 'muted small' }, passed
           ? (exam.parts.length > 1 ? 'Insgesamt mindestens „ausreichend“. In der echten AP2 wird jeder Bereich einzeln benotet – achte auf schwache Teile.' : 'Mit dieser Leistung wäre der Teil bestanden (mindestens „ausreichend“).')
           : 'Unter 50 % – hier lohnt sich gezieltes Üben. Schau in die Statistik unter „Heute üben“.')),
+      examMistakeIds(ev).length
+        ? h('a', { class: 'button block exam-mistakes', href: `#/quiz?fragen=${examMistakeIds(ev).map(encodeURIComponent).join(',')}` },
+          `Fehler dieser Prüfung üben (${examMistakeIds(ev).length})`)
+        : null,
       h('div', { class: 'button-row' },
         h('button', { type: 'button', class: 'button', onClick: () => { update(null); draw(); } }, 'Neue Prüfung'),
         h('a', { class: 'button secondary', href: '#/statistik' }, 'Zur Statistik')),

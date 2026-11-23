@@ -145,6 +145,17 @@ export function render(root, ctx) {
       notice = 'Es läuft noch ein Quiz. Beende es, um offene Aufgaben zu üben.';
     }
   }
+  // Deep link from an exam result: #/quiz?fragen=id1,id2 practises exactly these questions (2.10.5).
+  if (params.get('fragen')) {
+    history.replaceState(null, '', '#/quiz');
+    const byId = new Map(questions.map((q) => [q.id, q]));
+    const picked = params.get('fragen').split(',').map((id) => byId.get(id)).filter(Boolean);
+    if (session) notice = 'Es läuft noch ein Quiz. Beende es, um die Fehler der Prüfung zu üben.';
+    else if (picked.length) {
+      session = { quiz: createQuiz(picked) };
+      notice = `${picked.length} ${picked.length === 1 ? 'Frage' : 'Fragen'} aus der Prüfung – los geht’s.`;
+    }
+  }
   if (requested) {
     history.replaceState(null, '', '#/quiz');
     const topic = topics.find((t) => t.id === requested);

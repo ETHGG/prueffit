@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.10.6] – 2026-11-23
+
+### Hinzugefügt
+- **„Fehler dieser Prüfung üben“:** Im Ergebnis einer Prüfungssimulation startet ein Knopf ein Quiz mit genau den Aufgaben, die nicht voll richtig waren (falsch, teilweise richtig oder unbeantwortet), in der Reihenfolge der Prüfung (`examMistakeIds`, Link `#/quiz?fragen=…`).
+
+### Korrigiert (fachlich, Spannungsfall)
+- Der Richtwert 3 % gilt nach DIN 18015-1 **vom Zähler (Messeinrichtung) bis zum Verbraucher**, nicht ab dem Hausanschluss. Ergänzt: vom Hausanschluss bis zum Zähler meist höchstens 0,5 % (Technische Anschlussbedingungen), DIN VDE 0100-520 empfiehlt insgesamt höchstens 4 % ab der Übergabestelle. Überall gleich nachgezogen: Lernzettel, Karteikarte fc-0169, Formel „Spannungsfall“, PDFs.
+
 ## [2.10.5] – 2026-11-23
 
 ### Geändert

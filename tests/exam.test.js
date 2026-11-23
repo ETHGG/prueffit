@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
+  examMistakeIds,
   roundPercent,
   gradeForPercent,
   gradeExam,
@@ -566,5 +567,19 @@ describe('table task in every written part (since 2.10)', () => {
         }
       }
     }
+  });
+});
+
+describe('examMistakeIds (2.10.5: Fehler dieser Prüfung üben)', () => {
+  it('lists wrong, partly right and unanswered questions in exam order without duplicates', () => {
+    const ev = { results: [
+      { questionId: 'a', correct: true }, { questionId: 'b', correct: false, points: 1 },
+      { questionId: 'c', correct: false, answered: false }, { questionId: 'b', correct: false },
+    ] };
+    expect(examMistakeIds(ev)).toEqual(['b', 'c']);
+  });
+  it('is empty for a perfect exam and for missing input', () => {
+    expect(examMistakeIds({ results: [{ questionId: 'a', correct: true }] })).toEqual([]);
+    expect(examMistakeIds(null)).toEqual([]);
   });
 });

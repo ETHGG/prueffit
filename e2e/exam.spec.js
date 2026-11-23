@@ -51,6 +51,14 @@ test('AP1: timer, navigation, answers survive a reload, hand-in and grade', asyn
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ergebnis AP1');
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.v1')).exams.length)).toBe(1);
   await expectNoHorizontalOverflow(page);
+
+  // 2.10.5: practise exactly the questions that were not fully correct.
+  const practise = page.locator('a.exam-mistakes');
+  await expect(practise).toHaveText(/^Fehler dieser Prüfung üben \(\d+\)$/);
+  const n = Number((await practise.textContent()).match(/\((\d+)\)/)[1]);
+  await practise.click();
+  await expect(page.locator('.toast').first()).toContainText('aus der Prüfung');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(new RegExp(`von ${n}\\b`));
   expect(problems).toEqual([]);
 });
 

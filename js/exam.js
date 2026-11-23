@@ -369,6 +369,19 @@ export function assessResponse(state, questionId, criteria) {
 }
 
 /** Grades the finished (or aborted) exam. */
+/**
+ * IDs of the questions that were not fully correct in an evaluated exam
+ * (wrong, partly right or unanswered), in exam order, without duplicates (2.10.5).
+ * @param {{results: Array<{questionId: string, correct: boolean}>}} evaluation
+ */
+export function examMistakeIds(evaluation) {
+  const ids = [];
+  for (const r of evaluation?.results ?? []) {
+    if (!r.correct && !ids.includes(r.questionId)) ids.push(r.questionId);
+  }
+  return ids;
+}
+
 export function evaluateExam(state, questions) {
   const byId = new Map(questions.map((q) => [q.id, q]));
   const results = [];
