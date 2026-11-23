@@ -62,6 +62,10 @@ Gesamt geschätzt: ca. 7 h 40 Min. (davon 7 h 10 Min. Auftrag + 30 Min. Qualitä
 | Rhythmus | Zeit | Aufgabe |
 |---|---|---|
 | einmalig | Mo 23.11.2026, 00:47 | Prüfungsreife je Prüfungsbereich, Tabellenaufgabe in jeder Simulation, Formelsammlung als PDF (mit Fachprüfung) |
+| täglich | 23:13 | Nacht 1: nächste Funktion aus dem Funktions-Backlog, danach eigene Verbesserungen |
+| täglich | 04:17 | Nacht 2: neue Inhalte FISI/KITS (Handlungssituation oder offene/Tabellenaufgaben im Wechsel) |
+| täglich | 06:07 | Nacht 3: Gegenprüfung der Nacht, danach Durchlauf und Verbesserungen bis 07:50 (Sa/So 09:20) |
+| täglich | 09:57 | Morgenbericht per Push |
 | täglich | 01:47 | Qualitätsrunde: CI- und Live-Check, 2 Themen nach `docs/PRUEFPROTOKOLL.md` fachlich prüfen |
 | wöchentlich | Mo 03:06 | Fehlermeldungen und Wünsche (GitHub-Issues), Ausbau, Quellenprüfung |
 | 2× pro Woche | Mi + Sa 02:41 | Fragen vertiefen (FISI/KITS, je 3 schwächste Themen, zuerst RAID und USV) bis alle 74 Themen ≥ 15 Fragen und ≥ 3 Fragetypen haben, danach monatlich am 8. |
