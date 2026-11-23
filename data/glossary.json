@@ -427,6 +427,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "DNSSEC",
+    "full": "Domain Name System Security Extensions",
+    "explanation": "Signiert DNS-Antworten; ein validierender Resolver erkennt gefälschte Antworten. Verschlüsselt die Anfragen nicht.",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "DORA",
     "full": "Discover, Offer, Request, Acknowledge",
     "explanation": "Die vier Schritte der DHCP-Vergabe",

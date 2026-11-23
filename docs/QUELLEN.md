@@ -73,3 +73,14 @@ Checklisten und Fachgesprächsfragen sind eigene Formulierungen auf dieser Grund
 | DNS per Router Advertisement | RFC 8106 (RDNSS) | ergänzt in Lernzettel, Karte, Frage net-0077 |
 | IPsec bei IPv6 | RFC 8504 (IPv6 Node Requirements, vorher RFC 6434) | nur noch empfohlen (SHOULD), nicht Pflicht – Frage net-0025 korrigiert |
 | NPTv6 | RFC 6296 | Präfix-Übersetzung als Ausnahme genannt |
+
+## Quellenprüfung 23.11.2026 (2.9.7)
+
+| Geprüft | Quelle | Ergebnis |
+|---|---|---|
+| PoE-Leistung am Port und am Gerät | IEEE 802.3af/at/bt (Übersicht: de.wikipedia.org/wiki/Power_over_Ethernet; Herstellerangaben) | Port 15,4/30/60/90 W, Gerät 12,95/25,5/51/71,3 W; Budget mit Port-Werten – net-0081 und Situation korrigiert (400 W, Rest 4,4 W), el-0020 und Karten ergänzt |
+| 10GBASE-SR und 10GBASE-T | Cisco-Datenblatt 10GBASE SFP+ Modules; Arista Transceiver-Datenblatt; IEEE 802.3an | OM3 300 m, OM4 400 m; 10GBASE-T 100 m mit Cat 6A, Cat 6 bis ca. 55 m |
+| HTTP/3 | RFC 9114 | über QUIC (UDP), Port 443 |
+| DHCP-Ablauf und Ports | RFC 2131, RFC 8415 (DHCPv6) | Request per Broadcast; Server 67, Client 68; DHCPv6 547/546 |
+| DNSSEC | RFC 4033 | Echtheit und Unverändertheit, keine Vertraulichkeit |
+| IPv4-Link-Local | RFC 3927 | 169.254.0.0/16, unter Windows APIPA |

@@ -9,8 +9,8 @@ Reihenfolge: zuerst Themen von FISI und KITS, dann die übrigen.
 | IPv4 und Subnetting | `netzwerke.subnetting` | 21.11.2026 | Rechnungen ok; 4 präzisiert: /31 (RFC 3021) und /32, Subnetz 0 (RFC 950), Broadcast-Formel, APIPA = Link-Local |
 | IPv6 | `netzwerke.ipv6` | 21.11.2026 | Rechnungen ok; 6 präzisiert: Kürzen (RFC 5952), Link-Local, ULA fd00::/8, SLAAC (Interface-ID, Gateway, RDNSS), NAT/NPTv6, IPsec nur empfohlen (RFC 8504), Header |
 | OSI- und TCP/IP-Modell | `netzwerke.osi` | 19.11.2026 (Teilprüfung) | Layer-3-Switch, MAC, TLS präzisiert |
-| Übertragungsmedien und Topologien | `netzwerke.medien` | – |  |
-| Protokolle und Dienste | `netzwerke.dienste` | – |  |
+| Übertragungsmedien und Topologien | `netzwerke.medien` | 23.11.2026 | Rechnungen ok; 1 korrigiert: PoE-Budget (net-0081, Situation „Hotel Saalblick“, el-0020) rechnet mit der Leistung am Switchport (PoE+ 30 W statt 25,5 W am Gerät); 6 präzisiert: LWL-Reichweiten (Singlemode 10–40/80 km, Multimode je Datenrate 300 m–2 km, OM3/OM4), Stufen-/Gradientenindex, 10 Gbit/s erst ab Cat 6A auf 100 m (Cat 6 ca. 55 m), 400 m bei 10 Gbit/s besser Singlemode, Bus/Ring/Stern-Ausfälle, „abhörsicher“ → schwerer abzuhören |
+| Protokolle und Dienste | `netzwerke.dienste` | 23.11.2026 | Rechnungen ok; 5 präzisiert: HTTP/3 über UDP 443, DHCP-Ports Server 67/Client 68 (DHCPv6 547/546), DHCPREQUEST per Broadcast, DNSSEC (validierender Resolver, keine Verschlüsselung, neue Abkürzung), Transportprotokolle in der Port-Tabelle, APIPA = IPv4-Link-Local |
 | VLAN und WLAN | `netzwerke.vlan` | – |  |
 | Routing, NAT und Fehleranalyse | `netzwerke.routing` | – |  |
 | Domäne und Verzeichnisdienst | `netzwerke.verzeichnisdienst` | – |  |

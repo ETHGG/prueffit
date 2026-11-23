@@ -2,6 +2,18 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.9.7] – 2026-11-23
+
+### Korrigiert – Qualitätsrunde „Übertragungsmedien und Topologien“ und „Protokolle und Dienste“
+- **PoE-Budget:** Der Switch rechnet mit der Leistung am Port, nicht mit der am Gerät (PoE+ 30 W statt 25,5 W). Handlungssituation „Hotel Saalblick“ (Budget jetzt 400 W) und Frage net-0081 (Rest 4,4 W) korrigiert, el-0020 um den Port-Wert ergänzt, Karten und Lernzettel nennen beide Werte.
+
+### Geändert – präzisiert statt weggelassen (Lernzettel, Fragen, Karten überall gleich)
+- **Lichtwellenleiter:** Singlemode typisch 10–40 km (mit Spezialoptik 80 km und mehr), Multimode je Datenrate 300 m bis ca. 2 km (10 Gbit/s: OM3 300 m, OM4 400 m); Datennetze nutzen Gradientenindex, Stufenindex nur kurze Strecken; „abhörsicher“ → schwerer abzuhören.
+- **Twisted Pair:** 100 m gelten bis 5 Gbit/s; 10 Gbit/s auf 100 m erst ab Cat 6A, über Cat 6 nur ca. 55 m. 400 m bei 10 Gbit/s: besser Singlemode (net-0078).
+- **Topologien:** Bus fällt bei Leitungsunterbrechung aus, nicht beim Ausfall einer Station; Ring heute v. a. redundant im Industrie-Ethernet; Stern: Switch-Ausfall trifft das Segment.
+- **Dienste:** HTTP/3 über UDP 443; DHCP Server-Port 67, Client-Port 68 (DHCPv6 547/546), Request per Broadcast; DNSSEC nur mit validierendem Resolver und ohne Verschlüsselung; Transportprotokolle in der Port-Tabelle; APIPA = IPv4-Link-Local.
+- Neue Abkürzung: **DNSSEC**. PDFs neu erzeugt.
+
 ## [2.9.6] – 2026-11-21
 
 ### Behoben
