@@ -238,6 +238,11 @@ function recordActivity(state, day) {
   return { ...state, daily: pruneDaily(daily, day), streak: updateStreak(state.streak, day) };
 }
 
+/** Counts a generated calculation task (since 2.13): daily goal and streak only, no statistics. */
+export function recordPractice(state, now = new Date()) {
+  return recordActivity(state, todayInBerlin(now));
+}
+
 /** Returns a new state with one more attempt recorded for `questionId`. */
 export function recordAnswer(state, questionId, isCorrect, now = new Date()) {
   const prev = state.answers[questionId] ?? { attempts: 0, correct: 0, lastAt: null };

@@ -1,3 +1,9 @@
+# Kurzbericht 2.13.0 (Nachtbetrieb Lauf 1, 23.11.2026)
+
+- **Rechentraining:** `js/generator.js` erzeugt Rechenaufgaben (7 Arten, je 2–4 Varianten) im normalen Fragenformat; eingeklappt unter der Quiz-Auswahl, nur Arten des eigenen Berufs.
+- **Annahmen:** Erzeugte Aufgaben zählen nur fürs Tagesziel/die Lernserie, nicht in Statistik und Prüfungsreife (sonst würde jede Runde neue „Fragen“ anlegen). Einheiten wie im Bestand: Speicher binär (KiB/MiB/GiB), Übertragung dezimal (GB, Mbit/s). Kalkulation rundet jede Zwischenstufe auf Cent. Kein Link „Fehler melden“ bei erzeugten Aufgaben (keine feste Frage); Rückmeldungen gehen über die üblichen GitHub-Issues.
+- **Neue Abhängigkeiten:** keine. Unit-Tests lokal mit Ersatz-Runner (npm-Registry gesperrt), Browsertests Chromium; die CI prüft mit dem echten Vitest und WebKit.
+
 # Kurzbericht 2.12.0 (Nachtauftrag Block C, 23.11.2026)
 
 - **Verlauf der Prüfungsreife:** Wochenschnappschuss je Prüfungsbereich (`recordReadinessSnapshot`), gespeichert beim Anzeigen von Start- oder Statistikseite; Liniendiagramm und Zahlen in der Karte „Prüfungsreife“.

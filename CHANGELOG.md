@@ -2,6 +2,18 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.13.0] – 2026-11-23
+
+### Hinzugefügt
+- **Rechentraining – unbegrenzt neue Rechenaufgaben** (Quiz → eingeklappt „Rechentraining“ unter der Quiz-Auswahl): Aufgaben werden mit immer neuen Zahlen erzeugt, jeweils mit vollständigem Lösungsweg. Sieben Arten: Subnetting und VLSM (Hosts je Präfix, passendes Präfix, Netz aufteilen, Netz-/Broadcastadresse), Binär und Hexadezimal, Speicherbedarf und Übertragungszeit, Kalkulation (Bezugs- und Angebotskalkulation, Break-even), Abschreibung und Amortisation, Nutzwertanalyse, Kennzahlen (Umsatz-, Eigen- und Gesamtkapitalrentabilität). Angezeigt werden nur Arten, deren Thema zum eigenen Beruf gehört. Je Runde 10 Aufgaben, „Gemischt“ oder einzeln; in der Auswertung startet „10 neue Rechenaufgaben“ die nächste Runde.
+- Rechentraining zählt fürs Tagesziel und die Lernserie, aber nicht für Trefferquote, Prüfungsreife oder „Meine Fehler“ (die Aufgaben sind ja jedes Mal andere).
+
+### Geändert
+- Tabellenaufgaben: Zeilenbeschriftungen werden auf schmalen Bildschirmen jetzt nach Silben getrennt statt mitten im Wort umbrochen.
+
+### Technik
+- Neues Logik-Modul `js/generator.js` (reine Funktionen, deterministisch je Art und Seed; die Aufgabe lässt sich aus ihrer ID `gen-<art>-<seed>` neu erzeugen, dadurch übersteht eine laufende Runde ein Neuladen). Aufgaben im normalen Fragenformat (`number`, `table`), bewertet von `grading.js`. `recordPractice` in `js/storage.js`. Tests: `tests/generator.test.js` (je Art 300 Aufgaben gültig und mit eigener Lösung richtig bewertet, Adressrechnung, Kalkulation), `e2e/training.spec.js`. Service Worker cacht `js/generator.js`. PDFs neu erzeugt (Version).
+
 ## [2.12.0] – 2026-11-23
 
 ### Hinzugefügt

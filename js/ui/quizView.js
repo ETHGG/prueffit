@@ -8,7 +8,8 @@ import {
   createQuiz, currentQuestion, submitAnswer, nextQuestion, isFinished, isAnswered, summarizeQuiz,
   serializeQuiz, restoreQuiz,
 } from '../quiz.js';
-import { recordAnswer } from '../storage.js';
+import { recordAnswer, recordPractice } from '../storage.js';
+import { availableKinds, generateRound, isGeneratedId, taskFromId, GENERATED_ROUND_SIZE } from '../generator.js';
 import { mistakeIds, dueRetryIds } from '../stats.js';
 import { todayInBerlin } from '../leitner.js';
 import { keywordHits, rubricPoints } from '../grading.js';
@@ -35,7 +36,7 @@ const SESSION_KEY = 'prueffit.quizSession';
 function persistSession(store) {
   if (!store) return;
   try {
-    if (session) store.setItem(SESSION_KEY, JSON.stringify({ quiz: serializeQuiz(session.quiz), ui: session.ui ?? {} }));
+    if (session) store.setItem(SESSION_KEY, JSON.stringify({ quiz: serializeQuiz(session.quiz), ui: session.ui ?? {}, gen: session.gen ?? null }));
     else store.removeItem(SESSION_KEY);
   } catch {
     // Storage full or blocked: the quiz still works, it is just not restorable.
@@ -47,13 +48,16 @@ function restoreSession(store, questions) {
   if (!store) return null;
   try {
     const raw = JSON.parse(store.getItem(SESSION_KEY) ?? 'null');
-    const quiz = restoreQuiz(raw?.quiz, questions);
+    // Generated calculation tasks (since 2.13) are rebuilt from their ids.
+    const generated = Array.isArray(raw?.quiz?.ids) ? raw.quiz.ids.filter(isGeneratedId).map(taskFromId).filter(Boolean) : [];
+    const quiz = restoreQuiz(raw?.quiz, generated.length ? [...questions, ...generated] : questions);
     if (!quiz) {
       store.removeItem(SESSION_KEY);
       return null;
     }
     const ui = raw.ui && typeof raw.ui === 'object' && !Array.isArray(raw.ui) ? raw.ui : {};
-    return { quiz, ui };
+    const gen = Array.isArray(raw.gen) && raw.gen.every((k) => typeof k === 'string') ? raw.gen : null;
+    return { quiz, ui, gen };
   } catch {
     store.removeItem(SESSION_KEY);
     return null;
@@ -387,8 +391,34 @@ function drawSetup(root, ctx, draw) {
     h('h1', { text: 'Quiz' }),
     h('p', { class: 'muted' }, 'Stell dir dein Quiz zusammen. Die Fragen werden zufällig gezogen.'),
     job ? h('p', { class: 'small job-line', text: `Beruf: ${job.name} – nur Fragen aus deiner AP1 und AP2.` }) : null,
-    form);
+    form,
+    trainingFold(draw));
   refresh();
+}
+
+/**
+ * "Rechentraining" (since 2.13): unlimited generated calculation tasks of the learner's job,
+ * folded below the quiz setup. Each button starts a round; the summary offers the next one.
+ */
+function trainingFold(draw) {
+  const topicIds = new Set(setup.sections.flatMap((sec) => sec.topics));
+  const kinds = availableKinds(topicIds);
+  if (!kinds.length) return null;
+  const start = (ids) => {
+    session = { quiz: createQuiz(generateRound(ids)), gen: ids };
+    draw();
+  };
+  return fold('quiz', 'rechnen', {
+    class: 'card training',
+    summary: [
+      h('span', { class: 'fold-title', text: 'Rechentraining' }),
+      h('span', { class: 'muted small training-sub', text: 'Unbegrenzt neue Aufgaben' }),
+    ],
+  },
+  h('p', { class: 'small muted', text: `Immer neue Zahlen mit vollständigem Lösungsweg – je Runde ${GENERATED_ROUND_SIZE} Aufgaben. Zählt fürs Tagesziel, nicht für die Trefferquote.` }),
+  h('div', { class: 'training-kinds' },
+    h('button', { type: 'button', class: 'button', onClick: () => start(kinds.map((k) => k.id)) }, 'Gemischt'),
+    kinds.map((k) => h('button', { type: 'button', class: 'button secondary', 'data-kind': k.id, onClick: () => start([k.id]) }, k.label))));
 }
 
 // ---------------------------------------------------------------- question
@@ -501,7 +531,8 @@ function drawQuestion(root, ctx, draw, topicById) {
       return;
     }
     session.quiz = r.quiz;
-    ctx.updateProgress((p) => recordAnswer(p, q.id, r.result.correct));
+    // Generated tasks count for the daily goal and streak, but not in the per-question statistics.
+    ctx.updateProgress((p) => (isGeneratedId(q.id) ? recordPractice(p) : recordAnswer(p, q.id, r.result.correct)));
     draw({ keepScroll: true });
   };
 
@@ -523,7 +554,7 @@ function drawQuestion(root, ctx, draw, topicById) {
       !result.correct && q.type !== 'text' ? h('p', {}, h('strong', { text: 'Richtige Antwort: ' }), correctAnswerText(q)) : null,
       h('p', {}, h('strong', { text: 'Erklärung: ' }), q.explanation),
       noteLink(ctx, q.topic),
-      reportLink(q));
+      isGeneratedId(q.id) ? null : reportLink(q));
   }
 
   const isLast = quiz.index === total - 1;
@@ -579,7 +610,7 @@ function drawQuestion(root, ctx, draw, topicById) {
         h('span', { class: 'tag', text: `${topic?.area ?? ''} · ${topic?.name ?? q.topic}` }),
         h('span', { class: 'tag', text: DIFFICULTY_LABELS[q.difficulty] }),
         h('span', { class: 'tag', text: `${formatNumber(q.points)} ${q.points === 1 ? 'Punkt' : 'Punkte'}` }),
-        h('span', { class: 'tag', text: q.exam.join(' / ') })),
+        h('span', { class: 'tag', text: isGeneratedId(q.id) ? 'Rechentraining' : q.exam.join(' / ') })),
       h('h2', { class: 'question-text', text: q.question }),
       form),
   );
@@ -624,10 +655,16 @@ function drawSummary(root, ctx, draw, topicById) {
       wrong.length
         ? h('button', {
           class: 'button', type: 'button',
-          onClick: () => { session = { quiz: createQuiz(shuffle(wrong)) }; draw(); },
+          onClick: () => { session = { quiz: createQuiz(shuffle(wrong)), gen: session.gen ?? null }; draw(); },
         }, `Fehler wiederholen (${wrong.length})`)
         : null,
-      h('button', { class: `button${wrong.length ? ' secondary' : ''}`, type: 'button', onClick: () => { session = null; draw(); } }, 'Neues Quiz')),
+      session.gen
+        ? h('button', {
+          class: 'button', type: 'button',
+          onClick: () => { session = { quiz: createQuiz(generateRound(session.gen)), gen: session.gen }; draw(); },
+        }, `${GENERATED_ROUND_SIZE} neue Rechenaufgaben`)
+        : null,
+      h('button', { class: `button${wrong.length || session.gen ? ' secondary' : ''}`, type: 'button', onClick: () => { session = null; draw(); } }, 'Neues Quiz')),
     h('section', { class: 'card spaced', 'aria-labelledby': 'summary-list' },
       h('h2', { id: 'summary-list', text: 'Deine Antworten' }),
       h('ul', { class: 'result-list' }, items)),

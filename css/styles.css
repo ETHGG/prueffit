@@ -720,7 +720,7 @@ details.exam-rules { margin-top: .75rem; border-top: 1px solid var(--border); pa
 .table-wrap { overflow-x: auto; margin: 1rem 0; }
 .fill-table { width: 100%; border-collapse: collapse; }
 .fill-table th, .fill-table td { border-bottom: 1px solid var(--border); padding: .4rem .3rem; text-align: left; vertical-align: middle; }
-.fill-table th[scope="row"] { font-weight: 600; overflow-wrap: anywhere; }
+.fill-table th[scope="row"] { font-weight: 600; overflow-wrap: break-word; hyphens: auto; -webkit-hyphens: auto; }
 .fill-table td.num { text-align: right; white-space: nowrap; }
 .fill-table tr.is-given td.num { color: var(--muted); }
 .cell-input { display: inline-flex; align-items: center; gap: .3rem; }
@@ -759,3 +759,8 @@ details.exam-rules { margin-top: .75rem; border-top: 1px solid var(--border); pa
 .plan-topic:first-child { border-top: 0; }
 .plan-topic-name { min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
 .plan-practice { flex: none; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; }
+
+/* Rechentraining (since 2.13): buttons per kind, wrap on narrow screens */
+.training-kinds { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .5rem; margin-top: .75rem; }
+.training-kinds .button { min-height: 44px; white-space: normal; text-align: center; }
+.training-sub { display: block; }

@@ -127,6 +127,7 @@ prueffit/
 │   ├── pdfs.js               # Liste und Dateinamen der Lernzettel-PDFs
 │   ├── projectGuide.js       # Projektarbeit: Prüfungsbereich je Beruf, Checklisten, Fachgesprächsfragen (seit 2.3)
 │   ├── formulas.js           # Formelsammlung: Validierung, Suche, Gruppierung (seit 2.9)
+│   ├── generator.js          # Rechentraining: erzeugte Rechenaufgaben je Art und Seed (seit 2.13)
 │   ├── finalGrade.js         # Gesamtnote, Bestehensregeln, mündliche Ergänzungsprüfung (seit 2.3, UI ab 2.4)
 │   └── ui/
 │       ├── home.js
@@ -243,6 +244,7 @@ Eine Situation eröffnet einen AP2-Prüfungsbereich: Erst kommen ihre Fragen in 
 }
 ```
 Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`); 2 → 3 (v0.4.0) ergänzt `daily` (erledigte Aufgaben pro Tag, Europe/Berlin, die letzten 90 Tage); 3 → 4 (v0.6.0) ergänzt `settings.onboarded` (Willkommensfragen beantwortet) und `settings.examTarget` (nächste Prüfung und Termin oder `null`); 4 → 5 (v1.0.0) ergänzt `settings.backup` (letzte Sicherung, „Später“ bis); 5 → 6 (v2.0.0): `settings.job` ist eine Berufs-ID oder `null` (`itsm` → `kits`, `alle` → `null`), neu `settings.jobConfirmed` (nach der Migration `false`, damit jeder seinen Beruf einmal bestätigt). Ein bestätigter Beruf kann nicht mehr geändert werden (`updateSettings`, Import). Antworten haben seit 1.0 zusätzlich `lastCorrect` (letzte Antwort richtig?) für „Meine Fehler“ und seit 2.6 optional `retry` (`{ step: 0–2, due: 'YYYY-MM-DD' }`, Wiederholung nach 1/3/7 Tagen; ohne Schema-Wechsel, ungültige Werte werden verworfen); ältere Einträge ohne dieses Feld gelten als Fehler, solange nicht alle Versuche richtig waren.
+Erzeugte Rechenaufgaben (seit 2.13, IDs `gen-<art>-<seed>`) werden nie unter `answers` gespeichert, sie zählen nur in `daily`/`streak`.
 Karteikarten aus dem Abkürzungsverzeichnis haben die IDs `ab-<abkürzung>` und liegen ebenfalls unter `cards`.
 Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (`checked`: abgehakte Punkte der Projekt-Checklisten seit 2.3, `points`: Eingaben des Gesamtnoten-Rechners seit 2.4; defekte Daten → leer; seit 2.5.1 als Feld `project` neben `data` in der Fortschritts-Sicherung), `prueffit.custom` (importierte eigene Fragen/Karten), `sessionStorage` `prueffit.quizSession` (laufende Quiz-Runde).
 
@@ -354,6 +356,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `contrast.test.js` | Kontrast aller Textfarben in hellem und dunklem Design (mind. 4,5 : 1), seit 2.11 auch der Druckansicht |
 | `ci.test.js` | Playwright-Container in der CI passt zur gesperrten Playwright-Version, Testserver ohne Python |
 | `examPrint.test.js` | Simulation zum Ausdrucken: Seed/URL, gleiche Ziehung wie die App, Situation vorn, Tabellenaufgabe, Lösungen aller Fragetypen, Notenschlüssel-Mindestpunkte |
+| `generator.test.js` | Rechentraining: jede Art liefert gültige Aufgaben, eigene Lösung wird richtig bewertet, Wiederherstellung aus der ID, Runden, Filter nach Beruf |
 | `pdfs.test.js` | Dateinamen (auch Formelsammlung je Beruf), Reihenfolge der Lernzettel, Dateigrößen-Anzeige (Aktualität der PDFs prüft `data.test.js`, die Prüfsumme umfasst `data/formulas.json`) |
 
 **Regel:** Jede neue Funktion in einem Logik-Modul bekommt mindestens einen Test. Bugs werden zuerst mit einem fehlschlagenden Test reproduziert, dann behoben.
@@ -388,6 +391,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.10** | Prüfungsreife je Prüfungsbereich (2.10.0), Tabellenaufgabe in jeder Simulation (2.10.1), Personalwirtschaft ausgebaut (2.10.2), Formelsammlung als PDF und fachlich geprüft (2.10.3) | erledigt |
 | **2.11** | Prüfungssimulation zum Ausdrucken: Aufgabenblatt im Stil eines IHK-Hefts und Lösungsblatt mit Bewertungsraster | erledigt |
 | **2.12** | Verlauf der Prüfungsreife (Wochenwerte, Diagramm), Wochenplan bis zur Prüfung | erledigt |
+| **2.13** | Rechentraining: unbegrenzt erzeugte Rechenaufgaben (Subnetting, Zahlensysteme, Speicher/Übertragung, Kalkulation, Abschreibung, Nutzwert, Kennzahlen) | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

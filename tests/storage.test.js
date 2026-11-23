@@ -5,6 +5,7 @@ import {
   loadState,
   saveState,
   recordAnswer,
+  recordPractice,
   recordCardReview,
   resetProgress,
   updateSettings,
@@ -460,5 +461,15 @@ describe('readinessHistory (2.12, optional, no schema change)', () => {
     expect(s.readinessHistory).toEqual([{ week: '2026-11-23', parts: { ap1: { percent: 61, grade: 4 } } }]);
     expect('readinessHistory' in normalizeState({ readinessHistory: 'kaputt' })).toBe(false);
     expect('readinessHistory' in createDefaultState()).toBe(false);
+  });
+});
+
+describe('recordPractice (Rechentraining, since 2.13)', () => {
+  it('counts the day and the streak, but no answer statistics', () => {
+    const now = new Date('2026-11-23T21:30:00Z'); // 22:30 in Berlin
+    const s = recordPractice(recordPractice(createDefaultState(), now), now);
+    expect(s.daily['2026-11-23']).toBe(2);
+    expect(s.streak.lastDay).toBe('2026-11-23');
+    expect(s.answers).toEqual({});
   });
 });

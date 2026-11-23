@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.12.0 (23.11.2026)
+**Aktuelle Version:** 2.13.0 (23.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -17,7 +17,7 @@
 
 ## Nachtbetrieb (Auftrag 23.11.2026, 22:56, ab sofort jede Nacht)
 
-**Läuft gerade:** Nacht 1 seit 23:15
+**Läuft gerade:** –
 
 Regeln für alle Nachtläufe:
 - Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
@@ -29,7 +29,7 @@ Regeln für alle Nachtläufe:
 - Jeder Lauf trägt sich ins **Nachtprotokoll** ein (Datum, Lauf, Start, Ende, Ist, Ergebnis/Version).
 
 ### Funktions-Backlog (Lauf 23:13, der Reihe nach)
-1. Unbegrenzte Rechenaufgaben (Generator: Subnetting/VLSM, Binär/Hex, Speicher/Übertragungszeit, Kalkulation, Abschreibung, Nutzwert, Kennzahlen) – offen
+1. Unbegrenzte Rechenaufgaben (Generator: Subnetting/VLSM, Binär/Hex, Speicher/Übertragungszeit, Kalkulation, Abschreibung, Nutzwert, Kennzahlen) – erledigt (2.13.0)
 2. Erklärung zu jeder falschen Antwortmöglichkeit (Datenfeld + Anzeige; FISI/KITS zuerst) – offen
 3. Wochenplan als Kalenderdatei (.ics) für den iPhone-Kalender – offen
 4. Skizzen in Lernzetteln (SVG: Netzwerkplan, OSI, ER, Ablauf) – offen
@@ -39,6 +39,7 @@ Regeln für alle Nachtläufe:
 ### Nachtprotokoll
 | Datum | Lauf | Start | Ende | Ist | Ergebnis |
 |---|---|---|---|---|---|
+| 23.11.2026 | Nacht 1 | 23:13 | 23:30 | 17 Min. | Backlog 1 Rechentraining erledigt (2.13.0); Unit-Tests (Ersatz-Runner) und Browsertests Chromium grün. Weitere Backlog-Punkte bewusst nicht begonnen: Block D des Nachtauftrags startet 00:19 und braucht die Sperre frei. |
 
 ## Nachtauftrag 23./24.11.2026 (Auftrag 18:05: alle 10 Verbesserungen)
 
