@@ -37,3 +37,17 @@ test('Prüfungsreife (2.10): too little data at first, then grade per part with 
   await expectNoHorizontalOverflow(page);
   expect(problems).toEqual([]);
 });
+
+test('Statistik (2.10.4): Prüfungsreife directly below „Trefferquote pro Bereich“', async ({ page }) => {
+  await gotoApp(page);
+  await page.evaluate(() => {
+    const s = JSON.parse(localStorage.getItem('prueffit.v1'));
+    s.settings.onboarded = true;
+    s.answers = { 'net-0001': { attempts: 2, correct: 1, lastAt: '2026-11-20T10:00:00Z', lastCorrect: true } };
+    localStorage.setItem('prueffit.v1', JSON.stringify(s));
+  });
+  await page.goto('./#/statistik');
+  await expect(page.locator('#chart-areas')).toBeVisible();
+  const next = page.locator('section:has(> #chart-areas) + section');
+  await expect(next).toHaveClass(/readiness/);
+});

@@ -63,7 +63,6 @@ export function render(root, ctx) {
 
   append(root, 
     h('h1', { text: 'Statistik' }),
-    readinessCard(ctx),
     suggestionsCard(ctx),
     h('section', { class: 'card', 'aria-labelledby': 'stats-total' },
       h('h2', { id: 'stats-total', text: 'Gesamt' }),
@@ -86,6 +85,7 @@ export function render(root, ctx) {
         h('h2', { id: 'chart-areas', text: 'Trefferquote pro Bereich' }),
         h('div', { class: 'chart-box' }, areaCanvas))
       : null,
+    readinessCard(ctx),
     exams.length
       ? h('section', { class: 'card', 'aria-labelledby': 'chart-exams' },
         h('h2', { id: 'chart-exams', text: 'Prüfungsergebnisse' }),

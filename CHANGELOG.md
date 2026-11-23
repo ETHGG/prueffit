@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.10.4] – 2026-11-23
+
+### Geändert
+- **Statistik:** Die Karte „Prüfungsreife“ steht jetzt direkt unter „Trefferquote pro Bereich“ (vorher ganz oben). Ohne geübte Bereiche steht sie unter „Gesamt“.
+
 ## [2.10.3] – 2026-11-23
 
 ### Hinzugefügt
