@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   KNOWN_EXAM_DATES, AP2_DAY_BEFORE_JOBS, addDays, daysBetween, lastWednesday, sessionLabel, upcomingExamDates, nextExamDate, studyPlan, openQuestions,
-  backupReminder,
+  backupReminder, weekStart, weeklyPlan, planTopics, PLAN_TOPICS_PER_WEEK,
 } from '../js/schedule.js';
 
 describe('daysBetween', () => {
@@ -119,5 +119,98 @@ describe('AP2 one day earlier for KITS and KDM (2.1)', () => {
   it('addDays crosses month and year boundaries', () => {
     expect(addDays('2026-12-31', 1)).toBe('2027-01-01');
     expect(addDays('2027-03-01', -1)).toBe('2027-02-28');
+  });
+});
+
+describe('weekStart (2.12)', () => {
+  it('is the Monday of the week, also across month, year and DST changes', () => {
+    expect(weekStart('2026-11-23')).toBe('2026-11-23'); // Monday
+    expect(weekStart('2026-11-29')).toBe('2026-11-23'); // Sunday
+    expect(weekStart('2027-01-01')).toBe('2026-12-28'); // Friday, year change
+    expect(weekStart('2027-03-28')).toBe('2027-03-22'); // DST change in Germany (Sunday)
+    expect(weekStart('2026-10-25')).toBe('2026-10-19'); // end of DST (Sunday)
+    expect(() => weekStart('kaputt')).toThrow();
+  });
+});
+
+describe('Wochenplan bis zur Prüfung (2.12)', () => {
+  const topic = (id, points, attempts = 5, rate = 0.4) => ({ id, name: `Thema ${id}`, points, attempts, rate: attempts ? rate : null });
+  const readiness = (topics, exam = 'AP2', id = 'ga1') => [{ id, exam, potential: topics }];
+
+  it('without an exam date there is no plan; past and today are reported', () => {
+    expect(weeklyPlan({ today: '2026-11-23', target: null, readiness: [] })).toEqual({ status: 'none', weeks: [], unplanned: 0 });
+    expect(weeklyPlan({ today: '2026-11-23', target: { exam: 'AP2', day: '2026-11-20' } }).status).toBe('past');
+    expect(weeklyPlan({ today: '2026-11-25', target: { exam: 'AP2', day: '2026-11-25' } }).status).toBe('today');
+  });
+
+  it('splits the days until the day before the exam into Monday–Sunday weeks (Europe/Berlin days)', () => {
+    // Thursday 26.11.2026, exam Wednesday 23.12.2026 → last learning day Tuesday 22.12.
+    const plan = weeklyPlan({ today: '2026-11-26', target: { exam: 'AP2', day: '2026-12-23' }, readiness: readiness([topic('a', 9)]) });
+    expect(plan.status).toBe('ok');
+    expect(plan.weeks.map((w) => [w.start, w.end, w.days])).toEqual([
+      ['2026-11-26', '2026-11-29', 4],
+      ['2026-11-30', '2026-12-06', 7],
+      ['2026-12-07', '2026-12-13', 7],
+      ['2026-12-14', '2026-12-20', 7],
+      ['2026-12-21', '2026-12-22', 2],
+    ]);
+    expect(plan.weeks.at(-1).kind).toBe('final');
+  });
+
+  it('puts the weakest topics first, untried ones weighted higher, and the last week for repetition', () => {
+    const plan = weeklyPlan({
+      today: '2026-11-23',
+      target: { exam: 'AP2', day: '2026-12-16' },
+      readiness: [
+        { id: 'ga1', exam: 'AP2', potential: [topic('klein', 2), topic('gross', 8), topic('neu', 6, 0)] },
+        { id: 'wiso', exam: 'AP2', potential: [topic('gross', 3)] }, // same topic in two parts: summed
+        { id: 'ap1', exam: 'AP1', potential: [topic('fremd', 50)] }, // other exam: ignored
+      ],
+    });
+    expect(plan.simulations).toBe(2);
+    const order = plan.weeks.flatMap((w) => (w.kind === 'final' ? [] : w.topics.map((t) => t.id)));
+    expect(order).toEqual(['gross', 'neu', 'klein']); // 11 > 6 · 1.5 = 9 > 2
+    expect(plan.weeks[0].topics[0]).toMatchObject({ id: 'gross', points: 11 });
+    expect(plan.weeks.at(-1)).toMatchObject({ kind: 'final' });
+    expect(plan.weeks.at(-1).topics.map((t) => t.id)).toEqual(['gross', 'neu', 'klein']);
+    expect(plan.unplanned).toBe(0);
+  });
+
+  it('spreads few topics evenly and fills the remaining weeks with mixed repetition', () => {
+    const plan = weeklyPlan({ today: '2026-11-23', target: { exam: 'AP1', day: '2027-02-24' }, readiness: readiness([topic('a', 5), topic('b', 4)], 'AP1', 'ap1') });
+    const study = plan.weeks.slice(0, -1);
+    expect(study.length).toBeGreaterThan(10);
+    expect(study.filter((w) => w.kind === 'topics').length).toBe(2);
+    expect(study.every((w) => w.topics.length <= 1)).toBe(true);
+    expect(study.filter((w) => w.kind === 'mixed').length).toBe(study.length - 2);
+  });
+
+  it('with an exam in less than a week: only the final week (repetition + simulations)', () => {
+    const plan = weeklyPlan({ today: '2026-11-21', target: { exam: 'AP2', day: '2026-11-25' }, readiness: readiness([topic('a', 5), topic('b', 4), topic('c', 3), topic('d', 2)]) });
+    expect(plan.weeks).toHaveLength(2); // Sat–Sun and Mon–Tue (week boundary)
+    const one = weeklyPlan({ today: '2026-11-23', target: { exam: 'AP2', day: '2026-11-25' }, readiness: readiness([topic('a', 5), topic('b', 4), topic('c', 3), topic('d', 2)]) });
+    expect(one.weeks).toHaveLength(1);
+    expect(one.weeks[0]).toMatchObject({ kind: 'final', start: '2026-11-23', end: '2026-11-24', days: 2 });
+    expect(one.weeks[0].topics.map((t) => t.id)).toEqual(['a', 'b', 'c']);
+    expect(one.unplanned).toBe(1);
+    const tomorrow = weeklyPlan({ today: '2026-11-24', target: { exam: 'AP2', day: '2026-11-25' }, readiness: [] });
+    expect(tomorrow.weeks).toEqual([{ index: 1, start: '2026-11-24', end: '2026-11-24', days: 1, kind: 'final', topics: [] }]);
+  });
+
+  it('caps very many topics per week (shorter first week gets fewer) and reports the rest', () => {
+    const many = Array.from({ length: 80 }, (_, i) => topic(`t${i}`, 80 - i));
+    const plan = weeklyPlan({ today: '2026-11-28', target: { exam: 'AP2', day: '2026-12-23' }, readiness: readiness(many) });
+    const study = plan.weeks.slice(0, -1);
+    expect(study[0].days).toBe(2);
+    expect(study[0].topics).toHaveLength(Math.ceil((PLAN_TOPICS_PER_WEEK * 2) / 7));
+    expect(study.slice(1).every((w) => w.topics.length === PLAN_TOPICS_PER_WEEK)).toBe(true);
+    const planned = study.reduce((s, w) => s + w.topics.length, 0);
+    expect(plan.unplanned).toBe(80 - planned);
+    expect(study[0].topics[0].id).toBe('t0');
+    expect(new Set(study.flatMap((w) => w.topics.map((t) => t.id))).size).toBe(planned); // no duplicates
+  });
+
+  it('planTopics ignores topics without potential', () => {
+    expect(planTopics(readiness([topic('a', 0), topic('b', 1)]), 'AP2').map((t) => t.id)).toEqual(['b']);
   });
 });

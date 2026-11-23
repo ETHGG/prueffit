@@ -61,6 +61,10 @@ export function render(root, ctx) {
     'aria-label': `Prüfungsergebnisse: ${exams.map((e) => `${e.exam} ${Math.round((e.points / e.max) * 100)} %, Note ${e.grade}`).join('; ')}`,
   });
 
+  // Verlauf der Prüfungsreife (2.12): canvas inside the readiness card, drawn below with the other charts.
+  const historyCanvas = h('canvas', { role: 'img', class: 'readiness-chart' });
+  let historyChart = null;
+
   append(root, 
     h('h1', { text: 'Statistik' }),
     suggestionsCard(ctx),
@@ -87,7 +91,7 @@ export function render(root, ctx) {
       : null,
     h('div', { class: 'legend card', 'aria-label': 'Legende der Ampel' },
       ['green', 'yellow', 'red', 'grey'].map((l) => h('span', {}, h('span', { class: `light light-${l}`, 'aria-hidden': 'true' }), LIGHT_LABELS[l]))),
-    readinessCard(ctx),
+    readinessCard(ctx, { historyCanvas, onHistory: (data) => { historyChart = data; } }),
     exams.length
       ? h('section', { class: 'card', 'aria-labelledby': 'chart-exams' },
         h('h2', { id: 'chart-exams', text: 'Prüfungsergebnisse' }),
@@ -108,7 +112,7 @@ export function render(root, ctx) {
   // Charts are optional: without Chart.js the page still shows all numbers.
   const charts = [];
   let disposed = false;
-  if (practicedAreas.length || exams.length) {
+  if (practicedAreas.length || exams.length || historyChart) {
     loadChartJs().then((Chart) => {
       if (disposed) return;
       const c = themeColors();
@@ -129,6 +133,28 @@ export function render(root, ctx) {
             indexAxis: 'y',
             plugins: { legend: { display: false } },
             scales: { x: { min: 0, max: 100, ticks: { callback: (v) => `${v} %` } }, y: { ticks: { color: c.text } } },
+          },
+        }));
+      }
+      if (historyChart) {
+        const colors = [c.primary, c.partial, c.text, c.muted];
+        const dashes = [[], [6, 4], [2, 3], [10, 3, 2, 3]];
+        charts.push(new Chart(historyCanvas, {
+          type: 'line',
+          data: {
+            labels: historyChart.weeks.map((w) => dateFormat.format(new Date(`${w}T12:00:00Z`))),
+            datasets: historyChart.series.map((s, i) => ({
+              label: s.short, data: s.values, pointStyle: 'circle', spanGaps: true, tension: 0.2, pointRadius: 3,
+              borderColor: colors[i % colors.length], backgroundColor: colors[i % colors.length], borderDash: dashes[i % dashes.length],
+            })),
+          },
+          options: {
+            ...common,
+            plugins: {
+              legend: { display: true, position: 'bottom', labels: { usePointStyle: true, pointStyle: 'line', boxWidth: 28, color: c.text } },
+              tooltip: { callbacks: { afterLabel: (item) => { const g = historyChart.series[item.datasetIndex].grades[item.dataIndex]; return g ? `Note ${g}` : ''; } } },
+            },
+            scales: { y: { min: 0, max: 100, ticks: { callback: (v) => `${v} P.` } } },
           },
         }));
       }

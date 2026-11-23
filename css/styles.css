@@ -742,3 +742,20 @@ details.exam-rules { margin-top: .75rem; border-top: 1px solid var(--border); pa
 .readiness-head .stat-name { flex: 1; min-width: 0; hyphens: auto; overflow-wrap: break-word; font-weight: 600; }
 .readiness-short { flex: none; font-weight: 700; font-size: .9rem; }
 .readiness-potential a { display: inline-block; min-height: 24px; }
+
+/* Verlauf der Prüfungsreife und Wochenplan (2.12) */
+.chart-box-small { height: 200px; }
+.readiness-history { border-top: 1px solid var(--border); margin-top: .5rem; padding-top: .5rem; }
+.readiness-history h3 { margin: .25rem 0 .5rem; font-size: 1rem; }
+.readiness-history-list { list-style: none; padding: 0; margin: .5rem 0; display: grid; gap: .25rem; overflow-wrap: anywhere; }
+.readiness-history-list .stat-name { font-weight: 600; }
+.plan-weeks { list-style: none; padding: 0; margin: .5rem 0 0; display: grid; gap: .5rem; }
+.plan-week { border: 1px solid var(--border); border-radius: 10px; padding: .5rem .75rem; min-width: 0; }
+.plan-week.is-current { border-color: var(--primary); border-width: 2px; }
+.plan-week-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .1rem .5rem; }
+.plan-week p { margin: .35rem 0 0; }
+.plan-topics { list-style: none; padding: 0; margin: .25rem 0 0; }
+.plan-topic { display: flex; align-items: center; justify-content: space-between; gap: .5rem; border-top: 1px solid var(--border); padding: .15rem 0; }
+.plan-topic:first-child { border-top: 0; }
+.plan-topic-name { min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
+.plan-practice { flex: none; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; }

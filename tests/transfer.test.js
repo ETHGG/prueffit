@@ -160,3 +160,12 @@ describe('project data in the progress export (since 2.6)', () => {
     expect(parseProgressImport(JSON.stringify(file)).project).toEqual({ checked: { 'a-echt': true }, points: { wiso: 70 } });
   });
 });
+
+describe('readiness history in the backup (2.12)', () => {
+  it('is exported and imported again', () => {
+    const state = { ...createDefaultState(), readinessHistory: [{ week: '2026-11-16', parts: { wiso: { percent: 70, grade: 3 } } }] };
+    const res = parseProgressImport(JSON.stringify(buildProgressExport(state, { now: new Date('2026-11-23T10:00:00Z') })));
+    expect(res.ok).toBe(true);
+    expect(res.state.readinessHistory).toEqual(state.readinessHistory);
+  });
+});

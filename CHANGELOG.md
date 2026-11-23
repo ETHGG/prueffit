@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.12.0] – 2026-11-23
+
+### Hinzugefügt
+- **Verlauf der Prüfungsreife** (Statistik → Karte „Prüfungsreife“ → „Verlauf“): Jede Woche (Montag–Sonntag, Europe/Berlin) wird der letzte Stand je Prüfungsbereich (Punkte und Note) gespeichert, bis zu einem Jahr. Liniendiagramm (Chart.js, eine Linie je Bereich, unterschiedlich gestrichelt) und darunter immer die Zahlen als Text („40 → 47 → 52 P.“) – auch ohne Chart.js. Bereiche mit zu wenig Daten werden nicht gespeichert. Der Verlauf ist in der Datensicherung enthalten.
+- **Wochenplan bis zur Prüfung** (Startseite, eingeklappt; nur mit eingetragenem Prüfungstermin): Die schwächsten Themen der gewählten Prüfung (größtes Punktepotenzial, ungeübte Themen 1,5-fach gewichtet) werden gleichmäßig auf die Kalenderwochen bis zum Tag vor der Prüfung verteilt, höchstens 4 je volle Woche (kürzere erste Woche entsprechend weniger). Je Thema ein Link „Üben“. Wochen ohne Thema: gemischt wiederholen (fällige Fragen, Meine Fehler, Karteikarten). Letzte Woche: Wiederholung der drei wichtigsten Themen und je eine Simulation pro Prüfungsbereich. Themen ohne Platz werden genannt.
+
+### Technik
+- `js/stats.js`: `normalizeReadinessHistory`, `recordReadinessSnapshot`, `readinessSeries`; `js/schedule.js`: `weekStart`, `planTopics`, `weeklyPlan` (reine Funktionen mit Unit-Tests: Wochengrenzen inkl. Jahres- und Zeitumstellung, keine Prüfung, Prüfung in weniger als einer Woche, sehr viele Themen).
+- Fortschritt: optionales Feld `readinessHistory` ohne Schema-Wechsel (ungültige Einträge werden verworfen, max. 52 Wochen). Neues UI-Modul `js/ui/weekPlan.js` (im Service Worker gecacht), Browsertests in `e2e/readiness.spec.js`. PDFs neu erzeugt.
+- Browsertest „Freitext ohne Bewertungsraster“ stabilisiert (lud die eigene Frage erst nach einem Neuladen; unter Last schlug er gelegentlich fehl).
+
 ## [2.11.0] – 2026-11-23
 
 ### Hinzugefügt

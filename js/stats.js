@@ -3,6 +3,7 @@
 import { MIN_ATTEMPTS_FOR_RATING, THRESHOLD_GREEN, THRESHOLD_YELLOW } from './config.js';
 import { addDays } from './leitner.js';
 import { gradeExam } from './exam.js';
+import { weekStart } from './schedule.js';
 
 /** correct / attempts, or null if there are no attempts. */
 export function hitRate(correct, attempts) {
@@ -324,4 +325,71 @@ export function examReadiness({ parts, topics, questions, answers, exams = [], j
       potential,
     };
   });
+}
+
+// ---- Verlauf der Prüfungsreife (since 2.12) ----
+
+/** Maximum number of weekly snapshots kept (about one year). */
+export const READINESS_HISTORY_MAX = 52;
+const PART_ID = /^[a-z0-9-]{1,24}$/;
+const isHistoryDay = (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(`${v}T00:00:00Z`));
+
+/**
+ * Valid snapshots of the readiness history, oldest first, one per week, at most READINESS_HISTORY_MAX.
+ * Entry: `{ week: 'YYYY-MM-DD' (Monday), parts: { [partId]: { percent: 0–100, grade: 1–6 } } }`.
+ * Invalid entries or parts are dropped; a week given twice keeps the later entry.
+ */
+export function normalizeReadinessHistory(raw) {
+  if (!Array.isArray(raw)) return [];
+  const byWeek = new Map();
+  for (const entry of raw) {
+    if (!entry || typeof entry !== 'object' || !isHistoryDay(entry.week) || weekStart(entry.week) !== entry.week) continue;
+    if (!entry.parts || typeof entry.parts !== 'object' || Array.isArray(entry.parts)) continue;
+    const parts = {};
+    for (const [id, v] of Object.entries(entry.parts)) {
+      if (!PART_ID.test(id) || !v || typeof v !== 'object') continue;
+      const { percent, grade } = v;
+      if (!Number.isFinite(percent) || percent < 0 || percent > 100) continue;
+      if (!Number.isInteger(grade) || grade < 1 || grade > 6) continue;
+      parts[id] = { percent: Math.round(percent), grade };
+    }
+    if (Object.keys(parts).length) byWeek.set(entry.week, { week: entry.week, parts });
+  }
+  return [...byWeek.values()].sort((a, b) => a.week.localeCompare(b.week)).slice(-READINESS_HISTORY_MAX);
+}
+
+/**
+ * Stores the current readiness (examReadiness() result) as the snapshot of the week of `today`
+ * (YYYY-MM-DD, Europe/Berlin). The entry of the current week is replaced, so each week keeps its
+ * latest state. Parts with too little data are left out; without any estimate nothing is stored.
+ * Returns the SAME array when nothing changed (callers can skip saving).
+ */
+export function recordReadinessSnapshot(history, readiness, today) {
+  const list = normalizeReadinessHistory(history);
+  const week = weekStart(today);
+  const parts = {};
+  for (const r of readiness ?? []) {
+    if (r?.status === 'ok' && PART_ID.test(r.id ?? '') && Number.isFinite(r.percent) && Number.isInteger(r.grade)) {
+      parts[r.id] = { percent: Math.round(r.percent), grade: r.grade };
+    }
+  }
+  if (!Object.keys(parts).length) return history;
+  const current = list.find((e) => e.week === week);
+  if (current && JSON.stringify(current.parts) === JSON.stringify(parts) && Array.isArray(history) && history.length === list.length) {
+    return history;
+  }
+  return normalizeReadinessHistory([...list.filter((e) => e.week !== week), { week, parts }]);
+}
+
+/**
+ * Chart data of the history: week labels and one series per part (null where a week has no value).
+ * Only parts with at least one value are returned, in the order of `partIds`.
+ */
+export function readinessSeries(history, partIds) {
+  const list = normalizeReadinessHistory(history);
+  const weeks = list.map((e) => e.week);
+  const series = (partIds ?? [])
+    .map((id) => ({ id, values: list.map((e) => e.parts[id]?.percent ?? null), grades: list.map((e) => e.parts[id]?.grade ?? null) }))
+    .filter((s) => s.values.some((v) => v !== null));
+  return { weeks, series };
 }

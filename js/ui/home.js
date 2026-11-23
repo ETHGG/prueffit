@@ -8,6 +8,7 @@ import { NOTICES_KEY, parseNotices, noticeDue, confirmNotice } from '../notices.
 import { mistakesButton, dailyPlanCard } from './suggestions.js';
 import { backupCard } from './backup.js';
 import { readinessHomeCard } from './readiness.js';
+import { weekPlanCard } from './weekPlan.js';
 import { needsWelcome, welcomeCard, countdownCard } from './welcome.js';
 
 function greeting(date = new Date()) {
@@ -77,6 +78,7 @@ export function render(root, ctx) {
       mistakesButton(ctx, { secondary: true })),
 
     welcome ? null : readinessHomeCard(ctx),
+    welcome ? null : weekPlanCard(ctx),
     notesSearchCard(ctx),
     h('p', { class: 'muted small spaced center' },
       h('a', { href: '#/statistik' }, 'Statistik und schwächste Themen'), ' · ',

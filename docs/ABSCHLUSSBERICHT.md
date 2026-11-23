@@ -1,3 +1,10 @@
+# Kurzbericht 2.12.0 (Nachtauftrag Block C, 23.11.2026)
+
+- **Verlauf der Prüfungsreife:** Wochenschnappschuss je Prüfungsbereich (`recordReadinessSnapshot`), gespeichert beim Anzeigen von Start- oder Statistikseite; Liniendiagramm und Zahlen in der Karte „Prüfungsreife“.
+- **Wochenplan bis zur Prüfung:** `weeklyPlan` in `js/schedule.js`, eingeklappt auf der Startseite.
+- **Annahmen:** Je Woche zählt der letzte Stand (kein Mittelwert). Ungeübte Themen werden 1,5-fach gewichtet; 4 Themen je volle Woche gelten als realistisch neben Tagesplan und Karteikarten. Die letzte Woche nennt die drei wichtigsten Themen zur Wiederholung. Der Verlauf beginnt erst ab dieser Version (frühere Wochen lassen sich nicht nachberechnen).
+- **Neue Abhängigkeiten:** keine. Vitest lief lokal mit einem Ersatz-Runner (npm-Registry in der Cloud gesperrt), die CI prüft mit dem echten Vitest.
+
 # Abschlussbericht Versionen 2.3.0 bis 2.5.0
 
 **Datum:** 18.11.2026 · Auftrag des Nutzers: 1. Projektarbeit & Fachgespräch, 2. Gesamtnoten-Rechner, 3. Simulation in große Aufgaben gliedern

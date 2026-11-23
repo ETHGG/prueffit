@@ -29,6 +29,10 @@ test('text question without marking scheme: self-assessment 0 / half / full', as
       id: 'my-0001', exam: ['AP1'], topic: 'netzwerke.osi', difficulty: 1, type: 'text', question: 'Nenne die Schicht von IP.',
       answer: { keywords: ['Vermittlung'], sample: 'Schicht 3, Vermittlungsschicht' }, points: 2, explanation: 'IP arbeitet auf Schicht 3.' }] }));
   });
+  // Reload so the running app knows the custom question; otherwise the quiz view (opened by the
+  // hash change in openQuizWith) may discard the session with the unknown id before the reload.
+  await page.reload();
+  await expect(page.locator('html[data-ready="1"]')).toBeAttached();
   await openQuizWith(page, ['my-0001']);
   await page.fill('textarea', 'Schicht 3');
   await page.getByRole('button', { name: 'Musterlösung anzeigen' }).click();

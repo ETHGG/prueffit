@@ -140,7 +140,8 @@ prueffit/
 │       ├── notesView.js
 │       ├── cardsView.js
 │       ├── statsView.js
-│       ├── readiness.js      # Prüfungsreife je Prüfungsbereich (seit 2.10)
+│       ├── readiness.js      # Prüfungsreife je Prüfungsbereich (seit 2.10), Verlauf (seit 2.12)
+│       ├── weekPlan.js       # Wochenplan bis zur Prüfung auf der Startseite (seit 2.12)
 │       ├── examView.js
 │       ├── projectView.js    # #/projekt (seit 2.3)
 │       ├── formulasView.js   # #/formeln (seit 2.9)
@@ -237,6 +238,7 @@ Eine Situation eröffnet einen AP2-Prüfungsbereich: Erst kommen ihre Fragen in 
   "exams": [ { "date": "...", "exam": "AP1", "points": 78, "max": 100, "grade": 3 } ],
   "streak": { "current": 4, "lastDay": "2026-11-17" },
   "daily": { "2026-11-17": 12 },
+  "readinessHistory": [ { "week": "2026-11-16", "parts": { "ap1": { "percent": 61, "grade": 4 } } } ],
   "settings": { "theme": "auto", "dailyGoal": 20, "job": "fisi", "jobConfirmed": true, "onboarded": true, "examTarget": { "exam": "AP2", "day": "2027-04-28" }, "backup": { "lastAt": "2026-11-10", "snoozeUntil": null } }
 }
 ```
@@ -259,6 +261,7 @@ Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (`ch
 - Trefferquote pro Thema = Summe `correct` / Summe `attempts` aller Fragen des Themas.
 - Ampel: **Grün ≥ 80 %**, **Gelb 50–79 %**, **Rot < 50 %**, **Grau** = weniger als 5 Versuche.
 - Prüfungsreife (seit 2.10, `examReadiness`): je Prüfungsbereich Themen nach Punkten ihrer Fragen gewichtet, Quote je Thema zum Bereichsdurchschnitt geglättet ((richtig + 2 · Ø) / (Versuche + 2)), ungeübte Themen mit dem Durchschnitt; Mittel mit den letzten drei Simulationen des Bereichs; Note nach IHK-Schlüssel. „Noch zu wenig Daten“ unter 20 Antworten oder unter einem Viertel des Bereichs geübt, sofern keine Simulation vorliegt. Punktepotenzial = Anteil des Themas × (1 − Quote) × 100.
+- Verlauf der Prüfungsreife (seit 2.12, `recordReadinessSnapshot`): je Kalenderwoche (Montag, Europe/Berlin) ein Eintrag `{ week, parts: { <bereich>: { percent, grade } } }` mit dem letzten Stand; nur Bereiche mit Schätzung; max. 52 Wochen; Feld `readinessHistory` im Fortschritt ohne Schema-Wechsel, ungültige Einträge werden verworfen.
 - „Heute üben“: die **3 Themen mit der niedrigsten Quote** (nur Themen mit ≥ 5 Versuchen), sonst ungeübte Themen.
 - Lernserie: zählt Tage in Folge mit mindestens einer beantworteten Frage oder Karte.
 - Wiederholung (seit 2.6, `nextRetry`/`dueRetryIds`): falsch → fällig nach 1 Tag; richtig am oder nach dem Fälligkeitstag → nach 3, dann 7 Tagen; danach gemeistert; falsch → zurück auf 1 Tag. Richtig vor dem Fälligkeitstag ändert nichts. Fehler ohne Zeitplan (vor 2.6) gelten als fällig.
@@ -292,6 +295,7 @@ Prozent wird **kaufmännisch auf ganze Zahlen gerundet**, bevor die Note bestimm
 ### 6.4 Prüfungstermine
 - Die schriftlichen Prüfungen der IT-Berufe sind bundeseinheitlich (gilt auch für Sachsen-Anhalt). Bekannte Termine stehen in `KNOWN_EXAM_DATES` (`js/schedule.js`) und werden jährlich nachgepflegt.
 - Danach wird geschätzt: AP1 letzter Mittwoch im Februar/September, AP2 letzter Mittwoch im April/November (Kennzeichnung „geschätzt“).
+- Wochenplan (seit 2.12, `weeklyPlan` in `js/schedule.js`): Tage von heute bis zum Tag vor der Prüfung in Kalenderwochen (Mo–So) teilen; Themen nach Punktepotenzial der Prüfungsreife (Summe über die Bereiche der Prüfung, ungeübte × 1,5) gleichmäßig auf alle Wochen außer der letzten, höchstens 4 je volle Woche (anteilig in kürzeren); leere Wochen = gemischte Wiederholung; letzte Woche = Wiederholung der 3 wichtigsten Themen + Simulationen. Ohne Termin kein Plan.
 - Lernplan: offene Fragen (nie richtig beantwortet) / (Tage bis zur Prüfung − 1), aufgerundet.
 
 ### 6.5 Speicher-Migration
@@ -335,9 +339,10 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 |---|---|
 | `grading.test.js` | alle 6 Fragetypen, Teilpunkte, Toleranz bei `number`, ungültige Eingaben |
 | `leitner.test.js` | Aufstieg, Rückfall auf Fach 1, max. Fach 5, Fälligkeit, Monats-/Jahreswechsel |
-| `stats.test.js` | Quote, Ampelgrenzen (49/50, 79/80 %), < 5 Versuche = grau, „Heute üben“, Lernserie inkl. Unterbrechung, Prüfungsreife (Gewichtung, Glättung, Simulationen, „zu wenig Daten“, Potenzial) |
+| `stats.test.js` | Quote, Ampelgrenzen (49/50, 79/80 %), < 5 Versuche = grau, „Heute üben“, Lernserie inkl. Unterbrechung, Prüfungsreife (Gewichtung, Glättung, Simulationen, „zu wenig Daten“, Potenzial), Verlauf (Wochenschnappschuss, Ersetzen, Begrenzung, ungültige Werte) |
 | `exam.test.js` | Notenschlüssel an allen Grenzen (29/30, 49/50, 66/67, 80/81, 91/92), Rundung, Zeitablauf, Tabellenaufgabe in jedem schriftlichen Teil (auch mit echten Daten je Beruf) |
-| `storage.test.js` | leerer Speicher, defektes JSON, Migration, Backup wird angelegt |
+| `storage.test.js` | leerer Speicher, defektes JSON, Migration, Backup wird angelegt, `readinessHistory` (seit 2.12) |
+| `schedule.test.js` | Prüfungstermine, Lernplan, Datensicherungs-Erinnerung, Wochenbeginn und Wochenplan (Wochengrenzen Europe/Berlin, kein Termin, Prüfung in < 1 Woche, sehr viele Themen; seit 2.12) |
 | `questions.test.js` | Filtern nach Prüfung/Thema/Schwierigkeit, Zufallsauswahl ohne Duplikate |
 | `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type`, ein Lernzettel pro Thema, Zuordnung AP1/AP2 und Berufe, Handlungssituationen für alle 7 Berufe |
 | `curriculum.test.js` / `jobCatalog.test.js` | Berufe und Prüfungsbereiche, Zuordnung der Themen, keine Inhalte fremder Berufe |
@@ -382,6 +387,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.9** | Formelsammlung, Aufgabentyp „Tabelle ausfüllen“ und Skizzenaufgaben, Operatoren, WiSo nach der WiSo-Simulation ergänzt | erledigt |
 | **2.10** | Prüfungsreife je Prüfungsbereich (2.10.0), Tabellenaufgabe in jeder Simulation (2.10.1), Personalwirtschaft ausgebaut (2.10.2), Formelsammlung als PDF und fachlich geprüft (2.10.3) | erledigt |
 | **2.11** | Prüfungssimulation zum Ausdrucken: Aufgabenblatt im Stil eines IHK-Hefts und Lösungsblatt mit Bewertungsraster | erledigt |
+| **2.12** | Verlauf der Prüfungsreife (Wochenwerte, Diagramm), Wochenplan bis zur Prüfung | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

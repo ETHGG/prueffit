@@ -448,3 +448,17 @@ describe('repetition schedule in the progress (since 2.6)', () => {
     expect(s.answers.q).toMatchObject({ attempts: 4, correct: 3, lastCorrect: true });
   });
 });
+
+describe('readinessHistory (2.12, optional, no schema change)', () => {
+  it('keeps valid weekly snapshots, drops invalid ones and stays absent when empty', () => {
+    const s = normalizeState({
+      readinessHistory: [
+        { week: '2026-11-23', parts: { ap1: { percent: 61, grade: 4 } } },
+        { week: '2026-11-25', parts: { ap1: { percent: 61, grade: 4 } } },
+      ],
+    });
+    expect(s.readinessHistory).toEqual([{ week: '2026-11-23', parts: { ap1: { percent: 61, grade: 4 } } }]);
+    expect('readinessHistory' in normalizeState({ readinessHistory: 'kaputt' })).toBe(false);
+    expect('readinessHistory' in createDefaultState()).toBe(false);
+  });
+});

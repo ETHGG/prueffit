@@ -11,7 +11,7 @@ import {
   EXAMS,
 } from './config.js';
 import { reviewCard, todayInBerlin } from './leitner.js';
-import { updateStreak, pruneDaily, nextRetry, isValidRetry } from './stats.js';
+import { updateStreak, pruneDaily, nextRetry, isValidRetry, normalizeReadinessHistory } from './stats.js';
 
 const THEMES = ['auto', 'light', 'dark'];
 const JOB_IDS = JOBS.map((j) => j.id);
@@ -118,6 +118,10 @@ export function normalizeState(raw, version = SCHEMA_VERSION) {
       if (isDay(day) && isCount(count)) state.daily[day] = count;
     }
   }
+
+  // Optional weekly readiness snapshots (since 2.12, no schema change: older versions ignore them).
+  const history = normalizeReadinessHistory(raw.readinessHistory);
+  if (history.length) state.readinessHistory = history;
 
   if (isPlainObject(raw.settings)) {
     const { theme, dailyGoal } = raw.settings;

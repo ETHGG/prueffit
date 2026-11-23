@@ -105,6 +105,90 @@ export function openQuestions(questions, answers, exam) {
   return questions.filter((q) => q.exam.includes(exam) && !(answers[q.id]?.correct > 0)).length;
 }
 
+/** Monday of the calendar week (Mon–Sun) that contains `day` (YYYY-MM-DD, already a Berlin day). */
+export function weekStart(day) {
+  if (!isDay(day)) throw new RangeError(`Invalid day: ${day}`);
+  const weekday = new Date(toUtc(day)).getUTCDay(); // 0 = Sunday
+  return addDays(day, -((weekday + 6) % 7));
+}
+
+// ---- Wochenplan bis zur Prüfung (since 2.12) ----
+
+/** Topics per full week of the plan (fewer in a shortened first week). */
+export const PLAN_TOPICS_PER_WEEK = 4;
+/** Untried topics are weighted higher: nothing is known about them yet. */
+export const PLAN_UNTRIED_BOOST = 1.5;
+/** Topics named for repetition in the last week. */
+export const PLAN_FINAL_TOPICS = 3;
+
+/**
+ * Ranked topics of the target exam: potential points (examReadiness, all topics) summed over the
+ * exam's parts; untried topics count PLAN_UNTRIED_BOOST times. Highest priority first.
+ */
+export function planTopics(readiness, exam) {
+  const byId = new Map();
+  for (const part of readiness ?? []) {
+    if (part?.exam !== exam) continue;
+    for (const t of part.potential ?? []) {
+      const cur = byId.get(t.id) ?? { id: t.id, name: t.name, points: 0, attempts: t.attempts ?? 0, rate: t.rate ?? null };
+      cur.points += Number(t.points) || 0;
+      byId.set(t.id, cur);
+    }
+  }
+  return [...byId.values()]
+    .map((t) => ({ ...t, points: Math.round(t.points * 10) / 10, score: t.points * (t.attempts > 0 ? 1 : PLAN_UNTRIED_BOOST) }))
+    .filter((t) => t.score > 0)
+    .sort((a, b) => b.score - a.score || a.attempts - b.attempts || String(a.name).localeCompare(String(b.name), 'de'));
+}
+
+/**
+ * Week-by-week plan until the exam (pure). The days from `today` until the day before the exam
+ * are split into calendar weeks (Monday–Sunday, Europe/Berlin; the first and last week may be
+ * shorter). The weakest topics (planTopics) are spread evenly over all weeks but the last, at most
+ * PLAN_TOPICS_PER_WEEK per full week; the last week is for repetition and simulations.
+ * @param {{ today: string, target: {exam, day}|null, readiness: object[], perWeek?: number }} input
+ * @returns {{ status: 'none'|'past'|'today'|'ok', exam?, day?, daysLeft?, simulations?: number,
+ *   weeks: { index, start, end, days, kind: 'topics'|'mixed'|'final', topics: object[] }[], unplanned: number }}
+ */
+export function weeklyPlan({ today, target, readiness = [], perWeek = PLAN_TOPICS_PER_WEEK }) {
+  if (!target || !isDay(target.day) || !KNOWN_EXAM_DATES[target.exam] || !isDay(today)) {
+    return { status: 'none', weeks: [], unplanned: 0 };
+  }
+  const { exam, day } = target;
+  const daysLeft = daysBetween(today, day);
+  const base = { exam, day, daysLeft, simulations: (readiness ?? []).filter((r) => r?.exam === exam).length || 1 };
+  if (daysLeft < 0) return { ...base, status: 'past', weeks: [], unplanned: 0 };
+  if (daysLeft === 0) return { ...base, status: 'today', weeks: [], unplanned: 0 };
+
+  const lastDay = addDays(day, -1);
+  const weeks = [];
+  for (let start = today; start <= lastDay;) {
+    const sunday = addDays(weekStart(start), 6);
+    const end = sunday < lastDay ? sunday : lastDay;
+    weeks.push({ index: weeks.length + 1, start, end, days: daysBetween(start, end) + 1 });
+    start = addDays(end, 1);
+  }
+
+  const ranked = planTopics(readiness, exam);
+  const strip = ({ score, ...t }) => t; // eslint-disable-line no-unused-vars
+  const study = weeks.slice(0, -1);
+  let next = 0;
+  study.forEach((w, i) => {
+    const capacity = Math.max(1, Math.ceil((perWeek * w.days) / 7));
+    const fair = Math.ceil((ranked.length - next) / (study.length - i));
+    const count = Math.min(capacity, Math.max(0, fair));
+    w.topics = ranked.slice(next, next + count).map(strip);
+    w.kind = w.topics.length ? 'topics' : 'mixed';
+    next += w.topics.length;
+  });
+  const final = weeks[weeks.length - 1];
+  final.kind = 'final';
+  final.topics = ranked.slice(0, PLAN_FINAL_TOPICS).map(strip);
+  // With a single week everything left counts as planned for repetition only.
+  const unplanned = study.length ? ranked.length - next : Math.max(0, ranked.length - final.topics.length);
+  return { ...base, status: 'ok', weeks, unplanned };
+}
+
 // ---- Erinnerung an die Datensicherung (v1.0) ----
 
 export const BACKUP_INTERVAL_DAYS = 14;

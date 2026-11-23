@@ -27,6 +27,7 @@ export function themeColors() {
     muted: v('--muted'),
     border: v('--border'),
     primary: v('--primary'),
+    partial: v('--partial'),
     green: v('--light-green'),
     yellow: v('--light-yellow'),
     red: v('--light-red'),

@@ -2,7 +2,8 @@ import { describe, it, expect } from 'vitest';
 import {
   hitRate, trafficLight, topicStats, overallStats, practiceSuggestions, areaStats,
   updateStreak, currentStreak, dailyProgress, pruneDaily, isMistake, mistakeIds, dailyPlan,
-  nextRetry, dueRetryIds, isValidRetry, RETRY_INTERVALS, examReadiness, examPercentForPart } from '../js/stats.js';
+  nextRetry, dueRetryIds, isValidRetry, RETRY_INTERVALS, examReadiness, examPercentForPart,
+  normalizeReadinessHistory, recordReadinessSnapshot, readinessSeries, READINESS_HISTORY_MAX } from '../js/stats.js';
 
 describe('hitRate', () => {
   it('is correct / attempts', () => {
@@ -410,5 +411,67 @@ describe('examReadiness (2.10)', () => {
     const r = examReadiness({ parts: [part], topics: null, questions: null, answers: null, exams: null })[0];
     expect(r.status).toBe('insufficient');
     expect(r.potential).toEqual([]);
+  });
+});
+
+describe('Verlauf der Prüfungsreife (2.12)', () => {
+  const ok = (id, percent, grade) => ({ id, status: 'ok', percent, grade });
+  const none = (id) => ({ id, status: 'insufficient', percent: null, grade: null });
+
+  it('stores a snapshot under the Monday of the current week and skips parts without data', () => {
+    const h = recordReadinessSnapshot(undefined, [ok('ap1', 63, 4), none('ga1')], '2026-11-26'); // Thursday
+    expect(h).toEqual([{ week: '2026-11-23', parts: { ap1: { percent: 63, grade: 4 } } }]);
+  });
+
+  it('replaces the entry of the same week and appends a new week', () => {
+    let h = recordReadinessSnapshot([], [ok('ap1', 50, 4)], '2026-11-23');
+    h = recordReadinessSnapshot(h, [ok('ap1', 55, 4), ok('wiso', 70, 3)], '2026-11-29'); // Sunday, same week
+    expect(h).toHaveLength(1);
+    expect(h[0].parts).toEqual({ ap1: { percent: 55, grade: 4 }, wiso: { percent: 70, grade: 3 } });
+    h = recordReadinessSnapshot(h, [ok('ap1', 60, 4)], '2026-11-30'); // next Monday
+    expect(h.map((e) => e.week)).toEqual(['2026-11-23', '2026-11-30']);
+  });
+
+  it('returns the same array when nothing changed or nothing can be estimated', () => {
+    const h = recordReadinessSnapshot([], [ok('ap1', 50, 4)], '2026-11-23');
+    expect(recordReadinessSnapshot(h, [ok('ap1', 50, 4)], '2026-11-25')).toBe(h);
+    expect(recordReadinessSnapshot(h, [none('ap1')], '2026-12-07')).toBe(h);
+  });
+
+  it('drops invalid entries and parts, keeps one entry per week, sorted', () => {
+    const h = normalizeReadinessHistory([
+      { week: '2026-11-24', parts: { ap1: { percent: 50, grade: 4 } } }, // not a Monday
+      { week: '2026-11-30', parts: { ap1: { percent: 101, grade: 1 }, wiso: { percent: 40, grade: 7 }, 'X Y': { percent: 1, grade: 6 } } },
+      { week: '2026-11-16', parts: { ga1: { percent: 66.6, grade: 3 } } },
+      { week: '2026-11-16', parts: { ga1: { percent: 70, grade: 3 } } }, // later wins
+      { week: 'kaputt', parts: {} }, null, 'x', { week: '2026-11-09', parts: [] },
+    ]);
+    expect(h).toEqual([{ week: '2026-11-16', parts: { ga1: { percent: 70, grade: 3 } } }]);
+    expect(normalizeReadinessHistory({})).toEqual([]);
+    expect(normalizeReadinessHistory(undefined)).toEqual([]);
+  });
+
+  it('keeps at most one year of weeks (the latest)', () => {
+    let h = [];
+    let day = '2025-01-06';
+    for (let i = 0; i < READINESS_HISTORY_MAX + 10; i++) {
+      h = recordReadinessSnapshot(h, [ok('ap1', i % 100, 4)], day);
+      const d = new Date(`${day}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + 7); day = d.toISOString().slice(0, 10);
+    }
+    expect(h).toHaveLength(READINESS_HISTORY_MAX);
+    expect(h[0].parts.ap1.percent).toBe(10);
+  });
+
+  it('builds chart series per part with gaps, only for parts with values', () => {
+    const h = [
+      { week: '2026-11-16', parts: { ap1: { percent: 40, grade: 5 } } },
+      { week: '2026-11-23', parts: { ap1: { percent: 52, grade: 4 }, wiso: { percent: 70, grade: 3 } } },
+    ];
+    const s = readinessSeries(h, ['ap1', 'ga1', 'wiso']);
+    expect(s.weeks).toEqual(['2026-11-16', '2026-11-23']);
+    expect(s.series).toEqual([
+      { id: 'ap1', values: [40, 52], grades: [5, 4] },
+      { id: 'wiso', values: [null, 70], grades: [null, 3] },
+    ]);
   });
 });
