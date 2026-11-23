@@ -15,6 +15,22 @@
 | E Gegenprüfung (VDE-Norm, Prüfungstermine KITS/KDM), PDFs, Version 2.1.0 | erledigt |
 
 
+## Nachtauftrag 23./24.11.2026 (Auftrag 18:05: alle 10 Verbesserungen)
+
+Jeder Block: `git pull --rebase`, Startzeit mit `TZ=Europe/Berlin date` eintragen, Punkte umsetzen (Tests, CHANGELOG, Version, PDFs), Endzeit und Ist-Dauer eintragen, commit, push, Push-Nachricht. Bleibt ein Punkt offen, bei „Weiter bei“ eintragen – der nächste Block macht ihn zuerst fertig. Kein Block darf das Kontingent ausschöpfen: lieber sauber pausieren.
+
+| Block | Start geplant | Punkte | Schätzung | Start | Ende | Ist |
+|---|---|---|---|---|---|---|
+| A | 18:10 (sofort) | 9 Spannungsfall prüfen · 2 „Fehler dieser Prüfung üben“ | 40 Min. | 18:06 | | |
+| B | 20:13 | 1 Simulation zum Ausdrucken (PDF mit Lösungsblatt) | 70 Min. | | | |
+| C | 22:17 | 3 Verlauf der Prüfungsreife · 4 Wochenplan bis zur Prüfung | 85 Min. | | | |
+| D | 00:19 | 5 Fachgespräch üben (Timer) · 6 Suche über alles | 80 Min. | | | |
+| – | 01:47 | tägliche Qualitätsrunde (wie immer) | 30 Min. | | | |
+| E | 03:23 | 7 Fortschritt PC → iPhone übertragen · 8 Tabellenaufgaben FIAE/FIDPA/ITSE/KDM | 95 Min. | | | |
+| F | 05:29 | 10 Fragen FISI/KITS vertiefen · Abschlussbericht mit Ist-Zeiten | 60 Min. | | | |
+
+Gesamt geschätzt: ca. 7 h 40 Min. (davon 7 h 10 Min. Auftrag + 30 Min. Qualitätsrunde).
+
 ## Geplante Aufgaben (Stand 19.11.2026, alle nachts, Europe/Berlin)
 
 | Rhythmus | Zeit | Aufgabe |
