@@ -15,6 +15,31 @@
 | E Gegenprüfung (VDE-Norm, Prüfungstermine KITS/KDM), PDFs, Version 2.1.0 | erledigt |
 
 
+## Nachtbetrieb (Auftrag 23.11.2026, 22:56, ab sofort jede Nacht)
+
+**Läuft gerade:** –
+
+Regeln für alle Nachtläufe:
+- Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
+- **Sperre:** Beim Start „Läuft gerade“ auf `<Lauf> seit <HH:MM>` setzen, committen, pushen; am Ende auf „–“. Steht dort ein anderer Lauf, der jünger als 90 Min. ist: 10 Min. warten, neu prüfen (max. 3×), sonst übernehmen.
+- Zuerst „Weiter bei“ abarbeiten (pausierte Arbeit hat Vorrang).
+- Limit knapp: Schritt sauber abschließen oder zurückrollen, Tests, commit, push, „Weiter bei“ genau eintragen, Push „pausiert, weiter ab …“, mit `send_later`/einmaliger geplanter Aufgabe in ca. 5 Std. fortsetzen, wenn das noch im Arbeitsfenster liegt – sonst übernimmt der nächste Nachtlauf.
+- **Übersichtlichkeit:** Neue Funktionen fügen sich in bestehende Seiten ein (eingeklappt, sekundär), keine neue Tab-Leisten-Einträge, Startseite bleibt kompakt; lieber zusammenfassen als anhängen.
+- Nichts mehr offen: App komplett durchgehen (alle Ansichten Desktop/iPhone, Inhalte stichprobenartig fachlich, Barrierefreiheit, Offline, Performance) und verbessern; sinnvolle Ergänzungen dürfen selbst gewählt werden.
+- Jeder Lauf trägt sich ins **Nachtprotokoll** ein (Datum, Lauf, Start, Ende, Ist, Ergebnis/Version).
+
+### Funktions-Backlog (Lauf 23:13, der Reihe nach)
+1. Unbegrenzte Rechenaufgaben (Generator: Subnetting/VLSM, Binär/Hex, Speicher/Übertragungszeit, Kalkulation, Abschreibung, Nutzwert, Kennzahlen) – offen
+2. Erklärung zu jeder falschen Antwortmöglichkeit (Datenfeld + Anzeige; FISI/KITS zuerst) – offen
+3. Wochenplan als Kalenderdatei (.ics) für den iPhone-Kalender – offen
+4. Skizzen in Lernzetteln (SVG: Netzwerkplan, OSI, ER, Ablauf) – offen
+5. Lernkalender (Aktivität pro Tag als Raster in der Statistik) – offen
+6. danach: selbst gewählte Verbesserungen / Durchlauf der ganzen App
+
+### Nachtprotokoll
+| Datum | Lauf | Start | Ende | Ist | Ergebnis |
+|---|---|---|---|---|---|
+
 ## Nachtauftrag 23./24.11.2026 (Auftrag 18:05: alle 10 Verbesserungen)
 
 Jeder Block: `git pull --rebase`, Startzeit mit `TZ=Europe/Berlin date` eintragen, Punkte umsetzen (Tests, CHANGELOG, Version, PDFs), Endzeit und Ist-Dauer eintragen, commit, push, Push-Nachricht. Bleibt ein Punkt offen, bei „Weiter bei“ eintragen – der nächste Block macht ihn zuerst fertig. Kein Block darf das Kontingent ausschöpfen: lieber sauber pausieren.
