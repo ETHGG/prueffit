@@ -188,14 +188,16 @@ export function createExam({
     const chosen = usable.length ? usable[Math.floor(random() * usable.length) % usable.length] : null;
     const opening = chosen ? chosen.questions.map((id) => byId.get(id)) : [];
     const openingPoints = opening.reduce((sum, q) => sum + q.points, 0);
-    const target = p.count ? { count: p.count - opening.length } : { points: p.points - openingPoints };
+    const candidates = remaining.filter((q) => !inScenario.has(q.id) && questionFitsPart(q, p) && !(q.type === 'text' && CLOSED_PARTS.includes(p.id)));
+    // Since 2.10: every written part (not WiSo) contains at least one "Tabelle ausfüllen" task,
+    // like the real exam, as long as a matching one exists. It is drawn first, the rest fills up.
+    const table = pickRequiredTable(p, opening, candidates, random);
+    const tablePoints = table ? table.points : 0;
+    const target = p.count ? { count: p.count - opening.length - (table ? 1 : 0) } : { points: p.points - openingPoints - tablePoints };
     const fill = (target.count ?? target.points) > 0
-      ? selectExamQuestions(
-        remaining.filter((q) => !inScenario.has(q.id) && questionFitsPart(q, p) && !(q.type === 'text' && CLOSED_PARTS.includes(p.id))),
-        target, random, areaOf,
-      )
+      ? selectExamQuestions(candidates.filter((q) => q !== table), target, random, areaOf)
       : [];
-    const picked = [...opening, ...fill];
+    const picked = [...opening, ...(table ? [table] : []), ...fill];
     if (!picked.length) continue;
     const ids = new Set(picked.map((q) => q.id));
     remaining = remaining.filter((q) => !ids.has(q.id));
@@ -223,6 +225,20 @@ export function createExam({
     finished: false,
     finishedAt: null,
   };
+}
+
+/** Parts without a required table task (WiSo: multiple choice only). */
+const NO_TABLE_PARTS = ['wiso'];
+
+/**
+ * The table task ("Tabelle ausfüllen") a part must contain (since 2.10), or null: none needed
+ * (WiSo, or the scenario already has one) or none available for this job and part.
+ */
+export function pickRequiredTable(part, opening, candidates, random = Math.random) {
+  if (NO_TABLE_PARTS.includes(part.id) || opening.some((q) => q.type === 'table')) return null;
+  const tables = candidates.filter((q) => q.type === 'table');
+  if (!tables.length) return null;
+  return tables[Math.floor(random() * tables.length) % tables.length];
 }
 
 /** Parts that are not split into tasks (WiSo: many short multiple-choice questions, as in the real exam). */

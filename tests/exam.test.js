@@ -28,7 +28,10 @@ import {
   isExamQuestion,
   pendingAssessment,
   assessResponse,
+  pickRequiredTable,
 } from '../js/exam.js';
+import { readFileSync, readdirSync } from 'node:fs';
+import { JOB_IDS } from '../js/curriculum.js';
 import { createSeededRandom } from '../js/questions.js';
 
 describe('roundPercent (kaufmännisch)', () => {
@@ -498,5 +501,70 @@ describe('tasks within a part (since 2.5)', () => {
     const old = structuredClone(exam);
     delete old.parts[0].tasks;
     expect(restoreExam(old, pool).parts[0].tasks).toBeUndefined();
+  });
+});
+
+describe('table task in every written part (since 2.10)', () => {
+  const base = { exam: ['AP1', 'AP2'], difficulty: 2, points: 4, explanation: 'x' };
+  const single = (id, topic) => ({ ...base, id, topic, type: 'single', options: ['a', 'b'], answer: 0 });
+  const table = (id, topic, extra = {}) => ({
+    ...base, id, topic, type: 'table', points: 5,
+    answer: { rows: [{ label: 'A', given: '1' }, { label: 'B', value: 1 }, { label: 'C', value: 2 }] }, ...extra,
+  });
+  const many = (topic, n, prefix) => Array.from({ length: n }, (_, i) => single(`${prefix}${i}`, topic));
+
+  it('pickRequiredTable: none for WiSo, none if the scenario has one, none without candidates', () => {
+    const t = table('t1', 'a.t');
+    expect(pickRequiredTable({ id: 'wiso' }, [], [t])).toBeNull();
+    expect(pickRequiredTable({ id: 'ga1' }, [table('t0', 'a.t')], [t])).toBeNull();
+    expect(pickRequiredTable({ id: 'ga1' }, [], [single('s', 'a.t')])).toBeNull();
+    expect(pickRequiredTable({ id: 'ga1' }, [], [single('s', 'a.t'), t])).toBe(t);
+  });
+
+  it('AP1 and both AP2 parts always contain a table, WiSo never needs one', () => {
+    const pool = [
+      ...many('hardware.raid', 40, 'h'), ...many('netzwerke.vlan', 40, 'n'), ...many('wiso.ausbildung', 40, 'w'),
+      table('tab-h', 'hardware.raid', { exam: ['AP2'] }), table('tab-n', 'netzwerke.vlan', { exam: ['AP2'] }),
+      table('tab-a', 'netzwerke.subnetting', { exam: ['AP1'] }), ...many('netzwerke.subnetting', 40, 's'),
+    ].map((q) => (q.topic.startsWith('wiso') ? { ...q, exam: ['AP2'] } : q));
+    for (let seed = 1; seed <= 20; seed += 1) {
+      const ap2 = createExam({ exam: 'AP2', job: 'fisi', pool, random: createSeededRandom(seed) });
+      const [ga1, ga2, wiso] = ap2.parts;
+      expect(ga1.ids).toContain('tab-h');
+      expect(ga2.ids).toContain('tab-n');
+      expect(wiso.ids.some((id) => id.startsWith('tab'))).toBe(false);
+      const ap1 = createExam({ exam: 'AP1', job: 'fisi', pool, random: createSeededRandom(seed) });
+      expect(ap1.parts[0].ids).toContain('tab-a');
+      // The points target is still met (table first, rest filled up).
+      const pts = (ids) => ids.reduce((s, id) => s + pool.find((q) => q.id === id).points, 0);
+      expect(pts(ga1.ids)).toBeGreaterThanOrEqual(50);
+      expect(pts(ap1.parts[0].ids)).toBeGreaterThanOrEqual(100);
+    }
+  });
+
+  it('a part without any matching table is built as before', () => {
+    const pool = [...many('hardware.raid', 40, 'h'), ...many('netzwerke.vlan', 40, 'n')];
+    const exam = createExam({ exam: 'AP2', job: 'fisi', pool, random: createSeededRandom(3) });
+    expect(exam.parts.map((p) => p.id)).toEqual(['ga1', 'ga2']);
+  });
+
+  it('real data: FISI and KITS have a table in AP1 and in both written AP2 parts, other jobs wherever one exists', () => {
+    const dir = new URL('../data/', import.meta.url);
+    const questions = readdirSync(new URL('questions/', dir)).filter((f) => f.endsWith('.json'))
+      .flatMap((f) => JSON.parse(readFileSync(new URL(`questions/${f}`, dir), 'utf8')));
+    const scenarios = JSON.parse(readFileSync(new URL('scenarios.json', dir), 'utf8'));
+    const byId = new Map(questions.map((q) => [q.id, q]));
+    for (const job of JOB_IDS) {
+      for (const examId of ['AP1', 'AP2']) {
+        for (let seed = 1; seed <= 5; seed += 1) {
+          const exam = createExam({ exam: examId, job, pool: questions, scenarios, random: createSeededRandom(seed) });
+          for (const part of exam.parts) {
+            if (part.id === 'wiso') continue;
+            const hasTable = part.ids.some((id) => byId.get(id).type === 'table');
+            if (['fisi', 'kits'].includes(job) || examId === 'AP1') expect(hasTable, `${job} ${examId} ${part.id}`).toBe(true);
+          }
+        }
+      }
+    }
   });
 });

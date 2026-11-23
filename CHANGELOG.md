@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.10.1] – 2026-11-23
+
+### Geändert
+- **Prüfungssimulation näher an der echten Prüfung:** AP1 und jeder schriftliche AP2-Bereich (nicht WiSo) enthalten jetzt mindestens eine Aufgabe „Tabelle ausfüllen“, sofern es für Beruf und Bereich eine passende gibt. Sie wird zuerst gezogen, der Rest bis zur Punktzahl aufgefüllt; bringt die Handlungssituation schon eine mit, bleibt es dabei (`pickRequiredTable` in `js/exam.js`, 4 neue Unit-Tests, einer davon prüft alle 7 Berufe mit den echten Daten).
+
+### Hinzugefügt
+- **Zwei neue Tabellenaufgaben** (eigene Zahlen, Rechenweg in der Erklärung, per Skript nachgerechnet), damit der FISI-Bereich „Analyse und Entwicklung von Netzwerken“ nicht immer dieselbe Tabelle zeigt:
+  - net-0119 Adressplan 172.16.32.0/21 in vier /23-Subnetze (FISI, ITSE, KITS).
+  - net-0120 Datensicherung über eine 1-Gbit/s-Standortverbindung: Datenmenge, Dauer, nötige Datenrate (FISI, FIDV, ITSE, KITS). Präzisiert: Der Protokoll-Overhead von Ethernet/IP/TCP liegt nur bei ca. 5 %, 80 % ist ein vorsichtiger Planungswert; Betriebssysteme zeigen „GB“ oft binär (GiB) an.
+- Bestand vorher: FISI Bereich 1 zwei, Bereich 2 eine, KITS Bereich 1 zwei, Bereich 2 drei Tabellenaufgaben – keine fehlte, daher keine Pflichtergänzung.
+
 ## [2.10.0] – 2026-11-23
 
 ### Hinzugefügt

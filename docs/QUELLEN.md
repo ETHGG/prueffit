@@ -84,3 +84,11 @@ Checklisten und Fachgesprächsfragen sind eigene Formulierungen auf dieser Grund
 | DHCP-Ablauf und Ports | RFC 2131, RFC 8415 (DHCPv6) | Request per Broadcast; Server 67, Client 68; DHCPv6 547/546 |
 | DNSSEC | RFC 4033 | Echtheit und Unverändertheit, keine Vertraulichkeit |
 | IPv4-Link-Local | RFC 3927 | 169.254.0.0/16, unter Windows APIPA |
+
+## Quellenprüfung 23.11.2026 (2.10.1, neue Tabellenaufgaben)
+
+| Geprüft | Quelle | Ergebnis |
+|---|---|---|
+| Subnetting /21 → 4 × /23 (net-0119) | RFC 4632 (CIDR); per Skript mit Python `ipaddress` nachgerechnet | 172.16.32.0/23 … 172.16.38.0/23, je 510 Hosts – stimmt |
+| Datenmenge und Übertragungsdauer (net-0120) | IEC 80000-13 (SI-Präfixe dezimal, Binärpräfixe Ki/Mi/Gi); per Skript nachgerechnet | 450 GB = 3.600 Gbit, 4.500 s, nötig 1,67 Gbit/s – stimmt; Hinweis GiB ≠ GB ergänzt |
+| Nutzdatenrate bei Gigabit-Ethernet | Rickard Nobel, „Actual throughput on Gigabit Ethernet“ (rickardnobel.se); NetApp KB „Theoretical maximum throughput of a Gigabit Ethernet interface“ | Ethernet/IP/TCP-Overhead bei 1.500 Byte MTU ca. 5 % (ca. 940–950 Mbit/s); 80 % als vorsichtiger Planungswert gekennzeichnet |

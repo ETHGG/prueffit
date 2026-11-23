@@ -267,6 +267,7 @@ Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (`ch
 - Offene Aufgaben (`text` mit `rubric`, seit 2.2) kommen in allen Teilen außer WiSo vor; nach der letzten Abgabe bewertet der Lernende sie mit dem Raster, erst danach wird das Ergebnis gespeichert.
 - AP2-Prüfungsbereiche beginnen mit einer Handlungssituation, wenn eine zu Beruf und Bereich passt (siehe 5.3c).
 - Seit 2.5 sind AP1 und die schriftlichen AP2-Bereiche in bis zu vier Aufgaben gegliedert (`splitIntoTasks`): Handlungssituation = Aufgabe 1, übrige Fragen nach Thema gebündelt und nach Punkten ausgeglichen verteilt; WiSo ohne Gliederung. `parts[].tasks` im Prüfungszustand ist optional (ältere Zustände ohne).
+- Seit 2.10.1 enthält AP1 und jeder schriftliche AP2-Bereich (nicht WiSo) mindestens eine Aufgabe vom Typ `table`, sofern es für Beruf und Bereich eine gibt (`pickRequiredTable`): sie wird zuerst gezogen, der Rest bis zur Punktzahl aufgefüllt; enthält die Handlungssituation schon eine, entfällt das.
 - Bei Zeitablauf automatisch abgeben.
 - **IHK-Notenschlüssel (Prozent der Punkte):**
 
@@ -333,7 +334,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `grading.test.js` | alle 6 Fragetypen, Teilpunkte, Toleranz bei `number`, ungültige Eingaben |
 | `leitner.test.js` | Aufstieg, Rückfall auf Fach 1, max. Fach 5, Fälligkeit, Monats-/Jahreswechsel |
 | `stats.test.js` | Quote, Ampelgrenzen (49/50, 79/80 %), < 5 Versuche = grau, „Heute üben“, Lernserie inkl. Unterbrechung, Prüfungsreife (Gewichtung, Glättung, Simulationen, „zu wenig Daten“, Potenzial) |
-| `exam.test.js` | Notenschlüssel an allen Grenzen (29/30, 49/50, 66/67, 80/81, 91/92), Rundung, Zeitablauf |
+| `exam.test.js` | Notenschlüssel an allen Grenzen (29/30, 49/50, 66/67, 80/81, 91/92), Rundung, Zeitablauf, Tabellenaufgabe in jedem schriftlichen Teil (auch mit echten Daten je Beruf) |
 | `storage.test.js` | leerer Speicher, defektes JSON, Migration, Backup wird angelegt |
 | `questions.test.js` | Filtern nach Prüfung/Thema/Schwierigkeit, Zufallsauswahl ohne Duplikate |
 | `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type`, ein Lernzettel pro Thema, Zuordnung AP1/AP2 und Berufe, Handlungssituationen für alle 7 Berufe |
