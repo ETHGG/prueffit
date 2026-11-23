@@ -92,3 +92,71 @@ mark { background: none; color: inherit; }
 .formula pre { font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace; font-size: 9pt; line-height: 1.4; background: #f1f4f3; border: 1px solid var(--line); border-radius: 2mm; padding: 2mm 3mm; margin: 0 0 1.5mm; white-space: pre-wrap; }
 .formula-legend { margin: 0 0 1mm; font-size: 9pt; color: var(--muted); }
 .formula-example { margin: 0; font-size: 9pt; }
+
+/* Prüfungssimulation zum Ausdrucken (seit 2.11): Aufgabenblatt im Stil eines IHK-Hefts und Lösungsblatt */
+.print-toolbar { display: flex; flex-wrap: wrap; gap: 2mm; align-items: center; margin: 0 0 6mm; padding: 3mm; background: var(--tint); border-radius: 2mm; }
+.print-button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4mm; border: 1px solid var(--accent); border-radius: 2mm; background: var(--accent); color: #fff; font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; }
+.print-button.secondary { background: #fff; color: var(--accent); }
+.print-tip { flex-basis: 100%; margin: 0; font-size: 9pt; color: var(--muted); }
+@media print { .print-toolbar { display: none; } }
+@media screen and (max-width: 720px) { main { padding: 4mm 16px; } .exam-print .cover { min-height: 0; } }
+
+.exam-print .cover h1 { font-size: 24pt; }
+.sheet-table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 0 0 3mm; }
+.sheet-table th, .sheet-table td { border: 1px solid #8a9694; padding: 1.5mm 2mm; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.sheet-table th { background: var(--tint); font-weight: 700; }
+.sheet-table caption { text-align: left; font-weight: 700; margin-bottom: 1mm; }
+.sheet-table tr { break-inside: avoid; }
+.cover-table { margin-bottom: 5mm; font-size: 10.5pt; }
+.cover-table th { width: 40%; }
+.points-table td:nth-child(n+2), .points-table th:nth-child(n+2) { width: 25%; text-align: center; }
+.total-row td { font-weight: 700; }
+.name-fields { display: flex; flex-wrap: wrap; gap: 6mm; margin: 0 0 4mm; }
+.name-fields p { margin: 0; }
+.cover-hints { margin: 0 0 5mm; padding-left: 5mm; font-size: 9.5pt; }
+.blank { display: inline-block; min-width: 35mm; border-bottom: 1px solid var(--ink); height: 1.2em; vertical-align: bottom; }
+.blank.wide { min-width: 70mm; }
+
+.exam-task { break-before: page; }
+.sheet-head { margin: 0 0 3mm; padding-bottom: 1.5mm; border-bottom: 1px solid var(--line); font-size: 8pt; color: var(--muted); }
+.exam-task > h2, .solution-task > h2 { font-size: 16pt; margin: 0 0 1mm; }
+.task-points { font-size: 11pt; font-weight: 400; color: var(--muted); }
+.task-title { margin: 0 0 4mm; font-weight: 700; color: var(--accent); }
+.scenario-print { margin: 0 0 5mm; padding: 3mm 4mm; border: 1.5px solid var(--accent); border-radius: 2mm; }
+.scenario-kicker { margin: 0 0 1mm; font-size: 8.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }
+.scenario-print .note table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+.scenario-print .note th, .scenario-print .note td { border: 1px solid var(--line); padding: 1mm 1.5mm; text-align: left; }
+
+.exam-q, .solution-q { margin: 0 0 6mm; break-inside: avoid; }
+.exam-q.type-text { break-inside: auto; }
+.q-head { display: flex; gap: 2.5mm; align-items: baseline; }
+.q-number { font-weight: 800; min-width: 8mm; }
+.q-text { flex: 1; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.q-points { white-space: nowrap; font-weight: 700; font-size: 9pt; }
+.q-hint { margin: 1mm 0 2mm 10.5mm; font-size: 8.5pt; font-style: italic; color: var(--muted); }
+.exam-q > :not(.q-head):not(.q-hint), .solution-q > :not(.q-head):not(.q-hint) { margin-left: 10.5mm; max-width: calc(100% - 10.5mm); }
+.exam-q > .sheet-table, .solution-q > .sheet-table { width: calc(100% - 10.5mm); }
+.choice-list, .match-rights { list-style: none; margin: 0; padding: 0; }
+.choice-list li, .match-rights li { display: flex; gap: 2mm; align-items: baseline; padding: .8mm 0; }
+.check-box { flex: none; display: inline-block; width: 4mm; height: 4mm; border: 1.2px solid var(--ink); border-radius: .5mm; transform: translateY(.6mm); }
+.choice-letter { font-weight: 700; min-width: 5mm; }
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; align-items: start; }
+@media screen and (max-width: 600px) { .match-grid { grid-template-columns: 1fr; } }
+.col-letter { width: 18mm; text-align: center; }
+.fill-table .fill-cell { min-width: 30mm; height: 9mm; }
+.given-cell { color: var(--ink); }
+.result-line { margin: 0 0 2mm; }
+.small-label { margin: 0 0 1mm; font-size: 9pt; color: var(--muted); }
+.write-lines { height: calc(var(--lines, 6) * 8mm); background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(8mm - 1px), #9aa5a3 calc(8mm - 1px), #9aa5a3 8mm); }
+.sketch-box { height: 110mm; border: 1.2px solid #8a9694; border-radius: 1mm; }
+
+.solution-intro { margin: 0 0 5mm; }
+.solution-intro h1 { font-size: 20pt; margin: 0 0 2mm; }
+.solution-task { break-before: auto; margin-top: 6mm; }
+.solution-task + .solution-task { border-top: 2px solid var(--accent); padding-top: 4mm; }
+.solution-label { margin: 1mm 0 .5mm; font-size: 8.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; color: var(--accent); }
+.solution { margin: 0 0 1.5mm; font-weight: 700; white-space: pre-wrap; overflow-wrap: anywhere; }
+.solution-list { margin: 0 0 1.5mm; padding-left: 5mm; font-weight: 700; }
+.explanation { margin: 1mm 0 0; font-size: 9pt; overflow-wrap: anywhere; }
+.rubric-table { margin-top: 2mm; }
+.grade-table td:nth-child(n+2), .grade-table th:nth-child(n+2) { width: 30%; }

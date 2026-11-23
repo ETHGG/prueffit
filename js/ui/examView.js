@@ -13,6 +13,7 @@ import { recordExamResult } from '../storage.js';
 import { createUi, renderInput, formatResponse, correctAnswerText, isEmptyResponse } from './questionInputs.js';
 import { scenarioBox } from './scenario.js';
 import { fold } from './fold.js';
+import { printableParts, printSheetUrl, newSeed } from '../examPrint.js';
 import { h, formatNumber, DIFFICULTY_LABELS, append } from './dom.js';
 
 const EXAM_KEY = 'prueffit.exam';
@@ -20,6 +21,8 @@ let chosenExam = 'AP1';
 let chosenScope = 'alle'; // 'alle' or the id of a single AP2 part
 let pos = 0;              // question index within the running part
 const uiState = new Map(); // question id -> UI state (shuffled lists)
+let printPart = null;     // part chosen for printing (since 2.11)
+let printSeed = newSeed(); // same seed for task and solution sheet
 
 function loadExam(ctx) {
   try {
@@ -181,6 +184,7 @@ export function render(root, ctx) {
             h('li', {}, 'Die schriftlichen Teile sind wie in der echten Prüfung in bis zu vier Aufgaben gegliedert; im AP2-Bereich ist Aufgabe 1 die Handlungssituation. Im Ergebnis siehst du die Punkte je Aufgabe.'),
             h('li', {}, 'Offene Aufgaben (Freitext) beantwortest du in Stichpunkten. Nach der Abgabe bewertest du sie selbst mit dem Bewertungsraster – so wie die Prüfer mit dem Lösungshinweis.'),
             h('li', {}, `Beruf: ${jobInfo ? jobInfo.name : 'alle IT-Berufe'} · ${total} Fragen aus ${chosenExam === 'AP1' ? 'der AP1' : 'deinen AP2-Prüfungsbereichen'}.`)))),
+      printCard(job),
       history.length
         ? h('section', { class: 'card', 'aria-labelledby': 'exam-history' },
           h('h2', { id: 'exam-history', text: 'Bisherige Ergebnisse' }),
@@ -193,6 +197,35 @@ export function render(root, ctx) {
                 + (Array.isArray(r.parts) ? ` · ${r.parts.map((p) => `${p.title}: ${p.grade}`).join(' · ')}` : '') })))))
         : null,
     );
+  }
+
+  /** Since 2.11: the simulation as a printable task sheet with a separate solution sheet. */
+  function printCard(job) {
+    if (!JOBS.some((j) => j.id === job)) return null;
+    const parts = printableParts(chosenExam, job);
+    if (!parts.some((p) => p.id === printPart)) printPart = chosenScope !== 'alle' && parts.some((p) => p.id === chosenScope) ? chosenScope : parts[0].id;
+    const url = (sheet) => printSheetUrl({ exam: chosenExam, job, partId: printPart, seed: printSeed, sheet });
+    return fold('exam', 'print', {
+      class: 'card exam-print-card',
+      summary: h('span', { class: 'fold-title', text: 'Zum Ausdrucken (Aufgaben- und Lösungsblatt)' }),
+    },
+      h('p', { class: 'muted small', text: 'Die Simulation als Heft wie in der IHK-Prüfung: Deckblatt mit Zeit und Punkten, Aufgaben mit Kästchen, Linien und Platz für Skizzen. Das Lösungsblatt mit derselben Simulations-Nr. enthält Lösungen, Musterlösungen und Bewertungsraster. Drucken oder als PDF sichern (iPhone: Teilen → Drucken).' }),
+      parts.length > 1
+        ? h('label', { class: 'field' },
+          h('span', { text: 'Teil' }),
+          h('select', {
+            id: 'print-part',
+            onChange: (e) => { printPart = e.target.value; draw({ keepScroll: true }); },
+          }, parts.map((p) => h('option', { value: p.id, selected: printPart === p.id, text: `${p.title} (${p.minutes} Min.)` }))))
+        : null,
+      h('p', { class: 'small', id: 'print-seed', text: `Simulations-Nr. ${printSeed}` }),
+      h('div', { class: 'button-row' },
+        h('a', { class: 'button', href: url('aufgaben'), target: '_blank', rel: 'noopener', id: 'print-tasks' }, 'Aufgabenblatt'),
+        h('a', { class: 'button secondary', href: url('loesung'), target: '_blank', rel: 'noopener', id: 'print-solution' }, 'Lösungsblatt')),
+      h('button', {
+        type: 'button', class: 'link-button',
+        onClick: () => { printSeed = newSeed(); draw({ keepScroll: true }); ctx.toast(`Neue Aufgaben: Simulations-Nr. ${printSeed}`); },
+      }, 'Andere Aufgaben ziehen'));
   }
 
   // ------------------------------------------------------------ running

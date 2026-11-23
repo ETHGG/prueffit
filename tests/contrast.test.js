@@ -56,3 +56,17 @@ describe('theme colour contrast (WCAG AA)', () => {
     expect(failures).toEqual([]);
   });
 });
+
+// Since 2.11 the print view (Lernzettel-PDFs, Simulation zum Ausdrucken) is also used on screen.
+describe('print view colour contrast (css/print.css)', () => {
+  const printCss = readFileSync(new URL('../css/print.css', import.meta.url), 'utf8');
+  const vars = Object.fromEntries([...printCss.match(/:root\s*\{([^}]*)\}/)[1].matchAll(/--([\w-]+):\s*(#[0-9a-fA-F]{6})\b/g)].map((v) => [v[1], v[2]]));
+  const colors = { ...vars, white: '#ffffff' };
+
+  it('every text colour reaches at least 4.5:1 (incl. the buttons of the print toolbar)', () => {
+    const pairs = [['ink', 'white'], ['muted', 'white'], ['accent', 'white'], ['ink', 'tint'], ['muted', 'tint'], ['accent', 'tint'], ['white', 'accent']];
+    const failures = pairs.filter(([fg, bg]) => contrast(colors[fg], colors[bg]) < 4.5).map(([fg, bg]) => `${fg} on ${bg}`);
+    expect(Object.keys(vars)).toEqual(expect.arrayContaining(['ink', 'muted', 'accent', 'tint']));
+    expect(failures).toEqual([]);
+  });
+});

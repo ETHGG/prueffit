@@ -2,6 +2,16 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.11.0] – 2026-11-23
+
+### Hinzugefügt
+- **Simulation zum Ausdrucken** (Prüfung → „Zum Ausdrucken“): AP1, jeder AP2-Prüfungsbereich und WiSo des eigenen Berufs als druckbares Heft im Stil der IHK-Prüfung. **Aufgabenblatt:** Deckblatt mit Bearbeitungszeit, Punkten, Punktetabelle je Aufgabe und Feldern für Name und Datum; Aufgaben wie in der Simulation gegliedert (`splitIntoTasks`), Handlungssituation vorn, Kästchen bei Auswahlaufgaben, Linien für Freitext, Kasten für Skizzen, leere Tabellen bei „Tabelle ausfüllen“, Ergebnisfeld und Rechenweg bei Rechenaufgaben. **Lösungsblatt:** Lösungen (mit den Buchstaben des Aufgabenblatts), Musterlösungen, Bewertungsraster zum Abhaken, Erklärungen, Punkte und der IHK-Notenschlüssel mit den Mindestpunkten je Note.
+- Die Aufgaben werden genau wie in der App-Simulation gezogen (`createExam`, inkl. Handlungssituation und Pflicht-Tabellenaufgabe). Die **Simulations-Nr.** (Seed in der URL) sorgt dafür, dass Aufgaben- und Lösungsblatt zusammenpassen; „Andere Aufgaben ziehen“ würfelt neu.
+- Drucken oder als PDF sichern über den Knopf in der Druckansicht (`window.print`), auf dem iPhone über Teilen → Drucken. Keine neuen Abhängigkeiten.
+
+### Technik
+- Neues Logik-Modul `js/examPrint.js` (reine Funktionen) mit Tests (`tests/examPrint.test.js`), Browsertest `e2e/printExam.spec.js`, Kontrasttest auch für `css/print.css`, Service Worker cacht `js/examPrint.js`. PDFs neu erzeugt.
+
 ## [2.10.7] – 2026-11-23
 
 ### Korrigiert

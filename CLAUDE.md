@@ -67,7 +67,7 @@ Diese Datei ist die zentrale Arbeitsanweisung für Claude Code. Lies sie **vor j
 ```
 prueffit/
 ├── index.html
-├── print.html                # Druckansicht der Lernzettel (Vorlage der PDFs)
+├── print.html                # Druckansicht der Lernzettel (Vorlage der PDFs) und der Simulation zum Ausdrucken (seit 2.11)
 ├── manifest.webmanifest
 ├── sw.js                     # Service Worker
 ├── .nojekyll
@@ -120,6 +120,7 @@ prueffit/
 │   ├── leitner.js            # Karteikarten-Logik
 │   ├── stats.js              # Statistik-Berechnung
 │   ├── exam.js               # Prüfungssimulation + IHK-Notenschlüssel
+│   ├── examPrint.js          # Simulation zum Ausdrucken: Ziehung mit Seed, Lösungen, Notenschlüssel (seit 2.11)
 │   ├── schedule.js           # Prüfungstermine, Countdown, Lernplan
 │   ├── notes.js              # Lernzettel: Markdown-Teilumfang, Suche
 │   ├── glossary.js           # Abkürzungsverzeichnis: Suche, Fundstellen in Lernzetteln
@@ -269,6 +270,7 @@ Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (`ch
 - Seit 2.5 sind AP1 und die schriftlichen AP2-Bereiche in bis zu vier Aufgaben gegliedert (`splitIntoTasks`): Handlungssituation = Aufgabe 1, übrige Fragen nach Thema gebündelt und nach Punkten ausgeglichen verteilt; WiSo ohne Gliederung. `parts[].tasks` im Prüfungszustand ist optional (ältere Zustände ohne).
 - Seit 2.10.1 enthält AP1 und jeder schriftliche AP2-Bereich (nicht WiSo) mindestens eine Aufgabe vom Typ `table`, sofern es für Beruf und Bereich eine gibt (`pickRequiredTable`): sie wird zuerst gezogen, der Rest bis zur Punktzahl aufgefüllt; enthält die Handlungssituation schon eine, entfällt das.
 - Bei Zeitablauf automatisch abgeben.
+- Seit 2.11 lässt sich jeder Teil (AP1, AP2-Bereiche, WiSo) ausdrucken (`print.html?sim=AP2&teil=ga1&beruf=fisi&seed=123456&blatt=aufgaben|loesung`, `js/examPrint.js`): Ziehung mit `createExam` und `createSeededRandom(seed)` wie in der App, Aufgabenblatt (Deckblatt, Aufgaben nach `splitIntoTasks`, Handlungssituation vorn, Kästchen, Linien, Skizzenkasten, leere Tabellen) und Lösungsblatt (Lösungen mit den Buchstaben des Aufgabenblatts, Musterlösung, Bewertungsraster, Notenschlüssel mit Mindestpunkten) mit derselben Simulations-Nr.
 - **IHK-Notenschlüssel (Prozent der Punkte):**
 
 | Prozent | Note |
@@ -344,8 +346,9 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `projectGuide.test.js` | Projektdauer je Beruf, Rahmen (50 %, 15/30 Min.), eindeutige Checklisten-IDs, Fragen je Beruf, defekter Speicher |
 | `formulas.test.js` | Formelsammlung: Pflichtfelder, eindeutige IDs, Kernformeln für FISI/KITS, Suche, Gruppierung |
 | `finalGrade.test.js` | Gewichtung 20/50/10/10/10, Rundung, alle Bestehensregeln, mündliche Ergänzungsprüfung 2 : 1 und nötige Punkte |
-| `contrast.test.js` | Kontrast aller Textfarben in hellem und dunklem Design (mind. 4,5 : 1) |
+| `contrast.test.js` | Kontrast aller Textfarben in hellem und dunklem Design (mind. 4,5 : 1), seit 2.11 auch der Druckansicht |
 | `ci.test.js` | Playwright-Container in der CI passt zur gesperrten Playwright-Version, Testserver ohne Python |
+| `examPrint.test.js` | Simulation zum Ausdrucken: Seed/URL, gleiche Ziehung wie die App, Situation vorn, Tabellenaufgabe, Lösungen aller Fragetypen, Notenschlüssel-Mindestpunkte |
 | `pdfs.test.js` | Dateinamen (auch Formelsammlung je Beruf), Reihenfolge der Lernzettel, Dateigrößen-Anzeige (Aktualität der PDFs prüft `data.test.js`, die Prüfsumme umfasst `data/formulas.json`) |
 
 **Regel:** Jede neue Funktion in einem Logik-Modul bekommt mindestens einen Test. Bugs werden zuerst mit einem fehlschlagenden Test reproduziert, dann behoben.
@@ -378,6 +381,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.8** | Zuordnung FISI/KITS nach dem Prüfungskompendium (§ 21/22 FIAusbV, § 12/13 ITSManKflAusbV), 8 neue Themen, vier Handlungssituationen je Bereich | erledigt |
 | **2.9** | Formelsammlung, Aufgabentyp „Tabelle ausfüllen“ und Skizzenaufgaben, Operatoren, WiSo nach der WiSo-Simulation ergänzt | erledigt |
 | **2.10** | Prüfungsreife je Prüfungsbereich (2.10.0), Tabellenaufgabe in jeder Simulation (2.10.1), Personalwirtschaft ausgebaut (2.10.2), Formelsammlung als PDF und fachlich geprüft (2.10.3) | erledigt |
+| **2.11** | Prüfungssimulation zum Ausdrucken: Aufgabenblatt im Stil eines IHK-Hefts und Lösungsblatt mit Bewertungsraster | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 
