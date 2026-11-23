@@ -139,6 +139,7 @@ prueffit/
 │       ├── notesView.js
 │       ├── cardsView.js
 │       ├── statsView.js
+│       ├── readiness.js      # Prüfungsreife je Prüfungsbereich (seit 2.10)
 │       ├── examView.js
 │       ├── projectView.js    # #/projekt (seit 2.3)
 │       ├── formulasView.js   # #/formeln (seit 2.9)
@@ -256,6 +257,7 @@ Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (`ch
 ### 6.2 Statistik
 - Trefferquote pro Thema = Summe `correct` / Summe `attempts` aller Fragen des Themas.
 - Ampel: **Grün ≥ 80 %**, **Gelb 50–79 %**, **Rot < 50 %**, **Grau** = weniger als 5 Versuche.
+- Prüfungsreife (seit 2.10, `examReadiness`): je Prüfungsbereich Themen nach Punkten ihrer Fragen gewichtet, Quote je Thema zum Bereichsdurchschnitt geglättet ((richtig + 2 · Ø) / (Versuche + 2)), ungeübte Themen mit dem Durchschnitt; Mittel mit den letzten drei Simulationen des Bereichs; Note nach IHK-Schlüssel. „Noch zu wenig Daten“ unter 20 Antworten oder unter einem Viertel des Bereichs geübt, sofern keine Simulation vorliegt. Punktepotenzial = Anteil des Themas × (1 − Quote) × 100.
 - „Heute üben“: die **3 Themen mit der niedrigsten Quote** (nur Themen mit ≥ 5 Versuchen), sonst ungeübte Themen.
 - Lernserie: zählt Tage in Folge mit mindestens einer beantworteten Frage oder Karte.
 - Wiederholung (seit 2.6, `nextRetry`/`dueRetryIds`): falsch → fällig nach 1 Tag; richtig am oder nach dem Fälligkeitstag → nach 3, dann 7 Tagen; danach gemeistert; falsch → zurück auf 1 Tag. Richtig vor dem Fälligkeitstag ändert nichts. Fehler ohne Zeitplan (vor 2.6) gelten als fällig.
@@ -330,7 +332,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 |---|---|
 | `grading.test.js` | alle 6 Fragetypen, Teilpunkte, Toleranz bei `number`, ungültige Eingaben |
 | `leitner.test.js` | Aufstieg, Rückfall auf Fach 1, max. Fach 5, Fälligkeit, Monats-/Jahreswechsel |
-| `stats.test.js` | Quote, Ampelgrenzen (49/50, 79/80 %), < 5 Versuche = grau, „Heute üben“, Lernserie inkl. Unterbrechung |
+| `stats.test.js` | Quote, Ampelgrenzen (49/50, 79/80 %), < 5 Versuche = grau, „Heute üben“, Lernserie inkl. Unterbrechung, Prüfungsreife (Gewichtung, Glättung, Simulationen, „zu wenig Daten“, Potenzial) |
 | `exam.test.js` | Notenschlüssel an allen Grenzen (29/30, 49/50, 66/67, 80/81, 91/92), Rundung, Zeitablauf |
 | `storage.test.js` | leerer Speicher, defektes JSON, Migration, Backup wird angelegt |
 | `questions.test.js` | Filtern nach Prüfung/Thema/Schwierigkeit, Zufallsauswahl ohne Duplikate |
@@ -374,6 +376,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.7** | Übersichtlichere Oberfläche: kompakte Startseite, eingeklappte Quiz-Optionen und Prüfungshinweise, Einstellungen neu geordnet | erledigt |
 | **2.8** | Zuordnung FISI/KITS nach dem Prüfungskompendium (§ 21/22 FIAusbV, § 12/13 ITSManKflAusbV), 8 neue Themen, vier Handlungssituationen je Bereich | erledigt |
 | **2.9** | Formelsammlung, Aufgabentyp „Tabelle ausfüllen“ und Skizzenaufgaben, Operatoren, WiSo nach der WiSo-Simulation ergänzt | erledigt |
+| **2.10** | Prüfungsreife je Prüfungsbereich (2.10.0), Tabellenaufgabe in jeder Simulation (2.10.1), Formelsammlung als PDF (2.10.2) | in Arbeit |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

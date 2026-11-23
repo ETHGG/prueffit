@@ -2,6 +2,7 @@
 
 import { MIN_ATTEMPTS_FOR_RATING, THRESHOLD_GREEN, THRESHOLD_YELLOW } from './config.js';
 import { addDays } from './leitner.js';
+import { gradeExam } from './exam.js';
 
 /** correct / attempts, or null if there are no attempts. */
 export function hitRate(correct, attempts) {
@@ -213,4 +214,114 @@ export function dailyPlan({ goal, done = 0, dueCards = 0, mistakes = 0, focus = 
   if (focus) take('topic', 10, { topic: focus });
   take('new', openQuestions);
   return steps.length ? steps : [{ kind: 'done', count: 0 }];
+}
+
+// ---- Prüfungsreife je Prüfungsbereich (since 2.10) ----
+
+/** Minimum number of answers in a part before the quiz alone gives an estimate. */
+export const READINESS_MIN_ANSWERS = 20;
+/** Minimum share of the part (by question points) whose topics were practised at least once. */
+export const READINESS_MIN_COVERAGE = 0.25;
+/** Weight of the part average in a topic's smoothed hit rate (pseudo attempts). */
+const READINESS_SMOOTHING = 2;
+/** Number of most recent simulation results per part that are averaged. */
+const READINESS_RECENT_EXAMS = 3;
+
+/**
+ * Percent of a simulation record for one part, or null. Since 2.4 records carry part ids
+ * (`parts[].id`, or `part` for a single AP2 part); older ones only titles.
+ */
+export function examPercentForPart(record, part) {
+  if (!record || record.exam !== part.exam) return null;
+  const pct = (v) => (Number.isFinite(v) ? v : null);
+  const fromTotal = () => pct(record.percent) ?? (record.max > 0 && Number.isFinite(record.points)
+    ? gradeExam(record.points, record.max).percent : null);
+  if (Array.isArray(record.parts)) {
+    const hit = record.parts.find((p) => p?.id === part.id) ?? record.parts.find((p) => !p?.id && p?.title === part.title);
+    return hit ? pct(hit.percent) : null;
+  }
+  if (part.exam === 'AP1') return fromTotal();
+  return record.part === part.id ? fromTotal() : null;
+}
+
+/**
+ * Estimated score and grade per exam part (pure, since 2.10).
+ *
+ * Quiz estimate: each topic of the part is weighted by the points of its questions in the
+ * (job-scoped) pool; its hit rate is smoothed towards the part average
+ * ((correct + 2 · avg) / (attempts + 2)), untried topics count with the part average.
+ * Simulation estimate: mean percent of the last three simulations of this part.
+ * Both available → mean of both; only one → that one. Too little data (fewer than 20 answers
+ * or less than a quarter of the part practised, and no simulation) → status 'insufficient'.
+ * Potential: points (of 100) a topic could still add if it were mastered, largest first.
+ *
+ * @param {{ parts: {id, exam, title, topics: string[]}[], topics: {id, name}[], questions: object[],
+ *   answers: object, exams?: object[], job?: string|null, potentialCount?: number }} input
+ * @returns {Array<{ id, exam, title, status: 'ok'|'insufficient', answers: number, simulations: number,
+ *   coverage: number, quizPercent: number|null, simPercent: number|null, percent: number|null,
+ *   grade: number|null, label: string|null, potential: { id, name, attempts, rate, points }[] }>}
+ */
+export function examReadiness({ parts, topics, questions, answers, exams = [], job = null, potentialCount = 3 }) {
+  const nameOf = new Map((topics ?? []).map((t) => [t.id, t.name]));
+  return (parts ?? []).map((part) => {
+    const inPart = new Set(part.topics);
+    const pool = (questions ?? []).filter((q) => inPart.has(q.topic) && (!Array.isArray(q.exam) || q.exam.includes(part.exam)));
+    const byTopic = new Map();
+    for (const q of pool) {
+      const t = byTopic.get(q.topic) ?? { id: q.topic, weight: 0, attempts: 0, correct: 0 };
+      t.weight += Number(q.points) > 0 ? Number(q.points) : 1;
+      const a = answers?.[q.id];
+      if (a && a.attempts > 0) { t.attempts += a.attempts; t.correct += Math.min(a.correct, a.attempts); }
+      byTopic.set(q.topic, t);
+    }
+    const list = [...byTopic.values()];
+    const totalWeight = list.reduce((s, t) => s + t.weight, 0);
+    const attempts = list.reduce((s, t) => s + t.attempts, 0);
+    const correct = list.reduce((s, t) => s + t.correct, 0);
+    const coverage = totalWeight > 0 ? list.filter((t) => t.attempts > 0).reduce((s, t) => s + t.weight, 0) / totalWeight : 0;
+    const avg = attempts > 0 ? correct / attempts : 0;
+    const smoothed = (t) => (t.correct + READINESS_SMOOTHING * avg) / (t.attempts + READINESS_SMOOTHING);
+    const quizOk = totalWeight > 0 && attempts >= READINESS_MIN_ANSWERS && coverage >= READINESS_MIN_COVERAGE;
+    const quizPercent = quizOk ? (100 * list.reduce((s, t) => s + t.weight * smoothed(t), 0)) / totalWeight : null;
+
+    const sims = (exams ?? [])
+      .filter((e) => !job || !e?.job || e.job === job)
+      .map((e) => examPercentForPart(e, part))
+      .filter((p) => p !== null)
+      .slice(-READINESS_RECENT_EXAMS);
+    const simPercent = sims.length ? sims.reduce((s, p) => s + p, 0) / sims.length : null;
+
+    const estimates = [quizPercent, simPercent].filter((p) => p !== null);
+    const exact = estimates.length ? estimates.reduce((s, p) => s + p, 0) / estimates.length : null;
+    const graded = exact === null ? null : gradeExam(exact, 100);
+    const potential = totalWeight > 0 && attempts > 0
+      ? list
+        .map((t) => ({
+          id: t.id, name: nameOf.get(t.id) ?? t.id, attempts: t.attempts,
+          rate: t.attempts > 0 ? t.correct / t.attempts : null,
+          points: Math.round(((100 * t.weight) / totalWeight) * (1 - smoothed(t)) * 10) / 10,
+        }))
+        .filter((t) => t.points >= 0.5)
+        .sort((a, b) => b.points - a.points || a.attempts - b.attempts)
+        .slice(0, potentialCount)
+      : list
+        .map((t) => ({ id: t.id, name: nameOf.get(t.id) ?? t.id, attempts: 0, rate: null, points: Math.round(((100 * t.weight) / totalWeight) * 10) / 10 }))
+        .sort((a, b) => b.points - a.points)
+        .slice(0, potentialCount);
+    return {
+      id: part.id,
+      exam: part.exam,
+      title: part.title,
+      status: graded ? 'ok' : 'insufficient',
+      answers: attempts,
+      simulations: sims.length,
+      coverage,
+      quizPercent: quizPercent === null ? null : Math.round(quizPercent * 10) / 10,
+      simPercent: simPercent === null ? null : Math.round(simPercent * 10) / 10,
+      percent: graded ? graded.percent : null,
+      grade: graded ? graded.grade : null,
+      label: graded ? graded.label : null,
+      potential,
+    };
+  });
 }

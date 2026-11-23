@@ -2,7 +2,7 @@
 // Pure functions, no DOM access.
 
 import {
-  AP1_TITLE, jobById, isAp1Topic, ap2Topics, topicsForJob, itemForJob, itemExamsForJob, sectionsForJob,
+  AP1_TITLE, AP1_SECTIONS, AP2_PARTS, jobById, isAp1Topic, ap2Topics, topicsForJob, itemForJob, itemExamsForJob, sectionsForJob,
 } from './curriculum.js';
 import { matchGlossary } from './glossary.js';
 
@@ -90,4 +90,17 @@ export function examHeading(exam, job) {
   if (exam === 'AP1') return AP1_TITLE;
   const info = jobById(job);
   return info ? `Prüfungsbereiche ${info.short}` : 'Prüfungsbereiche';
+}
+
+/**
+ * Exam parts of a job for the readiness estimate (since 2.10): AP1 (all catalog areas together),
+ * then the job's AP2 parts (two written parts, WiSo). Empty without a valid job.
+ * @returns {{ exam: 'AP1'|'AP2', id: string, title: string, topics: string[] }[]}
+ */
+export function readinessParts(job) {
+  if (!jobById(job)) return [];
+  return [
+    { exam: 'AP1', id: 'ap1', title: AP1_TITLE, topics: AP1_SECTIONS.flatMap((s) => s.topics) },
+    ...AP2_PARTS[job].map((p) => ({ exam: 'AP2', id: p.id, title: p.title, topics: [...p.topics] })),
+  ];
 }

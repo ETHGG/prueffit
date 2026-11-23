@@ -733,3 +733,12 @@ details.exam-rules { margin-top: .75rem; border-top: 1px solid var(--border); pa
 .fill-table tr.is-wrong .mark { color: var(--bad); }
 .sample p { white-space: pre-line; }
 .wish-button { margin-top: .75rem; }
+
+/* Prüfungsreife (2.10) */
+.readiness-list { list-style: none; padding: 0; margin: .5rem 0; display: grid; gap: .25rem; }
+.readiness-item { display: flex; flex-direction: column; gap: .15rem; padding: .55rem 0; border-top: 1px solid var(--border); }
+.readiness-item:first-child { border-top: 0; }
+.readiness-head { display: flex; align-items: center; gap: .5rem; }
+.readiness-head .stat-name { flex: 1; min-width: 0; hyphens: auto; overflow-wrap: break-word; font-weight: 600; }
+.readiness-short { flex: none; font-weight: 700; font-size: .9rem; }
+.readiness-potential a { display: inline-block; min-height: 24px; }

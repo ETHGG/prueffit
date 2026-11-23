@@ -2,6 +2,13 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.10.0] – 2026-11-23
+
+### Hinzugefügt
+- **Prüfungsreife je Prüfungsbereich:** In der Statistik (oben) und kompakt auf der Startseite steht für AP1, beide AP2-Prüfungsbereiche und WiSo die voraussichtliche Punktzahl und Note nach IHK-Schlüssel, die Datenbasis (Antworten, Simulationen) und die Themen mit dem größten Punktepotenzial – jeweils mit Link ins Quiz. Bei zu wenig Daten steht dort „noch zu wenig Daten“.
+- Schätzung (`examReadiness` in `js/stats.js`, reine Funktion mit 10 Unit-Tests): Themen werden nach den Punkten ihrer Fragen im Bereich gewichtet, die Quote je Thema wird zum Bereichsdurchschnitt geglättet, ungeübte Themen zählen mit dem Durchschnitt. Liegen Simulationsergebnisse des Bereichs vor, wird mit dem Mittel der letzten drei gemittelt. „Noch zu wenig Daten“ heißt: weniger als 20 Antworten oder weniger als ein Viertel des Bereichs geübt, und keine Simulation.
+- Browsertest `e2e/readiness.spec.js`.
+
 ## [2.9.7] – 2026-11-23
 
 ### Korrigiert – Qualitätsrunde „Übertragungsmedien und Topologien“ und „Protokolle und Dienste“

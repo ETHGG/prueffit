@@ -7,6 +7,7 @@ import { wishUrl } from '../questions.js';
 import { NOTICES_KEY, parseNotices, noticeDue, confirmNotice } from '../notices.js';
 import { mistakesButton, dailyPlanCard } from './suggestions.js';
 import { backupCard } from './backup.js';
+import { readinessHomeCard } from './readiness.js';
 import { needsWelcome, welcomeCard, countdownCard } from './welcome.js';
 
 function greeting(date = new Date()) {
@@ -75,6 +76,7 @@ export function render(root, ctx) {
           h('div', { class: 'kpi-label' }, cardsDue === 1 ? 'Karte fällig' : 'Karten fällig'))),
       mistakesButton(ctx, { secondary: true })),
 
+    welcome ? null : readinessHomeCard(ctx),
     notesSearchCard(ctx),
     h('p', { class: 'muted small spaced center' },
       h('a', { href: '#/statistik' }, 'Statistik und schwächste Themen'), ' · ',

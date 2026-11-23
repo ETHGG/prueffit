@@ -3,6 +3,7 @@
 import { topicStats, overallStats, areaStats } from '../stats.js';
 import { h, formatPercent, formatNumber, trafficDot, LIGHT_LABELS, append } from './dom.js';
 import { suggestionsCard, mistakesButton } from './suggestions.js';
+import { readinessCard } from './readiness.js';
 import { fold, foldControls } from './fold.js';
 import { loadChartJs, themeColors, reducedMotion } from './charts.js';
 import { AREAS, EXAMS } from '../config.js';
@@ -62,6 +63,7 @@ export function render(root, ctx) {
 
   append(root, 
     h('h1', { text: 'Statistik' }),
+    readinessCard(ctx),
     suggestionsCard(ctx),
     h('section', { class: 'card', 'aria-labelledby': 'stats-total' },
       h('h2', { id: 'stats-total', text: 'Gesamt' }),

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   hitRate, trafficLight, topicStats, overallStats, practiceSuggestions, areaStats,
   updateStreak, currentStreak, dailyProgress, pruneDaily, isMistake, mistakeIds, dailyPlan,
-  nextRetry, dueRetryIds, isValidRetry, RETRY_INTERVALS } from '../js/stats.js';
+  nextRetry, dueRetryIds, isValidRetry, RETRY_INTERVALS, examReadiness, examPercentForPart } from '../js/stats.js';
 
 describe('hitRate', () => {
   it('is correct / attempts', () => {
@@ -293,5 +293,122 @@ describe('repeating wrong answers after 1, 3 and 7 days (since 2.6)', () => {
     };
     expect(dueRetryIds(qs, answers, '2026-11-18')).toEqual(['c', 'e', 'b']);
     expect(isValidRetry({ step: 3, due: '2026-11-18' })).toBe(false);
+  });
+});
+
+describe('examReadiness (2.10)', () => {
+  const rTopics = [
+    { id: 'a.one', name: 'Eins' }, { id: 'a.two', name: 'Zwei' }, { id: 'w.so', name: 'WiSo' },
+  ];
+  const part = { exam: 'AP2', id: 'ga1', title: 'Bereich 1', topics: ['a.one', 'a.two'] };
+  const wiso = { exam: 'AP2', id: 'wiso', title: 'WiSo', topics: ['w.so'] };
+  const ap1 = { exam: 'AP1', id: 'ap1', title: 'AP1', topics: ['a.one'] };
+  // a.one: 3 questions à 2 points (6), a.two: 2 questions à 1 point (2) → weights 75 % / 25 %.
+  const rQuestions = [
+    { id: 'o1', topic: 'a.one', points: 2, exam: ['AP1', 'AP2'] },
+    { id: 'o2', topic: 'a.one', points: 2, exam: ['AP2'] },
+    { id: 'o3', topic: 'a.one', points: 2, exam: ['AP2'] },
+    { id: 't1', topic: 'a.two', points: 1, exam: ['AP2'] },
+    { id: 't2', topic: 'a.two', points: 1, exam: ['AP2'] },
+    { id: 'w1', topic: 'w.so', points: 1, exam: ['AP2'] },
+  ];
+  const run = (answers, extra = {}) => examReadiness({ parts: [part], topics: rTopics, questions: rQuestions, answers, ...extra })[0];
+
+  it('reports "too little data" below 20 answers and without simulations', () => {
+    const r = run({ o1: { attempts: 19, correct: 19 } });
+    expect(r.status).toBe('insufficient');
+    expect(r.grade).toBeNull();
+    expect(r.percent).toBeNull();
+    expect(r.answers).toBe(19);
+  });
+
+  it('reports "too little data" when less than a quarter of the part was practised', () => {
+    // Only a.two (25 % of the weight) is exactly at the limit → enough; below needs another layout.
+    const qs = [...rQuestions, { id: 't3', topic: 'a.two', points: 0.5, exam: ['AP2'] }];
+    expect(run({ t1: { attempts: 30, correct: 30 } }).status).toBe('ok');
+    const r = examReadiness({ parts: [{ ...part, topics: ['a.one', 'a.two'] }], topics: rTopics,
+      questions: qs.filter((q) => q.id !== 't2' && q.id !== 't3'), answers: { t1: { attempts: 30, correct: 30 } } })[0];
+    expect(r.coverage).toBeCloseTo(1 / 7);
+    expect(r.status).toBe('insufficient');
+  });
+
+  it('weights topics by question points and smooths towards the part average', () => {
+    // a.one 20/20, a.two 0/10 → avg = 20/30; a.one = (20 + 2·2/3)/22, a.two = (0 + 2·2/3)/12.
+    const r = run({ o1: { attempts: 20, correct: 20 }, t1: { attempts: 10, correct: 0 } });
+    const avg = 2 / 3;
+    const one = (20 + 2 * avg) / 22;
+    const two = (2 * avg) / 12;
+    const expected = 100 * (0.75 * one + 0.25 * two);
+    expect(r.status).toBe('ok');
+    expect(r.quizPercent).toBeCloseTo(Math.round(expected * 10) / 10, 5);
+    expect(r.percent).toBe(Math.round(expected)); // 75.5… → 75 → grade 3
+    expect(r.grade).toBe(3);
+    expect(r.coverage).toBe(1);
+    expect(r.answers).toBe(30);
+  });
+
+  it('lists the topics with the largest point potential, linkable by topic id', () => {
+    const r = run({ o1: { attempts: 20, correct: 20 }, t1: { attempts: 10, correct: 0 } });
+    expect(r.potential[0]).toMatchObject({ id: 'a.two', name: 'Zwei', attempts: 10, rate: 0 });
+    expect(r.potential[0].points).toBeGreaterThan(20);
+    expect(r.potential.every((p, i, all) => i === 0 || all[i - 1].points >= p.points)).toBe(true);
+  });
+
+  it('without answers names the largest topics as potential', () => {
+    const r = run({});
+    expect(r.status).toBe('insufficient');
+    expect(r.potential.map((p) => p.id)).toEqual(['a.one', 'a.two']);
+    expect(r.potential[0].points).toBe(75);
+  });
+
+  it('uses the last three simulations of the part (by id) and averages with the quiz', () => {
+    const exams = [
+      { exam: 'AP2', job: 'fisi', parts: [{ id: 'ga1', percent: 10 }, { id: 'ga2', percent: 99 }] },
+      { exam: 'AP2', job: 'fisi', parts: [{ id: 'ga1', percent: 60 }] },
+      { exam: 'AP2', job: 'fisi', part: 'ga1', percent: 70 },
+      { exam: 'AP2', job: 'fisi', parts: [{ id: 'ga1', percent: 80 }] },
+      { exam: 'AP2', job: 'kits', parts: [{ id: 'ga1', percent: 0 }] }, // other job: ignored
+      { exam: 'AP1', percent: 0 }, // other exam: ignored
+    ];
+    const onlySims = run({}, { exams, job: 'fisi' });
+    expect(onlySims.simulations).toBe(3);
+    expect(onlySims.simPercent).toBe(70);
+    expect(onlySims.status).toBe('ok');
+    expect(onlySims.grade).toBe(3);
+    const both = run({ o1: { attempts: 30, correct: 30 }, t1: { attempts: 30, correct: 30 } }, { exams, job: 'fisi' });
+    expect(both.quizPercent).toBe(100);
+    expect(both.percent).toBe(85); // (100 + 70) / 2
+    expect(both.grade).toBe(2);
+  });
+
+  it('reads AP1 results from the total and old records by part title', () => {
+    expect(examPercentForPart({ exam: 'AP1', points: 46, max: 100 }, ap1)).toBe(46);
+    expect(examPercentForPart({ exam: 'AP1', percent: 81 }, ap1)).toBe(81);
+    expect(examPercentForPart({ exam: 'AP2', parts: [{ title: 'WiSo', percent: 55 }] }, wiso)).toBe(55);
+    expect(examPercentForPart({ exam: 'AP2', part: 'ga2', percent: 55 }, wiso)).toBeNull();
+    expect(examPercentForPart(null, wiso)).toBeNull();
+  });
+
+  it('only counts questions of the part\'s exam and topics', () => {
+    const [a, w] = examReadiness({ parts: [ap1, wiso], topics: rTopics, questions: rQuestions,
+      answers: { o1: { attempts: 25, correct: 20 }, o2: { attempts: 50, correct: 0 }, w1: { attempts: 3, correct: 3 } } });
+    expect(a.answers).toBe(25); // o2 is AP2 only
+    expect(a.percent).toBe(80);
+    expect(w.answers).toBe(3);
+    expect(w.status).toBe('insufficient');
+  });
+
+  it('applies the IHK key at the boundaries (rounded percent)', () => {
+    const at = (pct) => run({}, { exams: [{ exam: 'AP2', part: 'ga1', percent: pct }] });
+    expect(at(49.5).grade).toBe(4);
+    expect(at(49.4).grade).toBe(5);
+    expect(at(91.5).grade).toBe(1);
+  });
+
+  it('survives broken input', () => {
+    expect(examReadiness({ parts: null })).toEqual([]);
+    const r = examReadiness({ parts: [part], topics: null, questions: null, answers: null, exams: null })[0];
+    expect(r.status).toBe('insufficient');
+    expect(r.potential).toEqual([]);
   });
 });
