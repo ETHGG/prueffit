@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
+  pickFresh,
   validateQuestion,
   validateQuestionSet,
   validateFlashcard,
@@ -335,5 +336,39 @@ describe('wishUrl (topic requests, since 2.10)', () => {
     const long = new URL(wishUrl({ context: 'x'.repeat(1000) }));
     expect(long.searchParams.get('title').length).toBeLessThanOrEqual(88);
     expect(long.searchParams.get('body').length).toBeLessThan(700);
+  });
+});
+
+describe('pickFresh (2.10.7: a new quiz round does not repeat the last one)', () => {
+  const pool = Array.from({ length: 10 }, (_, i) => ({ id: `q${i}` }));
+  const at = (min) => new Date(Date.UTC(2026, 10, 23, 18, min)).toISOString();
+
+  it('takes unanswered questions before answered ones', () => {
+    const answers = { q0: { lastAt: at(1) }, q1: { lastAt: at(2) }, q2: { lastAt: at(3) } };
+    const ids = pickFresh(pool, 7, answers).map((q) => q.id).sort();
+    expect(ids).toEqual(['q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9']);
+  });
+
+  it('two rounds in a row share no question while enough questions exist', () => {
+    const answers = {};
+    const first = pickFresh(pool, 5, answers);
+    first.forEach((q, k) => { answers[q.id] = { lastAt: at(10 + k) }; });
+    const second = pickFresh(pool, 5, answers);
+    const overlap = second.filter((q) => first.some((f) => f.id === q.id));
+    expect(overlap).toEqual([]);
+  });
+
+  it('when all were answered, the ones answered longest ago come first', () => {
+    const answers = Object.fromEntries(pool.map((q, i) => [q.id, { lastAt: at(50 - i) }]));
+    const ids = pickFresh(pool, 3, answers).map((q) => q.id).sort();
+    expect(ids).toEqual(['q7', 'q8', 'q9']);
+  });
+
+  it('never returns duplicates or more than available, and ignores broken dates', () => {
+    const doubled = [...pool, ...pool];
+    const picked = pickFresh(doubled, 50, { q1: { lastAt: 'kaputt' } });
+    expect(picked).toHaveLength(10);
+    expect(new Set(picked.map((q) => q.id)).size).toBe(10);
+    expect(pickFresh([], 5)).toEqual([]);
   });
 });

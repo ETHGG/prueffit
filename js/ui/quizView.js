@@ -3,7 +3,7 @@
 import { EXAMS, QUIZ_SIZES, DEFAULT_QUIZ_SIZE, SUPPORTED_QUIZ_TYPES, AREAS } from '../config.js';
 import { jobById } from '../curriculum.js';
 import { sectionKey, inSelection, catalogSections, examHeading } from '../jobCatalog.js';
-import { filterQuestions, pickRandom, shuffle, issueUrl } from '../questions.js';
+import { filterQuestions, pickFresh, shuffle, issueUrl } from '../questions.js';
 import {
   createQuiz, currentQuestion, submitAnswer, nextQuestion, isFinished, isAnswered, summarizeQuiz,
   serializeQuiz, restoreQuiz,
@@ -366,7 +366,8 @@ function drawSetup(root, ctx, draw) {
       e.preventDefault();
       if (setup.difficulties.length === 0 || setup.keys.size === 0) return;
       const pool = matchingQuestions(questions, ctx.progress.answers);
-      const picked = pickRandom(pool, setup.size);
+      // Since 2.10.7: unanswered and longest-unseen questions first, so a new round does not repeat the last one.
+      const picked = pickFresh(pool, setup.size, ctx.progress.answers);
       if (!picked.length) {
         ctx.toast('Keine Fragen passen zu deiner Auswahl.');
         return;

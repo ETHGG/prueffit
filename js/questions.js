@@ -257,6 +257,27 @@ export function pickRandom(items, n, random = Math.random) {
   return pool.slice(0, count);
 }
 
+/**
+ * Picks `n` questions for a quiz round without repeating the last rounds (2.10.7):
+ * questions never answered come first, then the ones answered longest ago
+ * (by `answers[id].lastAt`). Ties are broken at random, and the picked round is
+ * shuffled, so the order differs every time.
+ * @param {Array<{id: string}>} pool
+ * @param {number} n
+ * @param {Record<string, {lastAt?: string|null}>} [answers]
+ */
+export function pickFresh(pool, n, answers = {}, random = Math.random) {
+  const unique = pickRandom(pool, pool.length, random); // dedupe + random tie order
+  const time = (q) => {
+    const t = Date.parse(answers?.[q.id]?.lastAt ?? '');
+    return Number.isFinite(t) ? t : -Infinity;
+  };
+  const ranked = unique
+    .map((q, i) => ({ q, i, t: time(q) }))
+    .sort((a, b) => (a.t - b.t) || (a.i - b.i));
+  return shuffle(ranked.slice(0, Math.max(0, Math.min(n, ranked.length))).map((e) => e.q), random);
+}
+
 /** Returns a copy of `list` in random order. */
 export function shuffle(list, random = Math.random) {
   return pickRandom(list.map((value, index) => ({ id: index, value })), list.length, random).map((e) => e.value);

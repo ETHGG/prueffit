@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.10.6 (23.11.2026)
+**Aktuelle Version:** 2.10.7 (23.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -22,6 +22,7 @@ Jeder Block: `git pull --rebase`, Startzeit mit `TZ=Europe/Berlin date` eintrage
 | Block | Start geplant | Punkte | Schätzung | Start | Ende | Ist |
 |---|---|---|---|---|---|---|
 | A | 18:10 (sofort) | 9 Spannungsfall prüfen · 2 „Fehler dieser Prüfung üben“ | 40 Min. | 18:06 | 18:18 | 12 Min. (2.10.6) |
+| – | 19:13 (Fehlermeldung) | Quiz wiederholte dieselben Fragen | – | 19:14 | 19:18 | behoben (2.10.7) |
 | B | 20:13 | 1 Simulation zum Ausdrucken (PDF mit Lösungsblatt) | 70 Min. | | | |
 | C | 22:17 | 3 Verlauf der Prüfungsreife · 4 Wochenplan bis zur Prüfung | 85 Min. | | | |
 | D | 00:19 | 5 Fachgespräch üben (Timer) · 6 Suche über alles | 80 Min. | | | |

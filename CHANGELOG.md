@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.10.7] – 2026-11-23
+
+### Korrigiert
+- **Quiz wiederholte dieselben Fragen** (Fehlermeldung des Nutzers): Eine neue Runde wurde rein zufällig gezogen, bei kleiner Auswahl kamen deshalb oft dieselben Fragen erneut. Jetzt kommen zuerst noch nie beantwortete Fragen, danach die am längsten nicht mehr gesehenen (`pickFresh`); erst wenn die Auswahl erschöpft ist, wiederholen sich Fragen. Die Reihenfolge innerhalb der Runde bleibt zufällig. Gezielte Modi (Fehler, Fällig) bleiben unverändert.
+
 ## [2.10.6] – 2026-11-23
 
 ### Hinzugefügt
