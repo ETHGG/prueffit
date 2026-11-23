@@ -8,9 +8,9 @@ import { join } from 'node:path';
 export async function pdfSourceHash(root) {
   const noteFiles = (await readdir(join(root, 'data/notes'))).filter((f) => f.endsWith('.json')).sort();
   const sources = [
-    'data/topics.json', 'data/glossary.json', ...noteFiles.map((f) => `data/notes/${f}`),
+    'data/topics.json', 'data/glossary.json', 'data/formulas.json', ...noteFiles.map((f) => `data/notes/${f}`),
     'print.html', 'css/print.css', 'js/ui/printView.js', 'js/notes.js', 'js/pdfs.js', 'js/config.js',
-    'js/curriculum.js', 'js/jobCatalog.js', 'js/glossary.js',
+    'js/curriculum.js', 'js/jobCatalog.js', 'js/glossary.js', 'js/formulas.js',
   ];
   const hash = createHash('sha256');
   for (const file of sources) {

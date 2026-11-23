@@ -3,6 +3,7 @@
 //   print.html?pdf=ap1                AP1 notes (same for all jobs)
 //   print.html?pdf=ap2-fisi           AP2 notes of one job
 //   print.html?pdf=abkuerzungen-fisi  abbreviations of one job
+//   print.html?pdf=formeln-fisi       formula collection of one job (since 2.10.3)
 //   print.html?pdf=alle | abkuerzungen | <area name>  all notes, whole glossary, one area
 //   (older links use ?bereich= instead of ?pdf=)
 
@@ -11,10 +12,12 @@ import { APP_VERSION } from '../config.js';
 import { loadCatalog } from '../questions.js';
 import { renderNoteContent } from './notesView.js';
 import { sortGlossary, initialOf } from '../glossary.js';
+import { groupFormulas } from '../formulas.js';
 import {
-  pdfSections, pdfTitle, pdfFileName, glossaryForPdf, pdfJob, PDF_ALL, PDF_AP1, PDF_GLOSSARY,
+  pdfSections, pdfTitle, pdfFileName, glossaryForPdf, formulasForPdf, isFormulasKey, pdfJob, PDF_ALL, PDF_AP1, PDF_GLOSSARY,
 } from '../pdfs.js';
 import { jobById } from '../curriculum.js';
+import { catalogForJob } from '../jobCatalog.js';
 
 const root = document.getElementById('print');
 
@@ -80,12 +83,36 @@ function renderGlossary(catalog, key) {
           h('td', { class: 'gloss-area', text: e.area }))))))));
 }
 
+function renderFormulas(catalog, key) {
+  const job = jobById(pdfJob(key));
+  const { topics } = catalogForJob(catalog, job.id);
+  const groups = groupFormulas(formulasForPdf(catalog, key), topics);
+  const count = groups.reduce((n, g) => n + g.topics.reduce((m, t) => m + t.formulas.length, 0), 0);
+  document.title = `PrüfFit – ${pdfTitle(key)}`;
+  append(root,
+    cover(`Formelsammlung ${job.short}`, `Alle Formeln aus den Prüfungsthemen für ${job.name}`, [
+      `${count} Formeln in ${groups.length} Bereichen`,
+      'Hilfsmittel nennt die Einladung der IHK; üblich ist nur ein nicht programmierbarer, netzunabhängiger Taschenrechner ohne Kommunikationsmöglichkeit – Formeln also auswendig können.',
+      `Stand: Version ${APP_VERSION}`,
+    ]),
+    groups.map((g) => h('section', { class: 'formula-area' },
+      h('h2', { text: g.area }),
+      g.topics.map((t) => h('section', { class: 'formula-topic' },
+        h('h3', { text: `${t.topic.name} · ${t.topic.exams.join('/')}` }),
+        t.formulas.map((f) => h('div', { class: 'formula' },
+          h('h4', { text: f.name }),
+          h('pre', {}, h('code', { text: f.formula })),
+          f.legend ? h('p', { class: 'formula-legend', text: f.legend }) : null,
+          f.example ? h('p', { class: 'formula-example' }, h('strong', { text: 'Beispiel: ' }), f.example) : null)))))));
+}
+
 async function main() {
   const params = new URLSearchParams(location.search);
   const key = params.get('pdf') ?? params.get('bereich') ?? PDF_ALL;
   const catalog = await loadCatalog((url) => fetch(url, { cache: 'no-cache' }));
   root.replaceChildren();
   if (key === PDF_GLOSSARY || (pdfJob(key) && key.startsWith(PDF_GLOSSARY))) renderGlossary(catalog, key);
+  else if (isFormulasKey(key)) renderFormulas(catalog, key);
   else if (pdfFileName(key)) renderNotes(catalog, key);
   else append(root, h('p', { text: `Unbekanntes PDF „${key}“.` }));
   document.body.dataset.ready = '1';

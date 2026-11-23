@@ -110,15 +110,16 @@ test('Abkürzungsverzeichnis: list A–Z, search, exact hit in the note search, 
   expect(problems).toEqual([]);
 });
 
-test('Lernzettel as PDF: only the PDFs of the own job (AP1, AP2, abbreviations), print view renders', async ({ page }) => {
+test('Lernzettel as PDF: only the PDFs of the own job (AP1, AP2, abbreviations, formulas), print view renders', async ({ page }) => {
   const problems = watchProblems(page);
   await page.goto('./#/lernzettel');
   const card = page.locator('details.fold[data-fold="pdf"]');
   await card.locator('summary').click();
-  await expect(card.locator('.pdf-link')).toHaveCount(3);
+  await expect(card.locator('.pdf-link')).toHaveCount(4);
   await expect(card.locator('.pdf-link').nth(0)).toContainText(/AP1 – alle Lernzettel\s*PDF · [\d,]+ (KB|MB)/);
   await expect(card.locator('.pdf-link').nth(1)).toContainText('AP2 FISI');
   await expect(card.locator('.pdf-link').nth(2)).toContainText('Abkürzungen FISI');
+  await expect(card.locator('.pdf-link').nth(3)).toContainText(/Formelsammlung FISI\s*PDF · [\d,]+ KB/);
   const download = page.waitForEvent('download');
   await card.locator('.pdf-link', { hasText: 'AP2 FISI' }).click();
   const file = await download;
@@ -200,4 +201,36 @@ test('GitHub notice (2.9.5): shown once on the start page until confirmed', asyn
   await page.reload();
   await expect(page.locator('h1')).toBeVisible();
   await expect(page.locator('.notice-card')).toHaveCount(0);
+});
+
+test('formula collection as PDF (2.10.3): link on #/formeln, share sheet on iPhone, print view per job', async ({ page }) => {
+  const problems = watchProblems(page);
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'userAgent', { get: () => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148' });
+    window.__shared = [];
+    navigator.canShare = (data) => Array.isArray(data?.files) && data.files.length > 0;
+    navigator.share = async (data) => { window.__shared.push({ name: data.files[0].name, type: data.files[0].type, size: data.files[0].size }); };
+  });
+  await page.goto('./#/formeln');
+  const link = page.locator('.formula-pdf .pdf-link');
+  await expect(link).toHaveAttribute('href', './pdf/formeln-fisi.pdf');
+  await expect(link).toContainText(/Formelsammlung FISI\s*PDF · [\d,]+ KB/);
+  await link.click();
+  await expect.poll(() => page.evaluate(() => window.__shared.length)).toBe(1);
+  expect(await page.evaluate(() => window.__shared[0])).toMatchObject({ name: 'formeln-fisi.pdf', type: 'application/pdf' });
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Formelsammlung');
+
+  // Print view: the same formulas as #/formeln for this job, grouped by area.
+  await page.goto('./print.html?pdf=formeln-kits');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', '1');
+  await expect(page.locator('.cover h1')).toHaveText('Formelsammlung KITS');
+  const expected = await page.evaluate(async () => {
+    const { loadCatalog } = await import('./js/questions.js');
+    const { formulasForPdf } = await import('./js/pdfs.js');
+    return formulasForPdf(await loadCatalog((u) => fetch(u)), 'formeln-kits').length;
+  });
+  expect(expected).toBeGreaterThan(30);
+  await expect(page.locator('.formula')).toHaveCount(expected);
+  await expect(page.locator('.formula-area h2').first()).toBeVisible();
+  expect(problems).toEqual([]);
 });

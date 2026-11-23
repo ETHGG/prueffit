@@ -102,3 +102,19 @@ Checklisten und Fachgesprächsfragen sind eigene Formulierungen auf dieser Grund
 | Personalwirtschaft | gesetze-im-internet.de: § 93 und § 99 BetrVG, § 109 GewO, §§ 1 und 9 AGG | § 93 präzisiert (Ausschreibung auch im Betrieb), § 99 (mehr als 20 wahlberechtigte Beschäftigte, Wochenfrist) und § 109 (elektronisch mit Einwilligung) ergänzt |
 | Fluktuationsrate | HR-Fachlexika (Personio, rexx), Kaps (2016) „Fluktuationskennzahlen“ | mehrere Formeln üblich; Grundformel plus Varianten genannt |
 | Gesetzestexte und Links | gesetze-im-internet.de (BetrVG, GewO, AGG) über Abruf erreichbar | erreichbar; die übrigen Links wurden in diesem Lauf nicht einzeln abgerufen (direkter Netzzugriff aus der Laufumgebung gesperrt) |
+
+## Quellenprüfung 23.11.2026 (2.10.3, Formelsammlung)
+
+Alle 66 Formeln gegengelesen, alle Beispielrechnungen per Skript nachgerechnet.
+
+| Geprüft | Quelle | Ergebnis |
+|---|---|---|
+| Hilfsmittel in der schriftlichen Prüfung | IHK Mittleres Ruhrgebiet, „Zugelassene Hilfsmittel für Zwischenprüfungen und Abschlussprüfungen“ (ihk.de/bochum) | Taschenrechner nicht programmierbar, netzunabhängig, ohne Kommunikation; maßgeblich ist die Einladung – Hinweis präzisiert |
+| Nutzungsdauer Computerhardware/Software, GWG, Sammelposten | BMF-Schreiben vom 22.02.2022 (BStBl I 2022, S. 187); § 6 Abs. 2, 2a EStG; Zusammenfassung steuerschroeder.de (Stand 2026) | 1 Jahr als Wahlrecht, GWG bis 800 €, Sammelposten über 250 € bis 1.000 € – in die AfA-Formel aufgenommen |
+| Spannungsfall Wechsel-/Drehstrom | ABB ElektroSpicker „Kabel- und Leitungsdimensionierung“ (2021, nach DIN VDE 0298-4/0100-520): einphasig halbe zulässige Länge gegenüber Drehstrom | Formeln 2·l·I·cos φ/(κ·A) und √3·l·I·cos φ/(κ·A) bestätigt (Verhältnis per Skript: 0,50) |
+| Leitfähigkeit Kupfer | IEC 60028 (ρ = 0,017241 Ω·mm²/m bei 20 °C → κ = 58), Temperaturbeiwert 0,00393 1/K | 30 °C ≈ 55,8 ≈ 56, 70 °C ≈ 48 – präzisiert |
+| Zinstage, Verzugszinsen | §§ 187, 188, 288 BGB; Bauprofessor-Lexikon „Zinsberechnungen“ | kaufmännisch 30/360, Euro-Zinsmethode act/360, Verzugszinsen taggenau; 40-€-Pauschale § 288 Abs. 5 BGB nur ohne Verbraucher |
+| Skonto-Jahreszins | Lehrbuchformel (z. B. studyflix „Skonto berechnen“, lexware Skontorechner) | Überschlag 36 %, genau 36,7 % – beide genannt |
+| Binär- und Dezimalpräfixe | IEC 80000-13; Apple Support „How iOS and macOS report storage capacity“ | macOS seit 10.6 dezimal, Windows binär mit „GB“ |
+| Wirkleistung/Scheinleistung | Grundlagen Elektrotechnik (P = U·I·cos φ, S = U·I) | P = U × I nur bei cos φ = 1 – präzisiert |
+| Alle übrigen Formeln (Subnetting, RAID, Verfügbarkeit, Kalkulation, Andler, Kennzahlen, Barwert, Netzplan …) | Lehrbuchformeln, bereits in `docs/QUELLEN.md` (2.9.x) belegt | Beispiele nachgerechnet – stimmen |

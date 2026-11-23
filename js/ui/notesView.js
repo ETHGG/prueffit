@@ -25,8 +25,11 @@ export const GLOSSARY_ID = 'abkuerzungen';
 
 let pdfManifest = null; // { files: [{ file, bytes }] } once loaded
 
-/** Link that downloads one PDF; the size is filled in when pdf/manifest.json is available. */
-function pdfLink(key, label, { className = 'pdf-link' } = {}) {
+/**
+ * Link that downloads one PDF; the size is filled in when pdf/manifest.json is available.
+ * On iPhone/iPad it opens the share sheet (2.9.1). Also used by the formula view (2.10.3).
+ */
+export function pdfLink(key, label, { className = 'pdf-link', toast = null } = {}) {
   const file = pdfFileName(key);
   const size = h('span', { class: 'pdf-size muted small' });
   const fill = () => {
@@ -46,7 +49,7 @@ function pdfLink(key, label, { className = 'pdf-link' } = {}) {
     onClick: share ? async (e) => {
       e.preventDefault();
       const result = await sharePdf(url, file, label);
-      if (result === 'retry') toastFn?.('PDF ist geladen – tippe noch einmal darauf, um es zu sichern oder zu teilen.');
+      if (result === 'retry') (toast ?? toastFn)?.('PDF ist geladen – tippe noch einmal darauf, um es zu sichern oder zu teilen.');
       else if (result === 'failed') window.open(url, '_blank', 'noopener');
     } : null,
   },
@@ -61,7 +64,7 @@ function pdfCard(job) {
   return fold('notes-pdf', 'pdf', {
     summary: [
       h('span', { class: 'fold-title', text: 'Als PDF herunterladen' }),
-      h('span', { class: 'fold-meta', text: 'Zum Ausdrucken oder für Goodnotes: AP1, AP2 und Abkürzungen' }),
+      h('span', { class: 'fold-meta', text: 'Zum Ausdrucken oder für Goodnotes: AP1, AP2, Abkürzungen und Formelsammlung' }),
     ],
   },
   h('ul', { class: 'pdf-list' }, list.map((p) => h('li', {}, pdfLink(p.key, p.label)))),

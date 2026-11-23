@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   pdfFileName, pdfList, notesForPdf, formatFileSize, pdfSections, glossaryForPdf, pdfKeyForTopic, pdfJob, pdfTitle,
-  ap2PdfKey, glossaryPdfKey, PDF_ALL, PDF_AP1, PDF_GLOSSARY,
+  ap2PdfKey, glossaryPdfKey, PDF_ALL, PDF_AP1, PDF_GLOSSARY, formulasPdfKey, isFormulasKey, formulasForPdf,
 } from '../js/pdfs.js';
 import { JOB_IDS, AP1_SECTIONS, AP2_PARTS } from '../js/curriculum.js';
 
@@ -22,18 +22,44 @@ describe('pdfFileName / pdfList', () => {
     expect(pdfJob(PDF_AP1)).toBeNull();
     expect(pdfTitle(ap2PdfKey('fisi'))).toBe('AP2 FISI – Fachinformatiker/-in Systemintegration');
   });
-  it('lists the AP1 PDF, then AP2 and abbreviations of every job (15 files)', () => {
+  it('lists the AP1 PDF, then AP2, abbreviations and formulas of every job (22 files)', () => {
     const list = pdfList();
-    expect(list).toHaveLength(1 + 2 * JOB_IDS.length);
+    expect(list).toHaveLength(1 + 3 * JOB_IDS.length);
     expect(list[0].key).toBe(PDF_AP1);
     expect(list.slice(1, 8).map((p) => p.file)).toEqual(JOB_IDS.map((j) => `lernzettel-ap2-${j}.pdf`));
-    expect(list.slice(8).map((p) => p.file)).toEqual(JOB_IDS.map((j) => `abkuerzungen-${j}.pdf`));
-    expect(new Set(list.map((p) => p.file)).size).toBe(15);
+    expect(list.slice(8, 15).map((p) => p.file)).toEqual(JOB_IDS.map((j) => `abkuerzungen-${j}.pdf`));
+    expect(list.slice(15).map((p) => p.file)).toEqual(JOB_IDS.map((j) => `formeln-${j}.pdf`));
+    expect(new Set(list.map((p) => p.file)).size).toBe(22);
   });
-  it('offers a job only its own three PDFs', () => {
+  it('offers a job only its own four PDFs (since 2.10.3 with the formula collection)', () => {
     for (const job of JOB_IDS) {
-      expect(pdfList(job).map((p) => p.file)).toEqual(['lernzettel-ap1.pdf', `lernzettel-ap2-${job}.pdf`, `abkuerzungen-${job}.pdf`]);
+      expect(pdfList(job).map((p) => p.file)).toEqual(['lernzettel-ap1.pdf', `lernzettel-ap2-${job}.pdf`, `abkuerzungen-${job}.pdf`, `formeln-${job}.pdf`]);
     }
+  });
+  it('maps the formula collection per job (2.10.3)', () => {
+    expect(pdfFileName(formulasPdfKey('kits'))).toBe('formeln-kits.pdf');
+    expect(pdfTitle(formulasPdfKey('fisi'))).toBe('Formelsammlung FISI');
+    expect(pdfJob('formeln-itse')).toBe('itse');
+    expect(isFormulasKey('formeln-itse')).toBe(true);
+    expect(isFormulasKey('formeln-itsm')).toBe(false);
+    expect(isFormulasKey('formeln')).toBe(false);
+    expect(pdfFileName('formeln-alle')).toBeNull();
+    expect(pdfList('fisi').at(-1)).toMatchObject({ key: 'formeln-fisi', label: 'Formelsammlung FISI' });
+  });
+  it('formulasForPdf: only the formulas of the job\'s topics, nothing for other keys', () => {
+    const catalog = {
+      topics: [
+        { id: 'netzwerke.subnetting', area: 'Netzwerke', name: 'Subnetting' },
+        { id: 'elektro.grundlagen', area: 'Elektrotechnik', name: 'Grundlagen' },
+      ],
+      formulas: [
+        { id: 'f-a', topic: 'netzwerke.subnetting', name: 'A', formula: 'x' },
+        { id: 'f-b', topic: 'elektro.grundlagen', name: 'B', formula: 'y' },
+      ],
+    };
+    expect(formulasForPdf(catalog, formulasPdfKey('itse')).map((f) => f.id)).toEqual(['f-a', 'f-b']);
+    expect(formulasForPdf(catalog, formulasPdfKey('fiae')).map((f) => f.id)).toEqual(['f-a']);
+    expect(formulasForPdf(catalog, PDF_AP1)).toEqual([]);
   });
 });
 

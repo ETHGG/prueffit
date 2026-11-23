@@ -330,6 +330,12 @@ describe('pdf/ (Lernzettel als PDF)', () => {
     }
     expect(manifest.sourceHash, 'PDFs sind veraltet – bitte „npm run pdfs“ ausführen').toBe(await pdfSourceHash(root));
   });
+
+  it('the checksum covers the formula collection, so its PDFs are checked for freshness too (2.10.3)', () => {
+    const script = readFileSync(fileURLToPath(new URL('../scripts/pdf-hash.mjs', import.meta.url)), 'utf8');
+    expect(script).toContain("'data/formulas.json'");
+    expect(script).toContain("'js/formulas.js'");
+  });
 });
 
 describe('Zuordnung zu AP1/AP2 und Berufen (2.0)', () => {

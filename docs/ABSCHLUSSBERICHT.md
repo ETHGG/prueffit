@@ -167,3 +167,29 @@ Fragen, die für AP1 und AP2 zählen, sind in beiden Spalten enthalten. Gesamtbe
 - Die Formelsammlung ist nicht Teil der PDFs; sie lässt sich über die Druckfunktion des Browsers drucken.
 
 **Offene Punkte:** Formelsammlung bei Bedarf als eigenes PDF.
+
+## Nachtrag 2.10.0, 2.10.1 und 2.10.3 – Prüfungsreife, Tabellenaufgaben, Formelsammlung als PDF (23.11.2026)
+
+**Was gemacht:**
+- 2.10.0 Prüfungsreife je Prüfungsbereich (`examReadiness` in `js/stats.js`, Anzeige in Statistik und Startseite, `js/ui/readiness.js`).
+- 2.10.1 Jede schriftliche Simulation (AP1, beide AP2-Bereiche) enthält eine Tabellenaufgabe, sofern es eine gibt (`pickRequiredTable`); 2 neue Tabellenaufgaben (net-0119, net-0120).
+- 2.10.3 Formelsammlung als PDF je Beruf (Liste „Als PDF herunterladen“ und `#/formeln`, Teilen-Menü auf dem iPhone, Prüfsumme); alle 65 Formeln fachlich geprüft.
+
+**Geprüfte Quellen:** siehe `docs/QUELLEN.md`, Abschnitte 2.10.1 und 2.10.3 (IHK-Hilfsmittel, BMF-Schreiben 22.02.2022/EStG, ABB nach DIN VDE 0298-4, IEC 60028, IEC 80000-13, §§ 187/188/288 BGB, Gigabit-Ethernet-Nutzdatenrate).
+
+**Gefundene und korrigierte Fehler:**
+- VLSM-Formel und -Karte: „kleinstes Präfix“ hätte das größte Netz bedeutet – richtig ist das kleinste passende Netz (längstes Präfix).
+- Video-Speicherbedarf: Rundungsfehler im Beispiel (1,55 → 1,56 GB).
+- P = U × I ohne Einschränkung – gilt nur bei Gleichstrom bzw. cos φ = 1.
+- Verzugszins-Beispiel ohne Angabe des angenommenen Basiszinssatzes.
+
+**Präzisierte Aussagen (überall gleich nachgezogen):** κ von Kupfer temperaturabhängig, Drehstrom-Spannungsfall; Skonto Überschlag/genau; Zinstage 30/360 vs. taggenau; 40-€-Pauschale nur ohne Verbraucher; Schaltjahr 8.784 h; Parallelschaltung nur bei unabhängigen Ausfällen; Dezimal/Binär je Betriebssystem, Datenraten dezimal, Protokoll-Overhead; Zweierkomplement; Supernetting-Bedingungen; RAID-Mindestanzahl; USV mit VA- und W-Grenze; AfA-Varianten (GWG, Sammelposten, 1-Jahres-Regel); Hilfsmittel laut Einladung.
+
+**Annahmen:**
+- Prüfungsreife: Themen werden nach den Punkten ihrer Fragen gewichtet (Näherung für den Anteil in der Prüfung), die Quote wird zum Bereichsdurchschnitt geglättet (2 Pseudoversuche); Quiz und Mittel der letzten drei Simulationen zählen je zur Hälfte. „Zu wenig Daten“ unter 20 Antworten oder unter 25 % geübtem Anteil ohne Simulation. Es ist eine Schätzung, das steht auch in der App.
+- Für FISI/KITS fehlte in keinem Bereich eine Tabellenaufgabe; die zwei neuen Aufgaben sorgen für Abwechslung im FISI-Netzwerkbereich, wo es nur eine gab.
+- In der Sandbox war die npm-Registry gesperrt: Unit-Tests liefen über einen kleinen Vitest-kompatiblen Runner (nicht im Repository), Browsertests mit dem vorinstallierten Playwright (Chromium); ESLint und WebKit prüft die CI nach dem Push.
+
+**Offene Punkte:**
+- Lernzettel „Leitungen“: Richtwert „höchstens 3 % zwischen Hausanschluss und Verbraucher“ bei Gelegenheit gegen DIN 18015-1 und DIN VDE 0100-520 prüfen (Bezugspunkt Hausanschluss oder Zähler, 3 % oder 4 %) – nicht Teil dieses Auftrags, daher nur vermerkt.
+- Ohne AP2-Tabellenaufgabe sind noch: FIAE und FIDPA (beide Bereiche), ITSE Bereich 2, KDM Bereich 1 (Stand: FISI 2/3, KITS 4/3, FIDV 1/1, ITSE 3/0, KDM 0/3) – dort enthält die Simulation vorerst keine; bei Bedarf ergänzen.

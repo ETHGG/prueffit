@@ -24,7 +24,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 - **Offene Aufgaben:** Freitextaufgaben wie in der schriftlichen AP2 gezielt üben und mit Musterlösung und Bewertungsraster selbst bewerten – auch in der Prüfungssimulation.
 - **AP2 mit Handlungssituationen:** Jeder Prüfungsbereich beginnt wie in der echten Prüfung mit einer Ausgangslage und zusammenhängenden Teilaufgaben.
 - **Sicherung:** Die App erinnert daran, den Fortschritt ab und zu als Datei zu sichern.
-- **Lernzettel als PDF:** AP1-Lernzettel, AP2-Lernzettel deines Berufs und dein Abkürzungsverzeichnis zum Herunterladen, Ausdrucken oder für Goodnotes.
+- **Lernzettel als PDF:** AP1-Lernzettel, AP2-Lernzettel deines Berufs, dein Abkürzungsverzeichnis und (seit 2.10.3) deine Formelsammlung zum Herunterladen, Ausdrucken oder für Goodnotes; auf dem iPhone über das Teilen-Menü.
 - **Abkürzungsverzeichnis:** 300 Abkürzungen aus den Lernzetteln (je Beruf die, die in deinen Lernzetteln vorkommen) ausgeschrieben und erklärt, durchsuchbar und von A bis Z; jeder Lernzettel zeigt seine Abkürzungen.
 - **Lernzettel:** Zu jedem der 75 Themen ein kompakter Lernzettel mit Tabellen, Formeln und Merksätzen. Volltextsuche (unabhängig von Groß-/Kleinschreibung und Umlauten) mit hervorgehobenen Treffern, Filter nach Prüfungsbereich, Sprung direkt ins Quiz zum Thema.
 - **Start mit Lernplan:** Nach der Berufswahl fragt PrüfFit nach der nächsten Prüfung und schlägt den nächsten bundeseinheitlichen IHK-Termin vor (gilt auch für Sachsen-Anhalt). Die Startseite zeigt dann einen Countdown und wie viele offene Fragen pro Tag zu schaffen sind.
@@ -89,7 +89,7 @@ js/curriculum.js                          7 Berufe, AP1-Katalog, AP2-Prüfungsbe
 js/jobCatalog.js                          Inhalte auf den eigenen Beruf beschränken
 js/ui/                                    Ansichten (DOM)
 data/                                     Themen, Fragen, Karteikarten, Lernzettel, Abkürzungen, Situationen (JSON)
-pdf/                                      Lernzettel-PDFs (npm run pdfs)
+pdf/                                      Lernzettel-, Abkürzungs- und Formel-PDFs (npm run pdfs)
 vendor/                                   lokale Bibliotheken (Chart.js)
 tests/                                    Vitest-Tests
 e2e/                                      Browsertests (Playwright)

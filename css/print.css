@@ -81,3 +81,14 @@ mark { background: none; color: inherit; }
 .gloss-abbr .alias { display: block; font-weight: 400; color: var(--muted); font-size: 8pt; white-space: normal; }
 .gloss-area { color: var(--muted); font-size: 8.5pt; width: 26mm; }
 .expl { color: var(--ink); }
+
+/* Formelsammlung (seit 2.10.2) */
+.formula-area { break-before: page; }
+.cover + .formula-area { break-before: auto; }
+.formula-area > h2 { font-size: 17pt; margin: 0 0 3mm; padding-bottom: 2mm; border-bottom: 2px solid var(--accent); }
+.formula-topic > h3 { font-size: 11.5pt; color: var(--accent); margin: 5mm 0 2mm; }
+.formula { break-inside: avoid; margin: 0 0 3mm; padding: 0 0 2mm; border-bottom: 1px solid var(--line); }
+.formula h4 { font-size: 10.5pt; margin: 0 0 1mm; }
+.formula pre { font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace; font-size: 9pt; line-height: 1.4; background: #f1f4f3; border: 1px solid var(--line); border-radius: 2mm; padding: 2mm 3mm; margin: 0 0 1.5mm; white-space: pre-wrap; }
+.formula-legend { margin: 0 0 1mm; font-size: 9pt; color: var(--muted); }
+.formula-example { margin: 0; font-size: 9pt; }

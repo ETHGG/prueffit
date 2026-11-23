@@ -2,6 +2,27 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.10.3] – 2026-11-23
+
+### Hinzugefügt
+- **Formelsammlung als PDF je Beruf** (`pdf/formeln-<beruf>.pdf`, erzeugt aus `print.html?pdf=formeln-<beruf>` wie die Lernzettel-PDFs): in der Liste „Als PDF herunterladen“ (jetzt vier PDFs je Beruf) und oben auf `#/formeln`; auf iPhone/iPad über das Teilen-Menü. Prüfsumme und Aktualität werden wie bei den übrigen PDFs getestet (`data/formulas.json` und `js/formulas.js` gehen in die Prüfsumme ein).
+
+### Korrigiert – fachliche Prüfung aller 66 Formeln (65 + die im Wochenlauf ergänzte Fluktuationsrate) (alle Beispiele per Skript nachgerechnet)
+- **VLSM-Reihenfolge:** „kleinstes Präfix“ war missverständlich (kleinstes Präfix = größtes Netz). Jetzt: kleinstes passendes Netz = längstes Präfix mit 2^h − 2 ≥ Bedarf, Gateway mitzählen (Formel und Karteikarte).
+- **Video-Speicherbedarf:** Beispiel mit dem gerundeten Bildwert gerechnet; jetzt 6.220.800 Byte × 25 × 10 s ≈ 1,56 GB (vorher 1,55 GB).
+- **Leistung P = U × I:** gilt nur für Gleichstrom bzw. ohmsche Last; bei Wechselstrom P = U × I × cos φ, U × I ist die Scheinleistung; Drehstromformel ergänzt (Formel und Lernzettel „Energie“).
+- **Verzugszinsen:** Beispiel nennt jetzt den angenommenen Basiszinssatz (2 %).
+
+### Geändert – präzisiert statt weggelassen (überall gleich nachgezogen)
+- **Spannungsfall:** κ = 56 gilt für Kupfer bei ca. 30 °C (20 °C: 58, 70 °C: ca. 48); Drehstrom mit √3 statt 2 (Formel, Lernzettel, Karteikarte).
+- **Skonto-Jahreszins:** Überschlag und genaue Formel (2/98 × 100 × 18 ≈ 36,7 %).
+- **Zinstage:** kaufmännisch 30/360; Banken oft taggenau/360, Verzugszinsen nach BGB taggenau mit 365 Tagen (Formeln, Lernzettel Zahlungsverkehr); 40-€-Pauschale nur, wenn der Schuldner kein Verbraucher ist.
+- **Ausfallzeit:** 8.760 h = 365 Tage, Schaltjahr 8.784 h (Formel, Lernzettel Hochverfügbarkeit und Diagnose).
+- **Verfügbarkeit parallel:** nur wenn eine Komponente reicht und Ausfälle unabhängig sind.
+- **Dezimal/Binär:** Windows rechnet binär und schreibt „GB“, macOS seit 10.6 dezimal, RAM binär, Datenraten immer dezimal; Übertragungszeit ohne Protokoll-Overhead (ca. 5 %).
+- **Weitere Varianten genannt:** Zweierkomplement (8 Bit: −128 bis 127), Supernetting nur bei lückenlosen, ausgerichteten Netzen, RAID-Mindestanzahl, USV mit VA- und W-Grenze, AfA mit GWG/Sammelposten/1-Jahres-Regel für Computer (BMF 22.02.2022, Wahlrecht), Ø Lagerbestand vereinfacht, freier Puffer mit kleinstem FAZ der Nachfolger, Solidaritätszuschlag/Kirchensteuer, Überschlag für die reale Veränderung.
+- Hinweis zu Hilfsmitteln präzisiert (Formelsammlung und PDF): Welche erlaubt sind, steht in der Einladung der IHK; üblich ist ein nicht programmierbarer, netzunabhängiger Taschenrechner ohne Kommunikationsmöglichkeit.
+
 ## [2.10.2] – 2026-11-23
 
 ### Hinzugefügt – Wochenlauf (keine offenen Fehlermeldungen oder Wünsche)

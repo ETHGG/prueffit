@@ -3,6 +3,9 @@
 import { h, append } from './dom.js';
 import { fold } from './fold.js';
 import { searchFormulas, groupFormulas } from '../formulas.js';
+import { pdfLink } from './notesView.js';
+import { formulasPdfKey } from '../pdfs.js';
+import { jobById } from '../curriculum.js';
 
 function formulaCard(f) {
   return h('div', { class: 'formula' },
@@ -46,7 +49,10 @@ export function render(root, ctx) {
   append(root,
     h('p', { class: 'back-link' }, h('a', { href: '#/lernzettel' }, '← Lernzettel')),
     h('h1', { tabindex: '-1', text: 'Formelsammlung' }),
-    h('p', { class: 'muted' }, 'Alle Formeln deiner Prüfungsthemen auf einen Blick – zum Wiederholen vor der Prüfung. In der Prüfung selbst ist meist nur ein Taschenrechner erlaubt.'),
+    h('p', { class: 'muted' }, 'Alle Formeln deiner Prüfungsthemen auf einen Blick – zum Wiederholen vor der Prüfung. Welche Hilfsmittel in der Prüfung erlaubt sind, steht in der Einladung der IHK – üblich ist nur ein nicht programmierbarer, netzunabhängiger Taschenrechner ohne Kommunikationsmöglichkeit, eine eigene Formelsammlung meist nicht.'),
+    jobById(ctx.catalog.job)
+      ? h('p', { class: 'formula-pdf' }, pdfLink(formulasPdfKey(ctx.catalog.job), `Formelsammlung ${jobById(ctx.catalog.job).short}`, { className: 'pdf-link inline', toast: ctx.toast }))
+      : null,
     h('div', { class: 'card notes-filter', role: 'search' }, h('label', { class: 'field' }, h('span', { text: 'Suchen' }), input), count),
     list);
   draw();

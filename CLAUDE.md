@@ -80,7 +80,7 @@ prueffit/
 ├── css/
 │   ├── styles.css
 │   └── print.css             # Layout der PDFs (A4)
-├── pdf/                      # PDFs je Beruf: lernzettel-ap1, lernzettel-ap2-<beruf>, abkuerzungen-<beruf> + manifest.json
+├── pdf/                      # PDFs je Beruf: lernzettel-ap1, lernzettel-ap2-<beruf>, abkuerzungen-<beruf>, formeln-<beruf> (seit 2.10.3) + manifest.json
 ├── scripts/
 │   ├── build-pdfs.mjs        # npm run pdfs: PDFs aus print.html erzeugen (Playwright)
 │   └── pdf-hash.mjs          # Prüfsumme der PDF-Quellen
@@ -321,7 +321,7 @@ npx serve .          # Lokaler Testserver (oder: python -m http.server 8080)
 npm run pdfs         # Lernzettel-PDFs in pdf/ neu erzeugen
 ```
 
-**PDFs aktuell halten:** Nach jeder Änderung an `data/notes/`, `data/topics.json`, `data/glossary.json`, der Druckansicht oder der Version `npm run pdfs` ausführen und `pdf/` mit committen. `data.test.js` vergleicht die Prüfsumme in `pdf/manifest.json` mit den Quellen und schlägt sonst fehl.
+**PDFs aktuell halten:** Nach jeder Änderung an `data/notes/`, `data/topics.json`, `data/glossary.json`, `data/formulas.json`, der Druckansicht oder der Version `npm run pdfs` ausführen und `pdf/` mit committen. `data.test.js` vergleicht die Prüfsumme in `pdf/manifest.json` mit den Quellen und schlägt sonst fehl.
 
 Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.gitignore`.
 
@@ -346,7 +346,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `finalGrade.test.js` | Gewichtung 20/50/10/10/10, Rundung, alle Bestehensregeln, mündliche Ergänzungsprüfung 2 : 1 und nötige Punkte |
 | `contrast.test.js` | Kontrast aller Textfarben in hellem und dunklem Design (mind. 4,5 : 1) |
 | `ci.test.js` | Playwright-Container in der CI passt zur gesperrten Playwright-Version, Testserver ohne Python |
-| `pdfs.test.js` | Dateinamen, Reihenfolge der Lernzettel, Dateigrößen-Anzeige (Aktualität der PDFs prüft `data.test.js`) |
+| `pdfs.test.js` | Dateinamen (auch Formelsammlung je Beruf), Reihenfolge der Lernzettel, Dateigrößen-Anzeige (Aktualität der PDFs prüft `data.test.js`, die Prüfsumme umfasst `data/formulas.json`) |
 
 **Regel:** Jede neue Funktion in einem Logik-Modul bekommt mindestens einen Test. Bugs werden zuerst mit einem fehlschlagenden Test reproduziert, dann behoben.
 
@@ -377,7 +377,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.7** | Übersichtlichere Oberfläche: kompakte Startseite, eingeklappte Quiz-Optionen und Prüfungshinweise, Einstellungen neu geordnet | erledigt |
 | **2.8** | Zuordnung FISI/KITS nach dem Prüfungskompendium (§ 21/22 FIAusbV, § 12/13 ITSManKflAusbV), 8 neue Themen, vier Handlungssituationen je Bereich | erledigt |
 | **2.9** | Formelsammlung, Aufgabentyp „Tabelle ausfüllen“ und Skizzenaufgaben, Operatoren, WiSo nach der WiSo-Simulation ergänzt | erledigt |
-| **2.10** | Prüfungsreife je Prüfungsbereich (2.10.0), Tabellenaufgabe in jeder Simulation (2.10.1), Personalwirtschaft ausgebaut (2.10.2), Formelsammlung als PDF | in Arbeit |
+| **2.10** | Prüfungsreife je Prüfungsbereich (2.10.0), Tabellenaufgabe in jeder Simulation (2.10.1), Personalwirtschaft ausgebaut (2.10.2), Formelsammlung als PDF und fachlich geprüft (2.10.3) | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 
