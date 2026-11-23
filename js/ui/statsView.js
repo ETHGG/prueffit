@@ -85,6 +85,8 @@ export function render(root, ctx) {
         h('h2', { id: 'chart-areas', text: 'Trefferquote pro Bereich' }),
         h('div', { class: 'chart-box' }, areaCanvas))
       : null,
+    h('div', { class: 'legend card', 'aria-label': 'Legende der Ampel' },
+      ['green', 'yellow', 'red', 'grey'].map((l) => h('span', {}, h('span', { class: `light light-${l}`, 'aria-hidden': 'true' }), LIGHT_LABELS[l]))),
     readinessCard(ctx),
     exams.length
       ? h('section', { class: 'card', 'aria-labelledby': 'chart-exams' },
@@ -92,8 +94,6 @@ export function render(root, ctx) {
         h('div', { class: 'chart-box' }, examCanvas),
         h('p', { class: 'muted small' }, 'Gestrichelte Linie: 50 % – ab hier „ausreichend“.'))
       : null,
-    h('div', { class: 'legend card', 'aria-label': 'Legende der Ampel' },
-      ['green', 'yellow', 'red', 'grey'].map((l) => h('span', {}, h('span', { class: `light light-${l}`, 'aria-hidden': 'true' }), LIGHT_LABELS[l]))),
     h('div', { class: 'section-head' },
       h('h2', { id: 'stats-topics', text: 'Themen nach Prüfungsbereich' }),
       foldControls('stats', () => root)),
