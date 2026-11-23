@@ -2,7 +2,7 @@
 
 PrüfFit nutzt die folgenden Quellen nur, um herauszufinden, **welche Themen in den Prüfungen vorkommen und was fachlich dazugehört**. Alle Fragen, Lernzettel, Karteikarten und Handlungssituationen sind **in eigenen Worten und mit eigenen Zahlen** geschrieben (`source: "eigene"`). Es wurden keine Fragen oder Texte übernommen, auch nicht aus MIT-lizenzierten Quellen; ein Lizenzhinweis ist deshalb nur zur Dokumentation aufgeführt.
 
-Stand der Recherche: 17.11.2026, Quellenprüfung zuletzt am 19.11.2026 (siehe unten).
+Stand der Recherche: 17.11.2026, Quellenprüfung zuletzt am 23.11.2026 (siehe unten).
 
 ## Rechtsgrundlagen (Prüfungsbereiche je Beruf)
 
@@ -92,3 +92,13 @@ Checklisten und Fachgesprächsfragen sind eigene Formulierungen auf dieser Grund
 | Subnetting /21 → 4 × /23 (net-0119) | RFC 4632 (CIDR); per Skript mit Python `ipaddress` nachgerechnet | 172.16.32.0/23 … 172.16.38.0/23, je 510 Hosts – stimmt |
 | Datenmenge und Übertragungsdauer (net-0120) | IEC 80000-13 (SI-Präfixe dezimal, Binärpräfixe Ki/Mi/Gi); per Skript nachgerechnet | 450 GB = 3.600 Gbit, 4.500 s, nötig 1,67 Gbit/s – stimmt; Hinweis GiB ≠ GB ergänzt |
 | Nutzdatenrate bei Gigabit-Ethernet | Rickard Nobel, „Actual throughput on Gigabit Ethernet“ (rickardnobel.se); NetApp KB „Theoretical maximum throughput of a Gigabit Ethernet interface“ | Ethernet/IP/TCP-Overhead bei 1.500 Byte MTU ca. 5 % (ca. 940–950 Mbit/s); 80 % als vorsichtiger Planungswert gekennzeichnet |
+
+## Quellenprüfung 23.11.2026 (2.10.2)
+
+| Geprüft | Quelle | Ergebnis |
+|---|---|---|
+| Basiszinssatz | Deutsche Bundesbank, Pressemitteilung vom 30.6.2026 | 1,52 % seit 1.7.2026 – aktuell, nächste Änderung zum 1.1.2027 |
+| Prüfungstermine 2026/2027 | IHK München (Prüfungstermine IT-Berufe), IHK-AkA (Prüfungen) | AP1 25.02./30.09.2026, 24.02./29.09.2027; AP2 29.04./25.11.2026, 28.04./24.11.2027 (KITS/KDM je einen Tag früher) – stimmen mit `KNOWN_EXAM_DATES` überein |
+| Personalwirtschaft | gesetze-im-internet.de: § 93 und § 99 BetrVG, § 109 GewO, §§ 1 und 9 AGG | § 93 präzisiert (Ausschreibung auch im Betrieb), § 99 (mehr als 20 wahlberechtigte Beschäftigte, Wochenfrist) und § 109 (elektronisch mit Einwilligung) ergänzt |
+| Fluktuationsrate | HR-Fachlexika (Personio, rexx), Kaps (2016) „Fluktuationskennzahlen“ | mehrere Formeln üblich; Grundformel plus Varianten genannt |
+| Gesetzestexte und Links | gesetze-im-internet.de (BetrVG, GewO, AGG) über Abruf erreichbar | erreichbar; die übrigen Links wurden in diesem Lauf nicht einzeln abgerufen (direkter Netzzugriff aus der Laufumgebung gesperrt) |

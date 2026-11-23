@@ -609,6 +609,12 @@
     "area": "Wirtschaft"
   },
   {
+    "abbr": "GewO",
+    "full": "Gewerbeordnung",
+    "explanation": "Regelt u. a. das Arbeitszeugnis (§ 109)",
+    "area": "WiSo"
+  },
+  {
     "abbr": "GG",
     "full": "Grundgesetz",
     "explanation": "Verfassung der Bundesrepublik Deutschland",

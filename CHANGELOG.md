@@ -2,6 +2,22 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.10.2] – 2026-11-23
+
+### Hinzugefügt – Wochenlauf (keine offenen Fehlermeldungen oder Wünsche)
+- **Personalwirtschaft ausgebaut** (KITS, KDM; bisher das Thema mit den wenigsten Fragen): 8 neue Fragen wi-0207 bis wi-0214 – Fluktuationsrate, Personalbedarf mit Ausfallquote, Tabellenaufgabe Personalkosten, Ablauf der externen Personalbeschaffung, unzulässige Fragen im Vorstellungsgespräch, Zustimmung des Betriebsrats (§ 99 BetrVG), Formen der Personalentwicklung (into/on/near/off the job) und eine offene Aufgabe mit Bewertungsraster (interne oder externe Besetzung). Alle Rechnungen per Skript nachgerechnet.
+- 3 Karteikarten (fc-0283 bis fc-0285), Formel **Fluktuationsrate**; Formel „Netto-Personalbedarf“ zu **Personalbedarf** (Brutto mit Ausfallquote und Netto) erweitert; neue Abkürzung **GewO**.
+- Lernzettel Personalwirtschaft: Personalbedarf mit Ausfallzeiten, Fluktuation, Personalkosten, Mitbestimmung bei Einstellungen, Formen der Personalentwicklung.
+
+### Geändert – präzisiert statt weggelassen
+- **§ 93 BetrVG:** Der Betriebsrat kann eine Ausschreibung *auch* im Betrieb verlangen – nicht „zuerst intern“; extern darf parallel ausgeschrieben werden.
+- **AGG:** Merkmale vollständig nach § 1 AGG (ethnische Herkunft, Religion oder Weltanschauung …); Ausnahme kirchliche Arbeitgeber (§ 9 AGG).
+- **Arbeitszeugnis:** Anspruch nach § 109 GewO, mit Einwilligung auch elektronisch; Zufriedenheitsskala als Konvention gekennzeichnet und um „stets zu unserer vollen Zufriedenheit“ = gut ergänzt (passt jetzt zu Frage wi-0188).
+- **Fluktuationsrate:** Grundformel plus Varianten (nur Eigenkündigungen; Bezug auf Anfangsbestand + Zugänge).
+
+### Quellenprüfung
+- Basiszinssatz 1,52 % seit 1.7.2026 (Bundesbank) und Prüfungstermine 2026/2027 (IHK München, IHK-AkA) bestätigt, siehe `docs/QUELLEN.md`.
+
 ## [2.10.1] – 2026-11-23
 
 ### Geändert

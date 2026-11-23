@@ -1,81 +1,81 @@
 {
-  "version": "2.10.1",
-  "sourceHash": "867738352e34a8758b02fc54dd642d6d25b387a2f3ffeac92501909844477973",
+  "version": "2.10.2",
+  "sourceHash": "7ed7610e01fbd2581b8a5ad377bd78a9b76dd33cc55205504bfa640658aad729",
   "files": [
     {
       "key": "ap1",
       "file": "lernzettel-ap1.pdf",
-      "bytes": 1442199
+      "bytes": 1442202
     },
     {
       "key": "ap2-fiae",
       "file": "lernzettel-ap2-fiae.pdf",
-      "bytes": 962353
+      "bytes": 962356
     },
     {
       "key": "ap2-fisi",
       "file": "lernzettel-ap2-fisi.pdf",
-      "bytes": 1280188
+      "bytes": 1280190
     },
     {
       "key": "ap2-fidpa",
       "file": "lernzettel-ap2-fidpa.pdf",
-      "bytes": 875994
+      "bytes": 875996
     },
     {
       "key": "ap2-fidv",
       "file": "lernzettel-ap2-fidv.pdf",
-      "bytes": 984311
+      "bytes": 984315
     },
     {
       "key": "ap2-itse",
       "file": "lernzettel-ap2-itse.pdf",
-      "bytes": 891398
+      "bytes": 891399
     },
     {
       "key": "ap2-kits",
       "file": "lernzettel-ap2-kits.pdf",
-      "bytes": 1454945
+      "bytes": 1473720
     },
     {
       "key": "ap2-kdm",
       "file": "lernzettel-ap2-kdm.pdf",
-      "bytes": 1103218
+      "bytes": 1122882
     },
     {
       "key": "abkuerzungen-fiae",
       "file": "abkuerzungen-fiae.pdf",
-      "bytes": 613852
+      "bytes": 613854
     },
     {
       "key": "abkuerzungen-fisi",
       "file": "abkuerzungen-fisi.pdf",
-      "bytes": 628916
+      "bytes": 628920
     },
     {
       "key": "abkuerzungen-fidpa",
       "file": "abkuerzungen-fidpa.pdf",
-      "bytes": 619358
+      "bytes": 619361
     },
     {
       "key": "abkuerzungen-fidv",
       "file": "abkuerzungen-fidv.pdf",
-      "bytes": 622819
+      "bytes": 622821
     },
     {
       "key": "abkuerzungen-itse",
       "file": "abkuerzungen-itse.pdf",
-      "bytes": 629221
+      "bytes": 629224
     },
     {
       "key": "abkuerzungen-kits",
       "file": "abkuerzungen-kits.pdf",
-      "bytes": 629690
+      "bytes": 631486
     },
     {
       "key": "abkuerzungen-kdm",
       "file": "abkuerzungen-kdm.pdf",
-      "bytes": 625880
+      "bytes": 627695
     }
   ]
 }
