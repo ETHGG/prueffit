@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.20.3] – 2026-11-25
+
+### Geändert
+- **Gegenprüfung aller 565 Erklärungen zu den Antwortmöglichkeiten** (unabhängige zweite Durchsicht, Rechenwege nachgerechnet): 17 Notizen korrigiert oder präzisiert – u. a. Netzspannungen (el-0008), IPv6-Kürzung (net-0006), DRAM-Datenverlust mit Cold-Boot-Variante (hw-0007), ext4 unter Windows nur per WSL 2 (hw-0022), WHERE/HAVING (prog-0051), EU-Richtlinie 2016/2102 und Übergangsfristen des BFSG (prog-0069), float/double (prog-0117), Pull-Prinzip ohne zuweisenden Product Owner (pm-0113), Verweigerung der Nacherfüllung (re-0018), Anfrage ist kein Antrag (re-0043), Kernlizenz ersetzt CALs nicht immer (re-0047), Kündigungsfrist (wiso-0011), Prokura (wiso-0034), Steuerklasse III auch für Verwitwete (wiso-0068), Eigentumsübergang durch Einigung und Übergabe (wi-0138), Krankheitstage im Zeugnis „grundsätzlich“ (wi-0190, auch in der Erklärung).
+
 ## [2.20.2] – 2026-11-25
 
 ### Hinzugefügt
