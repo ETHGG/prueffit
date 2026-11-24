@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.16] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere Bilder:** USV-Überbrückungszeit mit Beispielrechnung („Strom, Leistung und USV“), PoE-Budget eines Switches („Übertragungsmedien und Topologien“), Netzgeräte nach OSI-Schichten („OSI- und TCP/IP-Modell“), dazu 3 Bildfragen (hw-0109, net-0145, net-0146).
+
 ## [2.16.15] – 2026-11-24
 
 ### Hinzugefügt

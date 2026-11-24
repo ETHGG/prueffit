@@ -39,6 +39,7 @@ Diese Datei ist die zentrale Arbeitsanweisung für Claude Code. Lies sie **vor j
    3. in `docs/STATUS.md` unter „Weiter bei:“ genau Phase und Schritt eintragen,
    4. Nutzer per Push-Benachrichtigung **und** Nachricht informieren („pausiert, weiter ab …“),
    5. eine geplante Aufgabe zur Fortsetzung anlegen; beim Fortsetzen erneut benachrichtigen („geht weiter bei …“) und genau dort weitermachen.
+   Den Stand des Kontingents darf Claude jederzeit ohne Rückfrage auf claude.ai (Einstellungen → Nutzung, `https://claude.ai/settings/usage`) im Browser nachsehen, um Pausen besser zu planen (Wunsch des Nutzers, dauerhaft). Über Nacht darf das Wochenkontingent bis 100 % genutzt werden; das Sitzungskontingent möglichst ganz ausnutzen und erst kurz vor dem Limit (ca. 95 %) sauber pausieren.
 8. **Zeitschätzung (Wunsch des Nutzers, gilt für jede Session):** Vor größeren Aufträgen die Teilaufgaben mit ungefährer Dauer und die geschätzte Gesamtzeit nennen; nach jeder Teilaufgabe die tatsächliche Dauer (per `date` gemessen) und die verbleibende Schätzung melden.
 9. **Push-Benachrichtigungen (Wunsch des Nutzers):** bei jeder Pause, bei jeder Wiederaufnahme und bei mittelgroßen Änderungen (z. B. abgeschlossene Phase, neue Funktion, neue Version) eine kurze Push-Nachricht senden.
 10. **Bei Unklarheiten**: Annahme treffen, im Abschlussbericht dokumentieren, weitermachen.
