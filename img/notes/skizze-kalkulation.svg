@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif">
+<title>Schema der Bezugskalkulation und der Verkaufskalkulation</title>
+<rect x="0" y="0" width="1200" height="800" fill="#ffffff"/>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0f766e"/></marker></defs>
+<text x="600" y="70" font-size="46" fill="#10201f" font-weight="700" text-anchor="middle">Kalkulation im Handel</text>
+<text x="300" y="135" font-size="38" fill="#0f766e" font-weight="700" text-anchor="middle">Einkauf (Bezug)</text>
+<text x="900" y="135" font-size="38" fill="#0f766e" font-weight="700" text-anchor="middle">Verkauf (netto)</text>
+<text x="60" y="206" font-size="36" fill="#10201f" font-weight="700" text-anchor="start">Listeneinkaufspreis</text>
+<text x="60" y="270" font-size="36" fill="#10201f" font-weight="400" text-anchor="start">− Lieferrabatt</text>
+<text x="60" y="334" font-size="36" fill="#10201f" font-weight="700" text-anchor="start">= Zieleinkaufspreis</text>
+<text x="60" y="398" font-size="36" fill="#10201f" font-weight="400" text-anchor="start">− Lieferskonto</text>
+<text x="60" y="462" font-size="36" fill="#10201f" font-weight="700" text-anchor="start">= Bareinkaufspreis</text>
+<text x="60" y="526" font-size="36" fill="#10201f" font-weight="400" text-anchor="start">+ Bezugskosten</text>
+<rect x="40" y="546" width="520" height="58" rx="10" fill="#e6f4f1" stroke="#0f766e" stroke-width="3"/>
+<text x="60" y="590" font-size="36" fill="#10201f" font-weight="700" text-anchor="start">= Bezugspreis</text>
+<text x="660" y="206" font-size="36" fill="#10201f" font-weight="700" text-anchor="start">Bezugspreis</text>
+<text x="660" y="270" font-size="36" fill="#10201f" font-weight="400" text-anchor="start">+ Handlungskosten</text>
+<text x="660" y="334" font-size="36" fill="#10201f" font-weight="700" text-anchor="start">= Selbstkosten</text>
+<text x="660" y="398" font-size="36" fill="#10201f" font-weight="400" text-anchor="start">+ Gewinn</text>
+<text x="660" y="462" font-size="36" fill="#10201f" font-weight="700" text-anchor="start">= Barverkaufspreis</text>
+<text x="660" y="526" font-size="36" fill="#10201f" font-weight="400" text-anchor="start">+ Kundenskonto</text>
+<text x="1140" y="526" font-size="26" fill="#4b5d5c" font-weight="400" text-anchor="end">im Hundert</text>
+<text x="660" y="590" font-size="36" fill="#10201f" font-weight="700" text-anchor="start">= Zielverkaufspreis</text>
+<text x="660" y="654" font-size="36" fill="#10201f" font-weight="400" text-anchor="start">+ Kundenrabatt</text>
+<text x="1140" y="654" font-size="26" fill="#4b5d5c" font-weight="400" text-anchor="end">im Hundert</text>
+<rect x="640" y="674" width="520" height="58" rx="10" fill="#e6f4f1" stroke="#0f766e" stroke-width="3"/>
+<text x="660" y="718" font-size="36" fill="#10201f" font-weight="700" text-anchor="start">= Listenverkaufspreis</text>
+<line x1="560" y1="576" x2="640" y2="192" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow)"/>
+<text x="50" y="760" font-size="28" fill="#4b5d5c" font-weight="400" text-anchor="start">Skonto und Rabatt im Verkauf vom Ziel- bzw. Listenpreis rechnen (im Hundert).</text>
+</svg>

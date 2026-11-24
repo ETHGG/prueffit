@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif">
+<title>V-Modell mit Entwurfsstufen links und den zugehörigen Teststufen rechts</title>
+<rect x="0" y="0" width="1200" height="800" fill="#ffffff"/>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0f766e"/></marker></defs>
+<text x="600" y="70" font-size="46" fill="#10201f" font-weight="700" text-anchor="middle">V-Modell: jede Entwurfsstufe hat ihre Teststufe</text>
+<rect x="30" y="115" width="370" height="80" rx="14" fill="#e6f4f1" stroke="#0f766e" stroke-width="4"/>
+<text x="215.0" y="169" font-size="38" fill="#10201f" font-weight="700" text-anchor="middle">Anforderungen</text>
+<rect x="800" y="115" width="370" height="80" rx="14" fill="#ffffff" stroke="#0f766e" stroke-width="4"/>
+<text x="985.0" y="169" font-size="38" fill="#0f766e" font-weight="700" text-anchor="middle">Abnahmetest</text>
+<line x1="412" y1="155.0" x2="786" y2="155.0" stroke="#9db3b0" stroke-width="5" stroke-dasharray="14 10" marker-end="url(#arrow)"/>
+<line x1="100" y1="199" x2="100" y2="231" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow)"/>
+<line x1="1100" y1="233" x2="1100" y2="203" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow)"/>
+<rect x="80" y="237" width="370" height="80" rx="14" fill="#e6f4f1" stroke="#0f766e" stroke-width="4"/>
+<text x="265.0" y="291" font-size="38" fill="#10201f" font-weight="700" text-anchor="middle">Systementwurf</text>
+<rect x="750" y="237" width="370" height="80" rx="14" fill="#ffffff" stroke="#0f766e" stroke-width="4"/>
+<text x="935.0" y="291" font-size="38" fill="#0f766e" font-weight="700" text-anchor="middle">Systemtest</text>
+<line x1="462" y1="277.0" x2="736" y2="277.0" stroke="#9db3b0" stroke-width="5" stroke-dasharray="14 10" marker-end="url(#arrow)"/>
+<line x1="150" y1="321" x2="150" y2="353" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow)"/>
+<line x1="1050" y1="355" x2="1050" y2="325" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow)"/>
+<rect x="130" y="359" width="370" height="80" rx="14" fill="#e6f4f1" stroke="#0f766e" stroke-width="4"/>
+<text x="315.0" y="413" font-size="38" fill="#10201f" font-weight="700" text-anchor="middle">Architektur</text>
+<rect x="700" y="359" width="370" height="80" rx="14" fill="#ffffff" stroke="#0f766e" stroke-width="4"/>
+<text x="885.0" y="413" font-size="38" fill="#0f766e" font-weight="700" text-anchor="middle">Integrationstest</text>
+<line x1="512" y1="399.0" x2="686" y2="399.0" stroke="#9db3b0" stroke-width="5" stroke-dasharray="14 10" marker-end="url(#arrow)"/>
+<line x1="200" y1="443" x2="200" y2="475" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow)"/>
+<line x1="1000" y1="477" x2="1000" y2="447" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow)"/>
+<rect x="180" y="481" width="370" height="80" rx="14" fill="#e6f4f1" stroke="#0f766e" stroke-width="4"/>
+<text x="365.0" y="535" font-size="38" fill="#10201f" font-weight="700" text-anchor="middle">Feinentwurf</text>
+<rect x="650" y="481" width="370" height="80" rx="14" fill="#ffffff" stroke="#0f766e" stroke-width="4"/>
+<text x="835.0" y="535" font-size="38" fill="#0f766e" font-weight="700" text-anchor="middle">Komponententest</text>
+<line x1="562" y1="521.0" x2="636" y2="521.0" stroke="#9db3b0" stroke-width="5" stroke-dasharray="14 10" marker-end="url(#arrow)"/>
+<rect x="415" y="630" width="370" height="80" rx="14" fill="#0f766e" stroke="#0f766e" stroke-width="4"/>
+<text x="600" y="683" font-size="38" fill="#ffffff" font-weight="700" text-anchor="middle">Programmierung</text>
+<line x1="240" y1="565" x2="430" y2="650" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow)"/>
+<line x1="770" y1="650" x2="960" y2="569" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow)"/>
+<text x="600" y="770" font-size="30" fill="#4b5d5c" font-weight="400" text-anchor="middle">gestrichelt: Was entworfen wird, wird auf derselben Stufe getestet.</text>
+</svg>

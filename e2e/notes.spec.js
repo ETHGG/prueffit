@@ -276,3 +276,18 @@ test('picture viewer (2.16.8): opens in the app, zooms, closes; also for questio
   await expect(page.locator('dialog.image-viewer')).toHaveCount(0);
   expect(problems).toEqual([]);
 });
+
+test('sketches in notes (2.19): SVG sketch renders crisp, opens in the viewer', async ({ page }) => {
+  const problems = watchProblems(page);
+  await page.goto('./#/lernzettel/note-risiko');
+  const fig = page.locator('figure.note-figure').first();
+  const img = fig.locator('img');
+  await expect(img).toHaveAttribute('src', './img/notes/skizze-risikomatrix.svg');
+  await expect(fig.locator('figcaption')).toContainText('Ampel');
+  await img.scrollIntoViewIfNeeded();
+  await expect.poll(() => img.evaluate((el) => el.complete && el.naturalWidth)).toBe(1200);
+  await expectNoHorizontalOverflow(page);
+  await fig.locator('a').click();
+  await expect(page.locator('dialog.image-viewer img')).toHaveAttribute('src', /skizze-risikomatrix\.svg$/);
+  expect(problems).toEqual([]);
+});

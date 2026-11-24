@@ -2,6 +2,16 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.19.0] – 2026-11-25
+
+### Hinzugefügt
+- **Skizzen in Lernzetteln** (Funktions-Backlog Punkt 4): gezeichnete Skizzen als SVG (scharf in jeder Größe, je 3–5 KB) für Themen ohne Bild – Dezimal- und Binäreinheiten („Einheiten, Datenmengen und Übertragungszeit“), Risikomatrix („Risiko- und Qualitätsmanagement“), V-Modell mit Teststufen („Softwaretest und Qualität“), Kaufvertrag mit Verpflichtungs- und Erfüllungsgeschäft („Kaufvertrag und Kaufvertragsstörungen“), Bezugs- und Verkaufskalkulation („Bezugs- und Verkaufskalkulation“), UML-Klassendiagramm („UML und Modellierung“). Netzwerkplan, OSI-Modell, ER-Modell und Abläufe (EPK, Netzplan) gibt es bereits als Bilder (2.16).
+- Bildzeilen mit Namen `skizze-…` laden `img/notes/skizze-….svg` (`isSketch`, `noteImageFile` in `js/notes.js`), sonst wie bisher WebP; Bildbetrachter und Offline-Cache unverändert nutzbar. Die Skizzen entstehen mit `tools/sketches/build.py`.
+- Tests: Dateiname je Bildart, jede Skizze eigenständig (Ansichtsrahmen 1200 × 800, eigener Hintergrund, Titel, keine Skripte oder externen Verweise); Browsertest `sketches in notes (2.19)`.
+
+### Geändert
+- Lernzettel „Kaufvertrag und Kaufvertragsstörungen“: verdeckte Mängel „unverzüglich nach Entdeckung“ rügen; Verkürzung bei gebrauchter Ware gegenüber Verbrauchern nur mit eigenem Hinweis und gesonderter Vereinbarung (§ 476 Abs. 2 BGB) – wie in den Fragen (2.17).
+
 ## [2.18.0] – 2026-11-25
 
 ### Hinzugefügt

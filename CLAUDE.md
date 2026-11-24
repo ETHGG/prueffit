@@ -86,8 +86,9 @@ prueffit/
 │   ├── build-pdfs.mjs        # npm run pdfs: PDFs aus print.html erzeugen (Playwright)
 │   └── pdf-hash.mjs          # Prüfsumme der PDF-Quellen
 ├── icons/                    # PWA-Icons 192/512, apple-touch-icon 180
-├── img/notes/                # gerenderte Abbildungen (WebP, ≤ 150 KB) für Lernzettel, Situationen und Fragen (seit 2.16)
+├── img/notes/                # gerenderte Abbildungen (WebP, ≤ 150 KB) für Lernzettel, Situationen und Fragen (seit 2.16), Skizzen skizze-*.svg (seit 2.19)
 ├── tools/blender/            # Blender-Skripte, aus denen die Abbildungen entstehen (seit 2.16)
+├── tools/sketches/build.py   # erzeugt die SVG-Skizzen img/notes/skizze-*.svg (seit 2.19)
 ├── vendor/
 │   └── chart.umd.min.js
 ├── data/
@@ -224,7 +225,7 @@ prueffit/
 ```json
 { "id": "note-raid", "topic": "hardware.raid", "title": "RAID-Level und Speicher", "content": "## Übersicht\n| RAID | … |", "source": "eigene", "refs": ["Deine Notizen: …"] }
 ```
-Genau **ein Lernzettel pro Thema**. `content` ist ein Markdown-Teilumfang (`##`/`###`, Absätze, `-`/`1.`-Listen, Tabellen, ``` ``` ```-Code, `>`-Merksatz, `**fett**`, `` `code` ``, seit 2.16 Bilder als eigene Zeile `![Bildbeschreibung](name "Bildunterschrift")` mit `name` aus `[a-z0-9-]`), gerendert ohne innerHTML (`js/notes.js`). `refs` (optional) nennt die Grundlage.
+Genau **ein Lernzettel pro Thema**. `content` ist ein Markdown-Teilumfang (`##`/`###`, Absätze, `-`/`1.`-Listen, Tabellen, ``` ``` ```-Code, `>`-Merksatz, `**fett**`, `` `code` ``, seit 2.16 Bilder als eigene Zeile `![Bildbeschreibung](name "Bildunterschrift")` mit `name` aus `[a-z0-9-]` – Datei `img/notes/<name>.webp`, seit 2.19 Skizzen `skizze-<name>` als `img/notes/skizze-<name>.svg` (1200 × 800, eigener weißer Hintergrund, `<title>`, keine externen Verweise)), gerendert ohne innerHTML (`js/notes.js`). `refs` (optional) nennt die Grundlage.
 
 ### 5.3b Abkürzung (`data/glossary.json`, seit 0.9)
 ```json
@@ -409,6 +410,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.16** | 3D-Bilder (Blender) in Lernzetteln und Fragen mit Bild | erledigt |
 | **2.17** | Erklärung zu jeder Antwortmöglichkeit (`optionNotes`), alle Auswahlfragen für FISI/KITS | erledigt |
 | **2.18** | Wochenplan als Kalenderdatei (.ics) | erledigt |
+| **2.19** | Skizzen (SVG) in Lernzetteln | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

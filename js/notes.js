@@ -7,9 +7,23 @@ export const NOTE_IMAGE_DIR = './img/notes/';
 export const NOTE_IMAGE_EXT = '.webp';
 const IMAGE_LINE = /^!\[([^\]]+)\]\(([a-z0-9-]+)(?:\s+"([^"]+)")?\)$/;
 
+/** Since 2.19: drawn sketches (SVG, crisp at every size) are named `skizze-…`; rendered pictures stay WebP. */
+export const SKETCH_PREFIX = 'skizze-';
+export const SKETCH_EXT = '.svg';
+
+/** Whether a picture name refers to an SVG sketch. */
+export function isSketch(name) {
+  return typeof name === 'string' && name.startsWith(SKETCH_PREFIX);
+}
+
+/** File name of a note picture: `<name>.webp`, sketches `<name>.svg`. */
+export function noteImageFile(name) {
+  return `${name}${isSketch(name) ? SKETCH_EXT : NOTE_IMAGE_EXT}`;
+}
+
 /** File path of a note picture, relative to the app root. */
 export function noteImagePath(name) {
-  return `${NOTE_IMAGE_DIR}${name}${NOTE_IMAGE_EXT}`;
+  return `${NOTE_IMAGE_DIR}${noteImageFile(name)}`;
 }
 
 /** Names of all pictures used in a Markdown text, in order. */

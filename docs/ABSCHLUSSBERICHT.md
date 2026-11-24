@@ -1,3 +1,9 @@
+# Kurzbericht 2.19.0 (Nachtbetrieb Lauf 1, Fortsetzung, 25.11.2026)
+
+- **Funktion (Backlog 4):** SVG-Skizzen in Lernzetteln über die vorhandene Bildzeile (`skizze-…` → `.svg`), 6 Skizzen (Einheiten, Risikomatrix, V-Modell, Kaufvertrag, Kalkulation, UML-Klassendiagramm) per Skript `tools/sketches/build.py`, im Browser auf iPhone-SE-Breite angesehen.
+- **Annahme:** Netzwerkplan, OSI, ER und Ablaufdiagramme waren seit 2.16 als gerenderte Bilder vorhanden; die Skizzen decken deshalb Themen ohne Bild ab. Skizzen haben einen eigenen weißen Hintergrund (wie die Bilder), damit sie im dunklen Design lesbar bleiben.
+- **Präzisiert:** Lernzettel Kaufvertrag (Rüge „unverzüglich“, gebrauchte Ware § 476 Abs. 2 BGB).
+
 # Kurzbericht 2.18.0 (Nachtbetrieb Lauf 1, Fortsetzung, 25.11.2026)
 
 - **Funktion (Backlog 3):** Wochenplan als .ics-Datei aus dem Wochenplan der Startseite (Knopf im aufgeklappten Bereich, keine neue Ansicht). Reine Funktionen in `js/schedule.js`, Download über `downloadText` (`js/ui/files.js`).

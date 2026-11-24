@@ -116,6 +116,8 @@ describe('pictures in notes (2.16)', () => {
   it('lists picture names, builds paths and uses the caption as plain text', () => {
     expect(noteImages(md)).toEqual(['serverschrank']);
     expect(noteImagePath('serverschrank')).toBe('./img/notes/serverschrank.webp');
+    expect(noteImagePath('skizze-risikomatrix')).toBe('./img/notes/skizze-risikomatrix.svg'); // since 2.19
+    expect(noteImagePath('risikoskizze')).toBe('./img/notes/risikoskizze.webp');
     expect(plainText(md)).toContain('Aufbau eines 19-Zoll-Racks');
   });
   it('rejects unsafe names (no paths, no upper case) – the line stays text', () => {

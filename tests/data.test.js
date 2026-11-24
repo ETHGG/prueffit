@@ -8,7 +8,7 @@ import {
   validateQuestion,
   validateFlashcard,
 } from '../js/questions.js';
-import { validateNote, parseMarkdown, noteImages } from '../js/notes.js';
+import { validateNote, parseMarkdown, noteImages, noteImageFile, isSketch } from '../js/notes.js';
 import { validateGlossaryEntry, spellings, matchGlossary, abbreviationCandidates } from '../js/glossary.js';
 import { AREAS, SUPPORTED_QUIZ_TYPES } from '../js/config.js';
 import { validateScenario, examParts, questionFitsPart, EXAM_QUESTION_TYPES } from '../js/exam.js';
@@ -414,15 +414,36 @@ describe('pictures in notes and scenarios (2.16)', () => {
     expect(broken).toEqual([]);
   });
 
-  it('every referenced picture exists as img/notes/<name>.webp', () => {
-    const missing = [...used.keys()].filter((name) => !existsSync(join(IMG_DIR, `${name}.webp`)));
+  it('every referenced picture exists as img/notes/<name>.webp (sketches: skizze-<name>.svg, since 2.19)', () => {
+    const missing = [...used.keys()].filter((name) => !existsSync(join(IMG_DIR, noteImageFile(name))));
     expect(missing).toEqual([]);
   });
 
   it('every picture file is used and small enough for offline use (≤ 150 KB)', () => {
     const files = existsSync(IMG_DIR) ? readdirSync(IMG_DIR).filter((f) => !f.startsWith('.')) : [];
-    expect(files.filter((f) => !f.endsWith('.webp'))).toEqual([]);
-    expect(files.map((f) => f.replace(/\.webp$/, '')).filter((n) => !used.has(n))).toEqual([]);
+    expect(files.filter((f) => !(f.endsWith('.webp') || (f.startsWith('skizze-') && f.endsWith('.svg'))))).toEqual([]);
+    expect(files.map((f) => f.replace(/\.(webp|svg)$/, '')).filter((n) => !used.has(n))).toEqual([]);
     expect(files.filter((f) => statSync(join(IMG_DIR, f)).size > 150 * 1024)).toEqual([]);
+  });
+});
+
+describe('sketches (SVG) in notes (2.19)', () => {
+  const IMG_DIR = join(DATA_DIR, '..', 'img', 'notes');
+  const sketches = existsSync(IMG_DIR) ? readdirSync(IMG_DIR).filter((f) => f.endsWith('.svg')) : [];
+
+  it('there are sketches, all named skizze-…', () => {
+    expect(sketches.length).toBeGreaterThanOrEqual(6);
+    expect(sketches.filter((f) => !isSketch(f))).toEqual([]);
+  });
+
+  it('every sketch is a self-contained SVG: 1200 × 800 view box, own background, title, no scripts or external references', () => {
+    for (const f of sketches) {
+      const svg = readFileSync(join(IMG_DIR, f), 'utf8');
+      expect(svg, f).toMatch(/^<svg [^>]*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/);
+      expect(svg, f).toMatch(/viewBox="0 0 1200 800"/);
+      expect(svg, f).toMatch(/<title>[^<]{10,}<\/title>/);
+      expect(svg, f).toMatch(/<rect [^>]*width="1200" height="800" fill="#ffffff"/);
+      expect(svg, f).not.toMatch(/<script|href="http|xlink:href="http|url\(http|@import/i);
+    }
   });
 });
