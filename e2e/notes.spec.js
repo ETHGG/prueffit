@@ -248,3 +248,31 @@ test('pictures in notes (2.16): rendered image with caption loads without overfl
   await page.screenshot({ path: `test-results/note-figure-${test.info().project.name}.png`, fullPage: false });
   expect(problems).toEqual([]);
 });
+
+test('picture viewer (2.16.8): opens in the app, zooms, closes; also for question pictures', async ({ page }) => {
+  const problems = watchProblems(page);
+  await page.goto('./#/lernzettel/note-medien');
+  const link = page.locator('figure.note-figure a').first();
+  await link.scrollIntoViewIfNeeded();
+  await link.click();
+  const viewer = page.locator('dialog.image-viewer');
+  await expect(viewer).toBeVisible();
+  await expect(viewer.locator('.image-viewer-caption')).toContainText('T568B');
+  expect(page.url()).toContain('note-medien');
+  const zoom = viewer.getByRole('button', { name: 'Vergrößern' });
+  await zoom.click();
+  await expect(viewer).toHaveClass(/zoomed/);
+  await expect.poll(() => viewer.locator('img').evaluate((el) => el.clientWidth)).toBe(1200);
+  await viewer.getByRole('button', { name: 'Schließen' }).click();
+  await expect(page.locator('dialog.image-viewer')).toHaveCount(0);
+  // question pictures use the same viewer (button around the picture)
+  await page.evaluate(async () => {
+    const { questionFigure } = await import('./js/ui/figure.js');
+    document.querySelector('main, body').prepend(questionFigure({ image: { name: 'rj45', alt: 'RJ45-Stecker nach T568B' } }));
+  });
+  await page.getByRole('button', { name: /Bild groß anzeigen: RJ45/ }).click();
+  await expect(viewer).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.locator('dialog.image-viewer')).toHaveCount(0);
+  expect(problems).toEqual([]);
+});

@@ -214,7 +214,7 @@ function renderExamTasks(catalog, px, job, params) {
           h('div', { class: 'q-head' },
             h('span', { class: 'q-number', text: tasks.length > 1 ? `${ti + 1}.${qi + 1}` : `${qi + 1}.` }),
             h('p', { class: 'q-text', text: q.question }),
-            questionFigure(q),
+            questionFigure(q, { zoom: false }),
             h('span', { class: 'q-points', text: `${q.points} P.` })),
           h('p', { class: 'q-hint', text: answerHint(q) }),
           answerArea(q, layout.get(q.id)));

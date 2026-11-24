@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.8] – 2026-11-24
+
+### Hinzugefügt
+- **Bildbetrachter in der App:** Bilder in Lernzetteln und Fragen öffnen sich per Antippen bildschirmfüllend mit „Vergrößern“ (Originalgröße, verschiebbar) und „Schließen“ (auch Escape). Bisher öffnete das Lernzettel-Bild ein neues Fenster, das sich in der Home-Bildschirm-App auf dem iPhone nicht schließen ließ; Bilder in Fragen ließen sich gar nicht vergrößern. Die Druckansicht bleibt ohne Schaltfläche.
+
 ## [2.16.7] – 2026-11-24
 
 ### Hinzugefügt

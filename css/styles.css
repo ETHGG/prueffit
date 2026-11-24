@@ -550,6 +550,25 @@ mark { background: var(--mark-bg, #ffe58f); color: inherit; border-radius: 3px; 
 /* Pictures in notes (2.16): rendered illustrations with a baked-in light background. */
 .note-figure { margin: 1rem 0; }
 .note-figure img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; border-radius: 12px; border: 1px solid var(--border); background: #eef1f4; }
+.figure-zoom { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 12px; }
+.note-figure a { cursor: zoom-in; }
+.image-viewer {
+  width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; padding: 0; border: 0;
+  background: #0b1416; color: #f1f5f9; display: flex; flex-direction: column;
+}
+.image-viewer:not([open]) { display: none; }
+.image-viewer::backdrop { background: rgb(0 0 0 / 70%); }
+.image-viewer-bar {
+  display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+  padding: calc(.5rem + env(safe-area-inset-top)) calc(.75rem + env(safe-area-inset-right)) .5rem calc(.75rem + env(safe-area-inset-left));
+}
+.image-viewer-caption { flex: 1 1 12rem; margin: 0; font-size: .9rem; color: #f1f5f9; }
+.image-viewer-bar .button { min-height: 44px; }
+.image-viewer .button.secondary { color: #f1f5f9; border-color: #f1f5f9; }
+.image-viewer-scroll { flex: 1; overflow: auto; display: flex; align-items: center; padding-bottom: env(safe-area-inset-bottom); }
+.image-viewer-scroll img { display: block; width: 100%; height: auto; max-height: 100%; object-fit: contain; background: #eef1f4; margin: auto; }
+.image-viewer.zoomed .image-viewer-scroll { align-items: flex-start; }
+.image-viewer.zoomed .image-viewer-scroll img { width: 1200px; max-width: none; max-height: none; }
 .note-figure figcaption { margin-top: .4rem; font-size: .9rem; color: var(--muted); }
 .note-tip { border-left: 4px solid var(--primary); background: var(--surface-2); padding: .6rem .8rem; border-radius: 0 8px 8px 0; }
 .table-scroll { overflow-x: auto; margin: .5rem 0; }

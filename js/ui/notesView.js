@@ -7,6 +7,7 @@ import { catalogSections, examHeading } from '../jobCatalog.js';
 import { parseMarkdown, parseInline, searchNotes, highlightParts, noteImagePath } from '../notes.js';
 import { h, append } from './dom.js';
 import { fold, foldControls } from './fold.js';
+import { openImageViewer } from './figure.js';
 import {
   pdfList, pdfFileName, formatFileSize, pdfKeyForTopic, glossaryPdfKey, PDF_DIR, PDF_GLOSSARY,
 } from '../pdfs.js';
@@ -160,7 +161,10 @@ export function renderNoteContent(md, query = '', glossary = null) {
       case 'code': return h('pre', {}, h('code', { text: b.text }));
       case 'tip': return h('p', { class: 'note-tip' }, inline(b.text, query));
       case 'image': return h('figure', { class: 'note-figure' },
-        h('a', { href: noteImagePath(b.name), target: '_blank', rel: 'noopener', 'aria-label': `Bild groß öffnen: ${b.caption || b.alt}` },
+        h('a', {
+          href: noteImagePath(b.name), target: '_blank', rel: 'noopener', 'aria-label': `Bild groß öffnen: ${b.caption || b.alt}`,
+          onClick: (e) => { if (openImageViewer({ src: noteImagePath(b.name), alt: b.alt, caption: b.caption })) e.preventDefault(); },
+        },
           h('img', { src: noteImagePath(b.name), alt: b.alt, loading: 'lazy', decoding: 'async', width: '1200', height: '800' })),
         b.caption ? h('figcaption', {}, inline(b.caption, query)) : null);
       default: return h('p', {}, inline(b.text, query));
