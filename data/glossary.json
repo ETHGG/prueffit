@@ -1232,6 +1232,12 @@
     "area": "Programmierung"
   },
   {
+    "abbr": "PDU",
+    "full": "Power Distribution Unit",
+    "explanation": "Steckdosenleiste im Rack, oft mit Strommessung und fernschaltbaren Steckdosen; bei redundanter Versorgung je eine PDU pro Stromkreis",
+    "area": "Hardware"
+  },
+  {
     "abbr": "PGP",
     "full": "Pretty Good Privacy",
     "explanation": "Verschlüsselung und Signatur von E-Mails",

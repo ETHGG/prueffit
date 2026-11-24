@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.5] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere 3D-Bilder (Abendlauf):** strukturierte Verkabelung mit Primär-, Sekundär- und Tertiärbereich („Übertragungsmedien und Topologien“), redundante Stromversorgung im Rack mit zwei Einspeisungen, USVs und PDUs („Serverbetrieb“), WLAN-Ausleuchtung mit den Kanälen 1, 6 und 11 („VLAN, WLAN und Spanning Tree“), dazu 3 Bildfragen (net-0134, hw-0106, net-0135).
+- Lernzettel: neuer Abschnitt „Strukturierte Verkabelung (EN 50173)“, zwei Einspeisungen im Serverraum, Kanalplanung im 2,4-GHz-Band.
+- Abkürzungsverzeichnis: PDU.
+- Bilder-Backlog damit vollständig umgesetzt.
+
 ## [2.16.4] – 2026-11-24
 
 ### Hinzugefügt
