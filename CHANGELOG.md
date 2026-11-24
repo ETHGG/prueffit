@@ -2,6 +2,16 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.3] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere 3D-Bilder (Abendlauf):** Typ-1-/Typ-2-Hypervisor und Container als Schichten sowie Verantwortung bei On-Premises, IaaS, PaaS und SaaS („Virtualisierung und Cloud“), DNS-Auflösung über Resolver, Root-, TLD- und autoritativen Server („Protokolle, Dienste und Ports“), dazu 3 Bildfragen (hw-0104, hw-0105, net-0133).
+- Lernzettel „Protokolle, Dienste und Ports“: Ablauf der DNS-Auflösung (rekursiv/iterativ, Cache, TTL).
+- Abkürzungsverzeichnis: TLD, TTL.
+
+### Geändert
+- Cloud-Modelle präzisiert (Lernzettel, Abkürzungen PaaS/SaaS): bei IaaS verwaltet der Kunde auch Laufzeit und Daten, bei PaaS Anwendungen und Daten; auch bei SaaS bleibt er für Dateninhalte, Benutzerkonten und Datenschutz verantwortlich.
+
 ## [2.16.2] – 2026-11-24
 
 ### Hinzugefügt

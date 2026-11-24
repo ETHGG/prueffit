@@ -1190,7 +1190,7 @@
   {
     "abbr": "PaaS",
     "full": "Platform as a Service",
-    "explanation": "Cloud: Plattform (z. B. Datenbank) wird gestellt, Kunde verwaltet nur Anwendungen",
+    "explanation": "Cloud: Plattform (Betriebssystem, Laufzeit, z. B. Datenbank) wird gestellt, Kunde verwaltet nur Anwendungen und Daten",
     "area": "Hardware"
   },
   {
@@ -1384,7 +1384,7 @@
   {
     "abbr": "SaaS",
     "full": "Software as a Service",
-    "explanation": "Cloud: fertige Software zur Nutzung, z. B. Microsoft 365",
+    "explanation": "Cloud: fertige Software zur Nutzung, z. B. Microsoft 365; für Dateninhalte, Benutzerkonten und Datenschutz bleibt der Kunde verantwortlich",
     "area": "Hardware"
   },
   {
@@ -1633,6 +1633,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "TLD",
+    "full": "Top-Level-Domain",
+    "explanation": "Oberste Ebene eines Domainnamens, z. B. .de oder .com; ihre Nameserver verweisen auf die autoritativen Server der Domains",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "TLS",
     "full": "Transport Layer Security",
     "explanation": "Verschlüsselt Verbindungen, z. B. bei HTTPS",
@@ -1643,6 +1649,12 @@
     "full": "Technische und organisatorische Maßnahmen",
     "explanation": "Schutzmaßnahmen nach DSGVO (Zutritt, Zugang, Zugriff …)",
     "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "TTL",
+    "full": "Time to Live",
+    "explanation": "Gültigkeitsdauer: bei DNS, wie lange eine Antwort im Cache bleiben darf (Sekunden); bei IP die maximale Zahl der Router-Hops",
+    "area": "Netzwerke"
   },
   {
     "abbr": "TV",
