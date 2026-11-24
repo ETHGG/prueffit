@@ -88,7 +88,7 @@ export function transferPanel(ctx, { rerender }) {
     h('div', { class: 'button-row' },
       h('button', { type: 'button', class: 'button', onClick: shareBackup }, 'Sicherung teilen')),
     h('details', { class: 'fold transfer-fold' },
-      h('summary', {}, 'Per Link oder QR-Code übertragen (z. B. PC → iPhone)'),
+      h('summary', {}, h('span', { class: 'grow', text: 'Per Link oder QR-Code übertragen (z. B. PC → iPhone)' }), h('span', { class: 'fold-chevron', 'aria-hidden': 'true' })),
       h('p', { class: 'small' }, 'Erstellt einen Link mit deinem Lernstand. Öffne ihn auf dem anderen Gerät – am besten in Safari und danach PrüfFit zum Home-Bildschirm hinzufügen. Dort siehst du vor dem Übernehmen, was übertragen wird.'),
       h('button', { type: 'button', class: 'button secondary', id: 'transfer-create', onClick: (e) => createLink(e.currentTarget) }, 'Link und QR-Code erstellen'),
       result,

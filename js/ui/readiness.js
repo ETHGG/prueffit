@@ -103,7 +103,9 @@ export function readinessCard(ctx, { historyCanvas = null, onHistory = null } = 
   return h('section', { class: 'card readiness', 'aria-labelledby': 'readiness-title' },
     h('h2', { id: 'readiness-title', text: 'Prüfungsreife' }),
     h('p', { class: 'muted small' },
-      'Voraussichtliche Punkte und Note nach IHK-Schlüssel je Prüfungsbereich – geschätzt aus deinen Quiz-Antworten (Themen gewichtet nach ihrem Anteil) und den letzten drei Prüfungssimulationen. Eine Schätzung, keine Garantie.'),
+      'Voraussichtliche Punkte und Note nach IHK-Schlüssel je Prüfungsbereich – geschätzt aus deinen Quiz-Antworten (Themen gewichtet nach ihrem Anteil) und den letzten drei Prüfungssimulationen. Eine Schätzung, keine Garantie.',
+      // The data threshold is explained once instead of under every part (2.15.3).
+      list.some((r) => r.status !== 'ok') ? ' Eine Schätzung gibt es ab 20 Antworten aus mindestens einem Viertel des Bereichs oder nach einer Simulation.' : ''),
     h('ul', { class: 'readiness-list' },
       list.map((r) => h('li', { class: 'readiness-item' },
         h('div', { class: 'readiness-head' },
@@ -112,8 +114,7 @@ export function readinessCard(ctx, { historyCanvas = null, onHistory = null } = 
         verdict(r),
         h('span', { class: 'muted small' }, basis(r),
           r.status === 'ok' && r.quizPercent !== null && r.simPercent !== null
-            ? ` · Quiz ${Math.round(r.quizPercent)} %, Simulation ${Math.round(r.simPercent)} %` : '',
-          r.status !== 'ok' ? ' · ab 20 Antworten aus mindestens einem Viertel des Bereichs oder nach einer Simulation' : ''),
+            ? ` · Quiz ${Math.round(r.quizPercent)} %, Simulation ${Math.round(r.simPercent)} %` : ''),
         r.potential.length
           ? h('span', { class: 'small readiness-potential' },
             r.answers ? 'Größtes Punktepotenzial: ' : 'Größte Themen: ',

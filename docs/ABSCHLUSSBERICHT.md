@@ -4,6 +4,7 @@
 - **Gefunden und behoben (7):** Cent-Rundung im Rechentraining (0,2 % der Aufgaben 1 ct zu niedrig), browserabhängige Nutzwert-Aufgaben, zu kleine GiB-Aufgaben, Projekttitel FIDPA („Durchführen“), veraltete Norm DIN VDE 0701/0702 im Fachgespräch ITSE, falsche Norm im ITSE-Projektbeispiel, zu kleine Tippflächen in der Formelsammlung. Präzisiert: Schutzmaßnahme (Überstromschutz/RCD), Architektur- vs. Entwurfsmuster, Netto-Listenpreis, Angebotskalkulation ohne Kundenrabatt/-skonto, AfA-Beträge ohne GWG-Fälle.
 - **Ohne Befund:** alle 57 Dateneinträge der Nacht (Präzisierungen 2.14.1 und Inhalte 2.15.0–2.15.2 fachlich richtig).
 - **Annahme:** κ = 56 m/(Ω·mm²) „bei ca. 30 °C“ bleibt (einheitlich in Formelsammlung, Lernzettel, Karten; 58 bei 20 °C nach IEC).
+- **Durchlauf (2.15.4):** Notenrechner auf der Projektseite eingeklappt, solange leer; Prüfungsreife-Hinweis zur Datenmenge einmal statt je Bereich; Pfeil bei „Per Link oder QR-Code übertragen“. Offen: gespeicherter Prüfungstag außerhalb der Terminliste wird in den Einstellungen still auf den ersten Termin vorausgewählt (Randfall).
 - **Neue Abhängigkeiten:** keine. Unit-Tests lokal mit Ersatz-Runner (764 grün; npm-Registry in der Cloud-Umgebung nicht erreichbar), Browsertests Chromium Desktop, iPhone SE, iPhone 13 dunkel (219 grün).
 
 # Kurzbericht 2.15.1 (Nachtbetrieb Lauf 2 „neue Inhalte“, 24.11.2026)

@@ -116,6 +116,7 @@ test('the backup contains project checklists and grade calculator and restores t
   await page.goto('./#/projekt');
   await page.locator('details[data-fold="antrag"] summary').click();
   await page.locator('input[data-item="a-echt"]').check();
+  await page.locator('details[data-fold="final"] summary').click(); // collapsed without points (2.15.3)
   await page.fill('#final-ap1', '72');
 
   await page.goto('./#/einstellungen');

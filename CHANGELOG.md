@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.15.4] – 2026-11-24
+
+### Geändert (Nachtbetrieb Lauf 3, Durchlauf der App)
+- **Projektarbeit:** „Gesamtnote berechnen“ ist eingeklappt, solange noch keine Punkte eingetragen sind (Seite auf dem iPhone rund ein Viertel kürzer); mit gespeicherten Punkten öffnet er sich wie bisher.
+- **Prüfungsreife (Statistik):** Der Hinweis „ab 20 Antworten aus mindestens einem Viertel des Bereichs oder nach einer Simulation“ steht einmal in der Einleitung statt unter jedem Prüfungsbereich.
+- **Einstellungen:** „Per Link oder QR-Code übertragen“ hat jetzt den Pfeil zum Aufklappen wie alle anderen eingeklappten Bereiche (war wie eine Überschrift ohne Hinweis aufs Antippen).
+- Stichprobe: 12 zufällige Rechenaufgaben aus dem Bestand (Personalbedarf, Widerstände, Bezugskalkulation, Subnetting, Pseudocode, Modulo, Verfügbarkeit, Personalkosten, Meldebestand, Energiekosten, Übertragungszeit, Devisen) nachgerechnet – alle richtig.
+
 ## [2.15.3] – 2026-11-24
 
 ### Korrigiert (Nachtbetrieb Lauf 3, Gegenprüfung der Nacht 23./24.11.)

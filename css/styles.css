@@ -806,3 +806,4 @@ details.transfer-fold > * + * { margin-top: .6rem; }
 .qr-box svg { display: block; width: 100%; max-width: 420px; height: auto; background: #ffffff; border-radius: 8px; }
 .qr-box figcaption { margin-top: .4rem; }
 .transfer-notice { background: var(--partial-bg); color: var(--partial); padding: .6rem .75rem; border-radius: 8px; }
+.fold-heading { margin: 0; font-size: 1.2rem; }

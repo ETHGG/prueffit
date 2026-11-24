@@ -78,6 +78,9 @@ test('Gesamtnote berechnen: weighting, passing rules, oral supplementary exam, v
   });
   await page.goto('./#/projekt');
   await page.reload(); // load the seeded exam records
+  // collapsed while no points are entered (2.15.3)
+  await expect(page.locator('#final-ap1')).toBeHidden();
+  await page.locator('[data-fold="final"] summary').click();
   await expect(page.locator('.final-result')).toContainText('Noch offen');
   await page.getByRole('button', { name: 'Ergebnisse aus Simulationen übernehmen' }).click();
   await expect(page.locator('#final-ap1')).toHaveValue('72');

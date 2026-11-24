@@ -99,8 +99,11 @@ export function render(root, ctx) {
     drawResult();
   };
   const simulated = latestSimulationResults(ctx.progress.exams, { job, titles: { ga1: partTitles.ga1, ga2: partTitles.ga2, wiso: partTitles.wiso } });
-  const calculator = h('section', { class: 'card', 'aria-labelledby': 'project-final' },
-    h('h2', { id: 'project-final', text: 'Gesamtnote berechnen' }),
+  // Collapsed until points were entered (2.15.3): keeps the page short, the calculator is secondary.
+  const calculator = fold('project', 'final', {
+    summary: [h('h2', { id: 'project-final', class: 'grow fold-heading', text: 'Gesamtnote berechnen' })],
+    open: Object.keys(state.points ?? {}).length > 0,
+  },
     h('p', { class: 'muted small', text: 'Trage die Punkte (0–100) je Prüfungsbereich ein – echte Ergebnisse oder Schätzungen. Gewichtung nach Ausbildungsverordnung: Teil 1 20 %, Projekt 50 %, die drei schriftlichen Bereiche von Teil 2 je 10 %.' }),
     AREAS.map((a) => {
       const input = h('input', {
