@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.16.6 (24.11.2026)
+**Aktuelle Version:** 2.16.7 (24.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -17,7 +17,7 @@
 
 ## Nachtbetrieb (Auftrag 23.11.2026, 22:56, ab sofort jede Nacht)
 
-**Läuft gerade:** Abendlauf 3D-Bilder seit 17:50
+**Läuft gerade:** –
 
 Regeln für alle Nachtläufe:
 - Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
@@ -41,20 +41,20 @@ Erledigt: serverschrank, rj45, glasfaser, raid5, usv, mainboard, hdd-ssd (2.16.0
 
 **So kommen Aufträge an Blender (ohne Bildschirmsteuerung):** In Blender läuft `tools/blender/watcher.py` (einmal in der Python-Konsole gestartet, `bpy.app.timers`). Er arbeitet Dateien `Desktop/PrüfFit/blender/jobs/*.job` (Inhalt: Bildname) der Reihe nach ab: führt `Desktop/PrüfFit/blender/<name>.py` aus (lib.py + Szene + render nach `blender/out/<name>.webp`, Fehler in `out/<name>.err`). Ablauf: Skript bauen (Vorlage: `tools/blender/*.py`, Runner-Muster: try/except mit `.ok`/`.err`), mit `device_commit_files` ablegen – **danach Inhalt per `device_bash` (grep) prüfen, die Ablage ist manchmal einige Sekunden verzögert** –, Job-Datei per `device_bash` schreiben, ~10 s warten, Bild mit `device_stage_files` holen und ansehen. Läuft der Watcher nicht (Blender neu gestartet), steht nichts in `out/`: dann per Blender-MCP (`execute_blender_code`, falls Add-on installiert) `exec(open('/Users/testfg/Desktop/PrüfFit/blender/watcher.py').read())` ausführen; sonst überspringen und im Protokoll vermerken.
 
-Erledigt im Abendlauf 24.11.: virtualisierung, cloud-modelle, dns-aufloesung (2.16.3); vpn-tunnel, netzplan-kritischer-pfad, projekt-phasen (2.16.4); patchpanel-verkabelung, stromversorgung-rack, wlan-ausleuchtung (2.16.5); ipv6-adresse, nat-pat, verschluesselung (2.16.6).
+Erledigt im Abendlauf 24.11.: virtualisierung, cloud-modelle, dns-aufloesung (2.16.3); vpn-tunnel, netzplan-kritischer-pfad, projekt-phasen (2.16.4); patchpanel-verkabelung, stromversorgung-rack, wlan-ausleuchtung (2.16.5); ipv6-adresse, nat-pat, verschluesselung (2.16.6); dhcp-dora, 802-1x, stp-schleife (2.16.7).
 
 Offen, der Reihe nach (je Bild: Szene, rendern, ansehen und korrigieren bis lesbar und fachlich richtig, ≤ 150 KB, Lernzettel-Zeile, 1 Frage mit `image`, Abkürzungen ins Glossar):
-1. 802-1x (Supplicant, Authenticator, RADIUS-Server)
-2. digitale-signatur (Hash, Signieren mit privatem Schlüssel, Prüfen mit öffentlichem; dabei Lernzettel-Aussage „Hash verschlüsseln“ präzisieren: bei RSA anschaulich, ECDSA verschlüsselt nicht – überall gleich nachziehen)
-3. dhcp-dora (Discover, Offer, Request, Acknowledge mit Broadcast/Unicast)
-4. stp-schleife (redundante Switches, blockierter Port)
-5. nach Ermessen weitere FISI/KITS-Themen
+1. digitale-signatur (Hash, Signieren mit privatem Schlüssel, Prüfen mit öffentlichem; dabei Lernzettel-Aussage „Hash verschlüsseln“ präzisieren: bei RSA anschaulich, ECDSA verschlüsselt nicht – überall gleich nachziehen)
+2. backup-arten (Voll, inkrementell, differenziell über eine Woche)
+3. raid-wiederherstellung oder san-nas (NAS vs. SAN vs. DAS)
+4. nach Ermessen weitere FISI/KITS-Themen
 
 Hilfsmittel im Abendlauf: Job-Skripte laden `lib.py` vom Mac (`exec(open(_D + 'lib.py').read(), globals())`), daher reicht pro Bild die Szene; die Dateiansicht in `device_bash` hinkt manchmal hinterher – Prüfsumme (md5) vergleichen, bevor der Job gestartet wird. Unit-Tests ohne npm-Registry: kleiner vitest-Ersatz in `node_modules/vitest` (nicht im Repo).
 
 ### Nachtprotokoll
 | Datum | Lauf | Start | Ende | Ist | Ergebnis |
 |---|---|---|---|---|---|
+| 24.11.2026 | Abendlauf 3D-Bilder | 17:50 | 18:35 | ca. 45 Min. | 15 Blender-Bilder + 15 Bildfragen (2.16.3–2.16.7): Bilder-Backlog leer, dazu IPv6, NAT/PAT, Verschlüsselung, DHCP, 802.1X, STP; Präzisierungen Cloud-Modelle, hybride Verschlüsselung, DHCP. Unit-Tests (Ersatz-Runner, 774) und Browsertests Chromium grün. |
 | 24.11.2026 | Tag-Auftrag 3D-Bilder 2 | 11:22 | 11:50 | ca. 28 Min. | 8 Bilder (2.16.1: OSI, LWL-Stecker, DMZ, VLAN, 3-2-1; 2.16.2: RAID-Vergleich, Subnetting-Baum, TCP-Handshake) + 8 Bildfragen; zuerst 5 Bilder (OSI, LWL-Stecker, DMZ, VLAN, 3-2-1) + 5 Bildfragen (2.16.1); Blender-Watcher eingerichtet (Aufträge ohne Bildschirmsteuerung). |
 | 24.11.2026 | Tag-Auftrag 3D-Bilder | 10:38 | 11:18 | 40 Min. | 7 Blender-Bilder in 6 Lernzetteln, Bildzeilen in Markdown, Fragen mit Bild (7 neue), USV-Präzisierung (2.15.5 Technik, 2.16.0 Inhalte). Blender-MCP-Add-on fehlt noch – heute über die Blender-Konsole gearbeitet. |
 | 23.11.2026 | Nacht 1 | 23:13 | 23:30 | 17 Min. | Backlog 1 Rechentraining erledigt (2.13.0); Unit-Tests (Ersatz-Runner) und Browsertests Chromium grün. Weitere Backlog-Punkte bewusst nicht begonnen: Block D des Nachtauftrags startet 00:19 und braucht die Sperre frei. |

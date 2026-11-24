@@ -1,3 +1,12 @@
+# Kurzbericht 2.16.3–2.16.7 (Abendlauf „3D-Bilder“, 24.11.2026, 17:50–18:35)
+
+- **15 neue Blender-Bilder** mit je einer Bildfrage: Virtualisierung, Cloud-Modelle, DNS-Auflösung (2.16.3); VPN, Netzplan mit kritischem Pfad, Wasserfall/Scrum (2.16.4); strukturierte Verkabelung, redundante Stromversorgung, WLAN-Kanäle (2.16.5) – damit ist der Bilder-Backlog leer; zusätzlich FISI/KITS: IPv6-Adresse, NAT/PAT, hybride Verschlüsselung (2.16.6), DHCP-DORA, 802.1X, Spanning Tree (2.16.7).
+- **Präzisierungen (überall nachgezogen):** Cloud-Modelle (PaaS: Anwendungen und Daten; SaaS: Dateninhalte, Konten, Datenschutz bleiben beim Kunden), hybride Verschlüsselung (TLS handelt den Sitzungsschlüssel per ECDHE aus), DHCP (Offer/ACK Unicast oder Broadcast). Neu im Lernzettel: strukturierte Verkabelung nach EN 50173, zwei Einspeisungen im Serverraum, Kanalplanung 2,4 GHz, Ablauf der DNS-Auflösung.
+- **Annahmen:** Längen der strukturierten Verkabelung als Richtwerte (Primär 1.500 m, Sekundär 500 m, Tertiär 90 + 10 m); Beispieladressen aus den Dokumentationsbereichen (2001:db8::/32, 203.0.113.0/24, 198.51.100.0/24).
+- **Tests:** npm-Registry in der Cloud gesperrt → Unit-Tests mit kleinem vitest-Ersatz (774 grün), Browsertests Chromium Desktop + iPhone SE grün (der Timer-Test im Fachgespräch ist unter Last zeitweise langsam, einzeln grün).
+- **Neue Abhängigkeiten:** keine.
+- **Offen:** weitere Bilder laut Bilder-Backlog in `docs/STATUS.md`; Lernzettel-Aussage zur Signatur („Hash verschlüsseln“) präzisieren.
+
 # Kurzbericht 2.15.3 (Nachtbetrieb Lauf 3 „Gegenprüfung“, 24.11.2026)
 
 - **Gegenprüfung** aller Inhalte der Nacht (seit 23.11., 20:00: 57 geänderte/neue Einträge in `data/`, Rechentraining `js/generator.js`, Fachgesprächsfragen `js/projectGuide.js`) unabhängig: alle Rechnungen per Skript nachgerechnet, Rechentraining mit 3.000 Seeds je Art gegen eine unabhängige Nachrechnung geprüft, Fristen/Normen/Verordnungstitel gegen Gesetzestexte (gesetze-im-internet.de) geprüft.

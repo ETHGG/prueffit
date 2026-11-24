@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.7] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere 3D-Bilder (Abendlauf, FISI/KITS):** DHCP-Ablauf DORA („Protokolle, Dienste und Ports“), Portauthentifizierung nach 802.1X („Firewall, DMZ und VPN“), Spanning Tree mit blockiertem Port („VLAN, WLAN und Spanning Tree“), dazu 3 Bildfragen (net-0138, sec-0093, net-0139).
+- Abkürzungsverzeichnis: EAP, EAPOL.
+
+### Geändert
+- DHCP präzisiert: Offer und Acknowledge je nach Client per Unicast oder Broadcast; Request per Broadcast, damit andere DHCP-Server von der Ablehnung erfahren.
+
 ## [2.16.6] – 2026-11-24
 
 ### Hinzugefügt

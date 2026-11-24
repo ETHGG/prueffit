@@ -475,6 +475,18 @@
     "area": "Wirtschaft"
   },
   {
+    "abbr": "EAP",
+    "full": "Extensible Authentication Protocol",
+    "explanation": "Rahmenprotokoll für Anmeldeverfahren (z. B. EAP-TLS mit Zertifikat, PEAP mit Passwort), etwa bei 802.1X und WPA-Enterprise",
+    "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "EAPOL",
+    "full": "EAP over LAN",
+    "explanation": "Transport von EAP zwischen Client und Switch bzw. Access Point bei 802.1X; vor der Freigabe lässt der Port nur EAPOL durch",
+    "area": "IT-Sicherheit"
+  },
+  {
     "abbr": "ECC",
     "full": "Error-Correcting Code",
     "explanation": "Fehlerkorrigierender Arbeitsspeicher; in der Kryptografie auch Elliptic Curve Cryptography",
