@@ -2,6 +2,16 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.15.3] – 2026-11-24
+
+### Korrigiert (Nachtbetrieb Lauf 3, Gegenprüfung der Nacht 23./24.11.)
+- Gegenprüfung aller seit 23.11., 20:00 geänderten Inhalte (57 Fragen, Karten, Lernzettel, Abkürzungen, Handlungssituation „Hotel Saaleblick“): alle Rechnungen per Skript nachgerechnet (Statistik-Kennwerte, Datenqualität, Ströme, Spannungsfall, Netzplan, Churn/CLV, Sensordaten, Zahlensysteme, Schreibtischtest, VLSM, Longest Prefix Match, IPv6), Fristen (§§ 187/188, 622 BGB, § 22 BBiG) und Urlaub (§ 3 BUrlG) geprüft – keine Fehler.
+- **Rechentraining:** Kaufmännisches Runden auf Cent war bei Beträgen über ca. 1 € in 0,2 % der Aufgaben falsch (z. B. 3 % Skonto von 4.626,50 € = 138,795 → jetzt 138,80 statt 138,79 €; Folgebeträge stimmen dadurch wieder). Test ergänzt.
+- Rechentraining: Kriterien der Nutzwertanalyse werden browserunabhängig gemischt (Fisher-Yates statt `sort`), sodass dieselbe Aufgaben-ID in Safari und Chrome dieselbe Aufgabe ergibt; Speicheraufgaben nie mehr so klein, dass „0 GiB“ als richtig gälte; Abschreibungsaufgaben erst ab 1.200 € (keine GWG-/Sammelposten-Fälle); Listeneinkaufspreis „netto“, Angebotskalkulation „ohne Kundenrabatt und Kundenskonto“; Zwischensummen bei Hex-Umrechnung mit Tausenderpunkt.
+- **Projektarbeit:** Titel FIDPA nach § 28 FIAusbV „Planen und **Durchführen** eines Projektes der Datenanalyse“; ITSE-Fachgespräch: veraltete „DIN VDE 0701/0702“ ersetzt durch DIN EN 50678 (VDE 0701) nach Reparatur und DIN EN 50699 (VDE 0702) als Wiederholungsprüfung (wie im Lernzettel); Projektbeispiel neue Arbeitsplätze: Prüfung der Installation nach DIN VDE 0100-600 statt DIN EN 50678 (gilt nach Reparatur); Schutzmaßnahme präzisiert (automatische Abschaltung durch Überstromschutz/RCD, RCD zusätzlich als Zusatzschutz); FIAE: MVC als Architekturmuster, Observer/Repository als Entwurfsmuster.
+- Barrierefreiheit: Links „Lernzettel“ in der Formelsammlung haben jetzt eine Tippfläche von 44 px Höhe (vorher 18 px).
+- Durchlauf aller Ansichten (Desktop, iPhone SE, iPhone 13 dunkel): keine Konsolenfehler, kein waagerechtes Scrollen; Browsertests Chromium (219) grün.
+
 ## [2.15.2] – 2026-11-24
 
 ### Hinzugefügt (Nachtauftrag Block F, Punkt 10: Fragen FISI/KITS vertiefen)

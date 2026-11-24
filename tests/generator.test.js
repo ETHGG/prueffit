@@ -121,3 +121,31 @@ describe('generator: rounds and job filter', () => {
     expect(availableKinds(new Set())).toEqual([]);
   });
 });
+
+describe('generator: commercial rounding and portable shuffle (2.15.3)', () => {
+  it('half cents are rounded up (3 % Skonto of 4.626,50 € = 138,795 → 138,80)', () => {
+    const skonto = generateTask('kalkulation', 708).answer.rows.find((r) => r.label.includes('Skonto'));
+    expect(skonto.value).toBe(138.8);
+    const ust = generateTask('kalkulation', 357).answer.rows.find((r) => r.label.includes('USt'));
+    expect(ust.value).toBe(552.81);
+  });
+
+  it('nutzwert criteria do not depend on Array.prototype.sort', () => {
+    const original = Array.prototype.sort;
+    const a = JSON.stringify(generateTask('nutzwert', 4242));
+    // a different (but valid) sort implementation must not change the task
+    Array.prototype.sort = function (cmp) { return original.call(this.reverse(), cmp); };
+    try {
+      expect(JSON.stringify(generateTask('nutzwert', 4242))).toBe(a);
+    } finally {
+      Array.prototype.sort = original;
+    }
+  });
+
+  it('storage tasks are never so small that 0 GiB would be accepted', () => {
+    for (let seed = 1; seed <= 3000; seed += 1) {
+      const t = generateTask('speicher', seed);
+      if (t.answer.unit === 'GiB') expect(t.answer.value).toBeGreaterThan(0.1);
+    }
+  });
+});

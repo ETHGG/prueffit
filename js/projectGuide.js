@@ -7,7 +7,7 @@
 export const PROJECT_AREAS = {
   fiae: { title: 'Planen und Umsetzen eines Softwareprojektes', hours: 80 },
   fisi: { title: 'Planen und Umsetzen eines Projektes der Systemintegration', hours: 40 },
-  fidpa: { title: 'Planen und Umsetzen eines Projektes der Datenanalyse', hours: 40 },
+  fidpa: { title: 'Planen und Durchführen eines Projektes der Datenanalyse', hours: 40 },
   fidv: { title: 'Planen und Umsetzen eines Projektes der digitalen Vernetzung', hours: 40 },
   itse: { title: 'Erstellen, Ändern oder Erweitern von IT-Systemen und von deren Infrastruktur', hours: 40 },
   kits: { title: 'Abwicklung eines Kundenauftrages', hours: 40 },
@@ -48,7 +48,7 @@ export const PROJECT_EXAMPLES = {
   itse: [
     'Netzwerk- und Stromversorgung für einen Serverraum mit USV planen und installieren',
     'Videoüberwachung mit PoE-Kameras inklusive Leistungsbudget einrichten',
-    'Arbeitsplätze einer Arztpraxis erneuern, prüfen nach DIN EN 50678 und übergeben',
+    'Arbeitsplätze einer Arztpraxis erneuern, Installation nach DIN VDE 0100-600 prüfen und übergeben',
   ],
   kits: [
     'Kundenauftrag „neue Arbeitsplätze für ein Steuerbüro“ von Bedarfsanalyse bis Abrechnung',
@@ -206,7 +206,7 @@ export const JOB_QUESTIONS = {
   fiae: [
     ['fg-fiae-architektur', 'Welche Architektur hat Ihre Anwendung, und warum?', 'Schichten oder Komponenten, Entwurfsmuster, Gründe für Sprache und Framework.', [
       'Aufbau beschreiben, z. B. Schichten (Präsentation, Logik, Datenhaltung) oder Komponenten/Dienste',
-      'Eingesetzte Entwurfsmuster mit Zweck (z. B. MVC, Repository, Observer)',
+      'Eingesetzte Muster mit Zweck: Architekturmuster (z. B. MVC, Schichten) und Entwurfsmuster (z. B. Observer, Repository)',
       'Gründe für Sprache, Framework und Datenbank aus den Anforderungen und dem Umfeld',
       'Schnittstellen zu anderen Systemen (z. B. REST-API) und Datenformate',
     ]],
@@ -285,8 +285,8 @@ export const JOB_QUESTIONS = {
   ],
   itse: [
     ['fg-itse-schutz', 'Welche elektrotechnischen Prüfungen und Schutzmaßnahmen waren nötig?', 'Schutzmaßnahmen, Messungen, Prüfprotokolle, einschlägige Normen.', [
-      'Schutzmaßnahme gegen elektrischen Schlag, z. B. automatische Abschaltung, RCD',
-      'Prüfung nach DIN VDE 0100-600 (Errichtung) bzw. DIN VDE 0701/0702 bei Geräten: Besichtigen, Erproben, Messen',
+      'Schutzmaßnahme gegen elektrischen Schlag, z. B. automatische Abschaltung der Stromversorgung (Überstromschutz/RCD), RCD zusätzlich als Zusatzschutz',
+      'Prüfung nach DIN VDE 0100-600 (Errichtung) bzw. bei Geräten DIN EN 50678 (VDE 0701) nach Reparatur und DIN EN 50699 (VDE 0702) als Wiederholungsprüfung: Besichtigen, Erproben, Messen',
       'Messungen, z. B. Schutzleiter-, Isolationswiderstand, Schleifenimpedanz, RCD-Auslösung',
       'Prüfprotokoll; Arbeiten an elektrischen Anlagen nur als Elektrofachkraft bzw. unter deren Leitung',
     ]],

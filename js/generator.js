@@ -10,7 +10,9 @@ export const GENERATED_PREFIX = 'gen-';
 export const GENERATED_ROUND_SIZE = 10;
 const MAX_SEED = 2 ** 31 - 1;
 
-const round2 = (x) => Math.round((x + Number.EPSILON) * 100) / 100;
+// Commercial rounding to cents: first round to 6 decimals to remove binary noise (e.g. 138,795
+// stored as 138,79499…), then half up. Adding Number.EPSILON alone fails above about 1 €.
+const round2 = (x) => Math.round(Math.round(x * 1e6) / 1e4) / 100;
 const de = (n, digits = 0) => n.toLocaleString('de-DE', { minimumFractionDigits: digits, maximumFractionDigits: digits });
 const eur = (n) => `${de(n, 2)} €`;
 const pct = (n) => `${de(n, Number.isInteger(n) ? 0 : 2)}\u00a0%`;
@@ -18,6 +20,15 @@ const pct = (n) => `${de(n, Number.isInteger(n) ? 0 : 2)}\u00a0%`;
 /** Random integer in [min, max]. */
 const int = (rnd, min, max) => min + Math.floor(rnd() * (max - min + 1));
 const pick = (rnd, list) => list[Math.floor(rnd() * list.length)];
+/** Fisher–Yates shuffle (copy); unlike sort(() => rnd() - 0.5) independent of the browser's sort. */
+function shuffle(rnd, list) {
+  const a = [...list];
+  for (let i = a.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(rnd() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 /** Hosts usable in a /prefix network (network and broadcast address excluded). */
 export function usableHosts(prefix) {
@@ -129,12 +140,12 @@ function numberSystems(rnd) {
   if (variant === 1) {
     const n = int(rnd, 16, 4095);
     const hex = n.toString(16).toUpperCase();
-    const digits = [...hex].map((d, i) => `${d} (${parseInt(d, 16)}) × 16^${hex.length - 1 - i}`);
+    const digits = [...hex].map((d, i) => `${/[A-F]/.test(d) ? `${d} (${parseInt(d, 16)})` : d} × 16^${hex.length - 1 - i}`);
     return {
       difficulty: 2, type: 'number', points: 2,
       question: `Rechne die Hexadezimalzahl ${hex} in eine Dezimalzahl um.`,
       answer: numberAnswer(n, ''),
-      explanation: `${digits.join(' + ')} = ${[...hex].map((d, i) => parseInt(d, 16) * 16 ** (hex.length - 1 - i)).join(' + ')} = ${de(n)}.`,
+      explanation: `${digits.join(' + ')} = ${[...hex].map((d, i) => de(parseInt(d, 16) * 16 ** (hex.length - 1 - i))).join(' + ')} = ${de(n)}.`,
     };
   }
   if (variant === 2) {
@@ -199,9 +210,9 @@ function storageTransfer(rnd) {
       explanation: `${de(gb, gb % 1 ? 1 : 0)} GB × 1.000 = ${de(gb * 1000)} MB × 8 = ${de(mbit)} Mbit. Zeit = Datenmenge ÷ Datenrate = ${de(mbit)} Mbit ÷ ${de(rate)} Mbit/s ≈ ${de(seconds, 2)} s${seconds >= 60 ? ` (≈ ${de(round2(seconds / 60), 2)} Minuten)` : ''}.`,
     };
   }
-  const files = int(rnd, 2, 40) * 50;
-  const kib = int(rnd, 2, 60) * 10;
-  const days = pick(rnd, [5, 20, 30, 220, 250, 365]);
+  const files = int(rnd, 4, 40) * 50;
+  const kib = int(rnd, 5, 60) * 10;
+  const days = pick(rnd, [20, 30, 220, 250, 365]);
   const totalKiB = files * kib * days;
   const gib = round2(totalKiB / 1024 / 1024);
   return {
@@ -226,7 +237,7 @@ function calculation(rnd) {
     const bezug = round2(bar + freight);
     return {
       difficulty: 2, type: 'table', points: 5,
-      question: `Bezugskalkulation: Ein Lieferant bietet einen Server zum Listeneinkaufspreis von ${eur(list)} an. Er gewährt ${discount}\u00a0% Rabatt und ${cashDiscount}\u00a0% Skonto. Für Fracht fallen ${eur(freight)} an.`,
+      question: `Bezugskalkulation: Ein Lieferant bietet einen Server zum Listeneinkaufspreis von ${eur(list)} (netto) an. Er gewährt ${discount}\u00a0% Rabatt und ${cashDiscount}\u00a0% Skonto. Für Fracht fallen ${eur(freight)} an.`,
       answer: {
         rows: [
           { label: 'Listeneinkaufspreis', given: de(list, 2) },
@@ -252,7 +263,7 @@ function calculation(rnd) {
     const brutto = round2(netto + ust);
     return {
       difficulty: 2, type: 'table', points: 4,
-      question: `Angebotskalkulation: Die Selbstkosten für einen Einrichtungsauftrag betragen ${eur(cost)}. Kalkuliert werden ${profit}\u00a0% Gewinn und 19 % Umsatzsteuer.`,
+      question: `Angebotskalkulation: Die Selbstkosten für einen Einrichtungsauftrag betragen ${eur(cost)}. Kalkuliert werden ${profit}\u00a0% Gewinn und 19 % Umsatzsteuer (ohne Kundenrabatt und Kundenskonto).`,
       answer: {
         rows: [
           { label: 'Selbstkosten', given: de(cost, 2) },
@@ -284,7 +295,7 @@ function depreciation(rnd) {
   const variant = int(rnd, 0, 1);
   if (variant === 0) {
     const years = int(rnd, 3, 8);
-    const cost = years * int(rnd, 20, 1500) * 10;
+    const cost = years * int(rnd, 40, 1500) * 10; // ≥ 1.200 €: no GWG/Sammelposten
     const k = int(rnd, 1, years - 1);
     const annual = round2(cost / years);
     const rest = round2(cost - k * annual);
@@ -321,7 +332,7 @@ const WEIGHT_SETS = [[50, 30, 20], [40, 35, 25], [45, 30, 25], [40, 30, 20, 10],
 
 function utility(rnd) {
   const weights = pick(rnd, WEIGHT_SETS);
-  const names = [...CRITERIA].sort(() => rnd() - 0.5).slice(0, weights.length);
+  const names = shuffle(rnd, CRITERIA).slice(0, weights.length);
   const offers = int(rnd, 2, 3);
   const letters = ['A', 'B', 'C'].slice(0, offers);
   const scores = letters.map(() => weights.map(() => int(rnd, 1, 10)));

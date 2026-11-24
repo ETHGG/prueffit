@@ -36,7 +36,7 @@ export function render(root, ctx) {
       summary: [h('span', { class: 'fold-title', text: g.area }),
         h('span', { class: 'fold-meta', text: `${g.topics.reduce((n, t) => n + t.formulas.length, 0)} Formeln` })],
     }, ...g.topics.map((t) => h('section', { class: 'formula-topic' },
-      h('h3', {}, t.topic.name, ' ', h('a', { class: 'small', href: `#/lernzettel?thema=${encodeURIComponent(t.topic.id)}`, 'aria-label': `Lernzettel ${t.topic.name}` }, 'Lernzettel')),
+      h('h3', {}, t.topic.name, ' ', h('a', { class: 'small heading-link', href: `#/lernzettel?thema=${encodeURIComponent(t.topic.id)}`, 'aria-label': `Lernzettel ${t.topic.name}` }, 'Lernzettel')),
       ...t.formulas.map(formulaCard)))))
       : [h('p', { class: 'muted', text: 'Keine Formel gefunden.' })]));
   };

@@ -1,3 +1,11 @@
+# Kurzbericht 2.15.3 (Nachtbetrieb Lauf 3 „Gegenprüfung“, 24.11.2026)
+
+- **Gegenprüfung** aller Inhalte der Nacht (seit 23.11., 20:00: 57 geänderte/neue Einträge in `data/`, Rechentraining `js/generator.js`, Fachgesprächsfragen `js/projectGuide.js`) unabhängig: alle Rechnungen per Skript nachgerechnet, Rechentraining mit 3.000 Seeds je Art gegen eine unabhängige Nachrechnung geprüft, Fristen/Normen/Verordnungstitel gegen Gesetzestexte (gesetze-im-internet.de) geprüft.
+- **Gefunden und behoben (7):** Cent-Rundung im Rechentraining (0,2 % der Aufgaben 1 ct zu niedrig), browserabhängige Nutzwert-Aufgaben, zu kleine GiB-Aufgaben, Projekttitel FIDPA („Durchführen“), veraltete Norm DIN VDE 0701/0702 im Fachgespräch ITSE, falsche Norm im ITSE-Projektbeispiel, zu kleine Tippflächen in der Formelsammlung. Präzisiert: Schutzmaßnahme (Überstromschutz/RCD), Architektur- vs. Entwurfsmuster, Netto-Listenpreis, Angebotskalkulation ohne Kundenrabatt/-skonto, AfA-Beträge ohne GWG-Fälle.
+- **Ohne Befund:** alle 57 Dateneinträge der Nacht (Präzisierungen 2.14.1 und Inhalte 2.15.0–2.15.2 fachlich richtig).
+- **Annahme:** κ = 56 m/(Ω·mm²) „bei ca. 30 °C“ bleibt (einheitlich in Formelsammlung, Lernzettel, Karten; 58 bei 20 °C nach IEC).
+- **Neue Abhängigkeiten:** keine. Unit-Tests lokal mit Ersatz-Runner (764 grün; npm-Registry in der Cloud-Umgebung nicht erreichbar), Browsertests Chromium Desktop, iPhone SE, iPhone 13 dunkel (219 grün).
+
 # Kurzbericht 2.15.1 (Nachtbetrieb Lauf 2 „neue Inhalte“, 24.11.2026)
 
 - **Neue Handlungssituation FISI GA2:** „Hotel Saaleblick: IPv6 und Netz für das Gästehaus“ (`sz-fisi-ga2e`), 6 Aufgaben/16 Punkte: `net-0121` (Anzahl /64 aus /56, Rechnung), `net-0122` (IPv6-Kurzschreibweise), `net-0123` (SLAAC), `net-0124` (Tabelle: Präfixlängen für 5 Netze), `net-0125` (Longest Prefix Match), `sec-0088` (Client-Isolation). Dazu Lernzettel-Abschnitt „Gäste-WLAN absichern“, Karteikarte `fc-0286`, Abkürzung OWE.
