@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.13] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere Bilder (Projektmanagement):** EPK einer Bestellabwicklung („Geschäftsprozesse und EPK“), Gantt-Diagramm mit Puffern und Meilenstein („Projektplanung und Netzplan“), Kanban-Board mit WIP-Limit („Vorgehensmodelle“), dazu 3 Bildfragen (pm-0111, pm-0112, pm-0113).
+
 ## [2.16.12] – 2026-11-24
 
 ### Hinzugefügt
