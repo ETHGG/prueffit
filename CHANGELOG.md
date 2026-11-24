@@ -2,6 +2,16 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.9] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere 3D-Bilder:** digitale Signatur („Verschlüsselung, Hashes und Signaturen“), differenzielle und inkrementelle Sicherung über eine Woche („Datensicherung“), DAS, NAS und SAN („RAID-Level und Speicher“), dazu 3 Bildfragen (sec-0094, sec-0095, hw-0107).
+
+### Geändert
+- Abkürzungsverzeichnis: ECDSA.
+- Signatur präzisiert (Lernzettel, sec-0014): der Hash wird mit dem privaten Schlüssel signiert – „verschlüsseln“ ist nur bei RSA eine anschauliche Vorstellung, ECDSA verschlüsselt nichts.
+- SAN präzisiert: Fibre Channel als eigenes Netz, iSCSI über Ethernet (meist eigenes VLAN oder eigene Switches).
+
 ## [2.16.8] – 2026-11-24
 
 ### Hinzugefügt

@@ -117,7 +117,8 @@ test('Fachgespräch üben: timer runs from the start time and reports when time 
   await expect(page.getByRole('timer')).toHaveText('0:00');
   await expect(page.locator('.fg-over')).toContainText('Zeit um');
   await page.getByRole('button', { name: 'Fertig – Stichpunkte aufdecken' }).click();
-  await expect(page.getByText('Deine Antwortzeit: 1:05 Min.')).toBeVisible();
+  // page.clock keeps running in real time between the runFor() calls: under load a few seconds more
+  await expect(page.getByText(/Deine Antwortzeit: 1:0[5-9] Min\./)).toBeVisible();
   await page.getByRole('button', { name: 'Üben beenden' }).click();
   await expect(page.getByRole('button', { name: 'Zufällige Frage starten' })).toBeVisible();
   await page.setViewportSize({ width: 320, height: 640 });

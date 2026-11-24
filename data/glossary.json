@@ -499,6 +499,12 @@
     "area": "IT-Sicherheit"
   },
   {
+    "abbr": "ECDSA",
+    "full": "Elliptic Curve Digital Signature Algorithm",
+    "explanation": "Signaturverfahren mit elliptischen Kurven: kurze Schlüssel, signiert ohne zu verschlüsseln; z. B. in TLS-Zertifikaten",
+    "area": "IT-Sicherheit"
+  },
+  {
     "abbr": "eG",
     "full": "eingetragene Genossenschaft",
     "explanation": "Fördert ihre Mitglieder, je Mitglied eine Stimme",
