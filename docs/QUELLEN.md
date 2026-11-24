@@ -118,3 +118,14 @@ Alle 66 Formeln gegengelesen, alle Beispielrechnungen per Skript nachgerechnet.
 | Binär- und Dezimalpräfixe | IEC 80000-13; Apple Support „How iOS and macOS report storage capacity“ | macOS seit 10.6 dezimal, Windows binär mit „GB“ |
 | Wirkleistung/Scheinleistung | Grundlagen Elektrotechnik (P = U·I·cos φ, S = U·I) | P = U × I nur bei cos φ = 1 – präzisiert |
 | Alle übrigen Formeln (Subnetting, RAID, Verfügbarkeit, Kalkulation, Andler, Kennzahlen, Barwert, Netzplan …) | Lehrbuchformeln, bereits in `docs/QUELLEN.md` (2.9.x) belegt | Beispiele nachgerechnet – stimmen |
+
+## Quellenprüfung 24.11.2026 (2.14.1, VLAN/WLAN und Routing)
+
+| Geprüft | Quelle | Ergebnis |
+|---|---|---|
+| VLAN-IDs, Tag, Native VLAN | IEEE 802.1Q-2022 (VID 0 = Priority-Tag, VID FFF reserviert) | 1–4094 nutzbar bestätigt; ungetaggtes VLAN auf dem Trunk als Variante ergänzt |
+| STP/RSTP | IEEE 802.1D-1998 (Umschaltzeit bis ca. 50 s aus Max Age + 2 × Forward Delay), IEEE 802.1w (heute in 802.1Q) | Umschaltzeiten präzisiert |
+| Link Aggregation | IEEE 802.1AX (früher 802.3ad) | Zuordnung je Datenstrom per Hash, statische Bündelung möglich |
+| WLAN-Bänder | IEEE SA „IEEE 802.11be-2024“ (standards.ieee.org/ieee/802.11be/7516), Cisco „What is Wi-Fi 7?“ | Wi-Fi 6: 2,4/5 GHz, 6E: + 6 GHz, Wi-Fi 7: 2,4/5/6 GHz |
+| APIPA bei Adresskonflikt | Broadcom KB 344094 „False duplicate IP address on Microsoft Windows“; RFC 3927 | Windows weicht auch bei erkanntem Konflikt auf 169.254.x.x aus – als seltenere Ursache ergänzt |
+| Routenauswahl | Cisco „Route Selection in Cisco Routers“ (Longest Match, dann administrative Distanz, dann Metrik) | ergänzt |

@@ -2,6 +2,13 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.14.1] – 2026-11-24
+
+### Geändert (Qualitätsrunde: VLAN/WLAN, Routing/NAT/Fehleranalyse)
+- Alle Rechnungen nachgerechnet – stimmen.
+- Präzisiert: VLANs können sich über mehrere Switches erstrecken; ein Trunk kann ein ungetaggtes Native VLAN führen; klassisches STP schaltet in ca. 30–50 s um, Rapid STP meist in Sekundenbruchteilen bis wenigen Sekunden; WLAN-Tabelle: Wi-Fi 6 nur 2,4/5 GHz, Wi-Fi 6E zusätzlich 6 GHz, neu Wi-Fi 7 (802.11be); LACP ordnet jeden Datenstrom per Hash einer Leitung zu, statische Bündelung ohne LACP möglich; Formel für parallele Verfügbarkeit gilt nur bei unabhängigen Ausfällen; PoE-Aufgabe „Praxisverbund“ nennt die Leistung am Switchport; Trunk zum Router mit Alternativen (Router-Port je VLAN, Layer-3-Switch).
+- Routing: MAC aus dem ARP-Cache oder per ARP-Anfrage; bei gleich langem Präfix entscheiden administrative Distanz und Metrik; 169.254.x.x unter Windows auch bei erkanntem Adresskonflikt (Lernzettel, Frage, Karteikarte, Abkürzung APIPA); statische Routen mit Ersatzroute; Portweiterleitung macht Software aus dem Internet erreichbar (statt „unverschlüsselt“). PDFs neu erzeugt.
+
 ## [2.14.0] – 2026-11-24
 
 ### Hinzugefügt

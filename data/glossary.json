@@ -103,7 +103,7 @@
   {
     "abbr": "APIPA",
     "full": "Automatic Private IP Addressing",
-    "explanation": "Selbst vergebene Adresse 169.254.x.x, wenn kein DHCP-Server antwortet",
+    "explanation": "Selbst vergebene Adresse 169.254.x.x, wenn kein DHCP-Server antwortet (Windows auch bei erkanntem Adresskonflikt)",
     "area": "Netzwerke"
   },
   {
