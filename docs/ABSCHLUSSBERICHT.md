@@ -1,4 +1,4 @@
-# Kurzbericht 2.16.3–2.16.7 (Abendlauf „3D-Bilder“, 24.11.2026, 17:50–18:35)
+# Kurzbericht 2.16.3–2.16.7 (Abendlauf „3D-Bilder“, 24.11.2026, 17:50–18:30)
 
 - **15 neue Blender-Bilder** mit je einer Bildfrage: Virtualisierung, Cloud-Modelle, DNS-Auflösung (2.16.3); VPN, Netzplan mit kritischem Pfad, Wasserfall/Scrum (2.16.4); strukturierte Verkabelung, redundante Stromversorgung, WLAN-Kanäle (2.16.5) – damit ist der Bilder-Backlog leer; zusätzlich FISI/KITS: IPv6-Adresse, NAT/PAT, hybride Verschlüsselung (2.16.6), DHCP-DORA, 802.1X, Spanning Tree (2.16.7).
 - **Präzisierungen (überall nachgezogen):** Cloud-Modelle (PaaS: Anwendungen und Daten; SaaS: Dateninhalte, Konten, Datenschutz bleiben beim Kunden), hybride Verschlüsselung (TLS handelt den Sitzungsschlüssel per ECDHE aus), DHCP (Offer/ACK Unicast oder Broadcast). Neu im Lernzettel: strukturierte Verkabelung nach EN 50173, zwei Einspeisungen im Serverraum, Kanalplanung 2,4 GHz, Ablauf der DNS-Auflösung.
