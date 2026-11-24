@@ -211,7 +211,7 @@ prueffit/
 | `table` (seit 2.9) | `{ "rows": [{ "label": "…", "given": "1.000,00" }, { "label": "…", "value": 100, "tolerance": 0.01 }], "unit": "€", "columns": ["Position", "Betrag"] }` | Vorgabeblatt ausfüllen: Teilpunkte pro richtiger Zelle (mind. 2 offene Zellen) |
 
 **Pflichtfelder:** `id`, `exam`, `topic`, `difficulty` (1–3), `type`, `question`, `answer`, `points`, `explanation`.
-**Optional:** `source`, `image` (seit 2.16: `{ "name": "rj45", "alt": "Bildbeschreibung ≥ 15 Zeichen" }`, Datei `img/notes/<name>.webp`), `jobs` (nur bei AP2-Inhalten: Array aus `fiae`, `fisi`, `fidpa`, `fidv`, `itse`, `kits`, `kdm`; jeder genannte Beruf muss das Thema in seiner AP2 haben).
+**Optional:** `source`, `image` (seit 2.16: `{ "name": "rj45", "alt": "Bildbeschreibung ≥ 15 Zeichen" }`, Datei `img/notes/<name>.webp`), `jobs` (nur bei AP2-Inhalten: Array aus `fiae`, `fisi`, `fidpa`, `fidv`, `itse`, `kits`, `kdm`; jeder genannte Beruf muss das Thema in seiner AP2 haben). `optionNotes` (seit 2.17, nur `single`/`multi`: ein Eintrag je Option, warum sie richtig oder falsch ist; jede falsche Option braucht einen Text ≥ 10 Zeichen, richtige dürfen `null` sein; angezeigt nach dem Beantworten im Quiz und in der Auswertung der Simulation, `optionReview` in `js/questions.js`).
 **Zuordnung (seit 2.0):** AP1 gilt für alle Berufe, aber nur für Themen des AP1-Katalogs 2025 (`AP1_SECTIONS`). AP2 ist berufsspezifisch (`AP2_PARTS`), WiSo gilt für alle. Inhalte, die seit 2025 nicht mehr in der AP1 sind (SQL, RAID, PAP, Struktogramm …), stehen nur noch in der AP2 passender Berufe. `data.test.js` prüft die Zuordnung.
 `id` muss **global eindeutig** sein, `topic` muss in `topics.json` existieren.
 
@@ -354,7 +354,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `exam.test.js` | Notenschlüssel an allen Grenzen (29/30, 49/50, 66/67, 80/81, 91/92), Rundung, Zeitablauf, Tabellenaufgabe in jedem schriftlichen Teil (auch mit echten Daten je Beruf) |
 | `storage.test.js` | leerer Speicher, defektes JSON, Migration, Backup wird angelegt, `readinessHistory` (seit 2.12) |
 | `schedule.test.js` | Prüfungstermine, Lernplan, Datensicherungs-Erinnerung, Wochenbeginn und Wochenplan (Wochengrenzen Europe/Berlin, kein Termin, Prüfung in < 1 Woche, sehr viele Themen; seit 2.12) |
-| `questions.test.js` | Filtern nach Prüfung/Thema/Schwierigkeit, Zufallsauswahl ohne Duplikate |
+| `questions.test.js` | Filtern nach Prüfung/Thema/Schwierigkeit, Zufallsauswahl ohne Duplikate, `optionNotes`/`optionReview` (seit 2.17) |
 | `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type`, ein Lernzettel pro Thema, Zuordnung AP1/AP2 und Berufe, Handlungssituationen für alle 7 Berufe |
 | `curriculum.test.js` / `jobCatalog.test.js` | Berufe und Prüfungsbereiche, Zuordnung der Themen, keine Inhalte fremder Berufe |
 | `notes.test.js` | Markdown-Teilumfang, Suche (Umlaute, UND-Verknüpfung, Ranking), Hervorhebung |
@@ -406,6 +406,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.14** | Fachgespräch üben mit Timer, Erwartungshorizont und Selbsteinschätzung; Suche über alles (`#/suche`) | erledigt |
 | **2.15** | Fortschritt übertragen (Sicherung teilen, Link/QR-Code ohne Server mit Vorschau); Tabellenaufgabe in jedem schriftlichen Bereich aller 7 Berufe | erledigt |
 | **2.16** | 3D-Bilder (Blender) in Lernzetteln und Fragen mit Bild | erledigt |
+| **2.17** | Erklärung zu jeder Antwortmöglichkeit (`optionNotes`), alle Auswahlfragen für FISI/KITS | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

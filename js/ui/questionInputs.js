@@ -9,7 +9,7 @@
 //   redraw    function({ keepScroll }) to re-render after reordering (order type)
 //   onChange  called with the new response whenever the learner changes something (optional)
 
-import { shuffle } from '../questions.js';
+import { shuffle, optionReview } from '../questions.js';
 import { tableCells, tableCellCorrect } from '../grading.js';
 import { h, formatNumber } from './dom.js';
 
@@ -300,4 +300,23 @@ export function renderInput(q, options) {
     case 'multi': return choiceInput(q, options);
     default: return h('p', { class: 'form-error', text: `Fragetyp „${q.type}“ wird hier nicht unterstützt.` });
   }
+}
+
+/**
+ * Since 2.17: why each option is right or wrong (field `optionNotes`), shown after answering in
+ * the quiz and in the exam review. Collapsible and secondary; null for questions without notes.
+ * @param open start expanded (the quiz opens it after a wrong answer)
+ */
+export function optionReviewBlock(q, response, { open = false } = {}) {
+  const rows = optionReview(q, response);
+  if (!rows.length) return null;
+  return h('details', { class: 'option-review', open },
+    h('summary', { text: 'Warum ist welche Antwort richtig oder falsch?' }),
+    h('ul', { class: 'option-review-list' },
+      rows.map((r) => h('li', { class: r.correct ? 'is-correct' : 'is-wrong' },
+        h('p', { class: 'option-review-head' },
+          h('span', { class: `option-review-mark ${r.correct ? 'ok' : 'bad'}`, text: r.correct ? '✓ richtig' : '✗ falsch' }),
+          r.chosen ? h('span', { class: 'option-review-chosen', text: 'deine Wahl' }) : null),
+        h('p', { class: 'option-review-option', text: r.text }),
+        r.note ? h('p', { class: 'option-review-note', text: r.note }) : null))));
 }

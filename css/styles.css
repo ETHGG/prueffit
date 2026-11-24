@@ -350,6 +350,20 @@ textarea:disabled { opacity: .8; }
 .feedback.bad { background: var(--bad-bg); border-color: var(--bad); }
 .feedback.partial { background: var(--partial-bg); border-color: var(--partial); }
 .feedback p:last-child { margin-bottom: 0; }
+.option-review { margin: .5rem 0 .75rem; }
+.option-review > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; color: var(--text); }
+.option-review-list { list-style: none; padding: 0; margin: .25rem 0 0; display: grid; gap: .5rem; }
+.option-review-list li { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-left: 5px solid var(--bad); border-radius: 8px; padding: .5rem .7rem; overflow-wrap: anywhere; }
+.option-review-list li.is-correct { border-left-color: var(--ok); }
+.option-review-list p { margin: 0 0 .2rem; }
+.option-review-list p:last-child { margin-bottom: 0; }
+.option-review-head { display: flex; flex-wrap: wrap; gap: .5rem; align-items: baseline; font-size: .85rem; }
+.option-review-mark { font-weight: 700; }
+.option-review-mark.ok { color: var(--ok); }
+.option-review-mark.bad { color: var(--bad); }
+.option-review-chosen { border: 1px solid var(--border); border-radius: 999px; padding: 0 .5rem; color: var(--text); }
+.option-review-option { font-weight: 600; }
+.option-review-note { font-size: .92rem; }
 .report { font-size: .85rem; margin: .5rem 0 0; }
 .report a { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); }
 .flashcard-back { display: flex; flex-direction: column; justify-content: center; }

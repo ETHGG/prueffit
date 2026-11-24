@@ -15,7 +15,7 @@ import { mistakeIds, dueRetryIds } from '../stats.js';
 import { todayInBerlin } from '../leitner.js';
 import { keywordHits, rubricPoints } from '../grading.js';
 import {
-  createUi, isValidUi, readResponse, isIncomplete, missingInputMessage, correctAnswerText, renderInput,
+  createUi, isValidUi, readResponse, isIncomplete, missingInputMessage, correctAnswerText, renderInput, optionReviewBlock,
 } from './questionInputs.js';
 import { h, formatNumber, formatPercent, DIFFICULTY_LABELS, append } from './dom.js';
 import { fold } from './fold.js';
@@ -556,6 +556,7 @@ function drawQuestion(root, ctx, draw, topicById) {
       h('p', { class: 'small' }, `${formatNumber(result.points)} von ${formatNumber(result.maxPoints)} ${result.maxPoints === 1 ? 'Punkt' : 'Punkten'}`),
       !result.correct && q.type !== 'text' ? h('p', {}, h('strong', { text: 'Richtige Antwort: ' }), correctAnswerText(q)) : null,
       h('p', {}, h('strong', { text: 'Erklärung: ' }), q.explanation),
+      optionReviewBlock(q, result.response, { open: !result.correct }),
       noteLink(ctx, q.topic),
       isGeneratedId(q.id) ? null : reportLink(q));
   }

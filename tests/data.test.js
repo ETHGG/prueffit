@@ -160,6 +160,24 @@ describe('data/questions', () => {
     expect(all.some((q) => q.exam.includes('AP2'))).toBe(true);
     expect(new Set(all.map((q) => q.difficulty)).size).toBe(3);
   });
+
+  // Since 2.17: why each option is right or wrong. FISI/KITS first – every single/multi question of
+  // Netzwerke, Sicherheit and Hardware that FISI or KITS learners see has notes for its wrong options.
+  it('FISI/KITS: every single/multi question in Netzwerke, Sicherheit, Hardware explains its wrong options', () => {
+    const missing = ['netzwerke', 'sicherheit', 'hardware']
+      .flatMap((a) => parsed.get(`questions/${a}.json`))
+      .filter((q) => ['single', 'multi'].includes(q.type))
+      .filter((q) => q.exam.includes('AP1') || (q.jobs ?? []).some((j) => j === 'fisi' || j === 'kits'))
+      .filter((q) => !Array.isArray(q.optionNotes))
+      .map((q) => q.id);
+    expect(missing).toEqual([]);
+  });
+
+  it('option notes never just repeat the option text', () => {
+    const all = questionFiles.flatMap((f) => parsed.get(f)).filter((q) => Array.isArray(q.optionNotes));
+    const bad = all.flatMap((q) => q.optionNotes.map((n, i) => (n && n.trim() === String(q.options[i]).trim() ? `${q.id}[${i}]` : null))).filter(Boolean);
+    expect(bad).toEqual([]);
+  });
 });
 
 describe('data/flashcards', () => {

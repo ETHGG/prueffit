@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.17.0] – 2026-11-24
+
+### Hinzugefügt
+- **Erklärung zu jeder Antwortmöglichkeit** (Funktions-Backlog Punkt 2): Nach dem Beantworten einer Auswahlfrage (single/multi) zeigt das Quiz unter der Erklärung den aufklappbaren Bereich „Warum ist welche Antwort richtig oder falsch?“ – jede Option mit ✓/✗, „deine Wahl“ und einer kurzen Begründung, warum sie nicht stimmt (Begriff, typischer Denkfehler, Rechenfehler). Nach einer falschen Antwort ist er geöffnet, sonst eingeklappt; in der Auswertung der Prüfungssimulation steht er bei jeder Frage.
+- Neues optionales Datenfeld `optionNotes` (ein Eintrag je Option, `null` für richtige Optionen erlaubt, jede falsche Option braucht eine Erklärung ≥ 10 Zeichen), geprüft in `validateQuestion`; reine Funktion `optionReview` (Tests).
+- Inhalte FISI/KITS zuerst: alle 454 Auswahlfragen, die FISI- und KITS-Lernende sehen (AP1 und AP2 FISI/KITS in Netzwerke, Sicherheit, Hardware, Projekt, Wirtschaft, Recht, WiSo, Programmierung), haben Erklärungen zu jeder falschen Option. `data.test.js` prüft die Vollständigkeit für Netzwerke, Sicherheit und Hardware.
+- Abkürzungsverzeichnis: PAE.
+
+### Geändert
+- Präzisierungen beim Gegenlesen (überall nachgezogen): 32-Bit-Speichergrenze mit PAE-Variante (hw-0083, Lernzettel „Betriebssysteme“), GmbH-Mindesteinzahlung nach § 7 Abs. 2 GmbHG (wiso-0030, wi-0081), GPL verlangt Weitergabe unter GPL mit Quellcode, keine Veröffentlichung (re-0011, re-0053), Abnahme mit § 640 Abs. 3/§ 644 BGB (pm-0062), Mitbestimmung nur mit Betriebsrat (pm-0082), Mängelrüge „unverzüglich“ (wi-0161), SEPA-Erstattung für jeden Zahler (wi-0181), Prüfungsgebühr § 37 Abs. 4 BBiG (wiso-0005), Freistellung § 15 BBiG (wiso-0057), Verkürzung bei gebrauchter Ware nur mit gesondertem Hinweis (wiso-0066), kritischer Pfad bei vorgegebenem Endtermin (pm-0006), Rücktritt ohne Verschulden (re-0073), Annahmefrist (re-0026), Verarbeitungsverzeichnis (re-0034), Verschwiegenheit bei Berufsgeheimnisträgern (re-0045), Kleinstunternehmen im BFSG (prog-0069), Ganzzahldivision (prog-0072), `-mtime +30` und `rm`-Platzhalter (prog-0078), Normalform-Begründung (prog-0138), REST-Formate (prog-0058); Fragetexte wi-0071, wiso-0007 eindeutiger; wi-0034 mit nachvollziehbarer Falschantwort („im Hundert“ gerechnet).
+
 ## [2.16.21] – 2026-11-24
 
 ### Hinzugefügt

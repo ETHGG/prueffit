@@ -118,6 +118,56 @@ const ANSWER_VALIDATORS = {
   },
 };
 
+/** Indices of the correct options of a `single`/`multi` question. */
+function correctIndices(q) {
+  if (q.type === 'single') return Number.isInteger(q.answer) ? [q.answer] : [];
+  if (q.type === 'multi') return Array.isArray(q.answer) ? q.answer.filter(Number.isInteger) : [];
+  return [];
+}
+
+/**
+ * Since 2.17: optional `optionNotes` on `single`/`multi` questions – one entry per option, why it is
+ * right or wrong. Every wrong option needs a note (≥ 10 characters); correct options may have `null`.
+ */
+function validateOptionNotes(q, errors) {
+  if (q.optionNotes === undefined) return;
+  const notes = q.optionNotes;
+  if (q.type !== 'single' && q.type !== 'multi') {
+    errors.push('optionNotes: nur bei Fragetyp single oder multi erlaubt');
+    return;
+  }
+  if (!Array.isArray(notes) || !Array.isArray(q.options) || notes.length !== q.options.length) {
+    errors.push('optionNotes: erwartet ein Array mit einem Eintrag je Antwortmöglichkeit');
+    return;
+  }
+  const correct = new Set(correctIndices(q));
+  notes.forEach((n, i) => {
+    if (n === null && correct.has(i)) return;
+    if (n === null) errors.push(`optionNotes[${i}]: falsche Antwortmöglichkeit braucht eine Erklärung`);
+    else if (!isNonEmptyString(n) || n.trim().length < 10) errors.push(`optionNotes[${i}]: Erklärung zu kurz (mind. 10 Zeichen)`);
+  });
+}
+
+/**
+ * Per-option review after answering (since 2.17): for every option whether it is correct, whether
+ * the learner chose it and the note from `optionNotes` (or null). Returns [] for questions without
+ * notes or of another type, so callers can simply skip the section.
+ * @param response index (`single`) or array of indices (`multi`); missing = nothing chosen
+ */
+export function optionReview(q, response) {
+  if (!q || (q.type !== 'single' && q.type !== 'multi') || !Array.isArray(q.optionNotes) || !Array.isArray(q.options)) return [];
+  if (q.optionNotes.length !== q.options.length) return [];
+  const correct = new Set(correctIndices(q));
+  const chosen = new Set(Array.isArray(response) ? response : Number.isInteger(response) ? [response] : []);
+  return q.options.map((text, i) => ({
+    index: i,
+    text,
+    correct: correct.has(i),
+    chosen: chosen.has(i),
+    note: typeof q.optionNotes[i] === 'string' && q.optionNotes[i].trim() ? q.optionNotes[i] : null,
+  }));
+}
+
 /**
  * Validates one question against the data model (CLAUDE.md 5.2).
  * @param topicIds Set of valid topic ids
@@ -145,6 +195,7 @@ export function validateQuestion(q, topicIds = new Set()) {
     else if (!isNonEmptyString(q.image.alt) || q.image.alt.trim().length < 15) errors.push('image: Bildbeschreibung (alt) zu kurz');
   }
   validateJobs(q, errors);
+  validateOptionNotes(q, errors);
   if (q.type !== undefined && !QUESTION_TYPES.includes(q.type)) {
     errors.push(`type: unbekannter Fragetyp "${q.type}"`);
   } else if (q.type !== undefined && q.answer !== undefined && q.answer !== null) {

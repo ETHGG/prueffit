@@ -1224,6 +1224,12 @@
     "area": "Hardware"
   },
   {
+    "abbr": "PAE",
+    "full": "Physical Address Extension",
+    "explanation": "Erweiterung von 32-Bit-x86-CPUs: das Betriebssystem kann mehr als 4 GiB physischen Speicher ansprechen (bis 64 GiB), jeder Prozess hat aber höchstens 4 GiB Adressraum",
+    "area": "Hardware"
+  },
+  {
     "abbr": "PAP",
     "full": "Programmablaufplan",
     "explanation": "Grafische Darstellung eines Algorithmus (DIN 66001)",

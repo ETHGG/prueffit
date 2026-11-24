@@ -11,7 +11,7 @@ import {
 } from '../exam.js';
 import { rubricPoints } from '../grading.js';
 import { recordExamResult } from '../storage.js';
-import { createUi, renderInput, formatResponse, correctAnswerText, isEmptyResponse } from './questionInputs.js';
+import { createUi, renderInput, formatResponse, correctAnswerText, isEmptyResponse, optionReviewBlock } from './questionInputs.js';
 import { scenarioBox } from './scenario.js';
 import { fold } from './fold.js';
 import { printableParts, printSheetUrl, newSeed } from '../examPrint.js';
@@ -491,6 +491,7 @@ export function render(root, ctx) {
                   ]
                   : !r.correct ? h('p', {}, h('strong', { text: 'Richtige Antwort: ' }), correctAnswerText(q)) : null,
                 h('p', {}, h('strong', { text: 'Erklärung: ' }), q.explanation),
+                optionReviewBlock(q, r.response),
                 h('p', { class: 'report' }, h('a', { href: issueUrl(q), target: '_blank', rel: 'noopener' }, 'Fehler in dieser Frage melden'))));
           }))),
     );

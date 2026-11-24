@@ -11,6 +11,7 @@ import {
   createSeededRandom,
   issueUrl,
   wishUrl,
+  optionReview,
 } from '../js/questions.js';
 
 const topicIds = new Set(['netzwerke.subnetting', 'netzwerke.osi', 'recht.vertrag']);
@@ -382,5 +383,48 @@ describe('question pictures (2.16)', () => {
   it('rejects unsafe names and short alt texts', () => {
     expect(validateQuestion({ ...base, image: { name: '../x', alt: 'Netzwerkschrank mit Patchpanel' } }, topics).join()).toContain('image');
     expect(validateQuestion({ ...base, image: { name: 'rack', alt: 'Bild' } }, topics).join()).toContain('Bildbeschreibung');
+  });
+});
+
+describe('optionNotes – Erklärung je Antwortmöglichkeit (seit 2.17)', () => {
+  const notes = ['Das wären die Hosts eines /27-Netzes.', null, 'Inklusive Netz- und Broadcastadresse.', 'Das wäre ein /25-Netz.'];
+
+  it('accepts a note for every wrong option and null for the correct one', () => {
+    expect(validateQuestion({ ...base, optionNotes: notes }, topicIds)).toEqual([]);
+    expect(validateQuestion({ ...base, optionNotes: notes.map((n) => n ?? 'Richtig: 2^6 − 2 = 62.') }, topicIds)).toEqual([]);
+  });
+
+  it('rejects missing notes for wrong options, wrong length, short notes and other types', () => {
+    expect(validateQuestion({ ...base, optionNotes: [null, null, 'Inklusive Netz- und Broadcastadresse.', 'Das wäre ein /25-Netz.'] }, topicIds).join())
+      .toMatch(/optionNotes\[0\]: falsche Antwortmöglichkeit/);
+    expect(validateQuestion({ ...base, optionNotes: notes.slice(0, 3) }, topicIds).join()).toMatch(/je Antwortmöglichkeit/);
+    expect(validateQuestion({ ...base, optionNotes: ['kurz', null, 'Inklusive Netz- und Broadcastadresse.', 'Das wäre ein /25-Netz.'] }, topicIds).join())
+      .toMatch(/zu kurz/);
+    expect(validateQuestion({ ...base, optionNotes: 'Text' }, topicIds).join()).toMatch(/optionNotes/);
+    const num = { ...base, type: 'number', options: undefined, answer: { value: 62 }, optionNotes: ['Irgendein Hinweis'] };
+    expect(validateQuestion(num, topicIds).join()).toMatch(/nur bei Fragetyp single oder multi/);
+  });
+
+  it('multi: every option outside the answer needs a note', () => {
+    const multi = { ...base, type: 'multi', answer: [0, 1], optionNotes: [null, null, 'Inklusive Netz- und Broadcastadresse.', null] };
+    expect(validateQuestion(multi, topicIds).join()).toMatch(/optionNotes\[3\]/);
+    expect(validateQuestion({ ...multi, optionNotes: [null, null, 'Inklusive Netz- und Broadcastadresse.', 'Das wäre ein /25-Netz.'] }, topicIds)).toEqual([]);
+  });
+
+  it('optionReview marks correct and chosen options with their note', () => {
+    const review = optionReview({ ...base, optionNotes: notes }, 2);
+    expect(review).toHaveLength(4);
+    expect(review[1]).toMatchObject({ index: 1, text: '62', correct: true, chosen: false, note: null });
+    expect(review[2]).toMatchObject({ correct: false, chosen: true, note: 'Inklusive Netz- und Broadcastadresse.' });
+    const multi = optionReview({ ...base, type: 'multi', answer: [0, 1], optionNotes: [null, null, 'Inklusive Netz- und Broadcastadresse.', 'Das wäre ein /25-Netz.'] }, [1, 3]);
+    expect(multi.map((r) => [r.correct, r.chosen])).toEqual([[true, false], [true, true], [false, false], [false, true]]);
+  });
+
+  it('optionReview is empty without notes, for other types and for broken data; nothing chosen is fine', () => {
+    expect(optionReview(base, 1)).toEqual([]);
+    expect(optionReview({ ...base, optionNotes: notes.slice(1) }, 1)).toEqual([]);
+    expect(optionReview({ ...base, type: 'number', optionNotes: notes }, 1)).toEqual([]);
+    expect(optionReview(null, 1)).toEqual([]);
+    expect(optionReview({ ...base, optionNotes: notes }, undefined).every((r) => !r.chosen)).toBe(true);
   });
 });

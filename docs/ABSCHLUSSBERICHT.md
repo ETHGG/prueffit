@@ -1,3 +1,11 @@
+# Kurzbericht 2.17.0 (Nachtbetrieb Lauf 1 „neue Funktion“, 24.11.2026)
+
+- **Funktion (Backlog 2):** Erklärung zu jeder Antwortmöglichkeit. Feld `optionNotes` (Validierung in `validateQuestion`, reine Funktion `optionReview`), Anzeige als aufklappbarer Bereich im Quiz-Feedback (nach falscher Antwort offen) und in der Auswertung der Simulation. Keine neue Ansicht, kein neuer Tab.
+- **Inhalte:** alle 454 Auswahlfragen, die FISI/KITS sehen, mit Erklärungen zu jeder falschen Option (von Hilfsagenten je Bereich entworfen, Stichprobe von 22 Fragen nachgerechnet/gegengelesen ohne Befund; Rechenaufgaben z. B. Netzteil 431 W × 1,3, IPv6-Kürzung geprüft). Dabei gemeldete Ungenauigkeiten in 23 Erklärungen/Fragetexten präzisiert (siehe CHANGELOG), auch im Lernzettel „Betriebssysteme“ (PAE).
+- **Annahmen:** Richtige Optionen dürfen ohne Erklärung bleiben (`null`); bei Mehrfachauswahl stehen dort teils kurze Bestätigungen („Trifft zu: …“). Die Druckansicht der Simulation (Lösungsblatt) zeigt die neuen Erklärungen noch nicht – bewusst, um das Blatt kompakt zu halten.
+- **Offen:** Erklärungen für die übrigen Berufe (Fragen nur für FIAE/FIDPA/FIDV/ITSE/KDM, Bereiche Elektro, Daten, Vernetzung).
+- **Tests:** npm-Registry in der Cloud nicht erreichbar → Unit-Tests mit Ersatz-Runner (781 grün), Browsertests Chromium Desktop, iPhone SE, iPhone 13 dunkel (neu: `e2e/optionNotes.spec.js`).
+
 # Kurzbericht 2.16.16–2.16.20 (Abendlauf „3D-Bilder“, Fortsetzung 2, 24.11.2026, 20:13–20:40)
 
 - **14 neue Bilder mit Bildfragen:** USV-Überbrückung, PoE-Budget, Netzgeräte nach OSI, CAL-Lizenzen, AD-Struktur, SLA-Zeiten, Phishing-Merkmale (fiktive Bank), Leasing/Kauf, MFA-Faktoren, IPv4-Bereiche, RAID mit Hot-Spare, SSH-Schlüssel, PUE, DNS-Einträge.
