@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.4] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere 3D-Bilder (Abendlauf):** Site-to-Site- und Client-to-Site-VPN („Firewall, DMZ und VPN“), Netzplan mit kritischem Pfad, Gesamt- und freiem Puffer („Projektplanung und Netzplan“), Wasserfall und Scrum-Kreislauf („Vorgehensmodelle“), dazu 3 Bildfragen (sec-0091, pm-0108, pm-0109).
+- Lernzettel „Projektplanung und Netzplan“: Wirkung einer Verzögerung über den Gesamtpuffer hinaus.
+
 ## [2.16.3] – 2026-11-24
 
 ### Hinzugefügt
