@@ -921,6 +921,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "LC",
+    "full": "Lucent Connector",
+    "explanation": "kleiner LWL-Stecker mit 1,25-mm-Ferrule und Rastnase, meist als Duplex; Standard bei SFP-Modulen",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "LDAP",
     "full": "Lightweight Directory Access Protocol",
     "explanation": "Protokoll zum Abfragen und Ändern von Verzeichniseinträgen, Port 389 (verschlüsselt 636)",
@@ -1196,7 +1202,10 @@
   {
     "abbr": "PC",
     "full": "Personal Computer",
-    "area": "Allgemein"
+    "area": "Allgemein",
+    "aliases": [
+      "PCs"
+    ]
   },
   {
     "abbr": "PCIe",
@@ -1391,6 +1400,12 @@
     "area": "Projektmanagement"
   },
   {
+    "abbr": "SC",
+    "full": "Subscriber Connector (auch Square Connector)",
+    "explanation": "quadratischer LWL-Stecker mit 2,5-mm-Ferrule und Push-Pull-Verriegelung, häufig in Patchfeldern",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "SEPA",
     "full": "Single Euro Payments Area",
     "explanation": "einheitlicher Euro-Zahlungsraum für Überweisungen und Lastschriften",
@@ -1530,6 +1545,12 @@
     "full": "Secure Sockets Layer",
     "explanation": "Vorgänger von TLS; heute noch in Namen wie „SSL-VPN“",
     "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "ST",
+    "full": "Straight Tip",
+    "explanation": "runder LWL-Stecker mit 2,5-mm-Ferrule und Bajonettverschluss, vor allem in älteren Installationen",
+    "area": "Netzwerke"
   },
   {
     "abbr": "StabG",

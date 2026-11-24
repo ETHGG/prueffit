@@ -67,7 +67,9 @@ a { color: var(--accent); text-decoration: none; }
 .note th, .note td, .gloss-table th, .gloss-table td { border: 1px solid var(--line); padding: 1.3mm 2mm; text-align: left; vertical-align: top; }
 .note th, .gloss-table th { background: var(--tint); font-weight: 700; }
 .note tr, .gloss-table tr { break-inside: avoid; }
-/* Pictures in notes (2.16) */
+/* Pictures in notes and questions (2.16) */
+.note-figure { margin: 2mm 0 3mm; break-inside: avoid; }
+.note-figure img { display: block; max-width: 100%; width: 110mm; height: auto; border-radius: 1.5mm; border: 0.3mm solid var(--line, #cfd6dc); }
 .note .note-figure { margin: 3mm 0; break-inside: avoid; }
 .note .note-figure img { display: block; width: 100%; max-width: 120mm; height: auto; border-radius: 1.5mm; border: 0.3mm solid var(--line, #cfd6dc); }
 .note .note-figure figcaption { font-size: 8.5pt; color: var(--muted); margin-top: 1mm; }

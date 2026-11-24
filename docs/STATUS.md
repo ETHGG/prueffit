@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.16.0 (24.11.2026)
+**Aktuelle Version:** 2.16.1 (24.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -17,7 +17,7 @@
 
 ## Nachtbetrieb (Auftrag 23.11.2026, 22:56, ab sofort jede Nacht)
 
-**Läuft gerade:** Tag-Auftrag Bilder 2 seit 11:22
+**Läuft gerade:** –
 
 Regeln für alle Nachtläufe:
 - Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
@@ -36,21 +36,29 @@ Regeln für alle Nachtläufe:
 5. Lernkalender (Aktivität pro Tag als Raster in der Statistik) – offen
 6. danach: selbst gewählte Verbesserungen / Durchlauf der ganzen App
 
-### Bilder-Backlog (Lauf „3D-Bilder“, braucht den Mac mit laufendem Blender + MCP-Add-on)
-Erledigt (2.16.0): serverschrank, rj45, glasfaser, raid5, usv, mainboard, hdd-ssd. Skripte: `tools/blender/` (lib.py + eine Datei je Bild).
-Offen, der Reihe nach (je Bild: Szene in `tools/blender/<name>.py`, rendern, ≤ 150 KB, Lernzettel-Zeile, 1 Frage mit `image`, Bild selbst ansehen und korrigieren):
-1. osi-modell (Schichten-Turm mit Geräten je Schicht: Hub 1, klassischer Switch 2 / Layer-3-Switch 2+3, Router 3)
-2. lwl-stecker (LC-Duplex, SC, ST im Vergleich)
-3. patchpanel-verkabelung (Patchpanel → Patchkabel → Switch, strukturierte Verkabelung Primär/Sekundär/Tertiär)
-4. dmz (Netzplan: Internet – äußere Firewall – DMZ mit Web-/Mailserver – innere Firewall – LAN)
-5. raid-vergleich (RAID 0, 1, 10 nebeneinander)
-6. vlan (ein Switch, zwei VLANs farbig, Trunk zum Router)
-7. stromversorgung-rack (redundante Netzteile A/B-Einspeisung, PDU)
-8. backup-3-2-1 (3 Kopien, 2 Medien, 1 extern)
+### Bilder-Backlog (Lauf „3D-Bilder“, braucht den Mac mit laufendem Blender)
+Erledigt: serverschrank, rj45, glasfaser, raid5, usv, mainboard, hdd-ssd (2.16.0); osi-modell, lwl-stecker, dmz, vlan, backup-321 (2.16.1). Skripte: `tools/blender/` (lib.py + eine Datei je Bild).
+
+**So kommen Aufträge an Blender (ohne Bildschirmsteuerung):** In Blender läuft `tools/blender/watcher.py` (einmal in der Python-Konsole gestartet, `bpy.app.timers`). Er arbeitet Dateien `Desktop/PrüfFit/blender/jobs/*.job` (Inhalt: Bildname) der Reihe nach ab: führt `Desktop/PrüfFit/blender/<name>.py` aus (lib.py + Szene + render nach `blender/out/<name>.webp`, Fehler in `out/<name>.err`). Ablauf: Skript bauen (Vorlage: `tools/blender/*.py`, Runner-Muster: try/except mit `.ok`/`.err`), mit `device_commit_files` ablegen – **danach Inhalt per `device_bash` (grep) prüfen, die Ablage ist manchmal einige Sekunden verzögert** –, Job-Datei per `device_bash` schreiben, ~10 s warten, Bild mit `device_stage_files` holen und ansehen. Läuft der Watcher nicht (Blender neu gestartet), steht nichts in `out/`: dann per Blender-MCP (`execute_blender_code`, falls Add-on installiert) `exec(open('/Users/testfg/Desktop/PrüfFit/blender/watcher.py').read())` ausführen; sonst überspringen und im Protokoll vermerken.
+
+Offen, der Reihe nach (je Bild: Szene, rendern, ansehen und korrigieren bis lesbar und fachlich richtig, ≤ 150 KB, Lernzettel-Zeile, 1 Frage mit `image`, Abkürzungen ins Glossar):
+1. patchpanel-verkabelung (Patchpanel → Patchkabel → Switch; strukturierte Verkabelung Primär/Sekundär/Tertiär)
+2. raid-vergleich (RAID 0, 1, 10 nebeneinander)
+3. stromversorgung-rack (redundante Netzteile, A/B-Einspeisung, PDU)
+4. subnetting-baum (192.168.1.0/24 in /25, /26, /27 aufgeteilt)
+5. wlan-ausleuchtung (Access Points mit Kanälen 1/6/11, Überlappung)
+6. virtualisierung (Typ-1- vs. Typ-2-Hypervisor als Schichten)
+7. cloud-modelle (IaaS, PaaS, SaaS: wer verwaltet was)
+8. tcp-handshake (SYN, SYN-ACK, ACK zwischen Client und Server)
+9. dns-aufloesung (Client, Resolver, Root, TLD, autoritativer Server)
+10. vpn-tunnel (Site-to-Site und Client-to-Site)
+11. projekt-phasen (Wasserfall vs. Scrum-Sprint)
+12. netzplan-kritischer-pfad (Vorgangsknoten mit FAZ/FEZ/SAZ/SEZ, Puffer)
 
 ### Nachtprotokoll
 | Datum | Lauf | Start | Ende | Ist | Ergebnis |
 |---|---|---|---|---|---|
+| 24.11.2026 | Tag-Auftrag 3D-Bilder 2 | 11:22 | 11:40 | ca. 18 Min. | 5 Bilder (OSI, LWL-Stecker, DMZ, VLAN, 3-2-1) + 5 Bildfragen (2.16.1); Blender-Watcher eingerichtet (Aufträge ohne Bildschirmsteuerung). |
 | 24.11.2026 | Tag-Auftrag 3D-Bilder | 10:38 | 11:18 | 40 Min. | 7 Blender-Bilder in 6 Lernzetteln, Bildzeilen in Markdown, Fragen mit Bild (7 neue), USV-Präzisierung (2.15.5 Technik, 2.16.0 Inhalte). Blender-MCP-Add-on fehlt noch – heute über die Blender-Konsole gearbeitet. |
 | 23.11.2026 | Nacht 1 | 23:13 | 23:30 | 17 Min. | Backlog 1 Rechentraining erledigt (2.13.0); Unit-Tests (Ersatz-Runner) und Browsertests Chromium grün. Weitere Backlog-Punkte bewusst nicht begonnen: Block D des Nachtauftrags startet 00:19 und braucht die Sperre frei. |
 | 24.11.2026 | Block D | 00:19 | 00:40 | 21 Min. | Punkte 5 und 6 erledigt (2.14.0); nebenbei Checklisten-Häkchen verwarf Notenrechner-Punkte behoben. |

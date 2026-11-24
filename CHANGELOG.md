@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.1] – 2026-11-24
+
+### Hinzugefügt
+- **5 weitere 3D-Bilder:** OSI- und TCP/IP-Modell mit Protokollen und Geräten je Schicht (inkl. Layer-3-Switch), LWL-Stecker LC/SC/ST im Vergleich, zweistufige DMZ, zwei VLANs mit Trunk zum Router, 3-2-1-Backup – in den Lernzetteln „OSI- und TCP/IP-Modell“, „Übertragungsmedien“, „Firewall, DMZ und VPN“, „VLAN, WLAN und Spanning Tree“, „Datensicherung“.
+- **5 neue Fragen mit Bild** (net-0128 bis net-0130, sec-0089, sec-0090).
+- Abkürzungsverzeichnis: LC, SC, ST (LWL-Stecker), PCs als Schreibweise von PC.
+- `tools/blender/watcher.py`: Blender arbeitet abgelegte Aufträge selbst ab (keine Bildschirmsteuerung nötig).
+
+### Korrigiert
+- Simulation zum Ausdrucken: Bilder in Fragen waren im Druck zu breit (horizontaler Überlauf); jetzt höchstens 110 mm bzw. Seitenbreite.
+
 ## [2.16.0] – 2026-11-24
 
 ### Hinzugefügt

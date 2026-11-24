@@ -135,6 +135,28 @@ def lights(strength=1.0):
         l.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler()
 
 
+def camera_front(center, width, tilt=18, dist=6.0):
+    # orthographic camera in front (-y), tilted down by `tilt` degrees, `width` = visible width
+    cx, cy, cz = center
+    t = math.radians(tilt)
+    loc = (cx, cy - dist * math.cos(t), cz + dist * math.sin(t))
+    return camera(loc, center, ortho=width)
+
+
+def arrow(a, b, material, r=0.012, head=0.06):
+    a, b = Vector(a), Vector(b)
+    d = b - a
+    shaft_end = b - d.normalized() * head
+    leader(a, shaft_end, material, r=r)
+    bm = bmesh.new()
+    bmesh.ops.create_cone(bm, cap_ends=True, segments=24, radius1=r * 2.6, radius2=0, depth=head)
+    o = _mesh_obj('head', bm, material)
+    o.location = shaft_end + d.normalized() * head / 2
+    o.rotation_mode = 'QUATERNION'
+    o.rotation_quaternion = d.to_track_quat('Z', 'Y')
+    return o
+
+
 def render(path):
     sc = bpy.context.scene
     os.makedirs(os.path.dirname(path), exist_ok=True)
