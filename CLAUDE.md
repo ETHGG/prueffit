@@ -307,6 +307,7 @@ Prozent wird **kaufmännisch auf ganze Zahlen gerundet**, bevor die Note bestimm
 - Die schriftlichen Prüfungen der IT-Berufe sind bundeseinheitlich (gilt auch für Sachsen-Anhalt). Bekannte Termine stehen in `KNOWN_EXAM_DATES` (`js/schedule.js`) und werden jährlich nachgepflegt.
 - Danach wird geschätzt: AP1 letzter Mittwoch im Februar/September, AP2 letzter Mittwoch im April/November (Kennzeichnung „geschätzt“).
 - Wochenplan (seit 2.12, `weeklyPlan` in `js/schedule.js`): Tage von heute bis zum Tag vor der Prüfung in Kalenderwochen (Mo–So) teilen; Themen nach Punktepotenzial der Prüfungsreife (Summe über die Bereiche der Prüfung, ungeübte × 1,5) gleichmäßig auf alle Wochen außer der letzten, höchstens 4 je volle Woche (anteilig in kürzeren); leere Wochen = gemischte Wiederholung; letzte Woche = Wiederholung der 3 wichtigsten Themen + Simulationen. Ohne Termin kein Plan.
+- Kalenderdatei (seit 2.18, `weeklyPlanIcs`): je Woche des Wochenplans ein ganztägiger Termin (DTEND exklusiv), dazu der Prüfungstag mit Erinnerung am Vortag 9 Uhr (`TRIGGER:-PT15H`); UID `prueffit-<prüfung>-<tag>-woche-<start>@prueffit` bzw. `…-pruefung@prueffit`; CRLF, Zeilen ≤ 75 Byte (UTF-8).
 - Lernplan: offene Fragen (nie richtig beantwortet) / (Tage bis zur Prüfung − 1), aufgerundet.
 
 ### 6.5 Speicher-Migration
@@ -353,7 +354,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `stats.test.js` | Quote, Ampelgrenzen (49/50, 79/80 %), < 5 Versuche = grau, „Heute üben“, Lernserie inkl. Unterbrechung, Prüfungsreife (Gewichtung, Glättung, Simulationen, „zu wenig Daten“, Potenzial), Verlauf (Wochenschnappschuss, Ersetzen, Begrenzung, ungültige Werte) |
 | `exam.test.js` | Notenschlüssel an allen Grenzen (29/30, 49/50, 66/67, 80/81, 91/92), Rundung, Zeitablauf, Tabellenaufgabe in jedem schriftlichen Teil (auch mit echten Daten je Beruf) |
 | `storage.test.js` | leerer Speicher, defektes JSON, Migration, Backup wird angelegt, `readinessHistory` (seit 2.12) |
-| `schedule.test.js` | Prüfungstermine, Lernplan, Datensicherungs-Erinnerung, Wochenbeginn und Wochenplan (Wochengrenzen Europe/Berlin, kein Termin, Prüfung in < 1 Woche, sehr viele Themen; seit 2.12) |
+| `schedule.test.js` | Prüfungstermine, Lernplan, Datensicherungs-Erinnerung, Wochenbeginn und Wochenplan (Wochengrenzen Europe/Berlin, kein Termin, Prüfung in < 1 Woche, sehr viele Themen; seit 2.12), Kalenderdatei (Ereignisse, exklusives Ende, Escaping, Faltung ≤ 75 Byte, feste UIDs; seit 2.18) |
 | `questions.test.js` | Filtern nach Prüfung/Thema/Schwierigkeit, Zufallsauswahl ohne Duplikate, `optionNotes`/`optionReview` (seit 2.17) |
 | `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type`, ein Lernzettel pro Thema, Zuordnung AP1/AP2 und Berufe, Handlungssituationen für alle 7 Berufe |
 | `curriculum.test.js` / `jobCatalog.test.js` | Berufe und Prüfungsbereiche, Zuordnung der Themen, keine Inhalte fremder Berufe |
@@ -407,6 +408,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.15** | Fortschritt übertragen (Sicherung teilen, Link/QR-Code ohne Server mit Vorschau); Tabellenaufgabe in jedem schriftlichen Bereich aller 7 Berufe | erledigt |
 | **2.16** | 3D-Bilder (Blender) in Lernzetteln und Fragen mit Bild | erledigt |
 | **2.17** | Erklärung zu jeder Antwortmöglichkeit (`optionNotes`), alle Auswahlfragen für FISI/KITS | erledigt |
+| **2.18** | Wochenplan als Kalenderdatei (.ics) | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

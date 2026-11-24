@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   KNOWN_EXAM_DATES, AP2_DAY_BEFORE_JOBS, addDays, daysBetween, lastWednesday, sessionLabel, upcomingExamDates, nextExamDate, studyPlan, openQuestions,
-  backupReminder, weekStart, weeklyPlan, planTopics, PLAN_TOPICS_PER_WEEK,
+  backupReminder, weekStart, weeklyPlan, planTopics, PLAN_TOPICS_PER_WEEK, weeklyPlanIcs, weeklyPlanIcsName, icsEscape, icsFold,
 } from '../js/schedule.js';
 
 describe('daysBetween', () => {
@@ -212,5 +212,81 @@ describe('Wochenplan bis zur Prüfung (2.12)', () => {
 
   it('planTopics ignores topics without potential', () => {
     expect(planTopics(readiness([topic('a', 0), topic('b', 1)]), 'AP2').map((t) => t.id)).toEqual(['b']);
+  });
+});
+
+describe('Wochenplan als Kalenderdatei (.ics, seit 2.18)', () => {
+  const topic = (id, name, points, attempts = 5, rate = 0.4) => ({ id, name, points, attempts, rate: attempts ? rate : null });
+  const plan = weeklyPlan({
+    today: '2026-11-26',
+    target: { exam: 'AP2', day: '2026-12-23' },
+    readiness: [{ id: 'ga1', exam: 'AP2', potential: [topic('a', 'Subnetting; VLSM, Routing', 9), topic('b', 'Firewall', 6, 0), topic('c', 'Backup', 4)] }],
+  });
+  const now = new Date('2026-11-26T22:15:30.123Z');
+  const ics = weeklyPlanIcs(plan, { today: '2026-11-26', now });
+  const unfolded = ics.replace(/\r\n /g, '');
+  const events = unfolded.split('BEGIN:VEVENT').slice(1);
+
+  it('is a valid calendar with CRLF line endings: one all-day event per week plus the exam day', () => {
+    expect(ics.startsWith('BEGIN:VCALENDAR\r\nVERSION:2.0\r\n')).toBe(true);
+    expect(ics.endsWith('END:VCALENDAR\r\n')).toBe(true);
+    expect(ics.replace(/\r\n/g, '').includes('\n')).toBe(false);
+    expect(events).toHaveLength(plan.weeks.length + 1);
+    expect(unfolded).toContain('DTSTAMP:20261126T221530Z');
+  });
+
+  it('all-day events end exclusively the day after (also across month ends), exam day with reminder', () => {
+    expect(events[0]).toContain('DTSTART;VALUE=DATE:20261126');
+    expect(events[0]).toContain('DTEND;VALUE=DATE:20261130'); // week ends Sunday 29.11.
+    expect(events[1]).toContain('DTSTART;VALUE=DATE:20261130');
+    expect(events[1]).toContain('DTEND;VALUE=DATE:20261207');
+    expect(events.at(-2)).toContain('DTEND;VALUE=DATE:20261223'); // last learning day 22.12.
+    expect(events.at(-1)).toContain('DTSTART;VALUE=DATE:20261223');
+    expect(events.at(-1)).toContain('DTEND;VALUE=DATE:20261224');
+    expect(events.at(-1)).toContain('SUMMARY:Abschlussprüfung Teil 2 (AP2) – schriftliche Prüfung');
+    expect(events.at(-1)).toContain('TRIGGER:-PT15H');
+  });
+
+  it('names topics, escapes commas/semicolons and marks the last week', () => {
+    expect(unfolded).toContain('SUMMARY:PrüfFit: Subnetting\\; VLSM\\, Routing\r\n');
+    expect(unfolded).toContain('- Firewall (ungeübt)');
+    expect(unfolded).toContain('- Backup (40 % richtig)');
+    expect(events.at(-2)).toContain('SUMMARY:PrüfFit: letzte Woche – wiederholen und Simulation');
+    expect(unfolded).toContain('Stand des Plans: 2026-11-26');
+  });
+
+  it('has stable UIDs per exam and week, so a new export updates instead of duplicating', () => {
+    const again = weeklyPlanIcs(plan, { today: '2026-11-27', now: new Date('2026-11-27T08:00:00Z') });
+    const uids = (text) => [...text.matchAll(/^UID:(.+)$/gm)].map((m) => m[1].trim());
+    expect(uids(again)).toEqual(uids(ics));
+    expect(new Set(uids(ics)).size).toBe(events.length);
+    expect(uids(ics)[0]).toBe('prueffit-ap2-2026-12-23-woche-2026-11-26@prueffit');
+  });
+
+  it('folds lines to at most 75 octets without splitting characters', () => {
+    const enc = new TextEncoder();
+    for (const line of ics.split('\r\n')) expect(enc.encode(line).length).toBeLessThanOrEqual(75);
+    const long = `SUMMARY:${'Prüfungsvorbereitung '.repeat(10)}`;
+    const folded = icsFold(long);
+    expect(folded.replace(/\r\n /g, '')).toBe(long);
+    for (const line of folded.split('\r\n')) expect(enc.encode(line).length).toBeLessThanOrEqual(75);
+    expect(icsFold('kurz')).toBe('kurz');
+  });
+
+  it('escapes backslash, semicolon, comma and newlines', () => {
+    expect(icsEscape('a\\b;c,d\ne')).toBe(String.raw`a\\b\;c\,d\ne`);
+  });
+
+  it('no file without a plan; file name with exam and day', () => {
+    expect(weeklyPlanIcs(weeklyPlan({ today: '2026-11-23', target: null }), { today: '2026-11-23' })).toBeNull();
+    expect(weeklyPlanIcs(null)).toBeNull();
+    expect(weeklyPlanIcsName(plan)).toBe('prueffit-wochenplan-ap2-2026-12-23.ics');
+  });
+
+  it('a plan with a single (final) week still has both events', () => {
+    const short = weeklyPlan({ today: '2026-12-21', target: { exam: 'AP2', day: '2026-12-23' }, readiness: [] });
+    const text = weeklyPlanIcs(short, { today: '2026-12-21', now });
+    expect(text.match(/BEGIN:VEVENT/g)).toHaveLength(2);
+    expect(text).toContain('letzte Woche');
   });
 });

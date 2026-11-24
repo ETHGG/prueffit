@@ -189,6 +189,90 @@ export function weeklyPlan({ today, target, readiness = [], perWeek = PLAN_TOPIC
   return { ...base, status: 'ok', weeks, unplanned };
 }
 
+// ---- Wochenplan als Kalenderdatei (seit 2.18) ----
+
+const EXAM_TITLES = Object.freeze({ AP1: 'Abschlussprüfung Teil 1 (AP1)', AP2: 'Abschlussprüfung Teil 2 (AP2)' });
+
+/** iCalendar text escaping (RFC 5545 3.3.11). */
+export function icsEscape(text) {
+  return String(text ?? '').replace(/\\/g, '\\\\').replace(/;/g, String.raw`\;`).replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+}
+
+/** Folds a content line to at most 75 octets (UTF-8), continuation lines start with a space. */
+export function icsFold(line) {
+  const enc = new TextEncoder();
+  if (enc.encode(line).length <= 75) return line;
+  const parts = [];
+  let cur = '';
+  let size = 0;
+  for (const ch of line) {
+    const n = enc.encode(ch).length;
+    const limit = parts.length ? 74 : 75; // continuation lines carry the leading space
+    if (size + n > limit) { parts.push(cur); cur = ''; size = 0; }
+    cur += ch;
+    size += n;
+  }
+  parts.push(cur);
+  return parts.join('\r\n ');
+}
+
+const icsDate = (day) => day.replace(/-/g, '');
+const icsStamp = (date) => date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+
+function weekTitle(w) {
+  if (w.kind === 'final') return 'PrüfFit: letzte Woche – wiederholen und Simulation';
+  if (w.kind === 'mixed') return 'PrüfFit: gemischt wiederholen';
+  const names = w.topics.map((t) => t.name);
+  return `PrüfFit: ${names.slice(0, 2).join(', ')}${names.length > 2 ? ` und ${names.length - 2} weitere` : ''}`;
+}
+
+function weekDescription(w, plan, today) {
+  const lines = [];
+  if (w.kind === 'final') {
+    lines.push(`Wiederholen und unter Prüfungsbedingungen üben: ${plan.simulations > 1 ? `je eine Simulation für alle ${plan.simulations} Bereiche` : 'eine Prüfungssimulation'}, dazu „Meine Fehler“ und fällige Fragen.`);
+    if (w.topics.length) lines.push('Noch einmal ansehen:', ...w.topics.map((t) => `- ${t.name}`));
+  } else if (w.kind === 'mixed') {
+    lines.push('Gemischt wiederholen: fällige Fragen, „Meine Fehler“ und Karteikarten.');
+  } else {
+    lines.push('Themen dieser Woche (schwächste zuerst):', ...w.topics.map((t) => `- ${t.name}${t.attempts > 0 && t.rate !== null ? ` (${Math.round(t.rate * 100)} % richtig)` : ' (ungeübt)'}`));
+  }
+  lines.push('', `Stand des Plans: ${today}. Der Plan in PrüfFit passt sich an, sobald du übst – bei Bedarf neu exportieren.`);
+  return lines.join('\n');
+}
+
+/**
+ * The weekly plan (weeklyPlan) as iCalendar file: one all-day event per week and one for the exam
+ * day (with a reminder the day before at 9:00). Stable UIDs, so importing a newer export can update
+ * the events in calendars that support it. Returns null without a plan.
+ * @param {object} plan result of weeklyPlan with status 'ok'
+ * @param {{ today: string, now?: Date }} opts
+ */
+export function weeklyPlanIcs(plan, { today, now = new Date() } = {}) {
+  if (!plan || plan.status !== 'ok' || !plan.weeks?.length) return null;
+  const stamp = icsStamp(now);
+  const uid = (suffix) => `prueffit-${plan.exam.toLowerCase()}-${plan.day}-${suffix}@prueffit`;
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//PrüfFit//Wochenplan//DE', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+    `X-WR-CALNAME:${icsEscape(`PrüfFit ${plan.exam}`)}`];
+  for (const w of plan.weeks) {
+    lines.push('BEGIN:VEVENT', `UID:${uid(`woche-${w.start}`)}`, `DTSTAMP:${stamp}`,
+      `DTSTART;VALUE=DATE:${icsDate(w.start)}`, `DTEND;VALUE=DATE:${icsDate(addDays(w.end, 1))}`,
+      `SUMMARY:${icsEscape(weekTitle(w))}`, `DESCRIPTION:${icsEscape(weekDescription(w, plan, today))}`,
+      'TRANSP:TRANSPARENT', 'END:VEVENT');
+  }
+  lines.push('BEGIN:VEVENT', `UID:${uid('pruefung')}`, `DTSTAMP:${stamp}`,
+    `DTSTART;VALUE=DATE:${icsDate(plan.day)}`, `DTEND;VALUE=DATE:${icsDate(addDays(plan.day, 1))}`,
+    `SUMMARY:${icsEscape(`${EXAM_TITLES[plan.exam] ?? plan.exam} – schriftliche Prüfung`)}`,
+    `DESCRIPTION:${icsEscape('Uhrzeit und Raum stehen in der Einladung deiner IHK. Ausweis und Einladung mitnehmen.')}`,
+    'BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${icsEscape(`Morgen: ${plan.exam}`)}`, 'TRIGGER:-PT15H', 'END:VALARM',
+    'END:VEVENT', 'END:VCALENDAR');
+  return `${lines.map(icsFold).join('\r\n')}\r\n`;
+}
+
+/** File name of the calendar export, e.g. prueffit-wochenplan-ap2-2027-04-28.ics */
+export function weeklyPlanIcsName(plan) {
+  return `prueffit-wochenplan-${String(plan.exam).toLowerCase()}-${plan.day}.ics`;
+}
+
 // ---- Erinnerung an die Datensicherung (v1.0) ----
 
 export const BACKUP_INTERVAL_DAYS = 14;

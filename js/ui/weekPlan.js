@@ -1,7 +1,8 @@
 // "Wochenplan bis zur Prüfung" (since 2.12): the weakest topics of the chosen exam spread over the
 // weeks until the exam date, last week for repetition and simulations. Logic: js/schedule.js weeklyPlan().
 
-import { weeklyPlan } from '../schedule.js';
+import { weeklyPlan, weeklyPlanIcs, weeklyPlanIcsName } from '../schedule.js';
+import { downloadText } from './files.js';
 import { todayInBerlin } from '../leitner.js';
 import { readinessFor, shortDay } from './readiness.js';
 import { fold } from './fold.js';
@@ -67,5 +68,23 @@ export function weekPlanCard(ctx) {
   h('ol', { class: 'plan-weeks' }, plan.weeks.map((w) => weekItem(w, plan))),
   plan.unplanned > 0
     ? h('p', { class: 'muted small' }, `Weitere ${plan.unplanned} ${plan.unplanned === 1 ? 'Thema hat' : 'Themen haben'} im Plan keinen Platz mehr – wenn Zeit bleibt, über die Statistik üben.`)
-    : null);
+    : null,
+  calendarExport(ctx, plan, today));
+}
+
+/** "In den Kalender" (since 2.18): the plan as .ics file, one all-day event per week plus the exam day. */
+function calendarExport(ctx, plan, today) {
+  return h('div', { class: 'plan-calendar' },
+    h('button', {
+      class: 'button secondary',
+      type: 'button',
+      onClick: () => {
+        const text = weeklyPlanIcs(plan, { today });
+        if (!text) return;
+        downloadText(weeklyPlanIcsName(plan), text, 'text/calendar');
+        ctx.toast?.('Kalenderdatei erstellt – öffnen (iPhone: in „Downloads“) und „Alle hinzufügen“ wählen.', { duration: 6000 });
+      },
+    }, '📅 In den Kalender (.ics)'),
+    h('p', { class: 'muted small' },
+      'Je Woche ein ganztägiger Termin mit den Themen, dazu der Prüfungstag (Erinnerung am Vortag). Stand heute – nach einiger Übung neu exportieren.'));
 }

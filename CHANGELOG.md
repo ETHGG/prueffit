@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.18.0] – 2026-11-25
+
+### Hinzugefügt
+- **Wochenplan als Kalenderdatei** (Funktions-Backlog Punkt 3): Im aufgeklappten „Wochenplan bis zur Prüfung“ auf der Startseite lädt „📅 In den Kalender (.ics)“ eine iCalendar-Datei – je Woche ein ganztägiger Termin mit den Themen (Quote bzw. „ungeübt“), die letzte Woche mit Wiederholung und Simulation, dazu der Prüfungstag mit Erinnerung am Vortag um 9 Uhr. Auf dem iPhone in „Downloads“ öffnen und „Alle hinzufügen“ wählen. Feste UIDs je Prüfung und Woche, damit ein neuer Export die Termine aktualisiert, wo der Kalender das unterstützt.
+- Reine Funktionen `weeklyPlanIcs`, `weeklyPlanIcsName`, `icsEscape`, `icsFold` in `js/schedule.js` (RFC 5545: CRLF, Zeilen ≤ 75 Byte, Escaping, ganztägige Termine mit exklusivem Ende) mit Tests; Browsertest `e2e/calendar.spec.js`.
+
 ## [2.17.0] – 2026-11-24
 
 ### Hinzugefügt

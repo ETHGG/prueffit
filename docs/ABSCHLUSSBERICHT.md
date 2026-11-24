@@ -1,3 +1,9 @@
+# Kurzbericht 2.18.0 (Nachtbetrieb Lauf 1, Fortsetzung, 25.11.2026)
+
+- **Funktion (Backlog 3):** Wochenplan als .ics-Datei aus dem Wochenplan der Startseite (Knopf im aufgeklappten Bereich, keine neue Ansicht). Reine Funktionen in `js/schedule.js`, Download über `downloadText` (`js/ui/files.js`).
+- **Annahmen:** Ganztägige Termine ohne Uhrzeit (Lernzeit legt jeder selbst fest); einzige Erinnerung am Vortag der Prüfung, damit der Kalender nicht wöchentlich stört. Uhrzeit der Prüfung steht nicht fest (Einladung der IHK) – daher ganztägig.
+- **Offen:** Gegenprobe im echten iPhone-Kalender (in der Cloud nicht möglich); geprüft mit Tests gegen RFC 5545 (CRLF, Faltung, Escaping, DATE-Werte).
+
 # Kurzbericht 2.17.0 (Nachtbetrieb Lauf 1 „neue Funktion“, 24.11.2026)
 
 - **Funktion (Backlog 2):** Erklärung zu jeder Antwortmöglichkeit. Feld `optionNotes` (Validierung in `validateQuestion`, reine Funktion `optionReview`), Anzeige als aufklappbarer Bereich im Quiz-Feedback (nach falscher Antwort offen) und in der Auswertung der Simulation. Keine neue Ansicht, kein neuer Tab.

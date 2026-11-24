@@ -26,6 +26,18 @@ export async function downloadJson(filename, data) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+/** Downloads a text file, e.g. the calendar export (since 2.18). Safari offers .ics files to the Calendar app. */
+export function downloadText(filename, text, type = 'text/plain') {
+  const url = URL.createObjectURL(new Blob([text], { type }));
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 /**
  * Shares a JSON file via the share sheet (AirDrop, Mail, Dateien …) where the browser can share files,
  * otherwise downloads it (since 2.15). Returns 'shared', 'cancelled' or 'downloaded'.
