@@ -481,6 +481,12 @@
     "area": "IT-Sicherheit"
   },
   {
+    "abbr": "ECDHE",
+    "full": "Elliptic Curve Diffie-Hellman Ephemeral",
+    "explanation": "Schlüsselaustausch über elliptische Kurven mit Einmalschlüsseln je Verbindung (Forward Secrecy); in TLS 1.3 Standard",
+    "area": "IT-Sicherheit"
+  },
+  {
     "abbr": "eG",
     "full": "eingetragene Genossenschaft",
     "explanation": "Fördert ihre Mitglieder, je Mitglied eine Stimme",

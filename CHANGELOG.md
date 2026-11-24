@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.6] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere 3D-Bilder (Abendlauf, FISI/KITS):** Aufbau einer IPv6-Adresse mit Präfix, Subnetz-ID und Interface-ID („IPv6 kompakt“), NAT/PAT mit Übersetzungstabelle („Routing, NAT und Fehlersuche“), hybride Verschlüsselung mit Sitzungsschlüssel („Verschlüsselung, Hashes und Signaturen“), dazu 3 Bildfragen (net-0136, net-0137, sec-0092).
+- Abkürzungsverzeichnis: ECDHE.
+
+### Geändert
+- Hybride Verschlüsselung präzisiert: S/MIME und PGP verschlüsseln den Sitzungsschlüssel asymmetrisch, TLS handelt ihn heute per Diffie-Hellman (TLS 1.3: ECDHE) aus.
+
 ## [2.16.5] – 2026-11-24
 
 ### Hinzugefügt

@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.16.5 (24.11.2026)
+**Aktuelle Version:** 2.16.6 (24.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -41,14 +41,14 @@ Erledigt: serverschrank, rj45, glasfaser, raid5, usv, mainboard, hdd-ssd (2.16.0
 
 **So kommen Aufträge an Blender (ohne Bildschirmsteuerung):** In Blender läuft `tools/blender/watcher.py` (einmal in der Python-Konsole gestartet, `bpy.app.timers`). Er arbeitet Dateien `Desktop/PrüfFit/blender/jobs/*.job` (Inhalt: Bildname) der Reihe nach ab: führt `Desktop/PrüfFit/blender/<name>.py` aus (lib.py + Szene + render nach `blender/out/<name>.webp`, Fehler in `out/<name>.err`). Ablauf: Skript bauen (Vorlage: `tools/blender/*.py`, Runner-Muster: try/except mit `.ok`/`.err`), mit `device_commit_files` ablegen – **danach Inhalt per `device_bash` (grep) prüfen, die Ablage ist manchmal einige Sekunden verzögert** –, Job-Datei per `device_bash` schreiben, ~10 s warten, Bild mit `device_stage_files` holen und ansehen. Läuft der Watcher nicht (Blender neu gestartet), steht nichts in `out/`: dann per Blender-MCP (`execute_blender_code`, falls Add-on installiert) `exec(open('/Users/testfg/Desktop/PrüfFit/blender/watcher.py').read())` ausführen; sonst überspringen und im Protokoll vermerken.
 
-Erledigt im Abendlauf 24.11.: virtualisierung, cloud-modelle, dns-aufloesung (2.16.3); vpn-tunnel, netzplan-kritischer-pfad, projekt-phasen (2.16.4); patchpanel-verkabelung, stromversorgung-rack, wlan-ausleuchtung (2.16.5).
+Erledigt im Abendlauf 24.11.: virtualisierung, cloud-modelle, dns-aufloesung (2.16.3); vpn-tunnel, netzplan-kritischer-pfad, projekt-phasen (2.16.4); patchpanel-verkabelung, stromversorgung-rack, wlan-ausleuchtung (2.16.5); ipv6-adresse, nat-pat, verschluesselung (2.16.6).
 
 Offen, der Reihe nach (je Bild: Szene, rendern, ansehen und korrigieren bis lesbar und fachlich richtig, ≤ 150 KB, Lernzettel-Zeile, 1 Frage mit `image`, Abkürzungen ins Glossar):
-1. ipv6-adresse (Aufbau: globales Präfix, Subnetz-ID, Interface-ID; /48 → /64)
-2. nat-pat (privates LAN hinter Router, Übersetzungstabelle mit Ports)
-3. verschluesselung (symmetrisch vs. asymmetrisch, hybride Verschlüsselung mit Sitzungsschlüssel)
-4. 802-1x (Supplicant, Authenticator, RADIUS-Server)
-5. raid-hotspare oder ups-ueberbrueckung – nach Ermessen weitere FISI/KITS-Themen
+1. 802-1x (Supplicant, Authenticator, RADIUS-Server)
+2. digitale-signatur (Hash, Signieren mit privatem Schlüssel, Prüfen mit öffentlichem; dabei Lernzettel-Aussage „Hash verschlüsseln“ präzisieren: bei RSA anschaulich, ECDSA verschlüsselt nicht – überall gleich nachziehen)
+3. dhcp-dora (Discover, Offer, Request, Acknowledge mit Broadcast/Unicast)
+4. stp-schleife (redundante Switches, blockierter Port)
+5. nach Ermessen weitere FISI/KITS-Themen
 
 Hilfsmittel im Abendlauf: Job-Skripte laden `lib.py` vom Mac (`exec(open(_D + 'lib.py').read(), globals())`), daher reicht pro Bild die Szene; die Dateiansicht in `device_bash` hinkt manchmal hinterher – Prüfsumme (md5) vergleichen, bevor der Job gestartet wird. Unit-Tests ohne npm-Registry: kleiner vitest-Ersatz in `node_modules/vitest` (nicht im Repo).
 
