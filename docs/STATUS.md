@@ -51,7 +51,7 @@ Offen, der Reihe nach (je Bild: Szene in `tools/blender/<name>.py`, rendern, ≤
 ### Nachtprotokoll
 | Datum | Lauf | Start | Ende | Ist | Ergebnis |
 |---|---|---|---|---|---|
-| 24.11.2026 | Tag-Auftrag 3D-Bilder | 10:38 | 11:18 | bis 11:18 | 7 Blender-Bilder in 6 Lernzetteln, Bildzeilen in Markdown, Fragen mit Bild (7 neue), USV-Präzisierung (2.15.5 Technik, 2.16.0 Inhalte). Blender-MCP-Add-on fehlt noch – heute über die Blender-Konsole gearbeitet. |
+| 24.11.2026 | Tag-Auftrag 3D-Bilder | 10:38 | 11:18 | 40 Min. | 7 Blender-Bilder in 6 Lernzetteln, Bildzeilen in Markdown, Fragen mit Bild (7 neue), USV-Präzisierung (2.15.5 Technik, 2.16.0 Inhalte). Blender-MCP-Add-on fehlt noch – heute über die Blender-Konsole gearbeitet. |
 | 23.11.2026 | Nacht 1 | 23:13 | 23:30 | 17 Min. | Backlog 1 Rechentraining erledigt (2.13.0); Unit-Tests (Ersatz-Runner) und Browsertests Chromium grün. Weitere Backlog-Punkte bewusst nicht begonnen: Block D des Nachtauftrags startet 00:19 und braucht die Sperre frei. |
 | 24.11.2026 | Block D | 00:19 | 00:40 | 21 Min. | Punkte 5 und 6 erledigt (2.14.0); nebenbei Checklisten-Häkchen verwarf Notenrechner-Punkte behoben. |
 | 24.11.2026 | Nacht 2 (Inhalte) | 04:18 | 04:30 | 12 Min. | (a) Handlungssituation FISI GA2 `sz-fisi-ga2e` „Hotel Saaleblick“ mit `net-0121`–`net-0125`, `sec-0088` (Tabelle + Rechnung), Karte `fc-0286`, Abkürzung OWE (2.15.1). **Nächster Lauf 2: (b)** offene/Tabellenaufgaben; nächste Situation dann KITS. Lauf 3 bitte gegenprüfen. |
