@@ -5,6 +5,13 @@
 - **Geprüft:** alle Rechnungen nachgerechnet (2^8 = 256; /23 = 510, /26 = 62, /27 = 30, /28 = 14, /30 = 2 Hosts; 10.20.37.200 liegt in 10.20.32.0/20 = .32.0–.47.255). Browsertest „AP2 beginnt mit Handlungssituation“ liest die Situationen jetzt aus `data/scenarios.json` statt aus einer festen Liste.
 - **Neue Abhängigkeiten:** keine. Unit-Tests lokal mit Ersatz-Runner (761 grün), Browsertests Chromium Desktop + iPhone SE (147 grün; ein unter Last langsamer Timer-Test einzeln grün).
 
+# Kurzbericht 2.15.2 und Abschluss Nachtauftrag 23./24.11.2026 (Block F)
+
+- **Punkt 10 – Fragen FISI/KITS vertiefen:** die vier FISI/KITS-Themen mit den wenigsten Fragen und Typen ermittelt (Geschäftsprozesse/EPK und UML je 5 Fragen mit 2 Typen, Arbeitsvertrag 6/2, Kommunikation 6/3) und je 5 Fragen ergänzt, 2 Karteikarten. Jetzt 10–11 Fragen mit 5–6 Typen je Thema; das Ziel 15 Fragen bleibt für die regelmäßigen Läufe „Fragen vertiefen“ (Kandidaten in `docs/PRUEFPROTOKOLL.md`).
+- **Annahmen:** Die neuen Fragen zu Prozessen, UML und Kommunikation gelten als AP1 (für alle Berufe, wie der AP1-Katalog 2025), die Arbeitsrecht-Fragen als AP2/WiSo für alle 7 Berufe wie der Bestand. Fristen nach BGB ohne abweichenden Tarifvertrag.
+- **Nachtauftrag gesamt:** 10/10 Punkte, geschätzt 7 h 10 Min., tatsächlich 1 h 50 Min. (Blöcke A–F), mit Fehlerbehebung und Qualitätsrunde ca. 2 h; Details und Versionen in `docs/STATUS.md`.
+- **Neue Abhängigkeiten:** keine.
+
 # Kurzbericht 2.15.0 (Nachtauftrag Block E, 24.11.2026)
 
 - **Übertragung PC → iPhone:** „Sicherung teilen“ (Teilen-Menü, sonst Download) und Link/QR-Code mit dem komprimierten Lernstand im URL-Hash (`js/transferLink.js`, Ansicht `#/uebertragen/…` mit Vorschau und Bestätigung). Eigener QR-Encoder `js/qr.js`.

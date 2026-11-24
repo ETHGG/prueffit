@@ -92,3 +92,9 @@ Reihenfolge: zuerst Themen von FISI und KITS, dann die übrigen.
 | Elektrotechnische Grundlagen | `elektro.grundlagen` | – |  |
 | Schutzmaßnahmen und Prüfung | `elektro.schutz` | – |  |
 | Leitungen, Spannungsfall und PoE | `elektro.installation` | – |  |
+
+## Fragen vertiefen (FISI/KITS, Ziel ≥ 15 Fragen und ≥ 3 Fragetypen je Thema)
+
+| Datum | Lauf | Themen | Ergebnis |
+|---|---|---|---|
+| 24.11.2026 | Nachtauftrag Block F | `projekt.prozesse`, `programmierung.modellierung`, `wiso.arbeitsvertrag`, `projekt.kommunikation` | je 5 neue Fragen (20), 2 Karten (2.15.2); jetzt 10/10/11/11 Fragen für FISI/KITS, je 5–6 Typen (vorher 2–3). Rechnungen (Probezeitfrist 04.03. → 18.03.2026, Urlaub 24 ÷ 6 × 3 = 12, m:n → 3 Tabellen) nachgerechnet. Noch unter 15 Fragen: 66 von 74 FISI/KITS-Themen – nächste Kandidaten: `programmierung.testen`, `projekt.vorgehen`, `wirtschaft.unternehmen`, `wiso.umwelt`, `recht.arbeitsrecht` (je 5–6). Weniger als 3 Typen noch: `wirtschaft.rechnen`, `programmierung.zahlensysteme`. |

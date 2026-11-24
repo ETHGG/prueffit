@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.15.2] – 2026-11-24
+
+### Hinzugefügt (Nachtauftrag Block F, Punkt 10: Fragen FISI/KITS vertiefen)
+- **20 neue Fragen** für die vier FISI/KITS-Themen mit den wenigsten Fragen und Fragetypen (vorher je 5–6 Fragen, teils nur 2 Typen):
+  - Geschäftsprozesse und EPK (`pm-0098`–`pm-0102`): EPK-Reihenfolge, EPK-Regeln, Kern-/Unterstützungs-/Managementprozesse, XOR-Konnektor, offene Aufgabe „Beschreibungssichten“ mit Raster – jetzt 5 Typen statt 2.
+  - UML und Modellierung (`prog-0132`–`prog-0136`): Anwendungsfalldiagramm, m:n-Beziehung → 3 Tabellen (Rechenaufgabe), Beziehungen im Klassendiagramm, Aktivitätsdiagramm, offene Aufgabe „Multiplizitäten“ mit Raster – jetzt 6 Typen statt 2.
+  - Arbeitsvertrag und Kündigung (`wiso-0074`–`wiso-0078`, alle Berufe): Kündigung in der Probezeit mit Fristberechnung (§§ 187/188 BGB, Hinweis auf die abweichende Regel im Ausbildungsverhältnis), Mindesturlaub in Teilzeit (24 ÷ 6 × 3 = 12 Tage), Arten der Beendigung, Schritte bis zur verhaltensbedingten Kündigung, Pflichten aus dem Arbeitsvertrag – jetzt 6 Typen statt 2.
+  - Präsentation, Dokumentation, Kommunikation (`pm-0103`–`pm-0107`): Aufbau einer Präsentation, konstruktives Feedback (offene Aufgabe mit Raster), aktives Zuhören, passendes Diagramm, Ergebnisprotokoll – jetzt 5 Typen statt 3.
+- 2 Karteikarten (`fc-0287` Mindesturlaub in Teilzeit, `fc-0288` Kündigung in der Probezeit).
+- Präzisierungen gleich mitgeschrieben (CLAUDE.md 11): Konnektoren zwischen Ereignis und Funktion, Einordnung von Prozessen hängt vom Unternehmen ab, Abmahnung „in der Regel“ (bei schweren Verstößen entbehrlich), Anhörung nur, wenn ein Betriebsrat besteht, Probezeitfrist vorbehaltlich Tarifvertrag. PDFs neu erzeugt (Version).
+
 ## [2.15.1] – 2026-11-24
 
 ### Hinzugefügt (Nachtbetrieb, Lauf „neue Inhalte“)
