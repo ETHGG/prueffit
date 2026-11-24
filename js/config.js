@@ -1,6 +1,6 @@
 // Central configuration. Keep APP_VERSION in sync with package.json and sw.js.
 
-export const APP_VERSION = '2.16.1';
+export const APP_VERSION = '2.16.2';
 export const APP_NAME = 'PrüfFit';
 export const REPO_URL = 'https://github.com/ETHGG/prueffit';
 export const ISSUE_LABEL = 'inhalt';

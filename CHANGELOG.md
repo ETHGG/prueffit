@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.2] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere 3D-Bilder:** RAID 0, 1 und 10 im Vergleich („RAID“), Aufteilung eines /24-Netzes bis /27 („Subnetting“), TCP-Drei-Wege-Handshake („OSI- und TCP/IP-Modell“), dazu 3 Bildfragen (hw-0103, net-0131, net-0132).
+- Abkürzungsverzeichnis: SYN, ACK.
+
 ## [2.16.1] – 2026-11-24
 
 ### Hinzugefügt

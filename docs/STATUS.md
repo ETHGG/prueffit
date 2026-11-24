@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.16.1 (24.11.2026)
+**Aktuelle Version:** 2.16.2 (24.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -37,19 +37,16 @@ Regeln für alle Nachtläufe:
 6. danach: selbst gewählte Verbesserungen / Durchlauf der ganzen App
 
 ### Bilder-Backlog (Lauf „3D-Bilder“, braucht den Mac mit laufendem Blender)
-Erledigt: serverschrank, rj45, glasfaser, raid5, usv, mainboard, hdd-ssd (2.16.0); osi-modell, lwl-stecker, dmz, vlan, backup-321 (2.16.1). Skripte: `tools/blender/` (lib.py + eine Datei je Bild).
+Erledigt: serverschrank, rj45, glasfaser, raid5, usv, mainboard, hdd-ssd (2.16.0); osi-modell, lwl-stecker, dmz, vlan, backup-321 (2.16.1); raid-vergleich, subnetting-baum, tcp-handshake (2.16.2). Skripte: `tools/blender/` (lib.py + eine Datei je Bild).
 
 **So kommen Aufträge an Blender (ohne Bildschirmsteuerung):** In Blender läuft `tools/blender/watcher.py` (einmal in der Python-Konsole gestartet, `bpy.app.timers`). Er arbeitet Dateien `Desktop/PrüfFit/blender/jobs/*.job` (Inhalt: Bildname) der Reihe nach ab: führt `Desktop/PrüfFit/blender/<name>.py` aus (lib.py + Szene + render nach `blender/out/<name>.webp`, Fehler in `out/<name>.err`). Ablauf: Skript bauen (Vorlage: `tools/blender/*.py`, Runner-Muster: try/except mit `.ok`/`.err`), mit `device_commit_files` ablegen – **danach Inhalt per `device_bash` (grep) prüfen, die Ablage ist manchmal einige Sekunden verzögert** –, Job-Datei per `device_bash` schreiben, ~10 s warten, Bild mit `device_stage_files` holen und ansehen. Läuft der Watcher nicht (Blender neu gestartet), steht nichts in `out/`: dann per Blender-MCP (`execute_blender_code`, falls Add-on installiert) `exec(open('/Users/testfg/Desktop/PrüfFit/blender/watcher.py').read())` ausführen; sonst überspringen und im Protokoll vermerken.
 
 Offen, der Reihe nach (je Bild: Szene, rendern, ansehen und korrigieren bis lesbar und fachlich richtig, ≤ 150 KB, Lernzettel-Zeile, 1 Frage mit `image`, Abkürzungen ins Glossar):
 1. patchpanel-verkabelung (Patchpanel → Patchkabel → Switch; strukturierte Verkabelung Primär/Sekundär/Tertiär)
-2. raid-vergleich (RAID 0, 1, 10 nebeneinander)
 3. stromversorgung-rack (redundante Netzteile, A/B-Einspeisung, PDU)
-4. subnetting-baum (192.168.1.0/24 in /25, /26, /27 aufgeteilt)
 5. wlan-ausleuchtung (Access Points mit Kanälen 1/6/11, Überlappung)
 6. virtualisierung (Typ-1- vs. Typ-2-Hypervisor als Schichten)
 7. cloud-modelle (IaaS, PaaS, SaaS: wer verwaltet was)
-8. tcp-handshake (SYN, SYN-ACK, ACK zwischen Client und Server)
 9. dns-aufloesung (Client, Resolver, Root, TLD, autoritativer Server)
 10. vpn-tunnel (Site-to-Site und Client-to-Site)
 11. projekt-phasen (Wasserfall vs. Scrum-Sprint)
@@ -58,7 +55,7 @@ Offen, der Reihe nach (je Bild: Szene, rendern, ansehen und korrigieren bis lesb
 ### Nachtprotokoll
 | Datum | Lauf | Start | Ende | Ist | Ergebnis |
 |---|---|---|---|---|---|
-| 24.11.2026 | Tag-Auftrag 3D-Bilder 2 | 11:22 | 11:40 | ca. 18 Min. | 5 Bilder (OSI, LWL-Stecker, DMZ, VLAN, 3-2-1) + 5 Bildfragen (2.16.1); Blender-Watcher eingerichtet (Aufträge ohne Bildschirmsteuerung). |
+| 24.11.2026 | Tag-Auftrag 3D-Bilder 2 | 11:22 | 11:50 | ca. 28 Min. | 8 Bilder (2.16.1: OSI, LWL-Stecker, DMZ, VLAN, 3-2-1; 2.16.2: RAID-Vergleich, Subnetting-Baum, TCP-Handshake) + 8 Bildfragen; zuerst 5 Bilder (OSI, LWL-Stecker, DMZ, VLAN, 3-2-1) + 5 Bildfragen (2.16.1); Blender-Watcher eingerichtet (Aufträge ohne Bildschirmsteuerung). |
 | 24.11.2026 | Tag-Auftrag 3D-Bilder | 10:38 | 11:18 | 40 Min. | 7 Blender-Bilder in 6 Lernzetteln, Bildzeilen in Markdown, Fragen mit Bild (7 neue), USV-Präzisierung (2.15.5 Technik, 2.16.0 Inhalte). Blender-MCP-Add-on fehlt noch – heute über die Blender-Konsole gearbeitet. |
 | 23.11.2026 | Nacht 1 | 23:13 | 23:30 | 17 Min. | Backlog 1 Rechentraining erledigt (2.13.0); Unit-Tests (Ersatz-Runner) und Browsertests Chromium grün. Weitere Backlog-Punkte bewusst nicht begonnen: Block D des Nachtauftrags startet 00:19 und braucht die Sperre frei. |
 | 24.11.2026 | Block D | 00:19 | 00:40 | 21 Min. | Punkte 5 und 6 erledigt (2.14.0); nebenbei Checklisten-Häkchen verwarf Notenrechner-Punkte behoben. |

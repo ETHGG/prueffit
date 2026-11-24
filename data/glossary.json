@@ -24,6 +24,12 @@
     "area": "Programmierung"
   },
   {
+    "abbr": "ACK",
+    "full": "Acknowledgement",
+    "explanation": "TCP-Flag zur Bestätigung empfangener Daten bzw. der Gegenseite beim Verbindungsaufbau (3. Schritt des Drei-Wege-Handshakes)",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "AD",
     "full": "Active Directory",
     "explanation": "Verzeichnisdienst von Microsoft für Benutzer, Gruppen, Computer und Richtlinien einer Domäne",
@@ -1575,6 +1581,12 @@
     "full": "Scalable Vector Graphics",
     "explanation": "Vektorgrafik-Format, verlustfrei skalierbar",
     "area": "Hardware"
+  },
+  {
+    "abbr": "SYN",
+    "full": "Synchronize",
+    "explanation": "TCP-Flag zum Verbindungsaufbau: schlägt die Start-Sequenznummer vor (1. Schritt des Drei-Wege-Handshakes; SYN-ACK = Antwort des Servers)",
+    "area": "Netzwerke"
   },
   {
     "abbr": "T568B",
