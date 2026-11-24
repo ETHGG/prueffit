@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.18] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere Bilder:** Warnzeichen einer Phishing-Mail (fiktives Beispiel, „Angriffe und Schutzmaßnahmen“), Kauf gegen Leasing über 36 Monate („Beschaffung, Finanzierung und Leasing“), Faktoren der Mehr-Faktor-Authentifizierung („Schutzziele“), dazu 3 Bildfragen (sec-0099, wi-0219, sec-0100).
+- Abkürzungsverzeichnis: PIN.
+
+### Geändert
+- MFA präzisiert: mindestens zwei Faktoren aus verschiedenen Kategorien; Passwort + Sicherheitsfrage ist keine MFA.
+
 ## [2.16.17] – 2026-11-24
 
 ### Hinzugefügt

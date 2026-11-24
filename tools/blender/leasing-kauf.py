@@ -1,0 +1,28 @@
+sc = reset()
+lm = mat('label', (0.02, 0.03, 0.035), rough=1.0)
+ax = mat('axis', (0.2, 0.22, 0.25), rough=0.6)
+kauf = mat('kauf', (0.1, 0.32, 0.65), rough=0.5)
+lea = mat('lea', (0.68, 0.3, 0.02), rough=0.5)
+grid = mat('grid', (0.8, 0.82, 0.85), rough=0.8)
+X0, Z0, SX, SZ = -1.6, -0.05, 3.2 / 36, 1.7 / 4000
+P = lambda m, e: (X0 + m * SX, -0.02, Z0 + e * SZ)
+arrow((X0, -0.02, Z0), (X0 + 3.4, -0.02, Z0), ax, r=0.008, head=0.05)
+arrow((X0, -0.02, Z0), (X0, -0.02, Z0 + 1.85), ax, r=0.008, head=0.05)
+for m in (12, 24, 36):
+    label(f'{m}', (P(m, 0)[0], -0.03, Z0 - 0.12), size=0.045, material=lm, align='CENTER')
+    leader(P(m, 0), P(m, 4000), grid, r=0.003)
+for e in (1000, 2000, 3000, 4000):
+    label(f'{e:,} €'.replace(',', '.'), (X0 - 0.06, -0.03, P(0, e)[2] - 0.02), size=0.045, material=lm, align='RIGHT')
+label('Monate', (X0 + 3.4, -0.03, Z0 - 0.24), size=0.05, material=lm, align='RIGHT')
+leader(P(0, 0), P(0, 3600), kauf, r=0.014)
+leader(P(0, 3600), P(36, 3600), kauf, r=0.014)
+leader(P(0, 0), P(36, 3960), lea, r=0.014)
+label('Kauf: 3.600 € sofort', P(2, 3700), size=0.05, material=mat('ktxt', (0.03, 0.2, 0.5), rough=1.0))
+label('Leasing: 36 × 110 € = 3.960 €', P(35, 2750), size=0.05, material=mat('ltxt', (0.5, 0.2, 0.02), rough=1.0), align='RIGHT')
+m = 3600 / 110
+cyl('x', 0.035, 0.02, (P(m, 3600)[0], -0.05, P(m, 3600)[2]), lm, rot=(math.radians(90), 0, 0), verts=24)
+label('ab Monat 33 teurer als Kauf', P(m - 0.5, 3820), size=0.045, material=lm, align='RIGHT')
+label('Leasing schont die Liquidität (keine hohe Anfangszahlung), kostet über die Laufzeit aber 360 € mehr –', (0, -0.04, -0.5), size=0.047, material=lm, align='CENTER')
+label('dazu kommen beim Kauf ggf. Finanzierungszinsen oder entgangene Zinsen; am Ende des Leasings kein Eigentum.', (0, -0.04, -0.62), size=0.047, material=lm, align='CENTER')
+camera_front((0.1, 0, 0.62), 4.2, tilt=1)
+lights(0.55)

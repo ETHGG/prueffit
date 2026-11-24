@@ -1274,6 +1274,12 @@
     "area": "IT-Sicherheit"
   },
   {
+    "abbr": "PIN",
+    "full": "Persönliche Identifikationsnummer",
+    "explanation": "Geheimzahl, z. B. für Chipkarte oder Smartphone; Faktor „Wissen“ bei der Anmeldung",
+    "area": "IT-Sicherheit"
+  },
+  {
     "abbr": "PNG",
     "full": "Portable Network Graphics",
     "explanation": "Verlustfreies Bildformat mit Transparenz",
