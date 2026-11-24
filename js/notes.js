@@ -2,6 +2,20 @@
 // Pure functions, no DOM access.
 
 export const NOTE_ID_PATTERN = /^note-[a-z0-9-]+$/;
+/** Pictures in notes (since 2.16): `![Bildbeschreibung](name "Bildunterschrift")` on its own line. */
+export const NOTE_IMAGE_DIR = './img/notes/';
+export const NOTE_IMAGE_EXT = '.webp';
+const IMAGE_LINE = /^!\[([^\]]+)\]\(([a-z0-9-]+)(?:\s+"([^"]+)")?\)$/;
+
+/** File path of a note picture, relative to the app root. */
+export function noteImagePath(name) {
+  return `${NOTE_IMAGE_DIR}${name}${NOTE_IMAGE_EXT}`;
+}
+
+/** Names of all pictures used in a Markdown text, in order. */
+export function noteImages(md) {
+  return parseMarkdown(md).filter((b) => b.type === 'image').map((b) => b.name);
+}
 const MAX_QUERY_TERMS = 8;
 
 /** Returns a list of error messages (empty = valid). */
@@ -16,6 +30,9 @@ export function validateNote(note, topicIds) {
   if (!errors.length) {
     const blocks = parseMarkdown(note.content);
     if (!blocks.length) errors.push('content enthält keinen Inhalt');
+    for (const b of blocks) {
+      if (b.type === 'image' && b.alt.length < 15) errors.push(`Bild ${b.name}: Bildbeschreibung (alt) zu kurz`);
+    }
   }
   return errors;
 }
@@ -45,7 +62,8 @@ const isTableSeparator = (line) => /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?\s
 
 /**
  * Parses the Markdown subset used in the notes into blocks:
- * heading (## / ###), paragraph, list (- or 1.), table (| a | b |), code (```), tip (> text).
+ * heading (## / ###), paragraph, list (- or 1.), table (| a | b |), code (```), tip (> text),
+ * image (`![alt](name "caption")` on its own line, since 2.16).
  */
 export function parseMarkdown(md) {
   const lines = String(md ?? '').replace(/\r\n?/g, '\n').split('\n');
@@ -62,6 +80,12 @@ export function parseMarkdown(md) {
       while (i < lines.length && !lines[i].trim().startsWith('```')) code.push(lines[i++]);
       i++; // closing fence (or end)
       blocks.push({ type: 'code', text: code.join('\n') });
+      continue;
+    }
+    const image = IMAGE_LINE.exec(trimmed);
+    if (image) {
+      blocks.push({ type: 'image', alt: image[1].trim(), name: image[2], caption: image[3]?.trim() ?? '' });
+      i++;
       continue;
     }
     const heading = /^(#{2,3})\s+(.+)$/.exec(trimmed);
@@ -102,7 +126,7 @@ export function parseMarkdown(md) {
     i++;
     while (i < lines.length) {
       const t = lines[i].trim();
-      if (!t || /^(#{2,3}\s|```|>|\||-\s|\d+\.\s)/.test(t)) break;
+      if (!t || /^(#{2,3}\s|```|>|\||-\s|\d+\.\s|!\[)/.test(t)) break;
       para.push(t);
       i++;
     }
@@ -116,6 +140,7 @@ export function plainText(md) {
   return parseMarkdown(md).map((b) => {
     if (b.type === 'list') return b.items.join(' · ');
     if (b.type === 'table') return [b.header, ...b.rows].map((r) => r.join(' ')).join(' · ');
+    if (b.type === 'image') return b.caption || b.alt;
     return b.text;
   }).join(' \n').replace(/\*\*|`/g, '');
 }

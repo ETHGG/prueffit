@@ -1,6 +1,6 @@
 // Validates EVERY JSON file below data/ against the data model (CLAUDE.md 5).
 import { describe, it, expect } from 'vitest';
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, relative, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
@@ -8,7 +8,7 @@ import {
   validateQuestion,
   validateFlashcard,
 } from '../js/questions.js';
-import { validateNote, parseMarkdown } from '../js/notes.js';
+import { validateNote, parseMarkdown, noteImages } from '../js/notes.js';
 import { validateGlossaryEntry, spellings, matchGlossary, abbreviationCandidates } from '../js/glossary.js';
 import { AREAS, SUPPORTED_QUIZ_TYPES } from '../js/config.js';
 import { validateScenario, examParts, questionFitsPart, EXAM_QUESTION_TYPES } from '../js/exam.js';
@@ -378,5 +378,27 @@ describe('Zuordnung zu AP1/AP2 und Berufen (2.0)', () => {
     const wiso = items.filter((it) => it.topic.startsWith('wiso.'));
     expect(wiso.length).toBeGreaterThan(50);
     expect(wiso.filter((it) => JSON.stringify(it.jobs) !== JSON.stringify(JOB_IDS)).map((it) => it.id)).toEqual([]);
+  });
+});
+
+describe('pictures in notes and scenarios (2.16)', () => {
+  const IMG_DIR = join(DATA_DIR, '..', 'img', 'notes');
+  const texts = [
+    ...noteFiles.flatMap((f) => parsed.get(f)).map((n) => ({ id: n.id, md: n.content })),
+    ...(parsed.get('scenarios.json') ?? []).map((s) => ({ id: s.id, md: s.situation })),
+  ];
+  const used = new Map();
+  for (const t of texts) for (const name of noteImages(t.md)) used.set(name, [...(used.get(name) ?? []), t.id]);
+
+  it('every referenced picture exists as img/notes/<name>.webp', () => {
+    const missing = [...used.keys()].filter((name) => !existsSync(join(IMG_DIR, `${name}.webp`)));
+    expect(missing).toEqual([]);
+  });
+
+  it('every picture file is used and small enough for offline use (≤ 150 KB)', () => {
+    const files = existsSync(IMG_DIR) ? readdirSync(IMG_DIR).filter((f) => !f.startsWith('.')) : [];
+    expect(files.filter((f) => !f.endsWith('.webp'))).toEqual([]);
+    expect(files.map((f) => f.replace(/\.webp$/, '')).filter((n) => !used.has(n))).toEqual([]);
+    expect(files.filter((f) => statSync(join(IMG_DIR, f)).size > 150 * 1024)).toEqual([]);
   });
 });

@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.15.5] – 2026-11-24
+
+### Hinzugefügt
+- **Bilder in Lernzetteln (Technik):** Lernzettel und Handlungssituationen können gerenderte Abbildungen enthalten (`![Bildbeschreibung](name "Bildunterschrift")` in einer eigenen Zeile, Dateien `img/notes/<name>.webp`). Anzeige als Abbildung mit Bildunterschrift in der App und in den PDFs, offline zwischengespeichert. Tests: Bildbeschreibung mindestens 15 Zeichen, jede Datei vorhanden, genutzt und höchstens 150 KB. Die ersten Bilder (Blender) folgen.
+
 ## [2.15.4] – 2026-11-24
 
 ### Geändert (Nachtbetrieb Lauf 3, Durchlauf der App)

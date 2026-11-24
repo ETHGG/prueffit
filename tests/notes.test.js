@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
-  validateNote, parseInline, parseMarkdown, plainText, foldText, queryTerms, searchNotes, snippetAround, highlightParts,
+  validateNote, noteImages, noteImagePath, parseInline, parseMarkdown, plainText, foldText, queryTerms, searchNotes, snippetAround, highlightParts,
 } from '../js/notes.js';
 
 const topics = new Map([
@@ -96,5 +96,34 @@ describe('search', () => {
     expect(highlightParts('Die Prüfung', 'prufung')).toEqual([{ text: 'Die ', hit: false }, { text: 'Prüfung', hit: true }]);
     expect(highlightParts('Straße und Strasse', 'strasse').filter((p) => p.hit).map((p) => p.text)).toEqual(['Straße', 'Strasse']);
     expect(highlightParts('Text', '')).toEqual([{ text: 'Text', hit: false }]);
+  });
+});
+
+describe('pictures in notes (2.16)', () => {
+  const md = '## Rack\n![Serverschrank mit Patchpanel, Switch und USV](serverschrank "Aufbau eines 19-Zoll-Racks")\nText danach.';
+  it('parses an image line with alt text and caption', () => {
+    expect(parseMarkdown(md)).toEqual([
+      { type: 'heading', level: 2, text: 'Rack' },
+      { type: 'image', alt: 'Serverschrank mit Patchpanel, Switch und USV', name: 'serverschrank', caption: 'Aufbau eines 19-Zoll-Racks' },
+      { type: 'paragraph', text: 'Text danach.' },
+    ]);
+  });
+  it('ends a paragraph before an image and works without caption', () => {
+    const blocks = parseMarkdown('Absatz\n![Ein Bild mit genug Beschreibung](rj45)');
+    expect(blocks.map((b) => b.type)).toEqual(['paragraph', 'image']);
+    expect(blocks[1].caption).toBe('');
+  });
+  it('lists picture names, builds paths and uses the caption as plain text', () => {
+    expect(noteImages(md)).toEqual(['serverschrank']);
+    expect(noteImagePath('serverschrank')).toBe('./img/notes/serverschrank.webp');
+    expect(plainText(md)).toContain('Aufbau eines 19-Zoll-Racks');
+  });
+  it('rejects unsafe names (no paths, no upper case) – the line stays text', () => {
+    expect(parseMarkdown('![Beschreibung lang genug](../x)')[0].type).toBe('paragraph');
+    expect(parseMarkdown('![Beschreibung lang genug](Bild)')[0].type).toBe('paragraph');
+  });
+  it('requires a meaningful alt text', () => {
+    const note = { id: 'note-x', topic: 't', title: 'X', content: '## A\nGenug Text für einen gültigen Lernzettel hier.\n![kurz](bild)' };
+    expect(validateNote(note, new Set(['t'])).join()).toContain('Bildbeschreibung');
   });
 });

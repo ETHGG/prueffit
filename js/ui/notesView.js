@@ -4,7 +4,7 @@
 
 import { AREAS, EXAMS } from '../config.js';
 import { catalogSections, examHeading } from '../jobCatalog.js';
-import { parseMarkdown, parseInline, searchNotes, highlightParts } from '../notes.js';
+import { parseMarkdown, parseInline, searchNotes, highlightParts, noteImagePath } from '../notes.js';
 import { h, append } from './dom.js';
 import { fold, foldControls } from './fold.js';
 import {
@@ -159,6 +159,9 @@ export function renderNoteContent(md, query = '', glossary = null) {
           h('tbody', {}, b.rows.map((r) => h('tr', {}, r.map((c) => h('td', {}, inline(c, query))))))));
       case 'code': return h('pre', {}, h('code', { text: b.text }));
       case 'tip': return h('p', { class: 'note-tip' }, inline(b.text, query));
+      case 'image': return h('figure', { class: 'note-figure' },
+        h('img', { src: noteImagePath(b.name), alt: b.alt, loading: 'lazy', decoding: 'async', width: '1200', height: '800' }),
+        b.caption ? h('figcaption', {}, inline(b.caption, query)) : null);
       default: return h('p', {}, inline(b.text, query));
     }
   });

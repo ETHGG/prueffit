@@ -30,8 +30,8 @@ describe('service worker', () => {
     expect(missing).toEqual([]);
   });
 
-  it('caches every app file (css, js, data, icons, vendor)', () => {
-    const appFiles = ['css', 'js', 'data', 'icons', 'vendor']
+  it('caches every app file (css, js, data, icons, vendor, img)', () => {
+    const appFiles = ['css', 'js', 'data', 'icons', 'vendor', 'img']
       .flatMap(listFiles)
       .filter((f) => !f.endsWith('.md'))
       .map((f) => `./${f}`);
