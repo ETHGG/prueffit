@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.15.1] – 2026-11-24
+
+### Hinzugefügt (Nachtbetrieb, Lauf „neue Inhalte“)
+- **Fünfte Handlungssituation FISI, Bereich „Analyse und Entwicklung von Netzwerken“:** „Hotel Saaleblick: IPv6 und Netz für das Gästehaus“ (`sz-fisi-ga2e`) mit 6 zusammenhängenden Aufgaben (16 Punkte): Anzahl /64-Subnetze aus einem /56 (Rechenaufgabe), IPv6-Kurzschreibweise, SLAAC/Router Advertisements, Tabellenaufgabe „Präfixlängen für die Netze des Gästehauses“, Routing-Entscheidung nach dem längsten Präfix, Client-Isolation im Gäste-WLAN. Neue IDs: `net-0121` bis `net-0125`, `sec-0088`.
+- Lernzettel „Netzsicherheit“: Abschnitt „Gäste-WLAN absichern“ (Client-Isolation, WPA3/OWE, warum Ausblenden und MAC-Filter nicht schützen); Karteikarte `fc-0286`; Abkürzung OWE.
+
 ## [2.15.0] – 2026-11-24
 
 ### Hinzugefügt

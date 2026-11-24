@@ -23,5 +23,6 @@
   {"id": "fc-0273", "exam": ["AP2"], "jobs": ["fisi"], "topic": "sicherheit.verfuegbarkeit", "front": "RPO und RTO", "back": "RPO: höchstens tolerierbarer Datenverlust (→ Sicherungshäufigkeit). RTO: höchstens tolerierbare Ausfallzeit (→ Wiederherstellungstechnik)."},
   {"id": "fc-0274", "exam": ["AP2"], "jobs": ["fisi"], "topic": "sicherheit.verfuegbarkeit", "front": "Verfügbarkeit in Reihe und parallel", "back": "Reihe: A1 × A2 × … Parallel: 1 − (1 − A1) × (1 − A2). Grundformel: MTBF / (MTBF + MTTR)."},
   {"id": "fc-0275", "exam": ["AP2"], "jobs": ["fisi"], "topic": "sicherheit.verfuegbarkeit", "front": "Cold, Warm, Hot Site", "back": "Cold: nur Räume. Warm: Hardware da, Daten fehlen. Hot: sofort betriebsbereit."},
-  {"id": "fc-0276", "exam": ["AP2"], "jobs": ["fisi"], "topic": "sicherheit.verfuegbarkeit", "front": "Cluster aktiv/passiv vs. aktiv/aktiv", "back": "Aktiv/passiv: Standby übernimmt bei Ausfall. Aktiv/aktiv: beide arbeiten und teilen sich die Last."}
+  {"id": "fc-0276", "exam": ["AP2"], "jobs": ["fisi"], "topic": "sicherheit.verfuegbarkeit", "front": "Cluster aktiv/passiv vs. aktiv/aktiv", "back": "Aktiv/passiv: Standby übernimmt bei Ausfall. Aktiv/aktiv: beide arbeiten und teilen sich die Last."},
+  {"id": "fc-0286", "exam": ["AP2"], "jobs": ["fisi", "fidv"], "topic": "sicherheit.netzsicherheit", "front": "Gäste-WLAN absichern", "back": "Eigenes VLAN/Funknetz, Firewall erlaubt nur Internet, Client-Isolation (Gäste erreichen sich nicht gegenseitig). WPA3/OWE verschlüsselt nur die Funkstrecke, trennt die Geräte aber nicht."}
 ]

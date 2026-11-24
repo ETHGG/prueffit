@@ -1,3 +1,10 @@
+# Kurzbericht 2.15.1 (Nachtbetrieb Lauf 2 „neue Inhalte“, 24.11.2026)
+
+- **Neue Handlungssituation FISI GA2:** „Hotel Saaleblick: IPv6 und Netz für das Gästehaus“ (`sz-fisi-ga2e`), 6 Aufgaben/16 Punkte: `net-0121` (Anzahl /64 aus /56, Rechnung), `net-0122` (IPv6-Kurzschreibweise), `net-0123` (SLAAC), `net-0124` (Tabelle: Präfixlängen für 5 Netze), `net-0125` (Longest Prefix Match), `sec-0088` (Client-Isolation). Dazu Lernzettel-Abschnitt „Gäste-WLAN absichern“, Karteikarte `fc-0286`, Abkürzung OWE.
+- **Annahmen:** Bereich gewählt, weil FISI und KITS je Bereich gleich viele Situationen (4) hatten und IPv6/Routing in den bisherigen GA2-Situationen kaum vorkamen. Die Präfixlängen der Tabelle gelten mit und ohne mitgezähltes Gateway. Adressen aus dem Dokumentationspräfix 2001:db8::/32.
+- **Geprüft:** alle Rechnungen nachgerechnet (2^8 = 256; /23 = 510, /26 = 62, /27 = 30, /28 = 14, /30 = 2 Hosts; 10.20.37.200 liegt in 10.20.32.0/20 = .32.0–.47.255). Browsertest „AP2 beginnt mit Handlungssituation“ liest die Situationen jetzt aus `data/scenarios.json` statt aus einer festen Liste.
+- **Neue Abhängigkeiten:** keine. Unit-Tests lokal mit Ersatz-Runner (761 grün), Browsertests Chromium Desktop + iPhone SE (147 grün; ein unter Last langsamer Timer-Test einzeln grün).
+
 # Kurzbericht 2.15.0 (Nachtauftrag Block E, 24.11.2026)
 
 - **Übertragung PC → iPhone:** „Sicherung teilen“ (Teilen-Menü, sonst Download) und Link/QR-Code mit dem komprimierten Lernstand im URL-Hash (`js/transferLink.js`, Ansicht `#/uebertragen/…` mit Vorschau und Bestätigung). Eigener QR-Encoder `js/qr.js`.

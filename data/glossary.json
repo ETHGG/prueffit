@@ -1164,6 +1164,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "OWE",
+    "full": "Opportunistic Wireless Encryption",
+    "explanation": "Verschlüsselt offene WLANs ohne Passwort (vermarktet als „Wi-Fi Enhanced Open“), z. B. für Gäste-WLANs; schützt vor Mitlesen, aber nicht vor einem gefälschten Access Point",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "PaaS",
     "full": "Platform as a Service",
     "explanation": "Cloud: Plattform (z. B. Datenbank) wird gestellt, Kunde verwaltet nur Anwendungen",

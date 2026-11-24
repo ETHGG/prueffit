@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { test, expect } from 'playwright/test';
 import { watchProblems, expectNoHorizontalOverflow, jobScope } from './helpers.js';
 
@@ -96,14 +97,13 @@ test('AP2 part starts with a Handlungssituation', async ({ page }) => {
   await page.locator('#exam-scope').selectOption('ga2');
   await page.getByRole('button', { name: 'AP2 starten' }).click();
   const box = page.locator('.scenario-box');
-  // Since 2.1 there are several FISI situations for this part (three since 2.2.10, four since 2.8); one is chosen at random.
-  const options = {
-    'Spedition Nordlicht GmbH: zweiter Standort': 6,
-    'Praxisverbund Elbaue: acht Standorte vernetzen': 4,
-    'Messebau Elster: Netz für drei Abteilungen': 6,
-    'Stadtwerke Elster: neues Adresskonzept': 5,
-  };
-  await expect(box).toContainText(new RegExp(Object.keys(options).join('|')));
+  // Several FISI situations exist for this part (one is chosen at random); read them from the data so that
+  // new situations (nightly content runs since 2.15.1) need no change here.
+  const options = Object.fromEntries(JSON.parse(readFileSync(new URL('../data/scenarios.json', import.meta.url), 'utf8'))
+    .filter((sc) => sc.part === 'ga2' && sc.jobs?.includes('fisi'))
+    .map((sc) => [sc.title, sc.questions.length]));
+  expect(Object.keys(options).length).toBeGreaterThanOrEqual(4);
+  await expect(box).toContainText(new RegExp(Object.keys(options).map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')));
   const text = await box.textContent();
   const [title, count] = Object.entries(options).find(([t]) => text.includes(t));
   expect(title).toBeTruthy();
