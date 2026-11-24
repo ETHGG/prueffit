@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.14] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere Bilder:** Dual-, Dezimal- und Hexadezimalumrechnung über Stellenwerte („Zahlensysteme, Codes und Logik“), Tabellenmodell mit n:m-Beziehung und Zwischentabelle („Datenbanken und SQL“), Kapselung von Segment, Paket und Frame („OSI- und TCP/IP-Modell“), dazu 3 Bildfragen (prog-0137, prog-0138, net-0143).
+
 ## [2.16.13] – 2026-11-24
 
 ### Hinzugefügt

@@ -229,7 +229,7 @@ const NOT_ABBREVIATIONS = new Set([
   'IN', 'INSERT', 'INTO', 'IS', 'JOIN', 'LIKE', 'MAX', 'MIN', 'NULL', 'ON', 'ORDER', 'REVOKE', 'SELECT', 'SET', 'SUM',
   'TABLE', 'UPDATE', 'VALUES', 'WHERE', 'COMMIT', 'ROLLBACK',
   'BIS', 'DANN', 'FÜR', 'NICHT', 'ODER', 'SOLANGE', 'SONST', 'UND', 'VON', 'WENN', 'WAS', 'WER', 'WIE', 'WOMIT',
-  'B7', 'B16', 'E3', 'II', 'III', 'PLUS', 'YTP', 'A1', 'A2', 'ABC', 'DuPont',
+  'B7', 'B6', 'B16', 'E3', 'II', 'III', 'PLUS', 'YTP', 'A1', 'A2', 'ABC', 'DuPont',
   'DisplayPort', 'OpenVPN', 'PowerShell', 'ADUser', 'ForEach', 'ChildItem', 'LastWriteTime', 'AddDays', 'WhatIf', 'TrueHD', 'VirtualBox', 'VMware', 'WireGuard',
 ]);
 
