@@ -280,6 +280,12 @@
     "area": "IT-Sicherheit"
   },
   {
+    "abbr": "CAB",
+    "full": "Change Advisory Board",
+    "explanation": "Gremium im Change Management (ITIL), das geplante Änderungen bewertet und freigibt",
+    "area": "Projektmanagement"
+  },
+  {
     "abbr": "CAC",
     "full": "Customer Acquisition Cost",
     "explanation": "Kundengewinnungskosten: Marketing- und Vertriebskosten je gewonnenem Kunden",
