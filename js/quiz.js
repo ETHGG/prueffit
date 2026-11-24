@@ -101,3 +101,19 @@ export function restoreQuiz(data, questions) {
   }
   return { ...quiz, index };
 }
+
+/**
+ * Keyboard shortcuts in the quiz (since 2.20.2, for learning at the PC): digits 1–9 choose an option
+ * of a single/multi question, Enter checks the answer, after answering Enter or N goes on.
+ * Returns { kind: 'select', index } | { kind: 'submit' } | { kind: 'next' } | null.
+ * @param {string} key KeyboardEvent.key
+ * @param {{ type: string, optionCount?: number, answered?: boolean, inField?: boolean, modifier?: boolean }} state
+ *   inField = focus is in a text field (then keys belong to the field), modifier = Ctrl/Alt/Meta pressed
+ */
+export function quizShortcut(key, { type, optionCount = 0, answered = false, inField = false, modifier = false } = {}) {
+  if (modifier || typeof key !== 'string') return null;
+  if (answered) return key === 'Enter' || key === 'n' || key === 'N' ? { kind: 'next' } : null;
+  if (inField || (type !== 'single' && type !== 'multi')) return null;
+  if (/^[1-9]$/.test(key) && Number(key) <= optionCount) return { kind: 'select', index: Number(key) - 1 };
+  return key === 'Enter' ? { kind: 'submit' } : null;
+}

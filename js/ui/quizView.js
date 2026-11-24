@@ -7,7 +7,7 @@ import { sectionKey, inSelection, catalogSections, examHeading } from '../jobCat
 import { filterQuestions, pickFresh, shuffle, issueUrl } from '../questions.js';
 import {
   createQuiz, currentQuestion, submitAnswer, nextQuestion, isFinished, isAnswered, summarizeQuiz,
-  serializeQuiz, restoreQuiz,
+  serializeQuiz, restoreQuiz, quizShortcut,
 } from '../quiz.js';
 import { recordAnswer, recordPractice } from '../storage.js';
 import { availableKinds, generateRound, isGeneratedId, taskFromId, GENERATED_ROUND_SIZE } from '../generator.js';
@@ -189,6 +189,38 @@ export function render(root, ctx) {
   };
   draw();
   if (notice) ctx.toast(notice);
+
+  // Keyboard shortcuts at the PC (since 2.20.2): 1–9 choose, Enter checks, Enter/N next question.
+  const onKey = (e) => {
+    if (!session || isFinished(session.quiz) || e.defaultPrevented) return;
+    const q = currentQuestion(session.quiz);
+    const t = e.target;
+    const inField = Boolean(t?.closest?.('textarea, select, [contenteditable="true"]'))
+      || (t?.tagName === 'INPUT' && !['radio', 'checkbox'].includes(t.type));
+    if (t?.closest?.('dialog, summary, a, button') && e.key === 'Enter') return; // native activation
+    const action = quizShortcut(e.key, {
+      type: q.type, optionCount: q.options?.length ?? 0, answered: isAnswered(session.quiz), inField,
+      modifier: e.ctrlKey || e.metaKey || e.altKey,
+    });
+    if (!action) return;
+    if (action.kind === 'select') {
+      const input = root.querySelectorAll('input[name="answer"]')[action.index];
+      if (!input || input.disabled) return;
+      input.click();
+      input.focus({ preventScroll: true });
+    } else if (action.kind === 'submit') {
+      const form = root.querySelector('form');
+      if (!form) return;
+      form.requestSubmit();
+    } else {
+      const next = root.querySelector('#next-button');
+      if (!next) return;
+      next.click();
+    }
+    e.preventDefault();
+  };
+  document.addEventListener('keydown', onKey);
+  return () => document.removeEventListener('keydown', onKey);
 }
 
 // ---------------------------------------------------------------- setup
@@ -585,7 +617,10 @@ function drawQuestion(root, ctx, draw, topicById) {
       }
       commit(readResponse(form, q, uiFor(q)));
     },
-  }, input, errorEl, feedback, action);
+  }, input, errorEl, feedback, action,
+  (q.type === 'single' || q.type === 'multi') && !answered
+    ? h('p', { class: 'kbd-hint muted small', text: `Tastatur: 1–${q.options.length} wählen · Enter prüfen · danach Enter oder N für weiter` })
+    : null);
 
   const abort = async () => {
     const ok = quiz.results.length === 0 || await ctx.confirm({

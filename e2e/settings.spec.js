@@ -52,3 +52,18 @@ test('the job is fixed: settings show it with its exam areas but offer no change
   await expect(page.getByText('Beruf: Fachinformatiker/-in Systemintegration', { exact: false })).toBeVisible();
   expect(problems).toEqual([]);
 });
+
+test('settings keep a saved exam day that is no longer in the date list (2.20.2, regression)', async ({ page }) => {
+  await gotoApp(page);
+  await page.evaluate(() => {
+    const s = JSON.parse(localStorage.getItem('prueffit.v1'));
+    s.settings.onboarded = true;
+    s.settings.examTarget = { exam: 'AP2', day: '2030-05-08' };
+    localStorage.setItem('prueffit.v1', JSON.stringify(s));
+  });
+  await page.goto('./#/einstellungen');
+  await page.reload();
+  const select = page.locator('#settings-day');
+  await expect(select).toHaveValue('2030-05-08');
+  await expect(select.locator('option:checked')).toContainText('(gespeichert)');
+});

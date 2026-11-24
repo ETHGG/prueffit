@@ -5,7 +5,7 @@ import { jobById } from '../curriculum.js';
 import { updateSettings } from '../storage.js';
 import { filterQuestions } from '../questions.js';
 import { todayInBerlin } from '../leitner.js';
-import { upcomingExamDates, studyPlan, openQuestions, sessionLabel } from '../schedule.js';
+import { examDateOptions, studyPlan, openQuestions, sessionLabel } from '../schedule.js';
 import { h, formatNumber } from './dom.js';
 
 const GOAL_STEPS = [5, 10, 20, 30, 50, 100];
@@ -25,7 +25,8 @@ export const DATE_HINT = 'Die schriftlichen IHK-Prüfungen der IT-Berufe finden 
  * `onChange` is called afterwards (e.g. to redraw the date list).
  */
 export function examTargetFields(draft, { idPrefix, today, onChange, job = null }) {
-  const dates = upcomingExamDates(draft.exam, today, 4, job);
+  // A saved day that is no longer among the upcoming dates stays selectable (since 2.20.2).
+  const dates = examDateOptions(draft.exam, today, draft.day, job);
   if (draft.day !== NOT_YET && !dates.some((d) => d.day === draft.day)) draft.day = dates[0].day;
   return [
     h('fieldset', { class: 'spaced' },
@@ -46,7 +47,7 @@ export function examTargetFields(draft, { idPrefix, today, onChange, job = null 
       dates.map((d) => h('option', {
         value: d.day, selected: draft.day === d.day,
         // Date first: on narrow screens the end of the text is cut off.
-        text: `${d.day.split('-').reverse().join('.')} · ${d.label}${d.estimated ? ' (geschätzt)' : ''}`,
+        text: `${d.day.split('-').reverse().join('.')} · ${d.label}${d.estimated ? ' (geschätzt)' : ''}${d.saved ? ' (gespeichert)' : ''}`,
       })),
       h('option', { value: NOT_YET, selected: draft.day === NOT_YET, text: 'Weiß ich noch nicht' }))),
     h('p', { class: 'muted small', text: DATE_HINT }),

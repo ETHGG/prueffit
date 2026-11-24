@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
-  KNOWN_EXAM_DATES, AP2_DAY_BEFORE_JOBS, addDays, daysBetween, lastWednesday, sessionLabel, upcomingExamDates, nextExamDate, studyPlan, openQuestions,
+  KNOWN_EXAM_DATES, AP2_DAY_BEFORE_JOBS, examDateOptions, addDays, daysBetween, lastWednesday, sessionLabel, upcomingExamDates, nextExamDate, studyPlan, openQuestions,
   backupReminder, weekStart, weeklyPlan, planTopics, PLAN_TOPICS_PER_WEEK, weeklyPlanIcs, weeklyPlanIcsName, icsEscape, icsFold,
 } from '../js/schedule.js';
 
@@ -288,5 +288,27 @@ describe('Wochenplan als Kalenderdatei (.ics, seit 2.18)', () => {
     const text = weeklyPlanIcs(short, { today: '2026-12-21', now });
     expect(text.match(/BEGIN:VEVENT/g)).toHaveLength(2);
     expect(text).toContain('letzte Woche');
+  });
+});
+
+describe('examDateOptions (2.20.2): a saved day is never silently replaced', () => {
+  it('without a saved day or with a listed one: the upcoming dates', () => {
+    const plain = upcomingExamDates('AP2', '2026-11-25');
+    expect(examDateOptions('AP2', '2026-11-25')).toEqual(plain);
+    expect(examDateOptions('AP2', '2026-11-25', '2027-04-28')).toEqual(plain);
+  });
+
+  it('a saved day outside the list is added, marked and sorted in', () => {
+    const opts = examDateOptions('AP2', '2026-11-25', '2027-05-05');
+    expect(opts).toHaveLength(5);
+    const saved = opts.find((o) => o.saved);
+    expect(saved).toMatchObject({ exam: 'AP2', day: '2027-05-05', saved: true, label: 'Sommer 2027' });
+    expect(opts.map((o) => o.day)).toEqual([...opts.map((o) => o.day)].sort());
+  });
+
+  it('past or invalid saved days are ignored; KITS dates are shifted as before', () => {
+    expect(examDateOptions('AP2', '2026-11-25', '2026-11-01').some((o) => o.saved)).toBe(false);
+    expect(examDateOptions('AP2', '2026-11-25', 'kaputt').some((o) => o.saved)).toBe(false);
+    expect(examDateOptions('AP2', '2026-11-25', null, 'kits')[0].day).toBe('2027-04-27');
   });
 });

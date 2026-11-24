@@ -1,3 +1,8 @@
+# Kurzbericht 2.20.1–2.20.2 (Nachtbetrieb Lauf 1, eigene Verbesserungen, 25.11.2026)
+
+- **2.20.1:** Erklärungen zu jeder Antwortmöglichkeit auch für die übrigen 111 Auswahlfragen (alle Berufe), 6 Präzisierungen (Diagrammachse, Prozesseffizienz, USV-Reserve, Grenzwertanalyse, User Story, GROUP BY).
+- **2.20.2:** Tastaturbedienung im Quiz am PC; gespeicherter Prüfungstag bleibt in den Einstellungen erhalten (offener Punkt aus Lauf 3); Spannungsfall-Richtwerte geprüft.
+
 # Kurzbericht 2.20.0 (Nachtbetrieb Lauf 1, Fortsetzung, 25.11.2026)
 
 - **Funktion (Backlog 5):** Lernkalender als eingeklappter Bereich in der Statistik direkt unter „Gesamt“ (kein neuer Tab, Startseite unverändert). Logik `activityCalendar` in `js/stats.js`, Anzeige `js/ui/learnCalendar.js`.

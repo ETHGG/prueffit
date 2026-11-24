@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.20.2] – 2026-11-25
+
+### Hinzugefügt
+- **Tastatur im Quiz** (am PC): Ziffern 1–9 wählen eine Antwort, Enter prüft, danach Enter oder N für die nächste Frage. Der Hinweis erscheint nur mit Maus/Trackpad, nicht auf dem iPhone. Reine Funktion `quizShortcut` in `js/quiz.js` mit Tests, Browsertest.
+
+### Behoben
+- Einstellungen: Ein gespeicherter Prüfungstag, der nicht mehr in der Terminliste steht (z. B. weiter in der Zukunft oder ein geschätzter Termin, der inzwischen anders veröffentlicht ist), wurde still durch den ersten Termin ersetzt. Er bleibt jetzt mit „(gespeichert)“ auswählbar (`examDateOptions` in `js/schedule.js`, Tests und Browsertest).
+
+### Geprüft
+- Spannungsfall-Richtwerte im Lernzettel „Leitungen, Spannungsfall und PoE“ und Karte fc-0169: 3 % Zähler → Verbraucher (DIN 18015-1), ca. 0,5 % Hausanschluss → Zähler (TAB), insgesamt 4 % als Empfehlung (DIN VDE 0100-520) – stimmig, keine Änderung.
+
 ## [2.20.1] – 2026-11-25
 
 ### Hinzugefügt

@@ -861,3 +861,7 @@ details.transfer-fold > * + * { margin-top: .6rem; }
 .cal-day.is-outside { background: transparent; border-color: transparent; }
 .cal-legend { display: flex; align-items: center; gap: 4px; font-size: .75rem; color: var(--muted); margin-bottom: .5rem; }
 .cal-legend .cal-day { width: .9rem; }
+
+/* Keyboard hint in the quiz, only with a mouse/trackpad (since 2.20.2) */
+.kbd-hint { display: none; margin-top: .5rem; text-align: center; }
+@media (hover: hover) and (pointer: fine) { .kbd-hint { display: block; } }

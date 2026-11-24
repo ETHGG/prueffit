@@ -9,6 +9,7 @@ import {
   serializeQuiz,
   restoreQuiz,
   QUIZ_SESSION_VERSION,
+  quizShortcut,
 } from '../js/quiz.js';
 import { shuffle, createSeededRandom } from '../js/questions.js';
 
@@ -159,5 +160,31 @@ describe('serializeQuiz / restoreQuiz (sessionStorage)', () => {
       { ...ok, responses: [7, [0]] },
     ];
     for (const data of broken) expect(restoreQuiz(data, catalog), JSON.stringify(data)).toBeNull();
+  });
+});
+
+describe('quizShortcut (2.20.2): keyboard at the PC', () => {
+  const single = { type: 'single', optionCount: 4 };
+  it('digits choose an option of single/multi questions, only within the option count', () => {
+    expect(quizShortcut('1', single)).toEqual({ kind: 'select', index: 0 });
+    expect(quizShortcut('4', single)).toEqual({ kind: 'select', index: 3 });
+    expect(quizShortcut('5', single)).toBeNull();
+    expect(quizShortcut('0', single)).toBeNull();
+    expect(quizShortcut('2', { type: 'multi', optionCount: 5 })).toEqual({ kind: 'select', index: 1 });
+  });
+  it('Enter checks the answer, after answering Enter or N goes on', () => {
+    expect(quizShortcut('Enter', single)).toEqual({ kind: 'submit' });
+    expect(quizShortcut('Enter', { ...single, answered: true })).toEqual({ kind: 'next' });
+    expect(quizShortcut('n', { ...single, answered: true })).toEqual({ kind: 'next' });
+    expect(quizShortcut('N', { type: 'text', answered: true })).toEqual({ kind: 'next' });
+    expect(quizShortcut('1', { ...single, answered: true })).toBeNull();
+  });
+  it('leaves keys alone in text fields, with modifiers and for other question types', () => {
+    expect(quizShortcut('1', { ...single, inField: true })).toBeNull();
+    expect(quizShortcut('Enter', { ...single, inField: true })).toBeNull();
+    expect(quizShortcut('1', { ...single, modifier: true })).toBeNull();
+    expect(quizShortcut('1', { type: 'number', optionCount: 0 })).toBeNull();
+    expect(quizShortcut('Enter', { type: 'order' })).toBeNull();
+    expect(quizShortcut(undefined, single)).toBeNull();
   });
 });

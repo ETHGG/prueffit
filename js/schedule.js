@@ -81,6 +81,18 @@ export function upcomingExamDates(exam, today, count = 4, job = null) {
   return result.slice(0, count).map((e) => ({ exam, ...e, label: sessionLabel(exam, e.day) }));
 }
 
+/**
+ * Choices for the exam date (since 2.20.2): the upcoming dates plus a saved day that is no longer
+ * among them (e.g. an estimated date replaced by the published one, or a date further ahead), marked
+ * `saved: true`, so the settings never silently switch to another date. Sorted by day.
+ */
+export function examDateOptions(exam, today, savedDay = null, job = null, count = 4) {
+  const dates = upcomingExamDates(exam, today, count, job);
+  if (!isDay(savedDay) || savedDay < today || dates.some((d) => d.day === savedDay)) return dates;
+  return [...dates, { exam, day: savedDay, estimated: false, saved: true, label: sessionLabel(exam, savedDay) }]
+    .sort((a, b) => a.day.localeCompare(b.day));
+}
+
 /** Next exam date for an exam, or null. */
 export function nextExamDate(exam, today) {
   return upcomingExamDates(exam, today, 1)[0] ?? null;

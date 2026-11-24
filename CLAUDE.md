@@ -329,6 +329,7 @@ Prozent wird **kaufmännisch auf ganze Zahlen gerundet**, bevor die Note bestimm
 - Safe-Area beachten (`env(safe-area-inset-bottom)`).
 - Barrierefreiheit: semantisches HTML, `aria-label` bei Icon-Buttons, ausreichender Kontrast.
 - Keine Pop-ups mit `alert()`, stattdessen eigene Dialoge/Toasts.
+- Tastatur im Quiz (seit 2.20.2, `quizShortcut`): 1–9 wählen, Enter prüfen, Enter/N weiter; nicht in Textfeldern; Hinweis nur bei `(hover: hover) and (pointer: fine)`.
 
 ---
 
