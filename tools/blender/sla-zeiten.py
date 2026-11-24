@@ -1,0 +1,31 @@
+sc = reset()
+lm = mat('label', (0.02, 0.03, 0.035), rough=1.0)
+wl = mat('white', (1, 1, 1), emit=1.0)
+svc = mat('svc', (0.45, 0.72, 0.5), rough=0.9)
+off = mat('off', (0.68, 0.7, 0.74), rough=0.9)
+rea = mat('rea', (0.68, 0.3, 0.02), rough=0.5)
+sol = mat('sol', (0.1, 0.32, 0.65), rough=0.5)
+ev = mat('ev', (0.75, 0.15, 0.12), rough=0.5)
+ax = mat('ax', (0.3, 0.33, 0.37), rough=0.6)
+U = 3.9 / 48   # Monday 0:00 .. Wednesday 0:00
+X0 = -1.95
+X = lambda h: X0 + h * U
+for d, name in enumerate(['Montag', 'Dienstag']):
+    box('off', (24 * U, 0.04, 0.5), (X(d * 24 + 12), 0.1, 1.0), off)
+    box('svc', (10 * U, 0.05, 0.5), (X(d * 24 + 13), 0.08, 1.0), svc)
+    label(name, (X(d * 24 + 12), -0.05, 1.32), size=0.06, material=lm, align='CENTER')
+    for h in (8, 18):
+        label(f'{h}:00', (X(d * 24 + h), -0.05, 0.68), size=0.04, material=lm, align='CENTER')
+label('Servicezeit Mo–Fr 8–18 Uhr (grün)', (X(0), -0.05, 1.47), size=0.045, material=lm)
+box('r', (2 * U, 0.05, 0.14), (X(17), -0.02, 1.12), rea)
+box('s1', (2 * U, 0.05, 0.14), (X(17), -0.02, 0.9), sol)
+box('s2', (6 * U, 0.05, 0.14), (X(24 + 11), -0.02, 0.9), sol)
+cyl('ev', 0.04, 0.03, (X(16), -0.04, 1.2), ev, rot=(math.radians(90), 0, 0), verts=24)
+label('Mo 16:00\nStörung gemeldet', (X(16) - 0.05, -0.05, 1.62), size=0.042, material=lm, align='RIGHT')
+leader((X(16), -0.03, 1.22), (X(16) - 0.05, -0.03, 1.55), ev, r=0.004)
+label('Reaktionszeit 2 h → Mo 18:00', (0, -0.05, 0.4), size=0.055, material=mat('rtxt', (0.5, 0.2, 0.02), rough=1.0), align='CENTER')
+label('Lösungszeit 8 h: 2 h am Montag + 6 h am Dienstag → Di 14:00', (0, -0.05, 0.25), size=0.055, material=mat('stxt', (0.03, 0.2, 0.5), rough=1.0), align='CENTER')
+label('Die Zeiten laufen nur innerhalb der vereinbarten Servicezeit; nachts steht die Uhr.', (0, -0.05, 0.05), size=0.05, material=lm, align='CENTER')
+label('Reaktionszeit = bis die Bearbeitung nachweislich beginnt; Lösungszeit = bis die Störung behoben ist (oder ein Workaround läuft).', (0, -0.05, -0.1), size=0.042, material=lm, align='CENTER')
+camera_front((0, 0, 0.78), 4.3, tilt=1)
+lights(0.55)

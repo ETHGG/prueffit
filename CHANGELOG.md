@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.17] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere Bilder (KITS/FISI):** Benutzer- und Geräte-CAL („Software-Lizenzen und Urheberrecht“), Domäne mit OUs und Gruppenrichtlinie („Domäne und Verzeichnisdienst“), Reaktions- und Lösungszeit im SLA auf dem Zeitstrahl („IT-Service-Management“), dazu 3 Bildfragen (re-0079, net-0147, pm-0114).
+
 ## [2.16.16] – 2026-11-24
 
 ### Hinzugefügt
