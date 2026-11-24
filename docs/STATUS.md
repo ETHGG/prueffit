@@ -17,10 +17,11 @@
 
 ## Nachtbetrieb (Auftrag 23.11.2026, 22:56, ab sofort jede Nacht)
 
-**Läuft gerade:** –
+**Läuft gerade:** Abendlauf 3D-Bilder (Fortsetzung 2) seit 19:25
 
 Regeln für alle Nachtläufe:
 - Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
+- **Kontingent (Wunsch 24.11.2026, 19:25):** Wochenkontingent darf über Nacht bis 100 % genutzt werden (nicht bei 85 % aufhören). Das Sitzungskontingent bis zum Rest ausnutzen (auch die letzten 30 %): erst bei ca. 95 % sauber pausieren (Regel 7), Fortsetzung nach dem Sitzungs-Reset planen. Stand per claude.ai/settings/usage prüfen (eingebauter Browser).
 - **Sperre:** Beim Start „Läuft gerade“ auf `<Lauf> seit <HH:MM>` setzen, committen, pushen; am Ende auf „–“. Steht dort ein anderer Lauf, der jünger als 90 Min. ist: 10 Min. warten, neu prüfen (max. 3×), sonst übernehmen.
 - Zuerst „Weiter bei“ abarbeiten (pausierte Arbeit hat Vorrang).
 - Limit knapp: Schritt sauber abschließen oder zurückrollen, Tests, commit, push, „Weiter bei“ genau eintragen, Push „pausiert, weiter ab …“, mit `send_later`/einmaliger geplanter Aufgabe in ca. 5 Std. fortsetzen, wenn das noch im Arbeitsfenster liegt – sonst übernimmt der nächste Nachtlauf.
