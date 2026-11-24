@@ -26,6 +26,50 @@ export async function downloadJson(filename, data) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+/**
+ * Shares a JSON file via the share sheet (AirDrop, Mail, Dateien …) where the browser can share files,
+ * otherwise downloads it (since 2.15). Returns 'shared', 'cancelled' or 'downloaded'.
+ */
+export async function shareJson(filename, data) {
+  const text = `${JSON.stringify(data, null, 2)}\n`;
+  if (typeof File === 'function' && typeof navigator.canShare === 'function' && typeof navigator.share === 'function') {
+    const file = new File([text], filename, { type: 'application/json' });
+    if (navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: filename });
+        return 'shared';
+      } catch (e) {
+        if (e?.name === 'AbortError') return 'cancelled';
+      }
+    }
+  }
+  await downloadJson(filename, data);
+  return 'downloaded';
+}
+
+/** Shares a link via the share sheet, otherwise copies it. Returns 'shared', 'cancelled', 'copied' or 'failed'. */
+export async function shareLink(url, title) {
+  if (typeof navigator.share === 'function') {
+    try {
+      await navigator.share({ url, title });
+      return 'shared';
+    } catch (e) {
+      if (e?.name === 'AbortError') return 'cancelled';
+    }
+  }
+  return (await copyText(url)) ? 'copied' : 'failed';
+}
+
+/** Copies text to the clipboard; true on success. */
+export async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /** Reads a File as text (max. 5 MB). */
 export function readTextFile(file, maxBytes = 5 * 1024 * 1024) {
   if (!file) return Promise.reject(new Error('Keine Datei ausgewählt.'));

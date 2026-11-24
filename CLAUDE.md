@@ -129,6 +129,8 @@ prueffit/
 │   ├── formulas.js           # Formelsammlung: Validierung, Suche, Gruppierung (seit 2.9)
 │   ├── generator.js          # Rechentraining: erzeugte Rechenaufgaben je Art und Seed (seit 2.13)
 │   ├── search.js             # Suche über alles: Lernzettel, Abkürzungen, Formeln, Fragen des Berufs (seit 2.14)
+│   ├── transferLink.js       # Übertragung per Link/QR-Code: Lernstand komprimiert im URL-Hash, Vorschau, Berufssperre (seit 2.15)
+│   ├── qr.js                 # eigener QR-Encoder (Byte-Modus, Stufe L/M, Version 1–40, seit 2.15)
 │   ├── finalGrade.js         # Gesamtnote, Bestehensregeln, mündliche Ergänzungsprüfung (seit 2.3, UI ab 2.4)
 │   └── ui/
 │       ├── home.js
@@ -148,6 +150,7 @@ prueffit/
 │       ├── projectView.js    # #/projekt (seit 2.3)
 │       ├── formulasView.js   # #/formeln (seit 2.9)
 │       ├── searchView.js     # #/suche (seit 2.14), Lupe in der Kopfzeile
+│       ├── transferView.js   # „Sicherung teilen“, Link/QR-Code (Einstellungen) und #/uebertragen/<daten> (seit 2.15)
 │       └── settingsView.js
 ├── tests/
 │   ├── grading.test.js
@@ -248,6 +251,7 @@ Eine Situation eröffnet einen AP2-Prüfungsbereich: Erst kommen ihre Fragen in 
 Schema-Historie: 1 → 2 (v0.2.1) ergänzt `settings.job` (`alle`, `fisi`, `fiae`, `itsm`); 2 → 3 (v0.4.0) ergänzt `daily` (erledigte Aufgaben pro Tag, Europe/Berlin, die letzten 90 Tage); 3 → 4 (v0.6.0) ergänzt `settings.onboarded` (Willkommensfragen beantwortet) und `settings.examTarget` (nächste Prüfung und Termin oder `null`); 4 → 5 (v1.0.0) ergänzt `settings.backup` (letzte Sicherung, „Später“ bis); 5 → 6 (v2.0.0): `settings.job` ist eine Berufs-ID oder `null` (`itsm` → `kits`, `alle` → `null`), neu `settings.jobConfirmed` (nach der Migration `false`, damit jeder seinen Beruf einmal bestätigt). Ein bestätigter Beruf kann nicht mehr geändert werden (`updateSettings`, Import). Antworten haben seit 1.0 zusätzlich `lastCorrect` (letzte Antwort richtig?) für „Meine Fehler“ und seit 2.6 optional `retry` (`{ step: 0–2, due: 'YYYY-MM-DD' }`, Wiederholung nach 1/3/7 Tagen; ohne Schema-Wechsel, ungültige Werte werden verworfen); ältere Einträge ohne dieses Feld gelten als Fehler, solange nicht alle Versuche richtig waren.
 Erzeugte Rechenaufgaben (seit 2.13, IDs `gen-<art>-<seed>`) werden nie unter `answers` gespeichert, sie zählen nur in `daily`/`streak`.
 Karteikarten aus dem Abkürzungsverzeichnis haben die IDs `ab-<abkürzung>` und liegen ebenfalls unter `cards`.
+Übertragung (seit 2.15): Link `#/uebertragen/<code>`, `code` = `z` + base64url(deflate-raw(Export-JSON)) bzw. `j` + base64url(JSON) ohne Kompression; Export wie die Sicherungsdatei, Import über `parseProgressImport` (Migration), Backup `prueffit.backup.import`, Berufssperre `applyJobLock`.
 Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (`checked`: abgehakte Punkte der Projekt-Checklisten seit 2.3, `points`: Eingaben des Gesamtnoten-Rechners seit 2.4, `ratings`: Selbsteinschätzung im Fachgespräch-Training `{ <frage-id>: 'yes'|'partly'|'no' }` seit 2.14, nur wenn vorhanden; defekte Daten → leer; seit 2.5.1 als Feld `project` neben `data` in der Fortschritts-Sicherung), `prueffit.custom` (importierte eigene Fragen/Karten), `sessionStorage` `prueffit.quizSession` (laufende Quiz-Runde).
 
 ---
@@ -275,7 +279,7 @@ Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (`ch
 - Offene Aufgaben (`text` mit `rubric`, seit 2.2) kommen in allen Teilen außer WiSo vor; nach der letzten Abgabe bewertet der Lernende sie mit dem Raster, erst danach wird das Ergebnis gespeichert.
 - AP2-Prüfungsbereiche beginnen mit einer Handlungssituation, wenn eine zu Beruf und Bereich passt (siehe 5.3c).
 - Seit 2.5 sind AP1 und die schriftlichen AP2-Bereiche in bis zu vier Aufgaben gegliedert (`splitIntoTasks`): Handlungssituation = Aufgabe 1, übrige Fragen nach Thema gebündelt und nach Punkten ausgeglichen verteilt; WiSo ohne Gliederung. `parts[].tasks` im Prüfungszustand ist optional (ältere Zustände ohne).
-- Seit 2.10.1 enthält AP1 und jeder schriftliche AP2-Bereich (nicht WiSo) mindestens eine Aufgabe vom Typ `table`, sofern es für Beruf und Bereich eine gibt (`pickRequiredTable`): sie wird zuerst gezogen, der Rest bis zur Punktzahl aufgefüllt; enthält die Handlungssituation schon eine, entfällt das.
+- Seit 2.10.1 enthält AP1 und jeder schriftliche AP2-Bereich (nicht WiSo) mindestens eine Aufgabe vom Typ `table`, sofern es für Beruf und Bereich eine gibt (`pickRequiredTable`; seit 2.15 gibt es für jeden Bereich aller 7 Berufe eine, `exam.test.js` prüft das mit echten Daten): sie wird zuerst gezogen, der Rest bis zur Punktzahl aufgefüllt; enthält die Handlungssituation schon eine, entfällt das.
 - Bei Zeitablauf automatisch abgeben.
 - Seit 2.11 lässt sich jeder Teil (AP1, AP2-Bereiche, WiSo) ausdrucken (`print.html?sim=AP2&teil=ga1&beruf=fisi&seed=123456&blatt=aufgaben|loesung`, `js/examPrint.js`): Ziehung mit `createExam` und `createSeededRandom(seed)` wie in der App, Aufgabenblatt (Deckblatt, Aufgaben nach `splitIntoTasks`, Handlungssituation vorn, Kästchen, Linien, Skizzenkasten, leere Tabellen) und Lösungsblatt (Lösungen mit den Buchstaben des Aufgabenblatts, Musterlösung, Bewertungsraster, Notenschlüssel mit Mindestpunkten) mit derselben Simulations-Nr.
 - **IHK-Notenschlüssel (Prozent der Punkte):**
@@ -357,6 +361,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `formulas.test.js` | Formelsammlung: Pflichtfelder, eindeutige IDs, Kernformeln für FISI/KITS, Suche, Gruppierung |
 | `finalGrade.test.js` | Gewichtung 20/50/10/10/10, Rundung, alle Bestehensregeln, mündliche Ergänzungsprüfung 2 : 1 und nötige Punkte |
 | `contrast.test.js` | Kontrast aller Textfarben in hellem und dunklem Design (mind. 4,5 : 1), seit 2.11 auch der Druckansicht |
+| `qr.test.js` / `transferLink.test.js` | QR-Encoder gegen Referenzmatrizen, Kapazitäten, „zu groß“; Übertragungscode rund (mit/ohne Kompression), defekte und zu große Daten, Link/Hash, Vorschau, Berufssperre (seit 2.15) |
 | `ci.test.js` | Playwright-Container in der CI passt zur gesperrten Playwright-Version, Testserver ohne Python |
 | `examPrint.test.js` | Simulation zum Ausdrucken: Seed/URL, gleiche Ziehung wie die App, Situation vorn, Tabellenaufgabe, Lösungen aller Fragetypen, Notenschlüssel-Mindestpunkte |
 | `generator.test.js` | Rechentraining: jede Art liefert gültige Aufgaben, eigene Lösung wird richtig bewertet, Wiederherstellung aus der ID, Runden, Filter nach Beruf |
@@ -396,6 +401,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.12** | Verlauf der Prüfungsreife (Wochenwerte, Diagramm), Wochenplan bis zur Prüfung | erledigt |
 | **2.13** | Rechentraining: unbegrenzt erzeugte Rechenaufgaben (Subnetting, Zahlensysteme, Speicher/Übertragung, Kalkulation, Abschreibung, Nutzwert, Kennzahlen) | erledigt |
 | **2.14** | Fachgespräch üben mit Timer, Erwartungshorizont und Selbsteinschätzung; Suche über alles (`#/suche`) | erledigt |
+| **2.15** | Fortschritt übertragen (Sicherung teilen, Link/QR-Code ohne Server mit Vorschau); Tabellenaufgabe in jedem schriftlichen Bereich aller 7 Berufe | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

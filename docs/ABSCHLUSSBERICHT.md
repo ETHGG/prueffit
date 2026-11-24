@@ -1,3 +1,11 @@
+# Kurzbericht 2.15.0 (Nachtauftrag Block E, 24.11.2026)
+
+- **Übertragung PC → iPhone:** „Sicherung teilen“ (Teilen-Menü, sonst Download) und Link/QR-Code mit dem komprimierten Lernstand im URL-Hash (`js/transferLink.js`, Ansicht `#/uebertragen/…` mit Vorschau und Bestätigung). Eigener QR-Encoder `js/qr.js`.
+- **Tabellenaufgaben:** 9 neue Aufgaben; jeder schriftliche Bereich aller 7 Berufe hat jetzt eine (geprüft mit echten Daten, 40 Seeds je Beruf).
+- **Annahmen:** Der QR-Code wird nur angeboten, wenn der ganze Link in eine Version-40-Symbol passt (Stufe M, sonst L) – realistisch für den Anfang (bis ca. 100–150 beantwortete Fragen); größere Stände gehen per Link oder Datei. Der Link wird nicht als Sicherung gezählt, „Sicherung teilen“ schon. Ein fester Beruf bleibt beim Übernehmen (bestehende Regel aus 2.0), es gibt dazu nur einen Hinweis. Entpackt werden höchstens 5 MB (wie beim Datei-Import). Browser ohne `CompressionStream` erzeugen einen unkomprimierten Link (Präfix `j`). Die Fehlerkorrektur L/M und die automatische Maskenwahl folgen ISO/IEC 18004; OpenCV wählt in seltenen Fällen eine andere (ebenfalls gültige) Maske, die Tests legen sie dort fest.
+- **Geprüft:** alle 80 Kombinationen L/M × Version 1–40 bei voller Kapazität mit OpenCV dekodiert; ein Bildschirmfoto des QR-Codes in der App wird wieder zum Link dekodiert. Tabellenaufgaben nachgerechnet.
+- **Neue Abhängigkeiten:** keine. Unit-Tests lokal mit Ersatz-Runner (npm-Registry gesperrt), Browsertests Chromium; die CI prüft mit dem echten Vitest und WebKit.
+
 # Kurzbericht 2.14.0 (Nachtauftrag Block D, 24.11.2026)
 
 - **Fachgespräch üben:** Übungsmodus in `#/projekt` – zufällige Frage des eigenen Berufs (noch nicht Gewusstes gewichtet öfter), wählbare Antwortzeit 1/2/3/5 Min. (Timer aus der Startzeit), danach Prüfer-Hinweis und Erwartungshorizont, Selbsteinschätzung gewusst/teilweise/nicht. Stichpunkte für alle 32 Fragen ergänzt.

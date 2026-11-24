@@ -38,7 +38,7 @@ PrüfFit ist eine offline-fähige Web-App (PWA) zur Vorbereitung auf die IHK-Abs
 - **Dein Plan für heute:** konkrete Schritte für das Tagesziel – fällige Karten, Fehler, schwächstes Thema. Themen, Schwierigkeit und Aufgabenstil orientieren sich an den IHK-Prüfungen 2021–2025; alle Aufgaben sind in eigenen Worten und mit eigenen Zahlen formuliert.
 - **Fehler melden:** Unter jeder Erklärung führt ein Link zu einem vorausgefüllten GitHub-Issue.
 - **Lernserie und Tagesziel:** Tage in Folge mit mindestens einer Aufgabe; Tagesziel frei wählbar.
-- **Sichern und übertragen:** Fortschritt als Datei exportieren und auf einem anderen Gerät importieren; eigene Fragen und Karteikarten importieren.
+- **Sichern und übertragen:** Fortschritt als Datei sichern oder teilen, per Link oder QR-Code auf ein anderes Gerät übertragen (ohne Server, mit Vorschau) und importieren; eigene Fragen und Karteikarten importieren.
 - **Darstellung:** hell, dunkel oder wie das System.
 - **PWA:** installierbar, funktioniert nach dem ersten Aufruf komplett offline, für das iPhone optimiert.
 

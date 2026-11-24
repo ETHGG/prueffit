@@ -10,9 +10,18 @@ import { PROJECT_KEY, parseProjectState } from '../projectGuide.js';
 
 /** Downloads the progress file and remembers the day of the export. */
 export function exportProgressNow(ctx) {
-  // Since 2.6 the project checklists and the grade calculator are part of the backup.
+  downloadJson(exportFileName('fortschritt'), progressExport(ctx));
+  markBackedUp(ctx);
+}
+
+/** The export object of the current progress (since 2.6 with project checklists and grade calculator). */
+export function progressExport(ctx) {
   const project = parseProjectState(ctx.localStore?.getItem(PROJECT_KEY));
-  downloadJson(exportFileName('fortschritt'), buildProgressExport(ctx.progress, { appVersion: ctx.version, project }));
+  return buildProgressExport(ctx.progress, { appVersion: ctx.version, project });
+}
+
+/** Remembers the day of a backup (file or transfer), the reminder starts again. */
+export function markBackedUp(ctx) {
   const today = todayInBerlin();
   ctx.updateProgress((p) => updateSettings(p, { backup: { ...p.settings.backup, lastAt: today, snoozeUntil: null } }));
 }

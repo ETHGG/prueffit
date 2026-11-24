@@ -2,6 +2,18 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.15.0] – 2026-11-24
+
+### Hinzugefügt
+- **Fortschritt auf ein anderes Gerät übertragen (z. B. PC → iPhone), ohne Konto und ohne Server** (Einstellungen → Sichern und übertragen):
+  - **Sicherung teilen:** die Sicherungsdatei über das Teilen-Menü (AirDrop, Mail, Dateien …); wo der Browser keine Dateien teilen kann, wird sie heruntergeladen.
+  - **Per Link oder QR-Code:** Der Lernstand wird komprimiert (deflate-raw, base64url) in den Teil nach „#“ eines Links gepackt (`#/uebertragen/…`), den der Browser an keinen Server schickt. Auf dem anderen Gerät zeigt PrüfFit vorher, was übertragen wird (Stand, Fragen-Statistiken, Karteikarten, Prüfungen, Beruf, Projektdaten), und übernimmt erst nach „Übernehmen“ – mit Sicherung des bisherigen Stands, über dieselbe Prüfung und Migration wie beim Datei-Import. Ein bereits festgelegter Beruf bleibt erhalten (Hinweis, wenn die Sicherung aus einem anderen Beruf stammt); auf einem neuen Gerät wird der Beruf aus der Sicherung übernommen, die Berufswahl entfällt. Danach wird der Link aus dem Verlauf entfernt.
+  - **QR-Code** mit eigenem kleinem Encoder (`js/qr.js`, Byte-Modus, Fehlerkorrektur M bzw. L, Version 1–40, keine neue Abhängigkeit), wenn der Link hineinpasst (bis ca. 2,9 KB) – sonst die klare Meldung „Zu groß für einen QR-Code, bitte den Link oder die Sicherung als Datei teilen“. Datenschutzhinweis direkt darunter.
+- **Tabellenaufgaben für alle Berufe:** 9 neue Aufgaben „Tabelle ausfüllen“ – FIAE (Schreibtischtest, Zahlensysteme, Netzplan), FIDPA (Schreibtischtest, Netzplan, Statistik-Kennwerte, Datenqualitäts-Kennzahlen), FIDV (Sensordaten-Volumen), ITSE (Ströme am Stromkreis, Leitungswiderstand und Spannungsfall), KDM (Netzplan, Abo-Kennzahlen Churn/MRR/CLV). Damit enthält jede Prüfungssimulation aller 7 Berufe in AP1 und in beiden schriftlichen AP2-Bereichen eine Tabellenaufgabe (vorher fehlte sie bei FIAE, FIDPA, ITSE Bereich 2, KDM Bereich 1 und teils FIDV Bereich 2).
+
+### Tests
+- `qr.test.js` (Referenzmatrizen eines unabhängigen Encoders, Kapazitäten, Versionswahl, „zu groß“), `transferLink.test.js` (Kodierung/Dekodierung rund mit und ohne Kompression, defekte/abgeschnittene Daten, zu große Daten inkl. „Zip-Bombe“, neuere Version, Link/QR, Vorschau, Berufssperre), `exam.test.js` verlangt jetzt die Tabellenaufgabe für alle 7 Berufe, Browsertest `transferLink.spec.js`.
+
 ## [2.14.1] – 2026-11-24
 
 ### Geändert (Qualitätsrunde: VLAN/WLAN, Routing/NAT/Fehleranalyse)

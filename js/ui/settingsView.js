@@ -9,6 +9,7 @@ import {
 import { downloadJson, readTextFile } from './files.js';
 import { exportProgressNow } from './backup.js';
 import { PROJECT_KEY } from '../projectGuide.js';
+import { transferPanel } from './transferView.js';
 import { wishUrl } from '../questions.js';
 import { examTargetFields, formatExamDay } from './welcome.js';
 import { todayInBerlin } from '../leitner.js';
@@ -180,11 +181,12 @@ export function render(root, ctx) {
       h('p', { class: 'muted small' }, '„System“ folgt der Hell-/Dunkel-Einstellung deines Geräts.')),
     h('section', { class: 'card', 'aria-labelledby': 'settings-transfer' },
       h('h2', { id: 'settings-transfer', text: 'Sichern und übertragen' }),
-      h('p', { class: 'muted small' }, 'Speichere deinen Fortschritt als Datei, z. B. um ihn auf ein anderes Gerät zu übertragen – inklusive Projekt-Checklisten und Notenrechner. Die App erinnert dich alle zwei Wochen daran.'),
+      h('p', { class: 'muted small' }, 'Speichere deinen Fortschritt als Datei oder übertrage ihn auf ein anderes Gerät – inklusive Projekt-Checklisten und Notenrechner. Ohne Konto und ohne Server. Die App erinnert dich alle zwei Wochen an die Sicherung.'),
       h('p', { class: 'small', id: 'last-backup' }, ctx.progress.settings.backup?.lastAt
         ? `Letzte Sicherung: ${ctx.progress.settings.backup.lastAt.split('-').reverse().join('.')}`
         : 'Noch keine Sicherung.'),
-      h('div', { class: 'button-row' },
+      transferPanel(ctx, { rerender }),
+      h('div', { class: 'button-row spaced' },
         h('button', { type: 'button', class: 'button secondary', onClick: exportProgress }, 'Fortschritt exportieren'),
         fileButton('Fortschritt importieren', importProgress)),
       h('h3', { class: 'spaced', text: 'Eigene Fragen' }),

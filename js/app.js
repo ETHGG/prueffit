@@ -7,6 +7,7 @@ import { todayInBerlin } from './leitner.js';
 import { loadCatalog } from './questions.js';
 import { catalogForJob } from './jobCatalog.js';
 import { CUSTOM_KEY, normalizeCustom } from './transfer.js';
+import { applyJobLock, TRANSFER_ROUTE } from './transferLink.js';
 import * as home from './ui/home.js';
 import * as quizView from './ui/quizView.js';
 import * as cardsView from './ui/cardsView.js';
@@ -17,6 +18,7 @@ import * as settingsView from './ui/settingsView.js';
 import * as projectView from './ui/projectView.js';
 import * as formulasView from './ui/formulasView.js';
 import * as searchView from './ui/searchView.js';
+import * as transferView from './ui/transferView.js';
 import * as jobSetup from './ui/jobSetup.js';
 import { h } from './ui/dom.js';
 
@@ -30,6 +32,7 @@ const ROUTES = {
   projekt: { view: projectView, title: 'Projektarbeit', tab: 'pruefung' },
   formeln: { view: formulasView, title: 'Formelsammlung', tab: 'lernzettel' },
   suche: { view: searchView, title: 'Suche' },
+  [TRANSFER_ROUTE]: { view: transferView, title: 'Fortschritt übernehmen', tab: 'einstellungen' },
   einstellungen: { view: settingsView, title: 'Einstellungen' },
 };
 const DEFAULT_ROUTE = 'start';
@@ -195,10 +198,7 @@ const ctx = {
       // backup is best effort
     }
     // The apprenticeship is fixed (2.0): an imported backup never changes it.
-    if (progress.settings.jobConfirmed) {
-      next = { ...next, settings: { ...next.settings, job: progress.settings.job, jobConfirmed: true } };
-    }
-    progress = next;
+    progress = applyJobLock(progress, next);
     if (storage) saveState(storage, progress);
     applyTheme(progress.settings.theme);
   },
@@ -220,7 +220,8 @@ function currentRoute() {
 }
 
 function render() {
-  if (jobSetup.needsJobSetup(ctx)) {
+  // A transfer link (2.15) may be opened on a new device before the job is chosen: it brings the job along.
+  if (jobSetup.needsJobSetup(ctx) && currentRoute() !== TRANSFER_ROUTE) {
     renderJobSetup();
     return;
   }

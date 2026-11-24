@@ -796,3 +796,12 @@ details.exam-rules { margin-top: .75rem; border-top: 1px solid var(--border); pa
 .training-kinds { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .5rem; margin-top: .75rem; }
 .training-kinds .button { min-height: 44px; white-space: normal; text-align: center; }
 .training-sub { display: block; }
+
+/* Transfer to another device (since 2.15) */
+details.transfer-fold { margin-top: .75rem; border-top: 1px solid var(--border); padding-top: .25rem; }
+details.transfer-fold > summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; }
+details.transfer-fold > * + * { margin-top: .6rem; }
+.qr-box { margin: .75rem 0 0; }
+.qr-box svg { display: block; width: 100%; max-width: 420px; height: auto; background: #ffffff; border-radius: 8px; }
+.qr-box figcaption { margin-top: .4rem; }
+.transfer-notice { background: var(--partial-bg); color: var(--partial); padding: .6rem .75rem; border-radius: 8px; }
