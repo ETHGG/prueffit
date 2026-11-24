@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.19] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere Bilder (FISI):** besondere IPv4-Bereiche („IPv4-Adressen und Subnetting“), RAID 5 mit Hot-Spare in vier Schritten („RAID-Level und Speicher“), SSH-Anmeldung mit Schlüsselpaar („IT-Grundschutz, KRITIS und Härtung“, dazu eine Lernzettel-Zeile zur SSH-Härtung), dazu 3 Bildfragen (net-0148, hw-0110, sec-0101).
+
 ## [2.16.18] – 2026-11-24
 
 ### Hinzugefügt
