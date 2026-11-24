@@ -17,7 +17,7 @@
 
 ## Nachtbetrieb (Auftrag 23.11.2026, 22:56, ab sofort jede Nacht)
 
-**Läuft gerade:** –
+**Läuft gerade:** Block F seit 05:29
 
 Regeln für alle Nachtläufe:
 - Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
@@ -56,7 +56,7 @@ Jeder Block: `git pull --rebase`, Startzeit mit `TZ=Europe/Berlin date` eintrage
 | D | 00:19 | 5 Fachgespräch üben (Timer) · 6 Suche über alles | 80 Min. | 00:19 | 00:40 | 21 Min. (2.14.0) |
 | – | 01:47 | tägliche Qualitätsrunde (wie immer) | 30 Min. | | | |
 | E | 03:23 | 7 Fortschritt PC → iPhone übertragen · 8 Tabellenaufgaben FIAE/FIDPA/ITSE/KDM | 95 Min. | 03:23 | 03:42 | 19 Min. (2.15.0) |
-| F | 05:29 | 10 Fragen FISI/KITS vertiefen · Abschlussbericht mit Ist-Zeiten | 60 Min. | | | |
+| F | 05:29 | 10 Fragen FISI/KITS vertiefen · Abschlussbericht mit Ist-Zeiten | 60 Min. | 05:29 | | |
 
 Gesamt geschätzt: ca. 7 h 40 Min. (davon 7 h 10 Min. Auftrag + 30 Min. Qualitätsrunde).
 
