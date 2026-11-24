@@ -15,7 +15,7 @@ import { mistakeIds, dueRetryIds } from '../stats.js';
 import { todayInBerlin } from '../leitner.js';
 import { keywordHits, rubricPoints } from '../grading.js';
 import {
-  createUi, isValidUi, readResponse, isIncomplete, missingInputMessage, correctAnswerText, renderInput, optionReviewBlock,
+  createUi, isValidUi, readResponse, isIncomplete, missingInputMessage, correctAnswerText, renderInput, optionReviewBlock, formatResponse,
 } from './questionInputs.js';
 import { h, formatNumber, formatPercent, DIFFICULTY_LABELS, append } from './dom.js';
 import { fold } from './fold.js';
@@ -677,12 +677,19 @@ function drawSummary(root, ctx, draw, topicById) {
     const kind = r?.correct ? 'ok' : r?.points > 0 ? 'partial' : 'bad';
     const icon = { ok: '✓', partial: '◐', bad: '✗' }[kind];
     const label = { ok: 'richtig', partial: 'teilweise richtig', bad: 'falsch' }[kind];
+    // Since 2.20.4: each answer can be opened again – own answer, solution, explanation, options.
     return h('li', {},
       h('span', { class: `result-icon ${kind}`, 'aria-label': label, role: 'img', text: icon }),
-      h('div', { class: 'grow' },
-        h('div', { text: q.question.split('\n')[0] }),
-        h('div', { class: 'muted small' },
-          `${topicById.get(q.topic)?.name ?? q.topic} · ${formatNumber(r?.points ?? 0)}/${formatNumber(q.points)} Punkte`)));
+      h('details', { class: 'grow review' },
+        h('summary', {},
+          h('span', { class: 'grow' },
+            h('span', { class: 'review-question', text: q.question.split('\n')[0] }),
+            h('span', { class: 'muted small review-meta', text: `${topicById.get(q.topic)?.name ?? q.topic} · ${formatNumber(r?.points ?? 0)}/${formatNumber(q.points)} Punkte` }))),
+        q.question.includes('\n') ? h('p', { class: 'question-text small', text: q.question }) : null,
+        q.type === 'text' ? null : h('p', {}, h('strong', { text: 'Deine Antwort: ' }), formatResponse(q, r?.response)),
+        r?.correct && q.type !== 'text' ? null : h('p', {}, h('strong', { text: q.type === 'text' ? 'Musterlösung: ' : 'Richtige Antwort: ' }), correctAnswerText(q)),
+        h('p', {}, h('strong', { text: 'Erklärung: ' }), q.explanation),
+        optionReviewBlock(q, r?.response, { open: !r?.correct })));
   });
 
   append(root, 

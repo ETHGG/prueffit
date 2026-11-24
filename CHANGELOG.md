@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.20.4] – 2026-11-25
+
+### Hinzugefügt
+- **Quiz-Auswertung zum Nachlesen:** In „Deine Antworten“ lässt sich jede Frage aufklappen – eigene Antwort, richtige Antwort bzw. Musterlösung, Erklärung und (bei falschen Antworten geöffnet) die Erklärung zu jeder Antwortmöglichkeit, wie in der Auswertung der Prüfungssimulation. Browsertest dazu.
+
 ## [2.20.3] – 2026-11-25
 
 ### Geändert

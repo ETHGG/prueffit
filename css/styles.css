@@ -865,3 +865,4 @@ details.transfer-fold > * + * { margin-top: .6rem; }
 /* Keyboard hint in the quiz, only with a mouse/trackpad (since 2.20.2) */
 .kbd-hint { display: none; margin-top: .5rem; text-align: center; }
 @media (hover: hover) and (pointer: fine) { .kbd-hint { display: block; } }
+.review-question, .review-meta { display: block; }

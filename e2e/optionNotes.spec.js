@@ -44,3 +44,20 @@ test('quiz keyboard (2.20.2): digits choose, Enter checks, N goes on', async ({ 
   const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('prueffit.v1')).answers['net-0001']);
   expect(stored.attempts).toBe(1);
 });
+
+test('quiz summary (2.20.4): every answer opens again with solution, explanation and options', async ({ page }) => {
+  const problems = watchProblems(page);
+  await openQuizWith(page, ['net-0001']);
+  await page.locator('label', { hasText: /^62$/ }).click();
+  await page.getByRole('button', { name: 'Antwort prüfen' }).click();
+  await page.locator('#next-button').click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Auswertung');
+  const item = page.locator('.result-list details.review').first();
+  await expect(item).not.toHaveAttribute('open', '');
+  await item.locator('> summary').click();
+  await expect(item).toContainText('Deine Antwort: 62');
+  await expect(item).toContainText('Richtige Antwort: 30');
+  await expect(item.locator('details.option-review')).toHaveAttribute('open', '');
+  await expectNoHorizontalOverflow(page);
+  expect(problems).toEqual([]);
+});

@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.20.3 (25.11.2026)
+**Aktuelle Version:** 2.20.4 (25.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -17,7 +17,7 @@
 
 ## Nachtbetrieb (Auftrag 23.11.2026, 22:56, ab sofort jede Nacht)
 
-**Läuft gerade:** Nacht Lauf 1 „neue Funktion“ seit 23:14
+**Läuft gerade:** –
 
 Regeln für alle Nachtläufe:
 - Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
@@ -55,6 +55,7 @@ Hilfsmittel im Abendlauf: `device_commit_files` liest eine eben neu geschriebene
 ### Nachtprotokoll
 | Datum | Lauf | Start | Ende | Ist | Ergebnis |
 |---|---|---|---|---|---|
+| 24./25.11.2026 | Nacht Lauf 1 „neue Funktion“ | 23:14 | 00:26 | 72 Min. | Funktions-Backlog 2–5 erledigt: Erklärung zu jeder Antwortmöglichkeit (2.17.0, FISI/KITS; 2.20.1 alle 565 Auswahlfragen; 2.20.3 Gegenprüfung, 17 Präzisierungen), Wochenplan als .ics (2.18.0), SVG-Skizzen in Lernzetteln (2.19.0), Lernkalender (2.20.0); eigene Verbesserungen: Tastatur im Quiz, gespeicherter Prüfungstag bleibt erhalten (offener Punkt aus Lauf 3), Spannungsfall geprüft (2.20.2), Quiz-Auswertung aufklappbar (2.20.4); ~50 Erklärungen/Lernzettel-Zeilen präzisiert. Unit-Tests (Ersatz-Runner, 801) und Browsertests Chromium Desktop/iPhone SE/iPhone 13 dunkel (247) grün. Kontingent nicht prüfbar (kein Browser in der Cloud). |
 | 24.11.2026 | Abendlauf 3D-Bilder (Fortsetzung 2) | 20:13 | 20:45 | 32 Min. | 16 Bilder + 16 Bildfragen (2.16.16–2.16.21), MFA präzisiert, Kontingentregeln (Woche bis 100 %, Sitzung bis ca. 95 %, claude.ai-Prüfung ohne Rückfrage) in CLAUDE.md und Nachtbetrieb. Pausiert bei Sitzung ca. 92 %, Woche 56 % (Sitzungs-Reset 22:40). |
 | 24.11.2026 | Abendlauf 3D-Bilder (Fortsetzung) | 18:40 | 19:20 | 40 Min. | Bildbetrachter in der App (2.16.8), 21 Bilder + 21 Bildfragen (2.16.9–2.16.15), Präzisierungen Signatur/SAN/Firewall, Timer-Test stabil. Pausiert bei Sitzung 68 %, Woche 51 %; weiter mit dem Bilder-Backlog im Lauf „3D-Bilder“ (02:13). |
 | 24.11.2026 | Abendlauf 3D-Bilder | 17:50 | 18:30 | 40 Min. | 15 Blender-Bilder + 15 Bildfragen (2.16.3–2.16.7): Bilder-Backlog leer, dazu IPv6, NAT/PAT, Verschlüsselung, DHCP, 802.1X, STP; Präzisierungen Cloud-Modelle, hybride Verschlüsselung, DHCP. Unit-Tests (Ersatz-Runner, 774) und Browsertests Chromium grün. |

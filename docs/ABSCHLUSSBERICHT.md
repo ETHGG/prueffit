@@ -1,5 +1,6 @@
-# Kurzbericht 2.20.1–2.20.3 (Nachtbetrieb Lauf 1, eigene Verbesserungen, 25.11.2026)
+# Kurzbericht 2.20.1–2.20.4 (Nachtbetrieb Lauf 1, eigene Verbesserungen, 25.11.2026)
 
+- **2.20.4:** Quiz-Auswertung: jede Antwort aufklappbar mit Lösung, Erklärung und Optionserklärungen.
 - **2.20.3:** Unabhängige Gegenprüfung aller 565 Optionserklärungen in fünf Teilen; 17 Befunde gesichtet und übernommen (keine falsche Lösung, nur Ungenauigkeiten in Erklärungstexten).
 - **2.20.1:** Erklärungen zu jeder Antwortmöglichkeit auch für die übrigen 111 Auswahlfragen (alle Berufe), 6 Präzisierungen (Diagrammachse, Prozesseffizienz, USV-Reserve, Grenzwertanalyse, User Story, GROUP BY).
 - **2.20.2:** Tastaturbedienung im Quiz am PC; gespeicherter Prüfungstag bleibt in den Einstellungen erhalten (offener Punkt aus Lauf 3); Spannungsfall-Richtwerte geprüft.
