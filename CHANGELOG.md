@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.21] – 2026-11-24
+
+### Hinzugefügt
+- **2 weitere Bilder (FISI):** DHCP-Relay zwischen VLANs („Protokolle, Dienste und Ports“, dazu eine Lernzettel-Zeile), vereinfachter TLS-1.3-Verbindungsaufbau („Verschlüsselung, Hashes und Signaturen“), dazu 2 Bildfragen (net-0150, sec-0102).
+
 ## [2.16.20] – 2026-11-24
 
 ### Hinzugefügt

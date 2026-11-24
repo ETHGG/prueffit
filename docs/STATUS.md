@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.16.20 (24.11.2026)
+**Aktuelle Version:** 2.16.21 (24.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -42,22 +42,20 @@ Erledigt: serverschrank, rj45, glasfaser, raid5, usv, mainboard, hdd-ssd (2.16.0
 
 **So kommen Aufträge an Blender (ohne Bildschirmsteuerung):** In Blender läuft `tools/blender/watcher.py` (einmal in der Python-Konsole gestartet, `bpy.app.timers`). Er arbeitet Dateien `Desktop/PrüfFit/blender/jobs/*.job` (Inhalt: Bildname) der Reihe nach ab: führt `Desktop/PrüfFit/blender/<name>.py` aus (lib.py + Szene + render nach `blender/out/<name>.webp`, Fehler in `out/<name>.err`). Ablauf: Skript bauen (Vorlage: `tools/blender/*.py`, Runner-Muster: try/except mit `.ok`/`.err`), mit `device_commit_files` ablegen – **danach Inhalt per `device_bash` (grep) prüfen, die Ablage ist manchmal einige Sekunden verzögert** –, Job-Datei per `device_bash` schreiben, ~10 s warten, Bild mit `device_stage_files` holen und ansehen. Läuft der Watcher nicht (Blender neu gestartet), steht nichts in `out/`: dann per Blender-MCP (`execute_blender_code`, falls Add-on installiert) `exec(open('/Users/testfg/Desktop/PrüfFit/blender/watcher.py').read())` ausführen; sonst überspringen und im Protokoll vermerken.
 
-Erledigt im Abendlauf 24.11.: virtualisierung, cloud-modelle, dns-aufloesung (2.16.3); vpn-tunnel, netzplan-kritischer-pfad, projekt-phasen (2.16.4); patchpanel-verkabelung, stromversorgung-rack, wlan-ausleuchtung (2.16.5); ipv6-adresse, nat-pat, verschluesselung (2.16.6); dhcp-dora, 802-1x, stp-schleife (2.16.7); Bildbetrachter (2.16.8); digitale-signatur, backup-arten, nas-san (2.16.9); verfuegbarkeit, agdlp, itil-prozesse (2.16.10); vlsm-plan, routing-tabelle, snmp-monitoring (2.16.11); break-even, abschreibung-linear, nutzwertanalyse (2.16.12); epk, gantt, kanban (2.16.13); zahlensysteme, er-modell, kapselung (2.16.14); firewall-regeln, vlan-tag, zertifikatskette (2.16.15); usv-ueberbrueckung, poe-budget, osi-geraete (2.16.16); cal-lizenzen, ad-struktur, sla-zeiten (2.16.17); phishing-merkmale, leasing-kauf, mfa-faktoren (2.16.18); ip-bereiche, raid-hotspare, ssh-schluessel (2.16.19); pue, dns-records (2.16.20).
+Erledigt im Abendlauf 24.11.: virtualisierung, cloud-modelle, dns-aufloesung (2.16.3); vpn-tunnel, netzplan-kritischer-pfad, projekt-phasen (2.16.4); patchpanel-verkabelung, stromversorgung-rack, wlan-ausleuchtung (2.16.5); ipv6-adresse, nat-pat, verschluesselung (2.16.6); dhcp-dora, 802-1x, stp-schleife (2.16.7); Bildbetrachter (2.16.8); digitale-signatur, backup-arten, nas-san (2.16.9); verfuegbarkeit, agdlp, itil-prozesse (2.16.10); vlsm-plan, routing-tabelle, snmp-monitoring (2.16.11); break-even, abschreibung-linear, nutzwertanalyse (2.16.12); epk, gantt, kanban (2.16.13); zahlensysteme, er-modell, kapselung (2.16.14); firewall-regeln, vlan-tag, zertifikatskette (2.16.15); usv-ueberbrueckung, poe-budget, osi-geraete (2.16.16); cal-lizenzen, ad-struktur, sla-zeiten (2.16.17); phishing-merkmale, leasing-kauf, mfa-faktoren (2.16.18); ip-bereiche, raid-hotspare, ssh-schluessel (2.16.19); pue, dns-records (2.16.20); dhcp-relay, tls-handshake (2.16.21).
 
 Offen, der Reihe nach (je Bild: Szene, rendern, ansehen und korrigieren bis lesbar und fachlich richtig, ≤ 150 KB, Lernzettel-Zeile, 1 Frage mit `image`, Abkürzungen ins Glossar oder vermeiden):
-1. dhcp-relay (DHCP über Router-Grenzen, IP-Helper) – netzwerke.dienste
-2. raid6-vs-raid10 (Ausfallszenarien) – hardware.raid
-3. tls-handshake (vereinfacht: Zertifikat, Schlüsselaustausch, verschlüsselte Daten) – sicherheit.kryptografie
-4. ransomware-schutz (Angriffskette und Gegenmaßnahmen) – sicherheit.angriffe
-5. bab-zuschlagskalkulation (Gemeinkosten-Zuschläge) – wirtschaft.klr
-6. nach Ermessen weitere FISI/KITS-Themen
+1. raid6-vs-raid10 (Ausfallszenarien) – hardware.raid
+2. ransomware-schutz (Angriffskette und Gegenmaßnahmen) – sicherheit.angriffe
+3. bab-zuschlagskalkulation (Gemeinkosten-Zuschläge) – wirtschaft.klr
+4. nach Ermessen weitere FISI/KITS-Themen
 
 Hilfsmittel im Abendlauf: `device_commit_files` liest eine eben neu geschriebene Datei manchmal noch in der alten Fassung – deshalb jede Fassung unter eindeutigem Namen ablegen (`v/<name>.<zeit>.py`) und nach dem Ablegen die md5 auf dem Mac prüfen. Job-Skripte laden `lib.py` vom Mac (`exec(open(_D + 'lib.py').read(), globals())`), daher reicht pro Bild die Szene; die Dateiansicht in `device_bash` hinkt manchmal hinterher – Prüfsumme (md5) vergleichen, bevor der Job gestartet wird. Unit-Tests ohne npm-Registry: kleiner vitest-Ersatz in `node_modules/vitest` (nicht im Repo).
 
 ### Nachtprotokoll
 | Datum | Lauf | Start | Ende | Ist | Ergebnis |
 |---|---|---|---|---|---|
-| 24.11.2026 | Abendlauf 3D-Bilder (Fortsetzung 2) | 20:13 | 20:40 | 27 Min. | 14 Bilder + 14 Bildfragen (2.16.16–2.16.20), MFA präzisiert, Kontingentregeln (Woche bis 100 %, Sitzung bis ca. 95 %, claude.ai-Prüfung ohne Rückfrage) in CLAUDE.md und Nachtbetrieb. Pausiert bei Sitzung ca. 88 %, Woche 55 %. |
+| 24.11.2026 | Abendlauf 3D-Bilder (Fortsetzung 2) | 20:13 | 20:45 | 32 Min. | 16 Bilder + 16 Bildfragen (2.16.16–2.16.21), MFA präzisiert, Kontingentregeln (Woche bis 100 %, Sitzung bis ca. 95 %, claude.ai-Prüfung ohne Rückfrage) in CLAUDE.md und Nachtbetrieb. Pausiert bei Sitzung ca. 92 %, Woche 56 % (Sitzungs-Reset 22:40). |
 | 24.11.2026 | Abendlauf 3D-Bilder (Fortsetzung) | 18:40 | 19:20 | 40 Min. | Bildbetrachter in der App (2.16.8), 21 Bilder + 21 Bildfragen (2.16.9–2.16.15), Präzisierungen Signatur/SAN/Firewall, Timer-Test stabil. Pausiert bei Sitzung 68 %, Woche 51 %; weiter mit dem Bilder-Backlog im Lauf „3D-Bilder“ (02:13). |
 | 24.11.2026 | Abendlauf 3D-Bilder | 17:50 | 18:30 | 40 Min. | 15 Blender-Bilder + 15 Bildfragen (2.16.3–2.16.7): Bilder-Backlog leer, dazu IPv6, NAT/PAT, Verschlüsselung, DHCP, 802.1X, STP; Präzisierungen Cloud-Modelle, hybride Verschlüsselung, DHCP. Unit-Tests (Ersatz-Runner, 774) und Browsertests Chromium grün. |
 | 24.11.2026 | Tag-Auftrag 3D-Bilder 2 | 11:22 | 11:50 | ca. 28 Min. | 8 Bilder (2.16.1: OSI, LWL-Stecker, DMZ, VLAN, 3-2-1; 2.16.2: RAID-Vergleich, Subnetting-Baum, TCP-Handshake) + 8 Bildfragen; zuerst 5 Bilder (OSI, LWL-Stecker, DMZ, VLAN, 3-2-1) + 5 Bildfragen (2.16.1); Blender-Watcher eingerichtet (Aufträge ohne Bildschirmsteuerung). |
