@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.11] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere 3D-Bilder (FISI):** VLSM-Adressplan als Adressbalken („VLSM, Supernetting und Adressplanung“), Routingtabelle mit Longest Prefix Match („Routing, NAT und Fehlersuche“), SNMP-Polling und Trap („Serverbetrieb, Monitoring“), dazu 3 Bildfragen (net-0141 offene Aufgabe mit Bewertungsraster, net-0142, hw-0108).
+
 ## [2.16.10] – 2026-11-24
 
 ### Hinzugefügt
