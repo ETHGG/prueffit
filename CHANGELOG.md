@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.12] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere Bilder (KITS/Wirtschaft):** Gewinnschwelle (Break-even) mit Fixkosten, Gesamtkosten und Erlösen („Kosten- und Leistungsrechnung“), lineare Abschreibung als Säulen („Anschaffungskosten, Abschreibung“), Nutzwertanalyse als gestapelte Balken („Angebotsvergleich und Nutzwertanalyse“), dazu 3 Bildfragen (wi-0216, wi-0217, wi-0218).
+
 ## [2.16.11] – 2026-11-24
 
 ### Hinzugefügt
