@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.20] – 2026-11-24
+
+### Hinzugefügt
+- **2 weitere Bilder:** Energieverteilung und PUE eines Rechenzentrums („Nachhaltigkeit und Green IT“), DNS-Einträge einer Zone („Protokolle, Dienste und Ports“), dazu 2 Bildfragen (hw-0111, net-0149).
+
 ## [2.16.19] – 2026-11-24
 
 ### Hinzugefügt

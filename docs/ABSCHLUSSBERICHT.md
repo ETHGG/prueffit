@@ -1,3 +1,10 @@
+# Kurzbericht 2.16.16–2.16.20 (Abendlauf „3D-Bilder“, Fortsetzung 2, 24.11.2026, 20:13–20:40)
+
+- **14 neue Bilder mit Bildfragen:** USV-Überbrückung, PoE-Budget, Netzgeräte nach OSI, CAL-Lizenzen, AD-Struktur, SLA-Zeiten, Phishing-Merkmale (fiktive Bank), Leasing/Kauf, MFA-Faktoren, IPv4-Bereiche, RAID mit Hot-Spare, SSH-Schlüssel, PUE, DNS-Einträge.
+- **Präzisiert:** MFA (Faktoren aus verschiedenen Kategorien), SSH-Härtung als Lernzettel-Zeile.
+- **Regeln:** Kontingent über claude.ai jederzeit ohne Rückfrage prüfen; Woche bis 100 %, Sitzung bis ca. 95 % nutzen (CLAUDE.md Regel 7, Nachtbetrieb).
+- **Tests:** Unit (Ersatz-Runner, 774) und Browsertests Chromium Desktop + iPhone SE grün.
+
 # Kurzbericht 2.16.8–2.16.15 (Abendlauf „3D-Bilder“, Fortsetzung, 24.11.2026, 18:40–19:20)
 
 - **Bildbetrachter (2.16.8):** Bilder in Lernzetteln und Fragen öffnen in der App (Vergrößern/Schließen, Escape), statt in einem neuen Fenster, das sich in der Home-Bildschirm-App nicht schließen ließ; Browsertest dazu.
