@@ -150,6 +150,7 @@ prueffit/
 │       ├── statsView.js
 │       ├── readiness.js      # Prüfungsreife je Prüfungsbereich (seit 2.10), Verlauf (seit 2.12)
 │       ├── weekPlan.js       # Wochenplan bis zur Prüfung auf der Startseite (seit 2.12)
+│       ├── learnCalendar.js  # Lernkalender in der Statistik (seit 2.20)
 │       ├── examView.js
 │       ├── projectView.js    # #/projekt (seit 2.3)
 │       ├── formulasView.js   # #/formeln (seit 2.9)
@@ -276,6 +277,7 @@ Weitere Schlüssel: `prueffit.exam` (laufende Prüfung), `prueffit.project` (`ch
 - Verlauf der Prüfungsreife (seit 2.12, `recordReadinessSnapshot`): je Kalenderwoche (Montag, Europe/Berlin) ein Eintrag `{ week, parts: { <bereich>: { percent, grade } } }` mit dem letzten Stand; nur Bereiche mit Schätzung; max. 52 Wochen; Feld `readinessHistory` im Fortschritt ohne Schema-Wechsel, ungültige Einträge werden verworfen.
 - „Heute üben“: die **3 Themen mit der niedrigsten Quote** (nur Themen mit ≥ 5 Versuchen), sonst ungeübte Themen.
 - Lernserie: zählt Tage in Folge mit mindestens einer beantworteten Frage oder Karte.
+- Lernkalender (seit 2.20, `activityCalendar`): letzte 13 Wochen (Mo–So) aus `daily`; Stufe je Tag nach Tagesziel: 0 = nichts, 1 = unter der Hälfte, 2 = mindestens die Hälfte, 3 = erreicht, 4 = mindestens doppelt; zukünftige Tage und Tage vor den gespeicherten 90 Tagen ohne Wert.
 - Wiederholung (seit 2.6, `nextRetry`/`dueRetryIds`): falsch → fällig nach 1 Tag; richtig am oder nach dem Fälligkeitstag → nach 3, dann 7 Tagen; danach gemeistert; falsch → zurück auf 1 Tag. Richtig vor dem Fälligkeitstag ändert nichts. Fehler ohne Zeitplan (vor 2.6) gelten als fällig.
 
 ### 6.3 Prüfungssimulation
@@ -352,7 +354,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 |---|---|
 | `grading.test.js` | alle 6 Fragetypen, Teilpunkte, Toleranz bei `number`, ungültige Eingaben |
 | `leitner.test.js` | Aufstieg, Rückfall auf Fach 1, max. Fach 5, Fälligkeit, Monats-/Jahreswechsel |
-| `stats.test.js` | Quote, Ampelgrenzen (49/50, 79/80 %), < 5 Versuche = grau, „Heute üben“, Lernserie inkl. Unterbrechung, Prüfungsreife (Gewichtung, Glättung, Simulationen, „zu wenig Daten“, Potenzial), Verlauf (Wochenschnappschuss, Ersetzen, Begrenzung, ungültige Werte) |
+| `stats.test.js` | Quote, Ampelgrenzen (49/50, 79/80 %), < 5 Versuche = grau, „Heute üben“, Lernserie inkl. Unterbrechung, Prüfungsreife (Gewichtung, Glättung, Simulationen, „zu wenig Daten“, Potenzial), Verlauf (Wochenschnappschuss, Ersetzen, Begrenzung, ungültige Werte), Lernkalender (Stufen, Wochenraster, Zukunft/zu alt, Jahreswechsel; seit 2.20) |
 | `exam.test.js` | Notenschlüssel an allen Grenzen (29/30, 49/50, 66/67, 80/81, 91/92), Rundung, Zeitablauf, Tabellenaufgabe in jedem schriftlichen Teil (auch mit echten Daten je Beruf) |
 | `storage.test.js` | leerer Speicher, defektes JSON, Migration, Backup wird angelegt, `readinessHistory` (seit 2.12) |
 | `schedule.test.js` | Prüfungstermine, Lernplan, Datensicherungs-Erinnerung, Wochenbeginn und Wochenplan (Wochengrenzen Europe/Berlin, kein Termin, Prüfung in < 1 Woche, sehr viele Themen; seit 2.12), Kalenderdatei (Ereignisse, exklusives Ende, Escaping, Faltung ≤ 75 Byte, feste UIDs; seit 2.18) |
@@ -411,6 +413,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.17** | Erklärung zu jeder Antwortmöglichkeit (`optionNotes`), alle Auswahlfragen für FISI/KITS | erledigt |
 | **2.18** | Wochenplan als Kalenderdatei (.ics) | erledigt |
 | **2.19** | Skizzen (SVG) in Lernzetteln | erledigt |
+| **2.20** | Lernkalender (Aktivität pro Tag) in der Statistik | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

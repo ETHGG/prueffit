@@ -847,3 +847,17 @@ details.transfer-fold > * + * { margin-top: .6rem; }
 .qr-box figcaption { margin-top: .4rem; }
 .transfer-notice { background: var(--partial-bg); color: var(--partial); padding: .6rem .75rem; border-radius: 8px; }
 .fold-heading { margin: 0; font-size: 1.2rem; }
+
+/* Lernkalender (since 2.20) */
+.cal-grid { display: grid; grid-template-columns: 1.6rem repeat(var(--cal-weeks, 13), minmax(0, 1fr)); gap: 3px; margin: .5rem 0; max-width: 32rem; }
+.cal-month, .cal-weekday { font-size: .68rem; color: var(--muted); line-height: 1; white-space: nowrap; overflow: visible; }
+.cal-weekday { align-self: center; }
+.cal-day { display: block; aspect-ratio: 1; border-radius: 3px; background: var(--surface-2); border: 1px solid var(--border); min-width: 0; }
+.cal-day.lvl-1 { background: color-mix(in srgb, var(--primary) 25%, var(--surface)); border-color: transparent; }
+.cal-day.lvl-2 { background: color-mix(in srgb, var(--primary) 50%, var(--surface)); border-color: transparent; }
+.cal-day.lvl-3 { background: color-mix(in srgb, var(--primary) 78%, var(--surface)); border-color: transparent; }
+.cal-day.lvl-4 { background: var(--primary); border-color: var(--text); }
+.cal-day.is-future { background: transparent; border-style: dashed; opacity: .5; }
+.cal-day.is-outside { background: transparent; border-color: transparent; }
+.cal-legend { display: flex; align-items: center; gap: 4px; font-size: .75rem; color: var(--muted); margin-bottom: .5rem; }
+.cal-legend .cal-day { width: .9rem; }

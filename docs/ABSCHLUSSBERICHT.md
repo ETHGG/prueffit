@@ -1,3 +1,9 @@
+# Kurzbericht 2.20.0 (Nachtbetrieb Lauf 1, Fortsetzung, 25.11.2026)
+
+- **Funktion (Backlog 5):** Lernkalender als eingeklappter Bereich in der Statistik direkt unter „Gesamt“ (kein neuer Tab, Startseite unverändert). Logik `activityCalendar` in `js/stats.js`, Anzeige `js/ui/learnCalendar.js`.
+- **Annahmen:** 13 Wochen, weil `daily` nur 90 Tage speichert (keine Schema-Änderung nötig); Farbstufen relativ zum eigenen Tagesziel statt absoluter Zahlen.
+- **Geprüft:** iPhone SE hell/dunkel ohne Überlaufen, Kontrast der Texte unverändert (Kästchen sind Grafik; Werte stehen im Titel und in der Beschreibung).
+
 # Kurzbericht 2.19.0 (Nachtbetrieb Lauf 1, Fortsetzung, 25.11.2026)
 
 - **Funktion (Backlog 4):** SVG-Skizzen in Lernzetteln über die vorhandene Bildzeile (`skizze-…` → `.svg`), 6 Skizzen (Einheiten, Risikomatrix, V-Modell, Kaufvertrag, Kalkulation, UML-Klassendiagramm) per Skript `tools/sketches/build.py`, im Browser auf iPhone-SE-Breite angesehen.

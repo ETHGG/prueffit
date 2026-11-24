@@ -131,6 +131,56 @@ export function pruneDaily(daily, today, keepDays = 90) {
   return Object.fromEntries(Object.entries(daily ?? {}).filter(([day]) => day >= oldest && day <= today));
 }
 
+// ---- Lernkalender (seit 2.20) ----
+
+export const CALENDAR_WEEKS = 13; // ≈ the 90 days kept in `daily`
+
+/** Intensity 0–4 of a day relative to the daily goal: none, < ½ goal, < goal, goal reached, ≥ 2 × goal. */
+export function activityLevel(count, goal) {
+  if (!(count > 0)) return 0;
+  const g = goal > 0 ? goal : 1;
+  if (count >= 2 * g) return 4;
+  if (count >= g) return 3;
+  return count * 2 >= g ? 2 : 1;
+}
+
+/**
+ * Activity per day as calendar grid (Monday–Sunday columns, oldest week first), for the last
+ * `weeks` weeks up to the week of `today` (Europe/Berlin days). Days after today are `future`,
+ * days before the kept 90 days are `outside` (no data). Pure, no DOM.
+ * @returns {{ weeks: { start: string, days: { day, count, level, future, outside }[] }[],
+ *   activeDays: number, total: number, goalDays: number, best: { day, count } | null, average: number }}
+ */
+export function activityCalendar(daily, today, goal, weeks = CALENDAR_WEEKS) {
+  const first = addDays(weekStart(today), -7 * (weeks - 1));
+  const oldestKept = addDays(today, -89);
+  const grid = [];
+  let activeDays = 0;
+  let total = 0;
+  let goalDays = 0;
+  let best = null;
+  for (let w = 0; w < weeks; w++) {
+    const start = addDays(first, 7 * w);
+    const days = [];
+    for (let d = 0; d < 7; d++) {
+      const day = addDays(start, d);
+      const future = day > today;
+      const outside = day < oldestKept;
+      const raw = daily?.[day];
+      const count = !future && !outside && Number.isInteger(raw) && raw > 0 ? raw : 0;
+      if (count > 0) {
+        activeDays += 1;
+        total += count;
+        if (goal > 0 && count >= goal) goalDays += 1;
+        if (!best || count > best.count) best = { day, count };
+      }
+      days.push({ day, count, level: activityLevel(count, goal), future, outside });
+    }
+    grid.push({ start, days });
+  }
+  return { weeks: grid, activeDays, total, goalDays, best, average: activeDays ? Math.round(total / activeDays) : 0 };
+}
+
 // ---- Fehler wiederholen (v1.0) ----
 
 /**

@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.20.0] – 2026-11-25
+
+### Hinzugefügt
+- **Lernkalender** (Funktions-Backlog Punkt 5): In der Statistik zeigt der eingeklappte Bereich „Lernkalender“ die letzten 13 Wochen als Raster (Mo–So, Monatsnamen), jedes Kästchen ein Tag, Farbe nach dem Tagesziel (unter der Hälfte, mindestens die Hälfte, erreicht, doppelt). In der Zusammenfassung: Lerntage und wie oft das Tagesziel erreicht wurde; aufgeklappt: Aufgaben insgesamt, Schnitt pro Lerntag, bester Tag. Antippen/Zeigen eines Tages nennt Datum und Anzahl; für Screenreader eine Beschreibung des ganzen Rasters.
+- Reine Funktionen `activityCalendar` und `activityLevel` in `js/stats.js` (Wochengrenzen Europe/Berlin, Jahreswechsel, nur die gespeicherten 90 Tage, defekte Einträge verworfen) mit Tests; Browsertest `e2e/learnCalendar.spec.js` (auch iPhone SE und dunkel).
+
 ## [2.19.0] – 2026-11-25
 
 ### Hinzugefügt

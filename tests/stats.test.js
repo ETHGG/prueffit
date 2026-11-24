@@ -3,7 +3,8 @@ import {
   hitRate, trafficLight, topicStats, overallStats, practiceSuggestions, areaStats,
   updateStreak, currentStreak, dailyProgress, pruneDaily, isMistake, mistakeIds, dailyPlan,
   nextRetry, dueRetryIds, isValidRetry, RETRY_INTERVALS, examReadiness, examPercentForPart,
-  normalizeReadinessHistory, recordReadinessSnapshot, readinessSeries, READINESS_HISTORY_MAX } from '../js/stats.js';
+  normalizeReadinessHistory, recordReadinessSnapshot, readinessSeries, READINESS_HISTORY_MAX,
+  activityLevel, activityCalendar, CALENDAR_WEEKS } from '../js/stats.js';
 
 describe('hitRate', () => {
   it('is correct / attempts', () => {
@@ -473,5 +474,48 @@ describe('Verlauf der Prüfungsreife (2.12)', () => {
       { id: 'ap1', values: [40, 52], grades: [5, 4] },
       { id: 'wiso', values: [null, 70], grades: [null, 3] },
     ]);
+  });
+});
+
+describe('Lernkalender (seit 2.20)', () => {
+  it('activityLevel: 0 none, 1 below half the goal, 2 below the goal, 3 goal reached, 4 twice the goal', () => {
+    expect([0, 1, 9, 10, 19, 20, 39, 40, 100].map((c) => activityLevel(c, 20))).toEqual([0, 1, 1, 2, 2, 3, 3, 4, 4]);
+    expect(activityLevel(-3, 20)).toBe(0);
+    expect(activityLevel(1, 0)).toBe(3); // without a goal any activity counts as reached
+  });
+
+  it('builds Monday–Sunday weeks ending with the current week, future days marked', () => {
+    // Wednesday 25.11.2026
+    const cal = activityCalendar({}, '2026-11-25', 20);
+    expect(cal.weeks).toHaveLength(CALENDAR_WEEKS);
+    expect(cal.weeks.at(-1).start).toBe('2026-11-23');
+    expect(cal.weeks[0].start).toBe('2026-08-31');
+    expect(cal.weeks.every((w) => w.days.length === 7)).toBe(true);
+    const last = cal.weeks.at(-1).days;
+    expect(last.map((d) => d.future)).toEqual([false, false, false, true, true, true, true]);
+    expect(cal).toMatchObject({ activeDays: 0, total: 0, goalDays: 0, best: null, average: 0 });
+  });
+
+  it('counts active days, goal days, the best day and the average; ignores future, too old and broken entries', () => {
+    const daily = {
+      '2026-11-25': 25, '2026-11-24': 10, '2026-11-20': 45, '2026-11-26': 99, // future: ignored
+      '2026-08-27': 50, // older than the 90 kept days (from 28.08.): ignored
+      '2026-11-01': 'x', '2026-11-02': -4, '2026-11-03': 2.5, // broken: ignored
+    };
+    const cal = activityCalendar(daily, '2026-11-25', 20, 14);
+    expect(cal).toMatchObject({ activeDays: 3, total: 80, goalDays: 2, best: { day: '2026-11-20', count: 45 }, average: 27 });
+    const day = (d) => cal.weeks.flatMap((w) => w.days).find((x) => x.day === d);
+    expect(day('2026-11-20')).toMatchObject({ count: 45, level: 4 });
+    expect(day('2026-11-24')).toMatchObject({ count: 10, level: 2 });
+    expect(day('2026-11-26')).toMatchObject({ count: 0, future: true });
+    expect(day('2026-08-27')).toMatchObject({ count: 0, outside: true });
+    expect(day('2026-08-28')).toMatchObject({ outside: false });
+  });
+
+  it('works across year ends and with a custom number of weeks', () => {
+    const cal = activityCalendar({ '2027-01-01': 5 }, '2027-01-03', 20, 2); // Sunday
+    expect(cal.weeks.map((w) => w.start)).toEqual(['2026-12-21', '2026-12-28']);
+    expect(cal.weeks.at(-1).days.every((d) => !d.future)).toBe(true);
+    expect(cal.activeDays).toBe(1);
   });
 });
