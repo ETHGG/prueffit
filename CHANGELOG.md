@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.20.1] – 2026-11-25
+
+### Hinzugefügt
+- **Erklärung zu jeder Antwortmöglichkeit jetzt für alle Berufe:** die übrigen 111 Auswahlfragen (FIAE, FIDPA, FIDV, ITSE, KDM; Bereiche Elektro, Daten, Vernetzung) haben Erklärungen zu jeder falschen Option – damit alle 565 Auswahlfragen. `data.test.js` prüft die Vollständigkeit für alle Fragen.
+
+### Geändert
+- Präzisierungen beim Gegenlesen: abgeschnittene Achse lässt den Unterschied sechsmal so groß wirken, „Säulendiagramm“ in der Frage (dat-0030); Prozesseffizienz statt uneinheitlich definiertem „Flussgrad“ (dat-0031); USV-Reserve bezogen auf die Wirkleistung und Herstellerempfehlung zur Dauerlast (el-0025); Drei-Werte-Grenzwertanalyse als Variante (prog-0050); User-Story-Muster mit zusätzlichen Akzeptanzkriterien (prog-0091); `GROUP BY k.id, k.titel`, damit gleichnamige Kurse nicht zusammengezählt werden (prog-0104).
+
 ## [2.20.0] – 2026-11-25
 
 ### Hinzugefügt

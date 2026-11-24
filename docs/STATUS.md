@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.20.0 (25.11.2026)
+**Aktuelle Version:** 2.20.1 (25.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -31,7 +31,7 @@ Regeln für alle Nachtläufe:
 
 ### Funktions-Backlog (Lauf 23:13, der Reihe nach)
 1. Unbegrenzte Rechenaufgaben (Generator: Subnetting/VLSM, Binär/Hex, Speicher/Übertragungszeit, Kalkulation, Abschreibung, Nutzwert, Kennzahlen) – erledigt (2.13.0)
-2. Erklärung zu jeder falschen Antwortmöglichkeit (Datenfeld + Anzeige; FISI/KITS zuerst) – erledigt (2.17.0: Feld `optionNotes`, alle 454 Auswahlfragen für FISI/KITS; offen als Ausbau: übrige Berufe – Elektro, Daten, Vernetzung und AP2-Fragen nur für FIAE/FIDPA/FIDV/ITSE/KDM)
+2. Erklärung zu jeder falschen Antwortmöglichkeit (Datenfeld + Anzeige; FISI/KITS zuerst) – erledigt (2.17.0: Feld `optionNotes`, alle 454 Auswahlfragen für FISI/KITS; übrige Berufe in 2.20.1 ergänzt: alle 565 Auswahlfragen)
 3. Wochenplan als Kalenderdatei (.ics) für den iPhone-Kalender – erledigt (2.18.0)
 4. Skizzen in Lernzetteln (SVG: Netzwerkplan, OSI, ER, Ablauf) – erledigt (2.19.0: SVG-Skizzen `skizze-*`, 6 Skizzen für Themen ohne Bild; Netzwerkplan/OSI/ER/Abläufe gibt es seit 2.16 als Bilder; weitere Skizzen mit `tools/sketches/build.py`)
 5. Lernkalender (Aktivität pro Tag als Raster in der Statistik) – erledigt (2.20.0)

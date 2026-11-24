@@ -1,6 +1,6 @@
 {
   "name": "prueffit",
-  "version": "2.20.0",
+  "version": "2.20.1",
   "description": "PrüfFit – AP1/AP2-Lerntrainer für IT-Azubis als offline-fähige PWA",
   "private": true,
   "type": "module",
