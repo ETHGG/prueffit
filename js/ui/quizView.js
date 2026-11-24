@@ -1,6 +1,7 @@
 // Quiz screen: setup -> one question per screen with instant feedback -> summary.
 
 import { EXAMS, QUIZ_SIZES, DEFAULT_QUIZ_SIZE, SUPPORTED_QUIZ_TYPES, AREAS } from '../config.js';
+import { questionFigure } from './figure.js';
 import { jobById } from '../curriculum.js';
 import { sectionKey, inSelection, catalogSections, examHeading } from '../jobCatalog.js';
 import { filterQuestions, pickFresh, shuffle, issueUrl } from '../questions.js';
@@ -614,6 +615,7 @@ function drawQuestion(root, ctx, draw, topicById) {
         h('span', { class: 'tag', text: `${formatNumber(q.points)} ${q.points === 1 ? 'Punkt' : 'Punkte'}` }),
         h('span', { class: 'tag', text: isGeneratedId(q.id) ? 'Rechentraining' : q.exam.join(' / ') })),
       h('h2', { class: 'question-text', text: q.question }),
+      questionFigure(q),
       form),
   );
 

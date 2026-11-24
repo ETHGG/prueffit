@@ -139,6 +139,11 @@ export function validateQuestion(q, topicIds = new Set()) {
   if (q.explanation !== undefined && !isNonEmptyString(q.explanation)) errors.push('explanation: darf nicht leer sein');
   if (q.points !== undefined && !(Number.isFinite(q.points) && q.points > 0)) errors.push('points: muss > 0 sein');
   if (q.source !== undefined && !isNonEmptyString(q.source)) errors.push('source: muss Text sein');
+  if (q.image !== undefined) {
+    // Since 2.16: optional picture above the question, same files as the notes (img/notes/<name>.webp).
+    if (!isPlainObject(q.image) || !/^[a-z0-9-]+$/.test(q.image.name ?? '')) errors.push('image: name fehlt oder hat ein falsches Format');
+    else if (!isNonEmptyString(q.image.alt) || q.image.alt.trim().length < 15) errors.push('image: Bildbeschreibung (alt) zu kurz');
+  }
   validateJobs(q, errors);
   if (q.type !== undefined && !QUESTION_TYPES.includes(q.type)) {
     errors.push(`type: unbekannter Fragetyp "${q.type}"`);

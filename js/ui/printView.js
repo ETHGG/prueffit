@@ -10,6 +10,7 @@
 //                                     printable exam simulation with solution sheet (since 2.11)
 
 import { h, append, formatNumber } from './dom.js';
+import { questionFigure } from './figure.js';
 import { APP_VERSION } from '../config.js';
 import { loadCatalog } from '../questions.js';
 import { renderNoteContent } from './notesView.js';
@@ -213,6 +214,7 @@ function renderExamTasks(catalog, px, job, params) {
           h('div', { class: 'q-head' },
             h('span', { class: 'q-number', text: tasks.length > 1 ? `${ti + 1}.${qi + 1}` : `${qi + 1}.` }),
             h('p', { class: 'q-text', text: q.question }),
+            questionFigure(q),
             h('span', { class: 'q-points', text: `${q.points} P.` })),
           h('p', { class: 'q-hint', text: answerHint(q) }),
           answerArea(q, layout.get(q.id)));

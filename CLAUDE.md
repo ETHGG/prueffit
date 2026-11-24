@@ -85,6 +85,8 @@ prueffit/
 │   ├── build-pdfs.mjs        # npm run pdfs: PDFs aus print.html erzeugen (Playwright)
 │   └── pdf-hash.mjs          # Prüfsumme der PDF-Quellen
 ├── icons/                    # PWA-Icons 192/512, apple-touch-icon 180
+├── img/notes/                # gerenderte Abbildungen (WebP, ≤ 150 KB) für Lernzettel, Situationen und Fragen (seit 2.16)
+├── tools/blender/            # Blender-Skripte, aus denen die Abbildungen entstehen (seit 2.16)
 ├── vendor/
 │   └── chart.umd.min.js
 ├── data/
@@ -208,7 +210,7 @@ prueffit/
 | `table` (seit 2.9) | `{ "rows": [{ "label": "…", "given": "1.000,00" }, { "label": "…", "value": 100, "tolerance": 0.01 }], "unit": "€", "columns": ["Position", "Betrag"] }` | Vorgabeblatt ausfüllen: Teilpunkte pro richtiger Zelle (mind. 2 offene Zellen) |
 
 **Pflichtfelder:** `id`, `exam`, `topic`, `difficulty` (1–3), `type`, `question`, `answer`, `points`, `explanation`.
-**Optional:** `source`, `jobs` (nur bei AP2-Inhalten: Array aus `fiae`, `fisi`, `fidpa`, `fidv`, `itse`, `kits`, `kdm`; jeder genannte Beruf muss das Thema in seiner AP2 haben).
+**Optional:** `source`, `image` (seit 2.16: `{ "name": "rj45", "alt": "Bildbeschreibung ≥ 15 Zeichen" }`, Datei `img/notes/<name>.webp`), `jobs` (nur bei AP2-Inhalten: Array aus `fiae`, `fisi`, `fidpa`, `fidv`, `itse`, `kits`, `kdm`; jeder genannte Beruf muss das Thema in seiner AP2 haben).
 **Zuordnung (seit 2.0):** AP1 gilt für alle Berufe, aber nur für Themen des AP1-Katalogs 2025 (`AP1_SECTIONS`). AP2 ist berufsspezifisch (`AP2_PARTS`), WiSo gilt für alle. Inhalte, die seit 2025 nicht mehr in der AP1 sind (SQL, RAID, PAP, Struktogramm …), stehen nur noch in der AP2 passender Berufe. `data.test.js` prüft die Zuordnung.
 `id` muss **global eindeutig** sein, `topic` muss in `topics.json` existieren.
 
@@ -221,7 +223,7 @@ prueffit/
 ```json
 { "id": "note-raid", "topic": "hardware.raid", "title": "RAID-Level und Speicher", "content": "## Übersicht\n| RAID | … |", "source": "eigene", "refs": ["Deine Notizen: …"] }
 ```
-Genau **ein Lernzettel pro Thema**. `content` ist ein Markdown-Teilumfang (`##`/`###`, Absätze, `-`/`1.`-Listen, Tabellen, ``` ``` ```-Code, `>`-Merksatz, `**fett**`, `` `code` ``), gerendert ohne innerHTML (`js/notes.js`). `refs` (optional) nennt die Grundlage.
+Genau **ein Lernzettel pro Thema**. `content` ist ein Markdown-Teilumfang (`##`/`###`, Absätze, `-`/`1.`-Listen, Tabellen, ``` ``` ```-Code, `>`-Merksatz, `**fett**`, `` `code` ``, seit 2.16 Bilder als eigene Zeile `![Bildbeschreibung](name "Bildunterschrift")` mit `name` aus `[a-z0-9-]`), gerendert ohne innerHTML (`js/notes.js`). `refs` (optional) nennt die Grundlage.
 
 ### 5.3b Abkürzung (`data/glossary.json`, seit 0.9)
 ```json
@@ -402,6 +404,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.13** | Rechentraining: unbegrenzt erzeugte Rechenaufgaben (Subnetting, Zahlensysteme, Speicher/Übertragung, Kalkulation, Abschreibung, Nutzwert, Kennzahlen) | erledigt |
 | **2.14** | Fachgespräch üben mit Timer, Erwartungshorizont und Selbsteinschätzung; Suche über alles (`#/suche`) | erledigt |
 | **2.15** | Fortschritt übertragen (Sicherung teilen, Link/QR-Code ohne Server mit Vorschau); Tabellenaufgabe in jedem schriftlichen Bereich aller 7 Berufe | erledigt |
+| **2.16** | 3D-Bilder (Blender) in Lernzetteln und Fragen mit Bild | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

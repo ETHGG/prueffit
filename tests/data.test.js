@@ -389,6 +389,12 @@ describe('pictures in notes and scenarios (2.16)', () => {
   ];
   const used = new Map();
   for (const t of texts) for (const name of noteImages(t.md)) used.set(name, [...(used.get(name) ?? []), t.id]);
+  for (const f of questionFiles) for (const q of parsed.get(f)) if (q.image) used.set(q.image.name, [...(used.get(q.image.name) ?? []), q.id]);
+
+  it('every line starting with "![" is a valid picture (no typo turns it into text)', () => {
+    const broken = texts.filter((t) => t.md.split('\n').some((l) => l.trim().startsWith('![')) && !t.md.split('\n').filter((l) => l.trim().startsWith('![')).every((l) => noteImages(l).length === 1)).map((t) => t.id);
+    expect(broken).toEqual([]);
+  });
 
   it('every referenced picture exists as img/notes/<name>.webp', () => {
     const missing = [...used.keys()].filter((name) => !existsSync(join(IMG_DIR, `${name}.webp`)));

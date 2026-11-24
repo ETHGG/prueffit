@@ -372,3 +372,15 @@ describe('pickFresh (2.10.7: a new quiz round does not repeat the last one)', ()
     expect(pickFresh([], 5)).toEqual([]);
   });
 });
+
+describe('question pictures (2.16)', () => {
+  const base = { id: 'x', exam: ['AP1'], topic: 't', difficulty: 1, type: 'single', question: 'Was ist markiert?', options: ['a', 'b'], answer: 0, points: 1, explanation: 'weil' };
+  const topics = new Set(['t']);
+  it('accepts a picture with name and a meaningful alt text', () => {
+    expect(validateQuestion({ ...base, image: { name: 'serverschrank', alt: 'Netzwerkschrank mit Patchpanel und Switch' } }, topics)).toEqual([]);
+  });
+  it('rejects unsafe names and short alt texts', () => {
+    expect(validateQuestion({ ...base, image: { name: '../x', alt: 'Netzwerkschrank mit Patchpanel' } }, topics).join()).toContain('image');
+    expect(validateQuestion({ ...base, image: { name: 'rack', alt: 'Bild' } }, topics).join()).toContain('Bildbeschreibung');
+  });
+});

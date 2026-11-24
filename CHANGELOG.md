@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.0] – 2026-11-24
+
+### Hinzugefügt
+- **3D-Bilder in Lernzetteln** (mit Blender gerendert, eigene Modelle): Netzwerkschrank (Lernzettel „Serverbetrieb“), RJ45-Belegung T568B und Aufbau eines Glasfaserkabels („Übertragungsmedien“), RAID 5 mit verteilter Parität („RAID“), Online-USV als Schema („Strom, Leistung und USV“), Mainboard in der Draufsicht und HDD/SSD im Vergleich („PC-Komponenten“). Je 13–29 KB als WebP, offline zwischengespeichert, mit Bildbeschreibung für Screenreader und Bildunterschrift; antippen öffnet das Bild groß. Auch in den Lernzettel-PDFs.
+- **Fragen mit Bild** (optionales Feld `image: { name, alt }`, in Quiz, Prüfungssimulation und Druck): 7 neue Fragen zu den Bildern (net-0126, net-0127, hw-0098 bis hw-0102), u. a. Pins von 100BASE-TX, Lichtführung im Kern, Nutzkapazität RAID 5, Einbauort der USV, Online-USV bei Netzausfall, Steckplätze zuordnen.
+- Abkürzungsverzeichnis: ATX, T568B (mit T568A).
+- Skripte zum Erzeugen der Bilder unter `tools/blender/`.
+
+### Korrigiert (Präzisierung)
+- Lernzettel USV: Bei der Online-USV läuft die Last immer über Gleichrichter und Wechselrichter, der Akku hängt dazwischen und wird ständig geladen (vorher „Last immer aus dem Akku/Wechselrichter“).
+
 ## [2.15.5] – 2026-11-24
 
 ### Hinzugefügt

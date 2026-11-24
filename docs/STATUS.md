@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.13.0 (23.11.2026)
+**Aktuelle Version:** 2.16.0 (24.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -17,7 +17,7 @@
 
 ## Nachtbetrieb (Auftrag 23.11.2026, 22:56, ab sofort jede Nacht)
 
-**Läuft gerade:** Tag-Auftrag Bilder (Blender) seit 10:38
+**Läuft gerade:** –
 
 Regeln für alle Nachtläufe:
 - Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
@@ -36,9 +36,22 @@ Regeln für alle Nachtläufe:
 5. Lernkalender (Aktivität pro Tag als Raster in der Statistik) – offen
 6. danach: selbst gewählte Verbesserungen / Durchlauf der ganzen App
 
+### Bilder-Backlog (Lauf „3D-Bilder“, braucht den Mac mit laufendem Blender + MCP-Add-on)
+Erledigt (2.16.0): serverschrank, rj45, glasfaser, raid5, usv, mainboard, hdd-ssd. Skripte: `tools/blender/` (lib.py + eine Datei je Bild).
+Offen, der Reihe nach (je Bild: Szene in `tools/blender/<name>.py`, rendern, ≤ 150 KB, Lernzettel-Zeile, 1 Frage mit `image`, Bild selbst ansehen und korrigieren):
+1. osi-modell (Schichten-Turm mit Geräten je Schicht: Hub 1, klassischer Switch 2 / Layer-3-Switch 2+3, Router 3)
+2. lwl-stecker (LC-Duplex, SC, ST im Vergleich)
+3. patchpanel-verkabelung (Patchpanel → Patchkabel → Switch, strukturierte Verkabelung Primär/Sekundär/Tertiär)
+4. dmz (Netzplan: Internet – äußere Firewall – DMZ mit Web-/Mailserver – innere Firewall – LAN)
+5. raid-vergleich (RAID 0, 1, 10 nebeneinander)
+6. vlan (ein Switch, zwei VLANs farbig, Trunk zum Router)
+7. stromversorgung-rack (redundante Netzteile A/B-Einspeisung, PDU)
+8. backup-3-2-1 (3 Kopien, 2 Medien, 1 extern)
+
 ### Nachtprotokoll
 | Datum | Lauf | Start | Ende | Ist | Ergebnis |
 |---|---|---|---|---|---|
+| 24.11.2026 | Tag-Auftrag 3D-Bilder | 10:38 | 11:18 | bis 11:18 | 7 Blender-Bilder in 6 Lernzetteln, Bildzeilen in Markdown, Fragen mit Bild (7 neue), USV-Präzisierung (2.15.5 Technik, 2.16.0 Inhalte). Blender-MCP-Add-on fehlt noch – heute über die Blender-Konsole gearbeitet. |
 | 23.11.2026 | Nacht 1 | 23:13 | 23:30 | 17 Min. | Backlog 1 Rechentraining erledigt (2.13.0); Unit-Tests (Ersatz-Runner) und Browsertests Chromium grün. Weitere Backlog-Punkte bewusst nicht begonnen: Block D des Nachtauftrags startet 00:19 und braucht die Sperre frei. |
 | 24.11.2026 | Block D | 00:19 | 00:40 | 21 Min. | Punkte 5 und 6 erledigt (2.14.0); nebenbei Checklisten-Häkchen verwarf Notenrechner-Punkte behoben. |
 | 24.11.2026 | Nacht 2 (Inhalte) | 04:18 | 04:30 | 12 Min. | (a) Handlungssituation FISI GA2 `sz-fisi-ga2e` „Hotel Saaleblick“ mit `net-0121`–`net-0125`, `sec-0088` (Tabelle + Rechnung), Karte `fc-0286`, Abkürzung OWE (2.15.1). **Nächster Lauf 2: (b)** offene/Tabellenaufgaben; nächste Situation dann KITS. Lauf 3 bitte gegenprüfen. |
@@ -74,6 +87,7 @@ Gesamt geschätzt: ca. 7 h 40 Min. (davon 7 h 10 Min. Auftrag + 30 Min. Qualitä
 |---|---|---|
 | einmalig | Mo 23.11.2026, 00:47 | Prüfungsreife je Prüfungsbereich, Tabellenaufgabe in jeder Simulation, Formelsammlung als PDF (mit Fachprüfung) |
 | täglich | 23:13 | Nacht 1: nächste Funktion aus dem Funktions-Backlog, danach eigene Verbesserungen |
+| täglich | 02:13 | 3D-Bilder (Mac mit Blender nötig): nächstes Bild aus dem Bilder-Backlog |
 | täglich | 04:17 | Nacht 2: neue Inhalte FISI/KITS (Handlungssituation oder offene/Tabellenaufgaben im Wechsel) |
 | täglich | 06:07 | Nacht 3: Gegenprüfung der Nacht, danach Durchlauf und Verbesserungen bis 07:50 (Sa/So 09:20) |
 | täglich | 09:57 | Morgenbericht per Push |

@@ -234,3 +234,17 @@ test('formula collection as PDF (2.10.3): link on #/formeln, share sheet on iPho
   await expect(page.locator('.formula-area h2').first()).toBeVisible();
   expect(problems).toEqual([]);
 });
+
+test('pictures in notes (2.16): rendered image with caption loads without overflow', async ({ page }) => {
+  const problems = watchProblems(page);
+  await page.goto('./#/lernzettel/note-medien');
+  const fig = page.locator('figure.note-figure').first();
+  await expect(fig.locator('figcaption')).toContainText('T568B');
+  const img = fig.locator('img');
+  await expect(img).toHaveAttribute('alt', /RJ45-Stecker/);
+  await img.scrollIntoViewIfNeeded();
+  await expect.poll(() => img.evaluate((el) => el.complete && el.naturalWidth)).toBe(1200);
+  await expectNoHorizontalOverflow(page);
+  await page.screenshot({ path: `test-results/note-figure-${test.info().project.name}.png`, fullPage: false });
+  expect(problems).toEqual([]);
+});

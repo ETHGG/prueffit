@@ -125,6 +125,12 @@
     "area": "Programmierung"
   },
   {
+    "abbr": "ATX",
+    "full": "Advanced Technology Extended",
+    "explanation": "Formfaktor für Mainboards, Netzteile und Gehäuse; ein Standard-ATX-Mainboard misst 30,5 × 24,4 cm (kleiner: Micro-ATX, Mini-ITX)",
+    "area": "Hardware"
+  },
+  {
     "abbr": "AVV",
     "full": "Auftragsverarbeitungsvertrag",
     "explanation": "Vertrag nach Art. 28 DSGVO mit Dienstleistern, die personenbezogene Daten verarbeiten",
@@ -1548,6 +1554,15 @@
     "full": "Scalable Vector Graphics",
     "explanation": "Vektorgrafik-Format, verlustfrei skalierbar",
     "area": "Hardware"
+  },
+  {
+    "abbr": "T568B",
+    "full": "Belegungsstandard T568B (TIA/EIA-568)",
+    "explanation": "Farbreihenfolge der Adern im RJ45-Stecker: 1 weiß-orange, 2 orange, 3 weiß-grün, 4 blau, 5 weiß-blau, 6 grün, 7 weiß-braun, 8 braun; T568A tauscht die Paare Orange und Grün",
+    "area": "Netzwerke",
+    "aliases": [
+      "T568A"
+    ]
   },
   {
     "abbr": "TB",

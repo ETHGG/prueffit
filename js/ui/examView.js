@@ -2,6 +2,7 @@
 // apprenticeship), feedback only at the end, IHK grade per part. The running exam lives in localStorage, so the timer keeps running while the app is closed.
 
 import { EXAMS, JOBS, ALL_JOBS } from '../config.js';
+import { questionFigure } from './figure.js';
 import { filterQuestions, issueUrl } from '../questions.js';
 import {
   examParts, previewExam, createExam, startPart, remainingMs, isTimeUp, setResponse,
@@ -317,6 +318,7 @@ export function render(root, ctx) {
           h('span', { class: 'tag', text: DIFFICULTY_LABELS[q.difficulty] }),
           h('span', { class: 'tag', text: `${formatNumber(q.points)} ${q.points === 1 ? 'Punkt' : 'Punkte'}` })),
         h('h2', { class: 'question-text', tabindex: '-1', text: q.question }),
+        questionFigure(q),
         form,
         h('div', { class: 'button-row' },
           h('button', { type: 'button', class: 'button secondary', disabled: pos === 0, onClick: () => go(pos - 1) }, '← Zurück'),
