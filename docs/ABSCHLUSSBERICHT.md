@@ -1,3 +1,11 @@
+# Kurzbericht 2.16.8–2.16.15 (Abendlauf „3D-Bilder“, Fortsetzung, 24.11.2026, 18:40–19:20)
+
+- **Bildbetrachter (2.16.8):** Bilder in Lernzetteln und Fragen öffnen in der App (Vergrößern/Schließen, Escape), statt in einem neuen Fenster, das sich in der Home-Bildschirm-App nicht schließen ließ; Browsertest dazu.
+- **21 neue Bilder mit Bildfragen (2.16.9–2.16.15):** digitale Signatur, Sicherungsarten, DAS/NAS/SAN, Verfügbarkeit, AGDLP, ITIL, VLSM-Plan, Routingtabelle, SNMP, Gewinnschwelle, Abschreibung, Nutzwertanalyse, EPK, Gantt, Kanban, Zahlensysteme, Tabellenmodell n:m, Kapselung, Firewall-Regeln, 802.1Q-Tag, Zertifikatskette.
+- **Präzisiert:** Signatur („signieren“ statt „Hash verschlüsseln“; ECDSA), SAN (iSCSI über Ethernet), Firewall-Regelwerk (First Match, Default Deny).
+- **Tests:** Timer-Test im Fachgespräch friert die Testuhr jetzt ein (war unter Last zeitweise rot); Unit-Tests (Ersatz-Runner, 774) und Browsertests Chromium Desktop + iPhone SE grün.
+- **Kontingent:** Sitzung 68 %, Woche 51 % (19:11) – pausiert, damit die Nachtläufe genug Sitzungskontingent haben; weitere Bilder macht der tägliche Lauf „3D-Bilder“ (02:13) laut Bilder-Backlog.
+
 # Kurzbericht 2.16.3–2.16.7 (Abendlauf „3D-Bilder“, 24.11.2026, 17:50–18:30)
 
 - **15 neue Blender-Bilder** mit je einer Bildfrage: Virtualisierung, Cloud-Modelle, DNS-Auflösung (2.16.3); VPN, Netzplan mit kritischem Pfad, Wasserfall/Scrum (2.16.4); strukturierte Verkabelung, redundante Stromversorgung, WLAN-Kanäle (2.16.5) – damit ist der Bilder-Backlog leer; zusätzlich FISI/KITS: IPv6-Adresse, NAT/PAT, hybride Verschlüsselung (2.16.6), DHCP-DORA, 802.1X, Spanning Tree (2.16.7).

@@ -111,6 +111,8 @@ test('Fachgespräch üben: timer runs from the start time and reports when time 
   await page.getByRole('radio', { name: '1 Min.' }).check();
   await page.getByRole('button', { name: 'Zufällige Frage starten' }).click();
   await expect(page.getByRole('timer')).toHaveText('1:00');
+  // freeze the fake clock so real time under load cannot add seconds between the steps
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 100));
   await page.clock.runFor(45_000);
   await expect(page.getByRole('timer')).toHaveText('0:15');
   await page.clock.runFor(20_000);

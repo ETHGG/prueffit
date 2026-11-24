@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.16.15] – 2026-11-24
+
+### Hinzugefügt
+- **3 weitere Bilder (FISI):** Firewall-Regeltabelle mit First Match und Default Deny („Firewall, DMZ und VPN“, dazu eine Lernzettel-Zeile zum Regelwerk), Ethernet-Frame mit 802.1Q-Tag („VLAN, WLAN und Spanning Tree“), Zertifikatskette („E-Mail-Sicherheit und Zertifikate“), dazu 3 Bildfragen (sec-0097, net-0144, sec-0098).
+
 ## [2.16.14] – 2026-11-24
 
 ### Hinzugefügt
