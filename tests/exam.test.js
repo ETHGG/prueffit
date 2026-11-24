@@ -549,7 +549,7 @@ describe('table task in every written part (since 2.10)', () => {
     expect(exam.parts.map((p) => p.id)).toEqual(['ga1', 'ga2']);
   });
 
-  it('real data: FISI and KITS have a table in AP1 and in both written AP2 parts, other jobs wherever one exists', () => {
+  it('real data: every job has a table in AP1 and in both written AP2 parts (since 2.15 for all 7 jobs)', () => {
     const dir = new URL('../data/', import.meta.url);
     const questions = readdirSync(new URL('questions/', dir)).filter((f) => f.endsWith('.json'))
       .flatMap((f) => JSON.parse(readFileSync(new URL(`questions/${f}`, dir), 'utf8')));
@@ -562,7 +562,7 @@ describe('table task in every written part (since 2.10)', () => {
           for (const part of exam.parts) {
             if (part.id === 'wiso') continue;
             const hasTable = part.ids.some((id) => byId.get(id).type === 'table');
-            if (['fisi', 'kits'].includes(job) || examId === 'AP1') expect(hasTable, `${job} ${examId} ${part.id}`).toBe(true);
+            expect(hasTable, `${job} ${examId} ${part.id}`).toBe(true);
           }
         }
       }

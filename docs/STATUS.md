@@ -54,7 +54,7 @@ Jeder Block: `git pull --rebase`, Startzeit mit `TZ=Europe/Berlin date` eintrage
 | C | 22:17 | 3 Verlauf der Prüfungsreife · 4 Wochenplan bis zur Prüfung | 85 Min. | 22:17 | 22:40 | 23 Min. (2.12.0) |
 | D | 00:19 | 5 Fachgespräch üben (Timer) · 6 Suche über alles | 80 Min. | 00:19 | 00:40 | 21 Min. (2.14.0) |
 | – | 01:47 | tägliche Qualitätsrunde (wie immer) | 30 Min. | | | |
-| E | 03:23 | 7 Fortschritt PC → iPhone übertragen · 8 Tabellenaufgaben FIAE/FIDPA/ITSE/KDM | 95 Min. | | | |
+| E | 03:23 | 7 Fortschritt PC → iPhone übertragen · 8 Tabellenaufgaben FIAE/FIDPA/ITSE/KDM | 95 Min. | 03:23 | | |
 | F | 05:29 | 10 Fragen FISI/KITS vertiefen · Abschlussbericht mit Ist-Zeiten | 60 Min. | | | |
 
 Gesamt geschätzt: ca. 7 h 40 Min. (davon 7 h 10 Min. Auftrag + 30 Min. Qualitätsrunde).
