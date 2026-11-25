@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.41] – 2026-11-25
+
+### Hinzugefügt
+- **33 Karteikarten** für Themen mit nur drei Karten (Dienste, Serverbetrieb, Datensicherung, Sicherheitsmanagement, alle Wirtschaftsthemen, Projektplanung, Vorgehen, Risiko, Kommunikation, Abnahme, Einführung, Operatoren)
+
+### Geändert
+- Vier doppelte Karten durch neue Inhalte ersetzt: Freier Puffer, Scrum-Ereignisse, Kern-/Unterstützungs-/Managementprozesse, drei Sichten auf einen Prozess
+- `dat-0067` fragt jetzt nach der Abnahme in Prozent (positiver Wert): Auf dem iPhone lässt sich im Zahlenfeld kein Minus eingeben – Issue #15 (Label `code`) für die Eingabe negativer Werte
+
 ## [2.21.40] – 2026-11-25
 
 ### Hinzugefügt
