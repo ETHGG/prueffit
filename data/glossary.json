@@ -227,6 +227,12 @@
     "area": "Recht"
   },
   {
+    "abbr": "BGP",
+    "full": "Border Gateway Protocol",
+    "explanation": "Routingprotokoll zwischen Providern bzw. autonomen Systemen im Internet",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "BIA",
     "full": "Business-Impact-Analyse",
     "explanation": "ermittelt kritische Geschäftsprozesse und wie lange sie höchstens ausfallen dürfen (Grundlage des Notfallmanagements)",
@@ -243,6 +249,12 @@
     "full": "Barrierefreie-Informationstechnik-Verordnung",
     "explanation": "Barrierefreiheit von Webseiten und Apps öffentlicher Stellen (aktuell BITV 2.0)",
     "area": "Recht"
+  },
+  {
+    "abbr": "BMF",
+    "full": "Bundesministerium der Finanzen",
+    "explanation": "Gibt u. a. Schreiben zur steuerlichen Auslegung heraus, z. B. zur Nutzungsdauer von Computern",
+    "area": "Wirtschaft"
   },
   {
     "abbr": "BP",
@@ -310,6 +322,12 @@
     "area": "Recht"
   },
   {
+    "abbr": "CEO",
+    "full": "Chief Executive Officer",
+    "explanation": "Geschäftsführer bzw. Vorstandsvorsitzender; „CEO-Fraud“: Betrüger geben sich als Chef aus und fordern Überweisungen",
+    "area": "Allgemein"
+  },
+  {
     "abbr": "CIA",
     "full": "Confidentiality, Integrity, Availability",
     "explanation": "Die drei Schutzziele: Vertraulichkeit, Integrität, Verfügbarkeit",
@@ -374,6 +392,12 @@
     "full": "Duplicate Address Detection",
     "explanation": "IPv6: prüft, ob eine Adresse im Netz schon benutzt wird",
     "area": "Netzwerke"
+  },
+  {
+    "abbr": "DANE",
+    "full": "DNS-based Authentication of Named Entities",
+    "explanation": "Hinterlegt Zertifikatsinformationen per DNSSEC im DNS; kann z. B. TLS zwischen Mailservern erzwingen",
+    "area": "IT-Sicherheit"
   },
   {
     "abbr": "DAS",
@@ -643,6 +667,12 @@
     "full": "Frühester Endzeitpunkt",
     "explanation": "Netzplan: FAZ + Dauer",
     "area": "Projektmanagement"
+  },
+  {
+    "abbr": "FIDO2",
+    "full": "Fast Identity Online 2",
+    "explanation": "Standard für passwortlose, phishingresistente Anmeldung mit Sicherheitsschlüssel oder Passkey",
+    "area": "IT-Sicherheit"
   },
   {
     "abbr": "FLAC",
@@ -1074,6 +1104,21 @@
     "area": "Hardware"
   },
   {
+    "abbr": "MTA",
+    "full": "Mail Transfer Agent",
+    "explanation": "Mailserver, der E-Mails per SMTP an andere Server weiterleitet",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "MTA-STS",
+    "full": "SMTP MTA Strict Transport Security",
+    "explanation": "Richtlinie einer Domain, dass Mailserver nur per gültigem TLS zustellen dürfen",
+    "area": "IT-Sicherheit",
+    "aliases": [
+      "STS"
+    ]
+  },
+  {
     "abbr": "MTBF",
     "full": "Mean Time Between Failures",
     "explanation": "Mittlere Betriebszeit zwischen zwei Ausfällen",
@@ -1224,6 +1269,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "OSPF",
+    "full": "Open Shortest Path First",
+    "explanation": "Dynamisches Link-State-Routingprotokoll innerhalb eines Unternehmens- oder Providernetzes",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "OT",
     "full": "Operational Technology (Betriebstechnik)",
     "explanation": "Steuerungen, Maschinen und Sensoren in Produktion und Gebäuden",
@@ -1331,6 +1382,18 @@
     "abbr": "POP3S",
     "full": "Post Office Protocol 3 Secure",
     "explanation": "Verschlüsselter Mailabruf, Mails werden meist heruntergeladen (Port 995)",
+    "area": "Netzwerke"
+  },
+  {
+    "abbr": "PR",
+    "full": "Public Relations",
+    "explanation": "Öffentlichkeitsarbeit: Pflege des Ansehens eines Unternehmens, Teil der Kommunikationspolitik",
+    "area": "Wirtschaft"
+  },
+  {
+    "abbr": "PSK",
+    "full": "Pre-Shared Key",
+    "explanation": "Vorab vereinbartes gemeinsames Passwort, z. B. bei WPA2-Personal",
     "area": "Netzwerke"
   },
   {
@@ -1470,6 +1533,12 @@
     "area": "Hardware"
   },
   {
+    "abbr": "SAE",
+    "full": "Simultaneous Authentication of Equals",
+    "explanation": "Anmeldeverfahren von WPA3-Personal; schützt vor Offline-Wörterbuchangriffen auf mitgeschnittene Anmeldungen",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "SAN",
     "full": "Storage Area Network",
     "explanation": "Eigenes Speichernetz mit Blockzugriff (iSCSI, Fibre Channel)",
@@ -1564,6 +1633,12 @@
     "area": "Allgemein"
   },
   {
+    "abbr": "SMT",
+    "full": "Simultaneous Multithreading",
+    "explanation": "Ein Prozessorkern bearbeitet zwei Threads gleichzeitig (bei Intel „Hyper-Threading“)",
+    "area": "Hardware"
+  },
+  {
     "abbr": "SMTP",
     "full": "Simple Mail Transfer Protocol",
     "explanation": "Mailversand (Port 25, Einlieferung 587)",
@@ -1652,6 +1727,12 @@
     "full": "Start Transport Layer Security",
     "explanation": "Schaltet eine bestehende Mailverbindung auf TLS-Verschlüsselung um",
     "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "STOP",
+    "full": "Substitution, Technisch, Organisatorisch, Persönlich",
+    "explanation": "Rangfolge der Schutzmaßnahmen im Arbeitsschutz: zuerst Gefahr ersetzen, zuletzt persönliche Schutzausrüstung",
+    "area": "Recht"
   },
   {
     "abbr": "STP",
@@ -1827,6 +1908,12 @@
     ]
   },
   {
+    "abbr": "UWG",
+    "full": "Gesetz gegen den unlauteren Wettbewerb",
+    "explanation": "Regelt u. a., dass E-Mail-Werbung grundsätzlich eine vorherige Einwilligung braucht (§ 7)",
+    "area": "Recht"
+  },
+  {
     "abbr": "VDE",
     "full": "Verband der Elektrotechnik Elektronik Informationstechnik",
     "explanation": "Gibt die Normen für elektrische Anlagen heraus (z. B. DIN VDE 0100)",
@@ -1943,6 +2030,12 @@
     "abbr": "WSUS",
     "full": "Windows Server Update Services",
     "explanation": "Windows-Serverrolle, mit der die IT Updates zentral testen, freigeben und an Clients verteilen kann",
+    "area": "Hardware"
+  },
+  {
+    "abbr": "XFS",
+    "full": "XFS-Dateisystem (ursprünglich von SGI entwickelt)",
+    "explanation": "Journaling-Dateisystem für Linux, Standard z. B. bei Red Hat Enterprise Linux",
     "area": "Hardware"
   },
   {

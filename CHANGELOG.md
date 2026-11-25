@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.12] – 2026-11-25
+
+### Geändert
+- **Lernzettel an die neuen Aufgaben angepasst:** 37 Lernzettel um das ergänzt, was die Aufgaben aus 2.21.1–2.21.11 abfragen, aber bisher nirgends stand – z. B. Organe von GmbH/AG, Lieferbedingungen, statischer Test und Testprotokoll, Schlüssel bei S/MIME, STARTTLS/MTA-STS, Spear-Phishing und FIDO2, UWG und Preisstrategien, SLAAC-Ablauf, Fälligkeitsdarlehen, Linux-Rechte 640/644 und apt/dnf, TTL und OSPF, STOP-Prinzip, E-Rechnungsfristen, Kündigung (§ 623 BGB, § 22 BBiG) und Berufsschultag, Skonto als Jahreszins, Ausfallzeit pro Jahr, Notfallhandbuch, statische Investitionsrechnung, SMT, WPA3/SAE, 10GBASE-T.
+- 15 neue Abkürzungen (u. a. BGP, DANE, FIDO2, MTA-STS, OSPF, SAE, SMT, STOP, UWG); PDFs neu.
+
 ## [2.21.11] – 2026-11-25
 
 ### Hinzugefügt
