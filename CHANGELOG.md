@@ -2,6 +2,16 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.29] – 2026-11-25
+
+### Hinzugefügt
+- **Lücken FISI GA1 geschlossen:**
+  - Lernzettel „Verzeichnisdienst“: neue Gruppenmitgliedschaft wirkt erst nach erneuter Anmeldung; Fragen `net-0196` (Tabelle Ports DNS/Kerberos/LDAP/LDAPS/NTP), `net-0197` (Domänenbeitritt schlägt fehl, Bewertungsraster), `net-0198`
+  - Lernzettel „Betriebssysteme“: neuer Abschnitt „Dienste und Speicherplatz (Linux)“ (`systemctl enable`, `df -h`, `du -sh`, `journalctl --vacuum-size`, Überwachung ab 80 %); Fragen `hw-0165` (Tabelle chmod-Rechte), `hw-0166` (/var voll, Bewertungsraster), `hw-0167`
+- **ARP und Switch** im Lernzettel „OSI-Modell“ (neuer Abschnitt: Broadcast-Anfrage, Unicast-Antwort, ARP-Cache, Gateway bei fremden Netzen, NDP bei IPv6; MAC-Tabelle, Altern, Fluten im VLAN) mit zwei Bildern `arp-ablauf` und `switch-mac-lernen`; Fragen `net-0199` bis `net-0201`
+- **Bild `cluster-failover`** (Aktiv/passiv-Cluster mit Heartbeat und virtueller IP-Adresse) im Lernzettel „Verfügbarkeit“, Frage `sec-0154` (FISI)
+- **Bild `gvs-backup`** (Generationenprinzip im Wochenraster, 4 + 4 + 12 = 20 Bänder im Beispiel, Abhängigkeit von den Regeln genannt) im Lernzettel „Datensicherung“, Rechenfrage `sec-0155`
+
 ## [2.21.28] – 2026-11-25
 
 ### Hinzugefügt
