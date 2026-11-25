@@ -2,6 +2,19 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.31] – 2026-11-25
+
+### Hinzugefügt
+- **Weitere dünne Themen ausgebaut** (21 Aufgaben):
+  - Sicherheitsmanagement (AP1): Härtung, erster Schritt bei Ransomware, SSH härten, Security by Default – `sec-0162` bis `sec-0165`
+  - Unternehmen (AP1): Haftung des Kommanditisten, Minimalprinzip, Handelsregister, Käufermarkt, Aufsichtsrat – `wi-0335` bis `wi-0339`
+  - ITSE „Installation“: Spannungsfall, Mindestquerschnitt, PoE-Budget, NYM-J-Bezeichnung – `el-0045` bis `el-0048`
+  - FIDPA „Datenqualität“: Vollständigkeit, Konsistenz, Dubletten verhindern, Maßnahmen an der Quelle – `dat-0057` bis `dat-0060`
+  - FIDV „Diagnose“: Verfügbarkeit aus MTBF/MTTR, erlaubte Ausfallzeit, CRC-Fehler, Ishikawa – `ot-0049` bis `ot-0052`
+
+### Geändert
+- **Präzisiert (überall gleich):** Syslog klassisch UDP 514, auch TCP 514, verschlüsselt TCP 6514 (Lernzettel „Diagnose“, Karte, Frage); Meldepflicht bei Datenpannen binnen 72 Stunden entfällt nur, wenn voraussichtlich kein Risiko für Betroffene besteht (Lernzettel „Datenschutz“ und „Sicherheitsmanagement“, Frage)
+
 ## [2.21.30] – 2026-11-25
 
 ### Hinzugefügt
