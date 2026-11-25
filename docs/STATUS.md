@@ -115,6 +115,8 @@ Gesamt geschätzt: ca. 7 h 40 Min. (davon 7 h 10 Min. Auftrag + 30 Min. Qualitä
 | täglich | 01:07 (01:55) | Qualitätsrunde: 2 Themen nach `docs/PRUEFPROTOKOLL.md` fachlich prüfen | Fable |
 | Mo | 02:13 (04:05) | Wochenlauf: Issues (Inhalt selbst, Code → Label `code`), Ausbau Inhalte, Quellen | Opus |
 | Di + Fr | 02:13 (04:05) | 3D-Bilder – **Mac an in den Nächten Mo→Di und Do→Fr**, Claude-Desktop-App offen, Blender mit Watcher | Opus |
+| So + Mi + Do | 02:13 (04:05) | Bildfragen und Übungen: je Bild weitere Quizfragen (Bilder mit den wenigsten Fragen zuerst, FISI/KITS zuerst), 25–40 pro Lauf | Opus |
+| täglich außer 1.–3., 8., 14. | 04:13 (05:55) | Qualitätsrunde 2: 3 weitere Themen nach `docs/PRUEFPROTOKOLL.md` fachlich prüfen (nicht dieselben wie um 01:07) | Fable |
 | monatlich | 1., 04:17 (04:50) | Technik-Check: CI, Dependabot-PRs (grüne zusammenführen), Live-Seite, Links; Probleme → Issue `code` | Sonnet |
 | monatlich | 8., 04:17 (05:55) | Fragen vertiefen + Lückenanalyse (Ziel 74/74 am 25.11.2026 erreicht, jetzt Pflege) | Opus |
 | halbjährlich | 2.1. und 2.7., 04:37 | Basiszinssatz | Fable |
