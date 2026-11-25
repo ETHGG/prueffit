@@ -4,7 +4,7 @@
 - **Ladezeit:** erster Besuch 765 KB, Daten nach 3,9 s; danach aus dem Cache 0,4 s – keine Änderung nötig.
 - **Simulation (2.21.16):** 200 Ziehungen je FISI/KITS geprüft; Punkte und Tabellenaufgabe stimmen, WiSo verteilt die Fragen jetzt reihum über die Themen (Test: kein Thema mit mehr als 5 von 30 Fragen).
 - **Rechentraining (2.21.17):** neue Arten Netzplan (Dauer, Puffer), Verfügbarkeit (Ausfallzeit, Reihe, parallel), kaufmännisches Rechnen (Zinsen, Skonto, USt, Grundwert).
-- **Bilder (2.21.18–2.21.24):** 51 neue Blender-Bilder; jedes der 86 Themen hat jetzt mindestens ein Bild. Jedes Bild angesehen, 8 mit Layout- oder Fachfehlern neu gerendert (z. B. Dreiecksrichtung, Schrägstrich im Verbotszeichen, Beschriftung, Präzisierung SELV und Mangelhaftung).
+- **Bilder (2.21.18–2.21.24):** 51 neue Blender-Bilder; jedes der 86 Themen hat jetzt mindestens ein Bild. Jedes Bild angesehen, 9 mit Layout- oder Fachfehlern neu gerendert (z. B. Dreiecksrichtung, Schrägstrich im Verbotszeichen, überlappende Beschriftungen, Präzisierung bei der Schutzkleinspannung).
 - **Annahmen:** Bilder für Themen anderer Berufe (FIDPA, FIDV, ITSE, KDM) mit Fragen nur für diese Berufe; das Bild Kündigungsfristen steht in zwei Lernzetteln (Arbeitsrecht, Arbeitsvertrag). Neue Abhängigkeiten: keine.
 - **Offen:** iPhone-Test mit dem Nutzer (heute Abend); fachlich anspruchsvollere Bilder für den Nachtlauf (siehe STATUS).
 
