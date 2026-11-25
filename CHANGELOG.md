@@ -2,6 +2,16 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.40] – 2026-11-25
+
+### Hinzugefügt
+- **Vierte Handlungssituation je Prüfungsbereich** für FIAE, FIDPA, FIDV, ITSE und KDM (10 Situationen, 40 Aufgaben) – damit haben alle sieben Berufe mindestens vier Situationen je Bereich:
+  - FIAE: Zahnarztpraxis Weißenfels (Terminbuchung), Fahrradverleih Saaleufer (Tarifberechnung)
+  - FIDPA: Pflegedienst Saaletal (Touren digital planen), Versicherungsmakler Halle (Datenmigration)
+  - FIDV: Wohnungsbau Saalestadt (Gateways melden sich nicht), Gewächshaus Unstruttal (Klimasteuerung)
+  - ITSE: Kita Sonnenschein (Tablets und WLAN), Arztpraxis Dr. Lehmann (Serverschrank an der USV)
+  - KDM: Tanzschule Saaleschritt (Online-Kurse im Abo), Eventagentur Burgenland (Rechnungen und Personal)
+
 ## [2.21.39] – 2026-11-25
 
 ### Hinzugefügt
