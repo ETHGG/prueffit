@@ -1059,6 +1059,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "LSDOU",
+    "full": "Lokal, Standort, Domäne, Organisationseinheit",
+    "explanation": "Reihenfolge, in der Gruppenrichtlinien angewendet werden; die zuletzt angewendete gewinnt bei Widersprüchen",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "LWL",
     "full": "Lichtwellenleiter",
     "explanation": "Glasfaserkabel (Singlemode, Multimode)",

@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.62] – 2026-11-25
+
+### Hinzugefügt
+- **Neue Handlungssituation FISI GA1** `sz-fisi-ga1e` „Ingenieurbüro Unstrut: Dateiserver und Benutzerverwaltung“ (jetzt 5 Situationen in FISI GA1) mit fünf Aufgaben: PowerShell-Skript mit CSV auswerten (`-eq` ohne Groß-/Kleinschreibung) `prog-0246`, Datenwachstum und Plattenzahl im RAID 6 als Tabelle `hw-0182`, Gruppenrichtlinien-Reihenfolge LSDOU `net-0232`, Zertifikat für das interne Portal `sec-0182`, Restbuchwert des Hosts `wi-0365`.
+- Lernzettel „Verzeichnisdienste“ (Reihenfolge LSDOU, „Erzwungen“, „Vererbung deaktivieren“) und „Skripte“ (Vergleichsoperatoren, `-ceq`); Abkürzung LSDOU; Karteikarten `fc-0404`, `fc-0405`.
+
 ## [2.21.61] – 2026-11-25
 
 ### Hinzugefügt
