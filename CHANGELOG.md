@@ -2,6 +2,21 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.11] – 2026-11-25
+
+### Hinzugefügt
+- **Fragen vertiefen, Block 12** (Tag-Auftrag, Abschluss): 30 neue Aufgaben für die letzten 15 Themen. **Damit hat jedes der 74 Themen für FISI und KITS mindestens 15 Aufgaben.**
+  - Netzwerkdienste (`net-0183` bis `net-0185`): DHCP-Optionen, SSH statt Telnet, NTP (Kerberos-Zeitabweichung).
+  - VLAN und WLAN (`net-0186` bis `net-0189`): Access-Port, WPA3 mit SAE, 802.1Q-Tag 4 Byte, Native VLAN.
+  - Subnetting (`net-0190`, `net-0191`), Übertragungsmedien (`net-0192`, Cat 6A für 10GBASE-T).
+  - Energie (`hw-0156`, `hw-0157`: Leistung, Offline-USV), IT-Betrieb (`hw-0158`, `hw-0159`: Schwellwerte, Firmware-Update).
+  - Kryptografie (`sec-0149`, `sec-0150`), Verfügbarkeit in Reihe (`sec-0151`, AP2 FISI), Datenbanken (`prog-0205`, `prog-0206`, AP2 FISI/KITS).
+  - Beschaffung (`wi-0314` bis `wi-0316`), Controlling (`wi-0317` bis `wi-0319`), Personal (`wi-0320`, `wi-0321`), Buchführung (`wi-0322`) – AP2 KITS bzw. KITS/KDM.
+  - Auskunftsfrist nach DSGVO (`re-0109`), Wirtschaftssektoren (`wiso-0123`).
+
+### Zusammenfassung Tag-Auftrag 25.11.2026
+- 09:13–10:47: 435 neue Aufgaben (1.147 → 1.582) in 12 Blöcken, Versionen 2.21.1 bis 2.21.11; alle Auswahlfragen mit Erklärung je Antwortmöglichkeit, Rechnungen mit Lösungsweg.
+
 ## [2.21.10] – 2026-11-25
 
 ### Hinzugefügt

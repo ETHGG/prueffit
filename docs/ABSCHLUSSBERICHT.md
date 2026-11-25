@@ -310,3 +310,12 @@ Fragen, die für AP1 und AP2 zählen, sind in beiden Spalten enthalten. Gesamtbe
 **Offene Punkte:**
 - Lernzettel „Leitungen“: Richtwert „höchstens 3 % zwischen Hausanschluss und Verbraucher“ bei Gelegenheit gegen DIN 18015-1 und DIN VDE 0100-520 prüfen (Bezugspunkt Hausanschluss oder Zähler, 3 % oder 4 %) – nicht Teil dieses Auftrags, daher nur vermerkt.
 - Ohne AP2-Tabellenaufgabe sind noch: FIAE und FIDPA (beide Bereiche), ITSE Bereich 2, KDM Bereich 1 (Stand: FISI 2/3, KITS 4/3, FIDV 1/1, ITSE 3/0, KDM 0/3) – dort enthält die Simulation vorerst keine; bei Bedarf ergänzen.
+
+
+## Tag-Auftrag „Fragen vertiefen“ (25.11.2026, 09:13–10:47, 2.21.1–2.21.11)
+
+**Was gemacht:** 435 neue Aufgaben (1.147 → 1.582) in 12 Blöcken. Jedes der 74 Themen hat jetzt für FISI und KITS mindestens 15 Aufgaben mit mindestens 4 Aufgabentypen. Alle Auswahlfragen haben eine Erklärung je Antwortmöglichkeit, Rechnungen einen vollständigen Lösungsweg.
+
+**Annahmen:** Neue Aufgaben zu AP1-Themen ohne `jobs` gelten für alle Berufe; Wörter, die seit 2025 nicht mehr zur AP1 gehören (SQL, RAID, Kanban, V-Modell …), stehen dort nicht. WiSo-Themen als AP2 für alle 7 Berufe, ohne offene Aufgaben. Gesetzesstände Ende 2026 (u. a. Aufbewahrungsfristen 8/10 Jahre, Nachweisgesetz in Textform, Empfängerüberprüfung bei Überweisungen seit Oktober 2025, Betriebsratswahl 2026).
+
+**Offene Punkte:** Fachliche Gegenprüfung der 435 Aufgaben durch Lauf 3 (stichprobenartig, Rechnungen per Skript). Versionsnummern: 2.21.1 war kurz ohne neu erzeugte PDFs gepusht (behoben).
