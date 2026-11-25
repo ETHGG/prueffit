@@ -1,7 +1,7 @@
 // PrüfFit service worker: precaches all app files for offline use.
 // Bump CACHE_NAME with every release (keep in sync with package.json and js/config.js).
 
-const CACHE_NAME = 'prueffit-v2.21.22';
+const CACHE_NAME = 'prueffit-v2.21.23';
 const CACHE_PREFIX = 'prueffit-';
 
 // All paths relative to the service worker scope (works under /prueffit/ on GitHub Pages).
@@ -89,6 +89,13 @@ const ASSETS = [
   './img/notes/firewall-regeln.webp',
   './img/notes/vlan-tag.webp',
   './img/notes/zertifikatskette.webp',
+  './img/notes/lieferbedingungen.webp',
+  './img/notes/operatoren-umfang.webp',
+  './img/notes/organisationsformen.webp',
+  './img/notes/arbeitszeit-tag.webp',
+  './img/notes/automatisierungspyramide.webp',
+  './img/notes/datenqualitaet.webp',
+  './img/notes/nym-leitung.webp',
   './img/notes/liquiditaet.webp',
   './img/notes/business-model-canvas.webp',
   './img/notes/kuendigungsfristen.webp',

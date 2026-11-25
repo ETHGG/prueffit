@@ -2,6 +2,13 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.23] – 2026-11-25
+
+### Hinzugefügt
+- **Sieben weitere Bilder (Blender)** für Themen ohne Bild, je mit Lernzettel-Zeile und Bildfrage:
+  - `lieferbedingungen` (`wi-0334`), `operatoren-umfang` (`pm-0198`), `organisationsformen` (`wiso-0129`), `arbeitszeit-tag` (`wiso-0130`), `automatisierungspyramide` (FIDV, `ot-0042`), `datenqualitaet` (FIDPA, `dat-0048`), `nym-leitung` (ITSE, `el-0044`).
+- Das Bild `kuendigungsfristen` steht zusätzlich im Lernzettel „Arbeitsvertrag“.
+
 ## [2.21.22] – 2026-11-25
 
 ### Hinzugefügt
