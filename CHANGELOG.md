@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.7] – 2026-11-25
+
+### Hinzugefügt
+- **Fragen vertiefen, Block 8** (Tag-Auftrag): 42 neue Aufgaben; sechs weitere Themen haben für FISI und KITS je mindestens 15 Aufgaben.
+  - Abnahme und Übergabe (`pm-0160` bis `pm-0166`): Inhalt des Abnahmeprotokolls, wesentlicher Mangel, Rechnungsbetrag, Gefahrübergang, Beweislast, Dokumentation für den Kunden.
+  - Zahlungsverkehr (`wi-0302` bis `wi-0309`, AP2 KITS/KDM): Firmenlastschrift, Empfängerüberprüfung seit Oktober 2025, 40-€-Pauschale, Verzug nach 30 Tagen, halbbare Zahlung, Zahlungswege, Eigentumsvorbehalt, Skonto als Jahreszins (Tabelle).
+  - Projektgrundlagen (`pm-0167` bis `pm-0173`): SMART, Projektarten, magisches Dreieck, Pflichtenheft, nicht-SMARTes Ziel, offene Aufgabe SMART-Ziel, Projektmerkmale.
+  - Einheiten (`hw-0141` bis `hw-0146`): Übertragungszeit, Bit/Byte, TiB/GiB, Herstellerangabe gegen Anzeige, Einheit der Datenrate, Umrechnungstabelle.
+  - Angriffe (`sec-0133` bis `sec-0139`): Wurm/Virus, DDoS, Social Engineering am Telefon, Passwortraum 26^8, Man in the Middle im Café-WLAN, Keylogger, Gegenmaßnahmen.
+  - WiSo Schutzgesetze (`wiso-0097` bis `wiso-0103`, AP2 alle Berufe): Teilzeit-Urlaub, Mindesturlaub bei 3 Tagen, Entgeltfortzahlung, Elternzeit, Pausen, Wartezeit, keine Auszahlung im laufenden Arbeitsverhältnis.
+
 ## [2.21.6] – 2026-11-25
 
 ### Hinzugefügt
