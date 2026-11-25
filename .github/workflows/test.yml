@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: 20
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: 20
@@ -50,7 +50,7 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.65.1-noble
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: npm ci
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v7
