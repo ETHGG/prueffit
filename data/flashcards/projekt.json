@@ -33,5 +33,8 @@
   {"id": "fc-0272", "exam": ["AP2"], "jobs": ["fisi", "kits"], "topic": "projekt.einfuehrung", "front": "Mitbestimmung bei IT-Systemen", "back": "§ 87 Abs. 1 Nr. 6 BetrVG: Betriebsrat bestimmt mit, wenn ein System Leistung oder Verhalten überwachen kann."},
   {"id": "fc-0280", "exam": ["AP1"], "topic": "projekt.operatoren", "front": "nennen vs. erläutern", "back": "Nennen: Stichworte ohne Erklärung. Erläutern: Zusammenhang in ganzen Sätzen mit Begründung oder Beispiel, bezogen auf die Situation."},
   {"id": "fc-0281", "exam": ["AP1"], "topic": "projekt.operatoren", "front": "beurteilen / bewerten", "back": "Kriterien aus der Situation abwägen und zu einem klaren, begründeten Urteil kommen („Ich empfehle …, weil …“)."},
-  {"id": "fc-0282", "exam": ["AP1"], "topic": "projekt.operatoren", "front": "Zeitregel schriftliche Prüfung", "back": "90 Minuten für etwa 100 Punkte → knapp eine Minute pro Punkt."}
+  {"id": "fc-0282", "exam": ["AP1"], "topic": "projekt.operatoren", "front": "Zeitregel schriftliche Prüfung", "back": "90 Minuten für etwa 100 Punkte → knapp eine Minute pro Punkt."},
+  {"id": "fc-0311", "exam": ["AP1"], "topic": "projekt.digitalisierung", "front": "E-Rechnung – Fristen", "back": "Seit 2025 müssen Unternehmen E-Rechnungen empfangen können. Versand von Papier/PDF noch bis Ende 2026 (PDF mit Zustimmung), bei bis 800.000 € Vorjahresumsatz bis Ende 2027. Ein Scan ist keine E-Rechnung."},
+  {"id": "fc-0312", "exam": ["AP1"], "topic": "projekt.digitalisierung", "front": "KI-Risiken", "back": "Halluzinationen (erfundene Fakten), Datenschutz bei Eingaben, Urheberrecht, Bias; AI Act: Chatbots müssen sich als KI zu erkennen geben (Transparenzpflicht)."},
+  {"id": "fc-0313", "exam": ["AP1"], "topic": "projekt.risiko", "front": "Risikostrategien", "back": "Vermeiden (Ursache beseitigen), vermindern (Wahrscheinlichkeit oder Schaden senken), übertragen (Versicherung, Dienstleister), akzeptieren (bewusst tragen)."}
 ]

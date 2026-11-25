@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.13] – 2026-11-25
+
+### Hinzugefügt
+- **29 neue Karteikarten** (`fc-0295` bis `fc-0323`) für Themen mit bisher höchstens zwei Karten: Arbeitsschutz (Bildschirmarbeitsplatz, STOP, Unterweisung – bisher keine Karte), Organe der AG, Handelsregister, Monitoring-Schwellwerte, Bit/Byte, USV-Klassen, Snapshot ≠ Backup, Container/VM, IPv6-Adresstypen, NDP, JSON-Regeln, Bildformate, OOP-Grundbegriffe, = und ==, E-Rechnungsfristen, KI-Risiken, Risikostrategien, STARTTLS, Schlüssel bei S/MIME, Ausfallzeit, Kaufmannsarten, qualitativ/quantitativ, Grundwert, Sozialversicherung, Sicherheitszeichen, Kartell/Konzern/Fusion, Konjunkturphasen.
+
 ## [2.21.12] – 2026-11-25
 
 ### Geändert
