@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.61] – 2026-11-25
+
+### Hinzugefügt
+- **Neue Handlungssituation KITS GA1** `sz-kits-ga1e` „Physiotherapie Bodetal: neuer Praxisserver“ (jetzt 5 Situationen in KITS GA1) mit sechs Aufgaben: Nutzwertanalyse als Tabelle `wi-0363`, RAID-6-Nettokapazität `hw-0181`, Kernlizenzen Windows Server Standard bei 3 VMs `re-0124`, Leasing vs. Kauf `wi-0364`, Fernwartung mit Patientendaten (AVV, § 203 StGB) `re-0125`, Reihenfolge der Serverumstellung `pm-0210`.
+- Lernzettel „Lizenzen“: Abschnitt „Server mit virtuellen Maschinen lizenzieren (Windows Server)“ mit Beispiel; Karteikarte `fc-0403`.
+
 ## [2.21.60] – 2026-11-25
 
 ### Hinzugefügt
