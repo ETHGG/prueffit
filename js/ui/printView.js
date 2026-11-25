@@ -11,6 +11,7 @@
 
 import { h, append, formatNumber } from './dom.js';
 import { questionFigure } from './figure.js';
+import { questionText } from './questionText.js';
 import { APP_VERSION } from '../config.js';
 import { loadCatalog } from '../questions.js';
 import { renderNoteContent } from './notesView.js';
@@ -213,7 +214,7 @@ function renderExamTasks(catalog, px, job, params) {
         return h('article', { class: `exam-q type-${q.type}` },
           h('div', { class: 'q-head' },
             h('span', { class: 'q-number', text: tasks.length > 1 ? `${ti + 1}.${qi + 1}` : `${qi + 1}.` }),
-            h('p', { class: 'q-text', text: q.question }),
+            questionText(q.question, 'p', { class: 'q-text' }, 'q-text'),
             questionFigure(q, { zoom: false }),
             h('span', { class: 'q-points', text: `${q.points} P.` })),
           h('p', { class: 'q-hint', text: answerHint(q) }),

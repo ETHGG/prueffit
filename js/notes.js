@@ -149,6 +149,50 @@ export function parseMarkdown(md) {
   return blocks;
 }
 
+/**
+ * Since 2.21.55: question texts with ```-code blocks or |-tables. Splits the text into blocks
+ * `text` (line breaks kept, inline bold and `code` via parseInline), `code` and `table`.
+ * Without a code block or table the result is a single `text` block with the unchanged text.
+ * @returns {({type:'text', text:string}|{type:'code', text:string}|{type:'table', header:string[], rows:string[][]})[]}
+ */
+export function parseQuestionText(text) {
+  const source = String(text ?? '');
+  const lines = source.replace(/\r\n?/g, '\n').split('\n');
+  const isTableStart = (k) => lines[k].trim().startsWith('|') && k + 1 < lines.length && isTableSeparator(lines[k + 1]);
+  if (!lines.some((l, k) => l.trim().startsWith('```') || isTableStart(k))) return [{ type: 'text', text: source }];
+  const blocks = [];
+  let buffer = [];
+  const flush = () => {
+    const joined = buffer.join('\n').replace(/^\s*\n|\n\s*$/g, '');
+    if (joined.trim()) blocks.push({ type: 'text', text: joined });
+    buffer = [];
+  };
+  let i = 0;
+  while (i < lines.length) {
+    if (lines[i].trim().startsWith('```')) {
+      flush();
+      const code = [];
+      i++;
+      while (i < lines.length && !lines[i].trim().startsWith('```')) code.push(lines[i++]);
+      i++; // closing fence (or end)
+      blocks.push({ type: 'code', text: code.join('\n') });
+      continue;
+    }
+    if (isTableStart(i)) {
+      flush();
+      const header = splitRow(lines[i]);
+      const rows = [];
+      i += 2;
+      while (i < lines.length && lines[i].trim().startsWith('|')) rows.push(splitRow(lines[i++]));
+      blocks.push({ type: 'table', header, rows });
+      continue;
+    }
+    buffer.push(lines[i++]);
+  }
+  flush();
+  return blocks;
+}
+
 /** Plain text of a note (Markdown syntax removed), e.g. for search and snippets. */
 export function plainText(md) {
   return parseMarkdown(md).map((b) => {

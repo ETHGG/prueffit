@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
+  parseQuestionText,
   validateNote, noteImages, noteImagePath, parseInline, parseMarkdown, plainText, foldText, queryTerms, searchNotes, snippetAround, highlightParts,
 } from '../js/notes.js';
 
@@ -127,5 +128,35 @@ describe('pictures in notes (2.16)', () => {
   it('requires a meaningful alt text', () => {
     const note = { id: 'note-x', topic: 't', title: 'X', content: '## A\nGenug Text für einen gültigen Lernzettel hier.\n![kurz](bild)' };
     expect(validateNote(note, new Set(['t'])).join()).toContain('Bildbeschreibung');
+  });
+});
+
+describe('question texts with code blocks and tables (2.21.55)', () => {
+  it('keeps a question without code block or table unchanged (line breaks included)', () => {
+    const text = 'Erste Zeile\nZweite Zeile mit `code` und | Strich';
+    expect(parseQuestionText(text)).toEqual([{ type: 'text', text }]);
+    expect(parseQuestionText('')).toEqual([{ type: 'text', text: '' }]);
+    expect(parseQuestionText(undefined)).toEqual([{ type: 'text', text: '' }]);
+  });
+  it('splits text and code blocks, keeping indentation and line breaks', () => {
+    const blocks = parseQuestionText('Was gibt der Code aus?\n```\nx = 1\n  y = 2\n```\nZeile A\nZeile B');
+    expect(blocks).toEqual([
+      { type: 'text', text: 'Was gibt der Code aus?' },
+      { type: 'code', text: 'x = 1\n  y = 2' },
+      { type: 'text', text: 'Zeile A\nZeile B' },
+    ]);
+  });
+  it('recognises tables and drops blank lines around blocks', () => {
+    const blocks = parseQuestionText('Tabelle:\n\n| id | name |\n|---|---|\n| 1 | A |\n| 2 | B |\n\nFrage?');
+    expect(blocks).toEqual([
+      { type: 'text', text: 'Tabelle:' },
+      { type: 'table', header: ['id', 'name'], rows: [['1', 'A'], ['2', 'B']] },
+      { type: 'text', text: 'Frage?' },
+    ]);
+  });
+  it('handles an unclosed code block and a "|" line that is no table', () => {
+    expect(parseQuestionText('A\n```\ncode')).toEqual([{ type: 'text', text: 'A' }, { type: 'code', text: 'code' }]);
+    expect(parseQuestionText('| kein | Tabellenkopf\n```\nx\n```')).toEqual([
+      { type: 'text', text: '| kein | Tabellenkopf' }, { type: 'code', text: 'x' }]);
   });
 });

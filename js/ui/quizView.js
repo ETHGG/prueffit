@@ -2,6 +2,7 @@
 
 import { EXAMS, QUIZ_SIZES, DEFAULT_QUIZ_SIZE, SUPPORTED_QUIZ_TYPES, AREAS } from '../config.js';
 import { questionFigure } from './figure.js';
+import { questionText } from './questionText.js';
 import { jobById } from '../curriculum.js';
 import { sectionKey, inSelection, catalogSections, examHeading } from '../jobCatalog.js';
 import { filterQuestions, pickFresh, shuffle, issueUrl } from '../questions.js';
@@ -650,7 +651,7 @@ function drawQuestion(root, ctx, draw, topicById) {
         h('span', { class: 'tag', text: DIFFICULTY_LABELS[q.difficulty] }),
         h('span', { class: 'tag', text: `${formatNumber(q.points)} ${q.points === 1 ? 'Punkt' : 'Punkte'}` }),
         h('span', { class: 'tag', text: isGeneratedId(q.id) ? 'Rechentraining' : q.exam.join(' / ') })),
-      h('h2', { class: 'question-text', text: q.question }),
+      questionText(q.question, 'h2', { class: 'question-text' }),
       questionFigure(q),
       form),
   );
@@ -685,7 +686,7 @@ function drawSummary(root, ctx, draw, topicById) {
           h('span', { class: 'grow' },
             h('span', { class: 'review-question', text: q.question.split('\n')[0] }),
             h('span', { class: 'muted small review-meta', text: `${topicById.get(q.topic)?.name ?? q.topic} · ${formatNumber(r?.points ?? 0)}/${formatNumber(q.points)} Punkte` }))),
-        q.question.includes('\n') ? h('p', { class: 'question-text small', text: q.question }) : null,
+        q.question.includes('\n') ? questionText(q.question, 'p', { class: 'question-text small' }, 'small') : null,
         q.type === 'text' ? null : h('p', {}, h('strong', { text: 'Deine Antwort: ' }), formatResponse(q, r?.response)),
         r?.correct && q.type !== 'text' ? null : h('p', {}, h('strong', { text: q.type === 'text' ? 'Musterlösung: ' : 'Richtige Antwort: ' }), correctAnswerText(q)),
         h('p', {}, h('strong', { text: 'Erklärung: ' }), q.explanation),

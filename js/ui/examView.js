@@ -3,6 +3,7 @@
 
 import { EXAMS, JOBS, ALL_JOBS } from '../config.js';
 import { questionFigure } from './figure.js';
+import { questionText } from './questionText.js';
 import { filterQuestions, issueUrl } from '../questions.js';
 import {
   examParts, previewExam, createExam, startPart, remainingMs, isTimeUp, setResponse,
@@ -317,7 +318,7 @@ export function render(root, ctx) {
           h('span', { class: 'tag', text: `${topic?.area ?? ''} · ${topic?.name ?? q.topic}` }),
           h('span', { class: 'tag', text: DIFFICULTY_LABELS[q.difficulty] }),
           h('span', { class: 'tag', text: `${formatNumber(q.points)} ${q.points === 1 ? 'Punkt' : 'Punkte'}` })),
-        h('h2', { class: 'question-text', tabindex: '-1', text: q.question }),
+        questionText(q.question, 'h2', { class: 'question-text', tabindex: '-1' }),
         questionFigure(q),
         form,
         h('div', { class: 'button-row' },
@@ -393,7 +394,7 @@ export function render(root, ctx) {
         updateSum();
         return h('article', { class: 'card assessment' },
           h('h2', { class: 'small-heading', text: `Aufgabe ${n + 1} von ${ids.length}` }),
-          h('p', { class: 'question-text', text: q.question }),
+          questionText(q.question, 'p', { class: 'question-text' }),
           h('p', {}, h('strong', { text: 'Deine Antwort: ' })),
           h('p', { class: 'own-answer', text: exam.responses[id].text }),
           h('section', { class: 'sample' },
@@ -475,7 +476,7 @@ export function render(root, ctx) {
                 h('summary', {},
                   h('span', { text: `${i + 1}. ${q.question.split('\n')[0]}` }),
                   h('span', { class: 'muted small review-points', text: ` ${formatNumber(r.points)}/${formatNumber(r.maxPoints)} P.` })),
-                q.question.includes('\n') ? h('p', { class: 'question-text small', text: q.question }) : null,
+                q.question.includes('\n') ? questionText(q.question, 'p', { class: 'question-text small' }, 'small') : null,
                 h('p', {}, h('strong', { text: 'Deine Antwort: ' }), formatResponse(q, r.response)),
                 q.type === 'text'
                   ? [

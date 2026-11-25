@@ -138,6 +138,14 @@ mark { background: none; color: inherit; }
 .q-head { display: flex; gap: 2.5mm; align-items: baseline; }
 .q-number { font-weight: 800; min-width: 8mm; }
 .q-text { flex: 1; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+/* Since 2.21.55: code blocks and tables in question texts. */
+.question-rich.q-text { white-space: normal; }
+.question-rich .q-para { margin: 0 0 1.5mm; white-space: pre-wrap; overflow-wrap: anywhere; }
+.question-rich pre { margin: 0 0 1.5mm; font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace; font-size: 8.5pt; line-height: 1.4; background: #f1f4f3; border: 1px solid var(--line); border-radius: 2mm; padding: 2mm 3mm; white-space: pre-wrap; break-inside: avoid; }
+.question-rich :not(pre) > code { font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace; font-size: 9pt; background: #f1f4f3; padding: 0 1mm; border-radius: 1mm; }
+.question-rich table { border-collapse: collapse; font-size: 9pt; margin: 0 0 1.5mm; break-inside: avoid; }
+.question-rich th, .question-rich td { border: 1px solid var(--line); padding: .8mm 2mm; text-align: left; }
+.question-rich th { background: #f1f4f3; }
 .q-points { white-space: nowrap; font-weight: 700; font-size: 9pt; }
 .q-hint { margin: 1mm 0 2mm 10.5mm; font-size: 8.5pt; font-style: italic; color: var(--muted); }
 .exam-q > :not(.q-head):not(.q-hint), .solution-q > :not(.q-head):not(.q-hint) { margin-left: 10.5mm; max-width: calc(100% - 10.5mm); }

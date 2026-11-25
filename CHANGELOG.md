@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.55] – 2026-11-25
+
+### Behoben
+- **Codeblöcke und Tabellen im Fragetext** (Issue #14): Fragetexte mit ```-Codeblöcken oder |-Tabellen werden in Quiz, Simulation, Bewertung offener Aufgaben, Auswertung und Druckansicht als Code (Monospace, Hintergrund) und Tabelle dargestellt, `code` und **fett** im Text ebenfalls; Code und Tabellen scrollen bei Bedarf in einem eigenen Kasten (iPhone SE ohne Überlauf). Ohne innerHTML: Zerlegung `parseQuestionText` in `js/notes.js`, Darstellung `js/ui/questionText.js`. Fragen ohne Codeblock oder Tabelle bleiben unverändert (Zeilenumbrüche bleiben). Unit-Tests in `notes.test.js`, Browsertest `e2e/questionMarkdown.spec.js` (`prog-0226` zeigt eine Tabelle)
+
 ## [2.21.54] – 2026-11-25
 
 ### Behoben
