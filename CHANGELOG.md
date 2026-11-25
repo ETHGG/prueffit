@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.46] – 2026-11-25
+
+### Hinzugefügt
+- **Tabellenaufgaben für FISI GA1** (teils KITS): USV auslegen mit Leistungsfaktor und Reserve (`hw-0174`), Sicherungsdauer über 10 Gbit/s (`hw-0175`), Abschreibung mit monatsgenauem Anschaffungsjahr (`wi-0356`), Verfügbarkeit Reihe mit parallelem Cluster und Ausfallzeit (`sec-0171`)
+- Issue #16 (Label `code`): neue Arten im Rechentraining (4–20 mA, Spannungsfall/Querschnitt, Verzugszinsen)
+
 ## [2.21.45] – 2026-11-25
 
 ### Hinzugefügt
