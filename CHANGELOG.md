@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.53] – 2026-11-25
+
+### Hinzugefügt
+- **20 Karteikarten** für Programmierung (Zweierkomplement, UTF-8, Geld nicht als float, Multiplizitäten, Sequenzdiagramm, lineare vs. binäre Suche, Regressionstest, XML wohlgeformt/gültig, Alternativtext, gute Skripte), Datenqualität und -analyse, Diagnose, OT-Fernwartung und Elektrotechnik (Wirkungsgrad, Netz, Mindestquerschnitt, LS-Schalter, Grenzen des RCD)
+
 ## [2.21.52] – 2026-11-25
 
 ### Hinzugefügt

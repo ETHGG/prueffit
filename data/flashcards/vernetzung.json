@@ -11,5 +11,7 @@
   {"id": "fc-0197", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "PROFINET", "back": "Industrial Ethernet mit Echtzeit (feste Zykluszeiten) für Steuerdaten."},
   {"id": "fc-0211", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.sensorik", "front": "4–20 mA: Live Zero", "back": "Messanfang bei 4 mA statt 0 mA. Fällt der Strom deutlich unter 4 mA (z. B. 0 mA), liegt ein Drahtbruch oder Versorgungsausfall vor."},
   {"id": "fc-0212", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "Zonen und Conduits (IEC 62443)", "back": "Zonen = Anlagenteile mit gleichem Schutzbedarf. Conduits = kontrollierte Übergänge zwischen Zonen, z. B. über Firewalls."},
-  {"id": "fc-0328", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.sensorik", "front": "Warum 4–20 mA statt 0–10 V?", "back": "Spannungsabfall auf langen Leitungen verfälscht den Strom nicht; 0 mA = Drahtbruch erkennbar (lebender Nullpunkt)."}
+  {"id": "fc-0328", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.sensorik", "front": "Warum 4–20 mA statt 0–10 V?", "back": "Spannungsabfall auf langen Leitungen verfälscht den Strom nicht; 0 mA = Drahtbruch erkennbar (lebender Nullpunkt)."},
+  {"id": "fc-0396", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.diagnose", "front": "Ishikawa-Diagramm", "back": "Fischgräte: mögliche Ursachen eines Problems nach Kategorien ordnen (Mensch, Maschine, Material, Methode, Umwelt), dann gezielt prüfen."},
+  {"id": "fc-0402", "exam": ["AP2"], "jobs": ["fidv"], "topic": "vernetzung.ot", "front": "Fernwartung absichern", "back": "VPN mit Mehr-Faktor-Anmeldung zu einem Sprungserver, nur bei Bedarf freigeschaltet und protokolliert – Steuerungen nie direkt aus dem Internet erreichbar."}
 ]
