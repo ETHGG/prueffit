@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.3] – 2026-11-25
+
+### Hinzugefügt
+- **Fragen vertiefen, Blöcke 3 und 4** (Tag-Auftrag): 61 neue AP1-Aufgaben; sechs weitere Themen haben jetzt für FISI und KITS je mindestens 15 Aufgaben.
+  - IPv6 (`net-0151` bis `net-0161`): Loopback, Präfixe der Adresstypen, Kürzen mit `::`, NDP statt ARP, Interface-ID, Aussagen zu Broadcast/Link-Local/NAT, Ablauf von SLAAC, /60 in /64, Blockgröße, Multicast, offene Aufgabe Link-Local.
+  - Algorithmen (`prog-0165` bis `prog-0174`): Schreibtischtest Summe/Durchschnitt, binäre Suche (Halbierungen, Voraussetzung), Maximum mit falschem Startwert, Bubble-Sort-Durchlauf, lineare Suche, Eigenschaften eines Algorithmus, Rekursion und fehlende Abbruchbedingung, Zähl-Algorithmus in Pseudocode.
+  - Finanzierung (`wi-0255` bis `wi-0264`): Finanzierungsarten, Tilgungsplan Ratenkredit (Tabelle), Annuität, Leasing, Kontokorrentkredit mit Zinsen, Rahmenvertrag, Make or Buy.
+  - Abschreibung (`wi-0265` bis `wi-0274`): Anschaffungskosten (Tabelle), Vorsteuer, monatsgenaue AfA, GWG und Sammelposten, Restbuchwert, Amortisation, Rentabilität, „Computer in einem Jahr“ genauer (steuerliches Wahlrecht, Handelsbilanz).
+  - Wirtschaftliche Grundlagen (`wi-0275` bis `wi-0284`): Kollektiv-/immaterielle Bedürfnisse, Dringlichkeit, Produktionsfaktoren BWL/VWL, Betriebsstoff, Kann-/Formkaufmann, Bedürfnis–Bedarf–Nachfrage.
+  - Kaufmännisches Rechnen (`wi-0285` bis `wi-0294`): Brutto, Kapital aus Zinsen, verminderter Grundwert, umgekehrter Dreisatz, Währung, Zahllast, Zinstage, 7 % für Bücher, Prozentsatz, Rechnung als Tabelle.
+
 ## [2.21.2] – 2026-11-25
 
 ### Hinzugefügt
