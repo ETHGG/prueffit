@@ -55,9 +55,9 @@ Gesteuert wird alles aus dem Chat in der Claude-App. Dort wird jeder neue Auftra
 |---|---|---|
 | Inhalte: Fragen, Lernzettel, Karten, Formeln, Handlungssituationen, Bilder | Claude-App direkt oder geplante Aufgabe (Cloud) | Opus |
 | Faktenchecks, Gegenprüfung, Recherche, Jahres-/Halbjahreswerte | Claude-App oder geplante Aufgabe (Cloud) | stärkstes Modell (Fable, sonst Opus) |
-| Code: Funktionen, Umbauten, Fehlerbehebung, Tests | einmalige geplante **Code-Aufgabe** in der Cloud (der Nutzer kann die Sitzung live ansehen) | Fable für große Umbauten, Opus für Funktionen, Sonnet für kleine Korrekturen |
+| Code: Funktionen, Umbauten, Fehlerbehebung, Tests | geplante **Code-Aufgaben** in der Cloud (der Nutzer kann jede Sitzung live ansehen): täglich 10:13 „Issues `code` abarbeiten“ (Opus), Sa 02:13 „Umbauten und Verbesserungen“ inkl. Label `gross` (Fable); Eiliges aus dem Chat als einmalige Code-Aufgabe | Fable für große Umbauten, Opus für Funktionen, Sonnet für kleine Korrekturen |
 | Paket-Updates (Vitest, Playwright, ESLint …) | Dependabot-Pull-Requests, getestet in der CI; der monatliche Technik-Check führt grüne zusammen | Sonnet |
-| Was lokales `npm` braucht und über Dependabot/CI nicht geht | GitHub-Issue mit Label **`code`** → Claude Code auf dem Mac des Nutzers | nach Aufwand |
+| Was lokales `npm` braucht und über Dependabot/CI nicht geht | GitHub-Issue mit Labels **`code`** und **`npm`** → Claude-Code-Sitzung des Nutzers (nur zur Not) | nach Aufwand |
 | Routine: CI-Status, Live-Seite, Morgenbericht | geplante Aufgabe (Cloud) | Haiku oder Sonnet |
 
 **Regeln für beide Seiten (Claude-App, geplante Aufgaben, Claude Code):**
