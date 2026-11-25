@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.42] – 2026-11-25
+
+### Geändert
+- **Doppelte Karteikarten aufgelöst:** Acht Karten, die für dieselben Lernenden doppelt erschienen, haben neue Inhalte (Kündigung nach der Probezeit, Beitragsbemessungsgrenze, Process Mining, Product/Sprint Backlog, Fixhandelskauf, INNER vs. LEFT JOIN, Cold/Warm/Hot Site, Thin Provisioning); IDs bleiben, der Lernstand der Fächer wird übernommen
+
 ## [2.21.41] – 2026-11-25
 
 ### Hinzugefügt
