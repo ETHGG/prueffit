@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.2] – 2026-11-25
+
+### Hinzugefügt
+- **Fragen vertiefen, Block 2** (Tag-Auftrag): 34 neue AP1-Aufgaben; E-Mail-Sicherheit, Programmiergrundlagen und Marketing haben jetzt für FISI und KITS je mindestens 15 Aufgaben.
+  - E-Mail-Sicherheit (`sec-0106` bis `sec-0117`): Phishing/Spam, Spear-Phishing, CEO-Fraud, STARTTLS nur auf dem Transportweg (opportunistisch, MTA-STS/DANE), Ende-zu-Ende mit S/MIME und OpenPGP, Schlüssel beim Verschlüsseln und Signieren (S/MIME hybrid), Prüfung der Zertifikatskette, echte Domain eines Links, doppelte Dateiendung, MFA und ihre Grenzen (Echtzeit-Phishing, FIDO2/Passkeys), offene Aufgabe Schutzmaßnahmen.
+  - Programmiergrundlagen (`prog-0153` bis `prog-0164`): Zuweisung/Vergleich (je nach Sprache), Array-Index, Modulo, UND/ODER, Wahrheitstabelle, fußgesteuerte Schleife, Klasse/Objekt/Attribut/Methode, Kapselung, Vererbung, Zählschleife mit Schrittweite, Kontrollstrukturen.
+  - Marketing (`wi-0245` bis `wi-0254`): Marketingmix, Marktbeobachtung, Reliabilität, Konversionsrate, After-Sales, Penetrationsstrategie, Ablauf einer Befragung, Sponsoring/PR, E-Mail-Werbung nach § 7 UWG (mit Bestandskunden-Ausnahme), Primär-/Sekundärforschung.
+
+### Behoben
+- 2.21.1: PDFs nach der Versionsänderung neu erzeugt (Prüfsumme in `pdf/manifest.json`).
+
 ## [2.21.1] – 2026-11-25
 
 ### Hinzugefügt
