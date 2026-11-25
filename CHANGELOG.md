@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.20] – 2026-11-25
+
+### Hinzugefügt
+- **Acht weitere Bilder (Blender)** für Themen ohne Bild, je mit Lernzettel-Zeile und Bildfrage:
+  - `arbeitsplatz-ergonomie` (Bildschirmarbeitsplatz, `re-0111`), `meldebestand` (Bestellpunktverfahren, `wi-0324`), `bilanz-aufbau` (`wi-0325`), `rechtsformen-haftung` (`wi-0326`), `mahnwesen` (Mahnverfahren, `wi-0327`), `magisches-dreieck` (`pm-0194`), `einfuehrungsstrategien` (`pm-0195`), `binaere-suche` (`prog-0210`).
+
 ## [2.21.19] – 2026-11-25
 
 ### Hinzugefügt
