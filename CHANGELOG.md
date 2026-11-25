@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.24] – 2026-11-25
+
+### Hinzugefügt
+- **Vier weitere Bilder (Blender)**, je mit Lernzettel-Zeile und Bildfrage: `durchlaufzeit` (`dat-0049`), `mittelwert-median` (`dat-0050`), `etl-sternschema` (`dat-0051`), `stromsignal` (4–20 mA, `ot-0043`). Damit hat jetzt jedes der 86 Themen mindestens ein Bild.
+
 ## [2.21.23] – 2026-11-25
 
 ### Hinzugefügt
