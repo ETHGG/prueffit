@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.47] – 2026-11-25
+
+### Hinzugefügt
+- **Weitere Tabellenaufgaben für die übrigen Berufe:** Angebotskalkulation aus Stunden (`wi-0357`, FIAE/KITS/KDM), Kennzahlen eines digitalen Angebots (`wi-0358`, KDM), Prüfbericht Datenqualität (`dat-0071`, FIDPA), 4–20-mA-Wertetabelle (`ot-0059`, FIDV), Spannungsfall zweier Querschnitte im Vergleich (`el-0055`, ITSE)
+
 ## [2.21.46] – 2026-11-25
 
 ### Hinzugefügt
