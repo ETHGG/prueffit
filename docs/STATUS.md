@@ -115,9 +115,9 @@ Gesamt geschätzt: ca. 7 h 40 Min. (davon 7 h 10 Min. Auftrag + 30 Min. Qualitä
 | täglich | 06:07 (07:50, Sa/So 09:20) | Nacht 3: Gegenprüfung der Nacht, danach Durchlauf (nur Inhalte; Code → Issue `code`) | Fable |
 | täglich | 09:57 | Morgenbericht + Betriebscheck (CI grün? Live-Version?) per Push | Haiku |
 | Sa | 02:13 (04:05) | Code: Umbauten und Verbesserungen (Issues `code`+`gross`, Funktions-Backlog, eigene Verbesserungen) | Fable |
-| täglich | 10:13 (12:45) | Code: offene Issues `code` abarbeiten (ohne `npm`); nichts offen → sofort Ende | Opus |
+| täglich | 10:13 (12:45) | Code: offene Issues `code` abarbeiten (npm verfügbar seit 25.11.2026); nichts offen → sofort Ende | Opus |
 
-Tests ohne npm: `sh scripts/offline/check.sh` (Unit + Lint), `… e2e`, `… pdfs`.
+Tests: `npm ci` + `npm test`/`npm run lint`/`npm run test:e2e` (npm in geplanten Aufgaben seit 25.11.2026 frei, Issue #11); Ersatz ohne npm: `sh scripts/offline/check.sh` (Unit + Lint), `… e2e`, `… pdfs`.
 Alle Läufe holen vor dem Push mit `git pull --rebase` den neuesten Stand.
 
 ## Erledigt
