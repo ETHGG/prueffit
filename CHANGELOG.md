@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.14] – 2026-11-25
+
+### Behoben
+- **Gegenprüfung der 435 neuen Aufgaben** (vier unabhängige Prüfungen, alle Rechnungen per Skript nachgerechnet): keine falsche Lösung; 1 fehlerhafte Erklärung und 30 Präzisierungen umgesetzt.
+  - Fehler: `wiso-0118` – die Verlängerung nach nicht bestandener Prüfung braucht keine Zustimmung des Betriebs (§ 21 Abs. 3 BBiG).
+  - Mehrdeutig bzw. zu pauschal, jetzt eindeutig: `sec-0121` (Frage auf Wiederherstellbarkeit umformuliert), `pm-0131` (Scrum Guide: höchstens ein Monat statt „4 Wochen“), `wi-0279` (eindeutig gewerbliche Tätigkeit), `wi-0227` (eingetragene Haftsumme), `wiso-0106` (§ 99 BetrVG: Unternehmen), `hw-0152` (Live-Migration auch ohne gemeinsamen Speicher), `pm-0153` (Reihenfolge ohne doppelte „Abnahme“).
+  - Präzisiert: NTFS unter Linux, DDR4/DDR5 je Board, zwischengespeicherte Domänenanmeldung, WPA3-Übergangsmodus, eDRAM-Cache, fe80::1, BITV-Anknüpfung, UML-Abhängigkeit/Realisierung, Compiler-Fehlerarten, Array-Zugriff in JavaScript, ISO/IEC 25010:2023, BSI nach NIS-2, Aufbewahrungsfristen (Viertes Bürokratieentlastungsgesetz), Reihenschaltung, Zahlschein/Barscheck, UG-Rücklage (auch im Lernzettel), Februar bei Zinstagen, Skonto-Formel, autorisierte Firmenlastschrift, Eigentumsvorbehalt in der Insolvenz, 5-Jahres-Befristung ab 52, Bußgelder der Berufsgenossenschaften, AI Act seit 2.8.2026.
+
 ## [2.21.13] – 2026-11-25
 
 ### Hinzugefügt
