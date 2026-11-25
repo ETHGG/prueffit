@@ -1,4 +1,4 @@
-# Kurzbericht 2.21.15–2.21.24 (Tag-Auftrag 25.11.2026, 11:40–13:05)
+# Kurzbericht 2.21.15–2.21.24 (Tag-Auftrag 25.11.2026, 11:40–13:02)
 
 - **Dubletten (2.21.15):** 16 fast gleiche Aufgaben auf neue Aspekte umgeschrieben.
 - **Ladezeit:** erster Besuch 765 KB, Daten nach 3,9 s; danach aus dem Cache 0,4 s – keine Änderung nötig.
