@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.34] – 2026-11-25
+
+### Geändert
+- **Recht und Wirtschaft präzisiert:**
+  - Datenschutzbeauftragter: Schwelle „in der Regel mindestens 20 Personen ständig mit automatisierter Verarbeitung“ und Pflicht unabhängig von der Zahl (besondere Kategorien, systematische Überwachung); Tippfehler in der zugehörigen Erklärung behoben
+  - Vertragsrecht: Schaufenster, Katalog, Werbung und Webshop-Seiten sind meist nur eine Aufforderung zur Abgabe eines Angebots
+  - GWG-Regeln 2026 vollständig: bis 250 € Sofortaufwand, 250,01–800 € Wahlrecht, Sammelposten 250,01–1.000 €, Wahlrecht einheitlich je Wirtschaftsjahr
+  - § 99 BetrVG: Schwelle bezieht sich auf das Unternehmen (Lernzettel „Mitbestimmung“)
+
 ## [2.21.33] – 2026-11-25
 
 ### Geändert

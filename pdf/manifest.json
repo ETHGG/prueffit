@@ -1,46 +1,46 @@
 {
-  "version": "2.21.33",
-  "sourceHash": "1ae8faff8f5b24cb57ab836b60522b75b6fdd56bcbd789526e5b2f4ef08336ea",
+  "version": "2.21.34",
+  "sourceHash": "aad2e2235d2948bd9a76419a40b5c907b0d80aab247aa9d3695028f0e4be00c5",
   "files": [
     {
       "key": "ap1",
       "file": "lernzettel-ap1.pdf",
-      "bytes": 12738281
+      "bytes": 12742073
     },
     {
       "key": "ap2-fiae",
       "file": "lernzettel-ap2-fiae.pdf",
-      "bytes": 5118400
+      "bytes": 5122448
     },
     {
       "key": "ap2-fisi",
       "file": "lernzettel-ap2-fisi.pdf",
-      "bytes": 12566840
+      "bytes": 12569266
     },
     {
       "key": "ap2-fidpa",
       "file": "lernzettel-ap2-fidpa.pdf",
-      "bytes": 4559399
+      "bytes": 4559960
     },
     {
       "key": "ap2-fidv",
       "file": "lernzettel-ap2-fidv.pdf",
-      "bytes": 9831131
+      "bytes": 9831231
     },
     {
       "key": "ap2-itse",
       "file": "lernzettel-ap2-itse.pdf",
-      "bytes": 8883284
+      "bytes": 8884631
     },
     {
       "key": "ap2-kits",
       "file": "lernzettel-ap2-kits.pdf",
-      "bytes": 11399969
+      "bytes": 11403944
     },
     {
       "key": "ap2-kdm",
       "file": "lernzettel-ap2-kdm.pdf",
-      "bytes": 5188440
+      "bytes": 5192974
     },
     {
       "key": "abkuerzungen-fiae",
@@ -60,7 +60,7 @@
     {
       "key": "abkuerzungen-fidv",
       "file": "abkuerzungen-fidv.pdf",
-      "bytes": 690867
+      "bytes": 690866
     },
     {
       "key": "abkuerzungen-itse",
@@ -85,7 +85,7 @@
     {
       "key": "formeln-fisi",
       "file": "formeln-fisi.pdf",
-      "bytes": 224325
+      "bytes": 224326
     },
     {
       "key": "formeln-fidpa",
@@ -100,17 +100,17 @@
     {
       "key": "formeln-itse",
       "file": "formeln-itse.pdf",
-      "bytes": 221236
+      "bytes": 221237
     },
     {
       "key": "formeln-kits",
       "file": "formeln-kits.pdf",
-      "bytes": 255609
+      "bytes": 255610
     },
     {
       "key": "formeln-kdm",
       "file": "formeln-kdm.pdf",
-      "bytes": 241552
+      "bytes": 241554
     }
   ]
 }
