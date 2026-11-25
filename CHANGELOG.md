@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.21] – 2026-11-25
+
+### Hinzugefügt
+- **Acht weitere Bilder (Blender)** für Themen ohne Bild, je mit Lernzettel-Zeile und Bildfrage:
+  - `maslow-pyramide` (`wi-0328`), `amortisation` (`wi-0329`), `personalbedarf` (Netto-Personalbedarf, `wi-0330`), `umsatzsteuer-zahllast` (`wi-0331`), `duales-system` (`wiso-0127`), `schutzklassen` (ITSE, `el-0042`), `schleifen` (kopf-/fußgesteuert, `prog-0211`), `dokumentationsarten` (`pm-0196`).
+
 ## [2.21.20] – 2026-11-25
 
 ### Hinzugefügt
