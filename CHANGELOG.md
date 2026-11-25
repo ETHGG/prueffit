@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.28] – 2026-11-25
+
+### Hinzugefügt
+- **Sechs fachlich anspruchsvollere Bilder (Blender)**, je mit Lernzettel-Abschnitt und Bildfrage:
+  - `server-innenleben` – Rackserver von innen: Hot-Swap-Schächte, redundante Lüfter und Netzteile (1+1), Luftstrom (`hw-0162`)
+  - `warm-kaltgang` – Rechenzentrum im Querschnitt mit Doppelboden, Kaltgang-Einhausung, Warmgang, Blindplatten (`hw-0163`, Lernzettel „Nachhaltigkeit“ ergänzt)
+  - `kerberos-ablauf` – Anmeldung mit Tickets in 5 Schritten (`net-0194`, neuer Lernzettel-Abschnitt)
+  - `mail-authentifizierung` – SPF, DKIM, DMARC mit Alignment und Richtlinie (`sec-0153`, FISI)
+  - `glasfaser-spleiss` – Fusionsspleiß in 5 Schritten mit typischer Dämpfung (`net-0195`, Lernzettel „Übertragungsmedien“ ergänzt)
+  - `speicherhierarchie` – Register bis Magnetband mit Zugriffszeiten und Größen (`hw-0164`, Lernzettel „PC-Komponenten“ ergänzt)
+
 ## [2.21.27] – 2026-11-25
 
 ### Geändert

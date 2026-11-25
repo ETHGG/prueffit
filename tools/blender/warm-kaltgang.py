@@ -1,0 +1,56 @@
+sc = reset()
+lm = mat('label', (0.02, 0.03, 0.035), rough=1.0)
+wl = mat('white', (1, 1, 1), emit=1.0)
+blue = mat('blue', (0.1, 0.32, 0.65), rough=0.5)
+orange = mat('orange', (0.68, 0.3, 0.02), rough=0.5)
+green = mat('green', (0.04, 0.4, 0.18), rough=0.5)
+grey = mat('grey', (0.28, 0.32, 0.36), rough=0.6)
+red = mat('red', (0.75, 0.15, 0.12), rough=0.5)
+ln = mat('ln', (0.15, 0.2, 0.22), rough=0.9)
+def card(x, z, w, h, m, lines, sizes=(0.06, 0.042)):
+    box('c', (w, 0.2, h), (x, 0, z), m, bevel=0.015)
+    n = len(lines)
+    for i, t in enumerate(lines):
+        s = sizes[0] if i == 0 else sizes[1]
+        dz = (n - 1) * 0.06 - i * 0.12
+        label(t, (x, -0.11, z + dz - s / 3), size=s, material=wl, align='CENTER')
+rack = mat('rack', (0.12, 0.13, 0.15), metal=0.4, rough=0.5)
+tile = mat('tile', (0.6, 0.62, 0.64), rough=0.6)
+crac = mat('crac', (0.42, 0.5, 0.58), rough=0.5)
+glass = mat('glass', (0.55, 0.7, 0.8), rough=0.3)
+D = 1.6
+box('floor', (3.9, D, 0.03), (-0.25, D / 2, 0.3), tile)
+box('base', (3.9, D, 0.02), (-0.25, D / 2, 0.08), mat('base', (0.4, 0.42, 0.44), rough=0.8))
+box('perf', (0.6, D, 0.035), (0, D / 2, 0.3), mat('perf', (0.35, 0.55, 0.75), rough=0.6))
+for x in (-0.75, 0.75):
+    box('rackrow', (0.5, D, 1.2), (x, D / 2, 0.92), rack, bevel=0.01)
+    for k in range(6):
+        box('srv', (0.505, D * 0.96, 0.03), (x, D / 2, 0.45 + k * 0.17), grey)
+box('roof', (1.0, D, 0.025), (0, D / 2, 1.53), glass)
+box('crac', (0.45, 0.9, 1.35), (-1.75, 0.1, 0.97), crac, bevel=0.02)
+box('ceil', (3.9, D, 0.02), (-0.25, D / 2, 2.0), mat('ceil', (0.82, 0.83, 0.85), rough=0.8))
+y = -0.02
+arrow((-1.55, y, 0.19), (-0.15, y, 0.19), blue, r=0.018, head=0.09)
+arrow((0, y, 0.2), (0, y, 0.85), blue, r=0.018, head=0.09)
+arrow((-0.1, y, 0.95), (-0.45, y, 0.95), blue, r=0.018, head=0.09)
+arrow((0.1, y, 0.95), (0.45, y, 0.95), blue, r=0.018, head=0.09)
+for s in (-1, 1):
+    arrow((s * 1.02, y, 0.95), (s * 1.25, y, 0.95), red, r=0.018, head=0.09)
+    arrow((s * 1.3, y, 1.0), (s * 1.3, y, 1.75), red, r=0.018, head=0.09)
+arrow((1.25, y, 1.85), (-1.6, y, 1.85), red, r=0.018, head=0.09)
+arrow((-1.75, y, 1.82), (-1.75, y, 1.7), red, r=0.018, head=0.06)
+yl = -0.1
+label('Kaltgang (eingehaust)', (0, yl, 1.62), size=0.07, material=blue, align='CENTER')
+label('Zuluft ca. 18–27 °C', (0.08, yl, 0.62), size=0.05, material=blue)
+label('Warmgang', (1.3, yl, 0.55), size=0.06, material=red, align='CENTER')
+label('Warmgang', (-1.27, yl, 0.55), size=0.055, material=red, align='CENTER')
+label('Rackreihe', (-0.75, yl, 1.6), size=0.05, material=lm, align='CENTER')
+label('Rackreihe', (0.75, yl, 1.6), size=0.05, material=lm, align='CENTER')
+label('Klimagerät', (-1.75, -0.4, 1.05), size=0.055, material=wl, align='CENTER')
+label('(Umluftkühler)', (-1.75, -0.4, 0.97), size=0.045, material=wl, align='CENTER')
+label('Doppelboden mit Lochplatten', (-0.8, yl, 0.0), size=0.055, material=lm, align='CENTER')
+label('warme Abluft zurück zum Klimagerät', (-0.2, yl, 1.92), size=0.05, material=red, align='CENTER')
+label('Warmgang/Kaltgang trennt Zuluft und Abluft: Geräte saugen vorn kalt an, blasen hinten warm aus.', (-0.25, yl, -0.2), size=0.05, material=lm, align='CENTER')
+label('Blindplatten in freien Höheneinheiten verhindern, dass warme Luft nach vorn zurückströmt – das senkt den PUE.', (-0.25, yl, -0.31), size=0.05, material=lm, align='CENTER')
+camera_front((-0.25, 0, 0.9), 4.3, tilt=12)
+lights(0.6)
