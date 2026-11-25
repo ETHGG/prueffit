@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.49] – 2026-11-25
+
+### Behoben
+- **Prüffristen nach DGUV Vorschrift 3 korrigiert** (Lernzettel „Schutzmaßnahmen“ und `re-0120`): Richtwert für ortsveränderliche Geräte 6 Monate (Baustelle 3), bei Fehlerquote unter 2 % verlängerbar auf höchstens 1 Jahr (Werkstatt) bzw. 2 Jahre (Büro) – 2.21.40/2.21.48 hatten die Höchstwerte fälschlich als Richtwerte angegeben
+
 ## [2.21.48] – 2026-11-25
 
 ### Geändert
