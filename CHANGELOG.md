@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.20.5] – 2026-11-25
+
+### Hinzugefügt
+- **9 neue offene Aufgaben und Tabellenaufgaben** (Nachtbetrieb Lauf 2b) für FISI/KITS-Themen, die bisher keine solche Aufgabe hatten, alle Rechenwege nachgerechnet:
+  - offene Aufgaben mit Bewertungsraster: Schutzziele an drei Vorfällen einer Arztpraxis (`sec-0103`), SPF/DKIM/DMARC gegen gefälschte Absender (`sec-0104`, FISI), Abnahmeprotokoll und Umgang mit einem Mangel (`pm-0115`), CSV oder JSON für Switch-Konfigurationen (`prog-0139`)
+  - Tabellenaufgaben: Skonto und effektiver Jahreszins des Lieferantenkredits (`wi-0220`), Umsatzsteuer-Zahllast mit 19 % und 7 % (`wi-0221`, KITS/KDM), Kosten des Factorings (`wi-0222`, KITS/KDM), Gemeinkosten nach Schlüsseln auf Kostenstellen verteilen (`wi-0223`, KITS/KDM), Stromkosten-Einsparung durch sparsamere Arbeitsplatzrechner (`hw-0112`)
+- Lernzettel ergänzt: DMARC-Alignment (E-Mail-Sicherheit), Kosten des Factorings mit Rechenbeispiel (Zahlungsverkehr), Verteilung von Gemeinkosten nach Schlüsseln (Kosten- und Leistungsrechnung); PDFs neu erzeugt.
+
 ## [2.20.4] – 2026-11-25
 
 ### Hinzugefügt

@@ -17,7 +17,7 @@
 
 ## Nachtbetrieb (Auftrag 23.11.2026, 22:56, ab sofort jede Nacht)
 
-**Läuft gerade:** Nacht Lauf 2 „neue Inhalte“ seit 04:18
+**Läuft gerade:** –
 
 Regeln für alle Nachtläufe:
 - Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
@@ -55,6 +55,7 @@ Hilfsmittel im Abendlauf: `device_commit_files` liest eine eben neu geschriebene
 ### Nachtprotokoll
 | Datum | Lauf | Start | Ende | Ist | Ergebnis |
 |---|---|---|---|---|---|
+| 25.11.2026 | Nacht Lauf 2 „neue Inhalte“ (b) | 04:18 | 04:30 | 12 Min. | (b) 9 neue offene/Tabellenaufgaben für FISI/KITS-Themen ohne solche Aufgaben (2.20.5): offen mit Raster `sec-0103` (Schutzziele), `sec-0104` (SPF/DKIM/DMARC, FISI), `pm-0115` (Abnahmeprotokoll), `prog-0139` (CSV/JSON); Tabelle `wi-0220` (Skonto), `wi-0221` (USt-Zahllast, KITS/KDM), `wi-0222` (Factoring, KITS/KDM), `wi-0223` (Gemeinkosten verteilen, KITS/KDM), `hw-0112` (Stromkosten); Lernzettel E-Mail-Sicherheit (DMARC-Alignment), Zahlungsverkehr (Factoring-Kosten), KLR (Verteilungsschlüssel); PDFs neu. Unit-Tests (Ersatz-Runner, 801) und Browsertests Chromium Desktop/iPhone SE (166) grün. **Nächster Lauf 2: (a)** Handlungssituation KITS. Lauf 3 bitte die 9 IDs gegenprüfen. |
 | 24./25.11.2026 | Nacht Lauf 1 „neue Funktion“ | 23:14 | 00:26 | 72 Min. | Funktions-Backlog 2–5 erledigt: Erklärung zu jeder Antwortmöglichkeit (2.17.0, FISI/KITS; 2.20.1 alle 565 Auswahlfragen; 2.20.3 Gegenprüfung, 17 Präzisierungen), Wochenplan als .ics (2.18.0), SVG-Skizzen in Lernzetteln (2.19.0), Lernkalender (2.20.0); eigene Verbesserungen: Tastatur im Quiz, gespeicherter Prüfungstag bleibt erhalten (offener Punkt aus Lauf 3), Spannungsfall geprüft (2.20.2), Quiz-Auswertung aufklappbar (2.20.4); ~50 Erklärungen/Lernzettel-Zeilen präzisiert. Unit-Tests (Ersatz-Runner, 801) und Browsertests Chromium Desktop/iPhone SE/iPhone 13 dunkel (247) grün. Kontingent nicht prüfbar (kein Browser in der Cloud). |
 | 24.11.2026 | Abendlauf 3D-Bilder (Fortsetzung 2) | 20:13 | 20:45 | 32 Min. | 16 Bilder + 16 Bildfragen (2.16.16–2.16.21), MFA präzisiert, Kontingentregeln (Woche bis 100 %, Sitzung bis ca. 95 %, claude.ai-Prüfung ohne Rückfrage) in CLAUDE.md und Nachtbetrieb. Pausiert bei Sitzung ca. 92 %, Woche 56 % (Sitzungs-Reset 22:40). |
 | 24.11.2026 | Abendlauf 3D-Bilder (Fortsetzung) | 18:40 | 19:20 | 40 Min. | Bildbetrachter in der App (2.16.8), 21 Bilder + 21 Bildfragen (2.16.9–2.16.15), Präzisierungen Signatur/SAN/Firewall, Timer-Test stabil. Pausiert bei Sitzung 68 %, Woche 51 %; weiter mit dem Bilder-Backlog im Lauf „3D-Bilder“ (02:13). |
