@@ -1431,6 +1431,12 @@
     ]
   },
   {
+    "abbr": "QUIC",
+    "full": "QUIC (ursprünglich Quick UDP Internet Connections)",
+    "explanation": "Transportprotokoll über UDP mit eingebauter TLS-1.3-Verschlüsselung; sorgt selbst für Zuverlässigkeit und Reihenfolge. Grundlage von HTTP/3.",
+    "area": "Netzwerke"
+  },
+  {
     "abbr": "RADIUS",
     "full": "Remote Authentication Dial-In User Service",
     "explanation": "Zentraler Anmeldeserver, z. B. für WLAN mit 802.1X",
@@ -1513,6 +1519,12 @@
     "full": "Recovery Time Objective",
     "explanation": "Wie schnell ein System wiederhergestellt sein muss",
     "area": "IT-Sicherheit"
+  },
+  {
+    "abbr": "RTP",
+    "full": "Real-time Transport Protocol",
+    "explanation": "Überträgt Sprach- und Videodaten in Echtzeit, meist über UDP; Grundlage der Sprachübertragung bei VoIP.",
+    "area": "Netzwerke"
   },
   {
     "abbr": "S/FTP",

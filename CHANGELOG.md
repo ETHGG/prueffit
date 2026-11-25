@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.35] – 2026-11-25
+
+### Geändert
+- **Netzwerke und Hardware präzisiert (überall gleich):**
+  - TCP/UDP: HTTP/1.1 und HTTP/2 über TCP, HTTP/3 über QUIC (UDP); DNS überwiegend UDP, große Antworten per TCP; bei VoIP laufen die Sprachdaten per RTP über UDP; SMTP-Einlieferung 587 oder 465 mit TLS – Abkürzungen RTP und QUIC im Verzeichnis ergänzt
+  - ECC-RAM: korrigiert Einzelbitfehler, erkennt Zweibitfehler (größere nicht immer); Standard, aber keine gesetzliche Pflicht – Lernzettel, Frage und Karte
+  - USV-Überbrückungszeit: Formel liefert einen theoretischen Wert, real kürzer (Wirkungsgrad, Entladetiefe, Alterung)
+
 ## [2.21.34] – 2026-11-25
 
 ### Geändert
