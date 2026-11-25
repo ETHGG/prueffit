@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.9] – 2026-11-25
+
+### Hinzugefügt
+- **Fragen vertiefen, Block 10** (Tag-Auftrag): 27 neue AP1-Aufgaben; sechs weitere Themen haben für FISI und KITS je mindestens 15 Aufgaben.
+  - IT-Service (`pm-0180` bis `pm-0184`): Problem Management, Service Request, Ablauf der Störungsbearbeitung, Inhalt eines Tickets, Workaround.
+  - Geschäftsprozesse (`pm-0185` bis `pm-0188`): Unterstützungsprozess, XOR in der EPK, Informationssicht, Durchlaufzeit.
+  - Kommunikation (`pm-0189` bis `pm-0192`): Präsentation für die Geschäftsleitung, Punktdiagramm, sachliche Kritik, Benutzerhandbuch.
+  - Zahlensysteme (`prog-0192` bis `prog-0196`): Umrechnungstabelle, Hex-Ziffern als 4 Bit, Sortieren über Systeme hinweg, Darstellungen von 255, 16 Bit ohne Vorzeichen – jetzt mit sechs Aufgabentypen.
+  - UML-Modellierung (`prog-0197` bis `prog-0200`): «include», Komposition, Sichtbarkeit, Vererbungspfeil.
+  - Schutzziele (`sec-0140` bis `sec-0144`): gestohlenes Notebook, Ausfallzeit bei 99,5 %, Authentizität, Maßnahmen für Verfügbarkeit, Passwort + PIN ist keine 2FA.
+
 ## [2.21.8] – 2026-11-25
 
 ### Hinzugefügt
