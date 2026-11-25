@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.20.7] – 2026-11-25
+
+### Behoben (Durchlauf Nachtbetrieb Lauf 3)
+- **Amortisationszeit einheitlich und präzise:** `wi-0174` zählte die Abschreibung zu einer Einsparung hinzu, die als reine Personalkosten-Einsparung (Zahlungsüberschuss) formuliert war – doppelt gezählt (richtig wären dann 4 statt 3 Jahre). Die Aufgabe nennt jetzt eine Kostenersparnis nach Abschreibung (Kostenvergleich) und erklärt die Variante. Regel überall gleich nachgezogen: Rückfluss = Gewinn bzw. Kostenersparnis nach Abschreibung + Abschreibung; eine reine Einsparung an Zahlungen ist selbst der Rückfluss – Formelsammlung, Lernzettel Investitionsrechnung, Karteikarte „Amortisationszeit“ (widersprach bisher der Formelsammlung), Handlungssituation `sz-kits-ga2d` und `wi-0197`. Das Rechentraining rechnet weiter mit Zahlungsüberschüssen (passt zur Variante).
+- `wi-0103`, `wi-0173`: Fragen nach Gewinnschwelle bzw. kritischer Menge fragten „ab wie vielen … Gewinn/günstiger“, gemeint war die Menge, bei der beides gleich ist – Frage und Erklärung präzisiert.
+
+### Geändert
+- Projektarbeit: „Beispielthemen“ eingeklappt (die Karte war auf kleinen iPhones sehr lang).
+
 ## [2.20.6] – 2026-11-25
 
 ### Behoben (Gegenprüfung Nachtbetrieb Lauf 3)

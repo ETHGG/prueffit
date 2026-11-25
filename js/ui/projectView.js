@@ -251,8 +251,9 @@ export function render(root, ctx) {
           h('li', {}, `Präsentation höchstens ${PROJECT_FACTS.presentationMinutes} Minuten, mit Fachgespräch zusammen höchstens ${PROJECT_FACTS.totalMinutes} Minuten`),
           h('li', {}, `Bewertung: Projektarbeit mit Dokumentation ${PROJECT_FACTS.documentationShare} %, Präsentation und Fachgespräch ${PROJECT_FACTS.oralShare} %`),
           h('li', {}, 'Vorher: Projektantrag mit Ausgangslage, Ziel und Zeitplanung – er muss vom Prüfungsausschuss genehmigt werden')),
-        h('h3', { text: 'Beispielthemen' }),
-        h('ul', {}, PROJECT_EXAMPLES[job].map((t) => h('li', { text: t }))),
+        // Collapsed (2.20.6): the examples made this card very long on small phones.
+        fold('project', 'beispiele', { class: 'fg-all', summary: [h('span', { class: 'grow', text: 'Beispielthemen' }), h('span', { class: 'fold-rate', text: String(PROJECT_EXAMPLES[job].length) })] },
+          h('ul', {}, PROJECT_EXAMPLES[job].map((t) => h('li', { text: t })))),
         h('p', { class: 'muted small', text: 'Termine, Formvorgaben und das Online-Portal regelt deine IHK – prüfe ihr Merkblatt. Ob ein Thema passt, entscheidet der Prüfungsausschuss.' }))
       : null,
 
