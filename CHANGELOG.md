@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.45] – 2026-11-25
+
+### Hinzugefügt
+- **Tabellenaufgaben für KITS GA1** (Einführen einer IT-Systemlösung), teils auch FISI/KDM: Bezugskalkulation (`wi-0353`), Nutzwertanalyse zweier Angebote (`wi-0354`), Leasing oder Kauf (`wi-0355`), Benutzer- vs. Geräte-CALs (`re-0123`), Netzplanberechnung (`pm-0204`)
+
 ## [2.21.44] – 2026-11-25
 
 ### Hinzugefügt
