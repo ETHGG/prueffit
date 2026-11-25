@@ -149,3 +149,39 @@ describe('generator: commercial rounding and portable shuffle (2.15.3)', () => {
     }
   });
 });
+
+describe('generator: RAID (2.21)', () => {
+  it('capacity, rebuild time and write IOPS follow the formulas', () => {
+    const net = { 0: (n) => n, 1: () => 1, 5: (n) => n - 1, 6: (n) => n - 2, 10: (n) => n / 2 };
+    const penalty = { 10: 2, 5: 4, 6: 6 };
+    const seen = new Set();
+    for (let seed = 1; seed <= 2000; seed += 1) {
+      const t = generateTask('raid', seed);
+      expect(t.exam).toEqual(['AP2']);
+      const nums = (t.question.match(/\d+/g) ?? []).map(Number);
+      if (t.type === 'table') {
+        seen.add('table');
+        const [n, k] = nums;
+        expect(t.answer.rows.map((r) => r.value ?? Number(r.given))).toEqual([n * k, (n - 1) * k, (n - 2) * k, (n / 2) * k]);
+      } else if (t.answer.unit === 'TB') {
+        seen.add('net');
+        const [level, n, k] = nums;
+        expect(t.answer.value).toBe(net[level](n) * k);
+      } else if (t.answer.unit === 'h') {
+        seen.add('rebuild');
+        const [, k, rate] = nums;
+        expect(Math.abs(t.answer.value - (k * 1e6) / rate / 3600)).toBeLessThan(0.006);
+      } else {
+        seen.add('iops');
+        const [level, n, iops] = nums;
+        expect(t.answer.value).toBe(Math.round((n * iops) / penalty[level]));
+        if (level === 10) expect(n % 2).toBe(0);
+      }
+    }
+    expect([...seen].sort()).toEqual(['iops', 'net', 'rebuild', 'table']);
+  });
+
+  it('is offered only to jobs with RAID in their catalog', () => {
+    expect(availableKinds(['hardware.raid']).map((k) => k.id)).toEqual(['raid']);
+  });
+});

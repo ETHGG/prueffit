@@ -396,6 +396,78 @@ function ratios(rnd) {
   };
 }
 
+// RAID (since 2.21): net capacity, rebuild time, write IOPS and a capacity table. The topic is
+// AP2 only, so the tasks are marked AP2.
+const RAID_NET = {
+  0: (n) => n, 1: () => 1, 5: (n) => n - 1, 6: (n) => n - 2, 10: (n) => n / 2,
+};
+const RAID_FORMULA = { 0: 'n × K', 1: 'K (alle Platten tragen dieselben Daten)', 5: '(n − 1) × K', 6: '(n − 2) × K', 10: 'n/2 × K' };
+const WRITE_PENALTY = { 10: 2, 5: 4, 6: 6 };
+const WRITE_REASON = {
+  10: 'jeder Block wird auf beide Platten eines Spiegels geschrieben',
+  5: 'alte Daten und alte Parität lesen, neue Daten und neue Parität schreiben',
+  6: 'wie RAID 5, aber zwei Paritäten: 3 × lesen, 3 × schreiben',
+};
+
+function raid(rnd) {
+  const variant = int(rnd, 0, 3);
+  if (variant === 0) {
+    const level = pick(rnd, [0, 1, 5, 6, 10]);
+    const n = { 0: int(rnd, 2, 8), 1: 2, 5: int(rnd, 3, 10), 6: int(rnd, 4, 12), 10: 2 * int(rnd, 2, 6) }[level];
+    const k = pick(rnd, [1, 2, 4, 8, 12, 16, 20]);
+    const net = RAID_NET[level](n) * k;
+    return {
+      exam: ['AP2'], difficulty: 1, type: 'number', points: 2,
+      question: `Ein RAID ${level} besteht aus ${n} Festplatten mit je ${k} TB. Wie groß ist die Nettokapazität (in TB)?`,
+      answer: numberAnswer(net, 'TB'),
+      explanation: `RAID ${level}: Nettokapazität = ${RAID_FORMULA[level]} mit n = ${n} und K = ${k} TB → ${de(net)} TB von ${de(n * k)} TB brutto (${pct(Math.round((net / (n * k)) * 1000) / 10)}).`,
+    };
+  }
+  if (variant === 1) {
+    const k = pick(rnd, [2, 4, 8, 10, 12, 16, 20]);
+    const rate = pick(rnd, [100, 120, 150, 200, 250]);
+    const seconds = (k * 1e6) / rate;
+    const hours = Math.round((seconds / 3600) * 100) / 100;
+    return {
+      exam: ['AP2'], difficulty: 2, type: 'number', points: 2,
+      question: `In einem RAID 5 wird eine ausgefallene ${k}-TB-Platte ersetzt. Der Rebuild schreibt durchschnittlich ${rate} MB/s. Wie viele Stunden dauert er mindestens? (Herstellerangabe dezimal: 1 TB = 1.000.000 MB, auf zwei Nachkommastellen)`,
+      answer: numberAnswer(hours, 'h', 0.05),
+      explanation: `${k} TB = ${de(k * 1e6)} MB. Dauer = ${de(k * 1e6)} MB ÷ ${rate} MB/s = ${de(seconds)} s; ÷ 3.600 s/h ≈ ${de(hours, 2)} h. Das ist die Untergrenze: Läuft der Server weiter, teilt sich der Controller die Platten mit dem Betrieb und der Rebuild dauert länger. So lange ist ein RAID 5 ohne Redundanz.`,
+    };
+  }
+  if (variant === 2) {
+    const level = pick(rnd, [10, 5, 6]);
+    const n = level === 10 ? 2 * int(rnd, 2, 6) : int(rnd, level === 6 ? 4 : 3, 12);
+    const iops = pick(rnd, [80, 120, 150, 180, 200]);
+    const total = n * iops;
+    const pen = WRITE_PENALTY[level];
+    const value = Math.round(total / pen);
+    return {
+      exam: ['AP2'], difficulty: 3, type: 'number', points: 3,
+      question: `Ein RAID ${level} besteht aus ${n} Festplatten mit je ${iops} IOPS. Wie viele zufällige Schreibvorgänge pro Sekunde schafft es ungefähr (ohne Controller-Cache, auf ganze IOPS gerundet)?`,
+      answer: numberAnswer(value, 'IOPS', 1),
+      explanation: `Alle Platten zusammen: ${n} × ${iops} = ${de(total)} IOPS. Schreibaufwand (Write Penalty) bei RAID ${level}: ${pen} Plattenzugriffe je Schreibvorgang (${WRITE_REASON[level]}). ${de(total)} ÷ ${pen} ≈ ${de(value)} Schreib-IOPS. Ein Controller-Cache und das Schreiben ganzer Stripes senken den Aufwand in der Praxis.`,
+    };
+  }
+  const n = 2 * int(rnd, 2, 6);
+  const k = pick(rnd, [1, 2, 4, 8, 12, 16]);
+  return {
+    exam: ['AP2'], difficulty: 2, type: 'table', points: 3,
+    question: `Für einen Server stehen ${n} Festplatten mit je ${k} TB bereit. Trage die Nettokapazität je RAID-Level ein.`,
+    answer: {
+      rows: [
+        { label: 'Bruttokapazität', given: `${de(n * k)}` },
+        { label: 'RAID 5', value: (n - 1) * k },
+        { label: 'RAID 6', value: (n - 2) * k },
+        { label: 'RAID 10', value: (n / 2) * k },
+      ],
+      unit: 'TB',
+      columns: ['RAID-Level', 'Nettokapazität'],
+    },
+    explanation: `RAID 5: (${n} − 1) × ${k} = ${de((n - 1) * k)} TB, 1 Ausfall erlaubt. RAID 6: (${n} − 2) × ${k} = ${de((n - 2) * k)} TB, 2 beliebige Ausfälle. RAID 10: ${n}/2 × ${k} = ${de((n / 2) * k)} TB, garantiert 1 Ausfall (mehr, wenn verschiedene Spiegel betroffen sind).`,
+  };
+}
+
 /** Available kinds: id, label, topic (must exist in topics.json), builder. */
 export const GENERATOR_KINDS = [
   { id: 'subnetz', label: 'Subnetting und VLSM', topic: 'netzwerke.subnetting', build: subnetting },
@@ -405,6 +477,7 @@ export const GENERATOR_KINDS = [
   { id: 'abschreibung', label: 'Abschreibung und Amortisation', topic: 'wirtschaft.abschreibung', build: depreciation },
   { id: 'nutzwert', label: 'Nutzwertanalyse', topic: 'wirtschaft.nutzwert', build: utility },
   { id: 'kennzahlen', label: 'Kennzahlen (Rentabilität)', topic: 'wirtschaft.controlling', build: ratios },
+  { id: 'raid', label: 'RAID: Kapazität, Rebuild, Schreibleistung', topic: 'hardware.raid', build: raid },
 ];
 const KIND_BY_ID = new Map(GENERATOR_KINDS.map((k) => [k.id, k]));
 

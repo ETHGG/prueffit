@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.0] – 2026-11-25
+
+### Hinzugefügt
+- **Mehr zu RAID** (Wunsch des Nutzers):
+  - Lernzettel „RAID und Speicher“ ausgebaut: XOR-Parität mit Rechenbeispiel und Rebuild, unterschiedlich große Platten (kleinste zählt, Variante NAS), Lesen/Schreiben und Write Penalty (Tabelle, Schreib-IOPS), Rebuild-Dauer und Lesefehler beim Rebuild, Hardware- vs. Software-RAID (Tabelle, Fake-RAID), RAID 50/60, JBOD.
+  - Neues 3D-Bild `raid-paritaet-xor` (Blender): verlorener Block wird per XOR zurückgerechnet.
+  - 10 neue Aufgaben (`hw-0115` bis `hw-0124`): XOR-Rebuild mit Bild, Rebuild-Dauer, Schreib-IOPS, Hardware-/Software-RAID, gemischte Plattengrößen, RAID 50, Zuordnung Write Penalty, offene Aufgabe „RAID 6 statt RAID 5“ mit Bewertungsraster, Tabellenaufgabe Schreib-IOPS, JBOD – alle mit Lösungsweg bzw. Erklärung je Antwortmöglichkeit.
+  - 6 neue Karteikarten (`fc-0289` bis `fc-0294`): Parität, Write Penalty, Rebuild-Dauer, Hardware/Software-RAID, gemischte Platten, RAID 50/60/JBOD.
+  - **Rechentraining „RAID: Kapazität, Rebuild, Schreibleistung“** (`raid`, FISI/ITSE/KITS): Nettokapazität RAID 0/1/5/6/10, Rebuild-Dauer, Schreib-IOPS und Kapazitätstabelle, unbegrenzt erzeugt, als AP2 gekennzeichnet; Tests in `generator.test.js`.
+  - Glossar: BBU, IOPS, JBOD, URE.
+
 ## [2.20.9] – 2026-11-25
 
 ### Hinzugefügt

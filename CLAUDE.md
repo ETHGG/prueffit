@@ -131,7 +131,7 @@ prueffit/
 │   ├── pdfs.js               # Liste und Dateinamen der Lernzettel-PDFs
 │   ├── projectGuide.js       # Projektarbeit: Prüfungsbereich je Beruf, Checklisten, Fachgesprächsfragen mit Stichpunkten, Übungsmodus mit Timer (seit 2.3/2.14)
 │   ├── formulas.js           # Formelsammlung: Validierung, Suche, Gruppierung (seit 2.9)
-│   ├── generator.js          # Rechentraining: erzeugte Rechenaufgaben je Art und Seed (seit 2.13)
+│   ├── generator.js          # Rechentraining: erzeugte Rechenaufgaben je Art und Seed (seit 2.13, RAID seit 2.21)
 │   ├── search.js             # Suche über alles: Lernzettel, Abkürzungen, Formeln, Fragen des Berufs (seit 2.14)
 │   ├── transferLink.js       # Übertragung per Link/QR-Code: Lernstand komprimiert im URL-Hash, Vorschau, Berufssperre (seit 2.15)
 │   ├── qr.js                 # eigener QR-Encoder (Byte-Modus, Stufe L/M, Version 1–40, seit 2.15)
@@ -415,6 +415,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.18** | Wochenplan als Kalenderdatei (.ics) | erledigt |
 | **2.19** | Skizzen (SVG) in Lernzetteln | erledigt |
 | **2.20** | Lernkalender (Aktivität pro Tag) in der Statistik | erledigt |
+| **2.21** | Mehr zu RAID: Lernzettel (Parität, Write Penalty, Rebuild, Hardware/Software-RAID, RAID 50/60), Bild, Aufgaben, Karten, Rechentraining | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 

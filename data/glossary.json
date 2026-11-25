@@ -173,6 +173,12 @@
     "area": "IT-Sicherheit"
   },
   {
+    "abbr": "BBU",
+    "full": "Battery Backup Unit",
+    "explanation": "Akku (oder Kondensator) am RAID-Controller: schützt Daten im Schreib-Cache bei Stromausfall, damit der Cache Schreibvorgänge sicher puffern darf",
+    "area": "Hardware"
+  },
+  {
     "abbr": "BCD",
     "full": "Binary Coded Decimal",
     "explanation": "Jede Dezimalziffer einzeln in 4 Bit",
@@ -825,6 +831,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "IOPS",
+    "full": "Input/Output Operations per Second",
+    "explanation": "Ein-/Ausgabevorgänge pro Sekunde – Maß für die Leistung von Speichern bei vielen kleinen Zugriffen (HDD ca. 80–200, SSD viele Tausend)",
+    "area": "Hardware"
+  },
+  {
     "abbr": "IoT",
     "full": "Internet of Things",
     "explanation": "Internet der Dinge: vernetzte Sensoren und Geräte",
@@ -901,6 +913,12 @@
     "full": "Jugend- und Auszubildendenvertretung",
     "explanation": "Vertritt Beschäftigte unter 18 und Azubis unter 25",
     "area": "WiSo"
+  },
+  {
+    "abbr": "JBOD",
+    "full": "Just a Bunch of Disks",
+    "explanation": "Platten ohne RAID-Verfahren einzeln oder hintereinandergehängt – keine Redundanz",
+    "area": "Hardware"
   },
   {
     "abbr": "JPEG",
@@ -1762,6 +1780,12 @@
     "full": "Unified Modeling Language",
     "explanation": "Standardisierte Diagramme für Softwaremodelle",
     "area": "Programmierung"
+  },
+  {
+    "abbr": "URE",
+    "full": "Unrecoverable Read Error",
+    "explanation": "Nicht korrigierbarer Lesefehler einer Platte; beim RAID-5-Rebuild führt er zu Datenverlust in diesem Bereich",
+    "area": "Hardware"
   },
   {
     "abbr": "USB",
