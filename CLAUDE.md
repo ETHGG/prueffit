@@ -61,7 +61,7 @@ Gesteuert wird alles aus dem Chat in der Claude-App. Dort wird jeder neue Auftra
 | Routine: CI-Status, Live-Seite, Morgenbericht | geplante Aufgabe (Cloud) | Haiku oder Sonnet |
 
 **Regeln für beide Seiten (Claude-App, geplante Aufgaben, Claude Code):**
-1. Seit 25.11.2026 (Netzwerkfreigabe „Paketmanager“, Test #11) funktioniert npm in geplanten Aufgaben und Code-Aufgaben: `npm ci`, dann `npm test`, `npm run lint`, `npm run test:e2e`, `npm run pdfs`. Nur die Shell im laufenden Steuer-Chat bleibt ohne npm (Einstellung gilt erst für neue Sitzungen). Fällt npm aus, gilt die Offline-Prüfung `sh scripts/offline/check.sh` (Unit + Lint), `… e2e`, `… pdfs` weiter als gleichwertiger Ersatz. git und GitHub (gh, GitHub-MCP für Issues) gehen überall.
+1. Seit 25.11.2026 (Netzwerkfreigabe „Paketmanager“, Test #11) funktioniert npm in geplanten Aufgaben und Code-Aufgaben: `npm ci`, dann `npm test`, `npm run lint`. Browser für die gesperrte Playwright-Version lassen sich in der Cloud nicht herunterladen: Browsertests und PDFs dort mit `sh scripts/offline/check.sh e2e` bzw. `… pdfs` (Playwright und Chromium aus dem Image, auch nach `npm ci`; WebKit nur in der CI, seit 2.21.27); auf dem Mac `npm run test:e2e`, `npm run pdfs`. Nur die Shell im laufenden Steuer-Chat bleibt ohne npm (Einstellung gilt erst für neue Sitzungen). Fällt npm aus, gilt die Offline-Prüfung `sh scripts/offline/check.sh` (Unit + Lint), `… e2e`, `… pdfs` weiter als gleichwertiger Ersatz. git und GitHub (gh, GitHub-MCP für Issues) gehen überall.
 2. Vor jedem Push `git pull --rebase`. Nur pushen, wenn alle Tests grün sind. Nach dem Push den CI-Lauf prüfen (`gh api "repos/ETHGG/prueffit/actions/runs?branch=main&per_page=3"`); ist er durch die eigene Änderung rot, sofort beheben.
 3. Jede neue Version: Versionsnummer in `package.json`, `package-lock.json` (Zeilen 3 und 9), `js/config.js` und den Cache-Namen in `sw.js` hochzählen, CHANGELOG ergänzen, bei Datenänderungen `pdf/` neu erzeugen.
 4. Konflikte beim Rebase: Inhaltsänderungen (`data/`, Lernzettel, Bilder, Texte) aus der Claude-App immer behalten und Code-Änderungen darum herum zusammenführen; bei gleicher Versionsnummer die höhere +1 nehmen.
@@ -98,7 +98,15 @@ prueffit/
 ├── .nojekyll
 ├── .gitignore
 ├── package.json
+├── package-lock.json
 ├── vitest.config.js
+├── playwright.config.js      # Browsertests: Desktop Chromium, iPhone SE, iPhone 13 dunkel, iPhone 13 WebKit (WebKit nur in der CI)
+├── eslint.config.js
+├── .github/
+│   ├── workflows/test.yml    # CI: Unit-Tests (auch in anderer Zeitzone), ESLint, Browsertests im Playwright-Container
+│   ├── workflows/vendor.yml  # manuell: package-lock.json und Chart.js bereitstellen
+│   ├── dependabot.yml        # Paket- und Actions-Updates als Pull-Requests (seit 2.21.25)
+│   └── ISSUE_TEMPLATE/       # Vorlage für Inhaltsfehler
 ├── CLAUDE.md
 ├── CHANGELOG.md
 ├── README.md
@@ -109,7 +117,9 @@ prueffit/
 ├── scripts/
 │   ├── offline/              # Prüfungen ohne npm install: check.sh (Unit mit Vitest-Ersatz, Lint, e2e, PDFs), seit 2.21.25
 │   ├── build-pdfs.mjs        # npm run pdfs: PDFs aus print.html erzeugen (Playwright)
-│   └── pdf-hash.mjs          # Prüfsumme der PDF-Quellen
+│   ├── pdf-hash.mjs          # Prüfsumme der PDF-Quellen
+│   ├── serve.mjs             # statischer Testserver für die Browsertests (ohne Python)
+│   └── make-icons.mjs        # npm run icons: PWA-Icons erzeugen
 ├── icons/                    # PWA-Icons 192/512, apple-touch-icon 180
 ├── img/notes/                # gerenderte Abbildungen (WebP, ≤ 150 KB) für Lernzettel, Situationen und Fragen (seit 2.16), Skizzen skizze-*.svg (seit 2.19)
 ├── tools/blender/            # Blender-Skripte, aus denen die Abbildungen entstehen (seit 2.16)
@@ -161,7 +171,15 @@ prueffit/
 │   ├── transferLink.js       # Übertragung per Link/QR-Code: Lernstand komprimiert im URL-Hash, Vorschau, Berufssperre (seit 2.15)
 │   ├── qr.js                 # eigener QR-Encoder (Byte-Modus, Stufe L/M, Version 1–40, seit 2.15)
 │   ├── finalGrade.js         # Gesamtnote, Bestehensregeln, mündliche Ergänzungsprüfung (seit 2.3, UI ab 2.4)
+│   ├── transfer.js           # Import/Export von Fortschritt und eigenen Fragen (JSON-Datei)
+│   ├── notices.js            # einmalige Hinweise, Schlüssel `prueffit.notices` (seit 2.9.5)
 │   └── ui/
+│       ├── dom.js            # DOM-Helfer (nur textContent, kein innerHTML)
+│       ├── charts.js         # Chart.js bei Bedarf laden, Diagramme passend zum Design
+│       ├── questionInputs.js # Eingaben aller Fragetypen (Quiz und Simulation)
+│       ├── figure.js         # Bilder über Fragen, Bildbetrachter (seit 2.16)
+│       ├── files.js          # Datei herunterladen/auswählen (Import/Export)
+│       ├── suggestions.js    # Karte „Heute üben“
 │       ├── home.js
 │       ├── jobSetup.js       # einmalige Berufswahl (vor allen Ansichten)
 │       ├── welcome.js        # nächste Prüfung, Countdown
@@ -182,17 +200,15 @@ prueffit/
 │       ├── searchView.js     # #/suche (seit 2.14), Lupe in der Kopfzeile
 │       ├── transferView.js   # „Sicherung teilen“, Link/QR-Code (Einstellungen) und #/uebertragen/<daten> (seit 2.15)
 │       └── settingsView.js
-├── tests/
-│   ├── grading.test.js
-│   ├── leitner.test.js
-│   ├── stats.test.js
-│   ├── exam.test.js
-│   ├── storage.test.js
-│   ├── questions.test.js
+├── tests/                    # Unit-Tests (Vitest), eine Datei je Logik-Modul, Liste in Abschnitt 9
 │   └── data.test.js          # Validiert ALLE JSON-Dateien
+├── e2e/                      # Browsertests (Playwright), eine Datei je Bereich, helpers.js
 └── docs/
     ├── STATUS.md
-    └── ABSCHLUSSBERICHT.md
+    ├── ABSCHLUSSBERICHT.md
+    ├── ABGLEICH.md           # Abgleich mit den Ausbildungsverordnungen (seit 2.1)
+    ├── QUELLEN.md            # genutzte Quellen (seit 2.0)
+    └── PRUEFPROTOKOLL.md     # fachliche Prüfung je Thema (Qualitätsrunden)
 ```
 
 **Architekturregel:** Logik-Module (`grading`, `leitner`, `stats`, `exam`, `storage`) sind **reine Funktionen ohne DOM-Zugriff**, damit sie testbar sind. DOM-Code nur in `js/ui/`.
@@ -363,6 +379,8 @@ Prozent wird **kaufmännisch auf ganze Zahlen gerundet**, bevor die Note bestimm
 ```bash
 npm install          # Dev-Abhängigkeiten (Vitest, jsdom)
 npm test             # Alle Tests einmal ausführen
+npm run lint         # ESLint
+npm run test:e2e     # Browsertests (Playwright; in der Cloud: sh scripts/offline/check.sh e2e)
 npm run test:offline # ohne npm install (Cloud): Unit-Tests mit Vitest-Ersatz + Lint; sh scripts/offline/check.sh e2e|pdfs|all
 npm run test:watch   # Tests im Watch-Modus
 npx serve .          # Lokaler Testserver (oder: python -m http.server 8080)
@@ -396,9 +414,13 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `finalGrade.test.js` | Gewichtung 20/50/10/10/10, Rundung, alle Bestehensregeln, mündliche Ergänzungsprüfung 2 : 1 und nötige Punkte |
 | `contrast.test.js` | Kontrast aller Textfarben in hellem und dunklem Design (mind. 4,5 : 1), seit 2.11 auch der Druckansicht |
 | `qr.test.js` / `transferLink.test.js` | QR-Encoder gegen Referenzmatrizen, Kapazitäten, „zu groß“; Übertragungscode rund (mit/ohne Kompression), defekte und zu große Daten, Link/Hash, Vorschau, Berufssperre (seit 2.15) |
-| `ci.test.js` | Playwright-Container in der CI passt zur gesperrten Playwright-Version, Testserver ohne Python |
+| `ci.test.js` | Playwright-Container in der CI passt zur gesperrten Playwright-Version, Testserver ohne Python, Node-Version der CI erfüllt `engines` aller gesperrten Pakete (seit 2.21.27) |
 | `examPrint.test.js` | Simulation zum Ausdrucken: Seed/URL, gleiche Ziehung wie die App, Situation vorn, Tabellenaufgabe, Lösungen aller Fragetypen, Notenschlüssel-Mindestpunkte |
 | `generator.test.js` | Rechentraining: jede Art liefert gültige Aufgaben, eigene Lösung wird richtig bewertet, Wiederherstellung aus der ID, Runden, Filter nach Beruf |
+| `quiz.test.js` | Quiz-Ablauf (Zustandsmaschine), ungültige Eingaben, Mischen, Sitzung speichern/wiederherstellen, Tastatur (`quizShortcut`) |
+| `transfer.test.js` | Export/Import des Fortschritts (Migration, defekte/neuere Dateien), eigene Fragen (Formate, ungültige Einträge, ID-Konflikte, Größe) |
+| `notices.test.js` | einmalige Hinweise, defekte Daten |
+| `pwa.test.js` | Service-Worker-Cacheliste vollständig, Versionen gleich, relative Pfade |
 | `pdfs.test.js` | Dateinamen (auch Formelsammlung je Beruf), Reihenfolge der Lernzettel, Dateigrößen-Anzeige (Aktualität der PDFs prüft `data.test.js`, die Prüfsumme umfasst `data/formulas.json`) |
 
 **Regel:** Jede neue Funktion in einem Logik-Modul bekommt mindestens einen Test. Bugs werden zuerst mit einem fehlschlagenden Test reproduziert, dann behoben.

@@ -75,6 +75,8 @@ npm run test:watch              # Watch-Modus
 npm run lint                    # ESLint
 npx playwright install chromium webkit   # einmalig: Browser für die Browsertests
 npm run test:e2e                # Browsertests (Playwright: Desktop, iPhone, WebKit)
+npm run test:offline            # ohne npm install: Unit-Tests mit Vitest-Ersatz + Lint
+sh scripts/offline/check.sh e2e # Browsertests mit vorinstalliertem Playwright/Chromium (Cloud)
 ```
 
 Die Tests prüfen die Logik-Module (Bewertung aller Fragetypen, Leitner-System inkl. Datums- und Zeitzonenfällen, Statistik, Speicher inkl. Migration, Filter und Zufallsauswahl, Quiz-Ablauf und dessen Sicherung), **jede** JSON-Datei in `data/` (Pflichtfelder, eindeutige IDs, gültige Themen, Antwort passend zum Fragetyp) und die PWA-Konfiguration (Service-Worker-Dateiliste, relative Pfade, Versionen). Bei jedem Push laufen sie automatisch über GitHub Actions, zusätzlich in einer zweiten Zeitzone.

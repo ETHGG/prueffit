@@ -8,8 +8,19 @@ set -e
 cd "$(dirname "$0")/../.."
 MODE="${1:-default}"
 link_playwright() {
-  if [ ! -e node_modules/playwright ] && [ -d /opt/npm-tools/node_modules/playwright ]; then
-    mkdir -p node_modules && ln -s /opt/npm-tools/node_modules/playwright node_modules/playwright
+  IMG=/opt/npm-tools/node_modules/playwright
+  # After `npm ci` node_modules/playwright is the locked version, whose browsers cannot be downloaded in the
+  # cloud. If it differs from the image's version, park it (npm ci restores it) and use the image's Playwright.
+  if [ -d "$IMG" ] && [ -d node_modules/playwright ] && [ ! -L node_modules/playwright ]; then
+    V_NPM="$(node -p "require('./node_modules/playwright/package.json').version")"
+    V_IMG="$(node -p "require('$IMG/package.json').version")"
+    if [ "$V_NPM" != "$V_IMG" ]; then
+      echo "Playwright $V_NPM (npm) ≠ $V_IMG (Image, Browser vorhanden) – nutze die Image-Version"
+      rm -rf node_modules/.playwright-npm && mv node_modules/playwright node_modules/.playwright-npm
+    fi
+  fi
+  if [ ! -e node_modules/playwright ] && [ -d "$IMG" ]; then
+    mkdir -p node_modules && ln -s "$IMG" node_modules/playwright
   fi
   export PLAYWRIGHT_BROWSERS_PATH="${PLAYWRIGHT_BROWSERS_PATH:-/opt/pw-browsers}"
 }

@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.27] – 2026-11-25
+
+### Geändert
+- **Dependabot-Reste übernommen:** `actions/checkout` 7 (PR #2) und `jsdom` 31 (PR #5), beide nach grüner CI zusammengeführt.
+- **CI auf Node 22:** jsdom 31, vitest 5, undici und weitere gesperrte Pakete verlangen Node 22 (`engines`); die Workflows liefen noch mit Node 20 (nur Warnung, aber außerhalb der unterstützten Versionen). `test.yml` und `vendor.yml` nutzen jetzt Node 22.
+- **Browsertests in der Cloud:** Nach `npm ci` lag die gesperrte Playwright-Version (1.65.1) vor, deren Browser sich in der Cloud nicht herunterladen lassen – `npm run test:e2e` schlug dort mit „Executable doesn't exist“ in allen Tests fehl. `scripts/offline/check.sh e2e|pdfs` erkennt das jetzt, stellt die npm-Version beiseite und nutzt Playwright und Chromium aus dem Image (`npm ci` stellt sie wieder her).
+- **Doku-Abgleich:** CLAUDE.md Abschnitt 4 (Projektstruktur: `.github/` mit Workflows, Dependabot und Issue-Vorlage, `e2e/`, `playwright.config.js`, `eslint.config.js`, `scripts/serve.mjs`/`make-icons.mjs`, `js/transfer.js`, `js/notices.js`, sechs fehlende `js/ui`-Module, drei fehlende Dokumente), Abschnitt 8 und 9 (Tests `quiz`, `transfer`, `notices`, `pwa`), Abschnitt 2a (Browsertests/PDFs in der Cloud), README (Offline-Prüfungen), STATUS („Weiter bei“ mit aktuellem Stand, Testhinweis im Nachtplan).
+
+### Tests
+- `ci.test.js`: Die Node-Version aller Workflows ist gleich und erfüllt die `engines` jedes gesperrten Pakets (`nodeMajorSatisfies`, mit eigenem Test); mit Node 20 schlug der Test für 7 Pakete fehl.
+
 ## [2.21.26] – 2026-11-25
 
 ### Geändert
