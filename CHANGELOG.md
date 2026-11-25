@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.59] – 2026-11-25
+
+### Hinzugefügt
+- Zwei neue Abbildungen: „RPO und RTO auf der Zeitachse“ (Lernzettel Hochverfügbarkeit) und „Prioritätsmatrix“ (Lernzettel IT-Service-Management), Blender-Skripte in `tools/blender/`.
+- Vier Quizfragen mit Bild: sec-0178, sec-0179 (FISI, AP2), pm-0208, pm-0209 (AP1).
+
 ## [2.21.58] – 2026-11-25
 
 ### Hinzugefügt
