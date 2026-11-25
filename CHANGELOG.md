@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.20.8] – 2026-11-25
+
+### Hinzugefügt
+- **Fragen zu allen 6 Skizzen** (Wunsch des Nutzers): Jede SVG-Skizze aus den Lernzetteln erscheint jetzt auch über einer Quizfrage (wie die 67 3D-Bilder) – Einheiten 2 TB → GiB (`hw-0113`, Zahl), Reihenfolge der Verkaufskalkulation (`wi-0224`), Eigentumsübergang durch Einigung und Übergabe (`re-0080`), Risikowert in der Risikomatrix (`pm-0116`), Multiplizitäten im Klassendiagramm (`prog-0140`), V-Modell Entwurfs- und Teststufen (`prog-0141`, AP2 FIAE/FIDPA – das V-Modell ist seit 2025 nicht mehr in der AP1). Rechnungen nachgerechnet, Varianten genannt (Eigentumsvorbehalt, Differenzkalkulation, Windows/macOS-Anzeige, Stufen der Risikomatrix, Namen der V-Modell-Stufen). Browsertest `e2e/sketchQuestions.spec.js`.
+
 ## [2.20.7] – 2026-11-25
 
 ### Behoben (Durchlauf Nachtbetrieb Lauf 3)
