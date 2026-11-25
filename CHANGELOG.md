@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.5] – 2026-11-25
+
+### Hinzugefügt
+- **Fragen vertiefen, Block 6** (Tag-Auftrag): 52 neue Aufgaben; sechs weitere Themen haben für FISI und KITS je mindestens 15 Aufgaben.
+  - WiSo Arbeits- und Umweltschutz (`wiso-0079` bis `wiso-0088`, AP2 alle Berufe): Rettungs- und Brandschutzzeichen, Fachkraft für Arbeitssicherheit, Beiträge zur Unfallversicherung, Green IT, Entsorgung mit sicherer Datenlöschung, Stromkosten, Wegeunfall, Akteure, EU-Energielabel.
+  - Arbeits- und Ausbildungsrecht (`re-0091` bis `re-0100`, AP2 alle Berufe): Urlaub und Pausen nach JArbSchG, Kündigung in und nach der Probezeit, Grundkündigungsfrist, Pflichten des Betriebs, Schriftform (§ 623 BGB), Zeugnis/Abmahnung/Aufhebungsvertrag, Anrechnung langer Berufsschultage auch für Volljährige, Höchstarbeitszeit.
+  - WiSo Unternehmen (`wiso-0089` bis `wiso-0096`, AP2 alle Berufe): Stablinien- und Matrixorganisation, Kartell, Konzern, Mindesteinzahlung GmbH, Rücklage der UG, Organisationsformen, KG.
+  - Operatoren (`pm-0135` bis `pm-0142`): nennen, begründen, vergleichen, berechnen, Punkte je Gedanke, beurteilen, Zuordnung, erstellen.
+  - Lizenzen (`re-0101` bis `re-0108`): Benutzer-/Geräte-CAL, Sicherungskopie, Softwaremodelle, MIT-Lizenz, Volumenlizenz, unerlaubte Nutzung, Kauflizenz gegen Abonnement.
+  - Risiko und Qualität (`pm-0143` bis `pm-0150`): Risikowert, Strategien, Risikoliste als Tabelle, PDCA „Check“, Soll-Ist-Vergleich, ISO 9001, Lessons Learned, Ablauf des Risikomanagements.
+
 ## [2.21.4] – 2026-11-25
 
 ### Hinzugefügt
