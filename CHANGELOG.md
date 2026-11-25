@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.4] – 2026-11-25
+
+### Hinzugefügt
+- **Fragen vertiefen, Block 5** (Tag-Auftrag): 56 neue AP1-Aufgaben; sechs weitere Themen haben für FISI und KITS je mindestens 15 Aufgaben.
+  - Betriebssysteme (`hw-0125` bis `hw-0133`): Linux-Rechte 640/644, FAT32-Grenze, Aufgaben des Betriebssystems, Softwarearten, 32-Bit-Adressraum (mit PAE-Variante), `sudo apt update` (apt/dnf), Update-Ringe, ext4 (XFS/Btrfs als Varianten).
+  - Routing und NAT (`net-0162` bis `net-0170`): Default-Route, Longest Prefix Match, was sich beim Weiterleiten ändert, Gateway außerhalb des Netzes, NAT-Varianten, Portweiterleitung, TTL, offene Aufgabe „direkt oder Gateway“, OSPF.
+  - Arbeitsschutz (`re-0081` bis `re-0090`): Bildschirmposition, Unterweisung Jugendlicher, STOP-Prinzip, Pflichten des Arbeitgebers, Sicherheitsbeauftragte, Rechtsgrundlagen, Pausen, Gefährdungsbeurteilung, Notebook-Arbeitsplatz.
+  - Digitalisierung (`pm-0117` bis `pm-0125`): XRechnung, E-Rechnungspflicht mit Übergangsfristen, ERP-Vorteile und -Module, Halluzinationen, Transparenzpflicht nach dem AI Act, Change-Management, „Cloud first“, KI-Risiken.
+  - Barrierefreiheit (`prog-0175` bis `prog-0184`): dekorative Bilder, Information nur über Farbe, Tastaturbedienung, Kontrast großer Schrift, `button` statt `div`, BITV 2.0, Hilfsmittel, `lang`, verständliche Fehlermeldungen, BFSG-Ausnahme für Kleinstunternehmen.
+  - Vorgehensmodelle (`pm-0126` bis `pm-0134`): Wann Wasserfall, Daily Scrum, Retrospektive, agiles Manifest, Scrum-Artefakte, Sprintlänge, Nachteil Wasserfall, Scrum Master, offene Aufgabe Vorgehen wählen.
+
 ## [2.21.3] – 2026-11-25
 
 ### Hinzugefügt
