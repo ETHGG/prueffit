@@ -329,3 +329,22 @@ Fragen, die für AP1 und AP2 zählen, sind in beiden Spalten enthalten. Gesamtbe
 **Annahmen:** Neue Aufgaben zu AP1-Themen ohne `jobs` gelten für alle Berufe; Wörter, die seit 2025 nicht mehr zur AP1 gehören (SQL, RAID, Kanban, V-Modell …), stehen dort nicht. WiSo-Themen als AP2 für alle 7 Berufe, ohne offene Aufgaben. Gesetzesstände Ende 2026 (u. a. Aufbewahrungsfristen 8/10 Jahre, Nachweisgesetz in Textform, Empfängerüberprüfung bei Überweisungen seit Oktober 2025, Betriebsratswahl 2026).
 
 **Offene Punkte:** Fachliche Gegenprüfung der 435 Aufgaben durch Lauf 3 (stichprobenartig, Rechnungen per Skript). Versionsnummern: 2.21.1 war kurz ohne neu erzeugte PDFs gepusht (behoben).
+
+## Steuer-Chat 25.11.2026, 16:20–18:25 (2.21.28–2.21.53)
+
+**Auftrag:** Bis zu den geplanten Nachtläufen wichtige Verbesserungen umsetzen, testen und fehlende Inhalte vertiefen.
+
+**Gemacht:**
+- 17 neue Blender-Bilder mit Lernzettel-Abschnitt und Bildfrage (anspruchsvolle Abläufe und Hardware, dazu RCD, MQTT, BPMN, SQL-JOIN, cron, Normalformen, Grenzwerte).
+- 20 neue Handlungssituationen: FIAE, FIDPA, FIDV, ITSE und KDM haben jetzt wie FISI/KITS mindestens vier Situationen je Prüfungsbereich.
+- Rund 170 neue Aufgaben, gezielt für dünne Themen und prüfungsnahe Formate (Tabellen: VLSM-Plan, Bezugskalkulation, Nutzwert, Netzplan, USV, Spannungsfall …; Freitext mit Raster: SQL, Pseudocode, Firewall-Regelwerk, Routingtabelle, SPF).
+- 74 Karteikarten, 12 doppelte Karten durch neue Inhalte ersetzt, eine doppelte Frage entdoppelt; 9 Formeln.
+- Präzisierungen nach Abschnitt 11 (überall gleich nachgezogen): Meldepflicht 72 h, Syslog-Ports, Betriebsrat/KSchG/Befristung, Elternzeit, Mutterschutz, eAU, GmbH-Einzahlung, Datenschutzbeauftragter, GWG 2026, TCP/UDP/QUIC, ECC, USV-Zeit, Parität, Standardabweichung, A/D-Stufe; neu: § 15 BBiG (Wegezeit, freier Tag vor der Prüfung), Mindestausbildungsvergütung 2026/2027.
+
+**Annahmen:** Neue Inhalte als „eigene“ Quelle; Rechtsstände mit Quellen geprüft (`docs/QUELLEN.md`, Abschnitt 25.11.2026).
+
+**Korrigierter eigener Fehler:** DGUV-V3-Prüffristen zunächst mit den Höchstwerten als Richtwert angegeben – in 2.21.49 korrigiert.
+
+**Offen (Code, für die Code-Aufgabe):** #14 Codeblöcke/Tabellen im Fragetext anzeigen, #15 negative Zahlen auf dem iPhone eingeben (betrifft `ot-0035`), #16 neue Rechentraining-Arten. Optional: Test „mindestens vier Situationen je Bereich“ auf alle Berufe ausweiten.
+
+**Zeiten:** Bilder 16:20–16:42 (geschätzt 2,5 h für 6 Bilder – schneller, weil die Bildschleife eingespielt war), Inhalte und Situationen 16:42–17:51, Präzisierungen und Karten 17:51–18:16, Prüfung und Doku 18:16–18:25. Gesamt 2 h 05 Min.
