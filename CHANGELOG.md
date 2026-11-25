@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.57] – 2026-11-25
+
+### Hinzugefügt
+- **40 weitere Bildfragen im Quiz** zu vorhandenen Abbildungen, damit Bilder öfter vorkommen (bisher genau eine Frage je Bild, 142 von über 1.800 Fragen): DHCP, DNS-Einträge und -Auflösung, IPv6-Adresse, RJ45, Verkabelung, Kapselung, TCP-Handshake, Routingtabelle, PAT, Subnetzbaum, Spanning Tree, AGDLP (`net-0215` bis `net-0227`); HDD/SSD, Container, Cloud-Modelle, PUE, Update-Ringe (`hw-0176` bis `hw-0180`); DMZ, 802.1X, VPN, MFA, hybride Verschlüsselung, Sicherungsarten (`sec-0172` bis `sec-0177`); Zahlensysteme, Datenformate, Schleifen, binäre Suche (`prog-0242` bis `prog-0245`); Netzplan, ITIL, magisches Dreieck (`pm-0205` bis `pm-0207`); Gewinnschwelle, Zahllast, Lieferbedingungen, Rechtsformen (`wi-0359` bis `wi-0362`); Ruhezeit, Sicherheitszeichen, Unfallversicherung, Konjunktur, Organisationsformen (`wiso-0134` bis `wiso-0138`) – richtige Antworten auf alle Positionen verteilt
+
 ## [2.21.56] – 2026-11-25
 
 ### Behoben
