@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.39] – 2026-11-25
+
+### Hinzugefügt
+- **Formelsammlung um 9 Formeln erweitert** (66 → 75): Analogsignal 4–20 mA und A/D-Stufe, Varianz und Standardabweichung, Durchlaufzeit, Vollständigkeit/Gültigkeit, Risikowert, Wirkungsgrad, Mindestquerschnitt, PUE, Kennzahlen digitaler Geschäftsmodelle – damit stehen die Formeln der neuen Handlungssituationen auch in den Formel-PDFs der Berufe
+
 ## [2.21.38] – 2026-11-25
 
 ### Hinzugefügt
