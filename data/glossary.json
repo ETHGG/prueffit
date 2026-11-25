@@ -119,6 +119,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "Argon2",
+    "full": "Argon2 (Verfahren zum Hashen von Passwörtern)",
+    "explanation": "Absichtlich langsames, speicherintensives Hashverfahren für Passwörter; Sieger des Password Hashing Competition 2015. Ähnlich: bcrypt.",
+    "area": "IT-Sicherheit"
+  },
+  {
     "abbr": "ARIA",
     "full": "Accessible Rich Internet Applications",
     "explanation": "Zusätzliche HTML-Attribute, die Hilfsmitteln Rolle und Zustand von Elementen mitteilen",
@@ -320,6 +326,12 @@
     "full": "Client Access License",
     "explanation": "Zugriffslizenz pro Benutzer oder pro Gerät",
     "area": "Recht"
+  },
+  {
+    "abbr": "CD",
+    "full": "Compact Disc",
+    "explanation": "Optischer Datenträger für Musik oder Daten (ca. 700 MB).",
+    "area": "Hardware"
   },
   {
     "abbr": "CEO",
@@ -697,6 +709,12 @@
     "full": "Gesellschaft bürgerlichen Rechts",
     "explanation": "Personengesellschaft, alle haften unbeschränkt",
     "area": "Wirtschaft"
+  },
+  {
+    "abbr": "GEMA",
+    "full": "Gesellschaft für musikalische Aufführungs- und mechanische Vervielfältigungsrechte",
+    "explanation": "Verwertungsgesellschaft, die in Deutschland Nutzungsrechte an Musik vergibt und Gebühren für die Urheber einzieht.",
+    "area": "Recht"
   },
   {
     "abbr": "GewO",

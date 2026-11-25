@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.48] – 2026-11-25
+
+### Geändert
+- **Lernzettel an die neuen Aufgaben angepasst:** Passwörter speichern (Salt, langsames Verfahren wie Argon2/bcrypt) in „Kryptografie“, Prüffristen nach DGUV Vorschrift 3 (Richtwerte Büro 24, Werkstatt 12, Baustelle 3 Monate) in „Schutzmaßnahmen“, Nutzungsrechte an Musik und Bildern in „Lizenzen“, Bitmasken in „Zahlensysteme“ – Abkürzungen GEMA, CD und Argon2 im Verzeichnis
+
 ## [2.21.47] – 2026-11-25
 
 ### Hinzugefügt
