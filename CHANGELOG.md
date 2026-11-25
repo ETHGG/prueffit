@@ -2,6 +2,20 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.56] – 2026-11-25
+
+### Behoben
+- **Gegenprüfung: 18 Korrekturen** an den Inhalten aus 2.21.28–2.21.53 (173 Aufgaben, 20 Handlungssituationen, 97 Karteikarten, 9 Formeln, 5 Abkürzungen, 36 Lernzettel-Änderungen unabhängig geprüft; alle Rechen- und Tabellenaufgaben und Formelbeispiele nachgerechnet – ohne Rechenfehler):
+  - **Handlungssituationen:** `el-0053` rechnete mit 1.380 W, die Situation „Arztpraxis Dr. Lehmann“ nennt 900 W bei cos φ = 0,9 – jetzt I = 900 W ÷ (230 V × 0,9) ≈ 4,35 A; `el-0051` „Backstube“ → Verkaufsraum wie in der Situation; `sz-kdm-ga2c` „Mitgliedsbeiträge“ → „Miete“ wie in `re-0117`
+  - **JAV (§§ 60, 61 BetrVG):** Die Altersgrenze von 25 Jahren für Auszubildende gibt es seit 2021 nicht mehr – `wiso-0107`, Karte `fc-0105`, Abkürzung JAV und Lernzettel „Betriebsrat, JAV und Tarifrecht“ berichtigt (wählbar: unter 25 oder in Ausbildung)
+  - **Antwortposition:** Bei allen 89 neuen Einfachauswahlfragen stand die richtige Antwort an erster Stelle (die App mischt die Optionen nicht) – jetzt gleichmäßig auf die Positionen verteilt, 8 Mehrfachauswahlfragen gemischt (`prog-0241` aufsteigend 0/1/5/10/11)
+  - `prog-0232`: Pseudocode als Codeblock (Einrückung ging sonst verloren)
+  - `ot-0056`: Fragetext und Erklärung an die Abbildung angepasst (dort Topics ohne Linien-Ebene)
+
+### Geändert
+- **Präzisiert:** LS-Schalter bei geringer Überlast (`el-0050`: sicher binnen einer Stunde erst ab 1,45 × Nennstrom, bei 1,13 × noch nicht); RCD Typ A/Typ B (`fc-0401`); Kündigung der Ausbildung nach der Probezeit durch beide Seiten (`fc-0236`, § 22 BBiG); ärztliche Feststellung der Arbeitsunfähigkeit „länger als 3 Kalendertage → am darauffolgenden Arbeitstag“ (Lernzettel „Schutzgesetze“, `wiso-0058`); Beweislastumkehr 12 Monate nur für Verbraucher (`re-0115`); Datenschutzbeauftragter: geplante Streichung der 20-Personen-Regel als Stand November 2026 vermerkt (`re-0021`, Lernzettel „Datenschutz“)
+- PDFs neu erzeugt; Quellen in `docs/QUELLEN.md`
+
 ## [2.21.55] – 2026-11-25
 
 ### Behoben

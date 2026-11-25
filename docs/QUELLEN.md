@@ -140,3 +140,16 @@ Alle 66 Formeln gegengelesen, alle Beispielrechnungen per Skript nachgerechnet.
 | Mindestausbildungsvergütung | BIBB-Pressemitteilungen 28/2025 (2026: 724 €) und 31/2026 (2027: 764 €), BBiMindVergFBek 2027 | 2026: 724/854/977/1.014 €, 2027: 764/902/1.031/1.070 € |
 | Mindestlohn | Deutsche Rentenversicherung, DGB (2026: 13,90 €); Beschluss der Mindestlohnkommission 2025 (2027: 14,60 €) | gilt nicht für Auszubildende |
 | GWG-Grenzen 2026 | § 6 Abs. 2 und 2a EStG; Haufe, Lexware, Finanztip (Stand 2026) | 800 € Sofortabschreibung, Sammelposten 250,01–1.000 €, Erhöhung auf 1.000 € nicht umgesetzt |
+
+## Quellenprüfung 25.11.2026 (2.21.56, Gegenprüfung 2.21.28–2.21.53)
+
+| Geprüft | Quelle | Ergebnis |
+|---|---|---|
+| JAV: Wahlberechtigung und Wählbarkeit | gesetze-im-internet.de: § 60 Abs. 1, § 61 BetrVG (Fassung seit Betriebsrätemodernisierungsgesetz 2021) | Auszubildende ohne Altersgrenze; wählbar unter 25 oder in Ausbildung, keine Betriebsratsmitglieder – „Azubis unter 25“ an vier Stellen berichtigt |
+| Datenschutzbeauftragter | gesetze-im-internet.de: § 38 BDSG; dr-datenschutz.de „Fällt die Pflicht zum Datenschutzbeauftragten bis Ende 2026?“ (Föderale Modernisierungsagenda vom 4.12.2025) | 20-Personen-Regel gilt weiter; Aufhebung angekündigt, kein Gesetz – als Stand vermerkt |
+| Freistellung, Wegezeit | gesetze-im-internet.de: § 15 BBiG; IHK Bodensee-Oberschwaben „Anrechnung der Berufsschulzeit und Freistellung für Prüfungen“ | Wegezeit Berufsschule–Ausbildungsstätte und Prüfungsort–Ausbildungsstätte angerechnet; freier Arbeitstag vor dem schriftlichen Teil 1 und Teil 2 – bestätigt |
+| Mindestausbildungsvergütung 2027 | BIBB-Pressemitteilung „Mindestausbildungsvergütung steigt 2027 auf 764 Euro“, BBiMindVergFBek 2027 (gesetze-im-internet.de) | 764 € bestätigt; 902 € und 1.031 € nachgerechnet (+ 18 %, + 35 %) |
+| Arbeitsunfähigkeit | § 5 Abs. 1 EFZG | länger als drei Kalendertage → ärztliche Feststellung spätestens am darauffolgenden Arbeitstag – präzisiert |
+| Kündigung des Ausbildungsverhältnisses | § 22 BBiG | wichtiger Grund für beide Seiten, 2-Wochen-Frist, 4 Wochen bei Aufgabe/Berufswechsel – präzisiert |
+| LS-Schalter Charakteristik B | DIN EN 60898-1 (kleiner/großer Prüfstrom 1,13 und 1,45 × Nennstrom, magnetisch 3–5 ×) | Auslösung bei geringer Überlast präzisiert |
+| Übrige Punkte des Auftrags (72 h, KSchG, Befristung, Elternzeit, Mutterschutz, eAU, GWG, § 99 BetrVG, DGUV V3, Ports, MQTT, cron, USV, Spannungsfall, PoE) | Gesetzestexte und Normwerte wie oben und in der Quellenprüfung 2.21.29–2.21.51 | ohne Befund |
