@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.50] – 2026-11-25
+
+### Hinzugefügt
+- **Freistellung und Anrechnung nach § 15 BBiG** im Lernzettel „Ausbildung“ (und kurz in „Arbeitsrecht“): Wegezeit Schule–Betrieb zählt seit August 2024, Berufsschultag über 5 Stunden auch für Volljährige, freier Arbeitstag vor der schriftlichen Abschlussprüfung, mobile Ausbildung; Fragen `wiso-0131` und `wiso-0132` (alle Berufe)
+
+### Geprüft
+- Mutterschutz nach Fehlgeburt (gestaffelt ab der 13. Woche seit 1.6.2025) und Ausbildungsvertrag in Textform (seit 1.8.2024) mit Quellen bestätigt
+
 ## [2.21.49] – 2026-11-25
 
 ### Behoben
