@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.63] – 2026-11-25
+
+### Hinzugefügt
+- **9 neue offene Aufgaben und Tabellenaufgaben (AP1)** für Themen, die bisher kaum solche Aufgaben hatten: offen mit Bewertungsraster `pm-0211` (Wasserfall vs. Scrum), `pm-0213` (Beschwerdegespräch), `wi-0367` (Gleichgewichtspreis im Polypol), `net-0233` (Repeater/Switch/Router im OSI-Modell, Layer-3-Switch als Variante), `prog-0247` (0,1 + 0,2 ≠ 0,3); Tabelle `pm-0212` (Bearbeitungs-, Liege- und Durchlaufzeit), `wi-0366` (Arbeitsproduktivität), `hw-0183` (Netzteil mit Reserve), `net-0234` (Standard-Ports).
+
 ## [2.21.62] – 2026-11-25
 
 ### Hinzugefügt
