@@ -244,7 +244,7 @@ describe('data/notes (Lernzettel)', () => {
 const NOT_ABBREVIATIONS = new Set([
   'ALTER', 'AND', 'AS', 'ASC', 'AVG', 'BETWEEN', 'BY', 'COUNT', 'CREATE', 'DELETE', 'FROM', 'GRANT', 'GROUP', 'HAVING',
   'IN', 'INSERT', 'INTO', 'IS', 'JOIN', 'LIKE', 'MAX', 'MIN', 'NULL', 'ON', 'ORDER', 'REVOKE', 'SELECT', 'SET', 'SUM',
-  'TABLE', 'UPDATE', 'VALUES', 'WHERE', 'COMMIT', 'ROLLBACK',
+  'TABLE', 'UPDATE', 'VALUES', 'WHERE', 'COMMIT', 'ROLLBACK', 'INNER', 'LEFT',
   'BIS', 'SCHRITTWEITE', 'DANN', 'FÜR', 'NICHT', 'ODER', 'SOLANGE', 'SONST', 'UND', 'VON', 'WENN', 'WAS', 'WER', 'WIE', 'WOMIT',
   'B7', 'B6', 'B16', 'E3', 'II', 'III', 'PLUS', 'YTP', 'A1', 'A2', 'ABC', 'DuPont', 'D1', 'D2', 'D3', // RAID data blocks (2.21)
   'DisplayPort', 'OpenVPN', 'PowerShell', 'ADUser', 'ForEach', 'ChildItem', 'LastWriteTime', 'AddDays', 'WhatIf', 'TrueHD', 'VirtualBox', 'VMware', 'WireGuard',

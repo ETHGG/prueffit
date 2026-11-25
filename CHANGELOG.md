@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.43] – 2026-11-25
+
+### Hinzugefügt
+- **Bilder `sql-join` und `cron-syntax`** (Blender) mit Lernzettel-Ergänzung: INNER vs. LEFT JOIN (Kunden ohne Bestellung finden) im Lernzettel „Datenbanken“, cron-Zeichen `*`, `,`, `-`, `/n` und Sonntag = 0 oder 7 im Lernzettel „Skripte“; Bildfragen `prog-0238` (FIAE/FISI/FIDPA) und `prog-0239` (FISI)
+- SQL-Schlüsselwörter INNER und LEFT in der Liste der Nicht-Abkürzungen (`data.test.js`)
+
+### Geändert
+- `net-0097` fragt jetzt andere Ports als `net-0024` ab (LDAP, RDP, NTP, SNMP) statt einer fast gleichen Zuordnung; HTTPS-Erklärung um HTTP/3 über UDP ergänzt
+
 ## [2.21.42] – 2026-11-25
 
 ### Geändert
