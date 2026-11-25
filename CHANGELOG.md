@@ -2,6 +2,18 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.30] – 2026-11-25
+
+### Hinzugefügt
+- **Dünne Themen ausgebaut** (je 3–6 neue Aufgaben, dazu Karteikarten):
+  - FIAE „Entwicklung“: Merge-Konflikt, Bibliothek vs. Framework, Dialoggrundsatz Steuerbarkeit, CI-Pipeline, User Story mit Akzeptanzkriterien (Bewertungsraster) – `prog-0213` bis `prog-0217`
+  - FIDPA „Datenintegration“: Speicherbedarf, Zeichenkodierung beim Import, ETL/ELT, Dimensionstabellen, Importplanung (Bewertungsraster) – `dat-0052` bis `dat-0056`
+  - FIDV „Sensorik“: 4–20 mA umrechnen, 0 mA = Drahtbruch, Aktoren erkennen, A/D-Digitalwert, 4–20 mA vs. 0–10 V (Bewertungsraster) – `ot-0044` bis `ot-0048`
+  - Kryptografie und Angriffe (AP1, alle Berufe): Zertifikatsinhalt, Signatur prüfen, Hash-Eigenschaften, Spear-Phishing, Schutz vor Brute Force, Man in the Middle – `sec-0156` bis `sec-0161`
+
+### Geändert
+- Lernzettel „Sensorik“: doppelten Abschnitt zur 4–20-mA-Umrechnung zusammengeführt; A/D-Stufe präzisiert (Rechnung mit 2ⁿ oder 2ⁿ − 1, bei 12 Bit kaum Unterschied) – ebenso in `ot-0010` und Karte `fc-0160`
+
 ## [2.21.29] – 2026-11-25
 
 ### Hinzugefügt
