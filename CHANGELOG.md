@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.36] – 2026-11-25
+
+### Geändert
+- **Programmierung präzisiert (überall gleich):** Paritätsbit erkennt jede ungerade Zahl gekippter Bits, zwei gekippte Bits nicht (Lernzettel, Frage, Karte); Datentypgrößen gelten für Java/C#, in C/C++ plattformabhängig; Bubble Sort im besten Fall O(n); 8-Bit-Erweiterungen von ASCII sind nicht einheitlich
+
 ## [2.21.35] – 2026-11-25
 
 ### Geändert
