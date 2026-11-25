@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.60] – 2026-11-25
+
+### Hinzugefügt
+- Zwei neue Abbildungen: „Wichtige Ports und ihre Dienste“ (Lernzettel Protokolle und Dienste) und „Hashwert und Salt“ (Lernzettel Verschlüsselung und Signaturen).
+- Vier Quizfragen mit Bild: net-0230, net-0231 (AP1), sec-0180 (AP1), sec-0181 (AP2).
+
+### Geändert
+- `tools/blender/rpo-rto.py` und `prioritaetsmatrix.py` enthalten jetzt wie die übrigen Skripte die gemeinsamen Materialien und Helfer.
+
 ## [2.21.59] – 2026-11-25
 
 ### Hinzugefügt
