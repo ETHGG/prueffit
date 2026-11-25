@@ -2,6 +2,13 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.22] – 2026-11-25
+
+### Hinzugefügt
+- **Acht weitere Bilder (Blender)** für Themen ohne Bild, je mit Lernzettel-Zeile und Bildfrage:
+  - `liquiditaet` (Liquiditätsgrade, `wi-0332`), `business-model-canvas` (`wi-0333`), `kuendigungsfristen` (§ 622 BGB, `re-0112`), `sicherheitszeichen` (`wiso-0128`), `e-rechnung-fristen` (`pm-0197`), `git-ablauf` (`prog-0212`), `reihe-parallel` (ITSE, `el-0043`), `fehlersuche` (FIDV, `ot-0041`).
+- Lernzettel „Ausbildung und Arbeitsrecht“: verlängerte Kündigungsfristen des Arbeitgebers nach Betriebszugehörigkeit ergänzt.
+
 ## [2.21.21] – 2026-11-25
 
 ### Hinzugefügt
