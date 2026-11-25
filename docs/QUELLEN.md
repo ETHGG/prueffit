@@ -129,3 +129,14 @@ Alle 66 Formeln gegengelesen, alle Beispielrechnungen per Skript nachgerechnet.
 | WLAN-Bänder | IEEE SA „IEEE 802.11be-2024“ (standards.ieee.org/ieee/802.11be/7516), Cisco „What is Wi-Fi 7?“ | Wi-Fi 6: 2,4/5 GHz, 6E: + 6 GHz, Wi-Fi 7: 2,4/5/6 GHz |
 | APIPA bei Adresskonflikt | Broadcom KB 344094 „False duplicate IP address on Microsoft Windows“; RFC 3927 | Windows weicht auch bei erkanntem Konflikt auf 169.254.x.x aus – als seltenere Ursache ergänzt |
 | Routenauswahl | Cisco „Route Selection in Cisco Routers“ (Longest Match, dann administrative Distanz, dann Metrik) | ergänzt |
+
+## Quellenprüfung 25.11.2026 (2.21.29–2.21.51, Steuer-Chat)
+
+| Geprüft | Quelle | Ergebnis |
+|---|---|---|
+| Prüffristen ortsveränderlicher Geräte | DGUV Vorschrift 3, Durchführungsanweisungen Tabelle 1B (u. a. BGN-Branchenwissen, VBG-Prüfempfehlungen) | Richtwert 6 Monate (Baustelle 3), bei Fehlerquote < 2 % verlängerbar, höchstens 1 Jahr (Werkstatt) bzw. 2 Jahre (Büro) – in 2.21.49 korrigiert |
+| Mutterschutz nach Fehlgeburt | Mutterschutzanpassungsgesetz, in Kraft 1.6.2025 (BMFSFJ-Einleger, TK, IHK Karlsruhe) | gestaffelt ab der 13. Woche: 2, 6, 8 Wochen – bestätigt |
+| Ausbildungsvertrag elektronisch, Wegezeiten, mobile Ausbildung | BVaDiG, in Kraft 1.8.2024; § 11 und § 15 BBiG n. F. (IHK Berlin, IHK Düsseldorf, buzer.de) | Textform, Wegezeit Schule–Betrieb angerechnet, mobile Ausbildung in angemessenem Umfang – bestätigt |
+| Mindestausbildungsvergütung | BIBB-Pressemitteilungen 28/2025 (2026: 724 €) und 31/2026 (2027: 764 €), BBiMindVergFBek 2027 | 2026: 724/854/977/1.014 €, 2027: 764/902/1.031/1.070 € |
+| Mindestlohn | Deutsche Rentenversicherung, DGB (2026: 13,90 €); Beschluss der Mindestlohnkommission 2025 (2027: 14,60 €) | gilt nicht für Auszubildende |
+| GWG-Grenzen 2026 | § 6 Abs. 2 und 2a EStG; Haufe, Lexware, Finanztip (Stand 2026) | 800 € Sofortabschreibung, Sammelposten 250,01–1.000 €, Erhöhung auf 1.000 € nicht umgesetzt |
