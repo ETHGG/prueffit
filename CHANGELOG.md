@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.38] – 2026-11-25
+
+### Hinzugefügt
+- **Prüfungsnahe Schreibaufgaben** für FIAE (teils FISI/FIDPA): Abfrageergebnis mit GROUP BY/HAVING als Tabelle ausfüllen (`prog-0226`), SQL mit JOIN, WHERE und ORDER BY schreiben (`prog-0227`), UPDATE/DELETE mit Vorsichtsmaßnahme (`prog-0228`), lineare Suche in Pseudocode (`prog-0229`), Bubble-Sort-Durchlauf als Tabelle (`prog-0230`) – Freitext jeweils mit Bewertungsraster
+
+### Geändert
+- Lernzettel „Datenanalyse“: Standardabweichung genau definiert (Wurzel der Varianz) mit Rechenbeispiel und Variante n − 1 für Stichproben
+- Issue #14 (Label `code`): Codeblöcke und Tabellen im Fragetext werden noch roh angezeigt – geht an die Code-Aufgabe
+
 ## [2.21.37] – 2026-11-25
 
 ### Hinzugefügt
