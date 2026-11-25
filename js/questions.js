@@ -351,7 +351,7 @@ async function fetchJson(fetchFn, url) {
  */
 export async function loadCatalog(fetchFn, { base = DATA_BASE, areas = AREAS.map((a) => a.id) } = {}) {
   const errors = [];
-  let topics = [];
+  let topics;
   try {
     topics = await fetchJson(fetchFn, `${base}topics.json`);
     const topicErrors = validateTopics(topics);

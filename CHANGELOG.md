@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.26] – 2026-11-25
+
+### Geändert
+- **ESLint 10** (Issue #9): `eslint` 10.15.0, `@eslint/js` 10.0.1 und `globals` 17.14.0 gemeinsam aktualisiert (ersetzt Dependabot-PRs #4, #6 und #7). Die neuen Empfehlungsregeln gelten jetzt auch in der Offline-Prüfung (`scripts/offline/eslint.config.mjs`, Ausnahme für `no-useless-assignment`, `preserve-caught-error`, `no-unassigned-vars` entfernt).
+
+### Behoben
+- Drei überflüssige Vorbelegungen, die ESLint 10 meldet (`no-useless-assignment`): `topics` in `js/questions.js`, `raw` in `js/storage.js`, `action` in `js/ui/quizView.js` – ohne Verhaltensänderung.
+
 ## [2.21.25] – 2026-11-25
 
 ### Geändert

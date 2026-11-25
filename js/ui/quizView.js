@@ -594,7 +594,7 @@ function drawQuestion(root, ctx, draw, topicById) {
   }
 
   const isLast = quiz.index === total - 1;
-  let action = null;
+  let action;
   if (answered) {
     action = h('button', { class: 'button block', type: 'button', id: 'next-button', onClick: () => { session.quiz = nextQuestion(session.quiz); draw(); } },
       isLast ? 'Zur Auswertung' : 'Nächste Frage');

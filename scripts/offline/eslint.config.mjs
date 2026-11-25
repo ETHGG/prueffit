@@ -7,8 +7,6 @@ const { builtinRules } = require('./lib/unsupported-api.js');
 const recommended = {};
 for (const [name, rule] of builtinRules) if (rule.meta?.docs?.recommended) recommended[name] = 'error';
 delete recommended['no-undef'];
-// Rules recommended only since ESLint 10 (the project pins ESLint 9 in package.json).
-for (const r of ['no-useless-assignment', 'preserve-caught-error', 'no-unassigned-vars']) delete recommended[r];
 
 export default [
   { ignores: ['node_modules/', 'vendor/', 'playwright-report/', 'test-results/', 'scripts/offline/'] },

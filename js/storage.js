@@ -308,7 +308,7 @@ export function resetProgress(backend, key = STORAGE_KEY) {
   const fresh = createDefaultState();
   fresh.settings = { ...old.settings };
   if (backend) {
-    let raw = null;
+    let raw;
     try { raw = backend.getItem(key); } catch { raw = null; }
     if (raw) safeSet(backend, `${BACKUP_PREFIX}reset`, raw);
     saveState(backend, fresh, key);
