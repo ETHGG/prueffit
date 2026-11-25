@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.19] – 2026-11-25
+
+### Hinzugefügt
+- **Acht weitere 3D-Bilder (Blender)** für Themen, die noch kein Bild hatten, je mit Lernzettel-Zeile und Bildfrage:
+  - `wcag-prinzipien` (Barrierefreiheit, `prog-0207`), `skript-csv-benutzer` (Skripte, `prog-0208`), `datenformate-vergleich` (CSV/JSON/XML, `prog-0209`), `abnahme-folgen` (Abnahme, `pm-0193`), `marketingmix` (`wi-0323`), `betriebsrat-stufen` (Mitbestimmung, `wiso-0124`), `sozialversicherung-saeulen` (`wiso-0125`), `konjunkturzyklus` (`wiso-0126`).
+
 ## [2.21.18] – 2026-11-25
 
 ### Hinzugefügt
