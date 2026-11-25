@@ -1,3 +1,13 @@
+# Kurzbericht 2.21.15–2.21.24 (Tag-Auftrag 25.11.2026, 11:40–13:05)
+
+- **Dubletten (2.21.15):** 16 fast gleiche Aufgaben auf neue Aspekte umgeschrieben.
+- **Ladezeit:** erster Besuch 765 KB, Daten nach 3,9 s; danach aus dem Cache 0,4 s – keine Änderung nötig.
+- **Simulation (2.21.16):** 200 Ziehungen je FISI/KITS geprüft; Punkte und Tabellenaufgabe stimmen, WiSo verteilt die Fragen jetzt reihum über die Themen (Test: kein Thema mit mehr als 5 von 30 Fragen).
+- **Rechentraining (2.21.17):** neue Arten Netzplan (Dauer, Puffer), Verfügbarkeit (Ausfallzeit, Reihe, parallel), kaufmännisches Rechnen (Zinsen, Skonto, USt, Grundwert).
+- **Bilder (2.21.18–2.21.24):** 51 neue Blender-Bilder; jedes der 86 Themen hat jetzt mindestens ein Bild. Jedes Bild angesehen, 8 mit Layout- oder Fachfehlern neu gerendert (z. B. Dreiecksrichtung, Schrägstrich im Verbotszeichen, Beschriftung, Präzisierung SELV und Mangelhaftung).
+- **Annahmen:** Bilder für Themen anderer Berufe (FIDPA, FIDV, ITSE, KDM) mit Fragen nur für diese Berufe; das Bild Kündigungsfristen steht in zwei Lernzetteln (Arbeitsrecht, Arbeitsvertrag). Neue Abhängigkeiten: keine.
+- **Offen:** iPhone-Test mit dem Nutzer (heute Abend); fachlich anspruchsvollere Bilder für den Nachtlauf (siehe STATUS).
+
 # Kurzbericht 2.20.6–2.20.7 (Nachtbetrieb Lauf 3 „Gegenprüfung und Durchlauf“, 25.11.2026, 06:11–06:48)
 
 - **Gegenprüfung (2.20.6):** alle 609 seit 24.11., 20:00 geänderten Einträge in vier unabhängigen Teilprüfungen (Rechnungen per Skript, Gesetze/Normen/Protokolle); die 9 neuen Aufgaben aus 2.20.5 fehlerfrei. 13 Korrekturen/Präzisierungen, überall nachgezogen (OEM-Lizenz, AGPL, DIN EN 50699, GPO-Vorrang, „beidseitig steckbar“, § 476 Abs. 3 BGB, TLS 1.3 (EC)DHE, ISO 25010, QSFP+/QSFP28, 2,4-GHz-Kanalabstand, OWE, MQTT/ALPN); Glossar AGPL und DHE neu.

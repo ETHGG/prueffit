@@ -17,7 +17,7 @@
 
 ## Nachtbetrieb (Auftrag 23.11.2026, 22:56, ab sofort jede Nacht)
 
-**Läuft gerade:** Tag-Auftrag Dubletten, Ladezeit, Simulation, Rechentraining, Bilder seit 11:40 (bis 15:00)
+**Läuft gerade:** –
 
 Regeln für alle Nachtläufe:
 - Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
@@ -47,6 +47,7 @@ Erledigt im Abendlauf 24.11.: virtualisierung, cloud-modelle, dns-aufloesung (2.
 Offen, der Reihe nach (je Bild: Szene, rendern, ansehen und korrigieren bis lesbar und fachlich richtig, ≤ 150 KB, Lernzettel-Zeile, 1 Frage mit `image`, Abkürzungen ins Glossar oder vermeiden):
 Erledigt 25.11. (Lauf nach Freigabe 08:00): raid6-vs-raid10, ransomware-schutz, bab-zuschlagskalkulation (2.20.9).
 Erledigt 25.11. (Tag-Auftrag 12:00): wsus-patchverteilung, log-zentral, switch-stack-lacp, zero-trust, datenschutz-tom (2.21.18).
+Erledigt 25.11. (Tag-Auftrag bis 13:05): 46 weitere Bilder für alle Themen ohne Bild (2.21.19–2.21.24, Liste im CHANGELOG). Jedes Thema hat jetzt ein Bild; künftige Bilderläufe nur noch für fachlich anspruchsvollere Darstellungen (siehe Punkt 1).
 1. Nachtlauf: fachlich anspruchsvollere Bilder nach Ermessen, z. B. echte 3D-Hardware (Glasfaser-Spleiß, Server-Innenleben mit redundanten Netzteilen, Rack-Kühlung Warm-/Kaltgang), Ablaufbilder (Kerberos-Anmeldung, 802.1X mit RADIUS, E-Mail-Weg mit SPF/DKIM/DMARC)
 
 Hilfsmittel im Abendlauf: `device_commit_files` liest eine eben neu geschriebene Datei manchmal noch in der alten Fassung – deshalb jede Fassung unter eindeutigem Namen ablegen (`v/<name>.<zeit>.py`) und nach dem Ablegen die md5 auf dem Mac prüfen. Job-Skripte laden `lib.py` vom Mac (`exec(open(_D + 'lib.py').read(), globals())`), daher reicht pro Bild die Szene; die Dateiansicht in `device_bash` hinkt manchmal hinterher – Prüfsumme (md5) vergleichen, bevor der Job gestartet wird. Unit-Tests ohne npm-Registry: kleiner vitest-Ersatz in `node_modules/vitest` (nicht im Repo).
@@ -54,6 +55,7 @@ Hilfsmittel im Abendlauf: `device_commit_files` liest eine eben neu geschriebene
 ### Nachtprotokoll
 | Datum | Lauf | Start | Ende | Ist | Ergebnis |
 |---|---|---|---|---|---|
+| 25.11.2026 | Tag-Auftrag Dubletten, Ladezeit, Simulation, Rechentraining, Bilder (Nutzer erlaubt bis 15:00) | 11:40 | 13:05 | 85 Min. (geschätzt 2 Std. 45 Min.) | 16 Dubletten umgeschrieben (2.21.15); Ladezeit gemessen (erster Besuch 765 KB, 3,9 s; danach 0,4 s – keine Änderung nötig); 200 Simulationen je FISI/KITS geprüft, WiSo jetzt reihum über die Themen (2.21.16); Rechentraining um Netzplan, Verfügbarkeit, Zinsen/Skonto/USt ergänzt (2.21.17); 51 neue Bilder mit je einer Lernzettel-Zeile und meist einer Bildfrage (2.21.18–2.21.24) – jedes der 86 Themen hat jetzt mindestens ein Bild. Unit-Tests (807) und Browsertests (250) grün. |
 | 25.11.2026 | Tag-Auftrag Live-Durchlauf, Lernzettel, Karten, Gegenprüfung | 11:03 | 11:25 | 22 Min. (geschätzt 2 Std. 20 Min.) | Live-Seite im eingebauten Browser ohne Befund; 37 Lernzettel + 15 Abkürzungen (2.21.12), 29 Karten (2.21.13), Gegenprüfung der 435 Aufgaben durch 4 unabhängige Agenten: keine falsche Lösung, 1 Fehler in einer Erklärung + 30 Präzisierungen (2.21.14). Unit-Tests (803) und Browsertests (250) grün. |
 | 25.11.2026 | Tag-Auftrag „Fragen vertiefen“ (Nutzer anwesend) | 09:13 | 10:47 | 94 Min. (geschätzt: 4 Blöcke à 45 Min. für 12 Themen) | 12 Blöcke statt 4: 435 neue Aufgaben in 74 → alle Themen ≥ 15 Aufgaben für FISI und KITS (2.21.1–2.21.11). Jede Auswahlfrage mit `optionNotes`, Rechnungen mit Lösungsweg, Präzisierungen nach Abschnitt 11 (z. B. STARTTLS opportunistisch, MFA/FIDO2, 32-Bit/PAE, „Computer in einem Jahr“ als Wahlrecht). Nach jedem Block Unit-Tests (803) und Browsertests Chromium Desktop/iPhone SE/iPhone 13 dunkel (250) grün. Fehler: 2.21.1 kurz ohne neu erzeugte PDFs gepusht (behoben, seitdem Versionssprung nur mit `bump.sh` inkl. PDFs). Kontingent 10:03: Sitzung 10 %, Woche 2 %. |
 | 25.11.2026 | Lauf „3D-Bilder“ (nach Freigabe des Nutzers, außerhalb des Fensters) | 08:00 | 08:13 | 13 Min. | 3 Bilder + 3 Bildfragen (2.20.9): raid6-vs-raid10 (`hw-0114`), ransomware-schutz (`sec-0105`), bab-zuschlagskalkulation (`wi-0225`), je eine Lernzettel-Zeile; Bilder-Backlog leer, neue Vorschläge eingetragen. Blender per Watcher erreichbar. Unit-Tests (vitest-Ersatz, 801) und Browsertests Chromium Desktop/iPhone SE (168) grün, PDFs neu. |
