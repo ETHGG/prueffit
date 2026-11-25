@@ -2,6 +2,20 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.32] – 2026-11-25
+
+### Hinzugefügt
+- **Dritte Handlungssituation je Prüfungsbereich** für FIAE, FIDPA, FIDV, ITSE und KDM (10 neue Situationen, 40 Aufgaben):
+  - FIAE: „Tierheim Saalekreis: Vermittlungsportal“ (ga1), „Getränkehandel Unstrut: neues Kassensystem“ (ga2)
+  - FIDPA: „Autohaus Saalfeld: Werkstatttermine“ (ga1), „Stadtbibliothek Merseburg: Leserdaten zusammenführen“ (ga2)
+  - FIDV: „Brauerei Saalefels: Füllstände spielen verrückt“ (ga1), „Klärwerk Saalewiese: Leitsystem erweitern“ (ga2)
+  - ITSE: „Steuerbüro Naumburg: neue Arbeitsplätze und NAS“ (ga1), „Bäckerei Saalebrot: Kassen und Geräte am Strom“ (ga2)
+  - KDM: „Hofläden Saale-Unstrut: gemeinsamer Online-Marktplatz“ (ga1), „Coworking Saalehafen: Abrechnung und Investitionen“ (ga2)
+- **21 Karteikarten** für Themen mit wenigen Karten (ARP, Switch, Standardgateway, Default-Route, Netz/Broadcast, Kupfer-/Glasfaser, Mbit/s → MB/s, Speicherhierarchie, SSD/HDD, Energiekosten, systemctl, df/du, Warm-/Kaltgang, Schutzziele, Zertifikat, Schlüsselanzahl, Quartile, Spannweite, Konsistenz/Korrektheit, VLSM)
+
+### Geändert
+- Zwei doppelte Karten (DHCP-Ablauf, APIPA) durch neue Inhalte ersetzt: DNS-Eintragstypen und wichtige Ports (SMTP-Einlieferung 587 oder 465 mit TLS)
+
 ## [2.21.31] – 2026-11-25
 
 ### Hinzugefügt
