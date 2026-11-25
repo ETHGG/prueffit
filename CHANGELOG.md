@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.20.9] – 2026-11-25
+
+### Hinzugefügt
+- **3 neue 3D-Bilder (Blender)** mit je einer Quizfrage – der Bilder-Backlog ist damit abgearbeitet:
+  - `raid6-vs-raid10`: drei Ausfallszenarien mit je vier Platten (Lernzettel RAID, Frage `hw-0114`); Lernzettel-Zeile „RAID 6 oder RAID 10?“ mit Kapazität, Geschwindigkeit und garantierten bzw. möglichen Ausfällen (bis n/2 bei RAID 10).
+  - `ransomware-schutz`: Angriffskette in fünf Stufen mit je einer Gegenmaßnahme (Lernzettel Angriffe, Frage `sec-0105`, AP1/AP2); Lernzettel-Zeile zu Ransomware (Sicherungen werden gezielt angegriffen, doppelte Erpressung, Lösegeld garantiert nichts).
+  - `bab-zuschlagskalkulation`: Betriebsabrechnungsbogen mit Verteilung, Zuschlagsbasen und Zuschlagssätzen (Lernzettel KLR, Rechenaufgabe `wi-0225`: Selbstkosten 5.152 €); Lernzettel-Zeile zu den Zuschlagsbasen (Variante: Herstellkosten des Umsatzes bei Bestandsveränderungen).
+- Skripte unter `tools/blender/`, PDFs neu erzeugt.
+
 ## [2.20.8] – 2026-11-25
 
 ### Hinzugefügt

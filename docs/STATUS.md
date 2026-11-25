@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.20.8 (25.11.2026)
+**Aktuelle Version:** 2.20.9 (25.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -17,7 +17,7 @@
 
 ## Nachtbetrieb (Auftrag 23.11.2026, 22:56, ab sofort jede Nacht)
 
-**Läuft gerade:** 3D-Bilder seit 08:05
+**Läuft gerade:** –
 
 Regeln für alle Nachtläufe:
 - Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
@@ -45,16 +45,15 @@ Erledigt: serverschrank, rj45, glasfaser, raid5, usv, mainboard, hdd-ssd (2.16.0
 Erledigt im Abendlauf 24.11.: virtualisierung, cloud-modelle, dns-aufloesung (2.16.3); vpn-tunnel, netzplan-kritischer-pfad, projekt-phasen (2.16.4); patchpanel-verkabelung, stromversorgung-rack, wlan-ausleuchtung (2.16.5); ipv6-adresse, nat-pat, verschluesselung (2.16.6); dhcp-dora, 802-1x, stp-schleife (2.16.7); Bildbetrachter (2.16.8); digitale-signatur, backup-arten, nas-san (2.16.9); verfuegbarkeit, agdlp, itil-prozesse (2.16.10); vlsm-plan, routing-tabelle, snmp-monitoring (2.16.11); break-even, abschreibung-linear, nutzwertanalyse (2.16.12); epk, gantt, kanban (2.16.13); zahlensysteme, er-modell, kapselung (2.16.14); firewall-regeln, vlan-tag, zertifikatskette (2.16.15); usv-ueberbrueckung, poe-budget, osi-geraete (2.16.16); cal-lizenzen, ad-struktur, sla-zeiten (2.16.17); phishing-merkmale, leasing-kauf, mfa-faktoren (2.16.18); ip-bereiche, raid-hotspare, ssh-schluessel (2.16.19); pue, dns-records (2.16.20); dhcp-relay, tls-handshake (2.16.21).
 
 Offen, der Reihe nach (je Bild: Szene, rendern, ansehen und korrigieren bis lesbar und fachlich richtig, ≤ 150 KB, Lernzettel-Zeile, 1 Frage mit `image`, Abkürzungen ins Glossar oder vermeiden):
-1. raid6-vs-raid10 (Ausfallszenarien) – hardware.raid
-2. ransomware-schutz (Angriffskette und Gegenmaßnahmen) – sicherheit.angriffe
-3. bab-zuschlagskalkulation (Gemeinkosten-Zuschläge) – wirtschaft.klr
-4. nach Ermessen weitere FISI/KITS-Themen
+Erledigt 25.11. (Lauf nach Freigabe 08:00): raid6-vs-raid10, ransomware-schutz, bab-zuschlagskalkulation (2.20.9).
+1. nach Ermessen weitere FISI/KITS-Themen, Vorschläge: wsus-patchverteilung (Patchmanagement), log-zentral (Syslog/SIEM), switch-stack-lacp (Link-Aggregation), zero-trust (Prinzipien), datenschutz-tom (technisch-organisatorische Maßnahmen)
 
 Hilfsmittel im Abendlauf: `device_commit_files` liest eine eben neu geschriebene Datei manchmal noch in der alten Fassung – deshalb jede Fassung unter eindeutigem Namen ablegen (`v/<name>.<zeit>.py`) und nach dem Ablegen die md5 auf dem Mac prüfen. Job-Skripte laden `lib.py` vom Mac (`exec(open(_D + 'lib.py').read(), globals())`), daher reicht pro Bild die Szene; die Dateiansicht in `device_bash` hinkt manchmal hinterher – Prüfsumme (md5) vergleichen, bevor der Job gestartet wird. Unit-Tests ohne npm-Registry: kleiner vitest-Ersatz in `node_modules/vitest` (nicht im Repo).
 
 ### Nachtprotokoll
 | Datum | Lauf | Start | Ende | Ist | Ergebnis |
 |---|---|---|---|---|---|
+| 25.11.2026 | Lauf „3D-Bilder“ (nach Freigabe des Nutzers, außerhalb des Fensters) | 08:00 | 08:13 | 13 Min. | 3 Bilder + 3 Bildfragen (2.20.9): raid6-vs-raid10 (`hw-0114`), ransomware-schutz (`sec-0105`), bab-zuschlagskalkulation (`wi-0225`), je eine Lernzettel-Zeile; Bilder-Backlog leer, neue Vorschläge eingetragen. Blender per Watcher erreichbar. Unit-Tests (vitest-Ersatz, 801) und Browsertests Chromium Desktop/iPhone SE (168) grün, PDFs neu. |
 | 25.11.2026 | Lauf „3D-Bilder“ | 07:57 | 07:59 | 2 Min. | Übersprungen: Auftrag erst 07:57 gestartet, Arbeitsfenster werktags bis 08:00 – kein Platz für einen Bilderlauf. Bilder-Backlog unverändert (nächstes: raid6-vs-raid10). |
 | 25.11.2026 | Nacht Lauf 3 „Gegenprüfung und Durchlauf“ | 06:11 | 06:48 | 37 Min. | Gegenprüfung aller 609 Einträge seit 24.11., 20:00 (4 unabhängige Teilprüfungen, Rechnungen per Skript): die 9 Aufgaben aus Lauf 2b ohne Befund; **16 Korrekturen** – 13 in 2.20.6 (OEM „nicht übertragbar“ im Lizenz-Lernzettel, AGPL-Variante, `el-0014` zurückgezogene Norm/Prüfperson, `net-0091` Vererbungssperre, `hw-0008` „verdrehsicher“, `re-0029` § 476 Abs. 3 BGB, TLS 1.3 DHE, ISO 25010 unvollständig, QSFP, 2,4-GHz-Kanalabstand, OWE, MQTT/443), 3 in 2.20.7 aus einer Stichprobe älterer Aufgaben (Amortisation `wi-0174` Abschreibung doppelt gezählt + Regel überall vereinheitlicht, Gewinnschwelle `wi-0103`/`wi-0173`, SNMPv3). Durchlauf: Prüfungsreife auf der Startseite kompakt, AP-Badges, Einstellungen/Projektarbeit entrümpelt. Unit-Tests (vitest-Ersatz neu angelegt, 801) und Browsertests Chromium Desktop/iPhone SE/iPhone 13 dunkel (247) grün; Konsole fehlerfrei. Start verzögert: Shell-Prüfung lieferte anfangs mehrfach keine Antwort. |
 | 25.11.2026 | Nacht Lauf 2 „neue Inhalte“ (b) | 04:18 | 04:30 | 12 Min. | (b) 9 neue offene/Tabellenaufgaben für FISI/KITS-Themen ohne solche Aufgaben (2.20.5): offen mit Raster `sec-0103` (Schutzziele), `sec-0104` (SPF/DKIM/DMARC, FISI), `pm-0115` (Abnahmeprotokoll), `prog-0139` (CSV/JSON); Tabelle `wi-0220` (Skonto), `wi-0221` (USt-Zahllast, KITS/KDM), `wi-0222` (Factoring, KITS/KDM), `wi-0223` (Gemeinkosten verteilen, KITS/KDM), `hw-0112` (Stromkosten); Lernzettel E-Mail-Sicherheit (DMARC-Alignment), Zahlungsverkehr (Factoring-Kosten), KLR (Verteilungsschlüssel); PDFs neu. Unit-Tests (Ersatz-Runner, 801) und Browsertests Chromium Desktop/iPhone SE (166) grün. **Nächster Lauf 2: (a)** Handlungssituation KITS. Lauf 3 bitte die 9 IDs gegenprüfen. |
