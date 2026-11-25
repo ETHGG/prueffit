@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.58] – 2026-11-25
+
+### Hinzugefügt
+- **Bilder `subnetz-und` und `wlan-personal-enterprise`** (Blender): Netzadresse als bitweises UND im Lernzettel „Subnetting“, WLAN Personal vs. Enterprise im Lernzettel „VLAN und WLAN“; Bildfragen `net-0228` und `net-0229` (AP1, alle Berufe)
+- Issue #18 (Label `code`): Quiz-Option „Nur Fragen mit Bild“
+
 ## [2.21.57] – 2026-11-25
 
 ### Hinzugefügt
