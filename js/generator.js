@@ -472,7 +472,7 @@ function raid(rnd) {
 // Netzplan (since 2.21.17): four activities A → (B, C) → D, forward and backward pass.
 function networkPlan(rnd) {
   const a = int(rnd, 1, 5);
-  let b = int(rnd, 2, 8);
+  const b = int(rnd, 2, 8);
   let c = int(rnd, 2, 8);
   if (b === c) c += 1;
   const d = int(rnd, 1, 5);

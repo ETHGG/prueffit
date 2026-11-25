@@ -2,6 +2,16 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.25] – 2026-11-25
+
+### Geändert
+- **Arbeitsteilung Claude-App / Code-Aufgaben / Claude Code** (CLAUDE.md Abschnitt 2a): Inhalte und Faktenchecks in der Claude-App und in geplanten Aufgaben, Code als einmalige Code-Aufgaben, Paket-Updates über Dependabot, Sonderfälle als Issue mit Label `code`. Nachtplan neu und ohne Überschneidungen (docs/STATUS.md), Modelle je Aufgabe.
+- **Offline-Prüfungen** `sh scripts/offline/check.sh` (`npm run test:offline`): Unit-Tests mit Vitest-Ersatz, Lint mit der globalen ESLint-Installation, Browsertests und PDFs mit dem Playwright aus der Cloud-Umgebung – ohne `npm install`.
+- **Dependabot** (`.github/dependabot.yml`): monatliche Pull Requests für die Entwicklungs-Abhängigkeiten und GitHub Actions.
+
+### Behoben
+- CI-Lint seit 2.21.17 rot (`prefer-const` in `js/generator.js`).
+
 ## [2.21.24] – 2026-11-25
 
 ### Hinzugefügt

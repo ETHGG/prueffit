@@ -47,6 +47,30 @@ Diese Datei ist die zentrale Arbeitsanweisung für Claude Code. Lies sie **vor j
 
 ---
 
+## 2a. Arbeitsteilung (seit 25.11.2026)
+
+Gesteuert wird alles aus dem Chat in der Claude-App. Dort wird jeder neue Auftrag einem Ort und einem Modell zugeordnet; der Nutzer muss nichts bestätigen.
+
+| Arbeit | Wo | Modell |
+|---|---|---|
+| Inhalte: Fragen, Lernzettel, Karten, Formeln, Handlungssituationen, Bilder | Claude-App direkt oder geplante Aufgabe (Cloud) | Opus |
+| Faktenchecks, Gegenprüfung, Recherche, Jahres-/Halbjahreswerte | Claude-App oder geplante Aufgabe (Cloud) | stärkstes Modell (Fable, sonst Opus) |
+| Code: Funktionen, Umbauten, Fehlerbehebung, Tests | einmalige geplante **Code-Aufgabe** in der Cloud (der Nutzer kann die Sitzung live ansehen) | Fable für große Umbauten, Opus für Funktionen, Sonnet für kleine Korrekturen |
+| Paket-Updates (Vitest, Playwright, ESLint …) | Dependabot-Pull-Requests, getestet in der CI; der monatliche Technik-Check führt grüne zusammen | Sonnet |
+| Was lokales `npm` braucht und über Dependabot/CI nicht geht | GitHub-Issue mit Label **`code`** → Claude Code auf dem Mac des Nutzers | nach Aufwand |
+| Routine: CI-Status, Live-Seite, Morgenbericht | geplante Aufgabe (Cloud) | Haiku oder Sonnet |
+
+**Regeln für beide Seiten (Claude-App, geplante Aufgaben, Claude Code):**
+1. In der Cloud ist `npm install` gesperrt (auch in der Shell auf dem Mac). Tests deshalb mit `sh scripts/offline/check.sh` (Unit + Lint), `… e2e` (Browsertests), `… pdfs` (PDFs); in Claude Code lokal mit Netz normal `npm test`, `npm run lint`, `npm run test:e2e`.
+2. Vor jedem Push `git pull --rebase`. Nur pushen, wenn alle Tests grün sind. Nach dem Push den CI-Lauf prüfen (`gh api "repos/ETHGG/prueffit/actions/runs?branch=main&per_page=3"`); ist er durch die eigene Änderung rot, sofort beheben.
+3. Jede neue Version: Versionsnummer in `package.json`, `package-lock.json` (Zeilen 3 und 9), `js/config.js` und den Cache-Namen in `sw.js` hochzählen, CHANGELOG ergänzen, bei Datenänderungen `pdf/` neu erzeugen.
+4. Konflikte beim Rebase: Inhaltsänderungen (`data/`, Lernzettel, Bilder, Texte) aus der Claude-App immer behalten und Code-Änderungen darum herum zusammenführen; bei gleicher Versionsnummer die höhere +1 nehmen.
+5. Geplante Inhalts-Aufgaben ändern keinen Code in `js/`, `css/`, `sw.js`-Logik oder Tests; Code-Befunde werden als Issue mit Label `code` angelegt (Titel, Fundstelle, erwartetes Verhalten) und aus der Claude-App als Code-Aufgabe vergeben.
+6. Rote Tests sind nie „ok“: Ursache beheben, bis alles grün ist; Tests nicht abschwächen.
+7. Die Sperre in `docs/STATUS.md` („Läuft gerade“) gilt für alle geplanten Aufgaben; die Uhrzeiten im Nachtplan dürfen sich nicht überschneiden.
+
+---
+
 ## 3. Tech-Stack
 
 | Bereich | Technik |
@@ -83,6 +107,7 @@ prueffit/
 │   └── print.css             # Layout der PDFs (A4)
 ├── pdf/                      # PDFs je Beruf: lernzettel-ap1, lernzettel-ap2-<beruf>, abkuerzungen-<beruf>, formeln-<beruf> (seit 2.10.3) + manifest.json
 ├── scripts/
+│   ├── offline/              # Prüfungen ohne npm install: check.sh (Unit mit Vitest-Ersatz, Lint, e2e, PDFs), seit 2.21.25
 │   ├── build-pdfs.mjs        # npm run pdfs: PDFs aus print.html erzeugen (Playwright)
 │   └── pdf-hash.mjs          # Prüfsumme der PDF-Quellen
 ├── icons/                    # PWA-Icons 192/512, apple-touch-icon 180
@@ -338,6 +363,7 @@ Prozent wird **kaufmännisch auf ganze Zahlen gerundet**, bevor die Note bestimm
 ```bash
 npm install          # Dev-Abhängigkeiten (Vitest, jsdom)
 npm test             # Alle Tests einmal ausführen
+npm run test:offline # ohne npm install (Cloud): Unit-Tests mit Vitest-Ersatz + Lint; sh scripts/offline/check.sh e2e|pdfs|all
 npm run test:watch   # Tests im Watch-Modus
 npx serve .          # Lokaler Testserver (oder: python -m http.server 8080)
 npm run pdfs         # Lernzettel-PDFs in pdf/ neu erzeugen

@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.21.24 (25.11.2026)
+**Aktuelle Version:** 2.21.25 (25.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -20,7 +20,7 @@
 **Läuft gerade:** –
 
 Regeln für alle Nachtläufe:
-- Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
+- Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Zeitplan und Modelle: Tabelle „Geplante Aufgaben“ unten. Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
 - **Kontingent (Wunsch 24.11.2026, 20:12):** Wochenkontingent darf über Nacht bis 100 % genutzt werden (nicht bei 85 % aufhören). Das Sitzungskontingent bis zum Rest ausnutzen (auch die letzten 30 %): erst bei ca. 95 % sauber pausieren (Regel 7), Fortsetzung nach dem Sitzungs-Reset planen. Stand per claude.ai/settings/usage prüfen (eingebauter Browser).
 - **Sperre:** Beim Start „Läuft gerade“ auf `<Lauf> seit <HH:MM>` setzen, committen, pushen; am Ende auf „–“. Steht dort ein anderer Lauf, der jünger als 90 Min. ist: 10 Min. warten, neu prüfen (max. 3×), sonst übernehmen.
 - Zuerst „Weiter bei“ abarbeiten (pausierte Arbeit hat Vorrang).
@@ -29,7 +29,7 @@ Regeln für alle Nachtläufe:
 - Nichts mehr offen: App komplett durchgehen (alle Ansichten Desktop/iPhone, Inhalte stichprobenartig fachlich, Barrierefreiheit, Offline, Performance) und verbessern; sinnvolle Ergänzungen dürfen selbst gewählt werden.
 - Jeder Lauf trägt sich ins **Nachtprotokoll** ein (Datum, Lauf, Start, Ende, Ist, Ergebnis/Version).
 
-### Funktions-Backlog (Lauf 23:13, der Reihe nach)
+### Funktions-Backlog (seit 25.11.2026 als Code-Aufgaben aus dem Chat, siehe CLAUDE.md 2a)
 1. Unbegrenzte Rechenaufgaben (Generator: Subnetting/VLSM, Binär/Hex, Speicher/Übertragungszeit, Kalkulation, Abschreibung, Nutzwert, Kennzahlen) – erledigt (2.13.0)
 2. Erklärung zu jeder falschen Antwortmöglichkeit (Datenfeld + Anzeige; FISI/KITS zuerst) – erledigt (2.17.0: Feld `optionNotes`, alle 454 Auswahlfragen für FISI/KITS; übrige Berufe in 2.20.1 ergänzt: alle 565 Auswahlfragen)
 3. Wochenplan als Kalenderdatei (.ics) für den iPhone-Kalender – erledigt (2.18.0)
@@ -97,24 +97,24 @@ Gesamt geschätzt: ca. 7 h 40 Min. (davon 7 h 10 Min. Auftrag + 30 Min. Qualitä
 - **Versionen:** 2.10.6 → 2.10.7 → 2.11.0 → 2.12.0 → 2.13.0 (Nachtbetrieb Lauf 1) → 2.14.0 → 2.14.1 (Qualitätsrunde) → 2.15.0 → 2.15.1 (Nachtbetrieb Lauf 2) → **2.15.2**.
 - **Hinweis:** Unit-Tests liefen in den Blöcken B–F mit einem Ersatz-Runner (npm-Registry in der Cloud gesperrt), Browsertests mit Chromium; die CI prüft mit dem echten Vitest und WebKit.
 
-## Geplante Aufgaben (Stand 19.11.2026, alle nachts, Europe/Berlin)
+## Geplante Aufgaben (Stand 25.11.2026, Europe/Berlin, ohne Überschneidung; Arbeitsteilung siehe CLAUDE.md 2a)
 
-| Rhythmus | Zeit | Aufgabe |
-|---|---|---|
-| einmalig | Mo 23.11.2026, 00:47 | Prüfungsreife je Prüfungsbereich, Tabellenaufgabe in jeder Simulation, Formelsammlung als PDF (mit Fachprüfung) |
-| täglich | 23:13 | Nacht 1: nächste Funktion aus dem Funktions-Backlog, danach eigene Verbesserungen |
-| täglich | 02:13 | 3D-Bilder (Mac mit Blender nötig): nächstes Bild aus dem Bilder-Backlog |
-| täglich | 04:17 | Nacht 2: neue Inhalte FISI/KITS (Handlungssituation oder offene/Tabellenaufgaben im Wechsel) |
-| täglich | 06:07 | Nacht 3: Gegenprüfung der Nacht, danach Durchlauf und Verbesserungen bis 07:50 (Sa/So 09:20) |
-| täglich | 09:57 | Morgenbericht per Push |
-| täglich | 01:47 | Qualitätsrunde: CI- und Live-Check, 2 Themen nach `docs/PRUEFPROTOKOLL.md` fachlich prüfen |
-| wöchentlich | Mo 03:06 | Fehlermeldungen und Wünsche (GitHub-Issues), Ausbau, Quellenprüfung |
-| 2× pro Woche | Mi + Sa 02:41 | Fragen vertiefen (FISI/KITS, je 3 schwächste Themen, zuerst RAID und USV) bis alle 74 Themen ≥ 15 Fragen und ≥ 3 Fragetypen haben, danach monatlich am 8. – **Ziel am 25.11.2026 erreicht** (alle 74 Themen ≥ 15 Aufgaben, mind. 4 Typen); ab jetzt Vertiefung nach Bedarf (Qualität, offene/Tabellenaufgaben) |
-| monatlich | 1., 04:13 | Technik-Wartung (Dev-Abhängigkeiten, CI, Live-Seite, Links) und Lückenanalyse |
-| halbjährlich | 2.1. und 2.7., 04:37 | Basiszinssatz |
-| jährlich | 3.1., 04:23 | Jahreswechsel-Werte (Sozialversicherung, Mindestvergütung, Steuern, Gesetzesänderungen), Prüfungstermine |
-| jährlich | 14.9., 03:51 | Prüfungskataloge, Ausbildungsverordnungen, Prüfungstermine des Folgejahres |
+| Rhythmus | Zeit (spätestens fertig) | Aufgabe | Modell |
+|---|---|---|---|
+| täglich | 23:13 (00:55) | Nacht 2: neue Inhalte FISI/KITS (Handlungssituation oder offene/Tabellenaufgaben im Wechsel) | Opus |
+| täglich | 01:07 (01:55) | Qualitätsrunde: 2 Themen nach `docs/PRUEFPROTOKOLL.md` fachlich prüfen | Fable |
+| Mo | 02:13 (04:05) | Wochenlauf: Issues (Inhalt selbst, Code → Label `code`), Ausbau Inhalte, Quellen | Opus |
+| Di + Fr | 02:13 (04:05) | 3D-Bilder – **Mac an in den Nächten Mo→Di und Do→Fr**, Claude-Desktop-App offen, Blender mit Watcher | Opus |
+| monatlich | 1., 04:17 (04:50) | Technik-Check: CI, Dependabot-PRs (grüne zusammenführen), Live-Seite, Links; Probleme → Issue `code` | Sonnet |
+| monatlich | 8., 04:17 (05:55) | Fragen vertiefen + Lückenanalyse (Ziel 74/74 am 25.11.2026 erreicht, jetzt Pflege) | Opus |
+| halbjährlich | 2.1. und 2.7., 04:37 | Basiszinssatz | Fable |
+| jährlich | 3.1., 04:37 | Jahreswechsel-Werte, Prüfungstermine | Fable |
+| jährlich | 14.9., 04:37 | Prüfungskataloge, Ausbildungsverordnungen, Termine des Folgejahres | Fable |
+| täglich | 06:07 (07:50, Sa/So 09:20) | Nacht 3: Gegenprüfung der Nacht, danach Durchlauf (nur Inhalte; Code → Issue `code`) | Fable |
+| täglich | 09:57 | Morgenbericht + Betriebscheck (CI grün? Live-Version?) per Push | Haiku |
+| pausiert | (23:13) | Nacht 1 „neue Funktion“ – Funktionen kommen jetzt als Code-Aufgaben aus dem Chat | – |
 
+Tests ohne npm: `sh scripts/offline/check.sh` (Unit + Lint), `… e2e`, `… pdfs`.
 Alle Läufe holen vor dem Push mit `git pull --rebase` den neuesten Stand.
 
 ## Erledigt

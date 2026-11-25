@@ -1,11 +1,12 @@
 {
   "name": "prueffit",
-  "version": "2.21.24",
+  "version": "2.21.25",
   "description": "PrüfFit – AP1/AP2-Lerntrainer für IT-Azubis als offline-fähige PWA",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "vitest run",
+    "test:offline": "sh scripts/offline/check.sh",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "lint": "eslint .",
