@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.44] – 2026-11-25
+
+### Hinzugefügt
+- **Prüfungsnahe Aufgaben für FISI GA2** (Analyse und Entwicklung von Netzwerken): VLSM-Adressplan als Tabelle (`net-0211`, 8 Punkte), Netz/Broadcast/Hosts zu 10.8.37.200/21 als Tabelle (`net-0212`), Firewall-Regelwerk für Webserver in der DMZ (`sec-0170`), Routingtabelle aufstellen (`net-0214`), SPF-Eintrag schreiben (`sec-0169`) – Freitext jeweils mit Bewertungsraster
+
 ## [2.21.43] – 2026-11-25
 
 ### Hinzugefügt
