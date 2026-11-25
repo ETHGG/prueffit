@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.1] – 2026-11-25
+
+### Hinzugefügt
+- **Fragen vertiefen, Block 1** (Tag-Auftrag): 30 neue AP1-Aufgaben, damit die drei dünnsten Themen für FISI und KITS mindestens 15 Aufgaben mit mindestens 5 Aufgabentypen haben.
+  - Rechtsformen und Unternehmen (`wi-0226` bis `wi-0234`): Handelsregister A/B, Haftung des Kommanditisten (Rechnung), Kapitalgesellschaften, Zielarten und Zielkonflikt, Maximalprinzip, Käufermarkt, Organe von GmbH und AG, offene Aufgabe Rechtsformwahl mit Bewertungsraster.
+  - Vertrieb und Kundengespräch (`wi-0235` bis `wi-0244`): geschlossene Fragen, „freibleibend“, Rabatt/Skonto (Rechnung und Tabellenaufgabe), Gesprächsphasen, Vertriebswege, Nutzenargumente, aktives Zuhören, „ab Werk“, offene Aufgabe Preiseinwand.
+  - Testen (`prog-0142` bis `prog-0152`): Fehlerarten, Reihenfolge der Teststufen, Regressions-, Integrations- und Abnahmetest, Black-Box-Verfahren, Äquivalenzklassen, Schreibtischtest als Tabelle, Testprotokoll, statischer Test, ISO/IEC 25010.
+  - Jede Auswahlfrage mit Erklärung je Antwortmöglichkeit, Rechnungen mit Lösungsweg.
+
 ## [2.21.0] – 2026-11-25
 
 ### Hinzugefügt
