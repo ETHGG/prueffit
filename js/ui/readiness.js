@@ -128,6 +128,15 @@ export function readinessCard(ctx, { historyCanvas = null, onHistory = null } = 
 export function readinessHomeCard(ctx) {
   const list = readinessFor(ctx);
   if (!list.length) return null;
+  // Nothing to estimate yet: one short note instead of four rows saying "noch zu wenig Daten".
+  if (list.every((r) => r.status !== 'ok')) {
+    const first = list.find((r) => r.potential[0]);
+    return h('section', { class: 'card readiness', 'aria-labelledby': 'home-readiness' },
+      h('h2', { id: 'home-readiness', text: 'Prüfungsreife' }),
+      h('p', { class: 'readiness-empty' }, 'Noch zu wenig Daten für eine Notenschätzung. Nach etwa 20 Antworten je Prüfungsbereich oder einer Simulation siehst du hier deine voraussichtliche Note.'),
+      first ? h('p', { class: 'small' }, `Guter Anfang (${partLabel(first)}): `, quizLink(first.potential[0])) : null,
+      h('p', { class: 'small' }, h('a', { href: '#/statistik' }, 'Details in der Statistik')));
+  }
   return h('section', { class: 'card readiness', 'aria-labelledby': 'home-readiness' },
     h('h2', { id: 'home-readiness', text: 'Prüfungsreife' }),
     h('ul', { class: 'readiness-list compact' },
@@ -135,7 +144,7 @@ export function readinessHomeCard(ctx) {
         h('div', { class: 'readiness-head' },
           h('span', { class: `light light-${lightForGrade(r.grade)}`, 'aria-hidden': 'true' }),
           h('span', { class: 'stat-name', text: partLabel(r) }),
-          h('span', { class: 'readiness-short', text: r.status === 'ok' ? `Note ${r.grade} · ${r.percent} P.` : 'noch zu wenig Daten' })),
+          h('span', { class: r.status === 'ok' ? 'readiness-short' : 'readiness-short muted', text: r.status === 'ok' ? `Note ${r.grade} · ${r.percent} P.` : 'noch zu wenig Daten' })),
         h('span', { class: 'muted small' }, `${formatNumber(r.answers)} ${r.answers === 1 ? 'Antwort' : 'Antworten'}`,
           r.simulations ? ` · ${r.simulations} Sim.` : '',
           r.potential[0] ? [' · Potenzial: ', quizLink(r.potential[0])] : null)))),

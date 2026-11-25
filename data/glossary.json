@@ -72,6 +72,12 @@
     "area": "WiSo"
   },
   {
+    "abbr": "AGPL",
+    "full": "GNU Affero General Public License",
+    "explanation": "Copyleft-Lizenz wie die GPL; die Pflicht, den Quellcode anzubieten, gilt zusätzlich schon beim Bereitstellen über ein Netzwerk (z. B. Webdienst)",
+    "area": "Recht"
+  },
+  {
     "abbr": "AI",
     "full": "Artificial Intelligence",
     "explanation": "Künstliche Intelligenz; „EU AI Act“ = KI-Verordnung der EU",
@@ -407,6 +413,12 @@
     "full": "Dynamic Host Configuration Protocol for IPv6",
     "explanation": "DHCP für IPv6",
     "area": "Netzwerke"
+  },
+  {
+    "abbr": "DHE",
+    "full": "Diffie-Hellman Ephemeral",
+    "explanation": "Klassischer Diffie-Hellman-Schlüsselaustausch mit Einmalschlüsseln je Verbindung (Forward Secrecy); in TLS 1.3 neben ECDHE erlaubt, aber seltener",
+    "area": "IT-Sicherheit"
   },
   {
     "abbr": "DIN",
@@ -1330,8 +1342,12 @@
   {
     "abbr": "QSFP",
     "full": "Quad Small Form-factor Pluggable",
-    "explanation": "Steckbares Transceivermodul für 40 oder 100 Gbit/s",
-    "area": "Netzwerke"
+    "explanation": "Steckbares Transceivermodul mit vier Kanälen: QSFP+ 40 Gbit/s, QSFP28 100 Gbit/s",
+    "area": "Netzwerke",
+    "aliases": [
+      "QSFP+",
+      "QSFP28"
+    ]
   },
   {
     "abbr": "RADIUS",
@@ -1474,10 +1490,11 @@
   {
     "abbr": "SFP",
     "full": "Small Form-factor Pluggable",
-    "explanation": "Steckbares Transceivermodul für Switches (SFP 1 Gbit/s, SFP+ 10 Gbit/s), z. B. für Glasfaser",
+    "explanation": "Steckbares Transceivermodul für Switches (SFP 1 Gbit/s, SFP+ 10 Gbit/s, SFP28 25 Gbit/s), z. B. für Glasfaser",
     "area": "Netzwerke",
     "aliases": [
-      "SFP+"
+      "SFP+",
+      "SFP28"
     ]
   },
   {

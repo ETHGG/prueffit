@@ -12,8 +12,10 @@ test('Prüfungsreife (2.10): too little data at first, then grade per part with 
   await page.reload();
   const home = page.locator('section.readiness');
   await expect(home.getByRole('heading', { name: 'Prüfungsreife' })).toBeVisible();
-  await expect(home.locator('.readiness-item')).toHaveCount(4); // AP1, two AP2 parts, WiSo
-  await expect(home.locator('.readiness-item').first()).toContainText('noch zu wenig Daten');
+  // Nothing estimated yet (2.20.6): one short note with a quiz link instead of four rows.
+  await expect(home.locator('.readiness-item')).toHaveCount(0);
+  await expect(home.locator('.readiness-empty')).toContainText('Noch zu wenig Daten');
+  await expect(home.getByRole('link', { name: 'Details in der Statistik' })).toBeVisible();
 
   // A WiSo simulation result alone gives an estimate for WiSo (percent 70 → grade 3).
   await page.evaluate(() => {
@@ -24,6 +26,8 @@ test('Prüfungsreife (2.10): too little data at first, then grade per part with 
   await page.reload();
   const wiso = page.locator('section.readiness .readiness-item', { hasText: 'WiSo' });
   await expect(wiso).toContainText('Note 3 · 70 P.');
+  await expect(page.locator('section.readiness .readiness-item')).toHaveCount(4); // AP1, two AP2 parts, WiSo
+  await expect(page.locator('section.readiness .readiness-item').first()).toContainText('noch zu wenig Daten');
   await expectNoHorizontalOverflow(page);
 
   await page.goto('./#/statistik');

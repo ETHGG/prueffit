@@ -703,7 +703,7 @@ body.setup-mode .tabbar { display: none; }
 .job-fixed { margin: 0; }
 .exam-group + .exam-group { margin-top: 1rem; }
 .exam-group-title { display: flex; align-items: center; gap: 0.4rem; font-size: 0.95rem; margin: 0.75rem 0 0.4rem; }
-.badge { display: inline-block; padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; background: color-mix(in srgb, var(--primary) 15%, transparent); color: var(--primary); }
+.badge { display: inline-block; white-space: nowrap; flex: none; padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; background: color-mix(in srgb, var(--primary) 15%, transparent); color: var(--primary); }
 .rubric { margin-top: .75rem; }
 .rubric .count-badge { white-space: nowrap; }
 .rubric-sum { font-weight: 700; margin: .5rem 0; }
@@ -811,6 +811,7 @@ details.exam-rules { margin-top: .75rem; border-top: 1px solid var(--border); pa
 .readiness-head { display: flex; align-items: center; gap: .5rem; }
 .readiness-head .stat-name { flex: 1; min-width: 0; hyphens: auto; overflow-wrap: break-word; font-weight: 600; }
 .readiness-short { flex: none; font-weight: 700; font-size: .9rem; }
+.readiness-short.muted { font-weight: 600; font-size: .85rem; max-width: 45%; text-align: right; }
 .readiness-potential a { display: inline-block; min-height: 24px; }
 
 /* Verlauf der Prüfungsreife und Wochenplan (2.12) */

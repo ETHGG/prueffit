@@ -2,6 +2,26 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.20.6] – 2026-11-25
+
+### Behoben (Gegenprüfung Nachtbetrieb Lauf 3)
+- Unabhängige fachliche Gegenprüfung aller 609 seit dem 24.11., 20:00 geänderten Einträge (Fragen, Erklärungen zu Antwortmöglichkeiten, Lernzettel, Glossar; alle Rechnungen nachgerechnet). Die 9 neuen Aufgaben aus 2.20.5 sind fehlerfrei. **13 Korrekturen und Präzisierungen**, jeweils überall nachgezogen:
+  - Lernzettel Lizenzen: OEM-Lizenz in der Vergleichstabelle nicht mehr „nicht übertragbar“ (Weiterverkauf nach BGH grundsätzlich erlaubt, wie in der ersten Tabelle); GPL mit Variante **AGPL** (Bereitstellen über das Netz genügt) – ebenso in `re-0011`, `re-0053` und der Karteikarte „Copyleft“; Glossar AGPL neu.
+  - `el-0014`: wiederkehrende Prüfung nach DIN EN 50699 (VDE 0702) statt der zurückgezogenen DIN VDE 0701-0702; Prüfen darf auch eine unterwiesene Person unter Leitung einer Elektrofachkraft.
+  - `net-0091`: Eine Vererbungssperre ist keine Ausnahme vom Vorrang der OU-GPO – „Erzwungen“ setzt sich sogar trotz Sperre durch.
+  - `hw-0008`: „verdrehsicher“ war missverständlich (VGA/DVI passen auch nur in einer Lage) – jetzt „beidseitig steckbar“, auch in `hw-0040`.
+  - `re-0029`: Gegenüber Verbrauchern lässt sich Schadensersatz im Rahmen der AGB-Regeln begrenzen (§ 476 Abs. 3 BGB), Nacherfüllung, Rücktritt und Minderung nicht.
+  - Lernzettel Kryptografie: TLS 1.3 nutzt ECDHE oder klassisches DHE (RSA-Schlüsseltransport abgeschafft); Glossar DHE neu.
+  - Lernzettel Testen: Qualitätsmerkmale nach ISO/IEC 25010 vollständig (Kompatibilität fehlte).
+  - Lernzettel Übertragungsmedien und Glossar: SFP28, QSFP+ (40 Gbit/s), QSFP28 (100 Gbit/s) statt „QSFP 40/100“.
+  - `net-0135`: Kanalabstand im 2,4-GHz-Band – 5 Nummern bei 802.11b (22 MHz), 4 bei OFDM (20 MHz, daher in Europa auch 1, 5, 9, 13).
+  - `net-0053`, `net-0019`: offenes WLAN „meist“ unverschlüsselt (Ausnahme OWE/Enhanced Open); `ot-0017`: MQTT auf Port 443 per WebSockets oder TLS-ALPN.
+
+### Geändert
+- Startseite: Solange es für keinen Prüfungsbereich eine Notenschätzung gibt, zeigt „Prüfungsreife“ einen kurzen Hinweis mit einem Quiz-Vorschlag statt vier Zeilen „noch zu wenig Daten“; in der Liste ist der Hinweis kleiner und lässt dem Bereichsnamen mehr Platz (iPhone SE).
+- Kennzeichen „AP1“/„AP2“ in Überschriften brechen nicht mehr um.
+- Einstellungen: „Eigene Fragen exportieren/löschen“ erscheinen erst, wenn es eigene Fragen oder Karten gibt.
+
 ## [2.20.5] – 2026-11-25
 
 ### Hinzugefügt

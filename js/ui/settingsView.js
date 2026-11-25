@@ -30,6 +30,7 @@ const STORAGE_TEXT = {
 
 export function render(root, ctx) {
   const answered = Object.keys(ctx.progress.answers).length;
+  const hasCustom = ctx.custom.questions.length > 0 || ctx.custom.flashcards.length > 0;
 
   const rerender = () => { root.replaceChildren(); render(root, ctx); };
 
@@ -195,13 +196,12 @@ export function render(root, ctx) {
         'Format wie in der Projektbeschreibung (README, „Eigene Fragen importieren“); Themen müssen vorhanden sein.'),
       h('div', { class: 'button-row' },
         fileButton('Fragen importieren', importCustom),
-        h('button', {
-          type: 'button', class: 'button secondary', disabled: !ctx.custom.questions.length && !ctx.custom.flashcards.length,
+        // Export/delete only appear once there is something to export or delete (less clutter).
+        hasCustom ? h('button', {
+          type: 'button', class: 'button secondary',
           onClick: () => downloadJson(exportFileName('fragen'), buildCustomExport(ctx.custom, { appVersion: ctx.version })),
-        }, 'Eigene Fragen exportieren'),
-        h('button', {
-          type: 'button', class: 'button danger', disabled: !ctx.custom.questions.length && !ctx.custom.flashcards.length, onClick: deleteCustom,
-        }, 'Eigene Fragen löschen')),
+        }, 'Eigene Fragen exportieren') : null,
+        hasCustom ? h('button', { type: 'button', class: 'button danger', onClick: deleteCustom }, 'Eigene Fragen löschen') : null),
       h('div', { id: 'custom-report', class: 'spaced' })),
     h('section', { class: 'card', 'aria-labelledby': 'settings-data' },
       h('h2', { id: 'settings-data', text: 'Daten' }),
