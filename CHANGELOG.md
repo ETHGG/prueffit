@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.52] – 2026-11-25
+
+### Hinzugefügt
+- **Bilder `normalformen` und `grenzwerte`** (Blender) in den Lernzetteln „Datenbanken“ (Sammeltabelle → 1. NF → 3. NF mit vier Tabellen) und „Testen“ (Äquivalenzklassen und Grenzwerte auf dem Zahlenstrahl); Bildfragen `prog-0240` (transitive Abhängigkeit) und `prog-0241` (Grenzwerte 0/1/10/11)
+
 ## [2.21.51] – 2026-11-25
 
 ### Hinzugefügt
