@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.33] – 2026-11-25
+
+### Geändert
+- **WiSo-Lernzettel fachlich nachgeschärft** (Verallgemeinerungen präzisiert):
+  - Arbeitsvertrag: Anhörung nur, wenn es einen Betriebsrat gibt (§ 102 BetrVG); Kündigungsschutzgesetz – Azubis zählen nicht, Teilzeit anteilig; Befristung ohne Sachgrund – Vorbeschäftigungsverbot, Neugründungen bis 4 Jahre, Tarifverträge; Integrationsamt (oft Inklusionsamt)
+  - Schutzgesetze: Elternzeit bis zu 3 Jahre, davon bis zu 24 Monate zwischen 3. und 8. Geburtstag; Mutterschutz 12 Wochen auch bei Behinderung des Kindes, Schutzfristen nach Fehlgeburt (seit Juni 2025); Krankmeldung mit eAU
+  - Sozialversicherung: Rechenbeispiel mit dem durchschnittlichen Zusatzbeitrag 2026 (2,9 %) wie in der Tabelle; Unfallkassen im öffentlichen Dienst
+  - Mitbestimmung: JAV nur, wenn es einen Betriebsrat gibt
+  - Unternehmen: GmbH-Einzahlung (ein Viertel je Anteil, mind. 12.500 €) statt „Hälfte“, Aufsichtsrat bei mehr als 500 Arbeitnehmern – ebenso Karteikarte
+  - Ausbildungsvertrag seit August 2024 auch elektronisch in Textform (Lernzettel „Ausbildung“ und „Arbeitsrecht“)
+
 ## [2.21.32] – 2026-11-25
 
 ### Hinzugefügt
