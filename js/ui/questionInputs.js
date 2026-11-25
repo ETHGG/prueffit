@@ -179,6 +179,23 @@ function choiceInput(q, { response, locked, reveal, onChange }) {
       })));
 }
 
+/**
+ * Since 2.21.54: "±" button that toggles a leading minus. The iPhone's decimal keypad
+ * (inputmode="decimal") has no minus key, so negative values need this button.
+ */
+function signButton(field, label) {
+  return h('button', {
+    type: 'button', class: 'sign-button', 'aria-label': `Vorzeichen wechseln (${label})`,
+    disabled: field.disabled,
+    onClick: () => {
+      const value = field.value.trim();
+      field.value = /^[-\u2212]/.test(value) ? value.slice(1) : `-${value}`;
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+      field.focus();
+    },
+  }, '±');
+}
+
 function numberInput(q, { response, locked, onChange }) {
   const field = h('input', {
     id: 'answer-input', name: 'answer', type: 'text', inputmode: 'decimal', autocomplete: 'off',
@@ -188,8 +205,9 @@ function numberInput(q, { response, locked, onChange }) {
   });
   return h('div', {},
     h('label', { for: 'answer-input', class: 'visually-hidden', text: 'Deine Antwort' }),
-    h('div', { class: 'number-input' }, field, q.answer.unit ? h('span', { class: 'unit', text: q.answer.unit }) : null),
-    h('p', { class: 'hint', id: 'number-hint', text: 'Dezimalzahlen mit Komma oder Punkt, ohne Einheit.' }));
+    h('div', { class: 'number-input' }, signButton(field, 'Deine Antwort'), field,
+      q.answer.unit ? h('span', { class: 'unit', text: q.answer.unit }) : null),
+    h('p', { class: 'hint', id: 'number-hint', text: 'Dezimalzahlen mit Komma oder Punkt, ohne Einheit; ± für negative Werte.' }));
 }
 
 function matchInput(q, { response, locked, reveal, ui, onChange }) {
@@ -253,6 +271,8 @@ function orderInput(q, { response, locked, reveal, ui, redraw, onChange }) {
 
 function tableInput(q, { response, locked, reveal, onChange }) {
   const unit = q.answer.unit ?? '';
+  // Tables with a negative expected value get a "±" button in every open cell (not only the negative one).
+  const signed = q.answer.rows.some((row) => Number.isFinite(row.value) && row.value < 0);
   const rows = q.answer.rows.map((row, i) => {
     if (!Number.isFinite(row.value)) {
       return h('tr', { class: 'is-given' },
@@ -262,22 +282,25 @@ function tableInput(q, { response, locked, reveal, onChange }) {
     const id = `cell-${i}`;
     const entered = response?.[String(i)] ?? '';
     const ok = reveal && tableCellCorrect(row, entered);
+    const field = h('input', {
+      id, type: 'text', inputmode: 'decimal', autocomplete: 'off', enterkeyhint: 'next', 'data-row': i,
+      disabled: locked, value: entered || null,
+      onInput: onChange ? (e) => onChange(readResponse(e.target.form, q)) : null,
+      // Enter moves to the next open cell instead of submitting the whole answer.
+      onKeydown: (e) => {
+        if (e.key !== 'Enter') return;
+        const cells = [...e.target.form.querySelectorAll('input[data-row]')];
+        const next = cells[cells.indexOf(e.target) + 1];
+        if (next) { e.preventDefault(); next.focus(); }
+      },
+    });
+    const signCell = signed ? signButton(field, row.label) : null;
     return h('tr', { class: reveal ? (ok ? 'is-correct' : 'is-wrong') : '' },
       h('th', { scope: 'row' }, h('label', { for: id, text: row.label })),
       h('td', { class: 'num' },
         h('span', { class: 'cell-input' },
-          h('input', {
-            id, type: 'text', inputmode: 'decimal', autocomplete: 'off', enterkeyhint: 'next', 'data-row': i,
-            disabled: locked, value: entered || null,
-            onInput: onChange ? (e) => onChange(readResponse(e.target.form, q)) : null,
-            // Enter moves to the next open cell instead of submitting the whole answer.
-            onKeydown: (e) => {
-              if (e.key !== 'Enter') return;
-              const cells = [...e.target.form.querySelectorAll('input[data-row]')];
-              const next = cells[cells.indexOf(e.target) + 1];
-              if (next) { e.preventDefault(); next.focus(); }
-            },
-          }),
+          signCell,
+          field,
           unit ? h('span', { class: 'unit', text: unit }) : null),
         reveal ? h('span', { class: 'mark', text: ok ? '✓' : `✗ richtig: ${formatNumber(row.value)}` }) : null));
   });

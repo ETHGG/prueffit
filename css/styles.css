@@ -282,6 +282,14 @@ legend { font-weight: 700; margin-bottom: .5rem; padding: 0; }
 }
 .number-input input:focus { border-color: var(--primary); outline: none; }
 .number-input .unit { font-weight: 600; color: var(--muted); flex: none; overflow-wrap: normal; white-space: nowrap; }
+/* Since 2.21.54: sign toggle, the iPhone decimal keypad has no minus key. */
+.sign-button {
+  flex: none; min-width: 44px; min-height: 44px; padding: 0 .5rem;
+  font: inherit; font-size: 1.15rem; font-weight: 600; line-height: 1;
+  color: var(--primary); background: var(--surface); border: 2px solid var(--border); border-radius: 12px;
+}
+.number-input .sign-button { min-height: 52px; }
+.sign-button:disabled { opacity: .4; }
 
 .hint { color: var(--muted); font-size: .875rem; }
 

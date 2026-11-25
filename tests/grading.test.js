@@ -105,6 +105,20 @@ describe('parseNumberInput', () => {
   it('accepts German thousands separators with a decimal comma', () => {
     expect(parseNumberInput('1.234,50')).toBe(1234.5);
   });
+  it('accepts the ASCII minus and the typographic minus (U+2212) for negative values', () => {
+    expect(parseNumberInput('-10')).toBe(-10);
+    expect(parseNumberInput('\u221210')).toBe(-10);
+    expect(parseNumberInput(' \u2212 2,5 ')).toBe(-2.5);
+    expect(parseNumberInput('\u22121.234,50')).toBe(-1234.5);
+    expect(parseNumberInput('\u2212')).toBeNull();
+    expect(parseNumberInput('--10')).toBeNull();
+  });
+  it('grades a negative number answer typed with either minus sign', () => {
+    const q = { type: 'number', points: 1, answer: { value: -10, tolerance: 0 } };
+    expect(gradeAnswer(q, '-10').correct).toBe(true);
+    expect(gradeAnswer(q, '\u221210').correct).toBe(true);
+    expect(gradeAnswer(q, '10').correct).toBe(false);
+  });
   it('returns null for anything else', () => {
     expect(parseNumberInput('abc')).toBeNull();
     expect(parseNumberInput('')).toBeNull();

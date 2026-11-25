@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.54] – 2026-11-25
+
+### Behoben
+- **Negative Zahlen auf dem iPhone eingebbar** (Issue #15): Zahlenfelder haben einen „±“-Knopf (44 px), der das Vorzeichen wechselt – die Zifferntastatur des iPhones (`inputmode="decimal"`) hat kein Minus. Tabellenaufgaben mit negativem Sollwert bekommen den Knopf in jeder offenen Zelle. `parseNumberInput` akzeptiert zusätzlich das typografische Minus „−“ (U+2212). Unit-Tests in `grading.test.js`, Browsertest `e2e/negativeNumbers.spec.js` (iPhone SE, `ot-0035`)
+
 ## [2.21.53] – 2026-11-25
 
 ### Hinzugefügt

@@ -11,12 +11,13 @@ function result(valid, correct, points, maxPoints) {
 /**
  * Parses user input for number questions.
  * Accepts numbers and strings like "62", "1,5", "1.5", "-3", "1.234,50".
+ * Since 2.21.54 also the typographic minus "−" (U+2212) that some keyboards or pasted text deliver.
  * @returns {number|null}
  */
 export function parseNumberInput(input) {
   if (typeof input === 'number') return Number.isFinite(input) ? input : null;
   if (typeof input !== 'string') return null;
-  let s = input.trim().replace(/\s+/g, '');
+  let s = input.trim().replace(/\s+/g, '').replace(/^\u2212/, '-');
   if (s === '') return null;
   if (/^-?\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) {
     // German thousands separators: 1.234,50
