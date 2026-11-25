@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.21.17 (25.11.2026)
+**Aktuelle Version:** 2.21.18 (25.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -46,7 +46,8 @@ Erledigt im Abendlauf 24.11.: virtualisierung, cloud-modelle, dns-aufloesung (2.
 
 Offen, der Reihe nach (je Bild: Szene, rendern, ansehen und korrigieren bis lesbar und fachlich richtig, ≤ 150 KB, Lernzettel-Zeile, 1 Frage mit `image`, Abkürzungen ins Glossar oder vermeiden):
 Erledigt 25.11. (Lauf nach Freigabe 08:00): raid6-vs-raid10, ransomware-schutz, bab-zuschlagskalkulation (2.20.9).
-1. nach Ermessen weitere FISI/KITS-Themen, Vorschläge: wsus-patchverteilung (Patchmanagement), log-zentral (Syslog/SIEM), switch-stack-lacp (Link-Aggregation), zero-trust (Prinzipien), datenschutz-tom (technisch-organisatorische Maßnahmen)
+Erledigt 25.11. (Tag-Auftrag 12:00): wsus-patchverteilung, log-zentral, switch-stack-lacp, zero-trust, datenschutz-tom (2.21.18).
+1. Nachtlauf: fachlich anspruchsvollere Bilder nach Ermessen, z. B. echte 3D-Hardware (Glasfaser-Spleiß, Server-Innenleben mit redundanten Netzteilen, Rack-Kühlung Warm-/Kaltgang), Ablaufbilder (Kerberos-Anmeldung, 802.1X mit RADIUS, E-Mail-Weg mit SPF/DKIM/DMARC)
 
 Hilfsmittel im Abendlauf: `device_commit_files` liest eine eben neu geschriebene Datei manchmal noch in der alten Fassung – deshalb jede Fassung unter eindeutigem Namen ablegen (`v/<name>.<zeit>.py`) und nach dem Ablegen die md5 auf dem Mac prüfen. Job-Skripte laden `lib.py` vom Mac (`exec(open(_D + 'lib.py').read(), globals())`), daher reicht pro Bild die Szene; die Dateiansicht in `device_bash` hinkt manchmal hinterher – Prüfsumme (md5) vergleichen, bevor der Job gestartet wird. Unit-Tests ohne npm-Registry: kleiner vitest-Ersatz in `node_modules/vitest` (nicht im Repo).
 

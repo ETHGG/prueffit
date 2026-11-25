@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.18] – 2026-11-25
+
+### Hinzugefügt
+- **Fünf neue 3D-Bilder (Blender)** mit Lernzettel-Abschnitt und je einer Bildfrage:
+  - `wsus-patchverteilung` – Update-Ringe (Test, Pilot, alle) im Lernzettel Betriebssysteme, Frage `hw-0160`.
+  - `log-zentral` – Syslog-Server und SIEM, neuer Abschnitt „Zentrale Protokollierung“ im Lernzettel IT-Betrieb, Frage `hw-0161` (warum NTP).
+  - `switch-stack-lacp` – Link-Aggregation, neuer Abschnitt im Lernzettel VLAN/WLAN, Rechenfrage `net-0193`.
+  - `zero-trust` – Prinzip „jeden Zugriff prüfen“, neuer Abschnitt im Lernzettel Netzsicherheit, Frage `sec-0152`.
+  - `datenschutz-tom` – technisch-organisatorische Maßnahmen mit Beispielen im Lernzettel Datenschutz, Zuordnungsfrage `re-0110`.
+- Skripte in `tools/blender/`; Bilder je 15–23 KB, im Offline-Speicher.
+
 ## [2.21.17] – 2026-11-25
 
 ### Hinzugefügt
