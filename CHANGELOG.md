@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.37] – 2026-11-25
+
+### Hinzugefügt
+- **Drei neue Bilder (Blender)** mit Lernzettel-Ergänzung und Bildfrage:
+  - `rcd-prinzip` – Hin- und Rückstrom im Normal- und Fehlerfall (Lernzettel „Schutzmaßnahmen“: Grenzen des RCD, Typ B bei Gleichfehlerströmen, 120 V Gleichspannung; Frage `el-0052`)
+  - `mqtt-pubsub` – Publisher, Broker, Subscriber mit Topics (Lernzettel „OT“: Platzhalter `+` und `#`; Frage `ot-0056`)
+  - `bpmn-gateways` – Werkstattprozess mit exklusivem und parallelem Gateway in zwei Lanes (Lernzettel „Prozessanalyse“; Frage `dat-0066`)
+
+### Geändert
+- Bild `arp-ablauf`: überzähliger Doppelpunkt in der Broadcast-Adresse entfernt
+
 ## [2.21.36] – 2026-11-25
 
 ### Geändert

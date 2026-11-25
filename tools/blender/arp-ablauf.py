@@ -22,7 +22,7 @@ card(1.55, 0.7, 0.95, 0.62, grey, ['PC C', '192.168.1.30', 'verwirft die Anfrage
 arrow((-1.05, -0.03, 1.3), (-0.37, -0.03, 1.3), orange, r=0.01, head=0.05)
 arrow((0.37, -0.03, 1.32), (1.05, -0.03, 1.62), orange, r=0.01, head=0.05)
 arrow((0.37, -0.03, 1.08), (1.05, -0.03, 0.78), orange, r=0.01, head=0.05)
-label('1 Anfrage als Broadcast an ff:ff:ff:ff:ff:ff:', (-0.75, -0.05, 1.6), size=0.04, material=orange, align='CENTER')
+label('1 Anfrage als Broadcast an ff:ff:ff:ff:ff:ff', (-0.75, -0.05, 1.6), size=0.04, material=orange, align='CENTER')
 label('„Wer hat 192.168.1.20?“', (-0.75, -0.05, 1.52), size=0.04, material=orange, align='CENTER')
 arrow((1.05, -0.03, 1.5), (0.37, -0.03, 1.2), green, r=0.01, head=0.05)
 arrow((-0.37, -0.03, 1.1), (-1.05, -0.03, 1.1), green, r=0.01, head=0.05)
