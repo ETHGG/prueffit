@@ -1,3 +1,11 @@
+# Kurzbericht 2.20.6–2.20.7 (Nachtbetrieb Lauf 3 „Gegenprüfung und Durchlauf“, 25.11.2026, 06:11–06:48)
+
+- **Gegenprüfung (2.20.6):** alle 609 seit 24.11., 20:00 geänderten Einträge in vier unabhängigen Teilprüfungen (Rechnungen per Skript, Gesetze/Normen/Protokolle); die 9 neuen Aufgaben aus 2.20.5 fehlerfrei. 13 Korrekturen/Präzisierungen, überall nachgezogen (OEM-Lizenz, AGPL, DIN EN 50699, GPO-Vorrang, „beidseitig steckbar“, § 476 Abs. 3 BGB, TLS 1.3 (EC)DHE, ISO 25010, QSFP+/QSFP28, 2,4-GHz-Kanalabstand, OWE, MQTT/ALPN); Glossar AGPL und DHE neu.
+- **Durchlauf (2.20.7):** Stichprobe von 130 älteren Rechen-/Freitextaufgaben und 8 Lernzetteln: Amortisation (Abschreibung doppelt gezählt in `wi-0174`; Regel in Formelsammlung, Lernzettel, Karte, Situation vereinheitlicht), Gewinnschwelle/kritische Menge präzise gefragt, SNMPv3 präzisiert.
+- **Oberfläche:** Prüfungsreife auf der Startseite ohne Daten als ein kurzer Hinweis, AP-Kennzeichen ohne Umbruch, eigene Fragen exportieren/löschen nur bei Bedarf, Beispielthemen der Projektarbeit eingeklappt, kein Komma am Zeilenanfang. Browser-Durchlauf aller Ansichten (Desktop, iPhone SE, iPhone 13 dunkel) ohne Konsolenfehler.
+- **Tests:** npm-Registry gesperrt → Unit-Tests mit neu angelegtem vitest-Ersatz (801 grün), Browsertests Chromium Desktop/iPhone SE/iPhone 13 dunkel (247 grün; die bekannten Zeit-Tests Druck/Fachgespräch unter Volllast zeitweise langsam, einzeln wiederholt grün).
+- **Annahmen:** Datenkorrekturen ohne eigenen Regressionstest (Textpräzisierungen; `data.test.js` prüft Glossar und PDF-Prüfsumme). Neue Abhängigkeiten: keine.
+
 # Kurzbericht 2.20.1–2.20.4 (Nachtbetrieb Lauf 1, eigene Verbesserungen, 25.11.2026)
 
 - **2.20.4:** Quiz-Auswertung: jede Antwort aufklappbar mit Lösung, Erklärung und Optionserklärungen.

@@ -8,8 +8,11 @@ Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](h
 - **Amortisationszeit einheitlich und präzise:** `wi-0174` zählte die Abschreibung zu einer Einsparung hinzu, die als reine Personalkosten-Einsparung (Zahlungsüberschuss) formuliert war – doppelt gezählt (richtig wären dann 4 statt 3 Jahre). Die Aufgabe nennt jetzt eine Kostenersparnis nach Abschreibung (Kostenvergleich) und erklärt die Variante. Regel überall gleich nachgezogen: Rückfluss = Gewinn bzw. Kostenersparnis nach Abschreibung + Abschreibung; eine reine Einsparung an Zahlungen ist selbst der Rückfluss – Formelsammlung, Lernzettel Investitionsrechnung, Karteikarte „Amortisationszeit“ (widersprach bisher der Formelsammlung), Handlungssituation `sz-kits-ga2d` und `wi-0197`. Das Rechentraining rechnet weiter mit Zahlungsüberschüssen (passt zur Variante).
 - `wi-0103`, `wi-0173`: Fragen nach Gewinnschwelle bzw. kritischer Menge fragten „ab wie vielen … Gewinn/günstiger“, gemeint war die Menge, bei der beides gleich ist – Frage und Erklärung präzisiert.
 
+- SNMPv3 präzisiert (Lernzettel Betrieb, Glossar): Authentifizierung und Verschlüsselung nur bei Sicherheitsstufe authPriv; v1/v2c im Klartext.
+
 ### Geändert
 - Projektarbeit: „Beispielthemen“ eingeklappt (die Karte war auf kleinen iPhones sehr lang).
+- Statistik, Prüfungsreife: In der Themenliste beginnt eine umbrochene Zeile nicht mehr mit einem Komma.
 
 ## [2.20.6] – 2026-11-25
 

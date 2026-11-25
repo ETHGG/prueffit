@@ -1554,7 +1554,7 @@
   {
     "abbr": "SNMP",
     "full": "Simple Network Management Protocol",
-    "explanation": "Überwachung von Netzgeräten (UDP 161, Traps 162); SNMPv3 verschlüsselt",
+    "explanation": "Überwachung von Netzgeräten (UDP 161, Traps 162); SNMPv3 kann authentifizieren und verschlüsseln (Sicherheitsstufe authPriv), v1/v2c übertragen den Community-String im Klartext",
     "area": "Netzwerke",
     "aliases": [
       "SNMPv3"

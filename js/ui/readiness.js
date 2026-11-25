@@ -118,8 +118,10 @@ export function readinessCard(ctx, { historyCanvas = null, onHistory = null } = 
         r.potential.length
           ? h('span', { class: 'small readiness-potential' },
             r.answers ? 'Größtes Punktepotenzial: ' : 'Größte Themen: ',
-            r.potential.map((t, i) => [i ? ', ' : '', quizLink(t),
-              r.answers ? ` (+${formatNumber(t.points)} P.${t.rate !== null ? `, ${formatPercent(t.rate)}` : ', ungeübt'})` : ''])) : null))),
+            // Comma right after each item, so a wrapped line never starts with ", ".
+            r.potential.map((t, i, all) => [quizLink(t),
+              r.answers ? ` (+${formatNumber(t.points)} P.${t.rate !== null ? `, ${formatPercent(t.rate)}` : ', ungeübt'})` : '',
+              i < all.length - 1 ? ', ' : ''])) : null))),
     h('p', { class: 'muted small' }, 'Punktepotenzial: so viele der 100 Punkte könnte ein Thema noch bringen, wenn du es sicher beherrschst.'),
     history ? history.node : null);
 }
