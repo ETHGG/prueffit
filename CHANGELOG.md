@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.6] – 2026-11-25
+
+### Hinzugefügt
+- **Fragen vertiefen, Block 7** (Tag-Auftrag): 45 neue Aufgaben; sechs weitere Themen haben für FISI und KITS je mindestens 15 Aufgaben.
+  - Einführung von IT-Systemen (`pm-0151` bis `pm-0159`, AP2 FISI/KITS): Stichtag, Pilotbetrieb, Ablauf, Datenübernahme, Key-User, Fallback-Plan, Schulungsformen, Abnahme bei unwesentlichem Mangel (§ 640 BGB), Kosten des Parallelbetriebs.
+  - Nutzwertanalyse (`wi-0295` bis `wi-0301`): Tabellenaufgabe, Gewichte über 100 %, Subjektivität, qualitative Kriterien, Ablauf, gleiche Gewichte, Bezugspreis.
+  - Nachhaltigkeit (`hw-0134` bis `hw-0140`): Stand-by-Verbrauch, PUE berechnen und deuten, Refurbished, Umweltzeichen, Reparierbarkeit, offene Aufgabe „neu kaufen oder weiter nutzen“.
+  - Datenformate (`prog-0185` bis `prog-0191`): gültiges JSON, wohlgeformtes XML, Audiogröße, Bildformate, YAML, JSON-Datentypen, verlustfreie Komprimierung.
+  - Datensicherung (`sec-0118` bis `sec-0124`): Wiederherstellung differenziell, RTO, Generationenprinzip, Schutz vor Ransomware, Ablauf nach einem Befall, Archivierung (Fristen 8/10 Jahre), Größe der differenziellen Sicherung.
+  - Netzsicherheit (`sec-0125` bis `sec-0132`): First Match und Default Deny, Site-to-Site-VPN, SPI, Server in der DMZ, Paketfilter/Proxy/IDS/IPS, Gäste-WLAN, offene Aufgabe „RDP nicht ins Internet“.
+
 ## [2.21.5] – 2026-11-25
 
 ### Hinzugefügt
