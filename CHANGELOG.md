@@ -2,6 +2,16 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.15] – 2026-11-25
+
+### Geändert
+- **Doppelte Aufgaben aufgelöst:** Ähnlichkeitssuche über alle 1.582 Aufgaben (gleiches Thema und themenübergreifend). 16 Aufgaben, die inhaltlich fast gleich zu einer anderen waren (gleiche Frage oder gleiche Zahlen), behandeln jetzt einen neuen Aspekt – die IDs bleiben, damit der Lernstand erhalten bleibt:
+  - Teilurlaub vor Ablauf der Wartezeit (`wiso-0098`), ärztliche Feststellung nach drei Kalendertagen und eAU (`wiso-0099`), Leistungen der Unfallversicherung (`wiso-0081`), Unfallanzeige an die Berufsgenossenschaft (`wiso-0085`), Krankheit im Urlaub (`wiso-0015`), Pflichtangaben im Ausbildungsvertrag (`re-0051`).
+  - Cloud-Daten in der EU und Auftragsverarbeitung (`pm-0124`), Ablauf des Change-Managements (`pm-0182`), Risikowert mit neuen Zahlen (`pm-0049`).
+  - 4-TB-Festplatte in GiB (`hw-0144`), Portweiterleitung für einen Mailserver (`net-0167`), IPv6 ohne NAT und Folgen für die Firewall (`net-0025`), SPF `-all` (`sec-0067`).
+  - Skonto mit neuen Zahlen (`wi-0096`), Up-Selling statt zweimal Cross-Selling (`wi-0083`).
+- Aufgaben mit gleichem Rechenweg, aber anderen Zahlen bleiben bewusst als Übung erhalten.
+
 ## [2.21.14] – 2026-11-25
 
 ### Behoben

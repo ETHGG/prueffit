@@ -1,46 +1,46 @@
 {
-  "version": "2.21.14",
-  "sourceHash": "2ebf5a357259cb1687fff7d739b2d8de73db76673d2065cc889791bbf793e38d",
+  "version": "2.21.15",
+  "sourceHash": "7042e3e255f47fee17364e210e855ee59ac5260f0a0e042251c414baaa5a4e97",
   "files": [
     {
       "key": "ap1",
       "file": "lernzettel-ap1.pdf",
-      "bytes": 9330657
+      "bytes": 9330659
     },
     {
       "key": "ap2-fiae",
       "file": "lernzettel-ap2-fiae.pdf",
-      "bytes": 3442337
+      "bytes": 3442338
     },
     {
       "key": "ap2-fisi",
       "file": "lernzettel-ap2-fisi.pdf",
-      "bytes": 9293300
+      "bytes": 9293299
     },
     {
       "key": "ap2-fidpa",
       "file": "lernzettel-ap2-fidpa.pdf",
-      "bytes": 2457350
+      "bytes": 2457352
     },
     {
       "key": "ap2-fidv",
       "file": "lernzettel-ap2-fidv.pdf",
-      "bytes": 7321490
+      "bytes": 7321491
     },
     {
       "key": "ap2-itse",
       "file": "lernzettel-ap2-itse.pdf",
-      "bytes": 6477455
+      "bytes": 6477454
     },
     {
       "key": "ap2-kits",
       "file": "lernzettel-ap2-kits.pdf",
-      "bytes": 8115560
+      "bytes": 8115561
     },
     {
       "key": "ap2-kdm",
       "file": "lernzettel-ap2-kdm.pdf",
-      "bytes": 2815289
+      "bytes": 2815288
     },
     {
       "key": "abkuerzungen-fiae",
@@ -55,22 +55,22 @@
     {
       "key": "abkuerzungen-fidpa",
       "file": "abkuerzungen-fidpa.pdf",
-      "bytes": 691013
+      "bytes": 691014
     },
     {
       "key": "abkuerzungen-fidv",
       "file": "abkuerzungen-fidv.pdf",
-      "bytes": 692168
+      "bytes": 692166
     },
     {
       "key": "abkuerzungen-itse",
       "file": "abkuerzungen-itse.pdf",
-      "bytes": 707640
+      "bytes": 707642
     },
     {
       "key": "abkuerzungen-kits",
       "file": "abkuerzungen-kits.pdf",
-      "bytes": 711537
+      "bytes": 711536
     },
     {
       "key": "abkuerzungen-kdm",
@@ -95,7 +95,7 @@
     {
       "key": "formeln-fidv",
       "file": "formeln-fidv.pdf",
-      "bytes": 206888
+      "bytes": 206884
     },
     {
       "key": "formeln-itse",
