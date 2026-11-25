@@ -468,6 +468,125 @@ function raid(rnd) {
   };
 }
 
+
+// Netzplan (since 2.21.17): four activities A → (B, C) → D, forward and backward pass.
+function networkPlan(rnd) {
+  const a = int(rnd, 1, 5);
+  let b = int(rnd, 2, 8);
+  let c = int(rnd, 2, 8);
+  if (b === c) c += 1;
+  const d = int(rnd, 1, 5);
+  const fezB = a + b;
+  const fezC = a + c;
+  const fazD = Math.max(fezB, fezC);
+  const total = fazD + d;
+  const shortName = fezB < fezC ? 'B' : 'C';
+  const gp = Math.abs(fezB - fezC);
+  return {
+    difficulty: 2, type: 'table', points: 4,
+    question: `Vorgänge eines Projekts (Dauer in Tagen): A ${a} (kein Vorgänger), B ${b} (nach A), C ${c} (nach A), D ${d} (nach B und C). Berechne mit Start bei 0.`,
+    answer: {
+      rows: [
+        { label: 'FEZ von B', value: fezB, tolerance: 0 },
+        { label: 'FEZ von C', value: fezC, tolerance: 0 },
+        { label: 'FAZ von D', value: fazD, tolerance: 0 },
+        { label: 'Projektdauer', value: total, tolerance: 0 },
+        { label: `Gesamtpuffer von ${shortName}`, value: gp, tolerance: 0 },
+      ],
+      unit: 'Tage',
+      columns: ['Wert', 'Tage'],
+    },
+    explanation: `Vorwärts: A endet bei ${a}. FEZ B = ${a} + ${b} = ${fezB}, FEZ C = ${a} + ${c} = ${fezC}. D beginnt nach dem späteren Vorgänger: FAZ D = ${fazD}, Projektende ${fazD} + ${d} = ${total}. Rückwärts: SEZ von ${shortName} = SAZ von D = ${fazD}; Gesamtpuffer = SAZ − FAZ = ${gp} ${gp === 1 ? 'Tag' : 'Tage'}. Kritischer Pfad: A – ${shortName === 'B' ? 'C' : 'B'} – D.`,
+  };
+}
+
+// Verfügbarkeit (since 2.21.17): downtime per year/month, components in series and in parallel.
+function availability(rnd) {
+  const variant = int(rnd, 0, 2);
+  if (variant === 0) {
+    const pctVal = pick(rnd, [99, 99.5, 99.8, 99.9, 99.95, 99.99]);
+    const year = rnd() < 0.5;
+    const hours = year ? 365 * 24 : 30 * 24;
+    const down = round2(((100 - pctVal) / 100) * hours);
+    return {
+      difficulty: 1, type: 'number', points: 2,
+      question: `Ein Dienst soll eine Verfügbarkeit von ${pct(pctVal)} ${year ? 'pro Jahr (365 Tage)' : 'pro Monat (30 Tage)'} rund um die Uhr erreichen. Wie viele Stunden Ausfall sind höchstens erlaubt? (zwei Nachkommastellen)`,
+      answer: numberAnswer(down, 'h', 0.01),
+      explanation: `Zeitraum: ${year ? '365 × 24' : '30 × 24'} = ${de(hours)} h. Ausfallzeit = (100 % − ${pct(pctVal)}) × ${de(hours)} h = ${de(down, 2)} h (≈ ${de(Math.round(down * 60))} Minuten).`,
+    };
+  }
+  const a = pick(rnd, [99, 99.5, 99.8, 99.9, 98, 97]);
+  const b = pick(rnd, [99, 99.5, 99.9, 98, 95]);
+  if (variant === 1) {
+    const r = round2((a / 100) * (b / 100) * 100);
+    return {
+      difficulty: 2, type: 'number', points: 2,
+      question: `Ein Dienst braucht eine Firewall (${pct(a)} verfügbar) und dahinter einen Server (${pct(b)} verfügbar), beide in Reihe. Wie hoch ist die Gesamtverfügbarkeit in Prozent? (zwei Nachkommastellen)`,
+      answer: numberAnswer(r, '%', 0.01),
+      explanation: `Reihe: Beide müssen laufen, also multiplizieren: ${de(a / 100, 4)} × ${de(b / 100, 4)} = ${de(r / 100, 4)} → ${pct(r)}. In Reihe ist die Gesamtverfügbarkeit nie größer als die der schwächsten Komponente.`,
+    };
+  }
+  const pa = pick(rnd, [95, 96, 97, 98, 99]);
+  const pb = pick(rnd, [90, 95, 97, 98, 99]);
+  const r = round2((1 - (1 - pa / 100) * (1 - pb / 100)) * 100);
+  return {
+    difficulty: 3, type: 'number', points: 3,
+    question: `Zwei Server (${pct(pa)} und ${pct(pb)} verfügbar) arbeiten parallel; der Dienst läuft, solange mindestens einer läuft. Wie hoch ist die Gesamtverfügbarkeit in Prozent? (zwei Nachkommastellen)`,
+    answer: numberAnswer(r, '%', 0.01),
+    explanation: `Parallel fällt der Dienst nur aus, wenn beide ausfallen: (1 − ${de(pa / 100, 4)}) × (1 − ${de(pb / 100, 4)}) = ${de((1 - pa / 100) * (1 - pb / 100), 6)}. Verfügbarkeit = 1 − ${de((1 - pa / 100) * (1 - pb / 100), 6)} ≈ ${pct(r)} – höher als jeder einzelne Server (unabhängige Ausfälle vorausgesetzt).`,
+  };
+}
+
+// Kaufmännisches Rechnen (since 2.21.17): interest (360 days), discount as annual rate, VAT, base value.
+function commercial(rnd) {
+  const variant = int(rnd, 0, 3);
+  if (variant === 0) {
+    const k = int(rnd, 4, 60) * 500;
+    const p = pick(rnd, [3, 4, 4.5, 5, 6, 7.5, 8]);
+    const t = int(rnd, 10, 300);
+    const z = round2((k * p * t) / 36000);
+    return {
+      difficulty: 2, type: 'number', points: 2,
+      question: `Ein Kredit über ${eur(k)} läuft ${t} Tage zu ${pct(p)} p. a. Wie hoch sind die Zinsen (kaufmännisch, 360 Tage)?`,
+      answer: numberAnswer(z, '€', 0.01),
+      explanation: `Z = K × p × t ÷ 36.000 = ${de(k)} × ${de(p, Number.isInteger(p) ? 0 : 1)} × ${t} ÷ 36.000 = ${eur(z)}.`,
+    };
+  }
+  if (variant === 1) {
+    const s = pick(rnd, [2, 3]);
+    const days = pick(rnd, [7, 10, 14]);
+    const due = pick(rnd, [30, 45, 60]);
+    const r = round2((s / (100 - s)) * 100 * (360 / (due - days)));
+    return {
+      difficulty: 3, type: 'number', points: 3,
+      question: `Zahlungsbedingung: „${s} % Skonto innerhalb von ${days} Tagen, netto ${due} Tage.“ Welchem Jahreszins entspricht der Verzicht auf Skonto? (kaufmännisch 360 Tage, zwei Nachkommastellen)`,
+      answer: numberAnswer(r, '%', 0.05),
+      explanation: `Wer erst am ${due}. statt am ${days}. Tag zahlt, nutzt ${due - days} Tage Kredit und zahlt dafür ${s} % auf ${100 - s} % des Betrags. Jahreszins = ${s} ÷ ${100 - s} × 100 × 360 ÷ ${due - days} ≈ ${pct(r)}. Fast jeder Bankkredit ist günstiger – Skonto lohnt sich.`,
+    };
+  }
+  if (variant === 2) {
+    const net = int(rnd, 20, 4000) * 5;
+    const gross = round2(net * 1.19);
+    const ask = rnd() < 0.5;
+    return {
+      difficulty: 1, type: 'number', points: 2,
+      question: ask ? `Ein Gerät kostet ${eur(net)} netto. Wie hoch ist der Bruttopreis bei 19 % Umsatzsteuer?` : `Ein Gerät kostet ${eur(gross)} brutto (inkl. 19 % Umsatzsteuer). Wie hoch ist der Nettopreis?`,
+      answer: numberAnswer(ask ? gross : net, '€', 0.01),
+      explanation: ask ? `Brutto = netto × 1,19 = ${eur(net)} × 1,19 = ${eur(gross)}; darin ${eur(round2(gross - net))} Umsatzsteuer.` : `Netto = brutto ÷ 1,19 = ${eur(gross)} ÷ 1,19 = ${eur(net)}; die Umsatzsteuer beträgt ${eur(round2(gross - net))}. Nicht brutto × 0,81 rechnen – die 19 % beziehen sich auf den Nettopreis.`,
+    };
+  }
+  const base0 = int(rnd, 10, 400) * 10;
+  const p = pick(rnd, [5, 8, 10, 12, 15, 20, 25]);
+  const up = rnd() < 0.5;
+  const now = round2(base0 * (up ? 1 + p / 100 : 1 - p / 100));
+  return {
+    difficulty: 2, type: 'number', points: 2,
+    question: up ? `Nach einer Preiserhöhung um ${p} % kostet ein Switch ${eur(now)}. Wie hoch war der Preis vorher?` : `Nach ${p} % Rabatt zahlt ein Kunde ${eur(now)}. Wie hoch war der Preis vor dem Rabatt?`,
+    answer: numberAnswer(base0, '€', 0.01),
+    explanation: `${up ? 'Vermehrter' : 'Verminderter'} Grundwert: ${eur(now)} entsprechen ${100 + (up ? p : -p)} %. Grundwert = ${eur(now)} ÷ ${de((100 + (up ? p : -p)) / 100, 2)} = ${eur(base0)}. Falsch wäre, ${p} % vom neuen Preis ${up ? 'abzuziehen' : 'aufzuschlagen'}.`,
+  };
+}
+
 /** Available kinds: id, label, topic (must exist in topics.json), builder. */
 export const GENERATOR_KINDS = [
   { id: 'subnetz', label: 'Subnetting und VLSM', topic: 'netzwerke.subnetting', build: subnetting },
@@ -478,6 +597,9 @@ export const GENERATOR_KINDS = [
   { id: 'nutzwert', label: 'Nutzwertanalyse', topic: 'wirtschaft.nutzwert', build: utility },
   { id: 'kennzahlen', label: 'Kennzahlen (Rentabilität)', topic: 'wirtschaft.controlling', build: ratios },
   { id: 'raid', label: 'RAID: Kapazität, Rebuild, Schreibleistung', topic: 'hardware.raid', build: raid },
+  { id: 'netzplan', label: 'Netzplan: Dauer und Puffer', topic: 'projekt.planung', build: networkPlan },
+  { id: 'verfuegbar', label: 'Verfügbarkeit: Ausfallzeit, Reihe, parallel', topic: 'sicherheit.schutzziele', build: availability },
+  { id: 'rechnen', label: 'Zinsen, Skonto, Umsatzsteuer, Grundwert', topic: 'wirtschaft.rechnen', build: commercial },
 ];
 const KIND_BY_ID = new Map(GENERATOR_KINDS.map((k) => [k.id, k]));
 

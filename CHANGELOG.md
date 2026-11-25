@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.17] – 2026-11-25
+
+### Hinzugefügt
+- **Rechentraining: drei neue Aufgabenarten**, unbegrenzt erzeugt:
+  - **Netzplan:** vier Vorgänge mit Verzweigung – FEZ, FAZ, Projektdauer und Gesamtpuffer als Tabellenaufgabe, mit kritischem Pfad in der Lösung.
+  - **Verfügbarkeit:** erlaubte Ausfallzeit pro Jahr oder Monat, Komponenten in Reihe und parallel.
+  - **Zinsen, Skonto, Umsatzsteuer, Grundwert:** kaufmännische Zinsformel (360 Tage), Skonto als Jahreszins, brutto/netto, vermehrter und verminderter Grundwert.
+- Tests: Formeln der neuen Arten mit je 300 bis 500 Seeds geprüft.
+
 ## [2.21.16] – 2026-11-25
 
 ### Behoben

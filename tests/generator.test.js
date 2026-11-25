@@ -185,3 +185,37 @@ describe('generator: RAID (2.21)', () => {
     expect(availableKinds(['hardware.raid']).map((k) => k.id)).toEqual(['raid']);
   });
 });
+
+describe('new kinds (2.21.17): Netzplan, Verfügbarkeit, kaufmännisches Rechnen', () => {
+  it('network plan: FAZ of D is the later predecessor, buffer is the difference', () => {
+    for (let seed = 1; seed <= 300; seed += 1) {
+      const t = generateTask('netzplan', seed);
+      const [b, c, fazD, total, gp] = t.answer.rows.map((r) => r.value);
+      expect(fazD).toBe(Math.max(b, c));
+      expect(gp).toBe(Math.abs(b - c));
+      expect(total).toBeGreaterThan(fazD);
+    }
+  });
+  it('availability: series below the weaker part, parallel above the stronger one', () => {
+    for (let seed = 1; seed <= 300; seed += 1) {
+      const t = generateTask('verfuegbar', seed);
+      const v = t.answer.value;
+      const nums = [...t.question.matchAll(/(\d+(?:,\d+)?)\u00a0%/g)].map((m) => Number(m[1].replace(',', '.')));
+      if (/in Reihe/.test(t.question)) expect(v).toBeLessThanOrEqual(Math.min(...nums) + 0.005);
+      else if (/parallel/.test(t.question)) expect(v).toBeGreaterThanOrEqual(Math.max(...nums) - 0.005);
+      else expect(v).toBeGreaterThan(0);
+    }
+  });
+  it('commercial: interest follows K × p × t ÷ 36.000 (rounded to cents)', () => {
+    let checked = 0;
+    for (let seed = 1; seed <= 500; seed += 1) {
+      const t = generateTask('rechnen', seed);
+      const m = /Kredit über ([\d.]+),00 € läuft (\d+) Tage zu ([\d,]+)/.exec(t.question);
+      if (!m) continue;
+      const k = Number(m[1].replace(/\./g, '')); const days = Number(m[2]); const p = Number(m[3].replace(',', '.'));
+      expect(Math.abs(t.answer.value - (k * p * days) / 36000)).toBeLessThanOrEqual(0.0051);
+      checked += 1;
+    }
+    expect(checked).toBeGreaterThan(50);
+  });
+});

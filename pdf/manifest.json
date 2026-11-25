@@ -1,11 +1,11 @@
 {
-  "version": "2.21.16",
-  "sourceHash": "5fcea6ab2616a9de0bcbf7ccd4ae5a7d70780a38d59087aa900e2fbad8a86120",
+  "version": "2.21.17",
+  "sourceHash": "6aff7646a37c0f954a32f3b3505ffdf0b6861783a51a50b4be461733c75b6cef",
   "files": [
     {
       "key": "ap1",
       "file": "lernzettel-ap1.pdf",
-      "bytes": 9330657
+      "bytes": 9330659
     },
     {
       "key": "ap2-fiae",
@@ -15,7 +15,7 @@
     {
       "key": "ap2-fisi",
       "file": "lernzettel-ap2-fisi.pdf",
-      "bytes": 9293299
+      "bytes": 9293300
     },
     {
       "key": "ap2-fidpa",
@@ -40,12 +40,12 @@
     {
       "key": "ap2-kdm",
       "file": "lernzettel-ap2-kdm.pdf",
-      "bytes": 2815287
+      "bytes": 2815288
     },
     {
       "key": "abkuerzungen-fiae",
       "file": "abkuerzungen-fiae.pdf",
-      "bytes": 684008
+      "bytes": 684009
     },
     {
       "key": "abkuerzungen-fisi",
@@ -55,7 +55,7 @@
     {
       "key": "abkuerzungen-fidpa",
       "file": "abkuerzungen-fidpa.pdf",
-      "bytes": 691012
+      "bytes": 691014
     },
     {
       "key": "abkuerzungen-fidv",
@@ -70,7 +70,7 @@
     {
       "key": "abkuerzungen-kits",
       "file": "abkuerzungen-kits.pdf",
-      "bytes": 711537
+      "bytes": 711534
     },
     {
       "key": "abkuerzungen-kdm",
@@ -80,22 +80,22 @@
     {
       "key": "formeln-fiae",
       "file": "formeln-fiae.pdf",
-      "bytes": 201265
+      "bytes": 201264
     },
     {
       "key": "formeln-fisi",
       "file": "formeln-fisi.pdf",
-      "bytes": 224319
+      "bytes": 224318
     },
     {
       "key": "formeln-fidpa",
       "file": "formeln-fidpa.pdf",
-      "bytes": 211711
+      "bytes": 211709
     },
     {
       "key": "formeln-fidv",
       "file": "formeln-fidv.pdf",
-      "bytes": 206887
+      "bytes": 206886
     },
     {
       "key": "formeln-itse",

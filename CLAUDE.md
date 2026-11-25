@@ -131,7 +131,7 @@ prueffit/
 │   ├── pdfs.js               # Liste und Dateinamen der Lernzettel-PDFs
 │   ├── projectGuide.js       # Projektarbeit: Prüfungsbereich je Beruf, Checklisten, Fachgesprächsfragen mit Stichpunkten, Übungsmodus mit Timer (seit 2.3/2.14)
 │   ├── formulas.js           # Formelsammlung: Validierung, Suche, Gruppierung (seit 2.9)
-│   ├── generator.js          # Rechentraining: erzeugte Rechenaufgaben je Art und Seed (seit 2.13, RAID seit 2.21)
+│   ├── generator.js          # Rechentraining: erzeugte Rechenaufgaben je Art und Seed (seit 2.13, RAID seit 2.21, Netzplan/Verfügbarkeit/kaufm. Rechnen seit 2.21.17)
 │   ├── search.js             # Suche über alles: Lernzettel, Abkürzungen, Formeln, Fragen des Berufs (seit 2.14)
 │   ├── transferLink.js       # Übertragung per Link/QR-Code: Lernstand komprimiert im URL-Hash, Vorschau, Berufssperre (seit 2.15)
 │   ├── qr.js                 # eigener QR-Encoder (Byte-Modus, Stufe L/M, Version 1–40, seit 2.15)
