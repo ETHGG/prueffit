@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.10] – 2026-11-25
+
+### Hinzugefügt
+- **Fragen vertiefen, Block 11** (Tag-Auftrag): 23 neue Aufgaben; sechs weitere Themen haben für FISI bzw. KITS je mindestens 15 Aufgaben.
+  - Sicherheitsmanagement (`sec-0145` bis `sec-0148`): Schutzbedarf „sehr hoch“, Aufgaben des BSI, minimale Rechte, Inhalt eines IT-Notfallhandbuchs.
+  - Skripte (`prog-0201` bis `prog-0204`, AP2 FISI/FIDV): PowerShell-Filter, Bash-Schleife, `chmod +x`, Aufgabenplanung unter Windows.
+  - WiSo Ausbildung (`wiso-0115` bis `wiso-0118`, AP2 alle Berufe): Eintragung bei der IHK, Ausbildungsnachweis, Verkürzung, nicht bestandene Prüfung.
+  - WiSo Arbeitsvertrag (`wiso-0119` bis `wiso-0122`, AP2 alle Berufe): sachgrundlose Befristung, Kündigungsfrist nach 6 Jahren, Kündigungsschutzgesetz, Nachweisgesetz (Textform seit 2025).
+  - Investition (`wi-0310` bis `wi-0313`, AP2 KITS/KDM): Rentabilität auf durchschnittlich gebundenes Kapital, Kapitalwert deuten, Kostenvergleichsrechnung, Investitionsarten.
+  - Komponenten (`hw-0153` bis `hw-0155`): DDR4/DDR5, SRAM als Cache, Threads bei SMT.
+
 ## [2.21.9] – 2026-11-25
 
 ### Hinzugefügt
