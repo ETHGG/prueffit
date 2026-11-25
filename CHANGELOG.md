@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.51] – 2026-11-25
+
+### Hinzugefügt
+- **Vergütung in der Ausbildung** im Lernzettel „Ausbildung“: Mindestausbildungsvergütung für Ausbildungsbeginn 2026 (724/854/977 €) und 2027 (764/902/1.031 €), Mindestlohn 2026/2027 gilt nicht für Azubis; Frage `wiso-0133` (Quellen: BIBB-Pressemitteilungen 2025 und 2026)
+
 ## [2.21.50] – 2026-11-25
 
 ### Hinzugefügt
