@@ -61,7 +61,7 @@ Gesteuert wird alles aus dem Chat in der Claude-App. Dort wird jeder neue Auftra
 | Routine: CI-Status, Live-Seite, Morgenbericht | geplante Aufgabe (Cloud) | Haiku oder Sonnet |
 
 **Regeln für beide Seiten (Claude-App, geplante Aufgaben, Claude Code):**
-1. In der Cloud ist `npm install` gesperrt (auch in der Shell auf dem Mac). Tests deshalb mit `sh scripts/offline/check.sh` (Unit + Lint), `… e2e` (Browsertests), `… pdfs` (PDFs); in Claude Code lokal mit Netz normal `npm test`, `npm run lint`, `npm run test:e2e`.
+1. In der Claude-App und in geplanten Aufgaben ist die npm-Registry gesperrt (auch in der Shell auf dem Mac; getestet 25.11.2026, Issue #10); in Claude-Code-Sitzungen (Umgebung „Default“) funktioniert npm. git und GitHub (gh, GitHub-MCP für Issues) gehen überall. Tests deshalb mit `sh scripts/offline/check.sh` (Unit + Lint), `… e2e` (Browsertests), `… pdfs` (PDFs); in Claude Code lokal mit Netz normal `npm test`, `npm run lint`, `npm run test:e2e`.
 2. Vor jedem Push `git pull --rebase`. Nur pushen, wenn alle Tests grün sind. Nach dem Push den CI-Lauf prüfen (`gh api "repos/ETHGG/prueffit/actions/runs?branch=main&per_page=3"`); ist er durch die eigene Änderung rot, sofort beheben.
 3. Jede neue Version: Versionsnummer in `package.json`, `package-lock.json` (Zeilen 3 und 9), `js/config.js` und den Cache-Namen in `sw.js` hochzählen, CHANGELOG ergänzen, bei Datenänderungen `pdf/` neu erzeugen.
 4. Konflikte beim Rebase: Inhaltsänderungen (`data/`, Lernzettel, Bilder, Texte) aus der Claude-App immer behalten und Code-Änderungen darum herum zusammenführen; bei gleicher Versionsnummer die höhere +1 nehmen.
