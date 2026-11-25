@@ -106,6 +106,8 @@ export function gradeExam(points, max) {
 }
 
 const defaultAreaOf = (q) => String(q.topic).split('.')[0];
+// WiSo (since 2.21.16): round-robin over its topics, so no single topic (e.g. recht.arbeitsrecht) fills half the part.
+const topicOf = (q) => String(q.topic);
 
 /**
  * Picks questions until the target is reached, taking them round-robin from
@@ -195,7 +197,7 @@ export function createExam({
     const tablePoints = table ? table.points : 0;
     const target = p.count ? { count: p.count - opening.length - (table ? 1 : 0) } : { points: p.points - openingPoints - tablePoints };
     const fill = (target.count ?? target.points) > 0
-      ? selectExamQuestions(candidates.filter((q) => q !== table), target, random, areaOf)
+      ? selectExamQuestions(candidates.filter((q) => q !== table), target, random, p.id === 'wiso' ? topicOf : areaOf)
       : [];
     const picked = [...opening, ...(table ? [table] : []), ...fill];
     if (!picked.length) continue;

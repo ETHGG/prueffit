@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.16] – 2026-11-25
+
+### Behoben
+- **WiSo-Simulation ausgewogen:** Die Auswahl wechselte bisher reihum zwischen den Bereichen „WiSo“ und „Recht“. Weil zum Bereich „Recht“ in WiSo nur das Arbeitsrecht gehört, bestand jede WiSo-Simulation zur Hälfte aus Arbeitsrecht (im Mittel 15 von 30 Fragen). Jetzt wechselt sie reihum zwischen den neun WiSo-Themen; kein Thema hat mehr als 5 Fragen (geprüft mit 200 Simulationen je Beruf, neuer Test mit echten Daten).
+
+### Geprüft
+- **Prüfungssimulation** mit je 200 Ziehungen für FISI und KITS (AP1, GA1, GA2, WiSo): Punktzahl immer 100 bzw. 50 (bis +6 durch die letzte Aufgabe), Tabellenaufgabe in jedem schriftlichen Teil, alle Handlungssituationen werden gezogen, Schwierigkeitsmix etwa 20/65/15 % in AP2. Die neuen Aufgaben machen in AP1 rund 40 % aus.
+- **Ladezeit der Live-Seite:** Erster Aufruf 765 KB übertragen (davon 568 KB Fragen, alle Daten nach 3,9 s), danach aus dem Offline-Speicher: Daten nach 0,4 s; alle 1.582 Fragen laden und auswerten 0,12 s. Keine Änderung nötig.
+
 ## [2.21.15] – 2026-11-25
 
 ### Geändert

@@ -1,16 +1,16 @@
 {
-  "version": "2.21.15",
-  "sourceHash": "7042e3e255f47fee17364e210e855ee59ac5260f0a0e042251c414baaa5a4e97",
+  "version": "2.21.16",
+  "sourceHash": "5fcea6ab2616a9de0bcbf7ccd4ae5a7d70780a38d59087aa900e2fbad8a86120",
   "files": [
     {
       "key": "ap1",
       "file": "lernzettel-ap1.pdf",
-      "bytes": 9330659
+      "bytes": 9330657
     },
     {
       "key": "ap2-fiae",
       "file": "lernzettel-ap2-fiae.pdf",
-      "bytes": 3442338
+      "bytes": 3442337
     },
     {
       "key": "ap2-fisi",
@@ -30,7 +30,7 @@
     {
       "key": "ap2-itse",
       "file": "lernzettel-ap2-itse.pdf",
-      "bytes": 6477454
+      "bytes": 6477456
     },
     {
       "key": "ap2-kits",
@@ -40,7 +40,7 @@
     {
       "key": "ap2-kdm",
       "file": "lernzettel-ap2-kdm.pdf",
-      "bytes": 2815288
+      "bytes": 2815287
     },
     {
       "key": "abkuerzungen-fiae",
@@ -50,27 +50,27 @@
     {
       "key": "abkuerzungen-fisi",
       "file": "abkuerzungen-fisi.pdf",
-      "bytes": 708869
+      "bytes": 708870
     },
     {
       "key": "abkuerzungen-fidpa",
       "file": "abkuerzungen-fidpa.pdf",
-      "bytes": 691014
+      "bytes": 691012
     },
     {
       "key": "abkuerzungen-fidv",
       "file": "abkuerzungen-fidv.pdf",
-      "bytes": 692166
+      "bytes": 692169
     },
     {
       "key": "abkuerzungen-itse",
       "file": "abkuerzungen-itse.pdf",
-      "bytes": 707642
+      "bytes": 707641
     },
     {
       "key": "abkuerzungen-kits",
       "file": "abkuerzungen-kits.pdf",
-      "bytes": 711536
+      "bytes": 711537
     },
     {
       "key": "abkuerzungen-kdm",
@@ -90,12 +90,12 @@
     {
       "key": "formeln-fidpa",
       "file": "formeln-fidpa.pdf",
-      "bytes": 211710
+      "bytes": 211711
     },
     {
       "key": "formeln-fidv",
       "file": "formeln-fidv.pdf",
-      "bytes": 206884
+      "bytes": 206887
     },
     {
       "key": "formeln-itse",
@@ -110,7 +110,7 @@
     {
       "key": "formeln-kdm",
       "file": "formeln-kdm.pdf",
-      "bytes": 241546
+      "bytes": 241545
     }
   ]
 }

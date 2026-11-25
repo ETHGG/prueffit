@@ -570,6 +570,24 @@ describe('table task in every written part (since 2.10)', () => {
   });
 });
 
+describe('WiSo spread over its topics (2.21.16)', () => {
+  it('no topic fills the WiSo part: round-robin over topics, not over areas', () => {
+    const dir = new URL('../data/', import.meta.url);
+    const questions = readdirSync(new URL('questions/', dir)).filter((f) => f.endsWith('.json'))
+      .flatMap((f) => JSON.parse(readFileSync(new URL(`questions/${f}`, dir), 'utf8')));
+    const byId = new Map(questions.map((q) => [q.id, q]));
+    for (const job of ['fisi', 'kits']) {
+      for (let seed = 1; seed <= 20; seed += 1) {
+        const exam = createExam({ exam: 'AP2', job, partIds: ['wiso'], pool: questions, random: createSeededRandom(seed) });
+        const counts = {};
+        for (const id of exam.parts[0].ids) counts[byId.get(id).topic] = (counts[byId.get(id).topic] ?? 0) + 1;
+        expect(exam.parts[0].ids.length).toBe(30);
+        expect(Math.max(...Object.values(counts)), `${job} ${seed} ${JSON.stringify(counts)}`).toBeLessThanOrEqual(5);
+      }
+    }
+  });
+});
+
 describe('examMistakeIds (2.10.5: Fehler dieser Prüfung üben)', () => {
   it('lists wrong, partly right and unanswered questions in exam order without duplicates', () => {
     const ev = { results: [
