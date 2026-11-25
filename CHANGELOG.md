@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.8] – 2026-11-25
+
+### Hinzugefügt
+- **Fragen vertiefen, Block 9** (Tag-Auftrag): 35 neue Aufgaben; sechs weitere Themen haben für FISI und KITS je mindestens 15 Aufgaben.
+  - Projektplanung (`pm-0174` bis `pm-0179`): Projektstrukturplan, Netzplan (Dauer, Gesamtpuffer, Vorwärtsrechnung als Tabelle), Personenstunden, Meilenstein.
+  - Virtualisierung (`hw-0147` bis `hw-0152`): Snapshot ist kein Backup, Container/VM, Konsolidierung rechnen, Cloud-Bereitstellungsmodelle, Typ 2 zum Üben (Hyper-V als Variante), Live-Migration.
+  - OSI-Modell (`net-0171` bis `net-0176`): Router, Segment, Reihenfolge der Schichten, Hub, Protokolle der Schicht 7, UDP für VoIP.
+  - Verzeichnisdienst (`net-0177` bis `net-0182`): zwei Domänencontroller, GPO an OU, Single Sign-On, Begriffe, Rechte über Gruppen, LDAP.
+  - WiSo Mitbestimmung (`wiso-0104` bis `wiso-0109`, AP2 alle Berufe): Amtszeit, Mindestgröße, Zustimmung bei Einstellung, JAV-Wahl, Tarifautonomie, Friedenspflicht.
+  - WiSo Sozialversicherung (`wiso-0110` bis `wiso-0114`, AP2 alle Berufe): Rentenbeitrag, Generationenvertrag, Beitragsbemessungsgrenze, Träger, Arbeitnehmeranteile als Tabelle.
+
 ## [2.21.7] – 2026-11-25
 
 ### Hinzugefügt
