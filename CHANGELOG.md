@@ -2,6 +2,18 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.65] – 2026-11-26
+
+### Hinzugefügt
+- **38 neue Bildfragen** (Nachtlauf „Bildfragen und Übungen“) zu 31 Bildern, die bisher nur eine Frage hatten, FISI/KITS-Themen zuerst; Typen gemischt (single, multi, number, order, match, table), jede Frage braucht das Bild (ablesen, zuordnen, Fehler finden, Ablauf ordnen, aus dem Bild rechnen):
+  - Netzwerke: `net-0235` (OSI-Geräte, Webadressen sperren), `net-0236`/`net-0237` (ARP, Gateway-MAC bei fremdem Netz), `net-0238` (PoE-Budget 370 W), `net-0239`/`net-0240` (DHCP-Relay: Ablauf, Gateway-Adresse), `net-0241` (besondere IPv4-Bereiche), `net-0242`/`net-0243` (Kerberos: Zeitabweichung, Rollen), `net-0244` (Farben der LWL-Stecker), `net-0245` (Gruppenrichtlinie an der Domäne)
+  - Sicherheit: `sec-0183`/`sec-0184` (Firewall-Regeln, First Match), `sec-0185`/`sec-0186` (digitale Signatur), `sec-0187`/`sec-0188` (Generationenprinzip: Bänder zählen, Rücksicherung), `sec-0189` (SPF/DKIM/DMARC), `sec-0190` (doppelte Dateiendung), `sec-0191` (Cluster aktiv/aktiv, 50 %), `sec-0192` (Ransomware-Kette)
+  - Hardware: `hw-0184`/`hw-0185` (RAID 5: Rekonstruktion, 75 %), `hw-0186` (ohne Hot-Spare), `hw-0187` (DAS/NAS/SAN), `hw-0188`/`hw-0189` (Server innen, Luftstrom), `hw-0190` (SNMP), `hw-0191` (SIEM-Korrelation)
+  - Projekt/Recht/Wirtschaft: `pm-0214` (Lösungszeit im SLA), `pm-0215` (Gantt, kritischer Pfad), `pm-0216` (WIP-Limit), `pm-0217` (EPK-Symbole), `re-0126` (Benutzer- und Geräte-CALs gemischt), `re-0127` (TOM-Zuordnung prüfen), `wi-0368` (Leasing ab Monat 31), `wi-0369` (Abschreibung ab 1. April), `wi-0370` (Nutzwert mit neuer Gewichtung)
+
+### Geändert
+- Lernzettel Datensicherung: Generationenprinzip präzisiert (4 Vater-Bänder, im Raster nur 3 belegt, weil am letzten Freitag das Großvater-Band läuft; das vierte für Monate mit fünf Freitagen). PDFs neu erzeugt.
+
 ## [2.21.64] – 2026-11-26
 
 ### Geändert
