@@ -1,6 +1,6 @@
 # PrüfFit render watcher: runs every job file dropped into blender/jobs/ (one per tick).
 import bpy, os, traceback
-_D = '/Users/testfg/Desktop/PrüfFit/blender/'
+import os as _o0; _D = _o0.path.expanduser('~/Desktop/PrüfFit/blender/')
 os.makedirs(_D + 'jobs', exist_ok=True)
 
 def _prueffit_tick():

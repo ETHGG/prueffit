@@ -2,7 +2,8 @@
 # (Ordner blender-scripts ist in den Einstellungen als Script Directory eingetragen).
 import bpy
 
-_W = '/Users/testfg/Desktop/PrüfFit/blender/watcher.py'
+import os
+_W = os.path.expanduser('~/Desktop/PrüfFit/blender/watcher.py')
 
 
 def _start():
