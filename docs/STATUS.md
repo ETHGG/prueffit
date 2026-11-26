@@ -118,7 +118,7 @@ Gesamt geschätzt: ca. 7 h 40 Min. (davon 7 h 10 Min. Auftrag + 30 Min. Qualitä
 | Rhythmus | Zeit (spätestens fertig) | Aufgabe | Modell |
 |---|---|---|---|
 | täglich | 23:13 (00:55) | Nacht 2: neue Inhalte FISI/KITS (Handlungssituation oder offene/Tabellenaufgaben im Wechsel) | Opus |
-| täglich | 01:07 (01:55) | Qualitätsrunde: 2 Themen nach `docs/PRUEFPROTOKOLL.md` fachlich prüfen | Fable |
+| täglich | 01:07 (01:55) | Qualitätsrunde: 3 Themen (bei Zeit 4) nach `docs/PRUEFPROTOKOLL.md` fachlich prüfen | Fable |
 | Mo | 02:13 (04:05) | Wochenlauf: Issues (Inhalt selbst, Code → Label `code`), Ausbau Inhalte, Quellen | Opus |
 | Di + Fr | 02:13 (04:05) | 3D-Bilder – **Mac an in den Nächten Mo→Di und Do→Fr**, Claude-Desktop-App offen, Blender mit Watcher | Opus |
 | So + Mi + Do | 02:13 (04:05) | Bildfragen und Übungen: je Bild weitere Quizfragen (Bilder mit den wenigsten Fragen zuerst, FISI/KITS zuerst), 25–40 pro Lauf | Opus |
