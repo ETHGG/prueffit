@@ -153,19 +153,59 @@ function validateOptionNotes(q, errors) {
  * the learner chose it and the note from `optionNotes` (or null). Returns [] for questions without
  * notes or of another type, so callers can simply skip the section.
  * @param response index (`single`) or array of indices (`multi`); missing = nothing chosen
+ * @param order display order of the options (since 2.22, see optionOrder); rows follow it
  */
-export function optionReview(q, response) {
+export function optionReview(q, response, order = null) {
   if (!q || (q.type !== 'single' && q.type !== 'multi') || !Array.isArray(q.optionNotes) || !Array.isArray(q.options)) return [];
   if (q.optionNotes.length !== q.options.length) return [];
   const correct = new Set(correctIndices(q));
   const chosen = new Set(Array.isArray(response) ? response : Number.isInteger(response) ? [response] : []);
-  return q.options.map((text, i) => ({
+  const indices = isOptionOrder(order, q.options.length) ? order : q.options.map((_, i) => i);
+  return indices.map((i) => ({
     index: i,
-    text,
+    text: q.options[i],
     correct: correct.has(i),
     chosen: chosen.has(i),
     note: typeof q.optionNotes[i] === 'string' && q.optionNotes[i].trim() ? q.optionNotes[i] : null,
   }));
+}
+
+/**
+ * Since 2.22: options of `single`/`multi` are shown in random order, unless their order means
+ * something – `fixedOrder: true` in the data, or every option starts with a number (values,
+ * durations, bit patterns …), which are easier to compare in their natural order.
+ */
+export function keepsOptionOrder(q) {
+  if (q?.fixedOrder === true) return true;
+  return Array.isArray(q?.options) && q.options.every((o) => /^\s*[-\u2212]?\d/.test(String(o)));
+}
+
+/** True if `order` lists every option index 0 … n − 1 exactly once. */
+export function isOptionOrder(order, n) {
+  if (!Array.isArray(order) || order.length !== n) return false;
+  const seen = new Set(order);
+  return seen.size === n && order.every((i) => Number.isInteger(i) && i >= 0 && i < n);
+}
+
+/**
+ * Display order of the options (array of original indices, position → index); answers,
+ * `optionNotes` and grading keep using the original indices. Identity for other types or
+ * options that keep their order.
+ */
+export function optionOrder(q, random = Math.random) {
+  if (!q || (q.type !== 'single' && q.type !== 'multi') || !Array.isArray(q.options)) return [];
+  const identity = q.options.map((_, i) => i);
+  return keepsOptionOrder(q) ? identity : shuffle(identity, random);
+}
+
+/** 32-bit FNV-1a hash of a text, e.g. to derive a stable seed per exam and question. */
+export function seedFromText(text) {
+  let hash = 0x811c9dc5;
+  for (const ch of String(text)) {
+    hash ^= ch.codePointAt(0);
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash >>> 0;
 }
 
 /**
@@ -196,6 +236,9 @@ export function validateQuestion(q, topicIds = new Set()) {
   }
   validateJobs(q, errors);
   validateOptionNotes(q, errors);
+  if (q.fixedOrder !== undefined && (typeof q.fixedOrder !== 'boolean' || !['single', 'multi'].includes(q.type))) {
+    errors.push('fixedOrder: nur true/false und nur bei single/multi');
+  }
   if (q.type !== undefined && !QUESTION_TYPES.includes(q.type)) {
     errors.push(`type: unbekannter Fragetyp "${q.type}"`);
   } else if (q.type !== undefined && q.answer !== undefined && q.answer !== null) {

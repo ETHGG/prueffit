@@ -14,6 +14,10 @@ import {
   issueUrl,
   wishUrl,
   optionReview,
+  keepsOptionOrder,
+  isOptionOrder,
+  optionOrder,
+  seedFromText,
 } from '../js/questions.js';
 
 const topicIds = new Set(['netzwerke.subnetting', 'netzwerke.osi', 'recht.vertrag']);
@@ -453,5 +457,58 @@ describe('optionNotes – Erklärung je Antwortmöglichkeit (seit 2.17)', () => 
     expect(optionReview({ ...base, type: 'number', optionNotes: notes }, 1)).toEqual([]);
     expect(optionReview(null, 1)).toEqual([]);
     expect(optionReview({ ...base, optionNotes: notes }, undefined).every((r) => !r.chosen)).toBe(true);
+  });
+});
+
+describe('shuffled options of single/multi (2.22)', () => {
+  const q = {
+    id: 'x', type: 'single', options: ['Router', 'Switch', 'Hub', 'Bridge'], answer: 1,
+    optionNotes: ['a ist falsch, weil …', null, 'c ist falsch, weil …', 'd ist falsch, weil …'],
+  };
+  it('keeps the order for numeric options and fixedOrder, shuffles the rest', () => {
+    expect(keepsOptionOrder({ options: ['30', '62', '64', '126'] })).toBe(true);
+    expect(keepsOptionOrder({ options: ['6 Monate', '1 Jahr', '−2 Jahre'] })).toBe(true);
+    expect(keepsOptionOrder({ options: ['Schutzklasse I', 'Schutzklasse II'], fixedOrder: true })).toBe(true);
+    expect(keepsOptionOrder(q)).toBe(false);
+    expect(optionOrder({ ...q, options: ['1', '2', '3'] }, createSeededRandom(1))).toEqual([0, 1, 2]);
+    expect(optionOrder({ type: 'number' })).toEqual([]);
+  });
+  it('returns a permutation of all indices, reproducible with a seed, and varies the position of the answer', () => {
+    const o1 = optionOrder(q, createSeededRandom(7));
+    expect(o1).toEqual(optionOrder(q, createSeededRandom(7)));
+    expect(isOptionOrder(o1, 4)).toBe(true);
+    const positions = new Set();
+    for (let seed = 1; seed <= 40; seed += 1) positions.add(optionOrder(q, createSeededRandom(seed)).indexOf(q.answer));
+    expect(positions).toEqual(new Set([0, 1, 2, 3]));
+  });
+  it('maps a shown position to the original index (grading keeps the original indices)', () => {
+    const order = [2, 0, 3, 1]; // position 3 shows option 1 ("Switch")
+    expect(order[3]).toBe(q.answer);
+    expect(q.options[order[3]]).toBe('Switch');
+  });
+  it('validates an order', () => {
+    expect(isOptionOrder([1, 0, 2], 3)).toBe(true);
+    expect(isOptionOrder([1, 1, 2], 3)).toBe(false);
+    expect(isOptionOrder([0, 1], 3)).toBe(false);
+    expect(isOptionOrder([0, 1, 3], 3)).toBe(false);
+    expect(isOptionOrder(['0', 1, 2], 3)).toBe(false);
+    expect(isOptionOrder(null, 0)).toBe(false);
+  });
+  it('optionReview follows the shown order but keeps the original indices', () => {
+    const rows = optionReview(q, 1, [2, 0, 3, 1]);
+    expect(rows.map((r) => r.index)).toEqual([2, 0, 3, 1]);
+    expect(rows[3]).toMatchObject({ text: 'Switch', correct: true, chosen: true, note: null });
+    expect(rows[0]).toMatchObject({ text: 'Hub', correct: false, note: 'c ist falsch, weil …' });
+    expect(optionReview(q, 1, [9, 9, 9, 9]).map((r) => r.index)).toEqual([0, 1, 2, 3]);
+  });
+  it('derives stable seeds from a text', () => {
+    expect(seedFromText('2026-11-26T08:00:00.000Z|AP1|net-0001')).toBe(seedFromText('2026-11-26T08:00:00.000Z|AP1|net-0001'));
+    expect(seedFromText('a')).not.toBe(seedFromText('b'));
+    expect(Number.isInteger(seedFromText(''))).toBe(true);
+  });
+  it('validates fixedOrder', () => {
+    const valid = { ...base, optionNotes: ['Das wäre ein /27-Netz.', null, 'Das sind alle Adressen, nicht die nutzbaren.', 'Das wäre ein /25-Netz.'] };
+    expect(validateQuestion({ ...valid, fixedOrder: true }, topicIds)).toEqual([]);
+    expect(validateQuestion({ ...valid, fixedOrder: 'ja' }, topicIds).join()).toMatch(/fixedOrder/);
   });
 });

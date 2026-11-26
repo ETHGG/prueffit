@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import {
   GENERATOR_KINDS, generateTask, generateRound, taskFromId, isGeneratedId, availableKinds,
-  usableHosts, prefixForHosts,
+  usableHosts, prefixForHosts, sensorValue, sensorCurrent, voltageDrop, minCrossSection, nextStandardSection, defaultInterest,
 } from '../js/generator.js';
 import { validateQuestion, createSeededRandom } from '../js/questions.js';
 import { gradeAnswer, tableCells } from '../js/grading.js';
@@ -217,5 +217,47 @@ describe('new kinds (2.21.17): Netzplan, Verfügbarkeit, kaufmännisches Rechnen
       checked += 1;
     }
     expect(checked).toBeGreaterThan(50);
+  });
+});
+
+describe('new kinds (2.22, issue #16): 4–20 mA, Spannungsfall, Verzugszinsen', () => {
+  it('4–20 mA: live zero, scaling in both directions', () => {
+    expect(sensorValue(0, 5, 8)).toBe(1.25); // example of f-stromsignal
+    expect(sensorValue(-40, 120, 4)).toBe(-40);
+    expect(sensorValue(-40, 120, 20)).toBe(120);
+    expect(sensorValue(-40, 120, 12)).toBe(40);
+    expect(sensorCurrent(0, 5, 1.25)).toBe(8);
+    expect(sensorCurrent(-40, 120, 0)).toBe(8);
+  });
+  it('Spannungsfall: ΔU = 2 · l · I · cos φ / (κ · A), Mindestquerschnitt and next standard size', () => {
+    expect(voltageDrop(40, 16, 1, 2.5)).toBeCloseTo(9.142857, 5);
+    expect(minCrossSection(40, 16, 1, 6.9)).toBeCloseTo(3.3126, 3); // example of f-querschnitt
+    expect(nextStandardSection(3.31)).toBe(4);
+    expect(nextStandardSection(2.5)).toBe(2.5);
+    expect(nextStandardSection(1.2)).toBe(1.5);
+    expect(nextStandardSection(10.5)).toBeNull();
+  });
+  it('Verzugszinsen: Betrag × (Basiszins + Punkte) × Tage ÷ 36.000', () => {
+    expect(defaultInterest(9000, 2, 9, 40)).toBe(110); // example of f-verzug
+    expect(defaultInterest(1000, 1.27, 5, 30)).toBe(5.23);
+  });
+  it('generated tasks match the formulas', () => {
+    for (let seed = 1; seed <= 200; seed++) {
+      const s = generateTask('stromsignal', seed * 31);
+      expect(s.answer.value).toBeGreaterThanOrEqual(0);
+      expect(s.explanation).toMatch(/16 mA/);
+      const u = generateTask('spannungsfall', seed * 31);
+      expect(u.answer.value).toBeGreaterThan(0);
+      if (u.answer.unit === 'mm²') expect([1.5, 2.5, 4, 6, 10]).toContain(u.answer.value);
+      const z = generateTask('verzug', seed * 31);
+      expect(z.answer.unit).toBe('€');
+      expect(z.question).toMatch(/Basiszinssatz|Skonto/);
+    }
+  });
+  it('are offered to the jobs that have the topic', () => {
+    const ids = (job) => availableKinds(topics.filter((t) => t.id === job).map((t) => t.id)).map((k) => k.id);
+    expect(ids('vernetzung.sensorik')).toEqual(['stromsignal']);
+    expect(ids('elektro.installation')).toEqual(['spannungsfall']);
+    expect(ids('wirtschaft.zahlungsverkehr')).toEqual(['verzug']);
   });
 });

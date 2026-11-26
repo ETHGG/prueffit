@@ -689,6 +689,10 @@ details.fold.card[open] { padding-bottom: 1rem; }
   font: inherit; color: inherit; background: none; border: 0; padding: 0 .05em; margin: 0;
   border-bottom: 1px dotted currentColor; cursor: help; text-align: inherit; line-height: inherit;
 }
+/* Since 2.22: 44 px high tap area without changing the line flow (issue #19); horizontally only
+   4 px, so neighbouring abbreviations ("OHG, KG") do not overlap. */
+.abbr-term { position: relative; }
+.abbr-term::after { content: ''; position: absolute; left: -4px; right: -4px; top: 50%; height: 44px; transform: translateY(-50%); }
 .abbr-term[aria-expanded="true"] { border-bottom-style: solid; color: var(--primary); }
 .abbr-term:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; border-radius: 3px; }
 .abbr-def { color: var(--muted); font-style: italic; font-weight: 400; }

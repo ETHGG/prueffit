@@ -587,6 +587,152 @@ function commercial(rnd) {
   };
 }
 
+// ---------------------------------------------------------------- 2.22 (issue #16): FIDV, ITSE, KITS/KDM
+
+/** Measured value of a 4–20 mA signal for the range start … end (live zero: 4 mA = start). */
+export function sensorValue(start, end, mA) {
+  return start + ((mA - 4) / 16) * (end - start);
+}
+
+/** Current in mA for a measured value (inverse of sensorValue). */
+export function sensorCurrent(start, end, value) {
+  return 4 + ((value - start) / (end - start)) * 16;
+}
+
+const KAPPA_CU = 56;
+const STANDARD_SECTIONS = [1.5, 2.5, 4, 6, 10];
+
+/** Voltage drop in V of a single-phase line (out and back): 2 · l · I · cos φ / (κ · A). */
+export function voltageDrop(length, current, cosPhi, section, kappa = KAPPA_CU) {
+  return (2 * length * current * cosPhi) / (kappa * section);
+}
+
+/** Minimum cross-section in mm² for an allowed voltage drop in V. */
+export function minCrossSection(length, current, cosPhi, allowedDrop, kappa = KAPPA_CU) {
+  return (2 * length * current * cosPhi) / (kappa * allowedDrop);
+}
+
+/** Next standard cross-section ≥ `section` (1,5 – 2,5 – 4 – 6 – 10 mm²), null above 10 mm². */
+export function nextStandardSection(section) {
+  return STANDARD_SECTIONS.find((a) => a >= section - 1e-9) ?? null;
+}
+
+/** Default interest in € (commercial, 360 days): amount × (base rate + points) × days ÷ 36.000. */
+export function defaultInterest(amount, baseRate, points, days) {
+  return round2((amount * (baseRate + points) * days) / 36000);
+}
+
+/** German number without trailing zeros (up to `max` decimals). */
+const deMax = (n, max = 3) => n.toLocaleString('de-DE', { maximumFractionDigits: max }).replace('-', '\u2212');
+/** Number for a calculation step; negative values in parentheses: 20 − (−20). */
+const term = (n) => (n < 0 ? `(${deMax(n)})` : deMax(n));
+
+const SENSOR_RANGES = [
+  { what: 'Ein Füllstandssensor', quantity: 'Füllstand', unit: 'm', start: 0, end: 4 },
+  { what: 'Ein Füllstandssensor', quantity: 'Füllstand', unit: 'm', start: 0, end: 8 },
+  { what: 'Ein Temperaturfühler', quantity: 'Temperatur', unit: '°C', start: -40, end: 120 },
+  { what: 'Ein Temperaturfühler', quantity: 'Temperatur', unit: '°C', start: 0, end: 80 },
+  { what: 'Ein Temperaturfühler', quantity: 'Temperatur', unit: '°C', start: -20, end: 140 },
+  { what: 'Ein Drucksensor', quantity: 'Druck', unit: 'bar', start: 0, end: 16 },
+  { what: 'Ein Drucksensor', quantity: 'Druck', unit: 'bar', start: 0, end: 10 },
+];
+
+// Analogsignal 4–20 mA (FIDV): current → measured value and back. Results are never negative
+// (the start of the range is only negative for temperatures, then the current is high enough).
+function currentLoop(rnd) {
+  const r = pick(rnd, SENSOR_RANGES);
+  const span = r.end - r.start;
+  const zeroAt = Math.ceil(sensorCurrent(r.start, r.end, 0));
+  const mA = int(rnd, Math.max(5, r.start < 0 ? zeroAt : 5), 19);
+  const value = sensorValue(r.start, r.end, mA);
+  const range = `${deMax(r.start)} … ${deMax(r.end)} ${r.unit}`;
+  if (rnd() < 0.5) {
+    return {
+      difficulty: 2, type: 'number', points: 2,
+      question: `${r.what} hat den Messbereich ${range} und liefert ein Stromsignal 4–20 mA. Die Steuerung misst ${mA} mA. Welcher ${r.quantity} liegt an?`,
+      answer: numberAnswer(round2(value), r.unit, 0.01),
+      explanation: `Messwert = Anfang + (I − 4 mA) ÷ 16 mA × Messspanne = ${deMax(r.start)} + (${mA} − 4) ÷ 16 × ${deMax(span)} ${r.unit} = ${deMax(value)} ${r.unit}. 4 mA entsprechen dem Anfang (lebender Nullpunkt), 20 mA dem Ende; die Spanne beträgt 16 mA.`,
+    };
+  }
+  return {
+    difficulty: 2, type: 'number', points: 2,
+    question: `${r.what} hat den Messbereich ${range} und liefert ein Stromsignal 4–20 mA. Welcher Strom fließt bei ${deMax(value)} ${r.unit}?`,
+    answer: numberAnswer(mA, 'mA', 0.01),
+    explanation: `I = 4 mA + (Messwert − Anfang) ÷ Messspanne × 16 mA = 4 + (${deMax(value)} − ${term(r.start)}) ÷ ${deMax(span)} × 16 = ${mA} mA. Ein Strom unter 4 mA (z. B. 0 mA) zeigt einen Fehler wie einen Drahtbruch an.`,
+  };
+}
+
+// Spannungsfall und Mindestquerschnitt (ITSE), Wechselstrom 230 V, Kupfer κ = 56 m/(Ω·mm²).
+function voltageDropTask(rnd) {
+  const variant = int(rnd, 0, 2);
+  const cos = pick(rnd, [1, 1, 0.9, 0.95]);
+  const cosText = cos === 1 ? 'cos φ = 1 (ohmsche Last)' : `cos φ = ${deMax(cos, 2)}`;
+  const cosCalc = cos === 1 ? '' : ` × ${deMax(cos, 2)}`;
+  if (variant < 2) {
+    const l = int(rnd, 3, 12) * 5;
+    const i = pick(rnd, [10, 13, 16, 20]);
+    const a = pick(rnd, i >= 16 ? [2.5, 4] : [1.5, 2.5, 4]);
+    const du = voltageDrop(l, i, cos, a);
+    const percent = (du / 230) * 100;
+    const asked = variant === 0 ? 'Wie groß ist der Spannungsfall in Volt? (zwei Nachkommastellen)' : 'Wie groß ist der Spannungsfall in Prozent der Nennspannung? (zwei Nachkommastellen)';
+    return {
+      difficulty: variant === 0 ? 2 : 3, type: 'number', points: variant === 0 ? 2 : 3,
+      question: `Eine Wechselstromleitung (230 V, Kupfer, κ = 56 m/(Ω·mm²)) ist ${l} m lang (einfache Länge), hat ${deMax(a)} mm² Querschnitt und führt ${i} A bei ${cosText}. ${asked}`,
+      answer: variant === 0 ? numberAnswer(round2(du), 'V', 0.01) : numberAnswer(round2(percent), '%', 0.02),
+      explanation: `ΔU = 2 × l × I × cos φ ÷ (κ × A) = 2 × ${l} m × ${i} A${cosCalc} ÷ (56 × ${deMax(a)} mm²) = ${de(du, 2)} V${variant === 1 ? `; in Prozent: ${de(du, 2)} V ÷ 230 V × 100 = ${de(percent, 2)} %` : ''}. Der Faktor 2 steht für Hin- und Rückleiter. Richtwert: höchstens 3 % (6,9 V) vom Zähler bis zum Verbraucher.`,
+    };
+  }
+  // Mindestquerschnitt: draw until the result fits the standard sizes up to 10 mm².
+  let l; let i; let p; let a;
+  for (let k = 0; k < 20; k++) {
+    l = int(rnd, 4, 16) * 5;
+    i = pick(rnd, [10, 13, 16, 20, 25]);
+    p = pick(rnd, [3, 3, 4]);
+    a = minCrossSection(l, i, cos, (230 * p) / 100);
+    if (nextStandardSection(a) !== null) break;
+  }
+  if (nextStandardSection(a) === null) { l = 40; i = 16; p = 3; a = minCrossSection(l, i, cos, 6.9); }
+  const allowed = (230 * p) / 100;
+  const norm = nextStandardSection(a);
+  return {
+    difficulty: 3, type: 'number', points: 3,
+    question: `Eine ${l} m lange Wechselstromleitung (230 V, Kupfer, κ = 56 m/(Ω·mm²)) soll ${i} A bei ${cosText} übertragen. Der Spannungsfall darf höchstens ${p} % betragen. Welchen Normquerschnitt (1,5 – 2,5 – 4 – 6 – 10 mm²) wählen Sie mindestens?`,
+    answer: numberAnswer(norm, 'mm²', 0),
+    explanation: `Zulässig: ${p} % von 230 V = ${deMax(allowed, 2)} V. A = 2 × l × I × cos φ ÷ (κ × ΔU) = 2 × ${l} m × ${i} A${cosCalc} ÷ (56 × ${deMax(allowed, 2)} V) = ${de(a, 2)} mm² → nächstgrößerer Normquerschnitt ${deMax(norm)} mm². Zusätzlich muss die Strombelastbarkeit nach Verlegeart und Absicherung passen.`,
+  };
+}
+
+// Verzugszinsen und Skonto (KITS/KDM). The base rate is given in the task (it changes every half year).
+function lateInterest(rnd) {
+  const variant = int(rnd, 0, 2);
+  if (variant < 2) {
+    const amount = int(rnd, 10, 200) * 50;
+    const baseRate = pick(rnd, [1.27, 1.52, 2.27, 3.37, 3.62]);
+    const days = int(rnd, 10, 120);
+    const b2b = variant === 0;
+    const points = b2b ? 9 : 5;
+    const z = defaultInterest(amount, baseRate, points, days);
+    return {
+      difficulty: 2, type: 'number', points: 2,
+      question: b2b
+        ? `Ein Kunde (Unternehmen) zahlt eine Rechnung über ${eur(amount)} ${days} Tage zu spät. Angenommener Basiszinssatz: ${pct(baseRate)}. Wie hoch sind die gesetzlichen Verzugszinsen (kaufmännisch, 360 Tage, ohne Pauschale)?`
+        : `Eine Verbraucherin zahlt eine Rechnung über ${eur(amount)} ${days} Tage zu spät. Angenommener Basiszinssatz: ${pct(baseRate)}. Wie hoch sind die gesetzlichen Verzugszinsen (kaufmännisch, 360 Tage)?`,
+      answer: numberAnswer(z, '€', 0.01),
+      explanation: `${b2b ? 'Zwischen Unternehmen' : 'Mit Verbrauchern'}: Basiszinssatz + ${points} Prozentpunkte = ${pct(round2(baseRate + points))}. Zinsen = ${de(amount)} × ${de(baseRate + points, 2)} × ${days} ÷ 36.000 = ${eur(z)}.${b2b ? ' Dazu kommt die Pauschale von 40 € (§ 288 Abs. 5 BGB), hier nicht gefragt.' : ' Eine 40-€-Pauschale gibt es gegenüber Verbrauchern nicht.'} Rechtlich wird taggenau gerechnet; in Prüfungen meist mit 360 Tagen.`,
+    };
+  }
+  const gross = round2(int(rnd, 40, 3000) * 5 * 1.19);
+  const s = pick(rnd, [2, 2.5, 3]);
+  const discount = round2((gross * s) / 100);
+  const pay = round2(gross - discount);
+  return {
+    difficulty: 1, type: 'number', points: 2,
+    question: `Eine Rechnung über ${eur(gross)} (brutto) gewährt ${pct(s)} Skonto bei Zahlung innerhalb von 10 Tagen. Welchen Betrag überweisen Sie, wenn Sie das Skonto nutzen?`,
+    answer: numberAnswer(pay, '€', 0.01),
+    explanation: `Skonto = ${eur(gross)} × ${deMax(s, 1)} % = ${eur(discount)}; Zahlbetrag = ${eur(gross)} − ${eur(discount)} = ${eur(pay)}. Das Skonto wird vom Rechnungsbetrag (brutto) abgezogen.`,
+  };
+}
+
 /** Available kinds: id, label, topic (must exist in topics.json), builder. */
 export const GENERATOR_KINDS = [
   { id: 'subnetz', label: 'Subnetting und VLSM', topic: 'netzwerke.subnetting', build: subnetting },
@@ -600,6 +746,9 @@ export const GENERATOR_KINDS = [
   { id: 'netzplan', label: 'Netzplan: Dauer und Puffer', topic: 'projekt.planung', build: networkPlan },
   { id: 'verfuegbar', label: 'Verfügbarkeit: Ausfallzeit, Reihe, parallel', topic: 'sicherheit.schutzziele', build: availability },
   { id: 'rechnen', label: 'Zinsen, Skonto, Umsatzsteuer, Grundwert', topic: 'wirtschaft.rechnen', build: commercial },
+  { id: 'stromsignal', label: 'Analogsignal 4–20 mA', topic: 'vernetzung.sensorik', build: currentLoop },
+  { id: 'spannungsfall', label: 'Spannungsfall und Querschnitt', topic: 'elektro.installation', build: voltageDropTask },
+  { id: 'verzug', label: 'Verzugszinsen und Skonto', topic: 'wirtschaft.zahlungsverkehr', build: lateInterest },
 ];
 const KIND_BY_ID = new Map(GENERATOR_KINDS.map((k) => [k.id, k]));
 

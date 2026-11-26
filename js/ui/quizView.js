@@ -623,7 +623,7 @@ function drawQuestion(root, ctx, draw, topicById) {
       h('p', { class: 'small' }, `${formatNumber(result.points)} von ${formatNumber(result.maxPoints)} ${result.maxPoints === 1 ? 'Punkt' : 'Punkten'}`),
       !result.correct && q.type !== 'text' ? h('p', {}, h('strong', { text: 'Richtige Antwort: ' }), correctAnswerText(q)) : null,
       h('p', {}, h('strong', { text: 'Erklärung: ' }), q.explanation),
-      optionReviewBlock(q, result.response, { open: !result.correct }),
+      optionReviewBlock(q, result.response, { open: !result.correct, ui: uiFor(q) }),
       noteLink(ctx, q.topic),
       isGeneratedId(q.id) ? null : reportLink(q));
   }
@@ -724,7 +724,7 @@ function drawSummary(root, ctx, draw, topicById) {
         q.type === 'text' ? null : h('p', {}, h('strong', { text: 'Deine Antwort: ' }), formatResponse(q, r?.response)),
         r?.correct && q.type !== 'text' ? null : h('p', {}, h('strong', { text: q.type === 'text' ? 'Musterlösung: ' : 'Richtige Antwort: ' }), correctAnswerText(q)),
         h('p', {}, h('strong', { text: 'Erklärung: ' }), q.explanation),
-        optionReviewBlock(q, r?.response, { open: !r?.correct })));
+        optionReviewBlock(q, r?.response, { open: !r?.correct, ui: session?.ui?.[q.id] ?? null })));
   });
 
   append(root, 

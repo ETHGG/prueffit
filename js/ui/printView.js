@@ -125,7 +125,9 @@ function answerArea(q, layout) {
   switch (q.type) {
     case 'single':
     case 'multi':
-      return h('ul', { class: 'choice-list' }, q.options.map((o, i) => h('li', {}, box(), h('span', { class: 'choice-letter', text: `${optionLetter(i)})` }), h('span', { text: o }))));
+      // Since 2.22 in the shuffled order of the layout (same letters on the solution sheet).
+      return h('ul', { class: 'choice-list' }, (layout?.options ?? q.options.map((_, i) => i))
+        .map((idx, i) => h('li', {}, box(), h('span', { class: 'choice-letter', text: `${optionLetter(i)})` }), h('span', { text: q.options[idx] }))));
     case 'number':
       return h('div', {},
         h('p', { class: 'result-line' }, 'Ergebnis: ', h('span', { class: 'blank', 'aria-hidden': 'true' }), q.answer.unit ? ` ${q.answer.unit}` : ''),

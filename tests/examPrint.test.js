@@ -139,6 +139,27 @@ describe('print helpers', () => {
     for (let seed = 1; seed < 40; seed += 1) expect(printLayout(qs, seed).get('o').order).not.toEqual(['1', '2', '3', '4']);
   });
 
+  it('shuffles single/multi options with the seed (2.22); the solution sheet uses the same letters', () => {
+    const s = { id: 's', type: 'single', options: ['p', 'q', 'r', 't'], answer: 2 };
+    const m = { id: 'm', type: 'multi', options: ['p', 'q', 'r', 't'], answer: [0, 3] };
+    const n = { id: 'n', type: 'single', options: ['10', '20', '30'], answer: 1 };
+    const l = printLayout([s, m, n], 11);
+    expect(printLayout([s, m, n], 11).get('s').options).toEqual(l.get('s').options);
+    expect([...l.get('s').options].sort()).toEqual([0, 1, 2, 3]);
+    expect(l.get('n').options).toEqual([0, 1, 2]);
+    const letter = 'abcd'[l.get('s').options.indexOf(2)];
+    expect(solutionLines(s, l.get('s'))).toEqual([`${letter}) r`]);
+    const mm = l.get('m').options;
+    expect(solutionLines(m, l.get('m'))).toEqual([0, 3].map((i) => mm.indexOf(i)).sort((a, b) => a - b).map((p) => `${'abcd'[p]}) ${m.options[mm[p]]}`));
+    expect(solutionLines(s, { options: [2, 0, 1, 3] })).toEqual(['a) r']);
+    // match/order layouts of a seed do not change because of the options (own random stream).
+    const o = { id: 'o', type: 'order', answer: ['1', '2', '3', '4'] };
+    expect(printLayout([s, o], 5).get('o').order).toEqual(printLayout([o], 5).get('o').order);
+    const positions = new Set();
+    for (let seed = 1; seed < 40; seed += 1) positions.add(printLayout([s], seed).get('s').options.indexOf(2));
+    expect(positions.size).toBe(4);
+  });
+
   it('solution lines for all question types refer to the letters of the task sheet', () => {
     expect(solutionLines({ type: 'single', options: ['p', 'q', 'r'], answer: 2 })).toEqual(['c) r']);
     expect(solutionLines({ type: 'multi', options: ['p', 'q', 'r'], answer: [2, 0] })).toEqual(['a) p', 'c) r']);

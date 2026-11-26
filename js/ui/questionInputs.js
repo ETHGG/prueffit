@@ -9,24 +9,29 @@
 //   redraw    function({ keepScroll }) to re-render after reordering (order type)
 //   onChange  called with the new response whenever the learner changes something (optional)
 
-import { shuffle, optionReview } from '../questions.js';
+import { shuffle, optionReview, optionOrder, isOptionOrder } from '../questions.js';
 import { tableCells, tableCellCorrect } from '../grading.js';
 import { h, formatNumber } from './dom.js';
 
-/** Initial UI state: shuffled order (never already correct) and shuffled match targets. */
-export function createUi(q, response) {
+/**
+ * Initial UI state: shuffled order (never already correct), shuffled match targets and, since 2.22,
+ * the display order of `single`/`multi` options (`optionOrder`: position → original index).
+ * @param random e.g. a seeded generator, so the exam shows the same order after a reload
+ */
+export function createUi(q, response, { random = Math.random } = {}) {
   const ui = {};
   if (q.type === 'order') {
     if (Array.isArray(response) && isPermutation(response, q.answer)) {
       ui.order = [...response];
     } else {
-      let list = shuffle(q.answer);
-      for (let i = 0; i < 5 && list.every((v, k) => v === q.answer[k]); i++) list = shuffle(q.answer);
+      let list = shuffle(q.answer, random);
+      for (let i = 0; i < 5 && list.every((v, k) => v === q.answer[k]); i++) list = shuffle(q.answer, random);
       if (list.every((v, k) => v === q.answer[k])) list = [...q.answer].reverse();
       ui.order = list;
     }
   }
-  if (q.type === 'match') ui.rights = shuffle([...new Set(Object.values(q.answer))]);
+  if (q.type === 'match') ui.rights = shuffle([...new Set(Object.values(q.answer))], random);
+  if (q.type === 'single' || q.type === 'multi') ui.optionOrder = optionOrder(q, random);
   if (q.type === 'text') { ui.draft = ''; ui.revealed = false; }
   return ui;
 }
@@ -46,6 +51,7 @@ export function isValidUi(q, ui) {
     const rights = new Set(Object.values(q.answer));
     return Array.isArray(ui.rights) && ui.rights.length === rights.size && ui.rights.every((r) => rights.has(r));
   }
+  if (q.type === 'single' || q.type === 'multi') return isOptionOrder(ui.optionOrder, q.options.length);
   if (q.type === 'text') {
     return typeof ui.draft === 'string' && typeof ui.revealed === 'boolean'
       && (ui.criteria === undefined || (Array.isArray(ui.criteria) && ui.criteria.every(Number.isInteger)));
@@ -161,12 +167,18 @@ function optionState(q, index, response) {
   return { cls: '', mark: '' };
 }
 
-function choiceInput(q, { response, locked, reveal, onChange }) {
+/** Display order of the options: the shuffled order from the UI state, else the data order. */
+function shownOrder(q, ui) {
+  return isOptionOrder(ui?.optionOrder, q.options.length) ? ui.optionOrder : q.options.map((_, i) => i);
+}
+
+function choiceInput(q, { response, locked, reveal, ui, onChange }) {
   const multi = q.type === 'multi';
   return h('fieldset', {},
     h('legend', { class: multi ? 'hint' : 'visually-hidden', text: multi ? 'Mehrere Antworten möglich' : 'Antwort auswählen' }),
     h('div', { class: 'options' },
-      q.options.map((text, i) => {
+      shownOrder(q, ui).map((i) => {
+        const text = q.options[i];
         const state = reveal ? optionState(q, i, response) : { cls: '', mark: '' };
         const chosen = multi ? Array.isArray(response) && response.includes(i) : response === i;
         return h('label', { class: `option ${state.cls}`, 'aria-disabled': locked ? 'true' : null },
@@ -330,8 +342,8 @@ export function renderInput(q, options) {
  * the quiz and in the exam review. Collapsible and secondary; null for questions without notes.
  * @param open start expanded (the quiz opens it after a wrong answer)
  */
-export function optionReviewBlock(q, response, { open = false } = {}) {
-  const rows = optionReview(q, response);
+export function optionReviewBlock(q, response, { open = false, ui = null } = {}) {
+  const rows = optionReview(q, response, ui?.optionOrder ?? null);
   if (!rows.length) return null;
   return h('details', { class: 'option-review', open },
     h('summary', { text: 'Warum ist welche Antwort richtig oder falsch?' }),

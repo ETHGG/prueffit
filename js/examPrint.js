@@ -4,7 +4,7 @@
 // in the URL makes the draw reproducible, so task and solution sheet always belong together.
 
 import { createExam, examParts, isExamQuestion, GRADE_SCALE, roundPercent } from './exam.js';
-import { filterQuestions, createSeededRandom, shuffle } from './questions.js';
+import { filterQuestions, createSeededRandom, shuffle, optionOrder, isOptionOrder } from './questions.js';
 import { tableCells } from './grading.js';
 import { jobById } from './curriculum.js';
 
@@ -119,13 +119,17 @@ export function writingLines(q) {
 /**
  * Fixed print layout of the questions (shuffled lists), reproducible from the seed:
  * match -> right-hand entries in random order (each with a letter), order -> items in an order
- * that differs from the solution. Returns Map(id -> { rights?, order? }).
+ * that differs from the solution, single/multi -> options in random order (since 2.22, `options`:
+ * position -> original index; own random stream, so match/order layouts of older seeds stay the same).
+ * Returns Map(id -> { rights?, order?, options? }).
  */
 export function printLayout(questions, seed) {
   const random = createSeededRandom((Number(seed) ^ 0x5bd1e995) >>> 0);
+  const optionRandom = createSeededRandom((Number(seed) ^ 0x2545f491) >>> 0);
   const layout = new Map();
   for (const q of questions) {
-    if (q.type === 'match') layout.set(q.id, { rights: shuffle([...new Set(Object.values(q.answer))], random) });
+    if (q.type === 'single' || q.type === 'multi') layout.set(q.id, { options: optionOrder(q, optionRandom) });
+    else if (q.type === 'match') layout.set(q.id, { rights: shuffle([...new Set(Object.values(q.answer))], random) });
     else if (q.type === 'order') {
       let order = shuffle(q.answer, random);
       for (let i = 0; i < 5 && order.every((v, k) => v === q.answer[k]); i++) order = shuffle(q.answer, random);
@@ -145,8 +149,12 @@ const num = (v) => numberFormat.format(v);
  */
 export function solutionLines(q, layout = {}) {
   switch (q.type) {
-    case 'single': return [`${optionLetter(q.answer)}) ${q.options[q.answer]}`];
-    case 'multi': return [...q.answer].sort((a, b) => a - b).map((i) => `${optionLetter(i)}) ${q.options[i]}`);
+    case 'single':
+    case 'multi': {
+      const shown = isOptionOrder(layout.options, q.options.length) ? layout.options : q.options.map((_, i) => i);
+      const right = q.type === 'single' ? [q.answer] : q.answer;
+      return [...right].map((i) => shown.indexOf(i)).sort((a, b) => a - b).map((pos) => `${optionLetter(pos)}) ${q.options[shown[pos]]}`);
+    }
     case 'number': {
       const { value, tolerance = 0, unit = '' } = q.answer;
       return [`${num(value)}${unit ? ` ${unit}` : ''}${tolerance ? ` (Toleranz ± ${num(tolerance)})` : ''}`];

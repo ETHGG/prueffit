@@ -4,7 +4,7 @@
 import { EXAMS, JOBS, ALL_JOBS } from '../config.js';
 import { questionFigure } from './figure.js';
 import { questionText } from './questionText.js';
-import { filterQuestions, issueUrl } from '../questions.js';
+import { filterQuestions, issueUrl, seedFromText, createSeededRandom } from '../questions.js';
 import {
   examParts, previewExam, createExam, startPart, remainingMs, isTimeUp, setResponse,
   submitPart, tick, evaluateExam, restoreExam, isExamQuestion, pendingAssessment, assessResponse,
@@ -118,6 +118,18 @@ export function render(root, ctx) {
   };
 
   // ------------------------------------------------------------ start
+  /**
+   * UI state of one exam question. Since 2.22 drawn with a seed from the exam start and the question
+   * id, so shuffled options keep their order after a reload and in the review.
+   */
+  function examUi(q) {
+    if (!uiState.has(q.id)) {
+      const seed = seedFromText(`${exam?.parts?.[0]?.startedAt ?? ''}|${exam?.exam ?? ''}|${q.id}`);
+      uiState.set(q.id, createUi(q, exam?.responses?.[q.id], { random: createSeededRandom(seed) }));
+    }
+    return uiState.get(q.id);
+  }
+
   function drawStart() {
     const job = ctx.progress.settings.job ?? ALL_JOBS; // always set since 2.0 (job setup)
     const jobInfo = JOBS.find((j) => j.id === job);
@@ -236,8 +248,7 @@ export function render(root, ctx) {
     const ids = part.ids;
     pos = Math.min(Math.max(0, pos), ids.length - 1);
     const q = byId.get(ids[pos]);
-    if (!uiState.has(q.id)) uiState.set(q.id, createUi(q, exam.responses[q.id]));
-    const ui = uiState.get(q.id);
+    const ui = examUi(q);
     const topic = topicById.get(q.topic);
     const answeredCount = ids.filter((id) => Object.hasOwn(exam.responses, id)).length;
     const label = exam.exam === 'AP1' ? 'AP1' : part.title;
@@ -492,7 +503,7 @@ export function render(root, ctx) {
                   ]
                   : !r.correct ? h('p', {}, h('strong', { text: 'Richtige Antwort: ' }), correctAnswerText(q)) : null,
                 h('p', {}, h('strong', { text: 'Erklärung: ' }), q.explanation),
-                optionReviewBlock(q, r.response),
+                optionReviewBlock(q, r.response, { ui: examUi(q) }),
                 h('p', { class: 'report' }, h('a', { href: issueUrl(q), target: '_blank', rel: 'noopener' }, 'Fehler in dieser Frage melden'))));
           }))),
     );
