@@ -5,7 +5,6 @@ pcb = mat('pcb', (0.07, 0.16, 0.12), rough=0.6)
 socket = mat('socket', (0.75, 0.75, 0.7), metal=0.7, rough=0.3)
 ram = mat('ram', (0.12, 0.12, 0.14), rough=0.5)
 pcie = mat('pcie', (0.1, 0.1, 0.11), rough=0.6)
-gold = mat('gold', (1.0, 0.78, 0.3), metal=1.0, rough=0.3)
 heat = mat('heat', (0.45, 0.47, 0.5), metal=0.8, rough=0.35)
 blue = mat('sata', (0.15, 0.3, 0.7), rough=0.5)
 io = mat('io', (0.6, 0.62, 0.65), metal=0.6, rough=0.3)
@@ -40,11 +39,11 @@ items = [
     ('CPU-Sockel', (0.0, 0.04, 0.011)),
     ('RAM-Steckplätze (DIMM)', (0.077, 0.08, 0.015)),
     ('24-poliger ATX-Stromanschluss', (0.13, 0.03, 0.017)),
-    ('SATA-Anschlüsse', (0.135, -0.055, 0.012)),
+    ('M.2-Steckplatz', (-0.03, -0.03, 0.007)),
+    ('SATA-Anschlüsse', (0.135, -0.052, 0.012)),
     ('Chipsatz mit Kühlkörper', (0.07, -0.07, 0.013)),
-    ('M.2-Steckplatz mit NVMe-SSD', (-0.03, -0.03, 0.007)),
     ('PCIe-x1-Steckplatz', (-0.1, -0.05, 0.015)),
-    ('PCIe-x16-Steckplätze (z. B. Grafikkarte)', (-0.07, -0.105, 0.015)),
+    ('PCIe-x16-Steckplätze', (-0.07, -0.105, 0.015)),
 ]
 LX = 0.02
 for k, (text, (ax, ay, az)) in enumerate(items):

@@ -18,8 +18,8 @@ label('Bestellpunktverfahren: Meldebestand und Mindestbestand', (0, -0.05, 2.15)
 x0, z0, sx, sz = -1.9, 0.45, 3.7 / 30, 1.4 / 200
 leader((x0, -0.02, z0), (x0 + 3.8, -0.02, z0), ln, r=0.005)
 leader((x0, -0.02, z0), (x0, -0.02, z0 + 1.5), ln, r=0.005)
-label('Tage', (x0 + 3.7, -0.05, z0 - 0.12), size=0.045, material=lm)
-label('Bestand (Stück)', (x0, -0.05, z0 + 1.55), size=0.045, material=lm)
+label('Tage', (x0 + 3.6, -0.05, z0 - 0.14), size=0.055, material=lm)
+label('Bestand (Stück)', (x0, -0.05, z0 + 1.56), size=0.055, material=lm)
 pts = []
 stock = 190
 for d in range(31):
@@ -32,11 +32,14 @@ for a, b in zip(pts, pts[1:]):
 for val, name, m in [(80, 'Meldebestand 80 = 10 Stück/Tag × 5 Tage + 30', orange), (30, 'Mindestbestand 30 (Puffer)', red)]:
     z = z0 + val * sz
     leader((x0, -0.025, z), (x0 + 3.8, -0.025, z), m, r=0.006)
-    label(name, (x0 + 2.35, -0.05, z + 0.05), size=0.042, material=m)
-label('bestellen', (x0 + 11 * sx, -0.05, z0 + 80 * sz + 0.2), size=0.04, material=orange, align='CENTER')
+    label(name, (x0 + 0.08, -0.05, z - 0.11), size=0.055, material=m)
+label('bestellen', (x0 + 11 * sx, -0.05, z0 + 80 * sz + 0.24), size=0.055, material=orange, align='CENTER')
 leader((x0 + 11 * sx, -0.03, z0 + 100 * sz), (x0 + 16 * sx, -0.03, z0 + 100 * sz), ln, r=0.004)
-label('5 Tage Lieferzeit', (x0 + 13.5 * sx, -0.05, z0 + 106 * sz), size=0.038, material=lm, align='CENTER')
-label('Lieferung', (x0 + 16 * sx, -0.05, z0 + 192 * sz), size=0.04, material=green, align='CENTER')
-label('Meldebestand = Tagesverbrauch × Lieferzeit + Mindestbestand. Wird er erreicht, wird bestellt; die Ware kommt, bevor der Puffer angegriffen wird.', (0, -0.05, 0.12), size=0.043, material=lm, align='CENTER')
-camera_front((0, 0, 1.12), 4.4, tilt=1)
+label('5 Tage Lieferzeit', (x0 + 13.5 * sx, -0.05, z0 + 104 * sz), size=0.048, material=lm, align='CENTER')
+label('Lieferung', (x0 + 16 * sx, -0.05, z0 + 194 * sz), size=0.055, material=green, align='CENTER')
+label('Meldebestand = Tagesverbrauch × Lieferzeit + Mindestbestand', (0, -0.05, 0.14), size=0.058, material=lm, align='CENTER')
+label('Wird er erreicht, wird bestellt; die Ware kommt, bevor der Puffer angegriffen wird.', (0, -0.05, 0.0), size=0.05, material=lm, align='CENTER')
+cyl('dot', 0.03, 0.02, (x0 + 11 * sx, -0.04, z0 + 80 * sz), orange, rot=(1.5708, 0, 0))
+leader((x0 + 11 * sx, -0.03, z0 + 80 * sz), (x0 + 11 * sx, -0.03, z0 + 80 * sz + 0.2), orange, r=0.004)
+camera_front((0, 0, 1.08), 4.4, tilt=1)
 lights(0.55)

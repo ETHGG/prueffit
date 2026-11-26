@@ -18,15 +18,15 @@ label('E-Rechnung im Inland zwischen Unternehmen (B2B): Fristen', (0, -0.05, 2.1
 arrow((-1.95, -0.02, 1.25), (2.0, -0.02, 1.25), ln, r=0.008, head=0.06)
 pts = [(-1.3, '1.1.2025', blue, ['Alle müssen E-Rechnungen', 'empfangen können', 'Versand: Papier oder PDF', 'noch erlaubt (PDF mit Zustimmung)']),
        (0.0, '1.1.2027', orange, ['Vorjahresumsatz über 800.000 €:', 'Versand nur noch als E-Rechnung', 'bis 800.000 €: Papier/PDF', 'noch bis Ende 2027']),
-       (1.3, '1.1.2028', green, ['Alle Unternehmen versenden', 'nur noch E-Rechnungen', '', ''])]
+       (1.3, '1.1.2028', green, ['Alle Unternehmen versenden', 'nur noch E-Rechnungen', '(nicht Kleinunternehmer', 'nach § 19 UStG)'])]
 for x, d, m, lines in pts:
     cyl('p', 0.07, 0.05, (x, -0.02, 1.25), m, rot=(1.5708, 0, 0))
-    label(d, (x, -0.05, 1.4), size=0.06, material=m, align='CENTER')
+    label(d, (x, -0.05, 1.42), size=0.075, material=m, align='CENTER')
     for k, t in enumerate(lines):
         if t:
-            label(t, (x, -0.05, 1.02 - k * 0.09), size=0.038, material=lm, align='CENTER')
-card(-0.95, 0.4, 1.7, 0.36, blue, ['E-Rechnung', 'XRechnung (XML) oder ZUGFeRD (PDF + XML)'], sizes=(0.05, 0.036))
-card(0.95, 0.4, 1.7, 0.36, red, ['keine E-Rechnung', 'eingescannte PDF, PDF per E-Mail, Papier'], sizes=(0.05, 0.036))
-label('Ausnahmen u. a.: Rechnungen an Verbraucher, Kleinbetragsrechnungen bis 250 €.', (0, -0.05, 0.1), size=0.04, material=lm, align='CENTER')
+            label(t, (x, -0.05, 1.0 - k * 0.105), size=0.05, material=lm, align='CENTER')
+card(-0.95, 0.4, 1.8, 0.36, blue, ['E-Rechnung', 'XRechnung (XML) oder ZUGFeRD (PDF + XML)'], sizes=(0.06, 0.046))
+card(0.95, 0.4, 1.8, 0.36, red, ['keine E-Rechnung', 'eingescannte PDF, PDF per E-Mail, Papier'], sizes=(0.06, 0.046))
+label('Ausnahmen u. a.: Rechnungen an Verbraucher, Kleinbetragsrechnungen bis 250 €, Kleinunternehmer.', (0, -0.05, 0.08), size=0.05, material=lm, align='CENTER')
 camera_front((0, 0, 1.15), 4.4, tilt=1)
 lights(0.55)

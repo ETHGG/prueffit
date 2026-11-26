@@ -2,6 +2,18 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.1] – 2026-11-26
+
+### Hinzugefügt
+- **Bild `gpo-reihenfolge`** (Blender): Reihenfolge der Gruppenrichtlinien lokal → Standort → Domäne → OU mit Beispiel Bildschirmsperre und den Varianten „Erzwungen“ und „Vererbung deaktivieren“; Lernzettel Verzeichnisdienst um beide Varianten ergänzt; Bildfrage `net-0246`.
+
+### Geändert (Bilder nachgebessert, Befunde aus Nachtlauf 3)
+- `meldebestand`: Beschriftungen der Linien links unter die Linie gesetzt (die Bestandslinie lief durch „× 5 Tage + 30“), Bestellpunkt markiert, Texte größer.
+- `e-rechnung-fristen`: ab 1.1.2028 „alle außer Kleinunternehmern (§ 19 UStG)“, Ausnahmen um Kleinunternehmer ergänzt, Texte größer; Alt-Text in Lernzettel und `pm-0197` angepasst.
+- `snmp-monitoring`: Pfeile neutral beschriftet (Polling / Meldung ohne Abfrage) statt „GET, UDP 161“ und „Trap, UDP 162“, damit `hw-0108` nicht im Bild steht; `hw-0190` ohne „mithilfe der Abbildung“, Alt-Texte angepasst.
+- `vlan-tag`: Hinweis „nutzbar 1–4094“ entfernt (Lösung von `net-0144`), dafür DEI erklärt; präzisiert: Native VLAN läuft auf dem Trunk ohne Tag, Nutzdaten im getaggten Frame 42–1500 Byte, TPID 16 Bit.
+- `mainboard`: Beschriftungen „M.2-Steckplatz“ und „PCIe-x16-Steckplätze“ ohne die Lösung von `hw-0101`; sich kreuzende Hinweislinien entwirrt.
+
 ## [2.22.0] – 2026-11-26
 
 ### Hinzugefügt

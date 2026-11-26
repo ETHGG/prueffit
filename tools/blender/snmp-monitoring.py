@@ -12,13 +12,13 @@ for i, (t, s) in enumerate([('Switch', 'Port-Auslastung, Fehler'), ('Server', 'C
     z = 1.35 - i * 0.6
     box('ag', (0.8, 0.22, 0.3), (1.35, 0, z), agent, bevel=0.012)
     label(f'{t}\n(SNMP-Agent)', (1.35, -0.13, z + 0.03), size=0.048, material=wl, align='CENTER')
-    label(s, (1.35, -0.06, z - 0.24), size=0.042, material=lm, align='CENTER')
+    label(s, (1.35, -0.06, z - 0.25), size=0.046, material=lm, align='CENTER')
     arrow((-1.03, -0.03, 0.85), (0.93, -0.03, z + 0.06), poll, r=0.009, head=0.05)
     if t == 'USV':
         arrow((0.93, -0.03, z - 0.06), (-1.03, -0.03, 0.62), trap, r=0.011, head=0.06)
-label('Abfrage (GET), UDP 161', (-0.05, -0.08, 1.2), size=0.05, material=mat('ptxt', (0.03, 0.2, 0.5), rough=1.0), align='CENTER')
-label('Trap: Agent meldet selbst, UDP 162', (-0.1, -0.08, 0.22), size=0.05, material=mat('ttxt', (0.5, 0.08, 0.05), rough=1.0), align='CENTER')
-label('Der Manager fragt die Agenten regelmäßig ab (Polling); bei einem Ereignis (z. B. Netzausfall) sendet der Agent sofort einen Trap.', (0, -0.05, -0.3), size=0.045, material=lm, align='CENTER')
-label('SNMPv1/v2c nur mit Community-String im Klartext – SNMPv3 bietet Anmeldung und Verschlüsselung.', (0, -0.05, -0.42), size=0.045, material=lm, align='CENTER')
+label('regelmäßige Abfrage durch den Manager (Polling)', (-0.15, -0.08, 1.4), size=0.052, material=mat('ptxt', (0.03, 0.2, 0.5), rough=1.0), align='CENTER')
+label('Meldung des Agents ohne vorherige Abfrage', (-0.3, -0.08, 0.04), size=0.052, material=mat('ttxt', (0.5, 0.08, 0.05), rough=1.0), align='CENTER')
+label('Polling erkennt Werte erst bei der nächsten Abfrage; die Meldung des Agents kommt sofort beim Ereignis (z. B. Netzausfall).', (0, -0.05, -0.3), size=0.047, material=lm, align='CENTER')
+label('SNMPv1/v2c nur mit Community-String im Klartext – SNMPv3 bietet Anmeldung und Verschlüsselung.', (0, -0.05, -0.43), size=0.047, material=lm, align='CENTER')
 camera_front((0, 0, 0.6), 4.2, tilt=2)
 lights(0.55)
