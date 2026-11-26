@@ -164,3 +164,19 @@ Alle 66 Formeln gegengelesen, alle Beispielrechnungen per Skript nachgerechnet.
 | SATA-Datenrate | Thomas-Krenn-Wiki „Serial ATA Standards“ (SATA 6 Gb/s, 8b/10b-Kodierung, 600 MB/s) | Lernzettel, `hw-0058`, `hw-0079` vereinheitlicht: höchstens 600 MB/s, in der Praxis ca. 550 MB/s |
 | Write Penalty RAID 10/5/6 | Dell-Technologies-Community „IOPs calculation?“ (Faktoren 2/4/6); Lehrbuchwerte | Lernzettel, `hw-0117`, `hw-0121`, `hw-0123`, `fc-0290` bestätigt |
 | Einheiten, RAID-Kapazitäten, XOR-Parität, Rebuild-Dauer, Netzteil | eigene Rechnung per Skript (keine neue Quelle; Präfixe siehe IEC 80000-13 und Apple Support, oben) | ohne Rechenfehler |
+
+## Quellenprüfung 26.11.2026 (2.21.67, Nachtlauf 3 Gegenprüfung und Durchlauf)
+
+| Geprüft | Quelle | Ergebnis |
+|---|---|---|
+| Spannungsfall-Richtwert | DKE-Normseite zu DIN VDE 0100-520:2023-06 (Änderungsvermerk „Wert des Spannungsfalls eindeutig festgelegt“); elektro.net „Teil 5-52: Auswahl und Errichtung elektrischer Betriebsmittel – Kabel- und Leitungsanlagen“ | einheitlich 4 % (Abschnitt 525), Anhang G mit 3 %/5 % entfallen – Lernzettel, Karte und Formel bestätigt (Normtext selbst nicht einsehbar) |
+| Datenschutzbeauftragter | dr-datenschutz.de, dsgvo-gesetz.de (§ 38 BDSG) | 20-Personen-Regel gilt im November 2026 weiter; Aufhebung nur angekündigt – beim nächsten Faktencheck erneut ansehen |
+| Basiszinssatz, GWG, einjährige Nutzungsdauer Computer | Bundesbank-Pressemitteilung 30.06.2026 (1,52 %); Haufe „GWG-Grenzen 2026“; BMF-Schreiben 22.02.2022 | bestätigt |
+| Berufsschulzeit | § 9 Abs. 2 JArbSchG, § 15 BBiG (Fassung seit 1.1.2020); IHK Fulda „Anrechnung der Berufsschulzeit“ | Berufsschultag zählt mit der durchschnittlichen täglichen Ausbildungszeit – Lernzettel Ausbildung korrigiert |
+| Fluktuationsrate | hrworks.de Lexikon „Fluktuationsrate“; Kaps, „Fluktuationskennzahlen und die liebe Mathematik“ (BDA-, Schlüter-, ZVEI-Formel) | BDA-Formel = Abgänge ÷ Ø Personalbestand × 100 (einzelne Praxisseiten nennen nur freiwillige Abgänge) – neutral formuliert |
+| Interaktionsprinzipien | ISO 9241-110:2020 (procontext.de) | „Robustheit gegen Benutzungsfehler“; früher „Grundsätze der Dialoggestaltung“ mit Fehlertoleranz |
+| Datentyp byte in C# | Microsoft Learn „Integral numeric types“ | `byte` 0–255, `sbyte` −128 … 127 – Lernzettel korrigiert |
+| E-Rechnung, BFSG | § 27 Abs. 38 UStG, §§ 33, 34, 34a UStDV; § 2 Nr. 17 BFSG | Ausnahmen und Kleinstunternehmen-Definition ergänzt |
+| KRITIS-Sektoren | openkritis.de (IT-Sicherheitsgesetz 2.0, KRITIS-Dachgesetz) | Siedlungsabfallentsorgung ergänzt; Sektor „Weltraum“ nur aus Sekundärquelle, nicht übernommen |
+| Gewinnverteilung OHG, Nachweisgesetz, Widerruf, DMARC, RCD, MQTT | § 709 Abs. 3 BGB i. V. m. § 105 Abs. 3 HGB; § 2 NachwG (seit 1.1.2025); § 356 Abs. 3 BGB; RFC 7489 Abschnitt 4.2; DIN EN 61008-1; OASIS MQTT 3.1.1 Abschnitt 4.7.1.2 (aus Fachwissen der Prüfer, nicht einzeln nachgeschlagen) | präzisiert |
+
