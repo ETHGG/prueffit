@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.0] – 2026-11-26
+
+### Hinzugefügt
+- **Quiz „Nur Fragen mit Bild“** (Issue #18): Schalter unter „Themen und Schwierigkeit“ mit Anzahl der passenden Bildfragen, kombinierbar mit Prüfung, Themen, Schwierigkeit und Modus (`filterQuestions` mit `hasImage`). Unter jedem Bild im Lernzettel, zu dem es Fragen gibt, startet „n Fragen zu diesem Bild üben“ ein Quiz mit genau diesen Fragen (`#/quiz?bild=<name>`, `questionIdsForImage`).
+- **Rechentraining** (Issue #16): neue Arten „Analogsignal 4–20 mA“ (FIDV, Strom ↔ Messwert, Ergebnisse nie negativ), „Spannungsfall und Querschnitt“ (ITSE, ΔU in V und %, Normquerschnitt) und „Verzugszinsen und Skonto“ (KITS/KDM, Basiszins + 9 bzw. + 5 Prozentpunkte, Skonto-Zahlbetrag; Skonto als Jahreszins gibt es schon unter „Zinsen, Skonto …“). Verfügbarkeit sieht FIDV bereits (Thema `sicherheit.schutzziele` in der AP1).
+
+### Geändert
+- **Antwortoptionen werden gemischt** (Issue #17): Einfach- und Mehrfachauswahl zeigen ihre Optionen in zufälliger Reihenfolge – im Quiz stabil für die laufende Frage (auch nach dem Neuladen), in der Simulation aus Startzeit und Frage-ID (gleich nach dem Neuladen und in der Auswertung), in der Druckansicht aus der Simulations-Nr. mit denselben Buchstaben auf dem Lösungsblatt (Tabellen- und Reihenfolge-Layouts älterer Nummern bleiben gleich). Bewertung, `optionNotes` und gespeicherte Antworten nutzen weiter die ursprünglichen Indizes; „Warum ist welche Antwort richtig oder falsch?“ folgt der angezeigten Reihenfolge; Tasten 1–9 wählen die angezeigte Position. Nicht gemischt werden Optionen, die alle mit einer Zahl beginnen, und Fragen mit `fixedOrder: true` (neu, z. B. `net-0008` OSI-Schichten 1–4).
+- **Abkürzungen im Lernzettel** (Issue #19): Tippfläche jetzt 44 px hoch (Pseudo-Element, Zeilenhöhe unverändert, seitlich nur 4 px, damit „OHG, KG“ getrennt bleiben).
+- Neue Browsertests `e2e/imageQuiz.spec.js`, `e2e/shuffledOptions.spec.js`, `e2e/abbrTapArea.spec.js`; Unit-Tests für Bildfilter, Optionsreihenfolge, Druck-Layout und die neuen Rechenarten. PDFs neu erzeugt.
+
 ## [2.21.67] – 2026-11-26
 
 ### Korrigiert / Geändert

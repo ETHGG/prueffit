@@ -287,7 +287,7 @@ test('sketches in notes (2.19): SVG sketch renders crisp, opens in the viewer', 
   await img.scrollIntoViewIfNeeded();
   await expect.poll(() => img.evaluate((el) => el.complete && el.naturalWidth)).toBe(1200);
   await expectNoHorizontalOverflow(page);
-  await fig.locator('a').click();
+  await fig.getByRole('link', { name: /^Bild groß öffnen/ }).click();
   await expect(page.locator('dialog.image-viewer img')).toHaveAttribute('src', /skizze-risikomatrix\.svg$/);
   expect(problems).toEqual([]);
 });

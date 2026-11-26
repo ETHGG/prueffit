@@ -22,6 +22,7 @@ test('Auswahlfragen: gemischte Optionen bleiben nach dem Neuladen gleich und wer
   await expect(page.locator('#feedback-title')).toHaveText('Richtig!');
   await expect(options.nth(pos)).toHaveClass(/is-correct/);
   // The per-option review follows the shown order.
+  await page.locator('details.option-review > summary').click();
   const review = page.locator('.option-review-list .option-review-option');
   expect(await review.allInnerTexts()).toEqual(before.map((t) => t.trim()));
   await expectNoHorizontalOverflow(page);
@@ -31,6 +32,7 @@ test('Auswahlfragen: gemischte Optionen bleiben nach dem Neuladen gleich und wer
 test('Auswahlfragen: die Position der richtigen Antwort wechselt zwischen Runden', async ({ page }) => {
   const positions = new Set();
   for (let i = 0; i < 8 && positions.size < 2; i += 1) {
+    await page.goto('about:blank'); // fresh app state (a hash change alone keeps the running quiz in memory)
     await openQuizWith(page, ['sec-0049']);
     const texts = await page.locator('.options .option').allInnerTexts();
     positions.add(texts.findIndex((t) => t.includes(RIGHT)));

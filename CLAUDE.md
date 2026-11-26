@@ -166,7 +166,7 @@ prueffit/
 │   ├── pdfs.js               # Liste und Dateinamen der Lernzettel-PDFs
 │   ├── projectGuide.js       # Projektarbeit: Prüfungsbereich je Beruf, Checklisten, Fachgesprächsfragen mit Stichpunkten, Übungsmodus mit Timer (seit 2.3/2.14)
 │   ├── formulas.js           # Formelsammlung: Validierung, Suche, Gruppierung (seit 2.9)
-│   ├── generator.js          # Rechentraining: erzeugte Rechenaufgaben je Art und Seed (seit 2.13, RAID seit 2.21, Netzplan/Verfügbarkeit/kaufm. Rechnen seit 2.21.17)
+│   ├── generator.js          # Rechentraining: erzeugte Rechenaufgaben je Art und Seed (seit 2.13, RAID seit 2.21, Netzplan/Verfügbarkeit/kaufm. Rechnen seit 2.21.17, 4–20 mA/Spannungsfall/Verzugszinsen seit 2.22)
 │   ├── search.js             # Suche über alles: Lernzettel, Abkürzungen, Formeln, Fragen des Berufs (seit 2.14)
 │   ├── transferLink.js       # Übertragung per Link/QR-Code: Lernstand komprimiert im URL-Hash, Vorschau, Berufssperre (seit 2.15)
 │   ├── qr.js                 # eigener QR-Encoder (Byte-Modus, Stufe L/M, Version 1–40, seit 2.15)
@@ -254,7 +254,7 @@ prueffit/
 | `table` (seit 2.9) | `{ "rows": [{ "label": "…", "given": "1.000,00" }, { "label": "…", "value": 100, "tolerance": 0.01 }], "unit": "€", "columns": ["Position", "Betrag"] }` | Vorgabeblatt ausfüllen: Teilpunkte pro richtiger Zelle (mind. 2 offene Zellen) |
 
 **Pflichtfelder:** `id`, `exam`, `topic`, `difficulty` (1–3), `type`, `question`, `answer`, `points`, `explanation`.
-**Optional:** `source`, `image` (seit 2.16: `{ "name": "rj45", "alt": "Bildbeschreibung ≥ 15 Zeichen" }`, Datei `img/notes/<name>.webp`), `jobs` (nur bei AP2-Inhalten: Array aus `fiae`, `fisi`, `fidpa`, `fidv`, `itse`, `kits`, `kdm`; jeder genannte Beruf muss das Thema in seiner AP2 haben). `optionNotes` (seit 2.17, seit 2.20.1 bei jeder `single`/`multi`-Frage Pflicht laut `data.test.js`; nur `single`/`multi`: ein Eintrag je Option, warum sie richtig oder falsch ist; jede falsche Option braucht einen Text ≥ 10 Zeichen, richtige dürfen `null` sein; angezeigt nach dem Beantworten im Quiz und in der Auswertung der Simulation, `optionReview` in `js/questions.js`).
+**Optional:** `source`, `image` (seit 2.16: `{ "name": "rj45", "alt": "Bildbeschreibung ≥ 15 Zeichen" }`, Datei `img/notes/<name>.webp`), `jobs` (nur bei AP2-Inhalten: Array aus `fiae`, `fisi`, `fidpa`, `fidv`, `itse`, `kits`, `kdm`; jeder genannte Beruf muss das Thema in seiner AP2 haben). `optionNotes` (seit 2.17, seit 2.20.1 bei jeder `single`/`multi`-Frage Pflicht laut `data.test.js`; nur `single`/`multi`: ein Eintrag je Option, warum sie richtig oder falsch ist; jede falsche Option braucht einen Text ≥ 10 Zeichen, richtige dürfen `null` sein; angezeigt nach dem Beantworten im Quiz und in der Auswertung der Simulation, `optionReview` in `js/questions.js`). `fixedOrder` (seit 2.22, nur `single`/`multi`, `true`): Optionen nicht mischen. Sonst werden die Optionen je Anzeige gemischt (`optionOrder`: Position → ursprünglicher Index; `answer`, `optionNotes` und Bewertung bleiben bei den ursprünglichen Indizes), außer wenn jede Option mit einer Zahl beginnt; Quiz: Reihenfolge im UI-Zustand der Sitzung, Simulation: Seed aus Start und Frage-ID, Druckansicht: Seed der Simulations-Nr.
 **Zuordnung (seit 2.0):** AP1 gilt für alle Berufe, aber nur für Themen des AP1-Katalogs 2025 (`AP1_SECTIONS`). AP2 ist berufsspezifisch (`AP2_PARTS`), WiSo gilt für alle. Inhalte, die seit 2025 nicht mehr in der AP1 sind (SQL, RAID, PAP, Struktogramm …), stehen nur noch in der AP2 passender Berufe. `data.test.js` prüft die Zuordnung.
 `id` muss **global eindeutig** sein, `topic` muss in `topics.json` existieren.
 
@@ -370,7 +370,8 @@ Prozent wird **kaufmännisch auf ganze Zahlen gerundet**, bevor die Note bestimm
 - Safe-Area beachten (`env(safe-area-inset-bottom)`).
 - Barrierefreiheit: semantisches HTML, `aria-label` bei Icon-Buttons, ausreichender Kontrast.
 - Keine Pop-ups mit `alert()`, stattdessen eigene Dialoge/Toasts.
-- Tastatur im Quiz (seit 2.20.2, `quizShortcut`): 1–9 wählen, Enter prüfen, Enter/N weiter; nicht in Textfeldern; Hinweis nur bei `(hover: hover) and (pointer: fine)`.
+- Tastatur im Quiz (seit 2.20.2, `quizShortcut`): 1–9 wählen (angezeigte Position), Enter prüfen, Enter/N weiter; nicht in Textfeldern; Hinweis nur bei `(hover: hover) and (pointer: fine)`.
+- Antippbare Abkürzungen im Fließtext (seit 2.22): Tippfläche 44 px hoch über ein Pseudo-Element, ohne Zeilenhöhe zu ändern; seitlich nur 4 px, damit benachbarte Abkürzungen sich nicht überlappen.
 
 ---
 
@@ -403,7 +404,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `exam.test.js` | Notenschlüssel an allen Grenzen (29/30, 49/50, 66/67, 80/81, 91/92), Rundung, Zeitablauf, Tabellenaufgabe in jedem schriftlichen Teil (auch mit echten Daten je Beruf) |
 | `storage.test.js` | leerer Speicher, defektes JSON, Migration, Backup wird angelegt, `readinessHistory` (seit 2.12) |
 | `schedule.test.js` | Prüfungstermine, Lernplan, Datensicherungs-Erinnerung, Wochenbeginn und Wochenplan (Wochengrenzen Europe/Berlin, kein Termin, Prüfung in < 1 Woche, sehr viele Themen; seit 2.12), Kalenderdatei (Ereignisse, exklusives Ende, Escaping, Faltung ≤ 75 Byte, feste UIDs; seit 2.18) |
-| `questions.test.js` | Filtern nach Prüfung/Thema/Schwierigkeit, Zufallsauswahl ohne Duplikate, `optionNotes`/`optionReview` (seit 2.17) |
+| `questions.test.js` | Filtern nach Prüfung/Thema/Schwierigkeit/Bild (`hasImage`, seit 2.22), Zufallsauswahl ohne Duplikate, `optionNotes`/`optionReview` (seit 2.17), gemischte Optionen (`optionOrder`, `fixedOrder`, seit 2.22) |
 | `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type`, ein Lernzettel pro Thema, Zuordnung AP1/AP2 und Berufe, Handlungssituationen für alle 7 Berufe |
 | `curriculum.test.js` / `jobCatalog.test.js` | Berufe und Prüfungsbereiche, Zuordnung der Themen, keine Inhalte fremder Berufe |
 | `notes.test.js` | Markdown-Teilumfang, Suche (Umlaute, UND-Verknüpfung, Ranking), Hervorhebung |
@@ -415,8 +416,8 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `contrast.test.js` | Kontrast aller Textfarben in hellem und dunklem Design (mind. 4,5 : 1), seit 2.11 auch der Druckansicht |
 | `qr.test.js` / `transferLink.test.js` | QR-Encoder gegen Referenzmatrizen, Kapazitäten, „zu groß“; Übertragungscode rund (mit/ohne Kompression), defekte und zu große Daten, Link/Hash, Vorschau, Berufssperre (seit 2.15) |
 | `ci.test.js` | Playwright-Container in der CI passt zur gesperrten Playwright-Version, Testserver ohne Python, Node-Version der CI erfüllt `engines` aller gesperrten Pakete (seit 2.21.27) |
-| `examPrint.test.js` | Simulation zum Ausdrucken: Seed/URL, gleiche Ziehung wie die App, Situation vorn, Tabellenaufgabe, Lösungen aller Fragetypen, Notenschlüssel-Mindestpunkte |
-| `generator.test.js` | Rechentraining: jede Art liefert gültige Aufgaben, eigene Lösung wird richtig bewertet, Wiederherstellung aus der ID, Runden, Filter nach Beruf |
+| `examPrint.test.js` | Simulation zum Ausdrucken: Seed/URL, gleiche Ziehung wie die App, Situation vorn, Tabellenaufgabe, Lösungen aller Fragetypen, gemischte Optionen mit gleichen Buchstaben (seit 2.22), Notenschlüssel-Mindestpunkte |
+| `generator.test.js` | Rechentraining: jede Art liefert gültige Aufgaben, eigene Lösung wird richtig bewertet, Wiederherstellung aus der ID, Runden, Filter nach Beruf, Formeln 4–20 mA/Spannungsfall/Querschnitt/Verzugszinsen (seit 2.22) |
 | `quiz.test.js` | Quiz-Ablauf (Zustandsmaschine), ungültige Eingaben, Mischen, Sitzung speichern/wiederherstellen, Tastatur (`quizShortcut`) |
 | `transfer.test.js` | Export/Import des Fortschritts (Migration, defekte/neuere Dateien), eigene Fragen (Formate, ungültige Einträge, ID-Konflikte, Größe) |
 | `notices.test.js` | einmalige Hinweise, defekte Daten |
@@ -464,6 +465,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | **2.19** | Skizzen (SVG) in Lernzetteln | erledigt |
 | **2.20** | Lernkalender (Aktivität pro Tag) in der Statistik | erledigt |
 | **2.21** | Mehr zu RAID: Lernzettel (Parität, Write Penalty, Rebuild, Hardware/Software-RAID, RAID 50/60), Bild, Aufgaben, Karten, Rechentraining | erledigt |
+| **2.22** | Quiz „Nur Fragen mit Bild“ und „Fragen zu diesem Bild üben“, Antwortoptionen gemischt (Quiz, Simulation, Druck), Tippfläche der Abkürzungen 44 px, Rechentraining 4–20 mA, Spannungsfall, Verzugszinsen | erledigt |
 
 Der Status wird von Claude nach jeder Phase hier **und** in `docs/STATUS.md` aktualisiert.
 
