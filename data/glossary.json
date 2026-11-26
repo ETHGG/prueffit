@@ -1043,7 +1043,7 @@
   {
     "abbr": "LDAP",
     "full": "Lightweight Directory Access Protocol",
-    "explanation": "Protokoll zum Abfragen und Ändern von Verzeichniseinträgen, Port 389 (verschlüsselt 636)",
+    "explanation": "Protokoll zum Abfragen und Ändern von Verzeichniseinträgen, Port 389 (verschlüsselt mit TLS: Port 636 oder per STARTTLS auf 389)",
     "area": "Netzwerke"
   },
   {

@@ -153,3 +153,11 @@ Alle 66 Formeln gegengelesen, alle Beispielrechnungen per Skript nachgerechnet.
 | Kündigung des Ausbildungsverhältnisses | § 22 BBiG | wichtiger Grund für beide Seiten, 2-Wochen-Frist, 4 Wochen bei Aufgabe/Berufswechsel – präzisiert |
 | LS-Schalter Charakteristik B | DIN EN 60898-1 (kleiner/großer Prüfstrom 1,13 und 1,45 × Nennstrom, magnetisch 3–5 ×) | Auslösung bei geringer Überlast präzisiert |
 | Übrige Punkte des Auftrags (72 h, KSchG, Befristung, Elternzeit, Mutterschutz, eAU, GWG, § 99 BetrVG, DGUV V3, Ports, MQTT, cron, USV, Spannungsfall, PoE) | Gesetzestexte und Normwerte wie oben und in der Quellenprüfung 2.21.29–2.21.51 | ohne Befund |
+
+## Quellenprüfung 26.11.2026 (2.21.64, Qualitätsrunde Verzeichnisdienst und VLSM)
+
+| Geprüft | Quelle | Ergebnis |
+|---|---|---|
+| Kerberos: Zeittoleranz und Ticket-Lebensdauer | Microsoft Learn: „Maximum tolerance for computer clock synchronization“ (Standard 5 Minuten), „Maximum lifetime for user ticket“ (Standard 10 Stunden) | Werte bestätigt; überall als Standardwert gekennzeichnet |
+| Domänenbeitritt: wer darf Computer hinzufügen | Microsoft Learn: „Default workstation number a user can join to the domain“ (Attribut ms-DS-MachineAccountQuota, Standard 10) | authentifizierte Benutzer dürfen standardmäßig 10 Computer hinzufügen – Lernzettel und `net-0057` ergänzt |
+| VLSM und Supernetting | eigene Rechnung: alle 27 Netze der Aufgaben, Karten, Formeln und der Situation per Skript nachgerechnet (keine neue Quelle; /31 siehe RFC 3021, Prüfung 21.11.) | ohne Rechenfehler; Bedingung „gleich groß, lückenlos“ im Lernzettel und in `fc-0278` ergänzt |

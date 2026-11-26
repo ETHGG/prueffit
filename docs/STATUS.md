@@ -1,6 +1,6 @@
 # Projektstatus PrüfFit
 
-**Aktuelle Version:** 2.21.63 (25.11.2026)
+**Aktuelle Version:** 2.21.64 (26.11.2026)
 **Roadmap:** Alle Phasen 0.1 bis 2.0 sind erledigt. 2.0 (Inhalte für alle IT-Berufe, berufsspezifische App) wurde in 6 Phasen am 17.11.2026 von 19:11 bis 20:35 umgesetzt.
 
 ## Weiter bei:
@@ -19,7 +19,7 @@
 
 ## Nachtbetrieb (Auftrag 23.11.2026, 22:56, ab sofort jede Nacht)
 
-**Läuft gerade:** Qualitätsrunde seit 01:10
+**Läuft gerade:** –
 
 Regeln für alle Nachtläufe:
 - Arbeitsfenster: werktags bis 08:00, Sa/So bis 09:30 fertig sein (Europe/Berlin). Zeitplan und Modelle: Tabelle „Geplante Aufgaben“ unten. Das Kontingent darf weitgehend genutzt werden, aber nie ins Limit laufen.
@@ -58,6 +58,7 @@ Hilfsmittel im Abendlauf: `device_commit_files` liest eine eben neu geschriebene
 ### Nachtprotokoll
 | Datum | Lauf | Start | Ende | Ist | Ergebnis |
 |---|---|---|---|---|---|
+| 26.11.2026 | Qualitätsrunde (täglich 01:07) | 01:08 | 01:21 | ca. 15 Min. | Geprüft: `netzwerke.verzeichnisdienst` (Lernzettel, 25 Aufgaben, 6 Karten, Situation „Ingenieurbüro Unstrut“) und `netzwerke.vlsm` (Lernzettel, 16 Aufgaben, 4 Karten, 2 Formeln, Situation „Stadtwerke Elster“). Kein Fehler, alle 27 Netze per Skript nachgerechnet; 10 Präzisierungen (2.21.64, Liste im CHANGELOG und in `docs/PRUEFPROTOKOLL.md`). Annahme: Themen ohne Prüfdatum gelten als älteste (vor der Teilprüfung `netzwerke.osi` vom 19.11.). Unit (815) + Lint, Browsertests Chromium (259) grün, PDFs neu. Nächste Themen: `hardware.einheiten`, `hardware.raid`. |
 | 25.11.2026 | Nacht Lauf 2 „neue Inhalte“ (a) + (b) | 23:14 | 23:45 | 31 Min. | (a) zwei Handlungssituationen: KITS GA1 `sz-kits-ga1e` „Physiotherapie Bodetal“ mit `wi-0363` (Tabelle Nutzwert), `hw-0181` (RAID 6), `re-0124` (Kernlizenzen Windows Server), `wi-0364` (Leasing), `re-0125` (AVV/§ 203 StGB), `pm-0210` (Reihenfolge) – 2.21.61, Lernzettel Lizenzen + `fc-0403`; FISI GA1 `sz-fisi-ga1e` „Ingenieurbüro Unstrut“ mit `prog-0246` (PowerShell -eq), `hw-0182` (Tabelle Wachstum/RAID 6), `net-0232` (LSDOU), `sec-0182` (interne CA), `wi-0365` (Restbuchwert) – 2.21.62, Lernzettel Verzeichnisdienste/Skripte, Abkürzung LSDOU, `fc-0404`, `fc-0405`. (b) 9 offene/Tabellenaufgaben AP1 (2.21.63): `pm-0211`, `pm-0212`, `pm-0213`, `wi-0366`, `wi-0367`, `hw-0183`, `net-0233`, `net-0234`, `prog-0247`. Alle Rechnungen nachgerechnet. Unit (815) + Lint, Browsertests Chromium (259) grün, PDFs neu, CI grün. **Lauf 3 bitte die 20 neuen Aufgaben, 2 Situationen und 3 Karten gegenprüfen.** Nächster Lauf 2: (a) Situation FISI oder KITS GA2 (beide 5 bzw. 4; KITS GA2 hat 4 → zuerst). |
 | 25.11.2026 | Steuer-Chat: Bilder im Quiz | 22:16 | 22:40 | 24 Min. | Quizbilder funktionierten, waren aber selten. 2.21.57: 40 Quizfragen zu vorhandenen Bildern; 2.21.58–60: 6 neue Bilder (subnetz-und, wlan-personal-enterprise, rpo-rto, prioritaetsmatrix, ports-dienste, hash-lawine) mit 10 Bildfragen; RDP im Port-Bild als verschlüsselt (TLS) präzisiert. Issue #18 (Filter „Nur Fragen mit Bild“) für den Code-Lauf 10:13. |
 | 25.11.2026 | Gegenprüfung 2.21.28–53 (einmalig) | 19:49 | 20:12 | 23 Min. (geschätzt ca. 2 Std. 25 Min.) | Unabhängig geprüft: 173 Aufgaben (64 Rechen-/Tabellenaufgaben und 9 Formelbeispiele nachgerechnet – ohne Rechenfehler), 8 geänderte Aufgaben, 20 Handlungssituationen, 97 Karteikarten, 5 Abkürzungen, 36 Lernzettel-Änderungen, 10 von 17 Bildern angesehen (ohne Befund). **18 Korrekturen (2.21.56):** `el-0053` (Zahlen passten nicht zur Situation `sz-itse-ga2d`: jetzt 900 W, cos φ 0,9 → 4,35 A), `el-0051`, `sz-kdm-ga2c` (Wortlaut wie in den Aufgaben), JAV ohne Altersgrenze für Azubis seit 2021 (`wiso-0107`, `fc-0105`, Abkürzung JAV, Lernzettel Mitbestimmung), Antwortposition bei 89 Einfachauswahlfragen verteilt (vorher immer Option 1) und 8 Mehrfachauswahlfragen gemischt, `prog-0232` (Codeblock), `ot-0056` (Abbildung/Topic), Präzisierungen `el-0050`, `fc-0401`, `fc-0236`, `re-0115`, `re-0021` + Lernzettel Datenschutz (geplante Streichung § 38 BDSG als Stand), Lernzettel Schutzgesetze + `wiso-0058` (ärztliche Feststellung). Quellen in `docs/QUELLEN.md`. Code-Befund als Issue #17 (Optionen von single/multi werden in der App nicht gemischt; im älteren Bestand steht die richtige Antwort ca. 380-mal an erster Stelle). Unit (815) + Lint grün, Browsertests Chromium 259 grün, PDFs neu. CI nach dem Push grün (a06d34a). **Lauf 3 muss 2.21.28–53 nicht erneut prüfen** (nur 2.21.56 und Neues aus Nacht 2). Nicht angesehen: 7 Bilder (server-innenleben, warm-kaltgang, glasfaser-spleiss, arp-ablauf, switch-mac-lernen, cluster-failover, bpmn-gateways) – Texte dazu sind geprüft. |

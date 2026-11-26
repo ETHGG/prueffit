@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.64] – 2026-11-26
+
+### Geändert
+- **Qualitätsrunde „Domäne und Verzeichnisdienst“ und „VLSM, Supernetting und Adressplanung“** (kein Fehler, Rechnungen per Skript bestätigt, 10 Präzisierungen): DNS-Server beim Domänenbeitritt = interner DNS-Server der Domäne, meist der DC (Lernzettel, `fc-0133`, `net-0197`); Gruppenrichtlinien werden mit Standort, Domäne oder OU verknüpft (`fc-0132`), Kennwortregeln für Domänenkonten wirken nur auf Domänenebene; LDAP verschlüsselt über Port 636 oder per STARTTLS auf 389 (Lernzettel, `net-0182`, Abkürzung LDAP); Standard: jeder Domänenbenutzer darf bis zu 10 Computer aufnehmen (Lernzettel, `net-0057`); `gpupdate` mit und ohne `/force` (`net-0056`); 5 Minuten Zeittoleranz als Standardwert (`net-0055`, `fc-0134`); Supernetting nur für gleich große, lückenlos aufeinanderfolgende Netze (Lernzettel, `fc-0278`); Wortlaut `net-0105`.
+- Quellen in `docs/QUELLEN.md`, Ergebnis in `docs/PRUEFPROTOKOLL.md`; PDFs neu erzeugt.
+
 ## [2.21.63] – 2026-11-25
 
 ### Hinzugefügt
