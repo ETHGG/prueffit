@@ -2,6 +2,13 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.3] – 2026-11-26
+
+### Hinzugefügt (Nacht Lauf 2 „neue Inhalte“)
+- **Handlungssituation KITS GA2** `sz-kits-ga2e` „Netzwerkstatt Wittenberg: Betreuungsvertrag für eine Zahnarztpraxis“ (jetzt 5 Situationen für KITS GA2) mit sechs Aufgaben: `wi-0371` (Tabelle Stundenverrechnungssatz), `wi-0372` (Bruttopersonalbedarf), `re-0128` (Dienst- oder Werkvertrag, mit Präzisierung zu gemischten Verträgen/SLA), `pm-0218` (zulässige Ausfallzeit bei 99,5 %), `wi-0374` (Buchungssatz Ausgangsrechnung), `wi-0373` (Überweisung mit Skonto).
+- **8 offene Aufgaben und Tabellenaufgaben** für FISI/KITS-Themen mit den wenigsten solchen Aufgaben: offen mit Raster `sec-0194` (Schutzziele im Online-Shop), `prog-0248` (JSON-Fehler finden), `hw-0193` (Registered ECC-RAM), `pm-0219` (Akzeptanz bei der Einführung, FISI/KITS); Tabelle `sec-0195` (Risiko = Wahrscheinlichkeit × Schaden), `hw-0194` (RAM-Planung Virtualisierungshost), `re-0129` (Verzugszinsen und Pauschale, KITS/KDM), `wi-0375` (Inventar: Vermögen, Schulden, Eigenkapital, KITS/KDM).
+- Karteikarte `fc-0406` (Stundenverrechnungssatz).
+
 ## [2.22.2] – 2026-11-26
 
 ### Hinzugefügt
