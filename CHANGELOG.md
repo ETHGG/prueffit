@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.2] – 2026-11-26
+
+### Hinzugefügt
+- **Drei neue Blender-Bilder** (Lauf „3D-Bilder“, zweiter Durchgang), je mit Lernzettel-Abschnitt und Bildfrage:
+  - `ipsec-modi`: Paketaufbau bei IPsec/ESP im Transport- und Tunnelmodus (was verschlüsselt ist, Prüfwert, AH ohne Verschlüsselung, IKE mit UDP 500/4500) – Lernzettel Netzsicherheit, Frage `sec-0193`.
+  - `ntp-stratum`: Stratum-Hierarchie von der Referenzuhr bis zu den Clients der Domäne, Stratum 16, Kerberos-Toleranz – Lernzettel Verzeichnisdienst (neuer Abschnitt „Zeit in der Domäne“), Frage `net-0247`.
+  - `iscsi-multipath`: Server mit zwei Netzwerkkarten, zwei Speichernetze, zwei Controller, vier Pfade zur selben LUN – Lernzettel RAID/Speicher, Frage `hw-0192` (FISI, ITSE, KITS).
+- Abkürzungsverzeichnis: AH, ESP, IKE, LUN, PDC.
+
 ## [2.22.1] – 2026-11-26
 
 ### Hinzugefügt

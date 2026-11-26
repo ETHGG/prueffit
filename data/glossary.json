@@ -78,6 +78,12 @@
     "area": "Recht"
   },
   {
+    "abbr": "AH",
+    "full": "Authentication Header",
+    "explanation": "IPsec-Protokoll, sichert Integrität und Herkunft der Pakete, verschlüsselt aber nicht und verträgt kein NAT",
+    "area": "IT-Sicherheit"
+  },
+  {
     "abbr": "AI",
     "full": "Artificial Intelligence",
     "explanation": "Künstliche Intelligenz; „EU AI Act“ = KI-Verordnung der EU",
@@ -613,6 +619,12 @@
     "area": "Wirtschaft"
   },
   {
+    "abbr": "ESP",
+    "full": "Encapsulating Security Payload",
+    "explanation": "IPsec-Protokoll, verschlüsselt die Nutzdaten und sichert ihre Integrität",
+    "area": "IT-Sicherheit"
+  },
+  {
     "abbr": "ESXi",
     "full": "VMware ESXi",
     "explanation": "Hypervisor Typ 1 von VMware, läuft direkt auf der Hardware",
@@ -873,6 +885,12 @@
     "area": "Allgemein"
   },
   {
+    "abbr": "IKE",
+    "full": "Internet Key Exchange",
+    "explanation": "handelt bei IPsec die Schlüssel und Verfahren aus (UDP 500, hinter NAT UDP 4500)",
+    "area": "IT-Sicherheit"
+  },
+  {
     "abbr": "IMAPS",
     "full": "Internet Message Access Protocol Secure",
     "explanation": "Verschlüsselter Mailabruf, Mails bleiben auf dem Server (Port 993)",
@@ -1063,6 +1081,12 @@
     "full": "Lokal, Standort, Domäne, Organisationseinheit",
     "explanation": "Reihenfolge, in der Gruppenrichtlinien angewendet werden; die zuletzt angewendete gewinnt bei Widersprüchen",
     "area": "Netzwerke"
+  },
+  {
+    "abbr": "LUN",
+    "full": "Logical Unit Number",
+    "explanation": "Nummer eines logischen Laufwerks im Speichersystem, das ein Server per iSCSI oder Fibre Channel als eigene Platte sieht",
+    "area": "Hardware"
   },
   {
     "abbr": "LWL",
@@ -1359,6 +1383,12 @@
     "full": "Peripheral Component Interconnect Express",
     "explanation": "Schneller Erweiterungsbus für Steckkarten und M.2-SSDs",
     "area": "Hardware"
+  },
+  {
+    "abbr": "PDC",
+    "full": "Primary Domain Controller",
+    "explanation": "heute „PDC-Emulator“: Rolle eines Domänencontrollers, u. a. oberste Zeitquelle der Domäne",
+    "area": "Netzwerke"
   },
   {
     "abbr": "PDCA",
