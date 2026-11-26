@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.21.66] – 2026-11-26
+
+### Geändert
+- **Qualitätsrunde 2** (`hardware.einheiten`, `hardware.raid`, `hardware.komponenten`): alle Rechnungen per Skript nachgerechnet (ohne Fehler), 10 Bilder angesehen (passen zu den Fragen), 16 Korrekturen bzw. Präzisierungen:
+  - Einheiten: Lernzettel präzisiert (Windows binär mit „GB“, macOS seit 10.6 dezimal, RAM binär, Datenraten dezimal; umgestellte Formeln, Mbit/s → MB/s, Protokoll-Overhead). Drei Beinahe-Duplikate auf neue Aspekte umgeschrieben: `hw-0141` (Datenmenge aus Datenrate × Zeit), `hw-0143` (Mbit/s in MB/s), `hw-0144` (nötige Datenrate). `hw-0145`: richtige Antwort nicht mehr an erster Stelle.
+  - RAID: `hw-0107` eindeutig formuliert (DAS ist ebenfalls Blockspeicher – jetzt „mehreren Servern über ein eigenes Speichernetz“). RAID 1 präzisiert (meist zwei Platten; bei n Platten n − 1 Ausfälle) in Lernzettel, `hw-0012`, `fc-0007`. JBOD präzisiert (verkettetes Laufwerk: nach einem Ausfall meist alles unlesbar) in Lernzettel, `hw-0124`, `fc-0294`. Lernzettel ergänzt: RAID 01 als Variante zu RAID 10, Hot-Spare zählt nicht zur Nutzkapazität. `hw-0004` (gleiche Zahlen wie `hw-0098`) umgeschrieben: RAID 5 mit Hot-Spare.
+  - Komponenten: SATA-Wert vereinheitlicht (höchstens 600 MB/s, in der Praxis ca. 550 MB/s) in Lernzettel, `hw-0058`, `hw-0079`. USB-C präzisiert (Steckerform; Bild und Laden nur, wenn Gerät und Kabel es unterstützen), redundante Netzteile (Lastteilung oder Bereitschaft). `hw-0176` (wie `hw-0102`) umgeschrieben: Controller der SSD. `hw-0153`, `hw-0154`: richtige Antwort nicht mehr an erster Stelle.
+- PDFs neu erzeugt.
+
 ## [2.21.65] – 2026-11-26
 
 ### Hinzugefügt
