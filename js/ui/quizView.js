@@ -5,7 +5,7 @@ import { questionFigure } from './figure.js';
 import { questionText } from './questionText.js';
 import { jobById } from '../curriculum.js';
 import { sectionKey, inSelection, catalogSections, examHeading } from '../jobCatalog.js';
-import { filterQuestions, pickFresh, shuffle, issueUrl } from '../questions.js';
+import { filterQuestions, pickFresh, shuffle, issueUrl, questionIdsForImage } from '../questions.js';
 import {
   createQuiz, currentQuestion, submitAnswer, nextQuestion, isFinished, isAnswered, summarizeQuiz,
   serializeQuiz, restoreQuiz, quizShortcut,
@@ -24,7 +24,7 @@ import { scenarioBox, scenarioByQuestion } from './scenario.js';
 
 // Kept in memory while the app is open, so switching tabs does not lose a running quiz.
 // `keys`: selected topics per section (AP1 catalog area or AP2 exam part), see sectionKey().
-const setup = { exam: 'alle', keys: null, sections: [], difficulties: [1, 2, 3], size: DEFAULT_QUIZ_SIZE, job: null, mode: 'alle' };
+const setup = { exam: 'alle', keys: null, sections: [], difficulties: [1, 2, 3], size: DEFAULT_QUIZ_SIZE, job: null, mode: 'alle', onlyImages: false };
 const MODE_ALL = 'alle';
 const MODE_MISTAKES = 'fehler';
 const MODE_DUE = 'faellig'; // repetitions due today: wrong answers after 1, 3 and 7 days (since 2.6)
@@ -87,6 +87,7 @@ function criteria() {
     difficulties: setup.difficulties,
     types: SUPPORTED_QUIZ_TYPES,
     job: setup.job,
+    hasImage: setup.onlyImages,
   };
 }
 
@@ -121,6 +122,7 @@ export function render(root, ctx) {
       setup.keys = allKeys();
       setup.exam = ALL_EXAMS;
       setup.difficulties = [1, 2, 3];
+      setup.onlyImages = false;
     } else {
       notice = 'Es läuft noch ein Quiz. Beende es, um deine Fehler zu wiederholen.';
     }
@@ -133,6 +135,7 @@ export function render(root, ctx) {
       setup.keys = allKeys();
       setup.exam = ALL_EXAMS;
       setup.difficulties = [1, 2, 3];
+      setup.onlyImages = false;
       notice = 'Fällige Wiederholungen sind ausgewählt.';
     } else {
       notice = 'Es läuft noch ein Quiz. Beende es, um die fälligen Fragen zu wiederholen.';
@@ -146,6 +149,7 @@ export function render(root, ctx) {
       setup.keys = allKeys();
       setup.exam = ALL_EXAMS;
       setup.difficulties = [1, 2, 3];
+      setup.onlyImages = false;
       notice = 'Offene Aufgaben sind ausgewählt.';
     } else {
       notice = 'Es läuft noch ein Quiz. Beende es, um offene Aufgaben zu üben.';
@@ -164,6 +168,18 @@ export function render(root, ctx) {
         : `${picked.length} ${picked.length === 1 ? 'Frage' : 'Fragen'} aus der Prüfung – los geht’s.`;
     }
   }
+  // Deep link from a picture in a note: #/quiz?bild=<name> practises the questions of that picture (2.22).
+  if (params.get('bild')) {
+    history.replaceState(null, '', '#/quiz');
+    const byId = new Map(questions.map((q) => [q.id, q]));
+    const picked = questionIdsForImage(filterQuestions(questions, { types: SUPPORTED_QUIZ_TYPES, job: setup.job }), params.get('bild'))
+      .map((id) => byId.get(id));
+    if (session) notice = 'Es läuft noch ein Quiz. Beende es, um die Fragen zu diesem Bild zu üben.';
+    else if (picked.length) {
+      session = { quiz: createQuiz(shuffle(picked)) };
+      notice = `${picked.length} ${picked.length === 1 ? 'Frage' : 'Fragen'} zu diesem Bild – los geht’s.`;
+    }
+  }
   if (requested) {
     history.replaceState(null, '', '#/quiz');
     const topic = topics.find((t) => t.id === requested);
@@ -172,6 +188,7 @@ export function render(root, ctx) {
       setup.mode = MODE_ALL;
       setup.exam = ALL_EXAMS;
       setup.difficulties = [1, 2, 3];
+      setup.onlyImages = false;
       notice = `Thema „${topic.name}“ ist ausgewählt.`;
     } else if (topic && session) {
       notice = 'Es läuft noch ein Quiz. Beende es, um das vorgeschlagene Thema zu üben.';
@@ -243,7 +260,7 @@ function drawSetup(root, ctx, draw) {
   const refresh = () => {
     // Counts per section topic respect the exam, difficulty and mode filters.
     const base = matchingQuestions(questions, ctx.progress.answers,
-      { exam: setup.exam, difficulties: setup.difficulties, types: SUPPORTED_QUIZ_TYPES }, null);
+      { exam: setup.exam, difficulties: setup.difficulties, types: SUPPORTED_QUIZ_TYPES, hasImage: setup.onlyImages }, null);
     const perKey = new Map();
     for (const q of base) {
       for (const sec of sections) {
@@ -274,7 +291,10 @@ function drawSetup(root, ctx, draw) {
     const diffText = setup.difficulties.length === 3 ? 'alle Schwierigkeiten'
       : setup.difficulties.length === 0 ? 'keine Schwierigkeit'
         : setup.difficulties.map((d) => DIFFICULTY_LABELS[d]).join(', ');
-    moreSummaryEl.textContent = `${topicTotalEl.textContent} · ${diffText}`;
+    moreSummaryEl.textContent = `${topicTotalEl.textContent} · ${diffText}${setup.onlyImages ? ' · nur mit Bild' : ''}`;
+    // Since 2.22: how many questions with a picture the other filters leave (topics included).
+    const imageCount = matchingQuestions(questions, ctx.progress.answers, { ...criteria(), hasImage: true }).length;
+    imageCountEl.textContent = String(imageCount);
 
     // Empty selections are handled here, the quiz needs at least one topic and difficulty.
     if (shownChosen === 0 || setup.difficulties.length === 0) {
@@ -288,7 +308,8 @@ function drawSetup(root, ctx, draw) {
     const n = Math.min(setup.size, available);
     availableEl.textContent = available === 0
       ? (setup.mode === MODE_MISTAKES ? 'Keine Fehler in dieser Auswahl – gut gemacht!'
-        : setup.mode === MODE_DUE ? 'Heute ist nichts zu wiederholen – gut gemacht!' : 'Keine Fragen passen zu deiner Auswahl.')
+        : setup.mode === MODE_DUE ? 'Heute ist nichts zu wiederholen – gut gemacht!'
+          : setup.onlyImages ? 'Keine Fragen mit Bild passen zu deiner Auswahl.' : 'Keine Fragen passen zu deiner Auswahl.')
       : `${available} passende Fragen – das Quiz enthält ${n} ${n === 1 ? 'Frage' : 'Fragen'}.`;
     startBtn.disabled = available === 0;
   };
@@ -390,6 +411,19 @@ function drawSetup(root, ctx, draw) {
         }),
         h('span', { text: `${d} – ${DIFFICULTY_LABELS[d]}` })))));
 
+  // Since 2.22: practise questions with a picture on purpose (combinable with all other filters).
+  const imageCountEl = h('span', {});
+  const imageField = h('fieldset', {},
+    h('legend', { text: 'Bilder' }),
+    h('div', { class: 'check-list' },
+      h('label', { class: 'check' },
+        h('input', {
+          type: 'checkbox', name: 'only-images', checked: setup.onlyImages,
+          onChange: (e) => { setup.onlyImages = e.target.checked; refresh(); },
+        }),
+        h('span', { class: 'grow', text: 'Nur Fragen mit Bild' }),
+        h('span', { class: 'count-badge' }, imageCountEl, h('span', { class: 'visually-hidden', text: ' Fragen' })))));
+
   const sizeField = h('fieldset', {},
     h('legend', { text: 'Anzahl Fragen' }),
     h('div', { class: 'segmented' },
@@ -420,7 +454,7 @@ function drawSetup(root, ctx, draw) {
   fold('quiz', 'more', {
     class: 'quiz-more',
     summary: [h('span', { class: 'fold-title', text: 'Themen und Schwierigkeit' }), moreSummaryEl],
-  }, difficultyField, topicField),
+  }, difficultyField, imageField, topicField),
   h('div', { class: 'sticky-actions' }, availableEl, startBtn));
 
   append(root,

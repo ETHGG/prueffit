@@ -6,6 +6,8 @@ import {
   validateFlashcard,
   validateTopics,
   filterQuestions,
+  hasQuestionImage,
+  questionIdsForImage,
   pickRandom,
   loadCatalog,
   createSeededRandom,
@@ -178,6 +180,31 @@ describe('filterQuestions', () => {
     expect(filterQuestions(tagged, { job: 'fiae', exam: 'AP2' }).map((q) => q.id)).toEqual(['x', 'w']);
     expect(filterQuestions(tagged, { job: 'alle' }).map((q) => q.id)).toEqual(['x', 'y', 'z', 'a', 'w']);
     expect(filterQuestions(tagged, {}).map((q) => q.id)).toEqual(['x', 'y', 'z', 'a', 'w']);
+  });
+
+  it('filters questions with a picture (2.22) and combines it with the other filters', () => {
+    const withImages = [
+      ...pool,
+      { id: 'e', exam: ['AP1'], topic: 'netzwerke.osi', difficulty: 2, type: 'single', image: { name: 'osi', alt: 'OSI-Modell mit sieben Schichten' } },
+      { id: 'f', exam: ['AP2'], topic: 'netzwerke.osi', difficulty: 3, type: 'single', image: { name: 'osi', alt: 'OSI-Modell mit sieben Schichten' } },
+      { id: 'g', exam: ['AP2'], topic: 'netzwerke.osi', difficulty: 1, type: 'single', image: { name: '', alt: 'leer' } },
+    ];
+    expect(filterQuestions(withImages, { hasImage: true }).map((q) => q.id)).toEqual(['e', 'f']);
+    expect(filterQuestions(withImages, { hasImage: true, exam: 'AP1' }).map((q) => q.id)).toEqual(['e']);
+    expect(filterQuestions(withImages, { hasImage: true, difficulties: [3] }).map((q) => q.id)).toEqual(['f']);
+    expect(filterQuestions(withImages, { hasImage: false })).toHaveLength(7);
+    expect(hasQuestionImage(withImages[4])).toBe(true);
+    expect(hasQuestionImage(withImages[6])).toBe(false);
+    expect(hasQuestionImage(null)).toBe(false);
+  });
+  it('finds the questions of one picture (2.22)', () => {
+    const list = [
+      { id: 'a', image: { name: 'rj45' } }, { id: 'b' }, { id: 'c', image: { name: 'rj45' } }, { id: 'a', image: { name: 'rj45' } }, { id: 'd', image: { name: 'raid5' } },
+    ];
+    expect(questionIdsForImage(list, 'rj45')).toEqual(['a', 'c']);
+    expect(questionIdsForImage(list, 'fehlt')).toEqual([]);
+    expect(questionIdsForImage(list, '')).toEqual([]);
+    expect(questionIdsForImage(list, undefined)).toEqual([]);
   });
 
   it('treats empty or missing filters as "all"', () => {

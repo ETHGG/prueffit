@@ -605,6 +605,8 @@ mark { background: var(--mark-bg, #ffe58f); color: inherit; border-radius: 3px; 
 .image-viewer.zoomed .image-viewer-scroll { align-items: flex-start; }
 .image-viewer.zoomed .image-viewer-scroll img { width: 1200px; max-width: none; max-height: none; }
 .note-figure figcaption { margin-top: .4rem; font-size: .9rem; color: var(--muted); }
+.note-figure .figure-quiz { margin: .2rem 0 0; }
+.note-figure .figure-quiz a { cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; }
 .note-tip { border-left: 4px solid var(--primary); background: var(--surface-2); padding: .6rem .8rem; border-radius: 0 8px 8px 0; }
 .table-scroll { overflow-x: auto; margin: .5rem 0; }
 .note table { border-collapse: collapse; width: 100%; font-size: .9rem; }

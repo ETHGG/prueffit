@@ -2,7 +2,7 @@
 // Routes: #/lernzettel, #/lernzettel?q=raid&bereich=AP2:ga1 (or a subject area), #/lernzettel/<note id>,
 //         #/lernzettel/abkuerzungen?q=dhcp&bereich=Netzwerke (Abkürzungsverzeichnis)
 
-import { AREAS, EXAMS } from '../config.js';
+import { AREAS, EXAMS, SUPPORTED_QUIZ_TYPES } from '../config.js';
 import { catalogSections, examHeading } from '../jobCatalog.js';
 import { parseMarkdown, parseInline, searchNotes, highlightParts, noteImagePath } from '../notes.js';
 import { h, append } from './dom.js';
@@ -13,7 +13,7 @@ import {
 } from '../pdfs.js';
 import { jobById } from '../curriculum.js';
 import { canSharePdfs, preloadPdf, sharePdf } from './files.js';
-import { wishUrl } from '../questions.js';
+import { wishUrl, filterQuestions, questionIdsForImage } from '../questions.js';
 
 let toastFn = null; // set in render(), used by the PDF links
 import {
@@ -144,11 +144,19 @@ function inlineWith(text, query, glossary = null) {
   });
 }
 
+/** "Fragen zu diesem Bild üben" below a note picture (since 2.22), only if questions show it. */
+function imageQuizLink(name, countFor) {
+  const n = typeof countFor === 'function' ? countFor(name) : 0;
+  if (!n) return null;
+  return h('p', { class: 'figure-quiz small' },
+    h('a', { href: `#/quiz?bild=${encodeURIComponent(name)}` }, `${n} ${n === 1 ? 'Frage' : 'Fragen'} zu diesem Bild üben`));
+}
+
 /**
  * Renders the Markdown subset of a note into DOM nodes.
  * With a glossary, abbreviations in the text can be tapped to show their meaning.
  */
-export function renderNoteContent(md, query = '', glossary = null) {
+export function renderNoteContent(md, query = '', glossary = null, { imageQuizCount = null } = {}) {
   const inline = (text, q) => inlineWith(text, q, glossary);
   return parseMarkdown(md).map((b) => {
     switch (b.type) {
@@ -166,7 +174,8 @@ export function renderNoteContent(md, query = '', glossary = null) {
           onClick: (e) => { if (openImageViewer({ src: noteImagePath(b.name), alt: b.alt, caption: b.caption })) e.preventDefault(); },
         },
           h('img', { src: noteImagePath(b.name), alt: b.alt, loading: 'lazy', decoding: 'async', width: '1200', height: '800' })),
-        b.caption ? h('figcaption', {}, inline(b.caption, query)) : null);
+        b.caption ? h('figcaption', {}, inline(b.caption, query)) : null,
+        imageQuizLink(b.name, imageQuizCount));
       default: return h('p', {}, inline(b.text, query));
     }
   });
@@ -336,7 +345,9 @@ function renderDetail(root, ctx, note, topicsById, route) {
         h('span', { class: 'tag', text: topic?.area ?? '' }),
         (topic?.exams ?? []).map((e) => h('span', { class: 'tag', text: e })),
         topic && topic.name !== note.title ? h('span', { class: 'tag', text: topic.name }) : null),
-      renderNoteContent(note.content, route.q, ctx.catalog.glossary ?? []),
+      renderNoteContent(note.content, route.q, ctx.catalog.glossary ?? [], {
+        imageQuizCount: (name) => questionIdsForImage(filterQuestions(ctx.catalog.questions, { types: SUPPORTED_QUIZ_TYPES }), name).length,
+      }),
       note.refs?.length ? h('p', { class: 'muted small spaced' }, `Grundlage: ${note.refs.join(' · ')}`) : null),
     abbrs.length
       ? fold('note-abbr', note.id, {

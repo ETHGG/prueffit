@@ -263,10 +263,11 @@ const ALL = 'alle';
  * Filters questions. Empty or missing criteria match everything.
  * `job`: only questions of this apprenticeship's AP1/AP2 (js/curriculum.js); with `exam` only those
  * that count for that exam in this apprenticeship. Without a job (or "alle") every question matches.
- * @param {{ exam?: string, topics?: string[], difficulties?: number[], types?: string[], job?: string }} criteria
+ * `hasImage` (since 2.22): only questions with a picture (`image.name`).
+ * @param {{ exam?: string, topics?: string[], difficulties?: number[], types?: string[], job?: string, hasImage?: boolean }} criteria
  */
 export function filterQuestions(questions, criteria = {}) {
-  const { exam, topics, difficulties, types, job } = criteria;
+  const { exam, topics, difficulties, types, job, hasImage } = criteria;
   const jobFilter = job && job !== ALL_JOBS && jobById(job) ? job : null;
   const topicSet = topics?.length ? new Set(topics) : null;
   const diffSet = difficulties?.length ? new Set(difficulties) : null;
@@ -277,7 +278,22 @@ export function filterQuestions(questions, criteria = {}) {
       : (!exam || exam === ALL || q.exam.includes(exam)))
     && (!topicSet || topicSet.has(q.topic))
     && (!diffSet || diffSet.has(q.difficulty))
-    && (!typeSet || typeSet.has(q.type)));
+    && (!typeSet || typeSet.has(q.type))
+    && (!hasImage || hasQuestionImage(q)));
+}
+
+/** True if the question shows a picture (since 2.16: `image: { name, alt }`). */
+export function hasQuestionImage(q) {
+  return typeof q?.image?.name === 'string' && q.image.name.length > 0;
+}
+
+/**
+ * Ids of the questions that show the picture `name` (since 2.22, "Fragen zu diesem Bild üben"),
+ * in the order of `questions`, without duplicates.
+ */
+export function questionIdsForImage(questions, name) {
+  if (typeof name !== 'string' || !name) return [];
+  return [...new Set(questions.filter((q) => q?.image?.name === name).map((q) => q.id))];
 }
 
 /** Deterministic PRNG (mulberry32) for reproducible tests. */
