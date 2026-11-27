@@ -15,7 +15,7 @@ def reset():
                 coll.remove(d)
     engines = [e.identifier for e in bpy.types.RenderSettings.bl_rna.properties['engine'].enum_items]
     sc.render.engine = 'BLENDER_EEVEE_NEXT' if 'BLENDER_EEVEE_NEXT' in engines else 'BLENDER_EEVEE'
-    sc.render.resolution_x, sc.render.resolution_y = 1200, 800
+    sc.render.resolution_x, sc.render.resolution_y = 2400, 1600
     sc.render.resolution_percentage = 100
     sc.render.film_transparent = False
     sc.view_settings.view_transform = 'Standard'

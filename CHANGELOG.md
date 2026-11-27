@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.10] – 2026-11-27
+
+### Geändert
+- Alle 150 Abbildungen (`img/notes/*.webp`) in doppelter Auflösung neu gerendert: 2400 × 1600 statt 1200 × 800 (Blender 5.3 auf dem MacBook, per MCP). Beschriftungen bleiben beim Heranzoomen und auf Retina-Bildschirmen scharf. Inhalt unverändert (Abgleich jedes Bildes mit der alten Fassung); Dateigröße je Bild 25–75 KB (Grenze 150 KB), zusammen 6,3 MB statt 2,8 MB.
+- `tools/blender/lib.py` rendert ab jetzt standardmäßig in 2400 × 1600.
+
 ## [2.22.9] – 2026-11-27
 
 ### Hinzugefügt
