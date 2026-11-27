@@ -2,6 +2,18 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.7] – 2026-11-27
+
+### Geändert (Nacht Lauf 3: Gegenprüfung der Inhalte 2.22.1–2.22.6 und Durchlauf)
+- Gegenprüfung aller seit 26.11., 20:00 geänderten Inhalte (26 neue und 21 geänderte Aufgaben, 1 Karte, 14 Lernzettel-Änderungen, 6 Abkürzungen, 1 Formel, Situation `sz-kits-ga2e`, 12 neue oder nachgebesserte Bilder): alle Rechnungen nachgerechnet, kein Rechen- oder Lösungsfehler, Bilder passen zu Lernzetteln und Fragen. Eine Korrektur: `net-0246` fragte „laut der Abbildung“, obwohl das Bild den Normalfall ohne „Erzwungen“ und deaktivierte Vererbung zeigt – Wortlaut klargestellt.
+- Durchlauf WiSo (Berufsausbildung, Schutzgesetze, Sozialversicherung, Arbeitsvertrag, Mitbestimmung) und kaufmännisches Rechnen/Investition (40 Rechnungen nachgerechnet):
+  - `wiso-0007`: Erklärung war veraltet – ein Berufsschultag mit mehr als fünf Unterrichtsstunden wird seit 2020 mit der durchschnittlichen täglichen Arbeitszeit angerechnet (nicht mehr pauschal mit acht Stunden), wie im Lernzettel.
+  - `wiso-0008`: „Bachelor Professional in IT“ ist seit November 2024 ein einheitlicher Abschluss; der Zusatz „z. B. Geprüfte IT-Projektleiterin“ (früherer Abschluss) entfernt, Erklärung ergänzt.
+  - Lernzettel „Sozialversicherung und Entgelt“: durchschnittlicher Zusatzbeitrag der Krankenkassen auch für 2027 (2,9 %, bekannt gegeben am 30.10.2026).
+  - `wiso-0136`: Erklärungen zu den falschen Antworten ausgeschrieben (stand dreimal nur „Wird geteilt.“).
+  - `wi-0289`: Beinahe-Duplikat von `wi-0048`/`wi-0140` (USD in Euro) auf die Gegenrichtung umgeschrieben (Euro in USD, mal Kurs).
+- Jahreswerte bestätigt (ohne Änderung): Basiszinssatz 1,52 % seit 1.7.2026, Mindestausbildungsvergütung 2027 (764/902/1.031 €); die Novelle des Energieeffizienzgesetzes (PUE-Höchstwerte) ist weiter nicht beschlossen.
+
 ## [2.22.6] – 2026-11-27
 
 ### Geändert (zweite tägliche Qualitätsrunde: Nachhaltigkeit und Green IT, Schutzziele und Schutzbedarf, Verschlüsselung und Signaturen)

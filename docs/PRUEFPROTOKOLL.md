@@ -32,7 +32,7 @@ Reihenfolge: zuerst Themen von FISI und KITS, dann die übrigen.
 | BSI-Grundschutz, Härtung und Vorfälle | `sicherheit.management` | – |  |
 | Hochverfügbarkeit und Notfallmanagement | `sicherheit.verfuegbarkeit` | – |  |
 | Bedürfnisse, Güter und Produktionsfaktoren | `wirtschaft.grundlagen` | – |  |
-| Kaufmännisches Rechnen (Prozent, Zins, USt, Währung) | `wirtschaft.rechnen` | – |  |
+| Kaufmännisches Rechnen (Prozent, Zins, USt, Währung) | `wirtschaft.rechnen` | 27.11.2026 (Lauf 3, Teilprüfung: Rechenaufgaben) | alle Rechnungen ok; `wi-0289` (Duplikat) auf Euro → USD umgeschrieben |
 | Kalkulation und Kosten | `wirtschaft.kalkulation` | – |  |
 | Angebotsvergleich und Nutzwertanalyse | `wirtschaft.nutzwert` | – |  |
 | Abschreibung und Wirtschaftlichkeit | `wirtschaft.abschreibung` | – |  |
@@ -44,7 +44,7 @@ Reihenfolge: zuerst Themen von FISI und KITS, dann die übrigen.
 | Marketing und Kundenbeziehung | `wirtschaft.marketing` | – |  |
 | Beschaffung und Lagerhaltung | `wirtschaft.beschaffung` | – |  |
 | Kennzahlen und Controlling | `wirtschaft.controlling` | – |  |
-| Investitionsrechnung und Kredite | `wirtschaft.investition` | – |  |
+| Investitionsrechnung und Kredite | `wirtschaft.investition` | 27.11.2026 (Lauf 3, Teilprüfung: Rechenaufgaben) | alle Rechnungen ok, ohne Befund |
 | Zahlungsverkehr und Forderungsmanagement | `wirtschaft.zahlungsverkehr` | – |  |
 | Personalwirtschaft | `wirtschaft.personal` | – |  |
 | Projektgrundlagen | `projekt.grundlagen` | – |  |
@@ -72,11 +72,11 @@ Reihenfolge: zuerst Themen von FISI und KITS, dann die übrigen.
 | Ausbildung und Arbeitsrecht | `recht.arbeitsrecht` | – |  |
 | Software-Lizenzen und Urheberrecht | `recht.lizenzen` | – |  |
 | Arbeitsschutz und Ergonomie | `recht.arbeitsschutz` | – |  |
-| Berufsausbildung (BBiG, JArbSchG) | `wiso.ausbildung` | – |  |
-| Arbeitsvertrag, Kündigung und AGG | `wiso.arbeitsvertrag` | – |  |
-| Arbeitszeit, Mutterschutz und Arbeitsgericht | `wiso.schutzgesetze` | – |  |
-| Betriebsrat, JAV und Tarifrecht | `wiso.mitbestimmung` | – |  |
-| Sozialversicherung und Entgelt | `wiso.sozialversicherung` | – |  |
+| Berufsausbildung (BBiG, JArbSchG) | `wiso.ausbildung` | 27.11.2026 (Lauf 3, Teilprüfung: Fragen und Lernzettel) | 2 korrigiert: `wiso-0007` (Berufsschultag seit 2020 mit durchschnittlicher täglicher Arbeitszeit angerechnet), `wiso-0008` (Bachelor Professional in IT seit 11/2024 einheitlich); Mindestausbildungsvergütung 2026/2027 gegen BIBB bestätigt |
+| Arbeitsvertrag, Kündigung und AGG | `wiso.arbeitsvertrag` | 27.11.2026 (Lauf 3, Teilprüfung: Fragen und Lernzettel) | Fristen nachgerechnet (30.04., 30.09., 18.03.2026), ohne Befund |
+| Arbeitszeit, Mutterschutz und Arbeitsgericht | `wiso.schutzgesetze` | 27.11.2026 (Lauf 3, Teilprüfung: Fragen und Lernzettel) | Rechnungen ok (Teilurlaub, Ruhezeit, Teilzeiturlaub), ohne Befund (keine Quelle neu abgerufen) |
+| Betriebsrat, JAV und Tarifrecht | `wiso.mitbestimmung` | 27.11.2026 (Lauf 3, Teilprüfung: Fragen und Lernzettel) | ohne Befund (Wahlalter 16, JAV ohne Altersgrenze seit 2021, Wahlen 2026/2030) |
+| Sozialversicherung und Entgelt | `wiso.sozialversicherung` | 27.11.2026 (Lauf 3, Teilprüfung: Fragen, Lernzettel, Karten) | Rechnungen ok (7 Aufgaben); Sätze 2026 stimmig; Zusatzbeitrag 2027 (2,9 %) ergänzt, `wiso-0136` Erklärungen ausgeschrieben; RV/AV/PV 2027 zum Jahreswechsel nachziehen |
 | Rechtsformen und Organisation | `wiso.unternehmen` | – |  |
 | Markt, Konjunktur und Wirtschaftsordnung | `wiso.volkswirtschaft` | – |  |
 | Arbeitssicherheit und Umweltschutz | `wiso.umwelt` | – |  |
