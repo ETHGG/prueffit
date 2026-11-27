@@ -2,6 +2,13 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.13] – 2026-11-28
+
+### Hinzugefügt (Nacht Lauf 2 „neue Inhalte“)
+- Handlungssituation FISI GA1 `sz-fisi-ga1f` „Autohaus Kühn: vier alte Server auf zwei Hosts“ mit `hw-0205` (Tabelle Stromkosten alt/neu), `hw-0206` (RAM je Host mit Ausfallreserve), `hw-0207` (USV-Scheinleistung), `sec-0201` (Replikation ersetzt kein Backup), `pm-0220` (Reihenfolge P2V-Umzug).
+- 8 offene Aufgaben und Tabellenaufgaben für FISI/KITS-Themen mit den wenigsten solchen Aufgaben: Tabelle `pm-0221` (Servicedesk-Kennzahlen), `hw-0208` (Speicherprognose im Monitoring), `wi-0379` (Angebotsvergleich Bezugspreis, KITS); offen mit Raster `pm-0222` (Risikostrategien, KITS/KDM), `net-0259` (Inter-VLAN-Routing), `sec-0202` (Sofortmaßnahmen nach Phishing), `prog-0250` (PowerShell: inaktive Konten deaktivieren), `re-0130` (Datenpanne nach DSGVO).
+- Karteikarte `fc-0407` „Replikation vs. Backup“; Lernzettel Service-Management: Erstlösungsquote mit Beispiel und Bezugsgröße, SLA-Erfüllung.
+
 ## [2.22.12] – 2026-11-27
 
 ### Hinzugefügt
