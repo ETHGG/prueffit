@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.9] – 2026-11-27
+
+### Hinzugefügt
+- Bild `load-balancer` (Blender, per MCP gerendert): Lastverteiler mit virtueller IP-Adresse, Health-Check nimmt den ausgefallenen Server aus der Verteilung, Ersatz-Load-Balancer gegen einen neuen Single Point of Failure, Schicht 4 vs. Schicht 7. Lernzettel Hochverfügbarkeit um Health-Check, Schicht-4/7-Varianten und Redundanz des Load Balancers ergänzt.
+- Zwei Bildfragen: `sec-0196` (Health-Check), `sec-0197` (Redundanz und Schicht 7, FISI, AP2).
+
 ## [2.22.8] – 2026-11-27
 
 ### Behoben (Issue #20: Startseite „Dein Stand“)
