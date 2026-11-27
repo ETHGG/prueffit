@@ -1107,6 +1107,12 @@
     "area": "Hardware"
   },
   {
+    "abbr": "MD5",
+    "full": "Message-Digest Algorithm 5",
+    "explanation": "Ältere Hashfunktion mit 128 Bit; gebrochen (Kollisionen lassen sich leicht erzeugen), deshalb nicht mehr für Signaturen, Zertifikate oder Passwörter verwenden",
+    "area": "IT-Sicherheit"
+  },
+  {
     "abbr": "MDM",
     "full": "Mobile Device Management",
     "explanation": "Zentrale Verwaltung von Smartphones und Tablets",

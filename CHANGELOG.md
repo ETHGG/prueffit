@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.6] – 2026-11-27
+
+### Geändert (zweite tägliche Qualitätsrunde: Nachhaltigkeit und Green IT, Schutzziele und Schutzbedarf, Verschlüsselung und Signaturen)
+- Lernzettel „Nachhaltigkeit und Green IT“: PUE präzisiert (Energiemengen eines Jahres, umgestellte Formel, sagt nichts über Stromherkunft, Auslastung, Abwärme), gesetzliche PUE-Höchstwerte nach dem Energieeffizienzgesetz mit Hinweis auf die laufende Novelle, EU-Energielabel (Monitore, seit Juni 2025 Smartphones und Tablets mit Reparierbarkeitsklasse); Abschnitt Warmgang/Kaltgang stand unter „Zeichen im Überblick“, jetzt bei „Im Betrieb“.
+- Lernzettel „Schutzziele, Schutzbedarf und Gefährdungen“: neuer Abschnitt Schutzbedarf (normal/hoch/sehr hoch, Maximumprinzip), Verfügbarkeit aus der Ausfallzeit, Servicezeit und Wartungsfenster, Authentisierung/Authentifizierung/Autorisierung, Zielkonflikt Verschlüsselung/Verfügbarkeit, Hashwert nur mit geschütztem Vergleichswert.
+- Lernzettel „Verschlüsselung, Hashes und Signaturen“: Schlüssellängen (AES 128/256 Bit, RSA mindestens 3.000 Bit, elliptische Kurven etwa 250 Bit nach BSI, Stand 2026), Kollisionen (MD5 und SHA-1 gebrochen), Hash nur mit vertrauenswürdigem Vergleichswert, Signatur auch für Verbindlichkeit.
+- Beinahe-Duplikate auf neue Aspekte umgeschrieben: `hw-0135` (Anteil für Kühlung aus PUE und IT-Energie), `hw-0179` (Gesamtleistung aus dem PUE im Bild), `sec-0141` (Verfügbarkeit aus der Ausfallzeit), `sec-0144` (Authentisierung, Authentifizierung, Autorisierung zuordnen), `sec-0013` (neue Maßnahmen), `sec-0149` (Hashwert neben dem Download: was er beweist und was nicht), `sec-0157` (signieren und verschlüsseln: welche Schlüssel).
+- Präzisiert: `hw-0136` (übliche PUE-Werte), `sec-0102` (was der Server bei TLS 1.3 signiert), `sec-0072` (Erklärung zum Salt war unvollständig), `sec-0023` (einheitlich „der Salt“).
+- Antwortposition geändert: `hw-0136`, `hw-0137`, `hw-0163`, `sec-0140`, `sec-0142`.
+- Glossar: MD5. PDFs neu erzeugt.
+
 ## [2.22.5] – 2026-11-27
 
 ### Hinzugefügt (Lauf „3D-Bilder“, Blender 5.3 auf dem MacBook per Blender-MCP)
