@@ -1,7 +1,7 @@
 // Start screen: greeting, overall hit rate, quick start.
 
 import { overallStats, currentStreak, dailyProgress } from '../stats.js';
-import { todayInBerlin, dueCards } from '../leitner.js';
+import { todayInBerlin, dueCounts } from '../leitner.js';
 import { h, formatPercent, formatNumber, trafficDot, append } from './dom.js';
 import { wishUrl } from '../questions.js';
 import { NOTICES_KEY, parseNotices, noticeDue, confirmNotice } from '../notices.js';
@@ -18,9 +18,19 @@ function greeting(date = new Date()) {
   return 'Guten Abend!';
 }
 
+/**
+ * Share of answered questions for the home tile: rounded down, so "100 %" only appears when
+ * everything was answered, and "< 1 %" instead of a misleading "0 %" after the first answers.
+ */
+function answeredShare(answered, total) {
+  if (!total) return '–';
+  const rate = Math.floor((answered / total) * 100) / 100;
+  return answered > 0 && rate === 0 ? '< 1 %' : formatPercent(rate);
+}
+
 export function render(root, ctx) {
   const { questions, flashcards = [] } = ctx.catalog;
-  const cardsDue = dueCards(flashcards, ctx.progress.cards, todayInBerlin()).length;
+  const cardsDue = dueCounts(flashcards, ctx.progress.cards, todayInBerlin());
   const stats = overallStats(ctx.progress.answers, questions);
   const answeredQuestions = questions.filter((q) => ctx.progress.answers[q.id]).length;
 
@@ -69,12 +79,21 @@ export function render(root, ctx) {
         h('a', { class: 'kpi kpi-link', href: '#/statistik' },
           h('div', { class: 'kpi-value' }, formatPercent(stats.rate)),
           h('div', { class: 'kpi-label row' }, trafficDot(stats.light), 'Quote')),
-        h('a', { class: 'kpi kpi-link', href: '#/quiz' },
-          h('div', { class: 'kpi-value' }, `${answeredQuestions}/${questions.length}`),
-          h('div', { class: 'kpi-label' }, 'Fragen bearbeitet')),
-        h('a', { class: 'kpi kpi-link', href: '#/karten' },
-          h('div', { class: 'kpi-value' }, formatNumber(cardsDue)),
-          h('div', { class: 'kpi-label' }, cardsDue === 1 ? 'Karte fällig' : 'Karten fällig'))),
+        h('a', {
+          class: 'kpi kpi-link kpi-answered', href: '#/quiz',
+          'aria-label': `${formatNumber(answeredQuestions)} von ${formatNumber(questions.length)} Fragen bearbeitet`,
+        },
+          h('div', { class: 'kpi-value' }, answeredShare(answeredQuestions, questions.length)),
+          h('div', { class: 'kpi-label' }, 'Fragen bearbeitet'),
+          h('div', { class: 'kpi-sub' }, `${formatNumber(answeredQuestions)} von\u00a0${formatNumber(questions.length)}`)),
+        h('a', {
+          class: 'kpi kpi-link kpi-cards', href: '#/karten',
+          'aria-label': `${formatNumber(cardsDue.reviews)} ${cardsDue.reviews === 1 ? 'Karte' : 'Karten'} zur Wiederholung fällig`
+            + (cardsDue.fresh ? `, ${formatNumber(cardsDue.fresh)} neu` : ''),
+        },
+          h('div', { class: 'kpi-value' }, formatNumber(cardsDue.reviews)),
+          h('div', { class: 'kpi-label' }, cardsDue.reviews === 1 ? 'Karte fällig' : 'Karten fällig'),
+          cardsDue.fresh ? h('div', { class: 'kpi-sub' }, `+\u00a0${formatNumber(cardsDue.fresh)} neu`) : null)),
       mistakesButton(ctx, { secondary: true })),
 
     welcome ? null : readinessHomeCard(ctx),

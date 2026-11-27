@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.8] – 2026-11-27
+
+### Behoben (Issue #20: Startseite „Dein Stand“)
+- Kachel „Fragen bearbeitet“: Der große Wert ist jetzt der Anteil in Prozent (abgerundet, „< 1 %“ nach den ersten Antworten), darunter klein „103 von 1.380“ mit Tausenderpunkt. Vorher stand „103/1380“ und brach auf dem iPhone mitten in der Zahl um.
+- Kachel „Karten fällig“ zählt nur noch fällige Wiederholungen (Leitner, `nextDue` ≤ heute); nie gelernte Karten stehen klein darunter („+ 304 neu“). Vorher wirkte „316 Karten fällig“ erdrückend, obwohl fast alles neue Karten waren. Neue reine Funktion `dueCounts` in `js/leitner.js` mit Unit-Tests.
+- Werte der Kacheln brechen nie innerhalb einer Zahl um (`white-space: nowrap`, Schriftgröße passt sich über Container-Einheiten der Kachelbreite an); Browsertest `e2e/homeKpis.spec.js` prüft iPhone SE (320 px), iPhone 13 und Desktop, auch mit 125 % Schriftgröße.
+- Die Karten-Ansicht nennt neue Karten schon getrennt („Heute fällig: … Davon … neue Karten“) und bleibt unverändert.
+
 ## [2.22.7] – 2026-11-27
 
 ### Geändert (Nacht Lauf 3: Gegenprüfung der Inhalte 2.22.1–2.22.6 und Durchlauf)

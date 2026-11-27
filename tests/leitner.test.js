@@ -6,6 +6,7 @@ import {
   reviewCard,
   isDue,
   dueCards,
+  dueCounts,
   sessionCards,
   DEFAULT_SESSION_SIZE,
   boxCounts,
@@ -176,5 +177,34 @@ describe('sessionCards', () => {
     const copy = sessionCards(due, null);
     copy.pop();
     expect(due).toHaveLength(30);
+  });
+});
+
+describe('dueCounts (issue #20: reviews and new cards separately)', () => {
+  const cards = [{ id: 'a' }, { id: 'b' }, { id: 'c' }, { id: 'd' }];
+  const today = '2026-11-27';
+  it('no entries: all cards are new, no reviews', () => {
+    expect(dueCounts(cards, {}, today)).toEqual({ reviews: 0, fresh: 4 });
+    expect(dueCounts(cards, undefined, today)).toEqual({ reviews: 0, fresh: 4 });
+  });
+  it('empty catalogue', () => {
+    expect(dueCounts([], {}, today)).toEqual({ reviews: 0, fresh: 0 });
+  });
+  it('mixed: due reviews (incl. today), not yet due, new', () => {
+    const progress = {
+      a: { box: 2, nextDue: '2026-11-20' },
+      b: { box: 1, nextDue: '2026-11-27' },
+      c: { box: 3, nextDue: '2026-11-28' },
+    };
+    expect(dueCounts(cards, progress, today)).toEqual({ reviews: 2, fresh: 1 });
+  });
+  it('invalid entries count as new (like dueCards)', () => {
+    const progress = { a: { box: 9, nextDue: '2026-11-20' }, b: { box: 2, nextDue: 'kaputt' }, c: null, d: 'x' };
+    expect(dueCounts(cards, progress, today)).toEqual({ reviews: 0, fresh: 4 });
+  });
+  it('sum matches dueCards', () => {
+    const progress = { a: { box: 2, nextDue: '2026-11-20' }, c: { box: 3, nextDue: '2026-12-01' } };
+    const { reviews, fresh } = dueCounts(cards, progress, today);
+    expect(reviews + fresh).toBe(dueCards(cards, progress, today).length);
   });
 });

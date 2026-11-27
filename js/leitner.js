@@ -81,6 +81,21 @@ export function dueCards(cards, progressCards, today) {
   return [...reviews.map((r) => r.card), ...fresh];
 }
 
+/**
+ * Counts for the home tile: scheduled reviews due today (`nextDue <= today`) and
+ * new cards (no or invalid entry) separately. reviews + fresh = dueCards(...).length.
+ */
+export function dueCounts(cards, progressCards, today) {
+  let reviews = 0;
+  let fresh = 0;
+  for (const card of cards) {
+    const entry = progressCards?.[card.id];
+    if (!validEntry(entry)) fresh += 1;
+    else if (entry.nextDue <= today) reviews += 1;
+  }
+  return { reviews, fresh };
+}
+
 /** Card counts offered for one learning session; `null` = all due cards. */
 export const SESSION_SIZES = Object.freeze([10, 20, 50, null]);
 export const DEFAULT_SESSION_SIZE = 20;
