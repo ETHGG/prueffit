@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.4] – 2026-11-27
+
+### Geändert (tägliche Qualitätsrunde: Energie/USV, Virtualisierung/Cloud, Betriebssysteme, Serverbetrieb)
+- Lernzettel „Strom, Leistung und USV“: neuer Punkt zur USV-Dimensionierung (Scheinleistung = Wirkleistung ÷ Leistungsfaktor, beide Grenzen der USV, Reserve; cos φ als Vereinfachung für sinusförmigen Strom).
+- Formel `f-leistung`: bei Drehstrom ist U die Außenleiterspannung (400 V), gilt für symmetrische Last.
+- `hw-0074`: Erklärung nennt den Wirkungsgrad des Wechselrichters wie die Handlungssituation.
+- Lernzettel „Virtualisierung und Cloud“: „keine hohe Anfangsinvestition“ statt „keine Investition“; `hw-0151`: Hyper-V unter Windows nur in Pro und Enterprise; `hw-0087`: Typ-1-Hypervisor „in der Regel“ schlanker und schneller, weniger Angriffsfläche.
+- Lernzettel „Betriebssysteme“: Hinweis zur 4-GiB-Grenze von 32-Bit-Systemen steht jetzt bei den Aufgaben des Betriebssystems statt bei den Updates.
+- `hw-0108`: SNMP nutzt standardmäßig UDP (TCP nur als seltene Variante).
+- PDFs neu erzeugt.
+
 ## [2.22.3] – 2026-11-26
 
 ### Hinzugefügt (Nacht Lauf 2 „neue Inhalte“)
