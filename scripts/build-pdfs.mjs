@@ -11,10 +11,11 @@ import { chromium } from 'playwright';
 import { pdfList } from '../js/pdfs.js';
 import { APP_VERSION } from '../js/config.js';
 import { pdfSourceHash } from './pdf-hash.mjs';
+import { shrinkPdfImages, PDF_IMAGE_MAX_WIDTH } from './pdf-images.mjs';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const OUT = join(ROOT, 'pdf');
-const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.svg': 'image/svg+xml' };
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.svg': 'image/svg+xml', '.webp': 'image/webp' };
 
 // Minimal static server for the project folder (fetch() needs http, not file://).
 const server = createServer(async (req, res) => {
@@ -54,6 +55,8 @@ for (const pdf of pdfList()) {
   await page.waitForSelector('body[data-ready]');
   if ((await page.getAttribute('body', 'data-ready')) !== '1') throw new Error(`${pdf.key}: Druckansicht konnte nicht geladen werden`);
   await page.evaluate(() => document.fonts.ready);
+  // Figures are 2400 px wide for the app; the PDFs get 1200 px JPEGs (issue #21).
+  const images = await shrinkPdfImages(page, PDF_IMAGE_MAX_WIDTH);
   const target = join(OUT, pdf.file);
   await page.pdf({
     path: target, format: 'A4', printBackground: true, preferCSSPageSize: true,
@@ -62,7 +65,7 @@ for (const pdf of pdfList()) {
   });
   const { size } = await stat(target);
   files.push({ key: pdf.key, file: pdf.file, bytes: size });
-  console.log(`${pdf.file.padEnd(32)} ${(size / 1000).toFixed(0).padStart(5)} KB`);
+  console.log(`${pdf.file.padEnd(32)} ${(size / 1000).toFixed(0).padStart(5)} KB  ${images} Bilder`);
 }
 await browser.close();
 server.close();
@@ -70,4 +73,5 @@ if (problems.length) throw new Error(`Fehler in der Druckansicht:\n${problems.jo
 
 const manifest = { version: APP_VERSION, sourceHash: await pdfSourceHash(ROOT), files };
 await writeFile(join(OUT, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
-console.log(`pdf/manifest.json geschrieben (${files.length} PDFs)`);
+const total = files.reduce((sum, f) => sum + f.bytes, 0);
+console.log(`pdf/manifest.json geschrieben (${files.length} PDFs, zusammen ${(total / 1e6).toFixed(1)} MB)`);

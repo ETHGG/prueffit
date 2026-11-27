@@ -243,7 +243,7 @@ test('pictures in notes (2.16): rendered image with caption loads without overfl
   const img = fig.locator('img');
   await expect(img).toHaveAttribute('alt', /RJ45-Stecker/);
   await img.scrollIntoViewIfNeeded();
-  await expect.poll(() => img.evaluate((el) => el.complete && el.naturalWidth)).toBe(1200);
+  await expect.poll(() => img.evaluate((el) => el.complete && el.naturalWidth)).toBe(2400); // 2400 × 1600 since 2.22.10
   await expectNoHorizontalOverflow(page);
   await page.screenshot({ path: `test-results/note-figure-${test.info().project.name}.png`, fullPage: false });
   expect(problems).toEqual([]);

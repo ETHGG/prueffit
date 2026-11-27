@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.11] – 2026-11-27
+
+### Behoben (Issue #21: PDFs mit den 2400er-Abbildungen zu groß)
+- `scripts/build-pdfs.mjs` verkleinert vor `page.pdf()` jede Abbildung der Druckansicht (WebP/PNG/JPEG) per Canvas auf höchstens 1200 px Breite und bettet sie als JPEG (Qualität 0,9) ein; Chromium übernimmt JPEG unverändert statt die Pixel verlustfrei neu zu komprimieren. SVG-Skizzen bleiben Vektorgrafik, Text bleibt Text. Ohne neue Abhängigkeit (neues Modul `scripts/pdf-images.mjs`); das Skript bricht ab, wenn ein Bild breiter als 1200 px bliebe, und nennt die Gesamtgröße.
+- PDFs zusammen **48,9 MB** (vorher 85,8 MB mit den alten 1200er-Bildern, mit den 2400er-Bildern ohne Verkleinerung 209 MB); z. B. lernzettel-ap2-fisi 15,0 → 7,5 MB, lernzettel-ap1 14,8 → 7,6 MB. Eingebettet: 569 Abbildungen mit 1200 × 800 (ca. 250 dpi im Druck).
+- Die App zeigt weiter die 2400 × 1600-Bilder.
+- Browsertest `pictures in notes (2.16)` erwartet jetzt 2400 px Bildbreite (seit 2.22.10 rot in der CI, weil er noch 1200 px prüfte); die SVG-Skizze bleibt bei 1200.
+- Tests in `tests/pdfs.test.js`: Zielgröße (Seitenverhältnis, nie vergrößern, ungültige Werte), nur Rasterbilder werden verkleinert, keine eingebettete Bildbreite > 1200 px in den erzeugten PDFs, alle PDFs zusammen ≤ 90 MB.
+
 ## [2.22.10] – 2026-11-27
 
 ### Geändert

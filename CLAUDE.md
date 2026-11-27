@@ -117,6 +117,7 @@ prueffit/
 ├── scripts/
 │   ├── offline/              # Prüfungen ohne npm install: check.sh (Unit mit Vitest-Ersatz, Lint, e2e, PDFs), seit 2.21.25
 │   ├── build-pdfs.mjs        # npm run pdfs: PDFs aus print.html erzeugen (Playwright)
+│   ├── pdf-images.mjs        # Abbildungen vor dem PDF-Druck auf 1200 px Breite (JPEG) verkleinern (seit 2.22.11)
 │   ├── pdf-hash.mjs          # Prüfsumme der PDF-Quellen
 │   ├── serve.mjs             # statischer Testserver für die Browsertests (ohne Python)
 │   └── make-icons.mjs        # npm run icons: PWA-Icons erzeugen
@@ -385,7 +386,7 @@ npm run test:e2e     # Browsertests (Playwright; in der Cloud: sh scripts/offlin
 npm run test:offline # ohne npm install (Cloud): Unit-Tests mit Vitest-Ersatz + Lint; sh scripts/offline/check.sh e2e|pdfs|all
 npm run test:watch   # Tests im Watch-Modus
 npx serve .          # Lokaler Testserver (oder: python -m http.server 8080)
-npm run pdfs         # Lernzettel-PDFs in pdf/ neu erzeugen
+npm run pdfs         # Lernzettel-PDFs in pdf/ neu erzeugen (Abbildungen auf 1200 px verkleinert, Gesamtgröße wird ausgegeben)
 ```
 
 **PDFs aktuell halten:** Nach jeder Änderung an `data/notes/`, `data/topics.json`, `data/glossary.json`, `data/formulas.json`, der Druckansicht oder der Version `npm run pdfs` ausführen und `pdf/` mit committen. `data.test.js` vergleicht die Prüfsumme in `pdf/manifest.json` mit den Quellen und schlägt sonst fehl.
@@ -422,7 +423,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `transfer.test.js` | Export/Import des Fortschritts (Migration, defekte/neuere Dateien), eigene Fragen (Formate, ungültige Einträge, ID-Konflikte, Größe) |
 | `notices.test.js` | einmalige Hinweise, defekte Daten |
 | `pwa.test.js` | Service-Worker-Cacheliste vollständig, Versionen gleich, relative Pfade |
-| `pdfs.test.js` | Dateinamen (auch Formelsammlung je Beruf), Reihenfolge der Lernzettel, Dateigrößen-Anzeige (Aktualität der PDFs prüft `data.test.js`, die Prüfsumme umfasst `data/formulas.json`) |
+| `pdfs.test.js` | Dateinamen (auch Formelsammlung je Beruf), Reihenfolge der Lernzettel, Dateigrößen-Anzeige, Abbildungen im PDF ≤ 1200 px breit und PDFs zusammen ≤ 90 MB (seit 2.22.11) (Aktualität der PDFs prüft `data.test.js`, die Prüfsumme umfasst `data/formulas.json`) |
 
 **Regel:** Jede neue Funktion in einem Logik-Modul bekommt mindestens einen Test. Bugs werden zuerst mit einem fehlschlagenden Test reproduziert, dann behoben.
 

@@ -4,6 +4,8 @@ import {
   ap2PdfKey, glossaryPdfKey, PDF_ALL, PDF_AP1, PDF_GLOSSARY, formulasPdfKey, isFormulasKey, formulasForPdf,
 } from '../js/pdfs.js';
 import { JOB_IDS, AP1_SECTIONS, AP2_PARTS } from '../js/curriculum.js';
+import { readFileSync } from 'node:fs';
+import { pdfImageSize, isShrinkableImage, PDF_IMAGE_MAX_WIDTH } from '../scripts/pdf-images.mjs';
 
 describe('pdfFileName / pdfList', () => {
   it('maps areas, all notes and the glossary to file names', () => {
@@ -130,5 +132,43 @@ describe('formatFileSize', () => {
     expect(formatFileSize(120)).toBe('1 KB');
     expect(formatFileSize(1_234_567)).toBe('1,2 MB');
     expect(formatFileSize(undefined)).toBe('');
+  });
+});
+
+describe('PDF figures (issue #21)', () => {
+  it('computes the print size: at most 1200 px wide, aspect ratio kept, never enlarged', () => {
+    expect(PDF_IMAGE_MAX_WIDTH).toBe(1200);
+    expect(pdfImageSize(2400, 1600)).toEqual({ width: 1200, height: 800 });
+    expect(pdfImageSize(3000, 1000)).toEqual({ width: 1200, height: 400 });
+    expect(pdfImageSize(1201, 801)).toEqual({ width: 1200, height: 800 });
+    expect(pdfImageSize(1200, 800)).toBeNull();
+    expect(pdfImageSize(600, 400)).toBeNull();
+    expect(pdfImageSize(0, 800)).toBeNull();
+    expect(pdfImageSize(Number.NaN, 800)).toBeNull();
+    expect(pdfImageSize(2400, 1600, 600)).toEqual({ width: 600, height: 400 });
+  });
+  it('shrinks raster figures only, SVG sketches stay vector graphics', () => {
+    expect(isShrinkableImage('./img/notes/rj45.webp')).toBe(true);
+    expect(isShrinkableImage('./img/notes/RJ45.WEBP?v=2')).toBe(true);
+    expect(isShrinkableImage('a.png')).toBe(true);
+    expect(isShrinkableImage('a.jpg')).toBe(true);
+    expect(isShrinkableImage('./img/notes/skizze-osi.svg')).toBe(false);
+    expect(isShrinkableImage('data:image/jpeg;base64,AAAA')).toBe(false);
+    expect(isShrinkableImage(null)).toBe(false);
+  });
+  it('embeds no image wider than 1200 px in the generated PDFs and keeps them small', () => {
+    const dir = new URL('../pdf/', import.meta.url);
+    const manifest = JSON.parse(readFileSync(new URL('manifest.json', dir), 'utf8'));
+    let images = 0;
+    for (const { file } of manifest.files) {
+      const text = readFileSync(new URL(file, dir)).toString('latin1');
+      for (const m of text.matchAll(/\/Subtype \/Image\s*\/Width (\d+)/g)) {
+        images += 1;
+        expect(Number(m[1]), `${file}: Bildbreite`).toBeLessThanOrEqual(PDF_IMAGE_MAX_WIDTH);
+      }
+    }
+    expect(images).toBeGreaterThan(100);
+    const total = manifest.files.reduce((sum, f) => sum + f.bytes, 0);
+    expect(total).toBeLessThanOrEqual(90e6);
   });
 });
