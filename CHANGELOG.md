@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.5] – 2026-11-27
+
+### Hinzugefügt (Lauf „3D-Bilder“, Blender 5.3 auf dem MacBook per Blender-MCP)
+- Bild `dnssec-kette`: DNSSEC-Vertrauenskette (Vertrauensanker, Root, .de, beispiel.de, DS-Hash, RRSIG; Präzisierung KSK/ZSK, keine Verschlüsselung) im Lernzettel „Protokolle, Dienste und Ports“; Frage `net-0248` (Schlüsseltausch ohne neuen DS-Eintrag → SERVFAIL; nur ZSK-Wechsel braucht keinen neuen DS-Eintrag).
+- Bild `ospf-areas`: OSPF mit Area 0, zwei Areas, ABR und ASBR, Kostenformel mit Hinweis auf die Referenzbandbreite im Lernzettel „Routing, NAT und Fehleranalyse“; Frage `net-0249` (Kostenvergleich 10 vs. 1 + 1).
+- Bild `vswitch-vlan`: virtueller Switch mit Zugriffsports, Netzwerkkarten-Team und Trunk (802.1Q) zum physischen Switch; neuer Abschnitt „Virtuelle Switches und VLANs“ im Lernzettel „Virtualisierung und Cloud“ (Variante: Tag in der VM); Frage `hw-0195` (VLAN fehlt im Trunk).
+- Glossar: „VMs“ als Alias von VM.
+- Blender-Skripte `tools/blender/dnssec-kette.py`, `ospf-areas.py`, `vswitch-vlan.py`; PDFs neu erzeugt.
+
 ## [2.22.4] – 2026-11-27
 
 ### Geändert (tägliche Qualitätsrunde: Energie/USV, Virtualisierung/Cloud, Betriebssysteme, Serverbetrieb)

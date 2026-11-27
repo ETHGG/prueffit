@@ -2022,7 +2022,8 @@
     "abbr": "VM",
     "full": "Virtuelle Maschine",
     "explanation": "Gast-Rechner, der auf einem Hypervisor läuft und sich Hardware mit anderen VMs teilt",
-    "area": "Hardware"
+    "area": "Hardware",
+    "aliases": ["VMs"]
   },
   {
     "abbr": "VoIP",
