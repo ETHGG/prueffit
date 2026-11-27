@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.12] – 2026-11-27
+
+### Hinzugefügt
+- 25 neue Quizfragen mit Bild für Bilder, die bisher nur eine Frage hatten (FISI/KITS zuerst), Typen gemischt (Auswahl, Mehrfachauswahl, Zahl, Reihenfolge, Zuordnung): hw-0196 – hw-0204, net-0250 – net-0258, prog-0249, sec-0198 – sec-0200, wi-0376 – wi-0378.
+
 ## [2.22.11] – 2026-11-27
 
 ### Behoben (Issue #21: PDFs mit den 2400er-Abbildungen zu groß)
