@@ -2,6 +2,11 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.14] – 2026-11-28
+
+### Hinzugefügt (Nacht Lauf 2 „neue Inhalte“, zweiter Teil)
+- Handlungssituation KITS GA1 `sz-kits-ga1f` „Kita-Verbund Saalekreis: Tablets für sechs Kitas“ mit `wi-0380` (Tabelle Kauf/Leasing), `pm-0223` (Einführungsaufwand in Stunden), `re-0131` (MDM-Lizenz je Gerät oder Benutzer), `hw-0209` (Leistungen eines MDM, Mehrfachauswahl), `net-0260` (Teilnetze je Kita).
+
 ## [2.22.13] – 2026-11-28
 
 ### Hinzugefügt (Nacht Lauf 2 „neue Inhalte“)
