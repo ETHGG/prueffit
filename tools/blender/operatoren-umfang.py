@@ -7,7 +7,7 @@ green = mat('green', (0.04, 0.4, 0.18), rough=0.5)
 grey = mat('grey', (0.28, 0.32, 0.36), rough=0.6)
 red = mat('red', (0.75, 0.15, 0.12), rough=0.5)
 ln = mat('ln', (0.15, 0.2, 0.22), rough=0.9)
-def card(x, z, w, h, m, lines, sizes=(0.06, 0.042)):
+def card(x, z, w, h, m, lines, sizes=(0.062, 0.05)):
     box('c', (w, 0.2, h), (x, 0, z), m, bevel=0.015)
     n = len(lines)
     for i, t in enumerate(lines):
@@ -24,9 +24,9 @@ for i, (op, m, lines) in enumerate(st):
     x = x0 + i * 1.1
     h = 0.35 + i * 0.28
     box('s', (1.02, 0.18, h), (x, 0, 0.55 + h / 2), m, bevel=0.01)
-    label(op, (x, -0.1, 0.55 + h - 0.12), size=0.055, material=wl, align='CENTER')
+    label(op, (x, -0.1, 0.55 + h - 0.12), size=0.058, material=wl, align='CENTER')
     for k, t in enumerate(lines):
-        label(t, (x, -0.05, 0.55 + h + 0.08 + (len(lines) - 1 - k) * 0.075), size=0.031, material=lm, align='CENTER')
-label('Faustregel: etwa ein Gedanke pro Punkt. „Erläutern“ braucht ganze Sätze mit „weil …“, „beurteilen“ Kriterien und ein eigenes Urteil.', (0, -0.05, 0.3), size=0.04, material=lm, align='CENTER')
+        label(t, (x, -0.05, 0.55 + h + 0.08 + (len(lines) - 1 - k) * 0.075), size=0.058, material=lm, align='CENTER')
+label('Faustregel: etwa ein Gedanke pro Punkt. „Erläutern“ braucht ganze Sätze mit „weil …“, „beurteilen“ Kriterien und ein eigenes Urteil.', (0, -0.05, 0.3), size=0.058, material=lm, align='CENTER')
 camera_front((0, 0, 1.15), 4.4, tilt=1)
 lights(0.55)

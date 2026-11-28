@@ -7,7 +7,7 @@ green = mat('green', (0.04, 0.4, 0.18), rough=0.5)
 grey = mat('grey', (0.28, 0.32, 0.36), rough=0.6)
 red = mat('red', (0.75, 0.15, 0.12), rough=0.5)
 ln = mat('ln', (0.15, 0.2, 0.22), rough=0.9)
-def card(x, z, w, h, m, lines, sizes=(0.06, 0.042)):
+def card(x, z, w, h, m, lines, sizes=(0.062, 0.05)):
     box('c', (w, 0.2, h), (x, 0, z), m, bevel=0.015)
     n = len(lines)
     for i, t in enumerate(lines):
@@ -24,10 +24,10 @@ for i, (t, v, base, m) in enumerate(items):
     lo, hi = (b, b + v) if v > 0 else (b + v, b)
     h = (hi - lo) * s
     box('b', (0.4, 0.15, h), (x, 0, z0 + lo * s + h / 2), m, bevel=0.006)
-    label(('+' + str(v) if v > 0 else '−' + str(-v)) if base is not None else str(v), (x, -0.1, z0 + hi * s + 0.05), size=0.045, material=lm, align='CENTER')
+    label(('+' + str(v) if v > 0 else '−' + str(-v)) if base is not None else str(v), (x, -0.1, z0 + hi * s + 0.05), size=0.058, material=lm, align='CENTER')
     for k, w in enumerate(t):
-        label(w, (x, -0.05, z0 - 0.12 - k * 0.08), size=0.034, material=lm, align='CENTER')
-label('Netto-Bedarf = Brutto-Bedarf − (Bestand − Abgänge + Zugänge) = 7 − (6 − 1 + 1) = 1 Person einstellen', (0, -0.05, 0.22), size=0.044, material=lm, align='CENTER')
-label('Positiv → einstellen · negativ → Überhang abbauen (z. B. Versetzung, keine Nachbesetzung)', (0, -0.05, 0.1), size=0.042, material=lm, align='CENTER')
+        label(w, (x, -0.05, z0 - 0.12 - k * 0.08), size=0.058, material=lm, align='CENTER')
+label('Netto-Bedarf = Brutto-Bedarf − (Bestand − Abgänge + Zugänge) = 7 − (6 − 1 + 1) = 1 Person einstellen', (0, -0.05, 0.22), size=0.058, material=lm, align='CENTER')
+label('Positiv → einstellen · negativ → Überhang abbauen (z. B. Versetzung, keine Nachbesetzung)', (0, -0.05, 0.1), size=0.058, material=lm, align='CENTER')
 camera_front((0, 0, 1.15), 4.4, tilt=1)
 lights(0.55)

@@ -2,6 +2,12 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.21] – 2026-11-28
+
+### Geändert (Bilder auf dem iPhone besser lesbar)
+- **31 Abbildungen mit größerer Schrift** neu gerendert (2400 × 1600): Beschriftungen in Kästen mindestens so groß wie Fließtext-Beschriftungen, kleinste Schrift von etwa 0,042 auf 0,05 angehoben, Überschneidungen dabei aufgelöst (u. a. Switch lernt MAC-Adressen, 4–20-mA-Signal, Normalformen, Cluster/Failover, Gantt, Serverschrank). Betroffen: arbeitszeit-tag, automatisierungspyramide, bpmn-gateways, business-model-canvas, cluster-failover, cron-syntax, dokumentationsarten, durchlaufzeit, etl-sternschema, fehlersuche, gantt, gvs-backup, hash-lawine, liquiditaet, mail-authentifizierung, mqtt-pubsub, normalformen, operatoren-umfang, organisationsformen, personalbedarf, ports-dienste, prioritaetsmatrix, rcd-prinzip, serverschrank, sicherheitszeichen, speicherhierarchie, sql-join, stromsignal, subnetz-und, switch-mac-lernen, wlan-personal-enterprise.
+- Glasfaser-Spleiß und Server-Innenleben bleiben unverändert: Größere Schrift hätte dort Bauteile verdeckt.
+
 ## [2.22.20] – 2026-11-28
 
 ### Geändert (Issue #24: „Nur Fragen mit Bild“ sichtbar, schmale Tabellen in Lernzetteln)

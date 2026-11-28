@@ -7,7 +7,7 @@ green = mat('green', (0.04, 0.4, 0.18), rough=0.5)
 grey = mat('grey', (0.28, 0.32, 0.36), rough=0.6)
 red = mat('red', (0.75, 0.15, 0.12), rough=0.5)
 ln = mat('ln', (0.15, 0.2, 0.22), rough=0.9)
-def card(x, z, w, h, m, lines, sizes=(0.06, 0.042)):
+def card(x, z, w, h, m, lines, sizes=(0.062, 0.05)):
     box('c', (w, 0.2, h), (x, 0, z), m, bevel=0.015)
     n = len(lines)
     for i, t in enumerate(lines):
@@ -27,7 +27,7 @@ for i, (t, d, m) in enumerate(steps):
     a = _m.radians(90 - i * 72)
     x, z = cx + 1.45 * R * _m.cos(a) * 1.25, cz + R * _m.sin(a)
     P.append((x, z))
-    card(x, z, 1.2, 0.32, m, [t, d], sizes=(0.042, 0.032))
+    card(x, z, 1.2, 0.32, m, [t, d], sizes=(0.062, 0.05))
 for i in range(5):
     (x1, z1), (x2, z2) = P[i], P[(i + 1) % 5]
     dx, dz = x2 - x1, z2 - z1
@@ -35,8 +35,8 @@ for i in range(5):
     ux, uz = dx / L, dz / L
     k = 0.62 if abs(ux) > 0.7 else 0.3
     arrow((x1 + ux * k, -0.03, z1 + uz * k * 0.6), (x2 - ux * k, -0.03, z2 - uz * k * 0.6), ln, r=0.006, head=0.04)
-label('Test negativ?', (cx, -0.05, cz + 0.05), size=0.045, material=red, align='CENTER')
-label('zurück zu Schritt 3', (cx, -0.05, cz - 0.05), size=0.04, material=red, align='CENTER')
-label('Werkzeuge: ping, traceroute/tracert, ipconfig/ip, nslookup, Kabeltester, Logdateien', (0, -0.05, 0.12), size=0.042, material=lm, align='CENTER')
+label('Test negativ?', (cx, -0.05, cz + 0.05), size=0.058, material=red, align='CENTER')
+label('zurück zu Schritt 3', (cx, -0.05, cz - 0.05), size=0.058, material=red, align='CENTER')
+label('Werkzeuge: ping, traceroute/tracert, ipconfig/ip, nslookup, Kabeltester, Logdateien', (0, -0.05, 0.12), size=0.058, material=lm, align='CENTER')
 camera_front((0, 0, 1.15), 4.4, tilt=1)
 lights(0.55)

@@ -7,7 +7,7 @@ green = mat('green', (0.04, 0.4, 0.18), rough=0.5)
 grey = mat('grey', (0.28, 0.32, 0.36), rough=0.6)
 red = mat('red', (0.75, 0.15, 0.12), rough=0.5)
 ln = mat('ln', (0.15, 0.2, 0.22), rough=0.9)
-def card(x, z, w, h, m, lines, sizes=(0.06, 0.042)):
+def card(x, z, w, h, m, lines, sizes=(0.062, 0.05)):
     box('c', (w, 0.2, h), (x, 0, z), m, bevel=0.015)
     n = len(lines)
     for i, t in enumerate(lines):
@@ -15,22 +15,22 @@ def card(x, z, w, h, m, lines, sizes=(0.06, 0.042)):
         dz = (n - 1) * 0.06 - i * 0.12
         label(t, (x, -0.11, z + dz - s / 3), size=s, material=wl, align='CENTER')
 label('Normalisierung: von der Sammeltabelle zur 3. Normalform', (0, -0.05, 2.2), size=0.07, material=lm, align='CENTER')
-def tab(x, z, w, title, rows, m, s=0.032):
+def tab(x, z, w, title, rows, m, s=0.05):
     h = 0.15 + 0.1 * len(rows)
     box('t', (w, 0.2, h), (x, 0, z - h / 2), m, bevel=0.01)
-    label(title, (x, -0.11, z - 0.1), size=0.036, material=wl, align='CENTER')
+    label(title, (x, -0.11, z - 0.1), size=0.058, material=wl, align='CENTER')
     for i, r in enumerate(rows):
         label(r, (x, -0.11, z - 0.2 - i * 0.1), size=s, material=wl, align='CENTER')
-tab(-1.3, 1.98, 1.7, 'Ausgangstabelle (nicht normalisiert)', ['Best 1 | Müller, Halle | Maus, Kabel', 'Best 2 | Müller, Halle | Monitor'], red, 0.03)
-label('Mehrere Artikel in einem Feld, Kundendaten doppelt', (-1.3, -0.05, 1.55), size=0.03, material=lm, align='CENTER')
-tab(1.3, 1.98, 1.7, '1. NF: atomare Werte', ['Best | Kunde | Ort | Artikel', '1 | Müller | Halle | Maus', '1 | Müller | Halle | Kabel', '2 | Müller | Halle | Monitor'], orange, 0.03)
+tab(-1.3, 1.98, 1.7, 'Ausgangstabelle (nicht normalisiert)', ['Best 1 | Müller, Halle | Maus, Kabel', 'Best 2 | Müller, Halle | Monitor'], red, 0.05)
+label('Mehrere Artikel in einem Feld, Kundendaten doppelt', (-1.3, -0.05, 1.55), size=0.058, material=lm, align='CENTER')
+tab(1.3, 1.98, 1.7, '1. NF: atomare Werte', ['Best | Kunde | Ort | Artikel', '1 | Müller | Halle | Maus', '1 | Müller | Halle | Kabel', '2 | Müller | Halle | Monitor'], orange, 0.05)
 arrow((-0.43, -0.03, 1.8), (0.43, -0.03, 1.8), ln, r=0.008, head=0.04)
-label('2. NF: jedes Nichtschlüsselattribut hängt vom ganzen Schlüssel ab', (0, -0.05, 1.33), size=0.036, material=lm, align='CENTER')
-label('3. NF: keine transitiven Abhängigkeiten (Ort hängt am Kunden, nicht an der Bestellung)', (0, -0.05, 1.22), size=0.036, material=lm, align='CENTER')
+label('2. NF: jedes Nichtschlüsselattribut hängt vom ganzen Schlüssel ab', (0, -0.05, 1.33), size=0.058, material=lm, align='CENTER')
+label('3. NF: keine transitiven Abhängigkeiten (Ort hängt am Kunden, nicht an der Bestellung)', (0, -0.05, 1.22), size=0.058, material=lm, align='CENTER')
 tab(-1.55, 1.05, 1.0, 'Kunde', ['Kunden_Nr (PS)', 'Name', 'Ort'], green)
 tab(-0.45, 1.05, 1.0, 'Bestellung', ['Best_Nr (PS)', 'Kunden_Nr (FS)', 'Datum'], green)
 tab(0.65, 1.05, 1.1, 'Bestellposition', ['Best_Nr + Artikel_Nr (PS)', 'Menge'], blue)
 tab(1.72, 1.05, 0.95, 'Artikel', ['Artikel_Nr (PS)', 'Bezeichnung', 'Preis'], green)
-label('PS = Primärschlüssel, FS = Fremdschlüssel · Ziel: keine Redundanz, keine Einfüge-, Änderungs- oder Löschanomalien', (0, -0.05, 0.42), size=0.034, material=lm, align='CENTER')
+label('PS = Primärschlüssel, FS = Fremdschlüssel · Ziel: keine Redundanz, keine Einfüge-, Änderungs- oder Löschanomalien', (0, -0.05, 0.42), size=0.058, material=lm, align='CENTER')
 camera_front((0, 0, 1.25), 4.5, tilt=1)
 lights(0.55)

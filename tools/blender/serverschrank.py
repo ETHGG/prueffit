@@ -88,8 +88,8 @@ items = [
 lx = W / 2 + 0.16
 for text, zz in items:
     leader((W / 2 + 0.04, -0.04, zz), (lx - 0.01, -0.04, zz), lm, r=0.0015)
-    label(text, (lx, -0.04, zz - 0.009), size=0.026, material=lm)
-label('19-Zoll-Netzwerkschrank, 12 HE (1 HE = 44,45 mm)', (-W / 2 - 0.05, -0.04, H + 0.08), size=0.024, material=lm)
+    label(text, (lx, -0.04, zz - 0.009), size=0.035, material=lm)
+label('19-Zoll-Netzwerkschrank, 12 HE (1 HE = 44,45 mm)', (-W / 2 - 0.05, -0.04, H + 0.08), size=0.032, material=lm)
 
 camera((0.42, -1.55, H * 0.62), (0.16, 0, H * 0.47), lens=42)
 lights()
