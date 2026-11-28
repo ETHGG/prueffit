@@ -3,8 +3,8 @@
     {
       "key": "ap1",
       "file": "lernzettel-ap1.pdf",
-      "bytes": 7855308,
-      "hash": "597e3a819e4937cac3b5ebd35e72d8436fbba13980b15b7e2b668642956e51f6",
+      "bytes": 8047158,
+      "hash": "c61bb687f0b796308620c6d2987cf5d84bcbd1d99ff09c9b1d831efbd32b55e4",
       "built": "2026-11-28"
     },
     {
@@ -17,8 +17,8 @@
     {
       "key": "ap2-fisi",
       "file": "lernzettel-ap2-fisi.pdf",
-      "bytes": 7779009,
-      "hash": "80be7dcd986cd19b0415aee185276e15c063ae7413cbaf67ff2b5b437cf2f79a",
+      "bytes": 8062719,
+      "hash": "9056544432f0208d2b641136ba2536cd465ec99e2bcacf54396ae98bc78cc777",
       "built": "2026-11-28"
     },
     {
@@ -31,22 +31,22 @@
     {
       "key": "ap2-fidv",
       "file": "lernzettel-ap2-fidv.pdf",
-      "bytes": 6059728,
-      "hash": "9d1de9fe1d764d92e36c2d27c1fce3ba0fcb82b33bceb9d1e8266a648ea4c5af",
+      "bytes": 6251492,
+      "hash": "bafad52f74a91723f6375bc963b4a962c6b1c10f7401be1eee86afc92140fd99",
       "built": "2026-11-28"
     },
     {
       "key": "ap2-itse",
       "file": "lernzettel-ap2-itse.pdf",
-      "bytes": 5140585,
-      "hash": "4efa5352efdcdeaa560185b996b388fc33d6dd8bba6b59bf07cd75246c3cde76",
+      "bytes": 5339379,
+      "hash": "71c97636d32c4982409ada45f83e8cb5b8957ca9bee54b4933c426cc337d8534",
       "built": "2026-11-28"
     },
     {
       "key": "ap2-kits",
       "file": "lernzettel-ap2-kits.pdf",
-      "bytes": 6988064,
-      "hash": "d32934ca36471307e5dfd0a52e674cfe65d07ce1587ce1ce464c1ada92f6d4f6",
+      "bytes": 7186569,
+      "hash": "cf67c7532a9f1293307c5c31b6d6d66af31017db3e95ed3709f5b7852285bafe",
       "built": "2026-11-28"
     },
     {

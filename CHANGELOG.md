@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.22] – 2026-11-28
+
+### Neu (4 Bilder mit Bildfragen)
+- **IPv6 SLAAC** (`ipv6-slaac`, Lernzettel IPv6, dazu Flags M/O): Ablauf Link-Local-Adresse, Duplikatprüfung, Router Solicitation, Router Advertisement, globale Adresse; Frage `net-0261`.
+- **Spanning Tree: Portrollen** (`stp-portrollen`, Lernzettel VLAN und WLAN): Root Bridge, Root Port, Designated Port, blockierter Port, Gleichstand über die Bridge-ID; Frage `net-0262`.
+- **Glasfaser: Dämpfungsbudget** (`lwl-daempfungsbudget`, Lernzettel Übertragungsmedien): Budget = Sendeleistung − Empfindlichkeit, Verluste aus Faser, Steckern, Spleißen, Reserve; Rechenaufgabe `net-0263`.
+- **SAN: Zoning und LUN-Masking** (`fc-zoning`, Lernzettel RAID und Speicher); Frage `hw-0210`.
+
+### Geändert
+- **RPO/RTO-Bild** (`rpo-rto`) neu beschriftet: „Datenverlust 8 h – mit dem RPO vergleichen“ und „Ausfallzeit 4 h – mit dem RTO vergleichen“ statt „RPO: 8 h Daten verloren“; größere Schrift (Hinweis aus der Qualitätsrunde 2 vom 28.11.). Die Fragen `sec-0178` und `sec-0179` bleiben gültig.
+
 ## [2.22.21] – 2026-11-28
 
 ### Geändert (Bilder auf dem iPhone besser lesbar)
