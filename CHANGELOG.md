@@ -2,6 +2,13 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.18] – 2026-11-28
+
+### Geändert (Nacht Lauf 3: Gegenprüfung und Durchlauf)
+- **Gegenprüfung** der Inhalte seit 27.11., 20:00 (18 neue und 24 geänderte Aufgaben, 2 Situationen, 6 Karten, 7 Lernzettel, 1 Formel, 2 Abkürzungen): alle Rechnungen nachgerechnet, zwei Bilder angesehen, KRITIS-Sektoren und Inkrafttreten gegen den Gesetzestext geprüft (§ 4 KRITIS-Dachgesetz, in Kraft seit 17.03.2026) – ohne Befund.
+- **Durchlauf (Stichprobe):** 54 Rechenaufgaben und 24 Auswahl-, Zuordnungs- und Reihenfolgefragen aus Elektrotechnik, Vernetzung und Datenanalyse sowie 108 Aufgaben aus Vertragsrecht, Datenschutz, Lizenzen und Arbeitsschutz – kein Rechen- oder Lösungsfehler. 4 Verbesserungen: `ot-0044` (Duplikat von `ot-0009`) fragt jetzt umgekehrt nach dem Strom zu einem Druck (8 mA); RCD präzisiert in `el-0012` und `el-0051` (löst spätestens bei 30 mA aus, Auslösung zwischen 15 und 30 mA, höchstens 0,3 s – wie Karteikarte und Lernzettel); `el-0031` nennt die Variante geringerer Absicherung bei Wärmedämmung oder Häufung.
+- Kein Lernzettel geändert, daher kein PDF neu erzeugt.
+
 ## [2.22.17] – 2026-11-28
 
 ### Geändert (zweite tägliche Qualitätsrunde: BSI-Grundschutz, Hochverfügbarkeit, Wirtschaftsgrundlagen)

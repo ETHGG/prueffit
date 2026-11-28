@@ -67,11 +67,11 @@ Reihenfolge: zuerst Themen von FISI und KITS, dann die übrigen.
 | Datenformate und Speicherbedarf | `programmierung.datenformate` | – |  |
 | Barrierefreie Webseiten | `programmierung.barrierefreiheit` | – |  |
 | Skripte zur Systemverwaltung | `programmierung.skripte` | – |  |
-| Vertragsrecht | `recht.vertragsrecht` | – |  |
-| Datenschutz | `recht.datenschutz` | – |  |
+| Vertragsrecht | `recht.vertragsrecht` | – | Teilprüfung 28.11.2026 (Lauf 3): 38 Aufgaben gegengelesen, ohne Befund; vollständige Prüfung steht aus |
+| Datenschutz | `recht.datenschutz` | – | Teilprüfung 28.11.2026 (Lauf 3): Aufgaben bis `re-0123` gegengelesen, ohne Befund; Stand § 38 BDSG (20 Personen gilt weiter, Streichung nur angekündigt) bestätigt; vollständige Prüfung steht aus |
 | Ausbildung und Arbeitsrecht | `recht.arbeitsrecht` | – |  |
-| Software-Lizenzen und Urheberrecht | `recht.lizenzen` | – |  |
-| Arbeitsschutz und Ergonomie | `recht.arbeitsschutz` | – |  |
+| Software-Lizenzen und Urheberrecht | `recht.lizenzen` | – | Teilprüfung 28.11.2026 (Lauf 3): Aufgaben bis `re-0123` gegengelesen, 6 Rechnungen ok; vollständige Prüfung steht aus |
+| Arbeitsschutz und Ergonomie | `recht.arbeitsschutz` | – | Teilprüfung 28.11.2026 (Lauf 3): Aufgaben bis `re-0123` gegengelesen, ohne Befund; vollständige Prüfung steht aus |
 | Berufsausbildung (BBiG, JArbSchG) | `wiso.ausbildung` | 27.11.2026 (Lauf 3, Teilprüfung: Fragen und Lernzettel) | 2 korrigiert: `wiso-0007` (Berufsschultag seit 2020 mit durchschnittlicher täglicher Arbeitszeit angerechnet), `wiso-0008` (Bachelor Professional in IT seit 11/2024 einheitlich); Mindestausbildungsvergütung 2026/2027 gegen BIBB bestätigt |
 | Arbeitsvertrag, Kündigung und AGG | `wiso.arbeitsvertrag` | 27.11.2026 (Lauf 3, Teilprüfung: Fragen und Lernzettel) | Fristen nachgerechnet (30.04., 30.09., 18.03.2026), ohne Befund |
 | Arbeitszeit, Mutterschutz und Arbeitsgericht | `wiso.schutzgesetze` | 27.11.2026 (Lauf 3, Teilprüfung: Fragen und Lernzettel) | Rechnungen ok (Teilurlaub, Ruhezeit, Teilzeiturlaub), ohne Befund (keine Quelle neu abgerufen) |
@@ -83,15 +83,15 @@ Reihenfolge: zuerst Themen von FISI und KITS, dann die übrigen.
 | Digitale Geschäftsmodelle | `wirtschaft.geschaeftsmodelle` | – |  |
 | Entwicklungswerkzeuge und Oberflächen | `programmierung.entwicklung` | – |  |
 | Prozessanalyse und BPMN | `daten.prozessanalyse` | – |  |
-| Statistik und Datenanalyse | `daten.analyse` | – |  |
+| Statistik und Datenanalyse | `daten.analyse` | – | Teilprüfung 28.11.2026 (Lauf 3): 10 Rechenaufgaben ok; vollständige Prüfung steht aus |
 | Datenqualität und Bereinigung | `daten.qualitaet` | – |  |
 | Datenintegration und Data Warehouse | `daten.integration` | – |  |
-| Diagnose und Verfügbarkeit | `vernetzung.diagnose` | – |  |
-| Sensoren, Aktoren und Signale | `vernetzung.sensorik` | – |  |
-| Industrielle Netze, IoT und MQTT | `vernetzung.ot` | – |  |
-| Elektrotechnische Grundlagen | `elektro.grundlagen` | – |  |
-| Schutzmaßnahmen und Prüfung | `elektro.schutz` | – |  |
-| Leitungen, Spannungsfall und PoE | `elektro.installation` | – |  |
+| Diagnose und Verfügbarkeit | `vernetzung.diagnose` | – | Teilprüfung 28.11.2026 (Lauf 3): 6 Rechenaufgaben ok; vollständige Prüfung steht aus |
+| Sensoren, Aktoren und Signale | `vernetzung.sensorik` | – | Teilprüfung 28.11.2026 (Lauf 3): 11 Rechenaufgaben ok; `ot-0044` (Duplikat) umgeschrieben; vollständige Prüfung steht aus |
+| Industrielle Netze, IoT und MQTT | `vernetzung.ot` | – | Teilprüfung 28.11.2026 (Lauf 3): 3 Rechenaufgaben ok; vollständige Prüfung steht aus |
+| Elektrotechnische Grundlagen | `elektro.grundlagen` | – | Teilprüfung 28.11.2026 (Lauf 3): 14 Rechenaufgaben ok; vollständige Prüfung steht aus |
+| Schutzmaßnahmen und Prüfung | `elektro.schutz` | – | Teilprüfung 28.11.2026 (Lauf 3): Auswahlfragen gegengelesen; RCD-Auslösung in `el-0012`, `el-0051` präzisiert; vollständige Prüfung steht aus |
+| Leitungen, Spannungsfall und PoE | `elektro.installation` | – | Teilprüfung 28.11.2026 (Lauf 3): 10 Rechenaufgaben ok; `el-0031` Variante ergänzt; vollständige Prüfung steht aus |
 
 ## Fragen vertiefen (FISI/KITS, Ziel ≥ 15 Fragen und ≥ 3 Fragetypen je Thema)
 

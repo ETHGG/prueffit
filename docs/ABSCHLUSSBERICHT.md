@@ -1,3 +1,9 @@
+# Kurzbericht 2.22.18 (Nacht Lauf 3 „Gegenprüfung und Durchlauf“, 28.11.2026, ab 06:09)
+
+- **Gemacht:** Inhalte der Nacht (2.22.13–2.22.17) unabhängig nachgerechnet und gegengelesen – ohne Befund. Code-Änderung 2.22.16 im Browser geprüft (Browsertests und eigene Prüfung auf drei Geräteprofilen, Konsole fehlerfrei). Stichprobe älterer Aufgaben (Elektro, Vernetzung, Datenanalyse, Recht): 4 Verbesserungen, kein Fehler.
+- **Annahmen:** (1) Teilprüfungen stehen im Prüfprotokoll nur in der Ergebnisspalte, das Datum bleibt „–“, damit die Qualitätsrunden diese Themen weiter vollständig prüfen. (2) Die Browsertests liefen, während die vier Textkorrekturen eingetragen wurden; Code wurde nicht geändert, die Unit-Tests (Datenprüfung) liefen danach erneut grün.
+- **Offen:** Issues #23, #24, #25 (Label `code`) für den Code-Lauf 10:13; Bild `rpo-rto` neu beschriften (Bilderlauf).
+
 # Kurzbericht 2.22.16 (Code-Lauf „Umbauten und Verbesserungen“, 28.11.2026, 02:14–02:42) – Issue #22
 
 - **Gemacht:** PDFs werden nur noch neu erzeugt, wenn sich ihr eigener Inhalt ändert (Option 1 aus dem Issue). Prüfsumme je PDF über das, was es zeigt (`pdfSourceData`), seine Abbildungen und den Code der Druckansicht; `npm run pdfs` lässt unveränderte Dateien unberührt; Deckblatt nennt den Tag der Erzeugung statt der App-Version.
