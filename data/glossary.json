@@ -939,6 +939,12 @@
     "area": "Netzwerke"
   },
   {
+    "abbr": "ISB",
+    "full": "Informationssicherheitsbeauftragte/r",
+    "explanation": "Steuert und koordiniert das ISMS, berät die Leitung und berichtet ihr; die Gesamtverantwortung bleibt bei der Leitung",
+    "area": "IT-Sicherheit"
+  },
+  {
     "abbr": "iSCSI",
     "full": "Internet Small Computer System Interface",
     "explanation": "Blockspeicher über das IP-Netz (SAN)",
@@ -1177,6 +1183,12 @@
     "full": "Mean Time Between Failures",
     "explanation": "Mittlere Betriebszeit zwischen zwei Ausfällen",
     "area": "Digitale Vernetzung"
+  },
+  {
+    "abbr": "MTTF",
+    "full": "Mean Time To Failure",
+    "explanation": "Mittlere Betriebszeit bis zum Ausfall; wird MTBF als Abstand von Ausfall zu Ausfall verstanden, gilt MTBF = MTTF + MTTR",
+    "area": "IT-Sicherheit"
   },
   {
     "abbr": "MTTR",

@@ -2,6 +2,16 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.17] – 2026-11-28
+
+### Geändert (zweite tägliche Qualitätsrunde: BSI-Grundschutz, Hochverfügbarkeit, Wirtschaftsgrundlagen)
+- **KRITIS aktualisiert:** Sektoren nach § 4 KRITIS-Dachgesetz (in Kraft seit März 2026; neu u. a. Weltraum und Leistungen der Sozialversicherung; Staat und Verwaltung sowie Medien und Kultur sind keine Sektoren im Gesetz) im Lernzettel, in `sec-0042` und `fc-0124`; Meldefristen 24 Stunden / 72 Stunden / 1 Monat (§ 32 BSIG) und Pflichten der Geschäftsleitung (§ 38 BSIG) ergänzt (Lernzettel, `sec-0045`).
+- **BSI-Grundschutz:** Lernzettel um ISMS, Gesamtverantwortung der Leitung und Informationssicherheitsbeauftragte, Basis-/Kern-/Standard-Absicherung, die acht Kontrollen aus dem alten BDSG (heute Art. 32 DSGVO) ergänzt; Hinweis, dass das Bild zur SSH-Anmeldung vereinfacht (SSH-2 signiert Daten der Sitzung; auch `sec-0200`); `sec-0162` (Duplikat) fragt jetzt nach der Gesamtverantwortung; `sec-0101` Satzbau.
+- **Hochverfügbarkeit:** RPO/RTO als Vorgaben gegenüber dem tatsächlichen Verlust, MTBF und MTTF, „nie besser als das schwächste Glied“ (Lernzettel, `sec-0076`), Parallelformel nur bei unabhängigen Ausfällen, Split Brain; Formel `f-verfuegbarkeit` mit MTTF und umgestellter Formel; `sec-0151` (Duplikat) fragt jetzt nach der höchsten zulässigen MTTR; Karte `fc-0275` (Duplikat) jetzt Heartbeat und virtuelle IP-Adresse.
+- **Wirtschaftsgrundlagen:** Lernzettel um die Abschnitte Güter (fehlte trotz Titel) und Arbeitsteilung/Sektoren/Produktivität sowie das Optimumprinzip ergänzt; `wi-0142` (Duplikat) fragt jetzt nach der nicht erfüllbaren Vorgabe „geringste Mittel und größter Erfolg“.
+- Richtige Antwort an anderer Position: `sec-0078`, `sec-0080`, `sec-0145`, `sec-0146`, `sec-0147`, `wi-0275`, `wi-0280`, `wi-0283`.
+- Abkürzungen ISB und MTTF neu; 13 PDFs neu erzeugt (nur die mit geändertem Inhalt).
+
 ## [2.22.16] – 2026-11-28
 
 ### Geändert (Issue #22: Repository wuchs mit jeder Version um alle PDFs)
