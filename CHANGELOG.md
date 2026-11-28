@@ -2,6 +2,14 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.23] – 2026-11-28
+
+### Neu (4 Bilder mit Bildfragen, alle AP1)
+- **Linux-Dateirechte** (`linux-rechte`, Lernzettel Betriebssysteme): rwx/r-x/r-- → 754; Frage `hw-0211`.
+- **Mangelhafte Lieferung** (`maengelrechte`, Lernzettel Vertragsrecht): Rügen, Nacherfüllung, dann Rücktritt oder Minderung, Schadensersatz nur bei Vertretenmüssen; Frage `re-0132`.
+- **Schutzbedarf vererben** (`schutzbedarf-vererbung`, Lernzettel Schutzziele, dazu Kumulations- und Verteilungseffekt); Frage `sec-0203`.
+- **Stack und Queue** (`stack-queue`, Lernzettel Algorithmen, dazu push/pop und Warteschlange); Frage `prog-0251`.
+
 ## [2.22.22] – 2026-11-28
 
 ### Neu (4 Bilder mit Bildfragen)
