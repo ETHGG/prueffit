@@ -8,7 +8,7 @@ import { JOB_IDS, AP1_SECTIONS, AP2_PARTS } from '../js/curriculum.js';
 import { readFileSync } from 'node:fs';
 import { pdfImageSize, isShrinkableImage, PDF_IMAGE_MAX_WIDTH } from '../scripts/pdf-images.mjs';
 import { fileURLToPath } from 'node:url';
-import { loadPdfCatalog, pdfHash, pdfSourceHashes, pdfBuildPlan, outdatedPdfs } from '../scripts/pdf-hash.mjs';
+import { loadPdfCatalog, pdfHash, pdfSourceHashes, pdfBuildPlan, outdatedPdfs, PDF_RENDER_SOURCES } from '../scripts/pdf-hash.mjs';
 
 describe('pdfFileName / pdfList', () => {
   it('maps areas, all notes and the glossary to file names', () => {
@@ -307,5 +307,27 @@ describe('checksum per PDF: only changed PDFs are generated again (2.22.16, issu
     }
     expect(outdatedPdfs(list, hashes, manifest)).toEqual(['b', 'e']);
     expect(outdatedPdfs(list, hashes, null)).toEqual(['a', 'b', 'c', 'd', 'e']);
+  });
+});
+
+describe('css/print-screen.css (2.22.19, issue #25)', () => {
+  const css = readFileSync(fileURLToPath(new URL('../css/print-screen.css', import.meta.url)), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, '');
+  const html = readFileSync(fileURLToPath(new URL('../print.html', import.meta.url)), 'utf8');
+  it('only holds screen rules, so it is rightly left out of the PDF checksum', () => {
+    expect(PDF_RENDER_SOURCES).not.toContain('css/print-screen.css');
+    // Every top-level block is an @media screen block (nothing applies when printing).
+    let depth = 0;
+    let top = '';
+    const heads = [];
+    for (const ch of css) {
+      if (ch === '{') { if (depth === 0) heads.push(top.trim()); depth += 1; } else if (ch === '}') { depth -= 1; top = ''; } else if (depth === 0) top += ch;
+    }
+    expect(heads.length).toBeGreaterThan(0);
+    for (const head of heads) expect(head).toMatch(/^@media screen\b/);
+    expect(top.trim()).toBe('');
+  });
+  it('is linked from print.html for the screen only', () => {
+    expect(html).toContain('<link rel="stylesheet" href="./css/print-screen.css" media="screen">');
   });
 });

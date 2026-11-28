@@ -1,0 +1,9 @@
+/* Print view on screen only (2.22.19, issue #25): on narrow phones (iPhone SE, 320 px) long words in
+   table cells wrap instead of making the whole page wider. Not part of the PDF checksum
+   (PDF_RENDER_SOURCES), because it never applies when printing. */
+@media screen and (max-width: 480px) {
+  main { overflow-wrap: break-word; }
+  .note th, .note td, .gloss-table th, .gloss-table td, .sheet-table th, .sheet-table td { overflow-wrap: anywhere; }
+  .gloss-abbr, .gloss-area { width: auto; }
+  .note .table-scroll { overflow-x: auto; }
+}

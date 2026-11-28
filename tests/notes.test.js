@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   parseQuestionText,
-  validateNote, noteImages, noteImagePath, parseInline, parseMarkdown, plainText, foldText, queryTerms, searchNotes, snippetAround, highlightParts,
+  validateNote, noteImages, noteImagePath, parseInline, parseMarkdown, plainText, foldText, queryTerms, searchNotes, snippetAround, highlightParts, isCompactCell, COMPACT_CELL_LENGTH,
 } from '../js/notes.js';
 
 const topics = new Map([
@@ -158,5 +158,21 @@ describe('question texts with code blocks and tables (2.21.55)', () => {
     expect(parseQuestionText('A\n```\ncode')).toEqual([{ type: 'text', text: 'A' }, { type: 'code', text: 'code' }]);
     expect(parseQuestionText('| kein | Tabellenkopf\n```\nx\n```')).toEqual([
       { type: 'text', text: '| kein | Tabellenkopf' }, { type: 'code', text: 'x' }]);
+  });
+});
+
+describe('isCompactCell (issue #24: short table cells stay on one line)', () => {
+  it('keeps numbers, formulas and short terms together', () => {
+    expect(isCompactCell('(n − 1) · K')).toBe(true);
+    expect(isCompactCell('1 je Spiegel')).toBe(true);
+    expect(isCompactCell('`/26`')).toBe(true);
+    expect(isCompactCell('**62**')).toBe(true);
+  });
+  it('lets longer text and empty cells wrap', () => {
+    expect(isCompactCell('Striping + verteilte Parität')).toBe(false);
+    expect(isCompactCell('')).toBe(false);
+    expect(isCompactCell(undefined)).toBe(false);
+    expect(isCompactCell('x'.repeat(COMPACT_CELL_LENGTH))).toBe(true);
+    expect(isCompactCell('x'.repeat(COMPACT_CELL_LENGTH + 1))).toBe(false);
   });
 });

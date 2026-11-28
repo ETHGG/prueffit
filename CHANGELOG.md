@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.20] – 2026-11-28
+
+### Geändert (Issue #24: „Nur Fragen mit Bild“ sichtbar, schmale Tabellen in Lernzetteln)
+- **Quiz:** Der Schalter „Nur Fragen mit Bild“ (mit Zähler) steht jetzt direkt unter der Auswahl „Fragen“ (Alle · Fällig · Meine Fehler · Offene Aufgaben) statt im eingeklappten Bereich „Themen und Schwierigkeit“; er lässt sich weiter mit allen Filtern kombinieren.
+- **Tabellen in Lernzetteln:** Kurze Zellen (Zahlen, Formeln wie „(n − 1) · K“, bis 14 Zeichen; neue reine Funktion `isCompactCell` in `js/notes.js`) und `code` brechen nicht mehr um, Tabellenköpfe ohne Silbentrennung („Ausfall erlaubt“ statt „Aus-fall er-laubt“). Wird eine Tabelle dadurch breiter als der Bildschirm, scrollt sie in ihrem Kasten; ein Schatten am Rand zeigt, dass es weitergeht (hell und dunkel).
+
+### Behoben (Issue #25: Druckansicht auf 320 px breiter als der Bildschirm)
+- Neue Datei `css/print-screen.css` (nur `@media screen`, in `print.html` mit `media="screen"` eingebunden): Auf schmalen Bildschirmen brechen lange Wörter in Tabellen, Listen und Text um, die festen Spaltenbreiten des Abkürzungsverzeichnisses entfallen. Die PDFs sehen unverändert aus. Die Datei geht bewusst nicht in die PDF-Prüfsumme ein (`PDF_RENDER_SOURCES`) – künftige Korrekturen nur für den Bildschirm erzeugen keine PDFs neu; ein Test stellt sicher, dass sie nur Bildschirm-Regeln enthält.
+- Einmalig alle 22 PDFs neu erzeugt (die Druckansicht `print.html` und der Lernzettel-Renderer haben sich geändert; Inhalt und Aussehen der PDFs sind gleich).
+- Browsertests: Lernzettel-Tabelle auf dem iPhone SE (Formel in einer Zeile, Kopf ohne Silbentrennung, kein Seitenüberlauf), Druckansicht AP1, AP2 FISI und Abkürzungen ohne seitliches Verschieben bei 320 px.
+
 ## [2.22.19] – 2026-11-28
 
 ### Behoben (Issue #23: „Dein Plan für heute“ nannte neue Karten „fällig“)

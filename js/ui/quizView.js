@@ -291,7 +291,7 @@ function drawSetup(root, ctx, draw) {
     const diffText = setup.difficulties.length === 3 ? 'alle Schwierigkeiten'
       : setup.difficulties.length === 0 ? 'keine Schwierigkeit'
         : setup.difficulties.map((d) => DIFFICULTY_LABELS[d]).join(', ');
-    moreSummaryEl.textContent = `${topicTotalEl.textContent} · ${diffText}${setup.onlyImages ? ' · nur mit Bild' : ''}`;
+    moreSummaryEl.textContent = `${topicTotalEl.textContent} · ${diffText}`;
     // Since 2.22: how many questions with a picture the other filters leave (topics included).
     const imageCount = matchingQuestions(questions, ctx.progress.answers, { ...criteria(), hasImage: true }).length;
     imageCountEl.textContent = String(imageCount);
@@ -314,6 +314,17 @@ function drawSetup(root, ctx, draw) {
     startBtn.disabled = available === 0;
   };
 
+  // Since 2.22: practise questions with a picture on purpose (combinable with all other filters).
+  // Since 2.22.19 (issue #24) visible right under the question modes instead of folded away.
+  const imageCountEl = h('span', {});
+  const imageToggle = h('div', { class: 'check-list quiz-images' },
+    h('label', { class: 'check' },
+      h('input', {
+        type: 'checkbox', name: 'only-images', checked: setup.onlyImages,
+        onChange: (e) => { setup.onlyImages = e.target.checked; refresh(); },
+      }),
+      h('span', { class: 'grow', text: 'Nur Fragen mit Bild' }),
+      h('span', { class: 'count-badge' }, imageCountEl, h('span', { class: 'visually-hidden', text: ' Fragen' }))));
   const mistakeCount = mistakeIds(filterQuestions(questions, { types: SUPPORTED_QUIZ_TYPES }), ctx.progress.answers).length;
   const openCount = filterQuestions(questions, { types: ['text'], job: setup.job }).length;
   const dueCount = dueRetryIds(filterQuestions(questions, { types: SUPPORTED_QUIZ_TYPES }), ctx.progress.answers, todayInBerlin()).length;
@@ -326,6 +337,7 @@ function drawSetup(root, ctx, draw) {
           onChange: () => { setup.mode = mode; refresh(); },
         }),
         h('span', { text: label })))),
+    imageToggle,
     h('p', { class: 'muted small' }, 'Fällig: Falsch beantwortete Fragen kommen nach 1, 3 und 7 Tagen wieder – dreimal richtig am Fälligkeitstag, dann sitzt die Frage. Meine Fehler: Fragen, die du zuletzt falsch beantwortet hast. Richtig beantwortet, verschwinden sie aus der Liste. Offene Aufgaben: Freitext wie in der schriftlichen Prüfung, bewertet mit Musterlösung und Bewertungsraster.'));
 
   const examField = h('fieldset', {},
@@ -411,19 +423,6 @@ function drawSetup(root, ctx, draw) {
         }),
         h('span', { text: `${d} – ${DIFFICULTY_LABELS[d]}` })))));
 
-  // Since 2.22: practise questions with a picture on purpose (combinable with all other filters).
-  const imageCountEl = h('span', {});
-  const imageField = h('fieldset', {},
-    h('legend', { text: 'Bilder' }),
-    h('div', { class: 'check-list' },
-      h('label', { class: 'check' },
-        h('input', {
-          type: 'checkbox', name: 'only-images', checked: setup.onlyImages,
-          onChange: (e) => { setup.onlyImages = e.target.checked; refresh(); },
-        }),
-        h('span', { class: 'grow', text: 'Nur Fragen mit Bild' }),
-        h('span', { class: 'count-badge' }, imageCountEl, h('span', { class: 'visually-hidden', text: ' Fragen' })))));
-
   const sizeField = h('fieldset', {},
     h('legend', { text: 'Anzahl Fragen' }),
     h('div', { class: 'segmented' },
@@ -454,7 +453,7 @@ function drawSetup(root, ctx, draw) {
   fold('quiz', 'more', {
     class: 'quiz-more',
     summary: [h('span', { class: 'fold-title', text: 'Themen und Schwierigkeit' }), moreSummaryEl],
-  }, difficultyField, imageField, topicField),
+  }, difficultyField, topicField),
   h('div', { class: 'sticky-actions' }, availableEl, startBtn));
 
   append(root,

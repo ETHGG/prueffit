@@ -4,7 +4,7 @@
 
 import { AREAS, EXAMS, SUPPORTED_QUIZ_TYPES } from '../config.js';
 import { catalogSections, examHeading } from '../jobCatalog.js';
-import { parseMarkdown, parseInline, searchNotes, highlightParts, noteImagePath } from '../notes.js';
+import { parseMarkdown, parseInline, searchNotes, highlightParts, noteImagePath, isCompactCell } from '../notes.js';
 import { h, append } from './dom.js';
 import { fold, foldControls } from './fold.js';
 import { openImageViewer } from './figure.js';
@@ -165,7 +165,7 @@ export function renderNoteContent(md, query = '', glossary = null, { imageQuizCo
       case 'table': return h('div', { class: 'table-scroll', tabindex: '0', role: 'region', 'aria-label': 'Tabelle' },
         h('table', {},
           h('thead', {}, h('tr', {}, b.header.map((c) => h('th', { scope: 'col' }, inline(c, query))))),
-          h('tbody', {}, b.rows.map((r) => h('tr', {}, r.map((c) => h('td', {}, inline(c, query))))))));
+          h('tbody', {}, b.rows.map((r) => h('tr', {}, r.map((c) => h('td', isCompactCell(c) ? { class: 'nowrap' } : {}, inline(c, query))))))));
       case 'code': return h('pre', {}, h('code', { text: b.text }));
       case 'tip': return h('p', { class: 'note-tip' }, inline(b.text, query));
       case 'image': return h('figure', { class: 'note-figure' },

@@ -112,7 +112,8 @@ prueffit/
 ├── README.md
 ├── css/
 │   ├── styles.css
-│   └── print.css             # Layout der PDFs (A4)
+│   ├── print.css             # Layout der PDFs (A4)
+│   └── print-screen.css      # Druckansicht nur am Bildschirm (schmale Handys), nicht in der PDF-Prüfsumme (seit 2.22.20)
 ├── pdf/                      # PDFs je Beruf: lernzettel-ap1, lernzettel-ap2-<beruf>, abkuerzungen-<beruf>, formeln-<beruf> (seit 2.10.3) + manifest.json (je PDF: Größe, Prüfsumme `hash`, Tag der Erzeugung `built`; seit 2.22.16)
 ├── scripts/
 │   ├── offline/              # Prüfungen ohne npm install: check.sh (Unit mit Vitest-Ersatz, Lint, e2e, PDFs), seit 2.21.25
@@ -389,7 +390,7 @@ npx serve .          # Lokaler Testserver (oder: python -m http.server 8080)
 npm run pdfs         # PDFs in pdf/ erzeugen – nur die mit geändertem Inhalt (alle: npm run pdfs -- --all); Abbildungen auf 1200 px verkleinert, Gesamtgröße wird ausgegeben
 ```
 
-**PDFs aktuell halten:** Nach jeder Änderung an `data/notes/`, `data/topics.json`, `data/glossary.json`, `data/formulas.json`, den Abbildungen in `img/notes/` oder der Druckansicht `npm run pdfs` ausführen und `pdf/` mit committen. Seit 2.22.16 (Issue #22) hat jedes PDF eine eigene Prüfsumme in `pdf/manifest.json` (`pdfSourceData` in `js/pdfs.js`: genau das, was das PDF zeigt; dazu seine Abbildungen und der Code der Druckansicht, `PDF_RENDER_SOURCES`). Es werden nur PDFs mit geänderter Prüfsumme neu geschrieben; unveränderte Dateien bleiben byte-gleich, damit das Repository nicht mit jeder Version um ~49 MB wächst. Die App-Version steht nicht mehr im PDF (Deckblatt: „Stand: <Tag der Erzeugung>“, in der Browser-Druckansicht weiter die Version) und nicht in der Prüfsumme – eine reine Versionserhöhung oder neue Fragen/Karten ändern kein PDF. `data.test.js` vergleicht die Prüfsummen mit den Quellen und nennt veraltete PDFs. Nie alle PDFs „zur Sicherheit“ mit `--all` neu erzeugen.
+**PDFs aktuell halten:** Nach jeder Änderung an `data/notes/`, `data/topics.json`, `data/glossary.json`, `data/formulas.json`, den Abbildungen in `img/notes/` oder der Druckansicht `npm run pdfs` ausführen und `pdf/` mit committen. Seit 2.22.16 (Issue #22) hat jedes PDF eine eigene Prüfsumme in `pdf/manifest.json` (`pdfSourceData` in `js/pdfs.js`: genau das, was das PDF zeigt; dazu seine Abbildungen und der Code der Druckansicht, `PDF_RENDER_SOURCES`). Es werden nur PDFs mit geänderter Prüfsumme neu geschrieben; unveränderte Dateien bleiben byte-gleich, damit das Repository nicht mit jeder Version um ~49 MB wächst. Die App-Version steht nicht mehr im PDF (Deckblatt: „Stand: <Tag der Erzeugung>“, in der Browser-Druckansicht weiter die Version) und nicht in der Prüfsumme – eine reine Versionserhöhung oder neue Fragen/Karten ändern kein PDF. `data.test.js` vergleicht die Prüfsummen mit den Quellen und nennt veraltete PDFs. Nie alle PDFs „zur Sicherheit“ mit `--all` neu erzeugen. Regeln nur für die Bildschirmansicht von `print.html` gehören in `css/print-screen.css` (nur `@media screen`, nicht in der Prüfsumme, seit 2.22.20) – dann wird kein PDF neu erzeugt.
 
 Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.gitignore`.
 

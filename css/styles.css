@@ -4,6 +4,7 @@
   --bg: #f6f8f8;
   --surface: #ffffff;
   --surface-2: #eef3f2;
+  --scroll-shadow: rgba(0, 0, 0, .28);
   --border: #d5dfdd;
   --text: #10201f;
   --muted: #4b5d5c;
@@ -34,6 +35,7 @@
     --bg: #0b1416;
     --surface: #132124;
     --surface-2: #1a2c30;
+    --scroll-shadow: rgba(255, 255, 255, .3);
     --mark-bg: #6a5800;
     --border: #2a4045;
     --text: #e6efee;
@@ -56,6 +58,7 @@
   --bg: #0b1416;
   --surface: #132124;
   --surface-2: #1a2c30;
+  --scroll-shadow: rgba(255, 255, 255, .3);
   --mark-bg: #6a5800;
   --border: #2a4045;
   --text: #e6efee;
@@ -608,11 +611,24 @@ mark { background: var(--mark-bg, #ffe58f); color: inherit; border-radius: 3px; 
 .note-figure .figure-quiz { margin: .2rem 0 0; }
 .note-figure .figure-quiz a { cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; }
 .note-tip { border-left: 4px solid var(--primary); background: var(--surface-2); padding: .6rem .8rem; border-radius: 0 8px 8px 0; }
-.table-scroll { overflow-x: auto; margin: .5rem 0; }
+/* Since 2.22.19 (issue #24): wide tables scroll inside their box; a shadow at the edge shows there is more
+   (scroll shadows: the covers move with the content, the shadows stay at the edges). */
+.table-scroll {
+  overflow-x: auto; margin: .5rem 0;
+  background:
+    linear-gradient(to right, var(--surface) 30%, transparent) left center / 2rem 100% no-repeat local,
+    linear-gradient(to left, var(--surface) 30%, transparent) right center / 2rem 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, var(--scroll-shadow), transparent) left center / .8rem 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, var(--scroll-shadow), transparent) right center / .8rem 100% no-repeat scroll;
+  background-color: var(--surface);
+}
 .note table { border-collapse: collapse; width: 100%; font-size: .9rem; }
 .note th, .note td { border: 1px solid var(--border); padding: .35rem .5rem; text-align: left; vertical-align: top; }
 .note th { background: var(--surface-2); }
-.note th, .note td { hyphens: auto; overflow-wrap: break-word; }
+.note td { hyphens: auto; overflow-wrap: break-word; }
+/* Headers: no hyphenation („Aus-fall er-laubt“); short cells and inline code stay on one line (issue #24). */
+.note th { hyphens: manual; -webkit-hyphens: manual; overflow-wrap: normal; }
+.note td.nowrap, .note td code { white-space: nowrap; }
 .tabbar span { font-size: .68rem; letter-spacing: -.01em; white-space: nowrap; }
 
 /* Collapsible area sections (0.8): quiz topics, statistics, Lernzettel */

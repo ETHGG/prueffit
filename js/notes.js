@@ -71,6 +71,18 @@ export function parseInline(text) {
   return spans;
 }
 
+/** Longest cell text (without Markdown marks) that is kept on one line in note tables. */
+export const COMPACT_CELL_LENGTH = 14;
+
+/**
+ * Short table cells – numbers, formulas like „(n − 1) · K“, short terms – stay on one line on
+ * narrow screens instead of breaking inside the formula (2.22.19, issue #24). Longer text wraps.
+ */
+export function isCompactCell(text) {
+  const plain = parseInline(String(text ?? '')).map((s) => s.text).join('').trim();
+  return plain.length > 0 && plain.length <= COMPACT_CELL_LENGTH;
+}
+
 const splitRow = (line) => line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => c.trim());
 const isTableSeparator = (line) => /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?\s*$/.test(line.trim());
 

@@ -6,14 +6,17 @@ test('Quiz: „Nur Fragen mit Bild“ zieht nur Bildfragen', async ({ page }) =>
   const problems = watchProblems(page);
   await gotoApp(page, './#/quiz');
   const more = page.locator('details.fold[data-fold="more"]');
-  await more.locator('summary').first().click();
+  // Since 2.22.19 (issue #24) the switch is visible right under the question modes, not folded away.
   const toggle = page.getByRole('checkbox', { name: /Nur Fragen mit Bild/ });
+  await expect(toggle).toBeVisible();
+  await expect(more).not.toHaveAttribute('open', '');
+  await expect(page.locator('fieldset', { has: page.locator('legend', { hasText: /^Fragen$/ }) }).locator('.quiz-images')).toBeVisible();
   await expect(toggle).not.toBeChecked();
   const count = Number(await page.locator('label.check', { hasText: 'Nur Fragen mit Bild' }).locator('.count-badge').innerText().then((t) => t.replace(/\D/g, '')));
   expect(count).toBeGreaterThan(20);
   await toggle.check();
-  await expect(more.locator('.more-summary')).toContainText('nur mit Bild');
   await expect(page.locator('.sticky-actions .hint')).toHaveText(new RegExp(`^${count} passende Fragen`));
+  await more.locator('summary').first().click();
   // Combined with a difficulty: fewer questions, the badge follows the filter.
   await page.getByRole('checkbox', { name: /^1 –/ }).uncheck();
   await page.getByRole('checkbox', { name: /^2 –/ }).uncheck();
