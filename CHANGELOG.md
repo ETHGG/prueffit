@@ -2,6 +2,13 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.19] – 2026-11-28
+
+### Behoben (Issue #23: „Dein Plan für heute“ nannte neue Karten „fällig“)
+- **Tagesplan:** Fällige Wiederholungen und neue Karten sind getrennte Schritte – z. B. „2 fällige Karteikarten wiederholen“ und „1 neue Karteikarte lernen“ (zusammen weiterhin höchstens das halbe Tagesziel). `dailyPlan` hat dafür den Parameter `newCards` und den Schritt `newCards`; die Startseite übergibt `dueCounts` aus `js/leitner.js`.
+- **Karten-Ansicht:** Überschrift „Heute fällig: 2 · 290 neu“ statt „Heute fällig: 292 – Davon 290 neue Karten“ (neue reine Funktion `dueHeading` in `js/leitner.js`), gleiche Begriffe wie die Kachel „Dein Stand“.
+- Tests: `dueHeading` und der getrennte Tagesplan (Unit), Browsertest prüft Kachel, Tagesplan und Karten-Ansicht auf dieselben Zahlen.
+
 ## [2.22.18] – 2026-11-28
 
 ### Geändert (Nacht Lauf 3: Gegenprüfung und Durchlauf)

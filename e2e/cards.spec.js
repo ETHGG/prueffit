@@ -8,7 +8,7 @@ test('flashcards: learn, flip, known / not known, boxes update', async ({ page }
   const scope = await jobScope(page);
   const total = scope.flashcards;
   expect(total).toBeLessThan(scope.fullFlashcards);
-  await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: ${total}`);
+  await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: 0 · ${total} neu`);
 
   // Big backlog: one session holds 20 cards by default, "Alle" takes every due card.
   await expect(page.getByRole('radio', { name: '20' })).toBeChecked();
@@ -29,7 +29,7 @@ test('flashcards: learn, flip, known / not known, boxes update', async ({ page }
   const entries = Object.values(cards);
   expect(entries.map((e) => e.box).sort()).toEqual([1, 2]);
   await page.getByRole('button', { name: 'Zur Übersicht' }).click();
-  await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: ${total - 2}`);
+  await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: 0 · ${total - 2} neu`);
   await expectNoHorizontalOverflow(page);
   expect(problems).toEqual([]);
 });

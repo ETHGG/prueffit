@@ -58,3 +58,39 @@ test('Startseite: Kacheln „Dein Stand“ ohne Umbruch in Zahlen, fällige Kart
   }
   expect(problems).toEqual([]);
 });
+
+// Issue #23: the home tile, „Dein Plan für heute“ and the flashcard view use the same numbers –
+// new cards are never called „fällig“.
+test('Startseite, Tagesplan und Karten-Ansicht zeigen dieselben Zahlen für fällige und neue Karten', async ({ page }) => {
+  const problems = watchProblems(page);
+  await page.clock.setFixedTime(new Date('2026-11-27T10:00:00+01:00'));
+  await gotoApp(page);
+  await page.evaluate(async () => {
+    const cards = await (await fetch('./data/flashcards/netzwerke.json')).json();
+    const s = JSON.parse(localStorage.getItem('prueffit.v1'));
+    s.settings.onboarded = true;
+    s.cards = {
+      [cards[0].id]: { box: 2, nextDue: '2026-11-26' },
+      [cards[1].id]: { box: 1, nextDue: '2026-11-27' },
+      [cards[2].id]: { box: 3, nextDue: '2026-12-01' },
+    };
+    localStorage.setItem('prueffit.v1', JSON.stringify(s));
+  });
+  await page.reload();
+  await expect(page.locator('html[data-ready="1"]')).toBeAttached();
+
+  const cardsTile = page.locator('.kpi-cards');
+  await expect(cardsTile.locator('.kpi-value')).toHaveText('2');
+  const fresh = (await cardsTile.locator('.kpi-sub').textContent()).replace(/\D/g, '');
+  expect(Number(fresh)).toBeGreaterThan(10);
+
+  const plan = page.locator('.day-plan li');
+  await expect(plan.nth(0)).toHaveText('2 fällige Karteikarten wiederholen');
+  await expect(plan.nth(1)).toHaveText('8 neue Karteikarten lernen');
+  await expect(page.locator('.day-plan')).not.toContainText(/\d+ fällige Karteikarten? wiederholen.*\d+ fällige Karteikarten/);
+
+  await plan.nth(0).getByRole('link').click();
+  await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: 2 · ${Number(fresh).toLocaleString('de-DE')} neu`);
+  await expectNoHorizontalOverflow(page);
+  expect(problems).toEqual([]);
+});

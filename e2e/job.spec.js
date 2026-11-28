@@ -91,7 +91,7 @@ for (const job of ['fidpa', 'itse', 'kdm']) {
     await page.goto('./#/lernzettel');
     await expect(page.locator('#notes-count')).toHaveText(`${scope.notes} Lernzettel`);
     await page.goto('./#/karten');
-    await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: ${scope.flashcards}`);
+    await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: 0 · ${scope.flashcards} neu`);
     await page.goto('./#/statistik');
     await expect(page.locator('.stat-list .stat-item')).toHaveCount(scope.sectionTopics);
     await page.goto('./#/pruefung');

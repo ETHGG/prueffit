@@ -96,6 +96,19 @@ export function dueCounts(cards, progressCards, today) {
   return { reviews, fresh };
 }
 
+const countFormat = new Intl.NumberFormat('de-DE');
+
+/**
+ * Heading of the flashcard overview (2.22.19, issue #23): scheduled reviews and new cards
+ * named separately, with the same terms as the home tile („2 Karten fällig + 290 neu“).
+ * @param {{ reviews: number, fresh: number }} counts from dueCounts
+ */
+export function dueHeading({ reviews = 0, fresh = 0 } = {}) {
+  if (reviews <= 0 && fresh <= 0) return 'Heute ist nichts fällig';
+  const base = `Heute fällig: ${countFormat.format(Math.max(0, reviews))}`;
+  return fresh > 0 ? `${base} · ${countFormat.format(fresh)} neu` : base;
+}
+
 /** Card counts offered for one learning session; `null` = all due cards. */
 export const SESSION_SIZES = Object.freeze([10, 20, 50, null]);
 export const DEFAULT_SESSION_SIZE = 20;

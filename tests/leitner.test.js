@@ -7,6 +7,7 @@ import {
   isDue,
   dueCards,
   dueCounts,
+  dueHeading,
   sessionCards,
   DEFAULT_SESSION_SIZE,
   boxCounts,
@@ -206,5 +207,20 @@ describe('dueCounts (issue #20: reviews and new cards separately)', () => {
     const progress = { a: { box: 2, nextDue: '2026-11-20' }, c: { box: 3, nextDue: '2026-12-01' } };
     const { reviews, fresh } = dueCounts(cards, progress, today);
     expect(reviews + fresh).toBe(dueCards(cards, progress, today).length);
+  });
+});
+
+describe('dueHeading (issue #23: same terms as the home tile)', () => {
+  it('names reviews and new cards separately', () => {
+    expect(dueHeading({ reviews: 2, fresh: 290 })).toBe('Heute fällig: 2 · 290 neu');
+    expect(dueHeading({ reviews: 0, fresh: 290 })).toBe('Heute fällig: 0 · 290 neu');
+    expect(dueHeading({ reviews: 5, fresh: 0 })).toBe('Heute fällig: 5');
+  });
+  it('says nothing is due without reviews and new cards', () => {
+    expect(dueHeading({ reviews: 0, fresh: 0 })).toBe('Heute ist nichts fällig');
+    expect(dueHeading()).toBe('Heute ist nichts fällig');
+  });
+  it('uses German thousands separators', () => {
+    expect(dueHeading({ reviews: 1200, fresh: 3400 })).toBe('Heute fällig: 1.200 · 3.400 neu');
   });
 });

@@ -248,6 +248,23 @@ describe('dailyPlan (2.1)', () => {
   });
 });
 
+describe('dailyPlan: due and new cards separately (issue #23)', () => {
+  it('reports reviews as due and fills up with new cards, never calling new cards due', () => {
+    // Situation from the issue: 2 reviews, 290 new cards, 3 tasks left of the goal.
+    expect(dailyPlan({ goal: 20, done: 17, dueCards: 2, newCards: 290 }))
+      .toEqual([{ kind: 'cards', count: 2 }, { kind: 'newCards', count: 1 }]);
+  });
+  it('reviews and new cards together take at most half the goal', () => {
+    const plan = dailyPlan({ goal: 20, dueCards: 4, newCards: 100, openQuestions: 100 });
+    expect(plan).toEqual([{ kind: 'cards', count: 4 }, { kind: 'newCards', count: 6 }, { kind: 'new', count: 10 }]);
+    expect(dailyPlan({ goal: 20, dueCards: 30, newCards: 100, openQuestions: 100 })[1]).toEqual({ kind: 'new', count: 10 });
+  });
+  it('only new cards: no review step', () => {
+    expect(dailyPlan({ goal: 20, newCards: 290, openQuestions: 100 }))
+      .toEqual([{ kind: 'newCards', count: 10 }, { kind: 'new', count: 10 }]);
+  });
+});
+
 describe('dailyPlan with open tasks (2.2.13)', () => {
   const focus = { id: 'netzwerke.vlan', name: 'VLAN', reason: 'weak' };
   it('adds exactly one open task before the topic step while open tasks are left', () => {

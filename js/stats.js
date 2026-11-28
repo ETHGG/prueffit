@@ -246,11 +246,14 @@ export function mistakeIds(questions, answers) {
 
 /**
  * Concrete plan for today (2.1): up to four steps that together roughly fill the daily goal.
- * Order: due flashcards, mistakes, the weakest (or a new) topic, then open new questions.
- * @param {{ goal: number, done: number, dueCards: number, mistakes: number, focus: { id, name, reason }|null, openQuestions: number }} input
- * @returns {{ kind: 'cards'|'mistakes'|'topic'|'new'|'done', count: number, topic?: object }[]}
+ * Order: due flashcards (reviews, then new cards – together at most half the goal), mistakes,
+ * the weakest (or a new) topic, then open new questions.
+ * Since 2.22.19 (issue #23) `dueCards` counts scheduled reviews only and `newCards` the cards never
+ * learned; they become separate steps 'cards' and 'newCards' so the plan uses the home tile's terms.
+ * @param {{ goal: number, done: number, dueCards: number, newCards?: number, mistakes: number, focus: { id, name, reason }|null, openQuestions: number }} input
+ * @returns {{ kind: 'cards'|'newCards'|'mistakes'|'topic'|'new'|'done', count: number, topic?: object }[]}
  */
-export function dailyPlan({ goal, done = 0, dueCards = 0, mistakes = 0, focus = null, openQuestions = 0, openTasks = 0 }) {
+export function dailyPlan({ goal, done = 0, dueCards = 0, newCards = 0, mistakes = 0, focus = null, openQuestions = 0, openTasks = 0 }) {
   let left = Math.max(0, goal - done);
   if (left === 0) return [{ kind: 'done', count: 0 }];
   const steps = [];
@@ -258,7 +261,10 @@ export function dailyPlan({ goal, done = 0, dueCards = 0, mistakes = 0, focus = 
     const count = Math.min(wanted, left);
     if (count > 0) { steps.push({ kind, count, ...extra }); left -= count; }
   };
-  take('cards', Math.min(dueCards, Math.ceil(goal / 2)));
+  const cardBudget = Math.ceil(goal / 2);
+  const before = left;
+  take('cards', Math.min(dueCards, cardBudget));
+  take('newCards', Math.min(newCards, cardBudget - (before - left)));
   take('mistakes', Math.min(mistakes, 5));
   // One open task (free text with marking scheme) a day, as long as some are not mastered yet (since 2.2.13).
   take('open', Math.min(openTasks, 1));

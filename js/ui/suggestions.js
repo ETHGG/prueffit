@@ -1,7 +1,7 @@
 // "Heute üben" card (CLAUDE.md 6.2), shared by the start page and the statistics.
 
 import { topicStats, practiceSuggestions, mistakeIds, dailyPlan, dailyProgress, dueRetryIds } from '../stats.js';
-import { dueCards, todayInBerlin } from '../leitner.js';
+import { dueCounts, todayInBerlin } from '../leitner.js';
 import { filterQuestions } from '../questions.js';
 import { h, formatPercent, trafficDot } from './dom.js';
 
@@ -48,10 +48,13 @@ export function dailyPlanCard(ctx) {
   const goal = dailyProgress(ctx.progress.daily, today, ctx.progress.settings.dailyGoal);
   const [focus] = practiceSuggestions(topicStats(topics, questions, ctx.progress.answers),
     { count: 1, available: new Set(questions.map((q) => q.topic)) });
+  const cardCounts = dueCounts(flashcards, ctx.progress.cards, today);
   const steps = dailyPlan({
     goal: goal.goal,
     done: goal.done,
-    dueCards: dueCards(flashcards, ctx.progress.cards, today).length,
+    // Since 2.22.19 (issue #23): reviews and new cards separately, like the home tile.
+    dueCards: cardCounts.reviews,
+    newCards: cardCounts.fresh,
     // Since 2.6: the plan repeats the questions due today (wrong answers after 1, 3, 7 days).
     mistakes: dueRetryIds(questions, ctx.progress.answers, todayInBerlin()).length,
     focus: focus ?? null,
@@ -61,6 +64,7 @@ export function dailyPlanCard(ctx) {
   const item = (step) => {
     switch (step.kind) {
       case 'cards': return [`${step.count} fällige ${step.count === 1 ? 'Karteikarte' : 'Karteikarten'} wiederholen`, '#/karten'];
+      case 'newCards': return [`${step.count} neue ${step.count === 1 ? 'Karteikarte' : 'Karteikarten'} lernen`, '#/karten'];
       case 'mistakes': return [`${step.count} fällige ${step.count === 1 ? 'Frage' : 'Fragen'} wiederholen`, '#/quiz?faellig=1'];
       case 'topic': return [`${step.count} Fragen zu „${step.topic.name}“ ${step.topic.reason === 'weak' ? '(dein schwächstes Thema)' : '(noch nicht geübt)'}`, `#/quiz?thema=${encodeURIComponent(step.topic.id)}`];
       case 'open': return ['1 offene Aufgabe wie in der Prüfung schreiben und bewerten', '#/quiz?offen=1'];

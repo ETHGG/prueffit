@@ -1,7 +1,7 @@
 // Flashcards with the Leitner system: overview of the 5 boxes, learning due cards.
 
 import {
-  BOX_INTERVALS, todayInBerlin, dueCards, boxCounts, nextDueDay, sessionCards, SESSION_SIZES, DEFAULT_SESSION_SIZE,
+  BOX_INTERVALS, todayInBerlin, dueCards, boxCounts, nextDueDay, sessionCards, SESSION_SIZES, DEFAULT_SESSION_SIZE, dueCounts, dueHeading,
 } from '../leitner.js';
 import { recordCardReview } from '../storage.js';
 import { issueUrl } from '../questions.js';
@@ -68,7 +68,7 @@ function drawOverview(root, ctx, draw, topicById) {
   const counts = boxCounts(cards, progressCards);
   const max = Math.max(1, ...[1, 2, 3, 4, 5].map((b) => counts[b]));
   const next = nextDueDay(cards, progressCards, today);
-  const newDue = due.filter((c) => !progressCards[c.id]).length;
+  const dueSplit = dueCounts(cards, progressCards, today);
   const planned = sessionCards(due, size).length;
   const effectiveSize = size !== null && size < due.length ? size : null;
   const sections = catalogSections(ctx.catalog, AREAS)
@@ -96,10 +96,13 @@ function drawOverview(root, ctx, draw, topicById) {
       h('div', { class: 'field' },
         h('label', { for: 'card-area', text: 'Stapel' }),
         select),
-      h('h2', { id: 'cards-due', class: 'spaced', text: due.length ? `Heute fällig: ${due.length}` : 'Heute ist nichts fällig' }),
+      // Since 2.22.19 (issue #23): reviews and new cards named separately, as on the home page.
+      h('h2', { id: 'cards-due', class: 'spaced', text: dueHeading(dueSplit) }),
       due.length
-        ? h('p', { class: 'muted small' }, newDue
-          ? `Davon ${newDue} ${newDue === 1 ? 'neue Karte' : 'neue Karten'}.`
+        ? h('p', { class: 'muted small' }, dueSplit.fresh
+          ? (dueSplit.reviews
+            ? 'Zuerst kommen die fälligen Wiederholungen, danach neue Karten.'
+            : 'Neue Karten starten in Fach 1.')
           : 'Wiederhole die fälligen Karten, solange sie frisch sind.')
         : h('p', { class: 'muted' }, next
           ? `Alles erledigt! Die nächsten Karten sind ${formatDay(next, today)} fällig.`

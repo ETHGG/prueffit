@@ -39,7 +39,7 @@ test('Abkürzungen as flashcards and tappable in the Lernzettel', async ({ page 
   // Abbreviation cards: those of the job's notes.
   const total = (await jobScope(page)).glossary;
   await page.locator('#card-area').selectOption('abkuerzungen');
-  await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: ${total}`);
+  await expect(page.locator('#cards-due')).toHaveText(`Heute fällig: 0 · ${total} neu`);
   await page.getByRole('button', { name: /Lernen starten/ }).click();
   await expect(page.locator('.flashcard .tag').first()).toContainText('Abkürzung');
   await page.getByRole('button', { name: 'Umdrehen' }).click();
