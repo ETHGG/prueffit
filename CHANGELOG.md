@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.15] – 2026-11-28
+
+### Geändert (tägliche Qualitätsrunde: Datensicherung, Angriffe, Netzsicherheit, E-Mail-Sicherheit)
+- **Datensicherung:** „außer Haus“ und „offline“ getrennt (Lernzettel, `fc-0015`, `sec-0050`); Lernzettel um 3-2-1-1-0 und „Kein Backup“ (RAID, Replikation, Synchronisation, Snapshots) ergänzt; `sec-0010` (Duplikat) fragt jetzt, welcher Teil der 3-2-1-Regel fehlt; `sec-0198` passt jetzt zum Bild (das Band lagert dort schon offline).
+- **Angriffe:** Virus mit Wirt (Programmdatei, Makro-Dokument, Bootsektor; Lernzettel, `sec-0133`); Credential Stuffing im Lernzettel; `sec-0161` (Duplikat) jetzt Zertifikatswarnung im Hotel-WLAN, `sec-0159` (Duplikat) jetzt Credential Stuffing.
+- **Netzsicherheit:** Lernzettel präzisiert (DMZ → LAN grundsätzlich gesperrt mit einzelnen nötigen Verbindungen, ein-/zweistufige DMZ, Split-Tunneling und Full Tunnel, doppelte Zero-Trust-Abschnitte zusammengeführt); `sec-0174` (Duplikat) jetzt Split-Tunneling.
+- **E-Mail-Sicherheit:** DMARC greift, wenn weder SPF noch DKIM passend zur sichtbaren Absenderdomain besteht (`sec-0073`, `fc-0069`); `fc-0070` (Phishing meist massenhaft, gezielt = Spear-Phishing).
+- PDFs neu erzeugt.
+
 ## [2.22.14] – 2026-11-28
 
 ### Hinzugefügt (Nacht Lauf 2 „neue Inhalte“, zweiter Teil)
