@@ -2,6 +2,16 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.24] – 2026-11-28
+
+### Neu (6 Bilder mit Bildfragen)
+- **Open-Source-Lizenzen** (`opensource-lizenzen`, Lernzettel Lizenzen, dazu schwaches Copyleft und freizügige Lizenzen); Frage `re-0133`.
+- **Datenpanne melden** (`datenpanne-meldung`, Lernzettel Datenschutz: kein Risiko / Risiko / hohes Risiko, Art. 33 und 34 DSGVO); Frage `re-0134`.
+- **Übertragungszeit** (`uebertragungszeit`, Lernzettel Einheiten, mit GB/GiB-Vergleich); Rechenaufgabe `hw-0212`.
+- **Testebenen** (`testebenen`, Lernzettel Softwareentwicklung, dazu Black-/White-Box und Regressionstest); Frage `prog-0252`.
+- **Raten- und Annuitätentilgung** (`tilgung-vergleich`, Lernzettel Finanzierung); Rechenaufgabe `wi-0381`.
+- **Stromkosten eines Servers** (`stromkosten-server`, Lernzettel Elektrotechnik-Grundlagen); Rechenaufgabe `el-0056`.
+
 ## [2.22.23] – 2026-11-28
 
 ### Neu (4 Bilder mit Bildfragen, alle AP1)

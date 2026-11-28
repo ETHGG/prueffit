@@ -3,29 +3,29 @@
     {
       "key": "ap1",
       "file": "lernzettel-ap1.pdf",
-      "bytes": 8288095,
-      "hash": "c6b63208931ea0c5399e267855828bd6ec985bf39172688d5e7d46f531f7aafd",
+      "bytes": 8529418,
+      "hash": "541d2e43a374bbb591b5361f3874734f65b3c319dcff91b08dfbcecb85a93962",
       "built": "2026-11-28"
     },
     {
       "key": "ap2-fiae",
       "file": "lernzettel-ap2-fiae.pdf",
-      "bytes": 3620934,
-      "hash": "ab97b44a026191ff54790320c2529e53a9a41ba013ed4deee6ade84dca94a72d",
+      "bytes": 3880086,
+      "hash": "7009d22ee83d6ce398e710130b2df1f3a56bca5c573b28152f3d1fa211e66eb7",
       "built": "2026-11-28"
     },
     {
       "key": "ap2-fisi",
       "file": "lernzettel-ap2-fisi.pdf",
-      "bytes": 8233048,
-      "hash": "370cc1e208a013da07b459fc733a017b461dfa7118f3653db33a7d12b20f56a5",
+      "bytes": 8422763,
+      "hash": "894cd331727ebc3eaf9de1d2fd5d56386fdc5c4a04b5cb9cb6d0662913cc9673",
       "built": "2026-11-28"
     },
     {
       "key": "ap2-fidpa",
       "file": "lernzettel-ap2-fidpa.pdf",
-      "bytes": 3183796,
-      "hash": "eda8694b4c87f3f900725378314312567f687468984e56e265ebd3ecd6e0edcd",
+      "bytes": 3251173,
+      "hash": "e88b5d21bb687e8cb8ddc238af20cbcc083f3d999d31621eaaaf895462183ba9",
       "built": "2026-11-28"
     },
     {
@@ -38,22 +38,22 @@
     {
       "key": "ap2-itse",
       "file": "lernzettel-ap2-itse.pdf",
-      "bytes": 5527852,
-      "hash": "bbb7926bc0fe07748e747f1574b6f01e9d99e04c48133061cdd5c284da7b31be",
+      "bytes": 5630822,
+      "hash": "625292796d69116207439bc19eeb0f6c9d8dc5f4786f4ef669e7488109151f00",
       "built": "2026-11-28"
     },
     {
       "key": "ap2-kits",
       "file": "lernzettel-ap2-kits.pdf",
-      "bytes": 7323956,
-      "hash": "aa3f0aa6f1d695c583df34cdb91ed90454814ff4f475109229b16d05694fdd54",
+      "bytes": 7565252,
+      "hash": "4ff2e62fedaace7bed0382a0932819217e52ed51b813bda1160967c83e30e13c",
       "built": "2026-11-28"
     },
     {
       "key": "ap2-kdm",
       "file": "lernzettel-ap2-kdm.pdf",
-      "bytes": 3639911,
-      "hash": "a3418575ed50aa29763da1886e1eef9d9d9b44380f68d1ed0edecfa913277003",
+      "bytes": 3829414,
+      "hash": "766d644316fb30ea40567008ec33be62e32709bcac5f90626d1754af1a64e3a8",
       "built": "2026-11-28"
     },
     {
