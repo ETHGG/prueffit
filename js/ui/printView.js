@@ -18,7 +18,7 @@ import { renderNoteContent } from './notesView.js';
 import { sortGlossary, initialOf } from '../glossary.js';
 import { groupFormulas } from '../formulas.js';
 import {
-  pdfSections, pdfTitle, pdfFileName, glossaryForPdf, formulasForPdf, isFormulasKey, pdfJob, PDF_ALL, PDF_AP1, PDF_GLOSSARY,
+  pdfSections, pdfTitle, pdfFileName, glossaryForPdf, formulasForPdf, isFormulasKey, pdfJob, pdfStandLine, PDF_ALL, PDF_AP1, PDF_GLOSSARY,
 } from '../pdfs.js';
 import { jobById } from '../curriculum.js';
 import { catalogForJob } from '../jobCatalog.js';
@@ -28,6 +28,8 @@ import {
 } from '../examPrint.js';
 
 const root = document.getElementById('print');
+// The generated PDFs print the day of their build (?stand=28.11.2026), the browser view the app version.
+const standLine = () => pdfStandLine(new URLSearchParams(location.search).get('stand'), APP_VERSION);
 
 function cover(title, subtitle, lines) {
   return h('section', { class: 'cover' },
@@ -49,7 +51,7 @@ function renderNotes(catalog, key) {
   append(root,
     cover(title, key === PDF_AP1 ? 'Gilt für alle IT-Berufe · kompakt zum Wiederholen' : 'Kompakt zum Wiederholen vor der Prüfung', [
       `${notes.length} Lernzettel in ${sections.length} ${key === PDF_AP1 || job ? 'Prüfungsbereichen' : 'Bereichen'}`,
-      `Stand: Version ${APP_VERSION}`,
+      standLine(),
     ]),
     h('nav', { class: 'toc', 'aria-label': 'Inhalt' },
       h('h2', { text: 'Inhalt' }),
@@ -79,7 +81,7 @@ function renderGlossary(catalog, key) {
   append(root,
     cover(job ? `Abkürzungsverzeichnis ${job.short}` : 'Abkürzungsverzeichnis', job ? `Alle Abkürzungen aus den Lernzetteln für ${job.name}` : 'Alle Abkürzungen aus den Lernzetteln, ausgeschrieben und erklärt', [
       `${entries.length} Abkürzungen von A bis Z`,
-      `Stand: Version ${APP_VERSION}`,
+      standLine(),
     ]),
     [...groups].map(([letter, list]) => h('section', { class: 'gloss-section' },
       h('h2', { text: letter }),
@@ -101,7 +103,7 @@ function renderFormulas(catalog, key) {
     cover(`Formelsammlung ${job.short}`, `Alle Formeln aus den Prüfungsthemen für ${job.name}`, [
       `${count} Formeln in ${groups.length} Bereichen`,
       'Hilfsmittel nennt die Einladung der IHK; üblich ist nur ein nicht programmierbarer, netzunabhängiger Taschenrechner ohne Kommunikationsmöglichkeit – Formeln also auswendig können.',
-      `Stand: Version ${APP_VERSION}`,
+      standLine(),
     ]),
     groups.map((g) => h('section', { class: 'formula-area' },
       h('h2', { text: g.area }),

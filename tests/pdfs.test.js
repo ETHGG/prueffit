@@ -2,10 +2,13 @@ import { describe, it, expect } from 'vitest';
 import {
   pdfFileName, pdfList, notesForPdf, formatFileSize, pdfSections, glossaryForPdf, pdfKeyForTopic, pdfJob, pdfTitle,
   ap2PdfKey, glossaryPdfKey, PDF_ALL, PDF_AP1, PDF_GLOSSARY, formulasPdfKey, isFormulasKey, formulasForPdf,
+  pdfKind, pdfSourceData, pdfStandLine,
 } from '../js/pdfs.js';
 import { JOB_IDS, AP1_SECTIONS, AP2_PARTS } from '../js/curriculum.js';
 import { readFileSync } from 'node:fs';
 import { pdfImageSize, isShrinkableImage, PDF_IMAGE_MAX_WIDTH } from '../scripts/pdf-images.mjs';
+import { fileURLToPath } from 'node:url';
+import { loadPdfCatalog, pdfHash, pdfSourceHashes, pdfBuildPlan, outdatedPdfs } from '../scripts/pdf-hash.mjs';
 
 describe('pdfFileName / pdfList', () => {
   it('maps areas, all notes and the glossary to file names', () => {
@@ -170,5 +173,139 @@ describe('PDF figures (issue #21)', () => {
     expect(images).toBeGreaterThan(100);
     const total = manifest.files.reduce((sum, f) => sum + f.bytes, 0);
     expect(total).toBeLessThanOrEqual(90e6);
+  });
+});
+
+describe('checksum per PDF: only changed PDFs are generated again (2.22.16, issue #22)', () => {
+  const root = fileURLToPath(new URL('../', import.meta.url));
+  const keys = pdfList().map((p) => p.key);
+  const hashAll = (catalog, images = () => 'img') => Object.fromEntries(keys.map((k) => [k, pdfHash(catalog, k, 'render', images)]));
+  const changed = (a, b) => keys.filter((k) => a[k] !== b[k]);
+  const clone = (catalog) => JSON.parse(JSON.stringify(catalog));
+
+  it('knows the kind of every PDF key', () => {
+    expect(pdfKind(PDF_AP1)).toBe('notes');
+    expect(pdfKind(ap2PdfKey('fisi'))).toBe('notes');
+    expect(pdfKind(glossaryPdfKey('kits'))).toBe('glossary');
+    expect(pdfKind(formulasPdfKey('itse'))).toBe('formulas');
+    expect(pdfKind('ap2-itsm')).toBeNull();
+    expect(pdfSourceData({ topics: [], notes: [] }, 'Mathe')).toBeNull();
+    expect(pdfHash({ topics: [], notes: [] }, 'Mathe', 'render')).toBeNull();
+  });
+
+  it('prints the build day on the cover of generated PDFs, the app version in the browser', () => {
+    expect(pdfStandLine('28.11.2026', '2.23.0')).toBe('Stand: 28.11.2026');
+    expect(pdfStandLine(null, '2.23.0')).toBe('Stand: Version 2.23.0');
+    expect(pdfStandLine('', '2.23.0')).toBe('Stand: Version 2.23.0');
+    expect(pdfStandLine('<b>heute</b>', '2.23.0')).toBe('Stand: Version 2.23.0');
+    expect(pdfStandLine('2026-11-28', '2.23.0')).toBe('Stand: Version 2.23.0');
+  });
+
+  it('describes exactly what each PDF shows (real data)', async () => {
+    const catalog = await loadPdfCatalog(root);
+    const ap1 = pdfSourceData(catalog, PDF_AP1);
+    expect(ap1.sections.flatMap((g) => g.notes).map((n) => n.id)).toEqual(notesForPdf(catalog, PDF_AP1).map((n) => n.id));
+    expect(ap1.sections[0].notes[0].topic.name).toBeTruthy();
+    expect(ap1.images.length).toBeGreaterThan(10);
+    expect(ap1.job).toBeNull();
+    const gloss = pdfSourceData(catalog, glossaryPdfKey('fisi'));
+    expect(gloss.entries.map((e) => e.abbr)).toEqual(glossaryForPdf(catalog, glossaryPdfKey('fisi')).map((e) => e.abbr));
+    expect(gloss.job).toEqual({ short: 'FISI', name: 'Fachinformatiker/-in Systemintegration' });
+    const formulas = pdfSourceData(catalog, formulasPdfKey('kits'));
+    expect(formulas.formulas.map((f) => f.id)).toEqual(formulasForPdf(catalog, formulasPdfKey('kits')).map((f) => f.id));
+    expect(new Set(formulas.topics.map((t) => t.id))).toEqual(new Set(formulas.formulas.map((f) => f.topic)));
+  });
+
+  it('a changed note changes only the PDFs that contain it', async () => {
+    const catalog = await loadPdfCatalog(root);
+    const before = hashAll(catalog);
+    // A note that is part of the AP1 (all jobs).
+    const ap1Note = notesForPdf(catalog, PDF_AP1)[0];
+    const a = clone(catalog);
+    a.notes.find((n) => n.id === ap1Note.id).content += '\n\nNeuer Absatz ohne Abkürzung.';
+    const diffA = changed(before, hashAll(a));
+    expect(diffA).toContain(PDF_AP1);
+    expect(diffA.filter((k) => pdfKind(k) !== 'notes')).toEqual([]);
+    for (const k of diffA) expect(notesForPdf(catalog, k).some((n) => n.id === ap1Note.id), k).toBe(true);
+    // A note that only the AP2 of some jobs contains.
+    const ap1Ids = new Set(notesForPdf(catalog, PDF_AP1).map((n) => n.id));
+    const fisiOnly = notesForPdf(catalog, ap2PdfKey('fisi')).find((n) => !ap1Ids.has(n.id)
+      && !notesForPdf(catalog, ap2PdfKey('kdm')).some((m) => m.id === n.id));
+    const b = clone(catalog);
+    b.notes.find((n) => n.id === fisiOnly.id).title += ' (neu)';
+    const diffB = changed(before, hashAll(b));
+    expect(diffB).toContain(ap2PdfKey('fisi'));
+    expect(diffB).not.toContain(PDF_AP1);
+    expect(diffB).not.toContain(ap2PdfKey('kdm'));
+    expect(diffB.filter((k) => pdfKind(k) !== 'notes')).toEqual([]);
+  });
+
+  it('abbreviations and formulas change only their own PDFs; questions and cards change none', async () => {
+    const catalog = await loadPdfCatalog(root);
+    const before = hashAll(catalog);
+    const entry = glossaryForPdf(catalog, glossaryPdfKey('fisi'))[0];
+    const a = clone(catalog);
+    a.glossary.find((e) => e.abbr === entry.abbr).explanation += ' Ergänzt.';
+    const diffA = changed(before, hashAll(a));
+    expect(diffA).toContain(glossaryPdfKey('fisi'));
+    expect(diffA.every((k) => pdfKind(k) === 'glossary')).toBe(true);
+
+    const formula = formulasForPdf(catalog, formulasPdfKey('kits'))[0];
+    const b = clone(catalog);
+    b.formulas.find((f) => f.id === formula.id).example = 'Anderes Beispiel';
+    const diffB = changed(before, hashAll(b));
+    expect(diffB).toContain(formulasPdfKey('kits'));
+    expect(diffB.every((k) => pdfKind(k) === 'formulas')).toBe(true);
+
+    const c = clone(catalog);
+    c.questions[0].question += ' (geändert)';
+    c.flashcards[0].back += ' (geändert)';
+    expect(changed(before, hashAll(c))).toEqual([]);
+  });
+
+  it('a changed picture or print view changes the affected PDFs', async () => {
+    const catalog = await loadPdfCatalog(root);
+    const before = hashAll(catalog);
+    const picture = pdfSourceData(catalog, ap2PdfKey('fisi')).images[0];
+    const diff = changed(before, hashAll(catalog, (name) => (name === picture ? 'neu gerendert' : 'img')));
+    expect(diff).toContain(ap2PdfKey('fisi'));
+    expect(diff.every((k) => pdfSourceData(catalog, k).images?.includes(picture))).toBe(true);
+    const other = Object.fromEntries(keys.map((k) => [k, pdfHash(catalog, k, 'anderes Layout', () => 'img')]));
+    expect(changed(before, other)).toEqual(keys);
+  });
+
+  it('the checksums on disk are stable and differ per PDF', async () => {
+    const first = await pdfSourceHashes(root);
+    expect(Object.keys(first)).toEqual(keys);
+    expect(new Set(Object.values(first)).size).toBe(keys.length);
+    for (const h of Object.values(first)) expect(h).toMatch(/^[0-9a-f]{64}$/);
+    expect(await pdfSourceHashes(root)).toEqual(first);
+  });
+
+  it('plans the build: unchanged PDFs are kept, changed, missing or new ones generated', () => {
+    const list = [{ key: 'a', file: 'a.pdf' }, { key: 'b', file: 'b.pdf' }, { key: 'c', file: 'c.pdf' }, { key: 'd', file: 'd.pdf' }, { key: 'e', file: 'e.pdf' }];
+    const hashes = { a: 'h-a', b: 'h-b2', c: 'h-c', d: 'h-d', e: 'h-e' };
+    const manifest = { files: [
+      { key: 'a', file: 'a.pdf', bytes: 10, hash: 'h-a', built: '2026-11-20' },
+      { key: 'b', file: 'b.pdf', bytes: 20, hash: 'h-b', built: '2026-11-20' },
+      { key: 'c', file: 'c.pdf', bytes: 30, hash: 'h-c', built: '2026-11-20' },
+      { key: 'd', file: 'd.pdf', bytes: 40, hash: 'h-d', built: '2026-11-20' },
+    ] };
+    const sizes = { 'a.pdf': 10, 'b.pdf': 20, 'd.pdf': 41 };
+    const plan = pdfBuildPlan(list, hashes, manifest, (f) => sizes[f] ?? null);
+    expect(plan.map((p) => [p.key, p.build, p.reason])).toEqual([
+      ['a', false, 'unverändert'], ['b', true, 'Inhalt geändert'], ['c', true, 'Datei fehlt'],
+      ['d', true, 'Dateigröße weicht ab'], ['e', true, 'neu'],
+    ]);
+    expect(plan[0].previous.built).toBe('2026-11-20');
+    expect(plan[1].hash).toBe('h-b2');
+    expect(pdfBuildPlan(list, hashes, manifest, (f) => sizes[f] ?? null, { force: true }).every((p) => p.build)).toBe(true);
+    // Old manifest (one checksum for all, before 2.22.16), defect or missing manifest: build everything.
+    const old = { version: '2.22.15', sourceHash: 'x', files: [{ key: 'a', file: 'a.pdf', bytes: 10 }] };
+    for (const m of [old, null, {}, { files: 'x' }, { files: [null] }]) {
+      expect(pdfBuildPlan(list, hashes, m, (f) => sizes[f] ?? null).every((p) => p.build)).toBe(true);
+    }
+    expect(outdatedPdfs(list, hashes, manifest)).toEqual(['b', 'e']);
+    expect(outdatedPdfs(list, hashes, null)).toEqual(['a', 'b', 'c', 'd', 'e']);
   });
 });

@@ -146,6 +146,11 @@ test('Lernzettel as PDF: only the PDFs of the own job (AP1, AP2, abbreviations, 
   expect(expected).toBeGreaterThan(20);
   await expect(page.locator('article.note-page')).toHaveCount(expected);
   await expect(page.locator('.toc h3')).toHaveText(['Konzeption und Administration von IT-Systemen', 'Analyse und Entwicklung von Netzwerken', 'Wirtschafts- und Sozialkunde']);
+  // In the browser the cover names the app version; generated PDFs carry the day of their build (2.22.16, #22).
+  await expect(page.locator('.cover-facts li').last()).toHaveText(/^Stand: Version \d+\.\d+\.\d+$/);
+  await page.goto('./print.html?pdf=abkuerzungen-fisi&stand=28.11.2026');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', '1');
+  await expect(page.locator('.cover-facts li').last()).toHaveText('Stand: 28.11.2026');
   // Older links with ?bereich= still work.
   await page.goto('./print.html?bereich=Netzwerke');
   await expect(page.locator('body')).toHaveAttribute('data-ready', '1');

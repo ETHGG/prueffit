@@ -1,7 +1,10 @@
 // Generates the downloadable Lernzettel PDFs in pdf/ from print.html (headless Chromium via Playwright).
-//   npm run pdfs
-// Run again whenever data/notes/*.json, data/topics.json or data/glossary.json change;
+//   npm run pdfs            only PDFs whose content changed (checksum per PDF in pdf/manifest.json)
+//   npm run pdfs -- --all   every PDF again
+// Run again whenever notes, topics, glossary, formulas, pictures or the print view change;
 // tests/data.test.js fails while pdf/manifest.json does not match the current data.
+// Since 2.22.16 (issue #22) a new app version alone changes no PDF: unchanged files are not written
+// again (Chromium stamps the creation time into every PDF, so rewriting would always change them).
 
 import { createServer } from 'node:http';
 import { readFile, writeFile, mkdir, stat, readdir, unlink } from 'node:fs/promises';
@@ -9,8 +12,7 @@ import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { pdfList } from '../js/pdfs.js';
-import { APP_VERSION } from '../js/config.js';
-import { pdfSourceHash } from './pdf-hash.mjs';
+import { pdfSourceHashes, pdfBuildPlan } from './pdf-hash.mjs';
 import { shrinkPdfImages, PDF_IMAGE_MAX_WIDTH } from './pdf-images.mjs';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
@@ -49,9 +51,26 @@ const problems = [];
 page.on('pageerror', (e) => problems.push(e.message));
 page.on('console', (m) => { if (m.type() === 'error') problems.push(m.text()); });
 
+const readManifest = async () => {
+  try { return JSON.parse(await readFile(join(OUT, 'manifest.json'), 'utf8')); } catch { return null; }
+};
+const sizes = new Map();
+for (const { file } of pdfList()) sizes.set(file, await stat(join(OUT, file)).then((s) => s.size, () => null));
+const plan = pdfBuildPlan(pdfList(), await pdfSourceHashes(ROOT), await readManifest(), (file) => sizes.get(file),
+  { force: process.argv.includes('--all') });
+// Day of this build in Europe/Berlin: printed on the cover („Stand: 28.11.2026“) and kept in the manifest.
+const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin' }).format(new Date());
+const stand = today.split('-').reverse().join('.');
+
 const files = [];
-for (const pdf of pdfList()) {
-  await page.goto(`${base}print.html?pdf=${encodeURIComponent(pdf.key)}`);
+let built = 0;
+for (const pdf of plan) {
+  if (!pdf.build) {
+    files.push({ key: pdf.key, file: pdf.file, bytes: pdf.previous.bytes, hash: pdf.hash, built: pdf.previous.built ?? today });
+    console.log(`${pdf.file.padEnd(32)} unverändert`);
+    continue;
+  }
+  await page.goto(`${base}print.html?pdf=${encodeURIComponent(pdf.key)}&stand=${stand}`);
   await page.waitForSelector('body[data-ready]');
   if ((await page.getAttribute('body', 'data-ready')) !== '1') throw new Error(`${pdf.key}: Druckansicht konnte nicht geladen werden`);
   await page.evaluate(() => document.fonts.ready);
@@ -64,14 +83,15 @@ for (const pdf of pdfList()) {
     tagged: true, outline: true,
   });
   const { size } = await stat(target);
-  files.push({ key: pdf.key, file: pdf.file, bytes: size });
-  console.log(`${pdf.file.padEnd(32)} ${(size / 1000).toFixed(0).padStart(5)} KB  ${images} Bilder`);
+  files.push({ key: pdf.key, file: pdf.file, bytes: size, hash: pdf.hash, built: today });
+  built += 1;
+  console.log(`${pdf.file.padEnd(32)} ${(size / 1000).toFixed(0).padStart(5)} KB  ${images} Bilder  (${pdf.reason})`);
 }
 await browser.close();
 server.close();
 if (problems.length) throw new Error(`Fehler in der Druckansicht:\n${problems.join('\n')}`);
 
-const manifest = { version: APP_VERSION, sourceHash: await pdfSourceHash(ROOT), files };
-await writeFile(join(OUT, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+const text = `${JSON.stringify({ files }, null, 2)}\n`;
+if (text !== await readFile(join(OUT, 'manifest.json'), 'utf8').catch(() => '')) await writeFile(join(OUT, 'manifest.json'), text);
 const total = files.reduce((sum, f) => sum + f.bytes, 0);
-console.log(`pdf/manifest.json geschrieben (${files.length} PDFs, zusammen ${(total / 1e6).toFixed(1)} MB)`);
+console.log(`${built} von ${files.length} PDFs neu erzeugt, ${files.length - built} unverändert (zusammen ${(total / 1e6).toFixed(1)} MB)`);

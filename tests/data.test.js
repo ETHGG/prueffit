@@ -335,23 +335,30 @@ describe('data/scenarios.json (AP2-Handlungssituationen)', () => {
 });
 
 describe('pdf/ (Lernzettel als PDF)', () => {
-  it('has every PDF from pdfList() and a manifest that matches the current notes (else: npm run pdfs)', async () => {
+  it('has every PDF from pdfList() and a manifest that matches the current content (else: npm run pdfs)', async () => {
     const { existsSync } = await import('node:fs');
     const { pdfList } = await import('../js/pdfs.js');
-    const { pdfSourceHash } = await import('../scripts/pdf-hash.mjs');
+    const { pdfSourceHashes, outdatedPdfs } = await import('../scripts/pdf-hash.mjs');
     const root = fileURLToPath(new URL('../', import.meta.url));
     const manifest = JSON.parse(readFileSync(`${root}pdf/manifest.json`, 'utf8'));
     for (const pdf of pdfList()) {
       expect(existsSync(`${root}pdf/${pdf.file}`), pdf.file).toBe(true);
       expect(manifest.files.find((f) => f.file === pdf.file)?.bytes).toBe(statSync(`${root}pdf/${pdf.file}`).size);
     }
-    expect(manifest.sourceHash, 'PDFs sind veraltet – bitte „npm run pdfs“ ausführen').toBe(await pdfSourceHash(root));
+    expect(manifest.files.map((f) => f.key)).toEqual(pdfList().map((p) => p.key));
+    // Since 2.22.16 one checksum per PDF: only PDFs whose own content changed are outdated (issue #22).
+    expect(outdatedPdfs(pdfList(), await pdfSourceHashes(root), manifest), 'PDFs sind veraltet – bitte „npm run pdfs“ ausführen').toEqual([]);
+    for (const f of manifest.files) expect(f.built, f.file).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 
-  it('the checksum covers the formula collection, so its PDFs are checked for freshness too (2.10.3)', () => {
-    const script = readFileSync(fileURLToPath(new URL('../scripts/pdf-hash.mjs', import.meta.url)), 'utf8');
-    expect(script).toContain("'data/formulas.json'");
-    expect(script).toContain("'js/formulas.js'");
+  it('a new app version alone does not make the PDFs outdated (issue #22)', async () => {
+    const { PDF_RENDER_SOURCES } = await import('../scripts/pdf-hash.mjs');
+    const root = fileURLToPath(new URL('../', import.meta.url));
+    const manifest = JSON.parse(readFileSync(`${root}pdf/manifest.json`, 'utf8'));
+    expect(PDF_RENDER_SOURCES).not.toContain('js/config.js');
+    expect(PDF_RENDER_SOURCES).not.toContain('package.json');
+    expect(manifest.version).toBeUndefined();
+    expect(readFileSync(`${root}js/ui/printView.js`, 'utf8')).not.toMatch(/`Stand: Version/);
   });
 });
 

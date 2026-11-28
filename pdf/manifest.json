@@ -1,116 +1,158 @@
 {
-  "version": "2.22.15",
-  "sourceHash": "bc91130faf1e9c5963d9376cdab93073448dacf5f12f9caf04ec0159fa724da9",
   "files": [
     {
       "key": "ap1",
       "file": "lernzettel-ap1.pdf",
-      "bytes": 7615747
+      "bytes": 7615730,
+      "hash": "4ddbfd6b14723e9770be537372a07a5728c72722f66901421abe3b14bbadb130",
+      "built": "2026-11-28"
     },
     {
       "key": "ap2-fiae",
       "file": "lernzettel-ap2-fiae.pdf",
-      "bytes": 3323651
+      "bytes": 3323636,
+      "hash": "1d09389980abce789bf4c4e7dfc65cca0539b195f210ea79701ee283096be155",
+      "built": "2026-11-28"
     },
     {
       "key": "ap2-fisi",
       "file": "lernzettel-ap2-fisi.pdf",
-      "bytes": 7523411
+      "bytes": 7523398,
+      "hash": "7c92f22ceb6df71a8de02b7ea3a3554b33dbf91443115fed8a9f673b9e9eed89",
+      "built": "2026-11-28"
     },
     {
       "key": "ap2-fidpa",
       "file": "lernzettel-ap2-fidpa.pdf",
-      "bytes": 2926813
+      "bytes": 2926799,
+      "hash": "43802bf4beb63c3c7688eb8da413b88561eb5110a8f9041f4ca01d5e7575695d",
+      "built": "2026-11-28"
     },
     {
       "key": "ap2-fidv",
       "file": "lernzettel-ap2-fidv.pdf",
-      "bytes": 5843223
+      "bytes": 5843208,
+      "hash": "dba910e8198ee83ee6f60003ba4e95d2f5af21892a7b3829d185be4afe58b4c5",
+      "built": "2026-11-28"
     },
     {
       "key": "ap2-itse",
       "file": "lernzettel-ap2-itse.pdf",
-      "bytes": 4985819
+      "bytes": 4985809,
+      "hash": "ed029a7b40016995b4b743a1e4baab8541bc082a0531b2cdab8c0afa553b1780",
+      "built": "2026-11-28"
     },
     {
       "key": "ap2-kits",
       "file": "lernzettel-ap2-kits.pdf",
-      "bytes": 6732994
+      "bytes": 6732983,
+      "hash": "e27dc6cc755684af90bae7a31ffb107c818bd0b352d1d026058055916c3e567d",
+      "built": "2026-11-28"
     },
     {
       "key": "ap2-kdm",
       "file": "lernzettel-ap2-kdm.pdf",
-      "bytes": 3337652
+      "bytes": 3337637,
+      "hash": "9546b5d438fe15bc95f6cc1adcd2d2489d1c25638e6b9b1634d245d0d28e4fe2",
+      "built": "2026-11-28"
     },
     {
       "key": "abkuerzungen-fiae",
       "file": "abkuerzungen-fiae.pdf",
-      "bytes": 709582
+      "bytes": 709565,
+      "hash": "206123682c37a9b89af25d1c9ea2d7770f6f86e501ebab6efce111d6860c974f",
+      "built": "2026-11-28"
     },
     {
       "key": "abkuerzungen-fisi",
       "file": "abkuerzungen-fisi.pdf",
-      "bytes": 729460
+      "bytes": 729440,
+      "hash": "96a41eaab8c9cdd2e9cbf1b0306889cd4c997630c060f884354f29e2a137a54c",
+      "built": "2026-11-28"
     },
     {
       "key": "abkuerzungen-fidpa",
       "file": "abkuerzungen-fidpa.pdf",
-      "bytes": 714131
+      "bytes": 714116,
+      "hash": "56a314615d2529627836b29ed2e8e481a14e083304f1861f32eb38dc2eaba5cf",
+      "built": "2026-11-28"
     },
     {
       "key": "abkuerzungen-fidv",
       "file": "abkuerzungen-fidv.pdf",
-      "bytes": 717485
+      "bytes": 717472,
+      "hash": "c6a2a2dc62ffd1ec0f09634c711b0af66045b0f1bc938a2629ba3ecc6afbe2d9",
+      "built": "2026-11-28"
     },
     {
       "key": "abkuerzungen-itse",
       "file": "abkuerzungen-itse.pdf",
-      "bytes": 731981
+      "bytes": 731959,
+      "hash": "b933bf3d11feebe668dacd96b30cc6a11b1d483bea4d42c469f5745268e3c58c",
+      "built": "2026-11-28"
     },
     {
       "key": "abkuerzungen-kits",
       "file": "abkuerzungen-kits.pdf",
-      "bytes": 737478
+      "bytes": 737459,
+      "hash": "dad2078befceee7d5546d031ffa9c738a450689507cbdf2d465f81ddc217f82e",
+      "built": "2026-11-28"
     },
     {
       "key": "abkuerzungen-kdm",
       "file": "abkuerzungen-kdm.pdf",
-      "bytes": 722759
+      "bytes": 722743,
+      "hash": "a613e850f640b1eebd77e3188b56fecc627d23affdce23148ebc3cd93176fc95",
+      "built": "2026-11-28"
     },
     {
       "key": "formeln-fiae",
       "file": "formeln-fiae.pdf",
-      "bytes": 210572
+      "bytes": 210568,
+      "hash": "316b60cf201e576ad0ce0436936016f118ecf5dc5fcebeb0ce93bf8123de924f",
+      "built": "2026-11-28"
     },
     {
       "key": "formeln-fisi",
       "file": "formeln-fisi.pdf",
-      "bytes": 231490
+      "bytes": 231483,
+      "hash": "4ddc261d47f89c176b4cf60d51f89414f48d8931557d448cb8e30f85d15b63cf",
+      "built": "2026-11-28"
     },
     {
       "key": "formeln-fidpa",
       "file": "formeln-fidpa.pdf",
-      "bytes": 230319
+      "bytes": 230317,
+      "hash": "50205023bad37fa6dc77cfd5085d6380f2fc3f0e2af76392dbb133c4aee8c522",
+      "built": "2026-11-28"
     },
     {
       "key": "formeln-fidv",
       "file": "formeln-fidv.pdf",
-      "bytes": 221030
+      "bytes": 221023,
+      "hash": "740f447bf117ed39aee3c2da49a08913b25af0e669ca47a83d0bbad98f195626",
+      "built": "2026-11-28"
     },
     {
       "key": "formeln-itse",
       "file": "formeln-itse.pdf",
-      "bytes": 233905
+      "bytes": 233901,
+      "hash": "e2afb9d938bf178caacd71b883c3e93460c661912566fe610400f0a8fddebe84",
+      "built": "2026-11-28"
     },
     {
       "key": "formeln-kits",
       "file": "formeln-kits.pdf",
-      "bytes": 262920
+      "bytes": 262916,
+      "hash": "823cda4825b86175c60429434652da4457f467739117f35572e953c606fb568a",
+      "built": "2026-11-28"
     },
     {
       "key": "formeln-kdm",
       "file": "formeln-kdm.pdf",
-      "bytes": 259745
+      "bytes": 259744,
+      "hash": "42b2cde4ff21d4048175bd032bc9dffba5f25cce78a5037294bb445e87fadfbd",
+      "built": "2026-11-28"
     }
   ]
 }

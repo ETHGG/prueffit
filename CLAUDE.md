@@ -63,7 +63,7 @@ Gesteuert wird alles aus dem Chat in der Claude-App. Dort wird jeder neue Auftra
 **Regeln für beide Seiten (Claude-App, geplante Aufgaben, Claude Code):**
 1. Seit 25.11.2026 (Netzwerkfreigabe „Paketmanager“, Test #11) funktioniert npm in geplanten Aufgaben und Code-Aufgaben: `npm ci`, dann `npm test`, `npm run lint`. Browser für die gesperrte Playwright-Version lassen sich in der Cloud nicht herunterladen: Browsertests und PDFs dort mit `sh scripts/offline/check.sh e2e` bzw. `… pdfs` (Playwright und Chromium aus dem Image, auch nach `npm ci`; WebKit nur in der CI, seit 2.21.27); auf dem Mac `npm run test:e2e`, `npm run pdfs`. Nur die Shell im laufenden Steuer-Chat bleibt ohne npm (Einstellung gilt erst für neue Sitzungen). Fällt npm aus, gilt die Offline-Prüfung `sh scripts/offline/check.sh` (Unit + Lint), `… e2e`, `… pdfs` weiter als gleichwertiger Ersatz. git und GitHub (gh, GitHub-MCP für Issues) gehen überall.
 2. Vor jedem Push `git pull --rebase`. Nur pushen, wenn alle Tests grün sind. Nach dem Push den CI-Lauf prüfen (`gh api "repos/ETHGG/prueffit/actions/runs?branch=main&per_page=3"`); ist er durch die eigene Änderung rot, sofort beheben.
-3. Jede neue Version: Versionsnummer in `package.json`, `package-lock.json` (Zeilen 3 und 9), `js/config.js` und den Cache-Namen in `sw.js` hochzählen, CHANGELOG ergänzen, bei Datenänderungen `pdf/` neu erzeugen.
+3. Jede neue Version: Versionsnummer in `package.json`, `package-lock.json` (Zeilen 3 und 9), `js/config.js` und den Cache-Namen in `sw.js` hochzählen, CHANGELOG ergänzen, bei Datenänderungen `npm run pdfs` (erzeugt seit 2.22.16 nur die PDFs neu, deren Inhalt sich geändert hat; eine neue Version allein ändert kein PDF).
 4. Konflikte beim Rebase: Inhaltsänderungen (`data/`, Lernzettel, Bilder, Texte) aus der Claude-App immer behalten und Code-Änderungen darum herum zusammenführen; bei gleicher Versionsnummer die höhere +1 nehmen.
 5. Geplante Inhalts-Aufgaben ändern keinen Code in `js/`, `css/`, `sw.js`-Logik oder Tests; Code-Befunde werden als Issue mit Label `code` angelegt (Titel, Fundstelle, erwartetes Verhalten) und aus der Claude-App als Code-Aufgabe vergeben.
 6. Rote Tests sind nie „ok“: Ursache beheben, bis alles grün ist; Tests nicht abschwächen.
@@ -113,12 +113,12 @@ prueffit/
 ├── css/
 │   ├── styles.css
 │   └── print.css             # Layout der PDFs (A4)
-├── pdf/                      # PDFs je Beruf: lernzettel-ap1, lernzettel-ap2-<beruf>, abkuerzungen-<beruf>, formeln-<beruf> (seit 2.10.3) + manifest.json
+├── pdf/                      # PDFs je Beruf: lernzettel-ap1, lernzettel-ap2-<beruf>, abkuerzungen-<beruf>, formeln-<beruf> (seit 2.10.3) + manifest.json (je PDF: Größe, Prüfsumme `hash`, Tag der Erzeugung `built`; seit 2.22.16)
 ├── scripts/
 │   ├── offline/              # Prüfungen ohne npm install: check.sh (Unit mit Vitest-Ersatz, Lint, e2e, PDFs), seit 2.21.25
 │   ├── build-pdfs.mjs        # npm run pdfs: PDFs aus print.html erzeugen (Playwright)
 │   ├── pdf-images.mjs        # Abbildungen vor dem PDF-Druck auf 1200 px Breite (JPEG) verkleinern (seit 2.22.11)
-│   ├── pdf-hash.mjs          # Prüfsumme der PDF-Quellen
+│   ├── pdf-hash.mjs          # Prüfsumme je PDF (Inhalt des PDFs, seine Abbildungen, Code der Druckansicht – ohne Version), Bauplan `pdfBuildPlan` (seit 2.22.16)
 │   ├── serve.mjs             # statischer Testserver für die Browsertests (ohne Python)
 │   └── make-icons.mjs        # npm run icons: PWA-Icons erzeugen
 ├── icons/                    # PWA-Icons 192/512, apple-touch-icon 180
@@ -386,10 +386,10 @@ npm run test:e2e     # Browsertests (Playwright; in der Cloud: sh scripts/offlin
 npm run test:offline # ohne npm install (Cloud): Unit-Tests mit Vitest-Ersatz + Lint; sh scripts/offline/check.sh e2e|pdfs|all
 npm run test:watch   # Tests im Watch-Modus
 npx serve .          # Lokaler Testserver (oder: python -m http.server 8080)
-npm run pdfs         # Lernzettel-PDFs in pdf/ neu erzeugen (Abbildungen auf 1200 px verkleinert, Gesamtgröße wird ausgegeben)
+npm run pdfs         # PDFs in pdf/ erzeugen – nur die mit geändertem Inhalt (alle: npm run pdfs -- --all); Abbildungen auf 1200 px verkleinert, Gesamtgröße wird ausgegeben
 ```
 
-**PDFs aktuell halten:** Nach jeder Änderung an `data/notes/`, `data/topics.json`, `data/glossary.json`, `data/formulas.json`, der Druckansicht oder der Version `npm run pdfs` ausführen und `pdf/` mit committen. `data.test.js` vergleicht die Prüfsumme in `pdf/manifest.json` mit den Quellen und schlägt sonst fehl.
+**PDFs aktuell halten:** Nach jeder Änderung an `data/notes/`, `data/topics.json`, `data/glossary.json`, `data/formulas.json`, den Abbildungen in `img/notes/` oder der Druckansicht `npm run pdfs` ausführen und `pdf/` mit committen. Seit 2.22.16 (Issue #22) hat jedes PDF eine eigene Prüfsumme in `pdf/manifest.json` (`pdfSourceData` in `js/pdfs.js`: genau das, was das PDF zeigt; dazu seine Abbildungen und der Code der Druckansicht, `PDF_RENDER_SOURCES`). Es werden nur PDFs mit geänderter Prüfsumme neu geschrieben; unveränderte Dateien bleiben byte-gleich, damit das Repository nicht mit jeder Version um ~49 MB wächst. Die App-Version steht nicht mehr im PDF (Deckblatt: „Stand: <Tag der Erzeugung>“, in der Browser-Druckansicht weiter die Version) und nicht in der Prüfsumme – eine reine Versionserhöhung oder neue Fragen/Karten ändern kein PDF. `data.test.js` vergleicht die Prüfsummen mit den Quellen und nennt veraltete PDFs. Nie alle PDFs „zur Sicherheit“ mit `--all` neu erzeugen.
 
 Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.gitignore`.
 
@@ -406,7 +406,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `storage.test.js` | leerer Speicher, defektes JSON, Migration, Backup wird angelegt, `readinessHistory` (seit 2.12) |
 | `schedule.test.js` | Prüfungstermine, Lernplan, Datensicherungs-Erinnerung, Wochenbeginn und Wochenplan (Wochengrenzen Europe/Berlin, kein Termin, Prüfung in < 1 Woche, sehr viele Themen; seit 2.12), Kalenderdatei (Ereignisse, exklusives Ende, Escaping, Faltung ≤ 75 Byte, feste UIDs; seit 2.18) |
 | `questions.test.js` | Filtern nach Prüfung/Thema/Schwierigkeit/Bild (`hasImage`, seit 2.22), Zufallsauswahl ohne Duplikate, `optionNotes`/`optionReview` (seit 2.17), gemischte Optionen (`optionOrder`, `fixedOrder`, seit 2.22) |
-| `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type`, ein Lernzettel pro Thema, Zuordnung AP1/AP2 und Berufe, Handlungssituationen für alle 7 Berufe |
+| `data.test.js` | **jede** JSON-Datei: Pflichtfelder, eindeutige IDs, gültiges `topic`, `answer` passt zum `type`, ein Lernzettel pro Thema, Zuordnung AP1/AP2 und Berufe, Handlungssituationen für alle 7 Berufe, PDFs aktuell (Prüfsumme je PDF, Version nicht in der Prüfsumme; seit 2.22.16) |
 | `curriculum.test.js` / `jobCatalog.test.js` | Berufe und Prüfungsbereiche, Zuordnung der Themen, keine Inhalte fremder Berufe |
 | `notes.test.js` | Markdown-Teilumfang, Suche (Umlaute, UND-Verknüpfung, Ranking), Hervorhebung |
 | `glossary.test.js` | Fundstellen (ganze Wörter, längste zuerst, Aliase), Suche, Gruppierung A–Z, Abkürzungs-Karteikarten |
@@ -423,7 +423,7 @@ Die App muss **ohne `npm install`** im Browser laufen. `node_modules/` ist in `.
 | `transfer.test.js` | Export/Import des Fortschritts (Migration, defekte/neuere Dateien), eigene Fragen (Formate, ungültige Einträge, ID-Konflikte, Größe) |
 | `notices.test.js` | einmalige Hinweise, defekte Daten |
 | `pwa.test.js` | Service-Worker-Cacheliste vollständig, Versionen gleich, relative Pfade |
-| `pdfs.test.js` | Dateinamen (auch Formelsammlung je Beruf), Reihenfolge der Lernzettel, Dateigrößen-Anzeige, Abbildungen im PDF ≤ 1200 px breit und PDFs zusammen ≤ 90 MB (seit 2.22.11) (Aktualität der PDFs prüft `data.test.js`, die Prüfsumme umfasst `data/formulas.json`) |
+| `pdfs.test.js` | Dateinamen (auch Formelsammlung je Beruf), Reihenfolge der Lernzettel, Dateigrößen-Anzeige, Abbildungen im PDF ≤ 1200 px breit und PDFs zusammen ≤ 90 MB (seit 2.22.11) (Aktualität der PDFs prüft `data.test.js`); Prüfsumme je PDF (seit 2.22.16): geänderter Lernzettel/Abkürzung/Formel/Abbildung trifft nur die betroffenen PDFs, Fragen und Karten keines, Bauplan (unverändert, geändert, fehlt, neu, altes Manifest), „Stand“-Zeile |
 
 **Regel:** Jede neue Funktion in einem Logik-Modul bekommt mindestens einen Test. Bugs werden zuerst mit einem fehlschlagenden Test reproduziert, dann behoben.
 

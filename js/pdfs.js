@@ -6,6 +6,7 @@
 import { AREAS } from './config.js';
 import { JOBS, AP1_TITLE, AP1_SECTIONS, AP2_PARTS, jobById } from './curriculum.js';
 import { catalogForJob } from './jobCatalog.js';
+import { noteImages } from './notes.js';
 
 export const PDF_DIR = './pdf/';
 export const PDF_ALL = 'alle';
@@ -112,6 +113,66 @@ export function glossaryForPdf(catalog, key) {
 export function formulasForPdf(catalog, key) {
   const job = pdfJob(key);
   return job && isFormulasKey(key) ? catalogForJob(catalog, job).formulas : [];
+}
+
+/** Kind of a PDF key: 'notes', 'glossary' or 'formulas'; null if the key is unknown. */
+export function pdfKind(key) {
+  if (!pdfFileName(key)) return null;
+  if (isFormulasKey(key)) return 'formulas';
+  return isGlossaryKey(key) ? 'glossary' : 'notes';
+}
+
+/**
+ * Everything a PDF shows, as plain data (since 2.22.16): title, job, and the notes with their topics,
+ * the abbreviations or the formulas. scripts/pdf-hash.mjs hashes it per PDF, so a PDF is only
+ * generated again when its own content changed – not with every version (issue #22).
+ * Only fields that are printed are included; `images` lists the picture names of the notes.
+ */
+export function pdfSourceData(catalog, key) {
+  const kind = pdfKind(key);
+  if (!kind) return null;
+  const info = jobById(pdfJob(key));
+  const base = { kind, key, title: pdfTitle(key), job: info ? { short: info.short, name: info.name } : null };
+  const topicOf = (t) => (t ? { id: t.id, area: t.area, name: t.name, exams: t.exams ?? [] } : null);
+  if (kind === 'glossary') {
+    return {
+      ...base,
+      entries: glossaryForPdf(catalog, key).map((e) => ({
+        abbr: e.abbr, full: e.full, explanation: e.explanation ?? '', area: e.area, aliases: e.aliases ?? [],
+      })),
+    };
+  }
+  if (kind === 'formulas') {
+    const formulas = formulasForPdf(catalog, key);
+    const used = new Set(formulas.map((f) => f.topic));
+    return {
+      ...base,
+      topics: catalogForJob(catalog, info.id).topics.filter((t) => used.has(t.id)).map(topicOf),
+      formulas: formulas.map((f) => ({
+        id: f.id, topic: f.topic, name: f.name, formula: f.formula, legend: f.legend ?? '', example: f.example ?? '',
+      })),
+    };
+  }
+  const topicsById = new Map((catalog.topics ?? []).map((t) => [t.id, t]));
+  const sections = pdfSections(catalog, key).map((g) => ({
+    title: g.title,
+    notes: g.notes.map((n) => ({
+      id: n.id, title: n.title, content: n.content, refs: n.refs ?? [], topic: topicOf(topicsById.get(n.topic)),
+    })),
+  }));
+  const images = [...new Set(sections.flatMap((g) => g.notes.flatMap((n) => noteImages(n.content))))].sort();
+  return { ...base, sections, images };
+}
+
+const STAND_DATE = /^\d{2}\.\d{2}\.\d{4}$/;
+
+/**
+ * Cover line „Stand: …“. The generated PDFs carry the day their content was last built
+ * (`print.html?…&stand=28.11.2026`, set by scripts/build-pdfs.mjs) instead of the app version, so a
+ * new version alone does not change them (since 2.22.16). Without a valid date: the app version.
+ */
+export function pdfStandLine(stand, version) {
+  return STAND_DATE.test(String(stand ?? '')) ? `Stand: ${stand}` : `Stand: Version ${version}`;
 }
 
 /** PDF key for a note's topic in a job: the AP2 PDF if the topic is part of the job's AP2, else AP1. */

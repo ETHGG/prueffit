@@ -2,6 +2,15 @@
 
 Alle wichtigen Änderungen an PrüfFit. Format angelehnt an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [2.22.16] – 2026-11-28
+
+### Geändert (Issue #22: Repository wuchs mit jeder Version um alle PDFs)
+- **Prüfsumme je PDF statt einer für alle:** `pdf/manifest.json` enthält je PDF `hash` und `built` (Tag der Erzeugung). Die Prüfsumme umfasst genau das, was das PDF zeigt (neue reine Funktion `pdfSourceData` in `js/pdfs.js`: Lernzettel mit Thema, Abkürzungen bzw. Formeln des PDFs), die Abbildungen seiner Lernzettel (neu – bisher blieb ein neu gerendertes Bild unbemerkt) und den Code der Druckansicht (`PDF_RENDER_SOURCES`).
+- **`npm run pdfs` schreibt nur noch PDFs mit geänderter Prüfsumme** (`pdfBuildPlan` in `scripts/pdf-hash.mjs`); unveränderte Dateien werden nicht angefasst (Chromium schreibt die Erzeugungszeit ins PDF, jede Neuerzeugung wäre sonst eine neue Datei in der Git-Historie). `npm run pdfs -- --all` erzeugt alle.
+- **Die App-Version steht nicht mehr im PDF und nicht in der Prüfsumme:** Deckblatt „Stand: 28.11.2026“ (Tag der Erzeugung, `print.html?…&stand=…`) statt „Stand: Version …“; im Browser zeigt die Druckansicht weiter die Version. Eine neue Version, neue Fragen oder Karten ändern kein PDF mehr; ein geänderter Lernzettel nur die PDFs, die ihn enthalten (je nach Thema 1 bis 8 der 8 Lernzettel-PDFs, 2,9 bis 42 MB statt immer 49 MB), eine Abkürzung nur die Abkürzungs-PDFs der betroffenen Berufe, eine Formel nur die Formelsammlungen.
+- Alle 22 PDFs einmalig neu erzeugt (49,0 MB, neues Deckblatt); `manifest.version` und `sourceHash` entfallen.
+- Tests: `pdfs.test.js` (Inhalt je PDF mit echten Daten, gezielte Änderungen treffen nur die betroffenen PDFs, Bauplan, „Stand“-Zeile), `data.test.js` (veraltete PDFs je Datei, Version nicht in der Prüfsumme), Browsertest für das Deckblatt.
+
 ## [2.22.15] – 2026-11-28
 
 ### Geändert (tägliche Qualitätsrunde: Datensicherung, Angriffe, Netzsicherheit, E-Mail-Sicherheit)
